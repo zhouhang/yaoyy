@@ -2,6 +2,7 @@ package com.ms.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ms.dao.CommodityDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CategoryDao;
 import com.ms.dao.model.Category;
@@ -32,6 +33,9 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 
 	@Autowired
 	private CommodityService commodityService;
+
+	@Autowired
+	private CommodityDao commodityDao;
 
 
 	//@Autowired
@@ -133,6 +137,7 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 	@Transactional
 	public int deleteById(int id) {
 		//categorySearchService.deleteByCategoryId(id);
+		commodityDao.deleteByCategoryId(id);
 		return super.deleteById(id);
 	}
 

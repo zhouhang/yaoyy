@@ -237,4 +237,9 @@
 
     </update>
 
+    <delete id="deleteByCategoryId" parameterType="java.lang.Integer">
+        delete from commodity
+        where category_id=#{categoryId}
+    </delete>
+
 </mapper>
