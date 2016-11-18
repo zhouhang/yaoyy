@@ -21,11 +21,9 @@
             <div class="tools">
                 <div class="filter">
                     <form id="searchForm" action="">
-                        <label>姓名：</label>
-                        <input type="text" name="name" class="ipt" placeholder="请输入">
-                        <label>角色：</label>
+                        <input type="text" name="name" class="ipt" placeholder="姓名">
                         <select name="roleId" id="roleId" class="slt">
-                            <option value="">全部</option>
+                            <option value="">全部角色</option>
                             <#list roleList as role>
                                 <option value="${role.id}">${role.name}</option>
                             </#list>
@@ -33,7 +31,7 @@
                         <button id="search" class="ubtn ubtn-blue">搜索</button>
                     </form>
                 </div>
-                <div class="action-add pb">
+                <div class="action-add">
                     <button class="ubtn ubtn-blue" id="jaddNewAdmin">新建管理员</button>
                 </div>
             </div>

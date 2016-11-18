@@ -18,9 +18,8 @@
     <div class="box">
         <div class="tools">
             <div class="filter" id="filterForm">
-                    <label>标题：</label>
-                    <input type="text" name="title" class="ipt" placeholder="请输入">
-                    <button id="search_btn" class="ubtn ubtn-blue">搜索</button>
+                <input type="text" name="title" class="ipt" placeholder="标题">
+                <button id="search_btn" class="ubtn ubtn-blue">搜索</button>
             </div>
 
             <div class="action-add">
@@ -35,9 +34,9 @@
                     <th><input type="checkbox" class="cbx"></th>
                     <th>标题</th>
                     <th>链接</th>
-                    <th>创建时间</th>
-                    <th>修改时间</th>
-                    <th width="170" class="tc">操作</th>
+                    <th width="150">创建时间</th>
+                    <th width="150">修改时间</th>
+                    <th width="230" class="tc">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,7 +51,7 @@
                         <a href="/cms/editor/${article.id};" class="ubtn ubtn-blue jedit">编辑</a>
                         <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${article.id}">删除</a>
                         <#if article.status == 0>
-                            <a href="javascript:;" data-id="${article.id}"  class="ubtn ubtn-gray jputup">启用</a>
+                            <a href="javascript:;" data-id="${article.id}"  class="ubtn ubtn-red jputup">启用</a>
                         <#else>
                             <a href="javascript:;" data-id="${article.id}"  class="ubtn ubtn-gray jputdown">禁用</a>
                         </#if>
