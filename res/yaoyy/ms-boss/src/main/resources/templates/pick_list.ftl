@@ -19,20 +19,16 @@
         <div class="tools">
             <div class="filter" id="filterForm">
                 <form action="">
-                    <label>选货单编号：</label>
-                    <input type="text" name="code"class="ipt" placeholder="请输入">
-                    <label>电话：</label>
-                    <input type="text" name="phone" class="ipt" placeholder="电话">
-                    <label>状态：</label>
+                    <input type="text" name="code"class="ipt" placeholder="选货单编号">
+                    <input type="text" name="phone" class="ipt" placeholder="客户电话">
                     <select name="status" class="slt">
-                        <option value="">全部</option>
+                        <option value="">选择状态</option>
                         <option value="0">未受理</option>
                         <option value="1">已受理</option>
                         <option value="4">审核不通过</option>
                         <option value="2">交易未完成</option>
                         <option value="3">交易已完成</option>
                     </select>
-                    <label>是否废弃</label>
                     <select name="abandon" class="slt">
                         <option value="0">正常</option>
                         <option value="1">废弃</option>
@@ -52,8 +48,8 @@
                     <th>客户姓名</th>
                     <th>客户电话</th>
                     <th>状态</th>
-                    <th>下单时间</th>
-                    <th width="170" class="tc">操作</th>
+                    <th width="150">下单时间</th>
+                    <th width="230" class="tc">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,14 +62,12 @@
                     <td><em class="status-${pick.status+1}">${pick.statusText}</em></td>
                     <td>${(pick.createTime?datetime)!}</td>
                     <td class="tc">
-                        <a href="pick/detail/${pick.id}" class="ubtn ubtn-blue jedit">查看详情</a>
-                        <a href="javascript:;" pid="${pick.id}" abandon="${pick.abandon}"class="ubtn ubtn-gray jdel">
-                            <#if pick.abandon==0>
-                                废弃
-                            <#else >
-                                恢复
-                            </#if>
-                        </a>
+                        <a href="pick/detail/${pick.id}" class="ubtn ubtn-blue jedit">查看</a>
+                        <#if pick.abandon==0>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${pick.id}">废弃</a>
+                        <#else>
+                            <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${pick.id}">恢复</a>
+                        </#if>
                     </td>
                 </tr>
                 </#list>
@@ -104,21 +98,32 @@
                         $checkAll = $table.find('th input:checkbox'),
                         count = $cbx.length;
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var pId=$(this).attr('pId');
-                    var abandon=$(this).attr('abandon');
-                    var setAbandon=1;
-                    var showMsg="确认废弃此选货单？";
-                    if(abandon==1){
-                        setAbandon=0;
-                        var showMsg="确认恢复此选货单？";
-                    }
-
-                    layer.confirm(showMsg, {icon: 3, title: '提示'}, function (index) {
+                // 启用
+                $table.on('click', '.jenable', function() {
+                    var pId = $(this).data('id');
+                    layer.confirm('确认恢复此选货单？', {icon: 3, title: '提示'}, function (index) {
                         $.ajax({
                             url: _global.v.deleteUrl,
-                            data: {"id": pId, "abandon": setAbandon},
+                            data: {"id": pId, "abandon": 0},
+                            type: "POST",
+                            success: function (data) {
+                                if (data.status == "200") {
+                                    window.location.reload();
+                                }
+                                layer.close(index);
+                            }
+                        });
+                    });
+                    return false; // 阻止链接跳转
+                })
+
+                // 删除
+                $table.on('click', '.jdel', function() {
+                    var pId = $(this).data('id');
+                    layer.confirm('确认废弃此选货单？', {icon: 3, title: '提示'}, function (index) {
+                        $.ajax({
+                            url: _global.v.deleteUrl,
+                            data: {"id": pId, "abandon": 1},
                             type: "POST",
                             success: function (data) {
                                 if (data.status == "200") {

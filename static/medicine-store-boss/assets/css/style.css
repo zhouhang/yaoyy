@@ -162,12 +162,12 @@ a.ubtn{height:28px;}
 .pagination a:hover,
 .pagination a:active{border-color:#23c0fa;color:#23c0fa;}
 .pagination .text{min-width:30px;}
-.pagination .curr{color:#fff;border-color:#23c0fa;background:#23c0fa;}
+.pagination .curr{color:#fff !important;border-color:#23c0fa;background:#23c0fa;cursor:default;}
 .pagination .disabled{color:#ccc;border-color:#ccc;}
 .pagination .skip{float:right;padding:0 0 0 10px;}
 .pagination .skip .btn-skip{padding:5px 10px;color:#fff;background:#23c0fa;border:none;border-radius:3px;}
 .pagination .skip .ipt{width:40px;height:28px;line-height:18px;margin:0 3px;padding:4px;font-size:12px;color:#333;border:1px solid #ccc;text-align:center;}
-.pagination .slt{height:26px;line-height:26px;}
+.pagination .slt{height:26px;line-height:26px;margin-left:6px;}
 
 /* 寄样追踪 */
 .trace{margin:0 0 30px 140px;line-height:32px;}

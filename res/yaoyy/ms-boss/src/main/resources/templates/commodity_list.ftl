@@ -18,17 +18,16 @@
     <div class="box">
         <div class="tools">
             <div class="filter" id="filterForm">
-                <#--<form action="">-->
-                    <label>品种：</label><input type="text" name="categoryName" class="ipt" placeholder="请输入">
-                    <label>商品名称：</label><input name="name" type="text" class="ipt" placeholder="商品名称">
-                    <label>上/下架：</label>
+                 <form>
+                    <input name="name" type="text" class="ipt" placeholder="商品名称">
+                    <input type="text" name="categoryName" class="ipt" placeholder="品种">
                     <select name="status" class="slt">
-                        <option value="">全部</option>
+                        <option value="">上/下架</option>
                         <option value="1">上架</option>
                         <option value="0">下架</option>
                     </select>
                     <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
-                <#--</form>-->
+                 </form>
             </div>
             <div class="action-add">
                 <button class="ubtn ubtn-blue" id="jaddNewCat">新建商品</button>
@@ -142,7 +141,7 @@
                         var val = $.trim(this.value);
                         val && params.push($(this).attr('name') + '=' + val);
                     })
-                    location.href=url+params.join('&');
+                    location.href = url + params.join('&');
                 })
             }
         }

@@ -19,10 +19,9 @@
         <div class="tools">
             <div class="filter">
                 <form action="" id="serarchForm">
-                    <label>品种：</label><input type="text" name="variety" class="ipt" placeholder="请输入" id="searchName" value="${categoryVo.variety?default('')}">
-                    <label>上/下架：</label>
+                    <input type="text" name="variety" class="ipt" placeholder="品种" id="searchName" value="${categoryVo.variety?default('')}">
                     <select class="ipt"  name="status" id="searchStatus" class="slt">
-                        <option <#if (categoryVo.status??)> selected</#if>  value="">全部</option>
+                        <option <#if (categoryVo.status??)> selected</#if>  value="">上/下架</option>
                         <option <#if categoryVo.status?exists && categoryVo.status==1> selected</#if> value="1">上架</option>
                         <option <#if categoryVo.status?exists && categoryVo.status==0> selected</#if>value="0">下架</option>
                     </select>
@@ -33,18 +32,6 @@
             <div class="action-add">
                 <button class="ubtn ubtn-blue" id="jaddNewCat">新建品种</button>
             </div>
-            <!--
-            <div class="action-length">
-                <span>显示</span>
-                <select name="" id="pageSize"class="slt">
-                    <option <#if (categoryPage.pageSize==10)> selected</#if> value="10">10</option>
-                    <option <#if (categoryPage.pageSize==25)> selected</#if> value="25">25</option>
-                    <option <#if (categoryPage.pageSize==50)> selected</#if> value="50">50</option>
-                    <option <#if (categoryPage.pageSize==100)> selected</#if> value="100">100</option>
-                </select>
-                <span>条结果</span>
-            </div>
-            -->
         </div>
 
         <div class="table">
@@ -57,7 +44,7 @@
                     <th>价格描述</th>
                     <th>排序</th>
                     <th>父类</th>
-                    <th width="100">创建时间</th>
+                    <th width="150">创建时间</th>
                     <th width="230" class="tc">操作</th>
                 </tr>
                 </thead>
@@ -75,7 +62,7 @@
                         <a href="javascript:;" class="ubtn ubtn-blue jedit" categoryId="${category.id?c}">编辑</a>
                         <a href="javascript:;" class="ubtn ubtn-gray jdel"  categoryId="${category.id?c}">删除</a>
                         <#if category.status==0>
-                        <a href="javascript:;" class="ubtn ubtn-gray jputaway" categoryId="${category.id?c}" status="${category.status}">上架</a>
+                            <a href="javascript:;" class="ubtn ubtn-red jputaway" categoryId="${category.id?c}" status="${category.status}">上架</a>
                         </#if>
                         <#if category.status==1>
                             <a href="javascript:;" class="ubtn ubtn-gray jputaway" categoryId="${category.id?c}" status="${category.status}">下架</a>

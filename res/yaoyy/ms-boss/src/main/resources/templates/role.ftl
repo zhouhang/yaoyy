@@ -34,9 +34,9 @@
                         <th><input type="checkbox"></th>
                         <th>编号</th>
                         <th>角色名称</th>
-                        <th>创建时间</th>
-                        <th>修改时间</th>
-                        <th>操作</th>
+                        <th width="150">创建时间</th>
+                        <th width="150">修改时间</th>
+                        <th class="tc" width="230">操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,8 +48,8 @@
                         <td>${role.name}</td>
                         <td>${role.name}</td>
                         <td class="tc">
-                                <a href="role/power/${role.id}" class="ubtn ubtn-blue jedit">配置</a>
-                                <a href="javascript:;"  class="ubtn ubtn-gray jdel" roleId="${role.id}">删除</a>
+                            <a href="role/power/${role.id}" class="ubtn ubtn-blue jedit">配置</a>
+                            <a href="javascript:;"  class="ubtn ubtn-gray jdel" roleId="${role.id}">删除</a>
                         </td>
                     </tr>
                 </#list>

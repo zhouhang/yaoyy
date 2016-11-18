@@ -21,8 +21,7 @@
         <div class="tools">
             <div class="filter">
                 <form action="" id="searchForm">
-                    <label>标题：</label>
-                    <input type="text" class="ipt"  name="title" value="${specialVo.title?default('')}" placeholder="请输入">
+                    <input type="text" class="ipt"  name="title" value="${specialVo.title?default('')}" placeholder="标题">
                     <button type="button" id="search" class="ubtn ubtn-blue">搜索</button>
                 </form>
             </div>
@@ -39,9 +38,9 @@
                     <th><input type="checkbox"></th>
                     <th>标题</th>
                     <th>链接</th>
-                    <th>创建时间</th>
-                    <th>修改时间</th>
                     <th>排序</th>
+                    <th width="150">创建时间</th>
+                    <th width="150">修改时间</th>
                     <th width="230" class="tc">操作</th>
                 </tr>
                 </thead>
@@ -51,9 +50,9 @@
                     <td><input type="checkbox"></td>
                     <td>${special.title}</td>
                     <td>${bizBaseUrl}special/${special.id}</td>
+                    <td>${special.sort!}</td>
                     <td>${(special.createTime?datetime)!}</td>
                     <td>${(special.updateTime?datetime)!}</td>
-                    <td>${special.sort!}</td>
                     <td class="tc">
                         <a href="special/edit/${special.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
                         <a href="#" class="ubtn ubtn-gray jdel" sid="${special.id?c}">删除</a>

@@ -19,9 +19,8 @@
         <div class="tools">
             <div class="filter">
                 <form id="filterForm" action="">
-                    <label>类型：</label>
                     <select name="typeId" class="slt">
-                        <option value="">全部</option>
+                        <option value="">选择类型</option>
                         <#list types as type>
                             <option value="${type.id}">${type.name}</option>
                         </#list>
@@ -44,7 +43,7 @@
                     <th>名称</th>
                     <th>链接</th>
                     <th>排序</th>
-                    <th width="100">创建时间</th>
+                    <th width="150">创建时间</th>
                     <th width="230" class="tc">操作</th>
                 </tr>
                 </thead>

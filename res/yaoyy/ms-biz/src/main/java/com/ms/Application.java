@@ -16,6 +16,11 @@ import org.springframework.http.HttpStatus;
  */
 
 @SpringBootApplication
+//@ComponentScan(
+//        basePackages = "com.ms",
+//        useDefaultFilters = true,
+//        excludeFilters = {@ComponentScan.Filter(classes = {Controller.class})}
+//)
 public class Application extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer {
 
 
@@ -33,6 +38,7 @@ public class Application extends SpringBootServletInitializer implements Embedde
 
     public Application() {
         super();
+//        setRegisterErrorPageFilter(true); // <- this one
     }
 
     @Bean

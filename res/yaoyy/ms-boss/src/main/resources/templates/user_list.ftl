@@ -18,12 +18,11 @@
     <div class="box">
         <div class="tools">
             <div class="filter" id="filterForm">
-                <#--<form action="">-->
-                    <label>手机：</label><input name="phone" type="text" class="ipt" placeholder="请输入">
-                    <label>姓名/单位：</label><input name="name" type="text" class="ipt" placeholder="商品名称">
-                    <label>身份类型：</label>
+                <form action="">
+                    <input name="phone" type="text" class="ipt" placeholder="手机">
+                    <input name="name" type="text" class="ipt" placeholder="姓名/单位">
                     <select name="identityType" class="slt">
-                        <option value="">全部</option>
+                        <option value="">身份类型</option>
                         <option value="1">饮片厂</option>
                         <option value="2">药厂</option>
                         <option value="3">药材经营公司</option>
@@ -36,7 +35,7 @@
                         <option value="7">其他</option>
                     </select>
                     <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
-                <#--</form>-->
+                </form>
             </div>
         </div>
 
@@ -65,11 +64,11 @@
                     <td>${user.typeName?default("")}</td>
                     <td>${user.createTime?datetime}</td>
                     <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看详情</a>
+                        <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看</a>
                         <#if user.type==1 || user.type==0>
-                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用账号</a>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用</a>
                         <#else>
-                            <a href="javascript:;" class="ubtn ubtn-gray jenable" data-id="${user.id}">启用账号</a>
+                            <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${user.id}">启用</a>
                         </#if>
 
                     </td>
