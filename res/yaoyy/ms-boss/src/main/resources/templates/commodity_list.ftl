@@ -54,7 +54,7 @@
                 <tr <#if commodity.status==0>class="gray"</#if>>
                     <td><input type="checkbox" value="${commodity.id}"></td>
                     <td>${commodity.name}<#if commodity.mark == 1 ><em class="c-red">【量大价优】</em></#if></td>
-                    <td>${commodity.categoryName}</td>
+                    <td>${commodity.categoryName!}</td>
                     <td>${commodity.title}</td>
                     <td>${commodity.spec}</td>
                     <td>${commodity.origin}</td>
