@@ -425,6 +425,7 @@
                     contentType : 'application/json'
                 });
                 $.post("/commodity/save", JSON.stringify(data), function (data) {
+                    $("#jsubmit").removeAttribute("disabled");
                     if (data.status == 200) {
                         $.notify({
                             type: 'success',
