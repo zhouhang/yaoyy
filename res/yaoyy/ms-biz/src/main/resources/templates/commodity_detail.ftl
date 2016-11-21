@@ -94,8 +94,7 @@
                 <div class="item">
                     ${commodityVo.detail}
                 </div>
-                <div class="item" id="attributeItem">
-                </div>
+                <div class="item" id="attributeItem"></div>
                 <div class="item">
                     ${article!}
                 </div>
@@ -167,18 +166,19 @@
                 })
             },
             initAttr: function () {
-                var html = [];
+                var html = ['<table><tbody>'];
                 //品种，切制规格和产地
-                html.push('<dl><dt>商品名称</dt><dd>${commodityVo.name}</dd></dl>');
-                html.push('<dl><dt>品种</dt><dd>${commodityVo.categoryName}</dd></dl>');
-                html.push('<dl><dt>切制规格</dt><dd>${commodityVo.spec}</dd></dl>');
-                html.push('<dl><dt>产地</dt><dd>${commodityVo.origin}</dd></dl>');
+                html.push('<tr><td class="tit">商品名称</td><td>${commodityVo.name}</td></tr>');
+                html.push('<tr><td class="tit">品种</td><td>${commodityVo.categoryName}</td></tr>');
+                html.push('<tr><td class="tit">切制规格</td><td>${commodityVo.spec}</td></tr>');
+                html.push('<tr><td class="tit">产地</td><td>${commodityVo.origin}</td></tr>');
                 <#if commodityVo.attribute?exists && commodityVo.attribute != "">
                     var parameter = ${commodityVo.attribute};
                     $.each(parameter, function (k, v) {
-                        html.push('<dl><dt>' , k , '</dt><dd>' , v , '</dd></dl>');
+                        html.push('<tr><td class="tit">' , k , '</td><td>' , v , '</td></tr>');
                     })
                 </#if>
+                html.push('</tbody></table>');
                 $('#attributeItem').html(html.join(''));
             },
             addCommodity:function(){
