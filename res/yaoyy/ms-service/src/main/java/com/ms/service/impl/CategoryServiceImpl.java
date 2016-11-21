@@ -144,15 +144,15 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 	@Override
 	public PageInfo<CategoryVo> findByParamsBiz(CategoryVo categoryVo, Integer pageNum, Integer pageSize) {
 		PageInfo<CategoryVo> pageInfo = findByParams(categoryVo,pageNum,pageSize);
-
 		List<CategoryVo>  list = pageInfo.getList();
 		Iterator<CategoryVo> iter = list.iterator();
 		while(iter.hasNext()){
 			CategoryVo vo = iter.next();
-			List<CommodityVo> commoditys = commodityService.findByCategoryId(vo.getId());
-
-			if (commoditys!= null && commoditys.size()>0){
-				vo.setDefaultCommodityId(commoditys.get(0).getId());
+			CommodityVo commodity = minimumCommodity(vo.getId());
+			if (commodity!= null ){
+				vo.setDefaultCommodityId(commodity.getId());
+				vo.setDefaultCommodityPrice(commodity.getPrice());
+				vo.setDefaultCommodityUnitName(commodity.getUnitName());
 			} else {
 				iter.remove();
 			}
@@ -160,4 +160,25 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 		pageInfo.setList(list);
 		return pageInfo;
 	}
+
+
+
+	/**
+	 * 查找最低价商品
+	 * @param categoryId
+	 * @return
+     */
+	public CommodityVo minimumCommodity(Integer categoryId){
+		List<CommodityVo> commodities = commodityService.findByCategoryId(categoryId);
+		if(commodities.isEmpty()){
+			return null;
+		}
+		commodities.sort((CommodityVo c1,CommodityVo c2)->c1.getPrice().compareTo(c2.getPrice()));
+		return commodities.get(0);
+	}
+
+
+
+
+
 }

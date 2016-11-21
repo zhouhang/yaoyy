@@ -6,7 +6,7 @@
 </head>
 <body class="ui-body body-gray">
     <header class="ui-header">
-        <div class="title">商品详情</div>
+        <div class="title">产品详情-${commodityVo.name}-${commodityVo.origin}</div>
         <div class="abs-l mid">
             <a href="javascript:history.back();" class="fa fa-back"></a>
         </div>
@@ -64,10 +64,9 @@
                     <span>量大价优</span>
                 </#if>
 
-
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
-                    <input id="num"type="tel" class="ipt" value="1" autocomplete="off" data-price="{1-499:140,500-999:120,1000:100}">
+                    <input id="num"type="tel" class="ipt" value="${commodityVo.minimumQuantity?default(1)}" autocomplete="off" data-price="{1-499:140,500-999:120,1000:100}">
                     <button type="button" class="fa fa-plus op"></button>
                     <b>${commodityVo.unitName!}</b>
                 </div>
@@ -86,7 +85,7 @@
             <div class="tab">
                 <ul>
                     <li class="current">产品详情</li>
-                    <li>药材规格</li>
+                    <li>规格详情</li>
                     <li>质量保证</li>
                 </ul>
             </div>
@@ -169,9 +168,10 @@
                 var html = ['<table><tbody>'];
                 //品种，切制规格和产地
                 html.push('<tr><td class="tit">商品名称</td><td>${commodityVo.name}</td></tr>');
-                html.push('<tr><td class="tit">品种</td><td>${commodityVo.categoryName}</td></tr>');
+                html.push('<tr><td class="tit">品名</td><td>${commodityVo.categoryName}</td></tr>');
                 html.push('<tr><td class="tit">切制规格</td><td>${commodityVo.spec}</td></tr>');
                 html.push('<tr><td class="tit">产地</td><td>${commodityVo.origin}</td></tr>');
+                html.push('<tr><td class="tit">采收年份</td><td>${commodityVo.harYear}</td></tr>');
                 <#if commodityVo.attribute?exists && commodityVo.attribute != "">
                     var parameter = ${commodityVo.attribute};
                     $.each(parameter, function (k, v) {

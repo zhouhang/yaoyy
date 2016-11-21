@@ -45,7 +45,7 @@
                         <input type="text" name="price" class="ipt" id="jprice" value="${commodity.price!}" placeholder="价格" autocomplete="off">
                         <span class="unit">元</span>
                     </div>
-                    <label class="ml"><input type="checkbox"  name="mark" class="cbx" id="jsales">量大价优</label>
+                    <#--<label class="ml"><input type="checkbox"  name="mark" class="cbx" id="jsales">量大价优</label>-->
                 </div>
             </div>
             <div class="item">

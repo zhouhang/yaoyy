@@ -94,6 +94,7 @@
                 });
             },
             toHtml: function(data, pageNum) {
+                console.log(data)
                 var html = [];
                 html.push('<ul id="page' + pageNum + '">');
                 $.each(data, function(i, item) {
@@ -103,7 +104,7 @@
                     html.push(         '<div class="title">', data[i].variety, '</div>\n');
                     html.push(         '<div class="summary">', data[i].title, '</div>\n');
                     html.push(         '<div class="price"><i>¥</i>\n<em>');
-                    html.push(              data[i].priceDesc,'</em>元/', data[i].unit);
+                    html.push(              data[i].defaultCommodityPrice,'</em>元/', data[i].defaultCommodityUnitName);
                     html.push(          '</div>\n');
                     html.push(     '</div>');
                     html.push(     '<div class="pic"><img src="', data[i].pictureUrl, '" width="110" height="90" alt="', data[i].variety, '"></div>\n');

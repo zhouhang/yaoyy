@@ -8,6 +8,11 @@ public class CategoryVo extends Category{
 
     private Integer defaultCommodityId;
 
+    private Float defaultCommodityPrice;
+
+    private String defaultCommodityUnitName;
+
+
     public String getParentName() {
         return parentName;
     }
@@ -22,5 +27,21 @@ public class CategoryVo extends Category{
 
     public void setDefaultCommodityId(Integer defaultCommodityId) {
         this.defaultCommodityId = defaultCommodityId;
+    }
+
+    public Float getDefaultCommodityPrice() {
+        return defaultCommodityPrice;
+    }
+
+    public void setDefaultCommodityPrice(Float defaultCommodityPrice) {
+        this.defaultCommodityPrice = defaultCommodityPrice;
+    }
+
+    public String getDefaultCommodityUnitName() {
+        return defaultCommodityUnitName;
+    }
+
+    public void setDefaultCommodityUnitName(String defaultCommodityUnitName) {
+        this.defaultCommodityUnitName = defaultCommodityUnitName;
     }
 }

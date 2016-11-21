@@ -41,7 +41,6 @@
                     <th><input type="checkbox"></th>
                     <th>品种</th>
                     <th>标题</th>
-                    <th>价格描述</th>
                     <th>排序</th>
                     <th>父类</th>
                     <th width="150">创建时间</th>
@@ -54,7 +53,6 @@
                     <td><input type="checkbox"></td>
                     <td>${category.variety}</td>
                     <td>${category.title}</td>
-                    <td>${category.priceDesc}元/${category.unit}</td>
                     <td>${category.sort}</td>
                     <td>${category.parentName}</td>
                     <td>${(category.createTime?datetime)!}  </td>
@@ -103,23 +101,6 @@
             <div class="txt"><i>*</i>标题：</div>
             <div class="cnt">
                 <input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
-            </div>
-        </div>
-        <div class="item">
-            <div class="txt"><i>*</i>价格描述：</div>
-            <div class="cnt">
-                <input type="text" name="priceDesc" class="ipt" placeholder="价格描述" autocomplete="off">
-                <span class="tips">元</span>
-            </div>
-        </div>
-        <div class="item">
-            <div class="txt"><i>*</i>单位：</div>
-            <div class="cnt">
-                <select name="unit" class="slt">
-                <#list codeVos as code>
-                    <option value="${code.name}">${code.name}</option>
-                </#list>
-                </select>
             </div>
         </div>
         <div class="item">
@@ -247,7 +228,6 @@
                     fields: {
                         variety: '品种: required',
                         title: '标题: required',
-                        priceDesc: '价格描述: required',
                         sort: '排序: required; integer',
                         pictureUrl: '图片: required'
                     },
@@ -308,7 +288,6 @@
                 var showBox = function(data) {
                     $carForm.find('.ipt[name="variety"]').val(data.variety);
                     $carForm.find('.ipt[name="title"]').val(data.title);
-                    $carForm.find('.ipt[name="priceDesc"]').val(data.priceDesc);
                     $carForm.find('.ipt[name="sort"]').val(data.sort);
                     $carForm.find('.ipt[name="id"]').val(data.id);
                     $("#varieties").val(data.pid);

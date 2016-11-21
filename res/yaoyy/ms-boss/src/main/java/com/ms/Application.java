@@ -43,7 +43,7 @@ public class Application extends SpringBootServletInitializer implements Embedde
     @Bean
     public  ErrorPageFilter initErrorPageFilter() {
         ErrorPageFilter filter = new ErrorPageFilter();
-        filter.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND,"/error/404"));
+//        filter.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND,"/error/404"));
         filter.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/error/500"));
         filter.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST,"/error/400"));
         filter.addErrorPages(new ErrorPage(RuntimeException.class,"/error/500"));
