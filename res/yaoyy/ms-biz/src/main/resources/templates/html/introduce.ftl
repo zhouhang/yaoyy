@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>药优优</title>
+    <base href="${baseUrl}"/>
+
+      <title>药优优</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="assets/css/h5.css">
 </head>
@@ -157,7 +159,7 @@
     <section class="page page10">
         <div class="bg"></div>
         <div class="qrcode">
-            <img src="img/p10/qrcode.jpg" width="200" height="200" alt="">
+            <img src="assets/img/p10/qrcode.jpg" width="200" height="200" alt="">
         </div>
         <div class="t1">扫一扫，立即关注</div>
         <div class="share"><a href="javascript:;">分享到朋友圈</a></div>
@@ -170,7 +172,7 @@
     <div class="dialog-mask" id="jwxShare">
         <h2 class="hd">点击这里</h2>
         <p>然后点击 <em>【发送给朋友】</em> 或 <em>【分享到朋友圈】</em></p>
-        <div class="guide"><img src="img/guide.png" width="85" height="115" alt=""></div>
+        <div class="guide"><img src="assets/img/guide.png" width="85" height="115" alt=""></div>
     </div>
 
     <div class="dialog-mask" id="jshare">  
@@ -230,6 +232,141 @@
         $wrap.swipeSlide();
 
     })(window.Zepto);
+    </script>
+
+
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+
+        $(function(){
+
+            var title = "原来亳州的那些大户都来这里采购药材......";
+            var desc = "药优优——原药材销售平台 优选好药，底价直采！ 质量保障，价格保障，货源保障！";
+            var link = "${signature.url!}";
+            var imgUrl = "${baseUrl}/assets/images/logo3.jpg";
+
+            wx.config({
+                debug: false,
+                appId: '${signature.appid}',
+                timestamp: ${signature.timestamp?string('#')},
+                nonceStr: '${signature.noncestr}',
+                signature: '${signature.signature}',
+                jsApiList: [
+                    'checkJsApi',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            });
+
+            wx.ready(function() {
+
+                // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+                wx.onMenuShareAppMessage({
+                    title: title,
+                    desc: desc,
+                    link: link,
+                    imgUrl: imgUrl,
+                    trigger: function(res) {
+                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+
+                    },
+                    success: function(res) {
+
+                    },
+                    cancel: function(res) {
+
+                    },
+                    fail: function(res) {
+
+                    }
+                });
+
+                // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+                wx.onMenuShareTimeline({
+                    title: title,
+                    link: link,
+                    imgUrl: imgUrl,
+                    trigger: function(res) {
+                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+
+                    },
+                    success: function(res) {
+
+                    },
+                    cancel: function(res) {
+
+                    },
+                    fail: function(res) {
+
+                    }
+                });
+
+
+                // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+                wx.onMenuShareQQ({
+                    title: title,
+                    desc: desc,
+                    link: link,
+                    imgUrl: imgUrl,
+                    trigger: function(res) {
+                    },
+                    complete: function(res) {
+
+                    },
+                    success: function(res) {
+
+                    },
+                    cancel: function(res) {
+
+                    },
+                    fail: function(res) {
+
+                    }
+                });
+
+                // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+                wx.onMenuShareWeibo({
+                    title: title,
+                    desc: desc,
+                    link: link,
+                    imgUrl: imgUrl,
+                    trigger: function(res) {
+                    },
+                    complete: function(res) {
+                    },
+                    success: function(res) {
+                    },
+                    cancel: function(res) {
+                    },
+                    fail: function(res) {
+                    }
+                });
+
+                // 2.5 监听“分享到QZone”按钮点击、自定义分享内容及分享接口
+                wx.onMenuShareQZone({
+                    title: title,
+                    desc: desc,
+                    link: link,
+                    imgUrl: imgUrl,
+                    trigger: function(res) {
+                    },
+                    complete: function(res) {
+                    },
+                    success: function(res) {
+                    },
+                    cancel: function(res) {
+                    },
+                    fail: function(res) {
+                    }
+                });
+
+            })
+
+        })
+
     </script>
 </body>
 </html>
