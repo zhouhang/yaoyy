@@ -44,8 +44,8 @@
                     <tr>
                         <td><input type="checkbox" value="${role.id}"></td>
                         <td>${role.id}</td>
-                        <td>${role.description!}</td>
                         <td>${role.name!}</td>
+                        <td>${role.description!}</td>
                         <td>${(role.createDate?datetime)!}</td>
                         <td class="tc">
                             <a href="role/power/${role.id}" class="ubtn ubtn-blue jedit">配置</a>

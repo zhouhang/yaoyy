@@ -12,7 +12,7 @@ public interface RoleResourcesService extends ICommonService<RoleResources>{
 
     int deleteByRoleId(int roleId);
 
-    void updateRoleResources(Integer roleId, Integer[] resourcesIds,String roleName);
+    void updateRoleResources(Integer roleId, Integer[] resourcesIds,String roleName,String roleDescription);
 
 
     List<Integer> findResourcesByRole(Integer roleId);

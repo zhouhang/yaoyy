@@ -41,12 +41,13 @@ public class RoleResourcesServiceImpl extends AbsCommonService<RoleResources> im
 
     @Override
     @Transactional
-    public void updateRoleResources(Integer roleId, Integer[] resourcesIds,String roleName) {
+    public void updateRoleResources(Integer roleId, Integer[] resourcesIds,String roleName,String roleDescription) {
 
         if(roleId==null){
             Role role = new Role();
             role.setCreateDate(new Date());
             role.setName(roleName);
+            role.setDescription(roleDescription);
             roleService.create(role);
             roleId = role.getId();
         }else{
@@ -54,6 +55,7 @@ public class RoleResourcesServiceImpl extends AbsCommonService<RoleResources> im
             Role role = new Role();
             role.setId(roleId);
             role.setName(roleName);
+            role.setDescription(roleDescription);
             roleService.update(role);
         }
 

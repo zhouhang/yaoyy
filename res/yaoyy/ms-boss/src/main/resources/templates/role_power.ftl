@@ -24,7 +24,13 @@
                 <input type="hidden" name="roleId" id="roleId" value="<#if role??>${role.id}</#if>">
                 <div class="txt"><i>*</i>角色名称：</div>
                 <div class="cnt">
-                    <input type="text" value="<#if role??>${role.name}</#if>" name="rolename" id="jrolename" class="ipt" placeholder="角色名称" autocomplete="off">
+                    <input type="text" value="<#if role??>${role.name!}</#if>" name="rolename" id="jrolename" class="ipt" placeholder="角色名称" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt">角色描述：</div>
+                <div class="cnt">
+                    <input type="text" value="<#if role??>${role.description!}</#if>" name="roledescription" id="jroledescription" class="ipt" placeholder="角色描述" autocomplete="off">
                 </div>
             </div>
             <div class="item">
@@ -115,11 +121,13 @@
 
                         var roleName = $("#jrolename").val();
 
+                        var roleDescription = $("#jroledescription").val();
+
                         $.ajax({
                             url: "/role/resources/save",
                             type: "POST",
                             dataType:"json",
-                            data:{roleId:roleId,resourcesIds:arrIds,roleName:roleName},
+                            data:{roleId:roleId,resourcesIds:arrIds,roleName:roleName,roleDescription:roleDescription},
                             success: function(result){
                                 $("#roleId").val(result.data)
                                 if (result.status == "200") {
