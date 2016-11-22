@@ -208,7 +208,7 @@ $(function() {
     _fix();
     _aside();
 
-    $.ajaxError(function(event,request, settings){
+    $(document).ajaxError(function(event,request, settings){
         $.notify({
             type: 'error',
             title: "错误",   // 不允许的文件类型

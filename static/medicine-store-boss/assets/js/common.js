@@ -208,4 +208,14 @@ function _showImg(url) {
 $(function() {
     _fix();
     _aside();
+
+
+    $(document).ajaxError(function(event,request, settings){
+        $.notify({
+            type: 'error',
+            title: "错误",   // 不允许的文件类型
+            text: "系统内部错误",     //'支持 jpg、jepg、png、gif等格式图片文件',
+            delay: 3e3
+        });
+    });
 })
