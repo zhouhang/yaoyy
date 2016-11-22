@@ -141,10 +141,7 @@ public class MemberController extends BaseController{
                                              HttpServletResponse response,
                                              @PathVariable("id") Integer id,
                                              ModelMap model){
-        if(id!=null){
-            roleMemberService.deleteByMember(id);
-            memberService.deleteById(id);
-        }
+        memberService.deleteMember(id);
         return Result.success();
     }
 

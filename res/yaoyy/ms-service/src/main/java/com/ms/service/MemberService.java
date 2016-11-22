@@ -26,4 +26,6 @@ public interface MemberService extends ICommonService<Member>{
 
     Set<String> findPermissionByUsername(String username);
 
+    void deleteMember(int memberId);
+
 }

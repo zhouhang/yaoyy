@@ -36,6 +36,7 @@ public class RoleMemberServiceImpl  extends AbsCommonService<RoleMember> impleme
     }
 
     @Override
+    @Transactional
     public int deleteByMember(int memberId) {
         return roleMemberDao.deleteByMember(memberId);
     }
