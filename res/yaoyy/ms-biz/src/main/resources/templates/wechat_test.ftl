@@ -14,9 +14,9 @@
 <section class="ui-content">
     <ul>
         <li>
-            <a id="wechatLogin" class="current" href="javascript:;"       >
+            <a id="fenxiang" class="current" href="javascript:;"       >
                 <i class="fa fa-home"></i>
-                <span>登陆按钮</span>
+                <span>分享按钮</span>
             </a>
         </li>
     </ul>
@@ -25,56 +25,33 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 
-    var _global = {
-        fn: {
-            init: function() {
-                this.slide();
-
-
-                $("#wechatLogin").click(function(){
-                    alert("is:"+is_weixin());
-                    var url = "/center/index";
-                    if(is_weixin()){
-                        url+="?source=WECHAT";
-                    }
-                    location.href=url;
-                })
-
-            },
-            slide: function() {
-                var $slide = $('#slide1'),
-                        $nav,
-                        length = $slide.find('li').length;
-
-                if (length < 2) {
-                    return;
-                }
-                var nav = ['<div class="nav">'];
-                for (var i = 0 ; i < length; i++) {
-                    nav.push( i === 0 ? '<i class="current"></i>' : '<i></i>');
-                }
-                nav.push('</div>');
-                $slide.append(nav.join(''));
-                $nav = $slide.find('i');
-
-                $slide.swipeSlide({
-                    firstCallback : function(i){
-                        $nav.eq(i).addClass('current').siblings().removeClass('current');
-                    },
-                    callback : function(i){
-                        $nav.eq(i).addClass('current').siblings().removeClass('current');
-                    }
-                });
-            }
-        }
-    }
-
     $(function(){
-        _global.fn.init();
 
-    });
+        $("#fenxiang").click(function(){
+            console.log("click fenxiangbtn")
+            wx.onMenuShareTimeline({
+                title: '啦啦啦', // 分享标题
+                link: 'http://baidu.com', // 分享链接
+                imgUrl: '', // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    console.log("xx")
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    console.log("cc")
+
+                }
+            });
+        })
+
+    })
+
+
+
 
 </script>
 </body>

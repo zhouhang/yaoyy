@@ -20,7 +20,7 @@
 
     <div class="box">
         <div class="tools">
-            <@shiro.hasPermission name="role:add">
+            <@shiro.hasPermission name="role:edit">
             <div class="action-add">
                 <a href="/role/add" class="ubtn ubtn-blue">新建角色</a>
             </div>
@@ -34,8 +34,8 @@
                         <th><input type="checkbox"></th>
                         <th>编号</th>
                         <th>角色名称</th>
+                        <th width="150">角色描述</th>
                         <th width="150">创建时间</th>
-                        <th width="150">修改时间</th>
                         <th class="tc" width="230">操作</th>
                     </tr>
                 </thead>
@@ -44,9 +44,9 @@
                     <tr>
                         <td><input type="checkbox" value="${role.id}"></td>
                         <td>${role.id}</td>
+                        <td>${role.description}</td>
                         <td>${role.name}</td>
-                        <td>${role.name}</td>
-                        <td>${role.name}</td>
+                        <td>${role.createDate}</td>
                         <td class="tc">
                             <a href="role/power/${role.id}" class="ubtn ubtn-blue jedit">配置</a>
                             <a href="javascript:;"  class="ubtn ubtn-gray jdel" roleId="${role.id}">删除</a>

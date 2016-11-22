@@ -163,7 +163,13 @@ public class WechatController {
     }
 
 
+    @RequestMapping("test")
+    public String test(HttpServletRequest request,
+                        HttpServletResponse response,
+                        ModelMap model){
 
+        return "wechat_test";
+    }
 
 
 
