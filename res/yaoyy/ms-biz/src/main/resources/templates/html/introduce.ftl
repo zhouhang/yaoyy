@@ -207,6 +207,9 @@
                 $('#jshare').show();
             }
         });
+        $('.dialog-mask').on('click', function() {
+            $(this).hide();
+        });
 
         var changePage = function() {
             $page.eq(pageNum).css({
