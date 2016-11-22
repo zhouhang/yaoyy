@@ -66,7 +66,7 @@
 
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
-                    <input id="num"type="tel" class="ipt" value="${commodityVo.minimumQuantity?default(1)}" autocomplete="off" data-price="{1-499:140,500-999:120,1000:100}">
+                    <input id="num"type="tel" class="ipt" value="${commodityVo.minimumQuantity?default(1)}" data-min="${commodityVo.minimumQuantity?default(1)}" autocomplete="off">
                     <button type="button" class="fa fa-plus op"></button>
                     <b>${commodityVo.unitName!}</b>
                 </div>
@@ -90,12 +90,14 @@
                 </ul>
             </div>
             <div class="tabcont">
-                <div class="item">
-                    ${commodityVo.detail}
-                </div>
-                <div class="item" id="attributeItem"></div>
-                <div class="item">
-                    ${article!}
+                <div class="detailCont">
+                    <div class="item">
+                        ${commodityVo.detail}
+                    </div>
+                    <div class="item" id="attributeItem"></div>
+                    <div class="item">
+                        ${article!}
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,35 +136,70 @@
             // 详情内容
             tab: function() {
                 var $tab = $('.tab'),
-                    $items = $('.tabcont').find('.item');
+                    $tabcont = $('.tabcont'),
+                    $item = $tabcont.find('.item'),
+                    $detailCont = $('.detailCont'),
+                    _distance = $tab.offset().top,
+                    timer = 0;
+
                 $tab.on('click', 'li', function() {
+                    var idx = $(this).index(),
+                        distance = idx * $tabcont.width();
+                    window.scrollTo(0, _distance);
                     $(this).addClass('current').siblings().removeClass('current');
-                    $items.eq($(this).index()).show().siblings().hide();
+                    $item.css('position','absolute').eq(idx).css('position','relative');
+                    $detailCont.css({
+                        '-webkit-transition':'all .3s ease',
+                        'transition':'all .3s ease',
+                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+                        'transform':'translate3d(-' + distance + 'px,0,0)'
+                    });
                 })
+
+                var tabFix = function() {
+                    var st = document.body.scrollTop || document.documentElement.scrollTop;
+                    if (st >= _distance) {
+                        $tab.addClass('tab-fix');
+                        $('.ui-header').addClass('ui-header-hide');
+                    } else {
+                        $tab.removeClass('tab-fix');
+                        $('.ui-header').removeClass('ui-header-hide');
+                    }
+                }
+
+                $(window).on('scroll', function() {
+                    timer && clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        tabFix();
+                    }, 50);
+                })
+
+                // $detailCont.on('webkitTransitionEnd MSTransitionEnd transitionend',function(){});
             },
             // 加减数量
             quantity: function() {
                 var $quantity = $('#quantity'), 
                     $ipt = $quantity.find('.ipt'),
-                    num = $ipt.val() || 1;
+                    min = $ipt.data('min') || 1,
+                    num = Math.max($ipt.val() || 1, min);
 
                 $quantity.on('click', '.fa-plus', function() {
                     $ipt.val(++num);
                 })
                 $quantity.on('click', '.fa-reduce', function() {
-                    num > 1 && $ipt.val(--num);
+                    num > min && $ipt.val(--num);
                 })
                 // 只能输入数字
                 $ipt.on('blur', function() {
                     var val = this.value;
                     if (val) {
-                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 1;
-                        this.value = val;
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : min;
+                        this.value = Math.max(val, min);
                     } else {
-                        this.value = 1;
+                        this.value = min;
                     }
                     num = this.value;
-                })
+                }).val(min);
             },
             initAttr: function () {
                 var html = ['<table><tbody>'];
