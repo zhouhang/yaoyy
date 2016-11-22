@@ -72,7 +72,7 @@
 
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
-                    <input type="tel" class="ipt" id="num" value="1" autocomplete="off" data-price="{1-499:140,500-999:120,1000:100}">
+                    <input type="tel" class="ipt" id="num" value="1" data-min="20" autocomplete="off">
                     <button type="button" class="fa fa-plus op"></button>
                     <b>公斤</b>
                 </div>
@@ -103,37 +103,62 @@
                 </ul>
             </div>
             <div class="tabcont">
-                <div class="item">
-                    <img src="uploads/p11.jpg" width="100%">
-                    <img src="uploads/p12.jpg" width="100%">
-                </div>
-                <div class="item">
-                    <table>
-                        <tbody>
+                <div class="detailCont">
+                    <div class="item">
+                        <p><img src="http://ystatic.sghaoyao.com/ueditor/2016/11/c95a5eaf-48c1-4d8f-9d82-7d5df88f0c38.jpg" _src="http://ystatic.sghaoyao.com/ueditor/2016/11/c95a5eaf-48c1-4d8f-9d82-7d5df88f0c38.jpg" style=""></p>
+                        <p><img src="http://ystatic.sghaoyao.com/ueditor/2016/11/eebe63b6-1946-4229-a08c-096f94031b8e.jpg" _src="http://ystatic.sghaoyao.com/ueditor/2016/11/eebe63b6-1946-4229-a08c-096f94031b8e.jpg" style=""></p>
+                        <p><img src="http://ystatic.sghaoyao.com/ueditor/2016/11/5aed6878-6deb-4956-ae2c-49ba5d43a730.jpg" _src="http://ystatic.sghaoyao.com/ueditor/2016/11/5aed6878-6deb-4956-ae2c-49ba5d43a730.jpg" style=""></p><p><br></p>
+                    </div>
+                    <div class="item" id="attributeItem">
+                        <table>
+                            <tr>
+                                <td class="tit">商品名称</td>
+                                <td>三棱</td>
+                            </tr>
                             <tr>
                                 <td class="tit">品种</td>
-                                <td>白芍</td>
+                                <td>三棱</td>
                             </tr>
                             <tr>
                                 <td class="tit">切制规格</td>
-                                <td>薄片</td>
+                                <td>过20号筛，直径2cm以上</td>
                             </tr>
                             <tr>
                                 <td class="tit">产地</td>
-                                <td>亳州</td>
+                                <td>浙江</td>
+                            </tr>
+                            <tr>
+                                <td class="tit">加工方式</td>
+                                <td>去毛、干燥</td>
+                            </tr>
+                            <tr>
+                                <td class="tit">生长年限</td>
+                                <td>1年</td>
+                            </tr>
+                            <tr>
+                                <td class="tit">采收时间</td>
+                                <td>2016.10</td>
+                            </tr>
+                            <tr>
+                                <td class="tit">含硫情况</td>
+                                <td>无硫</td>
                             </tr>
                             <tr>
                                 <td class="tit">性状</td>
                                 <td>圆锥形，略扁，长2-6cm直径2-4cm，表面黄白色或灰黄色，有刀削痕，须根痕小点呈横向排列</td>
                             </tr>
-                        </tbody>
-                    </table>
+                            <tr>
+                                <td class="tit">质量规范</td>
+                                <td>2015年版药典</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="item">
+                        <p><span style="font-family: arial, tahoma, &quot;Microsoft Yahei&quot;, 宋体; font-size: 12px; white-space: normal;">质量保证</span></p>
+                    </div>
                 </div>
-                <div class="item"></div>
             </div>
         </div>
-
-
     </section><!-- /ui-content -->
 
 	
@@ -167,35 +192,70 @@
             // 详情内容
             tab: function() {
                 var $tab = $('.tab'),
-                    $items = $('.tabcont').find('.item');
+                    $tabcont = $('.tabcont'),
+                    $item = $tabcont.find('.item'),
+                    $detailCont = $('.detailCont'),
+                    _distance = $tab.offset().top,
+                    timer = 0;
+
                 $tab.on('click', 'li', function() {
+                    var idx = $(this).index(),
+                        distance = idx * $tabcont.width();
+                    window.scrollTo(0, _distance);
                     $(this).addClass('current').siblings().removeClass('current');
-                    $items.eq($(this).index()).show().siblings().hide();
+                    $item.css('position','absolute').eq(idx).css('position','relative');
+                    $detailCont.css({
+                        '-webkit-transition':'all .3s ease',
+                        'transition':'all .3s ease',
+                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+                        'transform':'translate3d(-' + distance + 'px,0,0)'
+                    });
                 })
+
+                var tabFix = function() {
+                    var st = document.body.scrollTop || document.documentElement.scrollTop;
+                    if (st >= _distance) {
+                        $tab.addClass('tab-fix');
+                        $('.ui-header').addClass('ui-header-hide');
+                    } else {
+                        $tab.removeClass('tab-fix');
+                        $('.ui-header').removeClass('ui-header-hide');
+                    }
+                }
+
+                $(window).on('scroll', function() {
+                    timer && clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        tabFix();
+                    }, 50);
+                })
+
+                // $detailCont.on('webkitTransitionEnd MSTransitionEnd transitionend',function(){});
             },
             // 加减数量
             quantity: function() {
                 var $quantity = $('#quantity'), 
                     $ipt = $quantity.find('.ipt'),
-                    num = $ipt.val() || 1;
+                    min = $ipt.data('min') || 1,
+                    num = Math.max($ipt.val() || 1, min);
 
                 $quantity.on('click', '.fa-plus', function() {
                     $ipt.val(++num);
                 })
                 $quantity.on('click', '.fa-reduce', function() {
-                    num > 1 && $ipt.val(--num);
+                    num > min && $ipt.val(--num);
                 })
                 // 只能输入数字
                 $ipt.on('blur', function() {
                     var val = this.value;
                     if (val) {
-                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 1;
-                        this.value = val;
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : min;
+                        this.value = Math.max(val, min);
                     } else {
-                        this.value = 1;
+                        this.value = min;
                     }
                     num = this.value;
-                })
+                }).val(min);
             },
             addCommodity:function(){
                 var self = this;

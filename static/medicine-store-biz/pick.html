@@ -68,10 +68,6 @@
         fn: {
             init: function() {
                 this.initCart();
-
-                
-                this.submit();
-                this.bindEvent();
             },
             initCart: function() {
                 var self = this;
@@ -87,7 +83,7 @@
                         $.ajax({
                             url: '',
                             success: function(data) {
-                                data = {"status":200,"msg":"","data":[{"unitName":"公斤","gradient":[],"id":10,"title":"亳白芍选片6-8号筛 趁鲜加工 芍药苷3.0% 5年生 无硫","name":"白芍","harYear":"09","origin":"亳州","spec":"过6-8号筛，直径0.6-0.8cm","categoryId":10,"pictureUrl":"E:\\\\uploadfiles\\\\yaobest\\\\commodity/2016/11/63f3269a-c93f-4b83-9533-08e6de8d2016Crop.jpg","thumbnailUrl":"http://static.yaobest.com/temp/2016/11/7dd7b975-784a-43d5-99a8-45ea5361d70fCrop.jpg","detail":"\u003cp\u003ea\u003cbr/\u003e\u003c/p\u003e","status":1,"attribute":"{\"加工方式\":\"趁鲜加工\",\"年限\":\"今年新货\"}","price":1.0,"unit":1,"minimumQuantity":20,"slogan":"","sort":9,"mark":0,"createTime":"2016-11-08 16:52:31","updateTime":"2016-11-09 14:51:01"}]};
+                                data = {"status":200,"msg":"","data":[{"unitName":"公斤","gradient":[],"id":1021,"title":"亳白芍选片6-8号筛 趁鲜加工 芍药苷3.0% 5年生 无硫","name":"白芍","harYear":"09","origin":"亳州","spec":"过6-8号筛，直径0.6-0.8cm","categoryId":10,"pictureUrl":"E:\\\\uploadfiles\\\\yaobest\\\\commodity/2016/11/63f3269a-c93f-4b83-9533-08e6de8d2016Crop.jpg","thumbnailUrl":"http://static.yaobest.com/temp/2016/11/7dd7b975-784a-43d5-99a8-45ea5361d70fCrop.jpg","detail":"\u003cp\u003ea\u003cbr/\u003e\u003c/p\u003e","status":1,"attribute":"{\"加工方式\":\"趁鲜加工\",\"年限\":\"今年新货\"}","price":1.0,"unit":1,"minimumQuantity":20,"slogan":"","sort":9,"mark":0,"createTime":"2016-11-08 16:52:31","updateTime":"2016-11-09 14:51:01"}]};
                                 $('.ui-loading').hide();
                                 if (data.data.length !== 0) {
                                     self.empty(false);
@@ -108,7 +104,7 @@
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 } else {
-                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在30分钟内与您取得联系如您需要寄养服务可以直接与我们电话沟通，我们为您提供免费的寄养服务。联系电话：0273334474 \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在30分钟内与您取得联系如您需要寄养服务可以直接与我们电话沟通，我们为您提供免费的寄养服务。联系电话：0558-5897775 \n </div>');
                 }
             },
             tohtml:function (data, arr) {
@@ -123,16 +119,14 @@
                     html.push('</div>');
 
                     html.push('<div class="price">');
-                    html.push('<i>&yen;</i> <b>' , item.price , '</b> 元');
+                    html.push('<i>&yen;</i> <b>' , item.price , '</b> 元/', item.unitName);
                     html.push('</div>');
 
                     html.push('<div class="ui-quantity cale">');
                     html.push('<button type="button" class="fa fa-reduce op"></button>');
-                    html.push('<input type="tel" class="ipt num-input" value="1" cid="' , item.id , '" autocomplete="off">');
+                    html.push('<input type="tel" class="ipt num-input" value="' , item.minimumQuantity , '" data-min="' , item.minimumQuantity , '" cid="' , item.id , '" autocomplete="off">');
                     html.push('<button type="button" class="fa fa-plus op"></button>');
                     html.push('</div>');
-
-                    html.push('<div class="cale unitName">' , item.unitName , '</div>');
 
                     html.push('<div class="del">');
                     html.push('<button type="button" class="fa fa-remove" cid="' , item.id , '""></button>');
@@ -150,7 +144,9 @@
 
                 // 商品数量
                 $.each(arr, function(i, item) {
-                    $wrap.find('.ipt[cid="' + item.commodityId + '"]').val(item.num);                    
+                    var $ipt = $wrap.find('.ipt[cid="' + item.commodityId + '"]'),
+                        min = $ipt.data('min') || 1;
+                    $ipt.val(Math.max(item.num, min));
                 })
                 this.submit();
                 this.bindEvent();
@@ -242,26 +238,31 @@
                 // 数量加
                 $wrap.on('click', '.fa-plus', function() {
                     var $ipt = $(this).prev(),
-                        num = $ipt.val() || 1;
+                        min = $ipt.data('min') || 1,
+                        num = Math.max($ipt.val() || 1, min);
                     $ipt.val(++num);
                     updateCommodity($ipt.attr('cid'), num);
                 })
                 // 数量减
                 $wrap.on('click', '.fa-reduce', function() {
                     var $ipt = $(this).next(),
-                        num = $ipt.val() || 1;
-                    num > 1 && $ipt.val(--num);
+                        min = $ipt.data('min') || 1,
+                        num = Math.max($ipt.val() || 1, min);
+
+                    num > min && $ipt.val(--num);
                     updateCommodity($ipt.attr('cid'), num);
                 })
 
                 // 输入数量
                 $wrap.on('blur', '.num-input', function() {
-                    var val = this.value;
+                    var val = this.value,
+                        min = $(this).data('min') || 1;
+
                     if (val) {
-                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 1;
-                        this.value = val;
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : min;
+                        this.value = Math.max(val, min);
                     } else {
-                        this.value = 1;
+                        this.value = min;
                     }
                     updateCommodity($(this).attr('cid'), this.value);
                 })
