@@ -186,6 +186,7 @@
         <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
+        and cm.status = 1
     </select>
 
     <select id="searchComodity" resultMap="CommodityResultMapVo" parameterType="com.ms.dao.model.Commodity">
@@ -193,10 +194,12 @@
         <include refid="Base_Column_List" />
         from commodity
         <where>
+            cm.status = 1
             <if test="name!= null">
-                name like CONCAT('%','${name}','%' )
+             and  name like CONCAT('%','${name}','%' )
             </if>
         </where>
+
     </select>
 
     <select id="findByName" parameterType="java.lang.String" resultMap="CommodityResultMap">
@@ -224,7 +227,7 @@
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
         LEFT JOIN code cd on cm.unit = cd.id
-        where cm.category_id = #{id}
+        where cm.category_id = #{id} and cm.status = 1
     </select>
 
     <update id="updateStatusByCategoryId" parameterType="com.ms.dao.model.Commodity">
@@ -238,6 +241,17 @@
         where category_id=#{categoryId}
 
     </update>
+
+    <update id="updateStatusById" parameterType="com.ms.dao.model.Commodity">
+        update commodity
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
 
     <delete id="deleteByCategoryId" parameterType="java.lang.Integer">
         delete from commodity

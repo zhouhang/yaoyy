@@ -38,7 +38,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("wechat")
-public class WechatController {
+public class WechatController extends BaseController{
 
     private static final Logger logger = Logger.getLogger(WechatController.class);
 

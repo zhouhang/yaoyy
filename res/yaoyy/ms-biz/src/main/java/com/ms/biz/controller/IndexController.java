@@ -11,8 +11,10 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.NotFoundException;
+import com.ms.tools.utils.HttpUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +34,10 @@ import java.util.List;
  */
 @Controller
 @RequestMapping()
-public class IndexController {
+public class IndexController extends BaseController{
+
+    private static final Logger logger = Logger.getLogger(WechatController.class);
+
 
     @Autowired
     private AdService adService;
@@ -56,11 +61,6 @@ public class IndexController {
     @Autowired
     private WxMpService wxService;
 
-    @Autowired
-    private CategorySearchService categorySearchService;
-
-    @Autowired
-    private CommoditySearchService commoditySearchService;
 
     /**
      * 首页广告
@@ -68,13 +68,21 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    public String index(ModelMap model,HttpServletRequest request) {
         // 首页banner 广告
         // 专场广告
         List<AdVo> banners = adService.findByType(1);
         List<AdVo> specials = adService.findByType(2);
         model.put("banners", banners);
         model.put("specials",specials);
+        try {
+            String url = HttpUtil.getFullUrl(request);
+            WxJsapiSignature signature = wxService.createJsapiSignature(url);
+            model.put("signature",signature);
+        }catch (Exception e){
+            logger.error(e);
+        }
+
         return "index";
     }
 
@@ -124,7 +132,7 @@ public class IndexController {
     public String html(@PathVariable("name") String name,
                        HttpServletRequest request,
                        ModelMap model) throws Exception{
-        String url = request.getRequestURL().toString();
+        String url = HttpUtil.getFullUrl(request);
         WxJsapiSignature signature = wxService.createJsapiSignature(url);
         model.put("signature",signature);
         return "html/"+name;

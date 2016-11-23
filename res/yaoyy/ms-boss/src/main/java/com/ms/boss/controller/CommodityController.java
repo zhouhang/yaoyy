@@ -1,15 +1,11 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.Admin;
-import com.ms.dao.model.Category;
 import com.ms.dao.model.Commodity;
-import com.ms.dao.vo.CategoryVo;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.service.CommodityService;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -106,6 +102,11 @@ public class CommodityController extends BaseController{
         return  Result.success().data(commodityList);
     }
 
-
+    @RequestMapping(value = "/updown", method = RequestMethod.POST)
+    @ResponseBody
+    public Result upDownCommodity(Integer id,Integer status){
+        commodityService.updateStatus(status,id);
+        return  Result.success();
+    }
 
 }

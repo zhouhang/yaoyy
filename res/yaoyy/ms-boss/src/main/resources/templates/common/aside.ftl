@@ -35,7 +35,7 @@
         </dt>
         <dd>
             <@shiro.hasPermission name="cms:list">
-            <a href="cms/list"><i class="fa fa-circle-o"></i>CMS管理</a>
+            <a href="cms/list"><i class="fa fa-circle-o"></i>CMS列表</a>
             </@shiro.hasPermission>
         </dd>
     </dl>

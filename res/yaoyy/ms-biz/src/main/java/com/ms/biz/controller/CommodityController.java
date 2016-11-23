@@ -8,6 +8,7 @@ import com.ms.service.ArticleService;
 import com.ms.service.CommodityService;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
+import com.ms.tools.utils.HttpUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.log4j.Logger;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("commodity")
-public class CommodityController {
+public class CommodityController extends BaseController{
 
 
     private static final Logger logger = Logger.getLogger(WechatController.class);
@@ -65,9 +66,8 @@ public class CommodityController {
             model.put("article", article.getContent());
         }
 
-
         try {
-            String url = request.getRequestURL().toString();
+            String url = HttpUtil.getFullUrl(request);
             WxJsapiSignature signature = wxService.createJsapiSignature(url);
             model.put("signature",signature);
         }catch (Exception e){

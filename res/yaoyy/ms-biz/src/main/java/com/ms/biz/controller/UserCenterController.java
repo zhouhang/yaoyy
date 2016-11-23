@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("center/")
-public class UserCenterController {
+public class UserCenterController extends BaseController{
 
     @Autowired
     private HttpSession httpSession;

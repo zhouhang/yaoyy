@@ -101,8 +101,6 @@
                 </div>
             </div>
         </div>
-
-
     </section><!-- /ui-content -->
 
 
@@ -259,5 +257,22 @@
     });
 
 </script>
+
+
+<script>
+    var weixinShare = {
+        appId: '${signature.appid!}',
+        title: '${commodityVo.title!}《药优优》',
+        desc: '药优优——原药材销售平台 优选好药，底价直采！ 质量保障，价格保障，货源保障！',
+        link: '${signature.url!}',
+        imgUrl: "${commodityVo.thumbnailUrl}",
+        timestamp: ${signature.timestamp?string("#")},
+        nonceStr: '${signature.noncestr!}',
+        signature: '${signature.signature!}'
+    }
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="assets/js/weixin_share.js"></script>
+
 </body>
 </html>

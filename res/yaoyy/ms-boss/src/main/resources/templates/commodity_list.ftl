@@ -44,9 +44,10 @@
                     <th>标题</th>
                     <th>规格等级</th>
                     <th>产地</th>
+                    <th>价格</th>
                     <th>排序</th>
-                    <th width="150">创建时间</th>
-                    <th width="230" class="tc">操作</th>
+                    <th width="100">创建时间</th>
+                    <th width="250" class="tc">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,11 +59,18 @@
                     <td>${commodity.title}</td>
                     <td>${commodity.spec}</td>
                     <td>${commodity.origin}</td>
+                    <td>${commodity.price}/${commodity.unitName}</td>
                     <td>${commodity.sort}</td>
                     <td><#if commodity.createTime?exists>${commodity.createTime?datetime}</#if></td>
                     <td class="tc">
                         <a href="/commodity/detail/${commodity.id}" class="ubtn ubtn-blue jedit">编辑</a>
                         <a href="${commodity.id}" class="ubtn ubtn-gray jdel">删除</a>
+                        <#if commodity.status==0>
+                            <a href="javascript:;" class="ubtn ubtn-red jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">上架</a>
+                        </#if>
+                        <#if commodity.status==1>
+                            <a href="javascript:;" class="ubtn ubtn-gray jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">下架</a>
+                        </#if>
                     </td>
                 </tr>
                 </#list>
@@ -80,7 +88,8 @@
     var _global = {
         v: {
             deleteUrl: '/commodity/detete/',
-            listUrl: '/commodity/list'
+            listUrl: '/commodity/list',
+            upDownUrl: '/commodity/updown'
         },
         fn: {
             init: function() {
@@ -111,6 +120,36 @@
                     });
                     return false; // 阻止链接跳转
                 })
+
+
+
+                // 上架&下架
+                $table.on('click', '.jputaway', function() {
+                    var commodityId = $(this).attr('commodityId');
+                    var status = $(this).attr("status");
+                    var showMsg = '确认上架此商品？';
+                    var setStatus = 1;
+                    if (status == 1) {
+                        showMsg = '确认下架此商品？';
+                        setStatus = 0;
+                    }
+                    layer.confirm(showMsg, {icon: 3, title: '提示'}, function (index) {
+                        $.ajax({
+                            url: _global.v.upDownUrl,
+                            data: {"id": commodityId, "status": setStatus},
+                            type: "POST",
+                            success: function (data) {
+                                if (data.status == "200") {
+                                    window.location.reload();
+                                }
+                                layer.close(index);
+                            }
+                        });
+                        return false; // 阻止链接跳转
+                    })
+                })
+
+
 
                 // 全选
                 $checkAll.on('click', function() {

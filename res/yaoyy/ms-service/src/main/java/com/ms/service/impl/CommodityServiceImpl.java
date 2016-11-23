@@ -153,6 +153,16 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Override
     @Transactional
+    public void updateStatus(int status, int commodityId) {
+        Commodity commodity = new Commodity();
+        commodity.setStatus(status);
+        commodity.setId(commodityId);
+        commodityDao.updateStatusById(commodity);
+    }
+
+
+    @Override
+    @Transactional
     public int deleteById(int id) {
         gradientService.deleteByCommodityId(id);
         //commoditySearchService.deleteByCommodityId(id);
