@@ -145,7 +145,7 @@
                 $tab.on('click', 'li', function() {
                     var idx = $(this).index(),
                         distance = idx * $tabcont.width();
-                    window.scrollTo(0, _distance);
+                    // window.scrollTo(0, _distance);
                     $(this).addClass('current').siblings().removeClass('current');
                     $item.css('position','absolute').eq(idx).css('position','relative');
                     $detailCont.css({
