@@ -41,7 +41,7 @@
     <section class="ui-content">
         <div class="ui-slide ui-slide-b" id="slide1">
             <ul>
-                <li><a href="#"><img src="${commodityVo.pictureUrl}" alt=""></a></li>
+                <li><a href="javascript:;"><img src="${commodityVo.pictureUrl}" alt=""></a></li>
             </ul>
         </div>
 
