@@ -121,8 +121,8 @@
             },
             autocomplete: function() {
                 var t,
-                        self = this,
-                        $suggestions = $('.suggest');
+                    self = this,
+                    $suggestions = $('.suggest');
                 var search = function() {
                     if($('#keyword').val()!=""){
                         $.ajax({
@@ -130,7 +130,6 @@
                             type:"POST",
                             data:{variety:$('#keyword').val()},
                             success: function(data) {
-                                console.log(data.data);
                                 if(data.data.length!=0){
                                     var html = [];
                                     $.each(data.data, function(i, item) {

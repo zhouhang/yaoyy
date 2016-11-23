@@ -56,6 +56,7 @@
                 $nav = $slide.find('i');
 
                 $slide.swipeSlide({
+                    autoSwipe: true,
                     firstCallback : function(i){
                         $nav.eq(i).addClass('current').siblings().removeClass('current');
                     },

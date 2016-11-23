@@ -94,7 +94,6 @@
                 });
             },
             toHtml: function(data, pageNum) {
-                console.log(data)
                 var html = [];
                 html.push('<ul id="page' + pageNum + '">');
                 $.each(data, function(i, item) {
