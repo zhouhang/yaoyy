@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -33,7 +34,8 @@ public class UserCenterController extends BaseController{
     private UserService userService;
 
     @RequestMapping("index")
-    public String index(ModelMap modelMap){
+    public String index(HttpServletRequest request,
+                        ModelMap modelMap){
         String nickname = null;
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());

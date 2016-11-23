@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("ad/")
-public class AdController {
+public class AdController extends BaseController{
 
     @Autowired
     private AdService adService;

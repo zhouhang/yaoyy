@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 @RequestMapping(value = "gen")
-public class GeneralController {
+public class GeneralController extends BaseController{
 
     @Autowired
     UploadService uploadService;

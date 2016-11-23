@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("special/")
-public class SpecialController {
+public class SpecialController extends BaseController{
 
     @Autowired
     SpecialService specialService;

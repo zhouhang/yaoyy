@@ -140,7 +140,14 @@
                         return false;
                     }
                     var list = [];
+
+                    pickVo.nickname =  $('#username').val();
+                    pickVo.phone =  $('#mobile').val();
+
+
                     saveAppyinfo(pickVo); // 保存联系人信息
+
+
                     isSubmit = true; // 组织重复提交
                     $("#pick_commodity").find('.ipt').each(function(){
                         list.push({

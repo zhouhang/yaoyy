@@ -113,6 +113,7 @@ public class WechatController extends BaseController{
             model.put("call",call);
         }catch (Exception e){
             logger.error(e);
+            return "redirect:/user/login";
         }
         return "wechat_login";
     }

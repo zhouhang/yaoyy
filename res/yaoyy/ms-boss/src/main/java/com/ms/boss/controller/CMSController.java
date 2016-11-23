@@ -22,13 +22,10 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/cms/")
-public class CMSController {
+public class CMSController extends BaseController{
 
     @Autowired
     private ArticleService articleService;
-
-    @Autowired
-    private HttpSession httpSession;
 
     /**
      * @param articleVo

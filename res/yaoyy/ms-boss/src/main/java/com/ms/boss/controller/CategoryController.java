@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/category/")
-public class CategoryController {
+public class CategoryController extends BaseController{
 
    //分两个 品种 和类别(根茎类 ...)
     // 品种的 CRUD---category

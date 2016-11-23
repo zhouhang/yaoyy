@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value="pick/")
-public class PickController {
+public class PickController extends BaseController{
 
     @Autowired
     private PickService pickService ;
