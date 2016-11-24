@@ -318,10 +318,9 @@ em,i{font-style:normal;}
 .pick-list .item dt{padding:16px 0;}
 .pick-list .item dt em{color:#5c92cf;}
 .pick-list .item dt time{display:block;margin-top:6px;color:#aaa;font-size:1.2rem;}
-.pick-list .item dd{padding:16px 0;border-top:1px solid #e7e7e7;}
+.pick-list .item dd{height:56px;line-height:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-top:1px solid #e7e7e7;}
 .pick-list .item dd em{font-size:1.8rem;}
 .pick-list .item dd span{margin-left:15px;color:#aaa;font-size:1.2rem;}
-.pick-list .item dd a{display:block;height:24px;line-height:24px;overflow:hidden;}
 .pick-list .more{padding:7px 0;text-align:center;color:#b9a060;font-size:1.2rem;border-top:1px solid #e7e7e7;}
 
 /* page pick-form */
