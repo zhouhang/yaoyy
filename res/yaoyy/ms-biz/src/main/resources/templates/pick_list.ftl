@@ -75,7 +75,7 @@
                 var html = [];
                 html.push('<div id="page' + pageNum + '">');
                 $.each(data, function(i, item) {
-                    html.push('<div class="item">\n <dl>');
+                    html.push('<div class="item">\n <dl> \n <a href="/pick/detail/', item.id, '">');
                     html.push(     '<dt>\n');
                     html.push(         '状态：<em>', item.bizStatusText, '</em>\n');
                     html.push(         '<time>', item.createTime, '</time>\n');
@@ -86,14 +86,14 @@
                             return false;
                         }
                         html.push(     '<dd>\n');
-                        html.push(         '<a href="/pick/detail/', item.id, '"><em>', list.name, '</em><span>', list.origin, ' ', list.spec, ' ', list.num, ' ', list.unit, '</span></a>\n');
+                        html.push(         '<em>', list.name, '</em><span>', list.origin, ' ', list.spec, ' ', list.num, ' ', list.unit, '</span>');
                         html.push(     '</dd>\n');
                     })
 
                     html.push('</dl> \n');
                     item.pickCommodityVoList.length> 5 && html.push('<div class="more">更多</div>'); // 选货单超过5条显示更多按钮
 
-                    html.push('</div>');
+                    html.push('</a>\n </div>');
                 })
                 html.push('</div>');
                 $('.pick-list').append(html.join(''));
@@ -101,7 +101,7 @@
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
-                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单列表还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 }
             },
             pagenav: function(pageNum, pages) {
