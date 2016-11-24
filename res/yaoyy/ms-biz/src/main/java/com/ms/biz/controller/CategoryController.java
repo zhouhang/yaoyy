@@ -50,11 +50,21 @@ public class CategoryController extends BaseController{
         // 参数
         return Result.success().data(pageInfo);
     }
+
+    /**
+     * 品种查询页面
+     * @return
+     */
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public String searchPage() {
         return "category_search";
     }
 
+    /**
+     * 品种联想
+     * @param categoryVo
+     * @return
+     */
     @RequestMapping(value = "search",method = RequestMethod.POST)
     @ResponseBody
     public Result searchCategory(CategoryVo categoryVo){
