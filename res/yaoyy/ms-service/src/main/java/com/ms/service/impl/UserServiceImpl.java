@@ -138,25 +138,35 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	@Transactional
 	public void register(String phone, String code, String password) {
 
-		User existUser = findByPhone(phone);
-		if ( existUser!= null) {
-			throw new RuntimeException("电话号码已经存在");
-		}
-
 		String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue()+phone);
 
 		if (!code.equalsIgnoreCase(rcode)) {
 			throw new RuntimeException("验证码错误");
 		}
-		User user = new User();
-		user.setPhone(phone);
-		user.setType(UserEnum.enable.getType());
-		user.setCreateTime(new Date());
-		user.setUpdateTime(new Date());
-		Password pass = EncryptUtil.PiecesEncode(password);
-		user.setPassword(pass.getPassword());
-		user.setSalt(pass.getSalt());
-		create(user);
+
+		User existUser = findByPhone(phone);
+		if ( existUser!= null) {
+			// 判断用户是否通过微信
+			if (Strings.isNullOrEmpty(existUser.getPassword())){
+				// 微信openId 存在 密码不存在修改注册信息
+				Password pass = EncryptUtil.PiecesEncode(password);
+				existUser.setPassword(pass.getPassword());
+				existUser.setSalt(pass.getSalt());
+				update(existUser);
+			} else {
+				throw new RuntimeException("电话号码已经存在");
+			}
+		} else {
+			User user = new User();
+			user.setPhone(phone);
+			user.setType(UserEnum.enable.getType());
+			user.setCreateTime(new Date());
+			user.setUpdateTime(new Date());
+			Password pass = EncryptUtil.PiecesEncode(password);
+			user.setPassword(pass.getPassword());
+			user.setSalt(pass.getSalt());
+			create(user);
+		}
 	}
 
 	@Override
