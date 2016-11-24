@@ -25,7 +25,7 @@
         <ul>
             <#list commodities as commodity >
             <li>
-                <a href="/commodity//detail/${commodity.id}">
+                <a href="/commodity/detail/${commodity.id}">
                     <div class="cnt">
                         <div class="title">${commodity.name!}</div>
                         <div class="summary">
@@ -59,6 +59,19 @@
 
 <#include "./common/footer.ftl"/>
 <script>
+    var weixinShare = {
+        appId: '${signature.appid!}',
+        title: '${special.title!}《药优优》',
+        desc: '药优优——原药材销售平台 优选好药，底价直采！ 质量保障，价格保障，货源保障！',
+        link: '${signature.url!}',
+        imgUrl: "${special.pictuerUrl}",
+        timestamp: ${signature.timestamp?string("#")},
+        nonceStr: '${signature.noncestr!}',
+        signature: '${signature.signature!}'
+    }
 </script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="assets/js/weixin_share.js"></script>
+
 </body>
 </html>

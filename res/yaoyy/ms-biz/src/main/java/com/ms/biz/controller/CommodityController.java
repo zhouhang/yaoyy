@@ -8,12 +8,17 @@ import com.ms.service.ArticleService;
 import com.ms.service.CommodityService;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
+import com.ms.tools.utils.HttpUtil;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,7 +27,11 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("commodity")
-public class CommodityController {
+public class CommodityController extends BaseController{
+
+
+    private static final Logger logger = Logger.getLogger(WechatController.class);
+
 
     @Autowired
     private CommodityService commodityService;
@@ -30,8 +39,14 @@ public class CommodityController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private WxMpService wxService;
+
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String commodityDetail(@PathVariable("id") Integer id,ModelMap model) {
+    public String commodityDetail(HttpServletRequest request,
+                                  @PathVariable("id") Integer id,
+                                  ModelMap model){
+
 
         CommodityVo commodityVo=commodityService.findById(id);
         if(commodityVo==null){
@@ -51,8 +66,20 @@ public class CommodityController {
             model.put("article", article.getContent());
         }
 
+        try {
+            String url = HttpUtil.getFullUrl(request);
+            WxJsapiSignature signature = wxService.createJsapiSignature(url);
+            model.put("signature",signature);
+        }catch (Exception e){
+            logger.error(e);
+        }
+
+
         return "commodity_detail";
     }
+
+
+
     @RequestMapping(value="/getDetail",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Result getDetail(@RequestBody List<Integer> list){

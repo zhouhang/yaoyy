@@ -136,7 +136,7 @@
                 <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
                 <spring.dataSource.username>yaoyy</spring.dataSource.username>
                 <spring.dataSource.password>123456</spring.dataSource.password>
-                <doc.base.url>http://localhost:8188</doc.base.url>
+                <doc.base.url>http://4rtpv.free.natapp.cc</doc.base.url>
                 <pro.upload.path>E:/development/apache-tomcat-8.0.361/webapps/ms-files/</pro.upload.path>
                 <pro.upload.url>http://localhost:8188/</pro.upload.url>
                 <elasticsearch.host>192.168.1.41</elasticsearch.host>

@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("pickCommodity/")
-public class PickCommodityController {
+public class PickCommodityController extends BaseController{
     @Autowired
     private PickService pickService;
 

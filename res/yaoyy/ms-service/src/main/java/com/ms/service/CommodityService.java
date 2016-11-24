@@ -27,6 +27,7 @@ public interface CommodityService extends ICommonService<Commodity>{
 
     public void updateStatusByCategoryId(Commodity commodity);
 
+    public void updateStatus(int status,int commodityId);
 
 
 

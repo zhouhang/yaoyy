@@ -1,7 +1,6 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.Commodity;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.Special;
 import com.ms.dao.vo.CommodityVo;
@@ -30,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("special/")
-public class SpecialController {
+public class SpecialController extends BaseController{
 
     @Autowired
     SpecialService specialService;
@@ -128,7 +127,7 @@ public class SpecialController {
     @RequestMapping(value="edit/{id}",method = RequestMethod.GET)
     public String edit(@PathVariable("id") Integer id,ModelMap model){
         Special special=specialService.findById(id);
-        List<CommodityVo> commodities=specialService.findCommodity(id);
+        List<CommodityVo> commodities=specialService.findCommoditiesBySpecial(id);
         List<Integer> list=new ArrayList<>();
         if (commodities != null && commodities.size() >0){
             commodities.forEach(sc ->{

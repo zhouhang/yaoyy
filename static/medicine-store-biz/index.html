@@ -37,7 +37,7 @@
                     <a href="pick.html">
                         <i class="fa fa-cart"></i>
                         <span>采购单</span>
-                        <b id="cartNum">99</b>
+                        <b id="cartNum"></b>
                     </a>
                 </li>
                 <li>
@@ -100,6 +100,7 @@
                 $nav = $slide.find('i');
 
                 $slide.swipeSlide({
+                    autoSwipe: true,
                     firstCallback : function(i){
                         $nav.eq(i).addClass('current').siblings().removeClass('current');
                     },

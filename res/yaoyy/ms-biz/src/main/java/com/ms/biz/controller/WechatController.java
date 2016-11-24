@@ -7,6 +7,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.WebUtil;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -37,7 +38,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("wechat")
-public class WechatController {
+public class WechatController extends BaseController{
 
     private static final Logger logger = Logger.getLogger(WechatController.class);
 
@@ -112,6 +113,7 @@ public class WechatController {
             model.put("call",call);
         }catch (Exception e){
             logger.error(e);
+            return "redirect:/user/login";
         }
         return "wechat_login";
     }
@@ -166,8 +168,11 @@ public class WechatController {
     @RequestMapping("test")
     public String test(HttpServletRequest request,
                         HttpServletResponse response,
-                        ModelMap model){
-
+                        ModelMap model)throws Exception{
+        String url = request.getRequestURL().toString();
+        System.out.println("url:"+url);
+        WxJsapiSignature signature = wxService.createJsapiSignature(url);
+        model.put("signature",signature);
         return "wechat_test";
     }
 

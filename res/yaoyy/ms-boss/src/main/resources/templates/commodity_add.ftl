@@ -97,7 +97,7 @@
             <div class="item">
                 <div class="txt">起购数量：</div>
                 <div class="cnt">
-                    <input type="text" name="minimumQuantity" value="0" class="ipt" placeholder="起购数量" autocomplete="off">
+                    <input type="text" name="minimumQuantity" value="1" class="ipt" placeholder="起购数量" autocomplete="off">
                 </div>
             </div>
             <div class="item">

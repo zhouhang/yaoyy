@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 @Controller
 @RequestMapping("sample/")
-public class SendSampleController {
+public class SendSampleController extends BaseController{
 
     @Autowired
     SendSampleService sendSampleService;

@@ -207,8 +207,8 @@
                 </div>
             </div>
             <div class="ft">
-                <button type="button" class="ubtn ubtn-blue submit6">寄样完成</button>
                 <button type="button" class="ubtn ubtn-gray ml submit5">提交记录</button>
+                <button type="button" class="ubtn ubtn-blue submit6">寄样完成</button>
             </div>
         </form>
     </div>

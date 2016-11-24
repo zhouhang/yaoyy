@@ -110,7 +110,7 @@
                 </div>
             </div>
             <div class="item">
-                <div class="txt"><i>*</i>邮箱：</div>
+                <div class="txt">邮箱：</div>
                 <div class="cnt">
                     <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
                 </div>
@@ -154,8 +154,7 @@
                         fields: {
                             username: '用户名: required',
                             name: '姓名: required',
-                            mobile: '电话: required; mobile',
-                            email: '邮箱: required; email'
+                            mobile: '电话: required; mobile'
                         },
                         valid: function (form) {
                             if ( $adminForm.isValid() ) {
@@ -209,7 +208,7 @@
                             data: $('#searchForm').formSerialize(),
                             type: "POST",
                             success: function(data){
-                                location.href = "/member/index";
+                                window.location.reload();
                             }
                         });
                     })

@@ -37,7 +37,7 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping("pick/")
-public class PickController {
+public class PickController extends BaseController{
 
 
     @Autowired

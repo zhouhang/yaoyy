@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>药优优</title>
+    <title>药优优-优选好药 底价直采</title>
 <#include "./common/meta.ftl"/>
 </head>
 <body class="ui-body body-gray">
@@ -56,6 +56,7 @@
                 $nav = $slide.find('i');
 
                 $slide.swipeSlide({
+                    autoSwipe: true,
                     firstCallback : function(i){
                         $nav.eq(i).addClass('current').siblings().removeClass('current');
                     },
@@ -73,5 +74,20 @@
     });
 
 </script>
+<script>
+    var weixinShare = {
+        appId: '${signature.appid!}',
+        title: '优选好药 底价直采《药优优》',
+        desc: '药优优——原药材销售平台 优选好药，底价直采！ 质量保障，价格保障，货源保障！',
+        link: '${signature.url!}',
+        imgUrl: "${baseUrl}/assets/images/logo3.jpg",
+        timestamp: ${signature.timestamp?string("#")},
+        nonceStr: '${signature.noncestr!}',
+        signature: '${signature.signature!}'
+    }
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="assets/js/weixin_share.js"></script>
+
 </body>
 </html>

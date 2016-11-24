@@ -58,6 +58,7 @@
                                     self.empty(false);
                                     self.tohtml(data.data, arr);
                                 } else {
+                                    _YYY.localstorage.remove(_YYY.CARTNAME);
                                     self.empty(true);
                                 }
                             }
@@ -70,6 +71,7 @@
                 }
             },
             empty: function(isEmpty) {
+                $('.ui-notice').remove();
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 } else {
@@ -88,16 +90,14 @@
                     html.push('</div>');
 
                     html.push('<div class="price">');
-                    html.push('<i>&yen;</i> <b>' , item.price , '</b> 元');
+                    html.push('<i>&yen;</i> <b>' , item.price , '</b> 元/', item.unitName);
                     html.push('</div>');
 
                     html.push('<div class="ui-quantity cale">');
                     html.push('<button type="button" class="fa fa-reduce op"></button>');
-                    html.push('<input type="tel" class="ipt num-input" value="1" cid="' , item.id , '" autocomplete="off">');
+                    html.push('<input type="tel" class="ipt num-input" value="' , item.minimumQuantity , '" data-min="' , item.minimumQuantity , '" cid="' , item.id , '" data-unitname="' , item.unitName , '" autocomplete="off">');
                     html.push('<button type="button" class="fa fa-plus op"></button>');
                     html.push('</div>');
-
-                    html.push('<div class="cale unitName">' , item.unitName , '</div>');
 
                     html.push('<div class="del">');
                     html.push('<button type="button" class="fa fa-remove" cid="' , item.id , '""></button>');
@@ -115,7 +115,13 @@
 
                 // 商品数量
                 $.each(arr, function(i, item) {
-                    $wrap.find('.ipt[cid="' + item.commodityId + '"]').val(item.num);                    
+                    var $ipt = $wrap.find('.ipt[cid="' + item.commodityId + '"]');
+                        if ($ipt.length === 1) {
+                            $ipt.val(Math.max(item.num, $ipt.data('min') || 1));
+                            updateCommodity(item.commodityId, $ipt.val());
+                        } else {
+                            deleteCommodity(item.commodityId);
+                        }
                 })
                 this.submit();
                 this.bindEvent();
@@ -123,16 +129,11 @@
             submit: function() {
                 var self = this,
                     isSubmit = false,
-                    userinfo = getAppyInfo(),
-                    pickVo = {};
+                    userinfo = getAppyInfo();
 
                 if(userinfo){
                     $('#username').val(userinfo.nickname);
                     $('#mobile').val(userinfo.phone);
-                    pickVo = {
-                        nickname: userinfo.nickname,
-                        phone: userinfo.phone
-                    }
                 }         
 
                 $('#submit').on('click', function() {
@@ -140,8 +141,12 @@
                         return false;
                     }
                     var list = [];
-                    saveAppyinfo(pickVo); // 保存联系人信息
-                    isSubmit = true; // 组织重复提交
+                    var pickVo = {
+                        nickname: $('#username').val(),
+                        phone: $('#mobile').val()
+                    }
+                    saveAppyinfo(pickVo);   // 保存联系人信息
+                    isSubmit = true;        // 阻止重复提交
                     $("#pick_commodity").find('.ipt').each(function(){
                         list.push({
                             commodityId: $(this).attr('cid'),
@@ -196,9 +201,10 @@
                             deleteCommodity($this.attr('cid'));
                             $this.closest('.item').remove();
                             layer.close(index);
-                            if ($('#pick_commodity').find('.item').length === 0) {
+                            if ($wrap.find('.item').length === 0) {
+                                $wrap.empty();
                                 self.empty(true);
-                                window.location.reload();
+                                // window.location.reload();
                             }
                         }
                     });
@@ -207,26 +213,35 @@
                 // 数量加
                 $wrap.on('click', '.fa-plus', function() {
                     var $ipt = $(this).prev(),
-                        num = $ipt.val() || 1;
+                        min = $ipt.data('min') || 1,
+                        num = Math.max($ipt.val() || 1, min);
                     $ipt.val(++num);
                     updateCommodity($ipt.attr('cid'), num);
                 })
                 // 数量减
                 $wrap.on('click', '.fa-reduce', function() {
                     var $ipt = $(this).next(),
-                        num = $ipt.val() || 1;
-                    num > 1 && $ipt.val(--num);
-                    updateCommodity($ipt.attr('cid'), num);
+                        min = $ipt.data('min') || 1,
+                        num = Math.max($ipt.val() || 1, min);
+
+                    if (num > min) {
+                        $ipt.val(--num);
+                        updateCommodity($ipt.attr('cid'), num);
+                    } else {
+                        popover('最低' + min + $ipt.data('unitname') + '起购！');
+                    }
                 })
 
                 // 输入数量
                 $wrap.on('blur', '.num-input', function() {
-                    var val = this.value;
+                    var val = this.value,
+                        min = $(this).data('min') || 1;
+
                     if (val) {
-                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 1;
-                        this.value = val;
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : min;
+                        this.value = Math.max(val, min);
                     } else {
-                        this.value = 1;
+                        this.value = min;
                     }
                     updateCommodity($(this).attr('cid'), this.value);
                 })

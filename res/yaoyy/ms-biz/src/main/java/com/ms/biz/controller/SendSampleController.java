@@ -29,7 +29,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("sample/")
-public class SendSampleController {
+public class SendSampleController extends BaseController{
 
     @Autowired
     CommodityService commodityService;

@@ -160,8 +160,10 @@ public class RoleController extends BaseController{
                                 HttpServletResponse response,
                                 Integer roleId,
                                 String roleName,
+                                String roleDescription,
                                 @RequestParam(value="resourcesIds[]",required = false)Integer[] resourcesIds){
-        roleResourcesService.updateRoleResources(roleId,resourcesIds,roleName);
+        System.out.println(roleDescription);
+        roleResourcesService.updateRoleResources(roleId,resourcesIds,roleName,roleDescription);
         bossRealm.removeAuthorizationCacheInfo();
         return Result.success("权限保存成功!").data(roleId);
     }

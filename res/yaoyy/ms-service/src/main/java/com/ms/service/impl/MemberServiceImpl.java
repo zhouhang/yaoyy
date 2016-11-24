@@ -110,5 +110,12 @@ public class MemberServiceImpl extends AbsCommonService<Member> implements Membe
         return set;
     }
 
+    @Override
+    @Transactional
+    public void deleteMember(int memberId) {
+        roleMemberService.deleteByMember(memberId);
+        this.deleteById(memberId);
+    }
+
 
 }

@@ -31,7 +31,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("user/")
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     HttpSession httpSession;

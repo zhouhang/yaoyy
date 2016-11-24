@@ -55,7 +55,7 @@ public class SpecialServiceImpl  extends AbsCommonService<Special> implements Sp
 	}
 
 	@Override
-	public PageInfo<CommodityVo> findCommodity(Integer specId, Integer pageNum, Integer pageSize) {
+	public PageInfo<CommodityVo> findCommoditiesBySpecial(Integer specId, Integer pageNum, Integer pageSize) {
 		if (pageNum == null || pageSize == null) {
 			pageNum = 1;
 			pageSize = 10;
@@ -80,7 +80,7 @@ public class SpecialServiceImpl  extends AbsCommonService<Special> implements Sp
 	}
 
 	@Override
-	public List<CommodityVo> findCommodity(Integer specId) {
+	public List<CommodityVo> findCommoditiesBySpecial(Integer specId) {
 		SpecialCommodityVo vo = new SpecialCommodityVo();
 		vo.setSpecialId(specId);
 
