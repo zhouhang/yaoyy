@@ -12,9 +12,9 @@ public class Special  implements Serializable {
 	
 	//标题
 	private String title;
-	
+	//图片url
 	private String pictuerUrl;
-	
+	//介绍
 	private String description;
 	
 	//0 禁用 1 启用
@@ -23,12 +23,12 @@ public class Special  implements Serializable {
 	private Date updateTime;
 	
 	private Date createTime;
-	
+	//排序
 	private Integer sort;
 	
 	//修改人id
 	private Integer updateMem;
-	
+	//创建人id
 	private Integer createMem;
 	
 	public Special(){}

@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 public class HistoryCommodity  implements Serializable {
-
+   //历史商品记录，祥见Commodity
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;

@@ -12,7 +12,7 @@ public class Pick  implements Serializable {
 	
 	//用户id
 	private Integer userId;
-	
+	//选货单code
 	private String code;
 	
 	//送货单状态
