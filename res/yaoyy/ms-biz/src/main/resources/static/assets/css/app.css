@@ -7,11 +7,10 @@ dl,dt,dd{margin:0;}
 img{vertical-align:top;}
 a{color:#333;text-decoration:none;}
 a:hover{text-decoration:none;}
-input,button,textarea,select{margin:0;padding:0;outline:none!important;}
+input,button,textarea,select{margin:0;padding:0;outline:none!important;-webkit-appearance:none;}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{-webkit-appearance:none!important;margin:0;}
 input[type="number"]{-moz-appearance:textfield;}
-input[type="text"]{-webkit-appearance:none;}
 em,i{font-style:normal;}
 
 @font-face{
