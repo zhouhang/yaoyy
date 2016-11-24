@@ -98,7 +98,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			subject.login(token);
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new RuntimeException("登入失败!");
+			throw new RuntimeException("账号或密码错误.");
 		}
 
 		user.setPassword(null);
