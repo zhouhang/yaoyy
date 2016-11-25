@@ -165,10 +165,10 @@
                 <spring.dataSource.url>jdbc:mysql://localhost:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
                 <spring.dataSource.username>yaobest</spring.dataSource.username>
                 <spring.dataSource.password>yaobest20161110</spring.dataSource.password>
-                <doc.base.url>http://yboss.sghaoyao.com/</doc.base.url>
-                <biz.base.url>http://y.sghaoyao.com/</biz.base.url>
+                <doc.base.url>http://boss.yaobest.com</doc.base.url>
+                <biz.base.url>http://www.yaobest.com</biz.base.url>
                 <pro.upload.path>/opt/resources/yaobest/</pro.upload.path>
-                <pro.upload.url>http://ystatic.sghaoyao.com/</pro.upload.url>
+                <pro.upload.url>http://static.yaobest.com/</pro.upload.url>
                 <elasticsearch.host>localhost</elasticsearch.host>
                 <elasticsearch.port>9300</elasticsearch.port>
                 <redis.url>127.0.0.1</redis.url>
