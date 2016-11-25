@@ -27,6 +27,7 @@ public class FreeMarkerConfig {
         try {
             configuration.setSharedVariable("baseUrl",baseUrl);
             configuration.setSharedVariable("bizBaseUrl",bizBaseUrl);
+            configuration.setDefaultEncoding("UTF-8");
         }catch (Exception e){
             e.printStackTrace();
         }

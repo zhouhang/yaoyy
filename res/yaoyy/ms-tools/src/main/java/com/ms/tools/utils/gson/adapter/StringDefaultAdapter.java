@@ -1,13 +1,8 @@
 package com.ms.tools.utils.gson.adapter;
 
 
-
-
-
 import com.google.gson.*;
-import org.apache.commons.lang.StringUtils;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**

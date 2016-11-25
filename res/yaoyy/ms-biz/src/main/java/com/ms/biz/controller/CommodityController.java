@@ -71,7 +71,7 @@ public class CommodityController extends BaseController{
         Article article = articleService.findById(2);
         if (article!= null) {
             if(article.getContent()!=null){
-                model.put("article", article.getContent().replace("&lt","<").replace("&gt",">"));
+                model.put("article", article.getContent());
             }
         }
         try {

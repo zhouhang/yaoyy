@@ -122,7 +122,7 @@ public class IndexController extends BaseController{
     public String article(@PathVariable("id") Integer id, ModelMap modelMap) {
         Article article = articleService.findById(id);
         if(article.getContent()!=null){
-            article.setContent(article.getContent().replace("&lt","<").replace("&gt",">"));
+            article.setContent(article.getContent());
         }
         modelMap.put("article", article);
         return "article";

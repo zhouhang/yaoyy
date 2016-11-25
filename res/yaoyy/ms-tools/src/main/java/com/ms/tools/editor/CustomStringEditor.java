@@ -14,7 +14,6 @@ public class CustomStringEditor  extends PropertyEditorSupport {
     public void setAsText(String text) {
         if (StringUtils.isNotEmpty(text)) {
             String value = text;
-            value = value.replace("<","&lt").replace(">","&gt");
             setValue(value);
         }
     }
