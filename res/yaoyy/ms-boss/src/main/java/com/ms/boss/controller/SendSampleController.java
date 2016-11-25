@@ -130,6 +130,11 @@ public class SendSampleController extends BaseController{
         return Result.success().msg("修改成功");
     }
 
+    /**
+     * 用户信息保存
+     * @param userDetail
+     * @return
+     */
     @RequestMapping(value = "userComplete",method = RequestMethod.POST)
     @ResponseBody
     public Result userComplete(UserDetail userDetail){
@@ -137,6 +142,12 @@ public class SendSampleController extends BaseController{
         return Result.success().msg("保存成功");
     }
 
+    /**
+     * 地址信息保存，还有商品意向变化
+     * @param address
+     * @param intention
+     * @return
+     */
     @RequestMapping(value = "addressSave",method=RequestMethod.POST)
     @ResponseBody
     public Result addressSave(SampleAddress address,String intention){

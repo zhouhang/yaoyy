@@ -40,6 +40,14 @@ public class SpecialController extends BaseController{
     @Autowired
     HttpSession httpSession;
 
+    /**
+     * 专场列表
+     * @param specialVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(SpecialVo specialVo,Integer pageNum,Integer pageSize,
                        ModelMap model){
@@ -53,12 +61,24 @@ public class SpecialController extends BaseController{
         return "special_list";
 
     }
+
+    /**
+     * 创建专场页面
+     * @param model
+     * @return
+     */
     @RequestMapping(value="create",method= RequestMethod.GET)
     public String createSpecial(ModelMap model){
         Special special=new Special();
         model.put("special",special);
         return "special_detail";
     }
+
+    /**
+     * 删除专场
+     * @param id
+     * @return
+     */
     @RequestMapping(value="delete/{id}",method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@PathVariable("id") Integer id){
@@ -66,6 +86,11 @@ public class SpecialController extends BaseController{
         return Result.success().msg("修改成功");
     }
 
+    /**
+     * 专场保存
+     * @param specialVo
+     * @return
+     */
     @RequestMapping(value="save",method = RequestMethod.POST)
     @ResponseBody
     public Result save(SpecialVo specialVo){
@@ -76,6 +101,11 @@ public class SpecialController extends BaseController{
         return Result.success().msg("修改成功");
     }
 
+    /**
+     * 更改专场状态
+     * @param specialVo
+     * @return
+     */
     @RequestMapping(value="updateStatus",method = RequestMethod.POST)
     @ResponseBody
     public Result updateStatus(SpecialVo specialVo){
@@ -86,6 +116,13 @@ public class SpecialController extends BaseController{
         return Result.success().msg("修改成功");
     }
 
+
+    /**
+     * 专场编辑页面
+     * @param id
+     * @param model
+     * @return
+     */
 
     @RequestMapping(value="edit/{id}",method = RequestMethod.GET)
     public String edit(@PathVariable("id") Integer id,ModelMap model){

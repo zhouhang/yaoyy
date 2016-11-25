@@ -91,7 +91,7 @@
             },
             empty: function() {
                 if ($('.slist').find('li').length === 0) {
-                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 寄样列表还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 寄样列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                     $('.ui-search').remove();
                 }
             }

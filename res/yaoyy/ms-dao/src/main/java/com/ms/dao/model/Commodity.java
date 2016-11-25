@@ -22,7 +22,7 @@ public class Commodity  implements Serializable {
 
 	//规格等级
 	private String spec;
-	
+	//品种id
 	private Integer categoryId;
 
 	// 商品图片
@@ -30,7 +30,7 @@ public class Commodity  implements Serializable {
 
 	// 商品缩略图
 	private String thumbnailUrl;
-
+    //商品详情
 	private String detail;
 
 	//0：下架，1：上架

@@ -9,19 +9,19 @@ public class PickCommodity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-	
+	//选货单id
 	private Integer pickId;
 
 	//历史表中的商品id
 	
 	private Integer commodityId;
-	
+	//数量
 	private Integer num;
-	
+	//单位
 	private String unit;
-	
+	//总量
 	private Float total;
-
+    //价格
 	private Float price;
 	
 	private Date createTime;

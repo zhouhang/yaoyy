@@ -58,6 +58,7 @@
                                     self.empty(false);
                                     self.tohtml(data.data, arr);
                                 } else {
+                                    _YYY.localstorage.remove(_YYY.CARTNAME);
                                     self.empty(true);
                                 }
                             }
@@ -70,6 +71,7 @@
                 }
             },
             empty: function(isEmpty) {
+                $('.ui-notice').remove();
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="javascript:history.back();">返回上一页</a> \n </div>');
                 } else {
@@ -93,7 +95,7 @@
 
                     html.push('<div class="ui-quantity cale">');
                     html.push('<button type="button" class="fa fa-reduce op"></button>');
-                    html.push('<input type="tel" class="ipt num-input" value="' , item.minimumQuantity , '" data-min="' , item.minimumQuantity , '" cid="' , item.id , '" autocomplete="off">');
+                    html.push('<input type="tel" class="ipt num-input" value="' , item.minimumQuantity , '" data-min="' , item.minimumQuantity , '" cid="' , item.id , '" data-unitname="' , item.unitName , '" autocomplete="off">');
                     html.push('<button type="button" class="fa fa-plus op"></button>');
                     html.push('</div>');
 
@@ -113,9 +115,13 @@
 
                 // 商品数量
                 $.each(arr, function(i, item) {
-                    var $ipt = $wrap.find('.ipt[cid="' + item.commodityId + '"]'),
-                        min = $ipt.data('min') || 1;
-                    $ipt.val(Math.max(item.num, min));
+                    var $ipt = $wrap.find('.ipt[cid="' + item.commodityId + '"]');
+                        if ($ipt.length === 1) {
+                            $ipt.val(Math.max(item.num, $ipt.data('min') || 1));
+                            updateCommodity(item.commodityId, $ipt.val());
+                        } else {
+                            deleteCommodity(item.commodityId);
+                        }
                 })
                 this.submit();
                 this.bindEvent();
@@ -123,16 +129,11 @@
             submit: function() {
                 var self = this,
                     isSubmit = false,
-                    userinfo = getAppyInfo(),
-                    pickVo = {};
+                    userinfo = getAppyInfo();
 
                 if(userinfo){
                     $('#username').val(userinfo.nickname);
                     $('#mobile').val(userinfo.phone);
-                    pickVo = {
-                        nickname: userinfo.nickname,
-                        phone: userinfo.phone
-                    }
                 }         
 
                 $('#submit').on('click', function() {
@@ -140,15 +141,12 @@
                         return false;
                     }
                     var list = [];
-
-                    pickVo.nickname =  $('#username').val();
-                    pickVo.phone =  $('#mobile').val();
-
-
-                    saveAppyinfo(pickVo); // 保存联系人信息
-
-
-                    isSubmit = true; // 组织重复提交
+                    var pickVo = {
+                        nickname: $('#username').val(),
+                        phone: $('#mobile').val()
+                    }
+                    saveAppyinfo(pickVo);   // 保存联系人信息
+                    isSubmit = true;        // 阻止重复提交
                     $("#pick_commodity").find('.ipt').each(function(){
                         list.push({
                             commodityId: $(this).attr('cid'),
@@ -203,9 +201,10 @@
                             deleteCommodity($this.attr('cid'));
                             $this.closest('.item').remove();
                             layer.close(index);
-                            if ($('#pick_commodity').find('.item').length === 0) {
+                            if ($wrap.find('.item').length === 0) {
+                                $wrap.empty();
                                 self.empty(true);
-                                window.location.reload();
+                                // window.location.reload();
                             }
                         }
                     });
@@ -225,8 +224,12 @@
                         min = $ipt.data('min') || 1,
                         num = Math.max($ipt.val() || 1, min);
 
-                    num > min && $ipt.val(--num);
-                    updateCommodity($ipt.attr('cid'), num);
+                    if (num > min) {
+                        $ipt.val(--num);
+                        updateCommodity($ipt.attr('cid'), num);
+                    } else {
+                        popover('最低' + min + $ipt.data('unitname') + '起购！');
+                    }
                 })
 
                 // 输入数量

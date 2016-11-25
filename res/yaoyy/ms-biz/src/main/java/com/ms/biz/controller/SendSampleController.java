@@ -54,8 +54,12 @@ public class SendSampleController extends BaseController{
     private HistoryCommodityService historyCommodityService;
 
 
-
-
+    /**
+     * 申请寄样list
+     * @param name
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String apply(String name,ModelMap model) {
         //获取登陆用户userId
@@ -92,6 +96,12 @@ public class SendSampleController extends BaseController{
 
     }
 
+    /**
+     * 申请寄样详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable("id") Integer id, ModelMap model) {
 
@@ -110,6 +120,13 @@ public class SendSampleController extends BaseController{
         return "sample_detail";
 
     }
+
+    /**
+     * 用户留言页面
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "msg/{id}", method = RequestMethod.GET)
     public String getMsg(@PathVariable("id") Integer id,ModelMap model){
         if(id==null||sendSampleService.findById(id)==null){

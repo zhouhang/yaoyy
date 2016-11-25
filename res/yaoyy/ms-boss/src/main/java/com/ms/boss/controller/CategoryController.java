@@ -124,6 +124,11 @@ public class CategoryController extends BaseController{
         return  Result.success().data(category);
     }
 
+    /**
+     * 查询品种
+     * @param categoryVo
+     * @return
+     */
     @RequestMapping(value = "/search",method = RequestMethod.GET)
     @ResponseBody
     public Result searchCategory(CategoryVo categoryVo){

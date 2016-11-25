@@ -48,6 +48,14 @@ public class PickController extends BaseController{
     @Autowired
     HttpSession httpSession;
 
+    /**
+     * 选货单列表
+     * @param pickVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     private String list(PickVo pickVo,Integer pageNum, Integer pageSize, ModelMap model){
         if(pickVo.getAbandon()==null){
@@ -58,6 +66,12 @@ public class PickController extends BaseController{
         return "pick_list";
     }
 
+    /**
+     * 选货单详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     private String list(@PathVariable("id") Integer id,  ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
@@ -73,13 +87,23 @@ public class PickController extends BaseController{
         return "pick_detail";
     }
 
-    //删除和恢复
+    /**
+     * 删除和恢复
+     * @param pick
+     * @return
+     */
     @RequestMapping(value="delete",method = RequestMethod.POST)
     @ResponseBody
     private Result delete(Pick pick){
         pickService.update(pick);
         return Result.success().msg("操作成功");
     }
+
+    /**
+     * 选货单跟踪记录
+     * @param pickTrackingVo
+     * @return
+     */
     @RequestMapping(value="trackingSave",method=RequestMethod.POST)
     @ResponseBody
     private Result save(PickTrackingVo pickTrackingVo){

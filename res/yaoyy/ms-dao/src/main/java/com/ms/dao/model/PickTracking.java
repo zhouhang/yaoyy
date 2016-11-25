@@ -23,7 +23,7 @@ public class PickTracking  implements Serializable {
 	
 	//同意理由，拒绝理由，记录内容等附加内容
 	private String extra;
-
+    //操作者名称
 	private String name;
 	
 	private Date createTime;

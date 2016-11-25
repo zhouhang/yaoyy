@@ -27,6 +27,12 @@ public class CategoryController extends BaseController{
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 商品列表页面
+     * @param variety
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String listPage(String variety,ModelMap model) {
         model.put("variety",variety);
@@ -50,11 +56,21 @@ public class CategoryController extends BaseController{
         // 参数
         return Result.success().data(pageInfo);
     }
+
+    /**
+     * 品种查询页面
+     * @return
+     */
     @RequestMapping(value = "search", method = RequestMethod.GET)
     public String searchPage() {
         return "category_search";
     }
 
+    /**
+     * 品种联想
+     * @param categoryVo
+     * @return
+     */
     @RequestMapping(value = "search",method = RequestMethod.POST)
     @ResponseBody
     public Result searchCategory(CategoryVo categoryVo){
