@@ -38,7 +38,6 @@
     </div>
 </section><!-- /ui-content -->
 
-
 <#include  "./common/footer.ftl"/>
 <script src="assets/js/layer.js"></script>
 <script>

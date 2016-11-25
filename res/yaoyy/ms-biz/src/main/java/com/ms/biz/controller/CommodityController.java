@@ -63,9 +63,10 @@ public class CommodityController extends BaseController{
         // 质量保证
         Article article = articleService.findById(2);
         if (article!= null) {
-            model.put("article", article.getContent());
+            if(article.getContent()!=null){
+                model.put("article", article.getContent().replace("&lt","<").replace("&gt",">"));
+            }
         }
-
         try {
             String url = HttpUtil.getFullUrl(request);
             WxJsapiSignature signature = wxService.createJsapiSignature(url);

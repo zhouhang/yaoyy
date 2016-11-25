@@ -33,7 +33,7 @@ import java.util.List;
  * 10/12/16.
  */
 @Controller
-@RequestMapping()
+@RequestMapping
 public class IndexController extends BaseController{
 
     private static final Logger logger = Logger.getLogger(WechatController.class);
@@ -43,14 +43,13 @@ public class IndexController extends BaseController{
     private AdService adService;
 
     @Autowired
-    CommodityService commodityService;
-
-
-    @Autowired
-    SendSampleService sendSampleService;
+    private CommodityService commodityService;
 
     @Autowired
-    UserService userService;
+    private SendSampleService sendSampleService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private HttpSession httpSession;
@@ -122,6 +121,9 @@ public class IndexController extends BaseController{
     @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
     public String article(@PathVariable("id") Integer id, ModelMap modelMap) {
         Article article = articleService.findById(id);
+        if(article.getContent()!=null){
+            article.setContent(article.getContent().replace("&lt","<").replace("&gt",">"));
+        }
         modelMap.put("article", article);
         return "article";
     }
@@ -140,15 +142,6 @@ public class IndexController extends BaseController{
 
 
 
-
-
-    @RequestMapping(value = "/create/index", method = RequestMethod.GET)
-    @ResponseBody
-    public Result createIndex(){
-        if (true)
-        throw new ControllerException("sss");
-       return Result.error();
-    }
 
 
 }
