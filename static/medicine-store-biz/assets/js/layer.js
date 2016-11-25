@@ -119,7 +119,7 @@ Layer.prototype.view = function(){
 
 Layer.prototype.action = function(config, elem){
   var that = this;
-  
+
   //自动关闭
   if(config.time){
     ready.timer[that.index] = setTimeout(function(){
@@ -150,12 +150,23 @@ Layer.prototype.action = function(config, elem){
     ready.touch(shade, function(){
       layer.close(that.index, config.end);
     });
+    shade.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    })
   }
   //关闭按钮
   var mclose = elem[claname]('layui-m-close')[0];
   ready.touch(mclose, function(){
     layer.close(that.index, config.end);
   });
+
+  // 禁止滑动
+  var layermain = elem[claname]('layui-m-layermain')[0];
+  layermain.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  })
 
   config.end && (ready.end[that.index] = config.end);
 };
