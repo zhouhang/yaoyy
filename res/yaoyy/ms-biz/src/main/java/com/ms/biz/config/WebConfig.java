@@ -2,6 +2,7 @@ package com.ms.biz.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ms.tools.utils.gson.adapter.StringDefaultAdapter;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -136,6 +137,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         Gson gson = new GsonBuilder()
 //                .excludeFieldsWithoutExposeAnnotation()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                .registerTypeAdapter(String.class, new StringDefaultAdapter())
                 .create();
 
         GsonHttpMessageConverter gsonConverter = new GsonHttpMessageConverter();

@@ -6,15 +6,14 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.PickService;
 import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.editor.CustomStringEditor;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,4 +68,6 @@ public class PickCommodityController extends BaseController{
 
         return Result.success().data(userInfo);
     }
+
+
 }
