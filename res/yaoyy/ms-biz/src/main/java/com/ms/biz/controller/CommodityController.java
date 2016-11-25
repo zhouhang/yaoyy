@@ -42,6 +42,13 @@ public class CommodityController extends BaseController{
     @Autowired
     private WxMpService wxService;
 
+    /**
+     * 商品详情页面
+     * @param request
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String commodityDetail(HttpServletRequest request,
                                   @PathVariable("id") Integer id,
@@ -79,7 +86,11 @@ public class CommodityController extends BaseController{
     }
 
 
-
+    /**
+     * 批量获取商品详情（购物车显示用）
+     * @param list
+     * @return
+     */
     @RequestMapping(value="/getDetail",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Result getDetail(@RequestBody List<Integer> list){

@@ -27,6 +27,12 @@ public class CategoryController extends BaseController{
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 商品列表页面
+     * @param variety
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String listPage(String variety,ModelMap model) {
         model.put("variety",variety);
