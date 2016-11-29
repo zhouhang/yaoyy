@@ -19,6 +19,7 @@
                 您正在申请商品<strong>“${commodity.name} ${commodity.origin} ${commodity.spec}”</strong> 的寄样服务，在填写下面信息后我们会马上与您取得联系，或者直接拨打我们的电话：0558-5897775！
                 <em>（若您需要多件商品的寄样服务，在客服与您取得联系后在电话里沟通即可，不需要重复申请！）</em>
             </div>
+            <input type="hidden" name="commodityInfo" value="${commodity.name}" />
             <div class="item">
                 <input type="text" class="ipt" name="nickname" id="name" placeholder="姓名" autocomplete="off">
                 <span class="error"></span>

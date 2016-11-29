@@ -15,9 +15,12 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.CommodityService;
 import com.ms.service.HistoryCommodityService;
 import com.ms.service.SendSampleService;
+import com.ms.service.sms.SmsUtil;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ejb.access.EjbAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,10 @@ import java.util.List;
 
 @Service
 public class SendSampleServiceImpl  extends AbsCommonService<SendSample> implements SendSampleService{
+
+
+	@Value("${sms.serviceMobile}")
+	private String serviceMobile;
 
 	@Autowired
 	private SendSampleDao sendSampleDao;
@@ -46,6 +53,8 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 	@Autowired
 	private SampleTrackingDao sampleTrackingDao;
 
+	@Autowired
+	private SmsUtil smsUtil;
 
 
 
@@ -106,6 +115,9 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 	@Override
 	@Transactional
 	public void save(SendSampleVo sendSampleVo) {
+
+		//发送短信通知
+		sendSms(sendSampleVo);
 
 		UserVo userVo=userDao.findByPhone(sendSampleVo.getPhone());
 		Integer nowLogin=sendSampleVo.getUserId();//现在登录的userid
@@ -199,6 +211,29 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		sampleTracking.setRecordType(TrackingEnum.TRACKING_APPLY.getValue());
 		sampleTrackingDao.create(sampleTracking);
 
+
+	}
+
+	//发送短信通知到客服
+	void sendSms(SendSampleVo sendSampleVo){
+
+		try {
+			String userInfo = sendSampleVo.getNickname()+" "+sendSampleVo.getPhone()+" "+sendSampleVo.getArea();
+			String commodityInfo = "["+sendSampleVo.getCommodityInfo()+"]";
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						smsUtil.sendSampleSms(userInfo,commodityInfo,serviceMobile);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}).start();
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 	}
 

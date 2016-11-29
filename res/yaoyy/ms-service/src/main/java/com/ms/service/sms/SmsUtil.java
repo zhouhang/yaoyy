@@ -115,6 +115,21 @@ public class SmsUtil {
         return code;
     }
 
+    /**
+     * 发送寄样通知短信
+     * @param userInfo
+     * @param commodityInfo
+     * @param mobile
+     * @throws Exception
+     */
+    public void sendSampleSms(String userInfo,String commodityInfo,String mobile) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", apikey);
+        param.put("mobile", mobile);
+        param.put("text", TextTemplateEnum.SMS_BOSS_SAMPLE_SEND.getText("【药优优】", userInfo,commodityInfo));
+        HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
+
 
     /**
      * 一个手机号一分钟之内只能发送1条短信；

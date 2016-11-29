@@ -194,7 +194,7 @@
         <include refid="Base_Column_List" />
         from commodity
         <where>
-            cm.status = 1
+            status = 1
             <if test="name!= null">
              and  name like CONCAT('%','${name}','%' )
             </if>

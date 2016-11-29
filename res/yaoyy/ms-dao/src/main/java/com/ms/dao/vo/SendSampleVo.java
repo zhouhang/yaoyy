@@ -23,6 +23,8 @@ public class SendSampleVo extends SendSample{
     private String intentionText;
 
 
+    private String  commodityInfo;
+
     private String intentCommodityIds;
 
     private Integer  getSample;//标记是否确认收货
@@ -91,5 +93,11 @@ public class SendSampleVo extends SendSample{
         this.statusText = statusText;
     }
 
+    public String getCommodityInfo() {
+        return commodityInfo;
+    }
 
+    public void setCommodityInfo(String commodityInfo) {
+        this.commodityInfo = commodityInfo;
+    }
 }
