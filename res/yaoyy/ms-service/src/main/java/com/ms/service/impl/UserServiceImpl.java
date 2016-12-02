@@ -174,6 +174,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	public User registerWechat(String phone, String openId, String nickname, String headImgUrl) {
 		User user = findByPhone(phone);
 		if(user!=null){
+			user.setType(UserEnum.enable.getType());
 			user.setOpenid(openId);
 			update(user);
 		}else{
