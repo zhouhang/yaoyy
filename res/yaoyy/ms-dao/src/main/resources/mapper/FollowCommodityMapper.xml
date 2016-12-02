@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.FollowCommodityDao">
+    <resultMap id="FollowCommodityResultMap" type="com.ms.dao.model.FollowCommodity">
+            <id column="id"  property="id" />
+            <result column="commodity_id"  property="commodityId" />
+            <result column="price"  property="price" />
+            <result column="user_id"  property="userId" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="FollowCommodityResultMapVo" type="com.ms.dao.vo.FollowCommodityVo">
+            <id column="id"  property="id" />
+            <result column="commodity_id"  property="commodityId" />
+            <result column="price"  property="price" />
+            <result column="user_id"  property="userId" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,commodity_id,price,user_id,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="FollowCommodityResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from follow_commodity
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="FollowCommodityResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from follow_commodity
+    </select>
+
+    <select id="findByParams" resultMap="FollowCommodityResultMapVo" parameterType="com.ms.dao.vo.FollowCommodityVo">
+        select
+        <include refid="Base_Column_List" />
+        from follow_commodity
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from follow_commodity
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.FollowCommodity">
+        insert into
+        follow_commodity (commodity_id,price,user_id,create_time)
+        values
+        (#{commodityId},#{price},#{userId},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.FollowCommodity">
+        update follow_commodity
+        <set>
+                                                        
+            <if test="commodityId != null">
+                commodity_id = #{commodityId},
+            </if>
+                                            
+            <if test="price != null">
+                price = #{price},
+            </if>
+                                            
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

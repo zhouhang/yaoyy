@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.MessageDao">
+    <resultMap id="MessageResultMap" type="com.ms.dao.model.Message">
+            <id column="id"  property="id" />
+            <result column="user_id"  property="userId" />
+            <result column="url"  property="url" />
+            <result column="content"  property="content" />
+            <result column="type"  property="type" />
+            <result column="status"  property="status" />
+            <result column="event_id"  property="eventId" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="MessageResultMapVo" type="com.ms.dao.vo.MessageVo">
+            <id column="id"  property="id" />
+            <result column="user_id"  property="userId" />
+            <result column="url"  property="url" />
+            <result column="content"  property="content" />
+            <result column="type"  property="type" />
+            <result column="status"  property="status" />
+            <result column="event_id"  property="eventId" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,url,content,type,status,event_id,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="MessageResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from message
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="MessageResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from message
+    </select>
+
+    <select id="findByParams" resultMap="MessageResultMapVo" parameterType="com.ms.dao.vo.MessageVo">
+        select
+        <include refid="Base_Column_List" />
+        from message
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from message
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Message">
+        insert into
+        message (user_id,url,content,type,status,event_id,create_time)
+        values
+        (#{userId},#{url},#{content},#{type},#{status},#{eventId},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.Message">
+        update message
+        <set>
+                                                        
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+                                            
+            <if test="url != null">
+                url = #{url},
+            </if>
+                                            
+            <if test="content != null">
+                content = #{content},
+            </if>
+                                            
+            <if test="type != null">
+                type = #{type},
+            </if>
+                                            
+            <if test="status != null">
+                status = #{status},
+            </if>
+                                            
+            <if test="eventId != null">
+                event_id = #{eventId},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
