@@ -20,7 +20,11 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?10:pageSize;
+
+        PageHelper.startPage(pageNum, pageSize);
     	List<SupplierVo>  list = supplierDao.findByParams(supplierVo);
         PageInfo page = new PageInfo(list);
         return page;

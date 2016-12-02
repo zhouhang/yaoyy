@@ -81,7 +81,7 @@
         </div>
 
     <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=sendSampleVoPageInfo url="sample/list" params=sendSampleVoParams />
+    <@pager.pager info=sendSampleVoPageInfo url="sample/list" params="" />
     </div>
 </div>
 

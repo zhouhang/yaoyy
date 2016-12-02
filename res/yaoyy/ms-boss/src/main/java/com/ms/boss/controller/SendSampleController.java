@@ -70,7 +70,6 @@ public class SendSampleController extends BaseController{
 
         model.put("sendSampleVoPageInfo",sendSampleVoPageInfo);
         model.put("sendSampleVo",sendSampleVo);
-        model.put("sendSampleVoParams", Reflection.serialize(sendSampleVo));
 
         return "sample_list";
     }
