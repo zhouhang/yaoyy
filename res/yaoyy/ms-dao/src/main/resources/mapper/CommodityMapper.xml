@@ -22,6 +22,7 @@
             <result column="minimum_quantity"  property="minimumQuantity" />
             <result column="slogan"  property="slogan" />
             <result column="thumbnail_url"  property="thumbnailUrl" />
+            <result column="supplier_id"  property="supplierId" />
     </resultMap>
 
     <resultMap id="CommodityResultMapVo" type="com.ms.dao.vo.CommodityVo" extends="CommodityResultMap">
@@ -31,7 +32,7 @@
 
     <sql id="Base_Column_List">
         id,title,name,har_year,origin,spec,category_id,picture_url,detail,
-        status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url
+        status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplierId
     </sql>
 
     <sql id="Base_Column_List_Alisa">
@@ -39,7 +40,7 @@
         cm.origin as origin, cm.spec as spec,cm.category_id as category_id,cm.picture_url as picture_url,
         cm.detail as detail,cm.status as status,cm.attribute as attribute,cm.price as price,
         cm.unit as unit,cm.sort as sort, cm.mark as mark,cm.create_time as create_time,cm.update_time as update_time,
-        cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url
+        cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url,cm.supplier_id as supplier_id
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="CommodityResultMap">
@@ -86,10 +87,10 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Commodity">
         insert into
-        commodity (title,name,har_year,origin,spec,category_id,picture_url,detail,status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url)
+        commodity (title,name,har_year,origin,spec,category_id,picture_url,detail,status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id)
         values
         (#{title},#{name},#{harYear},#{origin},#{spec},#{categoryId},#{pictureUrl},
-        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{mark},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl})
+        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{mark},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Commodity">
@@ -170,6 +171,10 @@
 
             <if test="thumbnailUrl != null">
                 thumbnail_url = #{thumbnailUrl},
+            </if>
+
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
             </if>
 
         </set>

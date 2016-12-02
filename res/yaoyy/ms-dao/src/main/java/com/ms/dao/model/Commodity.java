@@ -60,9 +60,20 @@ public class Commodity  implements Serializable {
 	private Date createTime;
 	
 	private Date updateTime;
+
+	private Integer supplierId;
 	
 	public Commodity(){}
-	
+
+
+	public Integer getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Integer supplierId) {
+		this.supplierId = supplierId;
+	}
+
 	public Integer getId() {
 		return id;
 	}
