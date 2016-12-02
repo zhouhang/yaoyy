@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.SupplierDao">
+    <resultMap id="SupplierResultMap" type="com.ms.dao.model.Supplier">
+            <id column="id"  property="id" />
+            <result column="name"  property="name" />
+            <result column="phone"  property="phone" />
+            <result column="phone2"  property="phone2" />
+            <result column="email"  property="email" />
+            <result column="telephone"  property="telephone" />
+            <result column="area"  property="area" />
+            <result column="enter_category"  property="enterCategory" />
+            <result column="qq"  property="qq" />
+            <result column="mark"  property="mark" />
+            <result column="create_time"  property="createTime" />
+            <result column="update_time"  property="updateTime" />
+        
+    </resultMap>
+
+    <resultMap id="SupplierResultMapVo" type="com.ms.dao.vo.SupplierVo">
+            <id column="id"  property="id" />
+            <result column="name"  property="name" />
+            <result column="phone"  property="phone" />
+            <result column="phone2"  property="phone2" />
+            <result column="email"  property="email" />
+            <result column="telephone"  property="telephone" />
+            <result column="area"  property="area" />
+            <result column="enter_category"  property="enterCategory" />
+            <result column="qq"  property="qq" />
+            <result column="mark"  property="mark" />
+            <result column="create_time"  property="createTime" />
+            <result column="update_time"  property="updateTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="SupplierResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier
+    </select>
+
+    <select id="findByParams" resultMap="SupplierResultMapVo" parameterType="com.ms.dao.vo.SupplierVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from supplier
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Supplier">
+        insert into
+        supplier (name,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time)
+        values
+        (#{name},#{phone},#{phone2},#{email},#{telephone},#{area},#{enterCategory},#{qq},#{mark},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.Supplier">
+        update supplier
+        <set>
+                                                        
+            <if test="name != null">
+                name = #{name},
+            </if>
+                                            
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+                                            
+            <if test="phone2 != null">
+                phone2 = #{phone2},
+            </if>
+                                            
+            <if test="email != null">
+                email = #{email},
+            </if>
+                                            
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+                                            
+            <if test="area != null">
+                area = #{area},
+            </if>
+                                            
+            <if test="enterCategory != null">
+                enter_category = #{enterCategory},
+            </if>
+                                            
+            <if test="qq != null">
+                qq = #{qq},
+            </if>
+                                            
+            <if test="mark != null">
+                mark = #{mark},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                                            
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
