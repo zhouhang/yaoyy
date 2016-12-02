@@ -49,11 +49,11 @@ sms:
 
 
 # 生产
-wechat:
-    mp:
-      appid: wx0b6c6683f64d3cc2
-      secret: b52e6a9abba43685cf273c6028aec69d
-      token: E10ADC3949BA59ABBE56E057F20F883E
+#wechat:
+#    mp:
+#      appid: wx0b6c6683f64d3cc2
+#      secret: b52e6a9abba43685cf273c6028aec69d
+#      token: E10ADC3949BA59ABBE56E057F20F883E
 
 # 测试
 #wechat:

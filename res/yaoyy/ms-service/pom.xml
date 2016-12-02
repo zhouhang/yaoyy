@@ -61,4 +61,77 @@
         </dependency>
     </dependencies>
 
+
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>ppcL</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>ppcT</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>zxj</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>ccx</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>wb</id>
+            <properties>
+                <wechat.mp.appid>wxa7f10cbf0dc060b9</wechat.mp.appid>
+                <wechat.mp.secret>fe68a821107c34bf9863348831e26755</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/config.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
 </project>
