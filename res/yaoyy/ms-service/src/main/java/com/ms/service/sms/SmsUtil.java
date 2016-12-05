@@ -1,6 +1,7 @@
 package com.ms.service.sms;
 
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.properties.SystemProperties;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.httpclient.HttpClientUtil;
 import com.ms.tools.httpclient.common.HttpConfig;
@@ -28,8 +29,6 @@ public class SmsUtil {
 
     private static final Logger logger = Logger.getLogger(SmsUtil.class);
 
-    @Value("${sms.apikey}")
-    private String apikey;
 
     private boolean enable = false;
 
@@ -37,6 +36,9 @@ public class SmsUtil {
 
     @Autowired
     private RedisManager redisManager;
+
+    @Autowired
+    private SystemProperties systemProperties;
 
     /**
      * 发送登入验证码
@@ -52,7 +54,7 @@ public class SmsUtil {
         String code = SeqNoUtil.getRandomNum(5);
 
         Map<String, Object> param = new HashMap<>();
-        param.put("apikey", apikey);
+        param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA_LOGIN.getText("【药优优】", code));
 
@@ -77,7 +79,7 @@ public class SmsUtil {
         String code = SeqNoUtil.getRandomNum(5);
 
         Map<String, Object> param = new HashMap<>();
-        param.put("apikey", apikey);
+        param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA_REGISTER.getText("【药优优】", code));
 
@@ -103,7 +105,7 @@ public class SmsUtil {
         String code = SeqNoUtil.getRandomNum(5);
 
         Map<String, Object> param = new HashMap<>();
-        param.put("apikey", apikey);
+        param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         param.put("text", TextTemplateEnum.SMS_BIZ_RESET_PASSWORD.getText("【药优优】", code));
 
@@ -124,7 +126,7 @@ public class SmsUtil {
      */
     public void sendSampleSms(String userInfo,String commodityInfo,String mobile) throws Exception {
         Map<String, Object> param = new HashMap<>();
-        param.put("apikey", apikey);
+        param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         param.put("text", TextTemplateEnum.SMS_BOSS_SAMPLE_SEND.getText("【药优优】", userInfo,commodityInfo));
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
@@ -146,8 +148,6 @@ public class SmsUtil {
                     throw new RuntimeException("'"+mobile+"',该手机号请求短信间隔太快!");
                 }
             }
-
-
             Integer timer =  Integer.valueOf(timerStr);
             if(timer>=3){
                 throw new RuntimeException("'"+mobile+"',该手机号短信发送次数超标!");
