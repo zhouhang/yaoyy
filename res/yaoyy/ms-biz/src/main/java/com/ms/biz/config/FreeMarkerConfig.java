@@ -1,7 +1,7 @@
 package com.ms.biz.config;
 
+import com.ms.biz.properties.BizSystemProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
@@ -14,14 +14,13 @@ public class FreeMarkerConfig {
     @Autowired
     protected freemarker.template.Configuration configuration;
 
-    @Value("${doc.base.url}")
-    private String baseUrl;
-
+    @Autowired
+    private BizSystemProperties systemProperties;
 
     @PostConstruct
     public void freeMarkerConfigurer(){
         try {
-            configuration.setSharedVariable("baseUrl",baseUrl);
+            configuration.setSharedVariable("baseUrl",systemProperties.getBaseUrl());
         }catch (Exception e){
             e.printStackTrace();
         }
