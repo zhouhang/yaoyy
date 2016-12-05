@@ -15,6 +15,7 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.CommodityService;
 import com.ms.service.HistoryCommodityService;
 import com.ms.service.SendSampleService;
+import com.ms.service.properties.SystemProperties;
 import com.ms.service.sms.SmsUtil;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang.StringUtils;
@@ -32,8 +33,8 @@ import java.util.List;
 public class SendSampleServiceImpl  extends AbsCommonService<SendSample> implements SendSampleService{
 
 
-	@Value("${sms.serviceMobile}")
-	private String serviceMobile;
+	@Autowired
+	private SystemProperties systemProperties;
 
 	@Autowired
 	private SendSampleDao sendSampleDao;
@@ -224,7 +225,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 				@Override
 				public void run() {
 					try {
-						smsUtil.sendSampleSms(userInfo,commodityInfo,serviceMobile);
+						smsUtil.sendSampleSms(userInfo,commodityInfo,systemProperties.getServiceMobile());
 					}catch (Exception e){
 						e.printStackTrace();
 					}
