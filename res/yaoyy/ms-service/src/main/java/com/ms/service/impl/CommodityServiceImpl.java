@@ -160,6 +160,11 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         commodityDao.updateStatusById(commodity);
     }
 
+    @Override
+    public List<CommodityVo> findBySupplier(Integer supplierId) {
+        return commodityDao.findBySupplier(supplierId);
+    }
+
 
     @Override
     @Transactional

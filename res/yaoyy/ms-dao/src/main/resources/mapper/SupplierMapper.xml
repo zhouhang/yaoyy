@@ -124,4 +124,12 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="findVoById" parameterType="java.lang.Integer" resultMap="SupplierResultMapVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier
+        where id = #{id}
+    </select>
+
 </mapper>

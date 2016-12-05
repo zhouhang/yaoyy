@@ -7,4 +7,8 @@ import com.ms.dao.vo.SupplierVo;
 public interface SupplierService extends ICommonService<Supplier>{
 
     public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
+
+    public SupplierVo findVoById(Integer id);
+
+    public void save(SupplierVo supplierVo);
 }

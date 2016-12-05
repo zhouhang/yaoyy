@@ -28,4 +28,6 @@ public interface CommodityDao extends ICommonDao<Commodity>{
 
     public void deleteByCategoryId(Integer categoryId);
 
+    public List<CommodityVo> findBySupplier(Integer supplierId);
+
 }
