@@ -9,6 +9,7 @@ import com.ms.tools.entity.Result;
 import com.ms.tools.utils.WebUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +52,7 @@ public class WechatController extends BaseController{
 
     @Autowired
     private HttpSession httpSession;
+
 
     /**
      * 接入微信公众号
@@ -98,6 +100,7 @@ public class WechatController extends BaseController{
         try {
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+
             User user = userService.findByOpenId(wxMpUser.getOpenId());
             if(user!=null){
                 autoLogin(user);
@@ -167,13 +170,27 @@ public class WechatController extends BaseController{
 
     @RequestMapping("test")
     public String test(HttpServletRequest request,
-                        HttpServletResponse response,
-                        ModelMap model)throws Exception{
+                       HttpServletResponse response,
+                       ModelMap model)throws Exception{
         String url = request.getRequestURL().toString();
         System.out.println("url:"+url);
         WxJsapiSignature signature = wxService.createJsapiSignature(url);
         model.put("signature",signature);
         return "wechat_test";
+    }
+
+    @RequestMapping("send")
+    public void send(){
+        try {
+            WxMpKefuMessage message  = WxMpKefuMessage
+                    .TEXT()
+                    .toUser("oQmRps5sNt0QHgYpqGggc2xqRQB0")
+                    .content("sfsfdsdf")
+                    .build();
+            wxService.getKefuService().sendKefuMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

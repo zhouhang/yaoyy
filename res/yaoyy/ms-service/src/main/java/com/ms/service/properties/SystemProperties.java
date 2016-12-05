@@ -1,21 +1,19 @@
 package com.ms.service.properties;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import org.springframework.stereotype.Component;
 
 /**
  * Created by wangbin on 2016/12/5.
  */
+@ConfigurationProperties(locations="classpath:config.yml",prefix = "sms")
 @Component
-@PropertySource(value="classpath:config.properties")
 public class SystemProperties {
 
 
-    @Value("${sms.apikey}")
     private String apikey;
 
-    @Value("${sms.serviceMobile}")
     private String serviceMobile;
 
     public String getApikey() {
@@ -26,11 +24,12 @@ public class SystemProperties {
         this.apikey = apikey;
     }
 
+    public void setServiceMobile(String serviceMobile) {
+        this.serviceMobile = serviceMobile;
+    }
+
     public String getServiceMobile() {
         return serviceMobile;
     }
 
-    public void setServiceMobile(String serviceMobile) {
-        this.serviceMobile = serviceMobile;
-    }
 }

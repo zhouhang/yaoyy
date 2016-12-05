@@ -1,6 +1,9 @@
 import com.ms.Application;
+import com.ms.service.properties.SystemProperties;
 import com.ms.service.properties.WechatProperties;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +19,27 @@ public class SpringBootTest {
 
 
     @Autowired
-    private WechatProperties wechatProperties;
+    private WxMpService wxService;
 
-    @Autowired
-    private WxMpConfigStorage configStorage;
 
     @Test
-    public void contextLoads() {
+    public void sendKeFuMessage() {
+        try {
+            WxMpKefuMessage.WxArticle article1 = new WxMpKefuMessage.WxArticle();
+            article1.setDescription("Is Really A Happy Day");
+            article1.setTitle("Happy Day");
 
-        String appid = configStorage.getAppId();
 
-        String testVal =   wechatProperties.getAppId();
-        System.out.println("----------------------------------"+testVal+"-----------------");
+            WxMpKefuMessage message  = WxMpKefuMessage
+                    .NEWS()
+                    .toUser("oQmRps5sNt0QHgYpqGggc2xqRQB0")
+                    .addArticle(article1)
+                    .build();
+            wxService.getKefuService().sendKefuMessage(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }
