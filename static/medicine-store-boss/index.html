@@ -17,15 +17,27 @@
 		</div>
 		<div class="menu">
 			<ul>
-				<li><a href="#"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a></li>
+				<li>
+					<div class="">
+						<a href="#"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a>
+					</div>
+					<div class="dropdown">
+						<a href="#">王彬寄样申请</a>
+						<a href="#">周行寄样申请</a>
+						<a href="#">王彬提交选货单</a>
+						<a href="#">何欢寄样申请</a>
+					</div>
+				</li>
 				<li>
 					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
 				</li>
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="hidden-xs">王彬</span>
-					</a>
+				<li>
+					<div class="">
+						<a href="#"> <i class="fa fa-user"></i> 王彬</a>
+					</div>
+					<div class="dropdown">
+						<a href="javascript:;" id="jmodifyPwd">修改密码</a>
+					</div>
 				</li>
 				<li>
 					<a href="/logout">
@@ -51,27 +63,27 @@
 			<ul class="q-list">
 				<li>
 					<div class="cnt bg-aqua">
-						<a href="sample_list.html"> <span><i class="fa fa-truck"></i></span> 寄样列表 <sup>4</sup></a>
+						<a href="sample_list.html"> <span><i class="fa fa-truck"></i></span> 寄样列表 </a>
 					</div>
 				</li>
 				<li>
 					<div class="cnt bg-green">
-						<a href="pick_list.html"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表</a>
+						<a href="pick_list.html"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表 </a>
 					</div>
 				</li>
 				<li>
 					<div class="cnt bg-yellow">
-						<a href="goods_list.html"><span><i class="fa fa-cart-plus"></i></span> 商品列表</a>
+						<a href="goods_list.html"><span><i class="fa fa-cart-plus"></i></span> 商品列表 <em><i class="fa"></i><sup>4</sup></em></a>
 					</div>
 				</li>
 				<li>
 					<div class="cnt bg-red">
-						<a href="subject_list.html"><span><i class="fa fa-star"></i></span> 专场列表</a>
+						<a href="supject_list.html"><span><i class="fa fa-star"></i></span> 专场列表 <em><i class="fa"></i><sup>4</sup></em></a>
 					</div>
 				</li>
 				<li>
 					<div class="cnt bg-purple">
-						<a href="adv_list.html"><span><i class="fa fa-audio-description"></i></span> 广告列表</a>
+						<a href="adv_list.html"><span><i class="fa fa-audio-description"></i></span> 广告列表 <em><i class="fa"></i><sup>14</sup></em></a>
 					</div>
 				</li>
 				<li>
@@ -94,6 +106,7 @@
 
 
 <script src="assets/js/jquery191.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/js/common.js"></script>
 <script>
 	var _global = {
