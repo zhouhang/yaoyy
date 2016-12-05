@@ -35,6 +35,15 @@ public class SupplierController {
     @Autowired
     private CommodityService commodityService;
 
+    /**
+     * 供应商list
+     * @param supplierVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
+
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String supplierList(SupplierVo supplierVo, Integer pageNum,
                                Integer pageSize, ModelMap model){
@@ -46,6 +55,12 @@ public class SupplierController {
         return "supplier_list";
     }
 
+    /**
+     * 供应商详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
@@ -60,6 +75,12 @@ public class SupplierController {
 
         return "supplier_detail";
     }
+
+    /**
+     * 保存供应商
+     * @param supplierVo
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public Result saveSupplier(SupplierVo supplierVo){

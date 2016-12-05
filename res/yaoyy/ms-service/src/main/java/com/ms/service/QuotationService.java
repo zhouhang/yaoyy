@@ -7,4 +7,6 @@ import com.ms.dao.vo.QuotationVo;
 public interface QuotationService extends ICommonService<Quotation>{
 
     public PageInfo<QuotationVo> findByParams(QuotationVo quotationVo,Integer pageNum,Integer pageSize);
+
+    public void save(QuotationVo quotationVo);
 }
