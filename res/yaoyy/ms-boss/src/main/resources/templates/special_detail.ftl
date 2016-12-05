@@ -42,24 +42,23 @@
             <div class="item">
                 <div class="txt"><i>*</i>添加商品：</div>
                 <div class="cnt">
-                    <div id="chooseGoods">
+                    <div class="choose" id="chooseGoods">
                       <#if commodities??>
                         <#list commodities as commodity>
                             <span>${commodity.name}  ${commodity.spec}<i data-id="${commodity.id}"></i></span>
                         </#list>
                       </#if>
-
                     </div>
                     <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
                     <input type="hidden" name="commodities" id="goodsName" value="${ids?default('')}">
                     <div class="cnt-table hide" id="goodsSuggestions">
-                        <table>
+                        <table class="suggestions">
                             <thead>
-                            <tr>
-                                <th>名称</th>
-                                <th>规格</th>
-                                <th>价格</th>
-                            </tr>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>规格</th>
+                                    <th>价格</th>
+                                </tr>
                             </thead>
                             <tbody></tbody>
                         </table>

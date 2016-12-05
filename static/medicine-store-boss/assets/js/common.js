@@ -97,7 +97,7 @@
 !(function($){
     var defaults = {
         clickToHide: true   // 点击关闭
-        ,delay: 5e3         // 5秒后自动关闭，为0时不关闭
+        ,delay: 3e3         // 3秒后自动关闭，为0时不关闭
         ,title: '提示消息'  // 文字
         ,text: ''           // 说明
         ,type: 'warn'       // 类型：错误(error)，正确(success)，警告(warn)
@@ -205,10 +205,26 @@ function _showImg(url) {
     });
 }
 
+// 修改密码
+function modifyPwd() {
+    var $trigger = $('#jmodifyPwd');
+    if ($trigger.length === 0) {
+        return;
+    }
+    $trigger.on('click', function() {
+        layer.open({
+            type: 2,
+            area: ['470px', '250px'],
+            title: '修改密码',
+            content: 'modify_password.html'
+        })
+    })
+}
+
 $(function() {
     _fix();
     _aside();
-
+    modifyPwd();
 
     $(document).ajaxError(function(event,request, settings){
         $.notify({
