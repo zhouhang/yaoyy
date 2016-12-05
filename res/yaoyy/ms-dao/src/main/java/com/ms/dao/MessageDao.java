@@ -10,4 +10,6 @@ public interface MessageDao extends ICommonDao<Message>{
 
     public List<MessageVo> findByParams(MessageVo messageVo);
 
+    public Integer count(Integer type);
+
 }

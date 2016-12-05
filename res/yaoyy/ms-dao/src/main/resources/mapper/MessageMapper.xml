@@ -100,4 +100,9 @@
         </set>
         where id = #{id}
     </update>
+    <select id="count"  parameterType="java.lang.Integer">
+        select count(id)
+        from message WHERE  status = 0 and type = #{type}
+    </select>
+
 </mapper>
