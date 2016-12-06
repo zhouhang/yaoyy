@@ -47,39 +47,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="gray">
+                <#list pageInfo.list as quotation>
+                <tr <#if quotation.status==0>class="gray"</#if>>
                     <td><input type="checkbox" class="cbx"></td>
-                    <td>药优优  2016年11月29日报价   价格当天24点前有效</td>
-                    <td>草稿</td>
-                    <td>2016-05-18 15:22</td>
+                    <td>${(quotation.title)!}</td>
+                    <td>${(quotation.status)!}</td>
+                    <td>${(quotation.createTime?datetime)!}</td>
                     <td class="tc">
-                        <a href="quote_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
+                        <a href="/quotation/detail/${quotation.id}" class="ubtn ubtn-blue jedit">编辑</a>
                         <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
-                        <a href="javascript:;" class="ubtn ubtn-red jpublish">发布</a>
+                        <#if quotation.status==0>
+                            <a href="javascript:;" class="ubtn ubtn-red jpublish">发布</a>
+                        <#else>
+                            <a href="javascript:;" class="ubtn ubtn-red jpublish">草稿</a>
+                        </#if>
                     </td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" class="cbx"></td>
-                    <td>药优优  2016年11月29日报价   价格当天24点前有效</td>
-                    <td>发布</td>
-                    <td>2016-05-18 15:22</td>
-                    <td class="tc">
-                        <a href="quote_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
-                        <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
-                        <a href="javascript:;" class="ubtn ubtn-red jpublish">草稿</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox" class="cbx"></td>
-                    <td>药优优  2016年11月29日报价   价格当天24点前有效</td>
-                    <td>发布</td>
-                    <td>2016-05-18 15:22</td>
-                    <td class="tc">
-                        <a href="quote_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
-                        <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
-                        <a href="javascript:;" class="ubtn ubtn-red jpublish">草稿</a>
-                    </td>
-                </tr>
+                </#list>
                 </tbody>
             </table>
         </div>
