@@ -70,7 +70,7 @@
 					</div>
 				</div>
 				<div class="item" id="junitPrice">
-					<div class="txt"><i>*</i>价格：</div>
+					<div class="txt">价格：</div>
 					<div class="cnt">
 						<div class="ipt-wrap">
 							<input type="text" name="price" class="ipt" id="jprice" placeholder="价格" autocomplete="off">
@@ -80,7 +80,7 @@
 					</div>
 				</div>
 				<div class="item hide" id="jsalesPrice">
-					<div class="txt"><i>*</i>公斤/价格：</div>
+					<div class="txt">公斤/价格：</div>
 					<div class="cnt">
                         <div class="ipt-wrap">
                             <input type="text" name="minKg1" class="ipt ipt-short" placeholder="1-99999" data-rule="required; range(1~99999)" autocomplete="off">
@@ -97,6 +97,16 @@
 						<button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
 					</div>
 				</div>
+                <div class="item">
+                    <div class="txt">单位：</div>
+                    <div class="cnt">
+                        <select name="" id="" class="slt">
+                            <option value="">公斤</option>
+                            <option value="">条</option>
+                            <option value="">个</option>
+                        </select>
+                    </div>
+                </div>
 				<div class="item">
 					<div class="txt"><i>*</i>规格等级：</div>
 					<div class="cnt">
@@ -109,10 +119,41 @@
 						<input type="text" name="originOf" class="ipt" placeholder="产地" autocomplete="off">
 					</div>
 				</div>
+                <div class="item">
+                    <div class="txt"><i>*</i>采收年份：</div>
+                    <div class="cnt">
+                        <input type="text" name="year" class="ipt" placeholder="采收年份" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">起购数量：</div>
+                    <div class="cnt">
+                        <input type="text" name="amount" class="ipt" placeholder="起购数量" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">商品标语：</div>
+                    <div class="cnt">
+                        <input type="text" name="slogan" class="ipt" placeholder="商品标语" autocomplete="off">
+                    </div>
+                </div>
 				<div class="item">
-					<div class="txt"><i>*</i>采收年份：</div>
+					<div class="txt">绑定供应商：</div>
 					<div class="cnt">
-						<input type="text" name="year" class="ipt" placeholder="采收年份" autocomplete="off">
+                        <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
+                        <input type="hidden" name="supplierId">
+                        <div class="cnt-table hide" id="supplierSuggestions">
+                            <table class="suggestions">
+                                <thead>
+                                    <tr>
+                                        <th>姓名</th>
+                                        <th>手机</th>
+                                        <th>地区</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -224,6 +265,7 @@
                 this.submitEvent();
                 this.goodsImg();
                 this.parameter();
+                this.supplier();
 			},
 			// 查询品种
 			catname: function() {
@@ -285,11 +327,13 @@
                     	name: '商品名称: required; length(1~20)',
                     	title: '标题: required; length(1~50)',
                     	price: '价格: required; range(1~9999)',
-                    	level: '规格等级: required',
-                    	originOf: '产地: required',
-                    	year: '采收年份: required',
+                    	level: '规格等级: required; length(1~20)',
+                    	originOf: '产地: required; length(1~20)',
+                    	year: '采收年份: required; length(1~20)',
                         imgUrl1: '商品缩略图: required',
-                        imgUrl2: '商品图片: required'
+                        imgUrl2: '商品图片: required',
+                        amount: 'range(1~1000)',
+                        slogan: 'length(1~40)',
                     }
                 });
             },
@@ -407,6 +451,60 @@
                 // 删除
                 $table.on('click', '.ubtn-red', function() {
                     $(this).closest('tr').remove();
+                })
+            },
+            supplier: function() {
+                var self = this;
+                    vals = [],
+                    timer = 0,
+                    $supplier = $('#supplier'),
+                    $supplierSuggestions = $('#supplierSuggestions');
+
+                var ajaxSearch = function(val) {
+                    timer && clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        $.ajax({
+                            url: 'json/supplier.json',
+                            data: {name: val},
+                            success: function(response) {
+                                var html = [''];
+                                if (response && response.status === 'y') {
+                                    $.each(response.data, function(i, item) {
+                                        html.push('<tr class="items" data-name="' + item.name + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.mobile + '</td><td>' + item.region + '</td></tr>');
+                                    })
+                                } else {
+                                    html.push('<tr><td colspan="3">未查询到商品，请重新输入</td></tr>');
+                                }
+                                $supplierSuggestions.show().find('tbody').html(html.join(''));
+                            },
+                            error: function() {
+                                $supplierSuggestions.show().find('tbody').html('<tr><td colspan="3">网络错误</td></tr>');
+                            }
+                        })
+                    }, 300);
+                }
+
+                $supplier.on('input', function() {
+                    var val = this.value;
+                    if (val) {
+                        ajaxSearch(val);
+                    } else {
+                        $supplierSuggestions.hide();
+                    }
+                })
+
+                $('body').on('click', function() {
+                    $supplierSuggestions.hide();
+                })
+                
+                // 添加商品
+                $supplierSuggestions.on('click', '.items', function() {
+                    var name = $(this).data('name'),
+                        id = $(this).data('id');
+                    $supplier.val(name).next().val(id);
+                    $supplierSuggestions.hide();
+                }).on('click', 'table', function() {
+                    return false;
                 })
             }
 		}

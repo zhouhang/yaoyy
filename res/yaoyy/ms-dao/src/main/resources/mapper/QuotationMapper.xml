@@ -94,4 +94,12 @@
         </set>
         where id = #{id}
     </update>
+    <select id="recentList"  resultMap="QuotationResultMapVo">
+        select
+        <include refid="Base_Column_List" />
+        from quotation WHERE  status=1 ORDER BY create_time desc limit 10
+    </select>
+
+
+
 </mapper>
