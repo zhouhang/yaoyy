@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>商品关注-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="ui-body-nofoot body-gray">
+    <header class="ui-header">
+        <div class="title">我的关注</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+
+    <section class="ui-content">
+       <!--  <div class="ui-notice ui-notice-extra">
+            您还没有关注商品！
+            <a class="ubtn ubtn-primary" href='/'>返回首页</a>
+        </div> -->
+        <div class="pick-form">
+            <form action="" id="attention_commodity">
+                <div class="item">
+                    <div class="hd">                        
+                        <em>茯苓</em>
+                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                    </div>
+                    <div class="price">
+                        <i>&yen;</i> <b>200</b> 元
+                    </div>
+                    <div class="trend up">
+                        <span>比关注时涨价2元</span>
+                        <i class="fa fa-up"></i>
+                    </div>
+                    <div class="del">
+                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="hd">                        
+                        <em>三七</em>
+                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                    </div>
+                    <div class="price">
+                        <i>&yen;</i> <b>200</b> 元
+                    </div>
+                    <div class="trend down">
+                        <span>比关注时降价2元</span>
+                        <i class="fa fa-down"></i>
+                    </div>
+                    <div class="del">
+                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="hd">                        
+                        <em>三七</em>
+                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                    </div>
+                    <div class="price">
+                        <i>&yen;</i> <b>200</b> 元
+                    </div>
+                    <div class="del">
+                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section><!-- /ui-content -->
+
+<div class="ui-loading"></div>
+    
+
+	
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.bindEvent();
+            },
+            bindEvent: function() {
+                var self = this,
+                    $wrap = $('#attention_commodity');
+
+                //删除
+                $wrap.on('click', '.fa-remove', function() {
+                    var $this = $(this);
+                    layer.open({
+                        content: '确定要删除吗？',
+                        btn: ['确定', '取消'],
+                        yes: function(index) {
+                            $this.closest('.item').remove();
+                            layer.close(index);
+                            if ($wrap.find('.item').length === 0) {
+                                $wrap.empty();
+                                self.empty(true);
+                            }
+                        }
+                    });
+                })
+            },
+            empty: function(isEmpty) {
+                if (isEmpty) {
+                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 您还没有关注商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
+                } else {
+                    $('.ui-notice').remove();
+                }
+            },
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+    });
+
+</script>
+</body>
+</html>
