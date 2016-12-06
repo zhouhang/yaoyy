@@ -126,4 +126,16 @@
         </dd>
     </dl>
     </@shiro.hasPermission>
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-list"></i>
+                <span>供应商管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+            <a href="/supplier/list"><i class="fa fa-circle-o"></i>供应商列表</a>
+        </dd>
+    </dl>
 </div>

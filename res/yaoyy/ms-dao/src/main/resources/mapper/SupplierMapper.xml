@@ -58,6 +58,9 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="name != null">
+                name like CONCAT('%','${name}','%' )
+            </if>
         </where>
     </select>
 

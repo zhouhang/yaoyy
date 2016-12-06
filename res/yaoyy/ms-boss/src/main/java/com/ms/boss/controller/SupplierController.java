@@ -29,11 +29,19 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
-    @Autowired
-    private CategoryService categoryService;
+
 
     @Autowired
     private CommodityService commodityService;
+
+    /**
+     * 供应商list
+     * @param supplierVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String supplierList(SupplierVo supplierVo, Integer pageNum,
@@ -46,11 +54,29 @@ public class SupplierController {
         return "supplier_list";
     }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String createSupplier(){
+        return  "supplier_detail";
+    }
+
+
+
+
+    /**
+     * 供应商详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
-        supplierVo.setEnterCategoryList(categoryService.findByIds(supplierVo.getEnterCategory()));
+
 
         List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
 
@@ -60,6 +86,12 @@ public class SupplierController {
 
         return "supplier_detail";
     }
+
+    /**
+     * 保存供应商
+     * @param supplierVo
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public Result saveSupplier(SupplierVo supplierVo){

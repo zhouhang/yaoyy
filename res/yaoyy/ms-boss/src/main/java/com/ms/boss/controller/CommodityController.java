@@ -2,14 +2,19 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Commodity;
+import com.ms.dao.model.HistoryPrice;
+import com.ms.dao.model.Member;
 import com.ms.dao.vo.CommodityVo;
+import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.CommodityService;
+import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -24,6 +29,9 @@ public class CommodityController extends BaseController{
 
     @Autowired
     CommodityService commodityService;
+
+    @Autowired
+    HttpSession httpSession;
 
     /**
      * 商品列表页面
@@ -108,5 +116,46 @@ public class CommodityController extends BaseController{
         commodityService.updateStatus(status,id);
         return  Result.success();
     }
+
+    /**
+     * 通过id获取商品信息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getCommodity(Integer id){
+        CommodityVo commodityVo=commodityService.findById(id);
+        return  Result.success().data(commodityVo);
+    }
+
+
+    @RequestMapping(value = "/updatePrice", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updatePrice(Integer commdityId,float price){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        CommodityVo commodityVo=commodityService.findById(commdityId);
+        if (commodityVo==null){
+            return  Result.error();
+        }
+        /**
+         * 以前的价格存为历史价格
+         */
+        HistoryPriceVo historyPrice=new HistoryPriceVo();
+        historyPrice.setCommodityId(commodityVo.getId());
+        historyPrice.setCreateId(mem.getId());
+        historyPrice.setPrice(commodityVo.getPrice());
+
+        /**
+         * 更新现在价格
+         */
+        commodityVo.setPrice(price);
+        commodityService.updatePrice(historyPrice,commodityVo);
+
+        return  Result.success();
+    }
+
+
+
 
 }
