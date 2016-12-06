@@ -125,6 +125,7 @@
     <div class="fa-form fa-form-layer">
         <div class="item" style="max-height:300px;overflow:hidden;overflow-y:auto;">
         </div>
+        <input type="hidden" id="commdityId" >
         <div class="button">
             <button type="submit" class="ubtn ubtn-blue">保存</button>
             <button type="button" class="ubtn ubtn-gray">取消</button>
@@ -133,10 +134,7 @@
 </form>
 
 
-<script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var _global = {
@@ -171,45 +169,56 @@
                                 price: '价格: required; range(1~9999)'
                             },
                             valid: function(form) {
-                                alert('form passed');
-                                // layer.closeAll(); // 关闭弹层
-                                // location.reload(true);// 强制删除页面
+                                $.ajax({
+                                    url: "/commodity/updatePrice",
+                                    data: {commdityId:  $("#commdityId").val(),price:$("#jprice").val()},
+                                    dataType: 'json',
+                                    type:'POST',
+                                    success: function(data) {
+                                        if (data.status == "200") {
+                                            // 成功提示
+                                            $.notify({
+                                                type: 'success',
+                                                title: '操作成功',
+                                                delay: 1e3,
+                                                call: function() {
+                                                    setTimeout(function() {
+                                                        window.location.reload();
+                                                    }, 1e3);
+                                                }
+                                            });
+                                        }
+                                    }
+                                })
                             }
                         });
             },
             showinfo: function(id) {
-                var showBox = function(data) {
-                    var html = [];
-                    switch (typeof data.price) {
-                        case 'string':
-                            html.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <div class="ipt-wrap"> \n <input type="text" name="price" class="ipt" id="jprice" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n <label class="ml"><input type="checkbox" class="cbx" id="jsales">量大价优</label> \n </div>');
-                            break;
-                        case 'object':
-                            html.push('<div class="txt"><i>*</i>公斤/价格：</div>');
-                            $.each(data.price, function(i, item) {
-                                var idx = i + 1;
-                                html.push('<div class="cnt"> \n <div class="ipt-wrap"><input type="text" name="minKg' , idx , '" class="ipt ipt-short" value="' , item[0] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>-</em> \n <div class="ipt-wrap"><input type="text" name="maxKg' , idx , '" class="ipt ipt-short" value="' , item[1] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>公斤</em> \n <div class="ipt-wrap ml"> \n <input type="text" name="price' , idx , '" class="ipt ipt-short" value="' , item[2] , '" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n </div>');
-                            });
-                            break;
+                var showBox = function(result) {
+                    if(result.status=="200"){
+                        var data=result.data;
+                        var html = [];
+                        html.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <div class="ipt-wrap"> \n <input type="text" name="price" class="ipt" id="jprice" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n <label class="ml">');
+                        $('#priceForm').find('.item').html(html.join(''));
+                        $("#commdityId").val(id);
+                        layer.closeAll();
+                        layer.open({
+                            area: ['600px'],
+                            type: 1,
+                            moveType: 1,
+                            content: $('#priceForm'),
+                            title: '快速调价'
+                        });
                     }
 
-                    $('#priceForm').find('.item').html(html.join(''));
-
-                    layer.closeAll();
-                    layer.open({
-                        area: ['600px'],
-                        type: 1,
-                        moveType: 1,
-                        content: $('#priceForm'),
-                        title: '快速调价'
-                    });
                 }
 
                 // 加载数据
                 var k = $.ajax({
-                    url: 'json/getPrice.php',
+                    url: '/commodity/get',
                     data: {id: id},
                     dataType: 'json',
+                    type:"POST",
                     success: function(data) {
                         showBox(data);
                     },
