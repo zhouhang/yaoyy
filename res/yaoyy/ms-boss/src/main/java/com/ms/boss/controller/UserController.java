@@ -1,7 +1,6 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.User;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;

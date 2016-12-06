@@ -63,6 +63,13 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 	}
 
 	@Override
+	public List<MessageVo> findUnReadMsg() {
+		MessageVo vo = new MessageVo();
+		vo.setStatus(0);
+		return messageDao.findByParams(vo);
+	}
+
+	@Override
 	public ICommonDao<Message> getDao() {
 		return messageDao;
 	}

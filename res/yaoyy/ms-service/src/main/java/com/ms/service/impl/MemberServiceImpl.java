@@ -117,5 +117,18 @@ public class MemberServiceImpl extends AbsCommonService<Member> implements Membe
         this.deleteById(memberId);
     }
 
-
+    @Override
+    @Transactional
+    public void changePassword(Member member, String oldPassword, String newPassword) {
+        Password oldPass = EncryptUtil.PiecesEncode(oldPassword,member.getSalt());
+        if (member!= null && member.getPassword().equalsIgnoreCase(oldPass.getPassword())){
+            Password newPass = EncryptUtil.PiecesEncode(newPassword);
+            member.setPassword(newPass.getPassword());
+            member.setSalt(newPass.getSalt());
+            member.setUpdateDate(new Date());
+            this.update(member);
+        } else {
+            throw new RuntimeException("密码错误");
+        }
+    }
 }

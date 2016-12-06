@@ -5,9 +5,13 @@ import com.ms.dao.model.Message;
 import com.ms.dao.vo.MessageVo;
 import com.ms.service.enums.MessageEnum;
 
+import java.util.List;
+
 public interface MessageService extends ICommonService<Message>{
 
     public PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize);
+
+    public List<MessageVo> findUnReadMsg();
 
     /**
      * 将消息设置为已读

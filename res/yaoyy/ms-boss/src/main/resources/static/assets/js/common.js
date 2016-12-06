@@ -215,7 +215,7 @@ function modifyPwd() {
             type: 2,
             area: ['470px', '250px'],
             title: '修改密码',
-            content: 'modify_password.html'
+            content: '/member/changePassword'
         })
     })
 }
