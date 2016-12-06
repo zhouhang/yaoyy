@@ -20,9 +20,9 @@
     <div class="box">
         <div class="tools">
             <div class="filter">
-                <form action="">
-                    <input type="text" class="ipt" placeholder="姓名">
-                    <button class="ubtn ubtn-blue">搜索</button>
+                <form action="" id="searchForm">
+                    <input type="text" name="name"class="ipt" value="${(supplierVo.name)!}" placeholder="姓名">
+                    <button class="ubtn ubtn-blue" id="search">搜索</button>
                 </form>
             </div>
             <div class="action-add">
@@ -44,16 +44,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <#list supplierVoPageInfo.list as supplierVo>
+                <#list supplierVoPageInfo.list as supplier>
                 <tr>
                     <td><input type="checkbox" class="cbx"></td>
-                    <td>${supplierVo.name}</td>
-                    <td>${supplierVo.enterCategoryText}</td>
-                    <td>${supplierVo.phone}</td>
-                    <td>${supplierVo.area}</td>
-                    <td>${(supplierVo.createTime?datetime)!}</td>
+                    <td>${supplier.name}</td>
+                    <td>${supplier.enterCategoryText}</td>
+                    <td>${supplier.phone}</td>
+                    <td>${supplier.area}</td>
+                    <td>${(supplier.createTime?datetime)!}</td>
                     <td class="tc">
-                        <a href="/supplier/detail/${supplierVo.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                        <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
                     </td>
                 </tr>
                 </#list>
@@ -68,16 +68,10 @@
 </div>
 
 <#include "./common/footer.ftl"/>
-
-
-
-<script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
-<script src="assets/plugins/layer/layer.js"></script>
 <script>
     var _global = {
         v: {
-            deleteUrl: ''
+            listUrl: '/supplier/list'
         },
         fn: {
             init: function() {
@@ -88,6 +82,7 @@
                         $cbx = $table.find('td input:checkbox'),
                         $checkAll = $table.find('th input:checkbox'),
                         count = $cbx.length;
+                var $search=$("#search");
 
                 // 删除
                 $table.on('click', '.jdel', function() {
@@ -101,6 +96,15 @@
                         layer.close(index);
                     });
                     return false; // 阻止链接跳转
+                })
+
+                $search.on('click',function () {
+                    var params = [];
+                    $("#searchForm .ipt").each(function() {
+                        var val = $.trim(this.value);
+                        val && params.push($(this).attr('name') + '=' + val);
+                    })
+                    location.href=_global.v.listUrl+'?'+params.join('&');
                 })
 
                 // 全选
