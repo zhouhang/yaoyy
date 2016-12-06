@@ -29,8 +29,7 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
-    @Autowired
-    private CategoryService categoryService;
+
 
     @Autowired
     private CommodityService commodityService;
@@ -56,6 +55,18 @@ public class SupplierController {
     }
 
     /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String createSupplier(){
+        return  "supplier_detail";
+    }
+
+
+
+
+    /**
      * 供应商详情
      * @param id
      * @param model
@@ -65,7 +76,7 @@ public class SupplierController {
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
-        supplierVo.setEnterCategoryList(categoryService.findByIds(supplierVo.getEnterCategory()));
+
 
         List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
 
