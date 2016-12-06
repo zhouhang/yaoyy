@@ -159,23 +159,30 @@
                     },
                     onSelect: function (suggestion) {
                         breedId = suggestion.data;
+                        console.log(breedId)
                     }
                 });
 
                 // 添加到报价单
                 $breed.next().on('click', function() {
+                    if (breedId === 0) {
+                        return;
+                    }
                     if ($('#table' + breedId).length === 1) {
                         $.notify({
                             type: 'error', 
                             title: '添加失败',
                             text: '此品种已在报价清单中'
                         });
+                        breedId = 0;
+                        $breed.val('');
                         return false;
                     }
                     $.ajax({
                         url: 'json/group.json',
                         data: {breedId: breedId},
                         success: function(response) {
+                            breedId = 0;
                             $breed.val('');
                             self.toHtml(response.data);
                         }
