@@ -18,10 +18,11 @@
 
     <div class="box fa-form">
         <form id="myform">
+            <input type="hidden" name="id" id="qid" value="${(quotation.id)!}">
             <div class="item">
                 <div class="txt"><i>*</i>标题：</div>
                 <div class="cnt">
-                    <input type="text" name="title" class="ipt" placeholder="请输入标题" autocomplete="off">
+                    <input type="text" name="title" value="${(quotation.title)!}" class="ipt" placeholder="请输入标题" autocomplete="off">
                 </div>
             </div>
             <div class="item">
@@ -40,7 +41,9 @@
             <div class="item">
                 <div class="txt">报价单描述：</div>
                 <div class="cnt cnt-mul">
-                    <script id="description" name="description" type="text/plain"></script>
+                    <script id="description" name="description" type="text/plain">
+                   ${(quotation.description)!}
+                    </script>
                     <span id="describeError"></span>
                 </div>
             </div>
@@ -90,14 +93,22 @@
 
                         var data = $("#myform").serializeObject();
                         data.status=status;
+                        if($("#qid").val()==""){
+                            delete data["id"];
+                        }
+
 
                         var quoteList=[];
                         $("#quoteList table").each(function(){
                              var quote={};
                              quote.categoryName=$(this).find("tr th.cat").text();
+                             quote.categoryId=$(this).find("tr th.cat").attr("cid");
                              var attributes=[];
                              $(this).find("tr.attrName th").each(function(index){
                                  var attrName=$(this).text();
+                                 if(index==2){
+                                     attrName=$(this).find('input').val();
+                                 }
                                  if(index==3){
                                      return;
                                  }
@@ -110,10 +121,14 @@
                                  attrValue.commdityId=commdityId;
                                  var values=[];
                                  $(this).find("td").each(function (index) {
+                                     var attval=$(this).text();
                                      if(index==3){
                                          return;
                                      }
-                                     values.push($(this).text());
+                                     if(index==2){
+                                         attval=$(this).find('input').val();
+                                     }
+                                     values.push(attval);
                                  })
                                  attrValue.values=values;
                                  tbodyValues.push(attrValue);
@@ -125,13 +140,14 @@
 
                         })
                         data.content=JSON.stringify(quoteList);
+
                         $.ajax({
                             url: "/quotation/save",
                             type: "POST",
                             contentType : 'application/json',
                             data: JSON.stringify(data),
-                            success: function(data) {
-                                if (data.status == "200") {
+                            success: function(result) {
+                                if (result.status == "200") {
                                     // 成功提示
                                     $.notify({
                                         type: 'success',
@@ -151,10 +167,66 @@
                     }
                 });
                 //实例化编辑器
+                <#if quotation?exists>
                 var um = UM.getEditor('description', {
                             initialFrameWidth: 700,
                             initialFrameHeight: 400
-                        }).setContent('');
+                        });
+                <#else>
+                    var um = UM.getEditor('description', {
+                        initialFrameWidth: 700,
+                        initialFrameHeight: 400
+                    }).setContent("");
+                </#if>
+
+               <#if quotation?exists && quotation.content != "">
+                   var $quoteList = $('#quoteList');
+                   var model = [];
+                   $.each(${quotation.content}, function (index,contentItem) {
+                       model.push('<table id="table' , contentItem.categoryId , '">');
+                       model.push('<thead>');
+                       model.push('<tr><th colspan="4" class="cat" cid="',contentItem.categoryId ,'">' , contentItem.categoryName , '</th></tr>');
+                       model.push('<tr class="attrName"> ');
+                       $.each(contentItem.attributes, function(ai, item) {
+                           if(ai!=2){
+                               model.push('<th>',item,'</th>');
+                           }
+                           else{
+                               model.push('<th><div class="inner"><input class="ipt" placeholder="自定义" value="',item,'" type="text"></div></th> ');
+                           }
+
+                       })
+                       model.push('<th>操作</th></tr></thead><tbody>');
+
+                       $.each(contentItem.attrValues, function(i, item) {
+                           model.push('<tr id="' , item.commdityId , '">');
+                           $.each(item.values,function(index, val){
+                               if(index!=2){
+                                   model.push('<td>',val,'</td>');
+                               }
+                              else{
+                                   model.push('<td><div class="inner"><input class="ipt" type="text" value="',val,'"></div></td> ');
+                               }
+                           })
+                           model.push('<td><button type="button" class="ubtn ubtn-blue del">删除</button></td>');
+                           model.push('</tr>')
+
+                       })
+                       model.push('</tbody>');
+                       model.push('<tfoot>');
+                       model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , contentItem.categoryId , '">+添加一个规格</a></td></tr>');
+                       model.push('</tfoot>');
+                       model.push('</table>');
+
+                  })
+                   $quoteList.append(model.join(''));
+                </#if>
+
+
+
+
+
+
             },
             bindEvent:function(){
                 $("#jsubmit").click(function () {
@@ -261,7 +333,7 @@
                 var model = [];
                 model.push('<table id="table' , categoryId , '">');
                 model.push('<thead>');
-                model.push('<tr><th colspan="4" class="cat">' , categoryName , '</th></tr>');
+                model.push('<tr><th colspan="4" class="cat" cid="',categoryId ,'">' , categoryName , '</th></tr>');
                 model.push('<tr class="attrName"><th>规格</th> \n <th>药优优报价</th> \n <th><div class="inner"><input class="ipt" placeholder="自定义" value="" type="text"></div></th> \n <th>操作</th></tr>');
                 model.push('</thead>');
                 model.push('<tbody>');
