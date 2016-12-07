@@ -69,6 +69,32 @@ public class QuotationController {
         return Result.success("修改成功");
     }
 
+    /**
+     * 删除报价单
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result delete(@PathVariable("id") Integer id){
+        quotationService.deleteById(id);
+        return Result.success("删除成功");
+    }
+
+
+    /**
+     * 更新报价单状态
+     * @param quotationVo
+     * @return
+     */
+    @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateStatus(QuotationVo quotationVo){
+        quotationService.update(quotationVo);
+        return Result.success("状态更新成功");
+    }
+
+
 
 
 
