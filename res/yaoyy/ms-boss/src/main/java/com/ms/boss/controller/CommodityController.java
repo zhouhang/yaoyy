@@ -129,6 +129,12 @@ public class CommodityController extends BaseController{
         return  Result.success().data(commodityVo);
     }
 
+    /**
+     * 更改商品价格
+     * @param commdityId
+     * @param price
+     * @return
+     */
 
     @RequestMapping(value = "/updatePrice", method = RequestMethod.POST)
     @ResponseBody
@@ -155,7 +161,16 @@ public class CommodityController extends BaseController{
         return  Result.success();
     }
 
-
-
+    /**
+     * 通过品种id查找商品
+     * @param categoryId
+     * @return
+     */
+    @RequestMapping(value = "/getByCategory", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getByCategory(Integer categoryId){
+        List<CommodityVo>  commodityVos=commodityService.findByCategoryId(categoryId);
+        return  Result.success().data(commodityVos);
+    }
 
 }

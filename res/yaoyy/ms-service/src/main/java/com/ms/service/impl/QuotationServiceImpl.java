@@ -23,7 +23,9 @@ public class QuotationServiceImpl  extends AbsCommonService<Quotation> implement
 
 	@Override
 	public PageInfo<QuotationVo> findByParams(QuotationVo quotationVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?10:pageSize;
+        PageHelper.startPage(pageNum, pageSize);
     	List<QuotationVo>  list = quotationDao.findByParams(quotationVo);
         PageInfo page = new PageInfo(list);
         return page;

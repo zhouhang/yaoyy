@@ -8,10 +8,7 @@ import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by xiao on 2016/12/5.
@@ -54,10 +51,20 @@ public class QuotationController {
 
     }
 
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String createQuotation(){
+        return "quotation_detail";
+    }
 
+
+    /**
+     * 保存报价单
+     * @param quotationVo
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
-    public Result saveQuotation(QuotationVo quotationVo){
+    public Result saveQuotation(@RequestBody QuotationVo quotationVo){
         quotationService.save(quotationVo);
         return Result.success("修改成功");
     }
