@@ -2,25 +2,18 @@ package com.ms.biz.controller;
 
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.model.User;
-import com.ms.dao.vo.UserVo;
 import com.ms.service.UserService;
-import com.ms.service.enums.RedisEnum;
-import com.ms.service.utils.CommonUtils;
 import com.ms.tools.entity.Result;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 

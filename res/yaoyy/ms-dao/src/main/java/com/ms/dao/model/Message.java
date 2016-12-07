@@ -21,7 +21,7 @@ public class Message  implements Serializable {
 	//类型
 	private Integer type;
 	
-	//处理状态
+	//处理状态 0 未处理 1已处理
 	private Integer status;
 	
 	//对应的id(寄样单，或是选货单)

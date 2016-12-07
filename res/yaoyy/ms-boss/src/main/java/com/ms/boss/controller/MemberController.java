@@ -4,10 +4,12 @@ import com.github.pagehelper.PageInfo;
 import com.ms.boss.shiro.BossRealm;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.Role;
+import com.ms.dao.model.User;
 import com.ms.dao.vo.MemberVo;
 import com.ms.service.MemberService;
 import com.ms.service.RoleMemberService;
 import com.ms.service.RoleService;
+import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import com.ms.tools.utils.WebUtil;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -41,6 +44,9 @@ public class MemberController extends BaseController{
     private RoleMemberService roleMemberService;
     @Autowired
     private BossRealm bossRealm;
+    @Autowired
+    HttpSession httpSession;
+
     /**
      * BOSS用户列表页
      * @param request
@@ -184,5 +190,21 @@ public class MemberController extends BaseController{
         return Result.success().msg("修改角色成功!");
     }
 
+    /**
+     * 修改密码
+     * @return
+     */
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public String changePasswordPage(){
+        return "change_password";
+    }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    @ResponseBody
+    public Result changePassword(String oldPassword, String newPassword){
+        Member member = (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        memberService.changePassword(member,oldPassword,newPassword);
+        return Result.success("修改成功!");
+    }
 
 }

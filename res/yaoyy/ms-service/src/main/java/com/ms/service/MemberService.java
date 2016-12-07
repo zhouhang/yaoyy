@@ -28,4 +28,6 @@ public interface MemberService extends ICommonService<Member>{
 
     void deleteMember(int memberId);
 
+    void changePassword(Member member, String oldPassword, String newPassword);
+
 }

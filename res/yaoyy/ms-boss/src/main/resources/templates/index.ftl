@@ -19,14 +19,14 @@
             <@shiro.hasPermission name="sample:list">
             <li>
                 <div class="cnt bg-aqua">
-                    <a href="/sample/list"> <span><i class="fa fa-truck"></i></span> 寄样列表 <sup>4</sup></a>
+                    <a href="/sample/list"> <span><i class="fa fa-truck"></i></span> 寄样列表  <em id="sample"><i class="fa"></i><sup>4</sup></em></a>
                 </div>
             </li>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="pick:list">
             <li>
                 <div class="cnt bg-green">
-                    <a href="/pick/list"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表</a>
+                    <a href="/pick/list"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表<em id="pick"><i class="fa"></i><sup>4</sup></em></a>
                 </div>
             </li>
             </@shiro.hasPermission>
@@ -62,5 +62,29 @@
     </div>
 </div>
 <#include "./common/footer.ftl"/>
+<script>
+    var _global = {
+        fn: {
+            init: function () {
+                $.post("/msg/count", function (result) {
+                    var pickD = "none", sampleD= "none";
+                    if (result.status == 200) {
+                        var data = result.data;
+                        pickD = data.pick == 0?"none":"inline-block";
+                        sampleD = data.sample == 0?"none":"inline-block";
+                        $("#pick").find("sup").html(data.pick);
+                        $("#sample").find("sup").html(data.sample);
+                    }
+
+                    $("#pick").css("display", pickD);
+                    $("#sample").css("display", sampleD);
+                })
+            }
+        }
+    }
+    $(function() {
+        _global.fn.init();
+    })
+</script>
 </body>
 </html>
