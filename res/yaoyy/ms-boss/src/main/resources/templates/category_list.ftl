@@ -147,11 +147,11 @@
             },
             bindEvent: function() {
                 var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search =$("#search");
-                var $pageSize=$("#pageSize");
+                    $cbx = $table.find('td input:checkbox'),
+                    $checkAll = $table.find('th input:checkbox'),
+                    count = $cbx.length,
+                    $search =$("#search"),
+                    $pageSize=$("#pageSize");
 
                 // 删除
                 $table.on('click', '.jdel', function() {

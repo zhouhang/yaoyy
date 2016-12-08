@@ -208,6 +208,7 @@
 				<div class="cnt cnt-mul">
 	                <span class="thumb up-img x4" id="imgCrop"></span>
 	                <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
+	                <span class="tips">图片尺寸：220 X 180</span>
 				</div>
 			</div>
 
@@ -313,7 +314,6 @@
                         content: $carForm,
                         title: '新建品种'
                     });
-					$('#imgCrop').show().prev().remove();
 				})
 
 				// 编辑
@@ -395,12 +395,6 @@
                         $('#pictureUrl').val('');
                         self.upImg();
                     });
-                    return false;
-                })
-                // 点击图片看大图
-                $myform.on('click', 'img', function() {
-                    var url = this.src;
-                    window.open(url);
                     return false;
                 })
             },
