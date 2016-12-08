@@ -103,9 +103,13 @@
     <select id="recentList"  resultMap="QuotationResultMapVo">
         select
         <include refid="Base_Column_List" />
-        from quotation WHERE  status=1 ORDER BY create_time desc limit 10
+        from quotation WHERE  status=1 ORDER BY update_time desc limit 10
     </select>
 
-
+    <select id="getRecent"  resultMap="QuotationResultMapVo">
+        select
+        <include refid="Base_Column_List" />
+        from quotation WHERE  status=1 ORDER BY update_time desc limit 1
+    </select>
 
 </mapper>

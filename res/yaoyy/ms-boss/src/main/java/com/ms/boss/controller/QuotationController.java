@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 /**
  * Created by xiao on 2016/12/5.
  * 后台资讯模块报价单
@@ -90,6 +92,7 @@ public class QuotationController {
     @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
     @ResponseBody
     public Result updateStatus(QuotationVo quotationVo){
+        quotationVo.setUpdateTime(new Date());
         quotationService.update(quotationVo);
         return Result.success("状态更新成功");
     }

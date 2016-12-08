@@ -18,4 +18,10 @@ public interface QuotationService extends ICommonService<Quotation>{
      * @return
      */
     public List<QuotationVo> recentList();
+
+    /**
+     * 获取最近发布的报价单
+     * @return
+     */
+    public QuotationVo getRecent();
 }

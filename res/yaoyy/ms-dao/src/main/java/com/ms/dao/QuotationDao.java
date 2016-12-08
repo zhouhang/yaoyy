@@ -12,4 +12,10 @@ public interface QuotationDao extends ICommonDao<Quotation>{
 
     public List<QuotationVo> recentList();
 
+    /**
+     * 获取最近发布的报价单
+     * @return
+     */
+    public QuotationVo getRecent();
+
 }

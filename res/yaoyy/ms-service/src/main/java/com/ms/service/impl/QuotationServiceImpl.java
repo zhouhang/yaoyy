@@ -51,6 +51,11 @@ public class QuotationServiceImpl  extends AbsCommonService<Quotation> implement
 		return quotationDao.recentList();
 	}
 
+	@Override
+	public QuotationVo getRecent() {
+		return quotationDao.getRecent();
+	}
+
 
 	@Override
 	public ICommonDao<Quotation> getDao() {
