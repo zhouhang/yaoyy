@@ -28,6 +28,11 @@
             <i class="fa fa-order"></i>
             <span>我的寄样单</span>
         </a>
+        <a href="#">
+            <i class="fa fa-heart"></i>
+            <span>商品关注</span>
+            <b>9</b>
+        </a>
         <a href="/center/updatePassword">
             <i class="fa fa-lock"></i>
             <span>修改密码</span>
