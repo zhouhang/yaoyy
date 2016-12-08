@@ -1,10 +1,8 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.Supplier;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.SupplierVo;
-import com.ms.service.CategoryService;
 import com.ms.service.CommodityService;
 import com.ms.service.SupplierService;
 import com.ms.tools.entity.Result;
@@ -99,7 +97,16 @@ public class SupplierController {
         return Result.success("保存成功");
     }
 
-
+    /**
+     * 根据姓名查询供应商
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    @ResponseBody
+    public Result search(String name){
+        return Result.success("供应商列表").data(supplierService.search(name));
+    }
 
 
 }

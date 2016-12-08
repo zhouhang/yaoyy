@@ -111,7 +111,7 @@
         <div class="item">
             <div class="txt"><i>*</i>图片：</div>
             <div class="cnt cnt-mul">
-                <span class="up-img x1" id="imgCrop"></span>
+                <span class="thumb up-img x1" id="imgCrop"></span>
                 <input type="hidden" id="pictureUrl" name="pictureUrl" value="">
                 <span class="tips">图片尺寸：750 X 350</span>
             </div>
@@ -300,7 +300,7 @@
 
                     // 如果有图片，填充图片
                     if (data.pictureUrl) {
-                        $('#imgCrop').html('<img src="' + data.pictureUrl + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+                        $('#imgCrop').html('<img src="' + data.pictureUrl + '/><i class="del" title="删除"></i>');
                         self.cropModal && self.cropModal.destroy();
                     } else {
                         $('#imgCrop').empty();
@@ -360,17 +360,11 @@
                     return false;
                 })
 
-                // 点击图片看大图
-                $myform.on('click', 'img', function() {
-                    _showImg(this.src);
-                    return false;
-                })
-
                 // 切换上传图片的尺寸
                 $('#typeId').on('change', function() {
-                    var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
-                    $('#imgCrop').attr('class', 'up-img x' + this.value)
-                    .nextAll('.tips').html(tips);
+                	var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
+                	$('#imgCrop').attr('class', 'thumb up-img x' + this.value)
+                	.nextAll('.tips').html(tips);
                 })
             },
             upImg: function() {
@@ -381,7 +375,7 @@
                     loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
                     onAfterImgUpload: function(response){
                         self.cropModal && self.cropModal.destroy();
-                        $('#imgCrop').show().html('<img src="' + response.url + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+                        $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
                         $('#pictureUrl').val(response.url).trigger('validate');
                     }
                 }
