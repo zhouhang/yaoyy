@@ -225,7 +225,7 @@
             <div class="item">
                 <div class="txt"><i>*</i>商品缩略图：</div>
                 <div class="cnt cnt-mul">
-                    <span class="up-img x4" id="jpic1"><img src="${commodity.thumbnailUrl!}"><i class="del"></i></span>
+                    <span class="thumb up-img x4" id="jpic1"><img src="${commodity.thumbnailUrl!}"><i class="del"></i></span>
                     <input type="hidden" value="${commodity.thumbnailUrl!}" name="thumbnailUrl" id="thumbnailUrl">
                     <span class="tips">图片尺寸：220 X 180</span>
                 </div>
@@ -233,7 +233,7 @@
             <div class="item">
                 <div class="txt"><i>*</i>商品图片：</div>
                 <div class="cnt cnt-mul">
-                    <span class="up-img x3" id="jpic2"><img src="${commodity.pictureUrl!}"><i class="del"></i></span>
+                    <span class="thumb up-img x3" id="jpic2"><img src="${commodity.pictureUrl!}"><i class="del"></i></span>
                     <input type="hidden" value="${commodity.pictureUrl!}" name="pictureUrl" id="pictureUrl" >
                     <span class="tips">图片尺寸：750 X 400</span>
                 </div>
@@ -475,12 +475,6 @@
                         $self.parent().empty().next('input:hidden').val('');
                         layer.close(index);
                     });
-                    return false;
-                })
-
-                // 点击图片看大图
-                $upImg.on('click', 'img', function () {
-                    _showImg(this.src);
                     return false;
                 })
 
