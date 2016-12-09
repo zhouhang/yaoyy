@@ -28,10 +28,13 @@
             <i class="fa fa-order"></i>
             <span>我的寄样单</span>
         </a>
-        <a href="#">
+        <a href="/follow/list">
             <i class="fa fa-heart"></i>
             <span>商品关注</span>
-            <b>9</b>
+            <#if followCount?exists && followCount != 0>
+                <b>${followCount}</b>
+            </#if>
+
         </a>
         <a href="/center/updatePassword">
             <i class="fa fa-lock"></i>

@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserDetailVo;
+import com.ms.service.FollowCommodityService;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
@@ -33,6 +34,9 @@ public class UserCenterController extends BaseController{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FollowCommodityService followCommodityService;
+
     @RequestMapping("index")
     public String index(HttpServletRequest request,
                         ModelMap modelMap){
@@ -46,6 +50,7 @@ public class UserCenterController extends BaseController{
             } else {
                 nickname = "";
             }
+            modelMap.put("followCount",followCommodityService.count(user.getId()));
         }
         modelMap.put("nickname", nickname);
         return "user_center";
