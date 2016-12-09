@@ -16,12 +16,13 @@ DROP TABLE IF EXISTS `history_price`;
 CREATE TABLE `history_price` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `commodity_id` int(11) DEFAULT NULL,
-  `price` decimal(10,0) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `create_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `history_price_ibfk` (`commodity_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 
 
 -- ----------------------------

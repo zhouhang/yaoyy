@@ -171,7 +171,7 @@
                             valid: function(form) {
                                 $.ajax({
                                     url: "/commodity/updatePrice",
-                                    data: {commdityId:  $("#commdityId").vla,price:$("#jprice").val()},
+                                    data: {id:  $("#commdityId").val(),price:$("#jprice").val()},
                                     dataType: 'json',
                                     type:'POST',
                                     success: function(data) {

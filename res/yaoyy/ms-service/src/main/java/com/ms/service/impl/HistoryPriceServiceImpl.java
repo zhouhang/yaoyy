@@ -45,7 +45,7 @@ public class HistoryPriceServiceImpl  extends AbsCommonService<HistoryPrice> imp
 		List<String> dateR = new ArrayList<>();
 		list.forEach(his -> {
 			value.add(his.getPrice());
-			SimpleDateFormat sdf = new SimpleDateFormat("MM.dd h:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM.dd HH:mm");
 			dateR.add(sdf.format(his.getCreateTime()));
 		});
 		map.put("date", GsonUtil.toJson(dateR));

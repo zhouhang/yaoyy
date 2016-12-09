@@ -139,10 +139,10 @@ public class CommodityController extends BaseController{
 
     @RequestMapping(value = "/updatePrice", method = RequestMethod.POST)
     @ResponseBody
-    public Result updatePrice(Integer commdityId,float price){
+    public Result updatePrice(Integer id,float price){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         CommodityVo commodityVo= new CommodityVo();
-        commodityVo.setId(commdityId);
+        commodityVo.setId(id);
         commodityVo.setPrice(price);
         commodityService.updatePrice(mem.getId(),commodityVo);
         return  Result.success();
