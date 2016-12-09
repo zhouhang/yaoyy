@@ -19,8 +19,10 @@ CREATE TABLE `history_price` (
   `price` decimal(10,0) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `create_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `history_price_ibfk` (`commodity_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for message
@@ -79,5 +81,5 @@ ADD COLUMN `price_update_time` DATETIME NULL COMMENT '价格更新时间' AFTER 
 
 
 ALTER TABLE `commodity`
-MODIFY COLUMN `supplier_id`  int(11) NOT NULL AFTER `thumbnail_url`;
+ADD COLUMN `supplier_id`  int(11) NOT NULL COMMENT '供应商id' AFTER `thumbnail_url`;
 
