@@ -84,7 +84,7 @@
             </#if>
             </div>
             <div class="his">
-                <a href="price_his.html">查看历史价格</a>
+                <a href="/commodity/price/${commodityVo.id}">查看历史价格</a>
                 <span>价格更新时间：${commodityVo.priceUpdateTime?date}</span>
             </div>
 
