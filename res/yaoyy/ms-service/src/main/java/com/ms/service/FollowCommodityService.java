@@ -20,9 +20,10 @@ public interface FollowCommodityService extends ICommonService<FollowCommodity>{
     /**
      * 取消关注
      * @param followId
+     * @param commodityId
      * @param userId
      */
-    public void unwatch(Integer followId, Integer userId);
+    public void unwatch(Integer followId,Integer commodityId, Integer userId);
 
     /**
      * 获取关注的商品数量
@@ -37,4 +38,11 @@ public interface FollowCommodityService extends ICommonService<FollowCommodity>{
      * @return
      */
     public List<FollowCommodityVo> findCommodity(Integer userId);
+
+    /**
+     * 查询用户关注的商品Id
+     * @param userId
+     * @return
+     */
+    public List<Integer> findCommodityIds(Integer userId);
 }

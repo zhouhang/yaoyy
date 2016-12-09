@@ -81,7 +81,8 @@ public class CommodityController extends BaseController{
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public Result save(@RequestBody CommodityVo commodity) {
-        commodityService.save(commodity);
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        commodityService.save(commodity,mem.getId());
         return Result.success("保存成功!");
     }
 
@@ -140,24 +141,10 @@ public class CommodityController extends BaseController{
     @ResponseBody
     public Result updatePrice(Integer commdityId,float price){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-        CommodityVo commodityVo=commodityService.findById(commdityId);
-        if (commodityVo==null){
-            return  Result.error();
-        }
-        /**
-         * 以前的价格存为历史价格
-         */
-        HistoryPriceVo historyPrice=new HistoryPriceVo();
-        historyPrice.setCommodityId(commodityVo.getId());
-        historyPrice.setCreateId(mem.getId());
-        historyPrice.setPrice(commodityVo.getPrice());
-
-        /**
-         * 更新现在价格
-         */
+        CommodityVo commodityVo= new CommodityVo();
+        commodityVo.setId(commdityId);
         commodityVo.setPrice(price);
-        commodityService.updatePrice(historyPrice,commodityVo);
-
+        commodityService.updatePrice(mem.getId(),commodityVo);
         return  Result.success();
     }
 

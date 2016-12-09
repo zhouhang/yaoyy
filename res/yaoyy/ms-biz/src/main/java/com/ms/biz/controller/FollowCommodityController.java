@@ -54,9 +54,9 @@ public class FollowCommodityController {
      */
     @RequestMapping(value = "unwatch", method = RequestMethod.POST)
     @ResponseBody
-    public Result unwatch(Integer id){
+    public Result unwatch(Integer id, Integer commodityId){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        followCommodityService.unwatch(id,user.getId());
+        followCommodityService.unwatch(id,commodityId,user.getId());
         return Result.success("取消关注成功");
     }
 }

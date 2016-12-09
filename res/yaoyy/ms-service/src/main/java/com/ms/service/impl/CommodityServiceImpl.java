@@ -87,15 +87,23 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Override
     @Transactional
-    public void save(CommodityVo commodity) {
+    public void save(CommodityVo commodity,Integer memId) {
 
         commodity.setPictureUrl(pathConvert.saveFileFromTemp(commodity.getPictureUrl(),folderName));
         if (commodity.getId() == null) {
             commodity.setCreateTime(new Date());
             commodity.setUpdateTime(new Date());
+            commodity.setPriceUpdateTime(new Date());
             commodityDao.create(commodity);
+            HistoryPriceVo historyPrice=new HistoryPriceVo();
+            historyPrice.setCommodityId(commodity.getId());
+            historyPrice.setCreateId(memId);
+            historyPrice.setPrice(commodity.getPrice());
+            historyPrice.setCreateTime(new Date());
+            historyPriceDao.create(historyPrice);
         } else {
             commodity.setUpdateTime(new Date());
+            updatePrice(commodity,memId);
             commodityDao.update(commodity);
         }
 
@@ -173,11 +181,33 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Override
     @Transactional
-    public void updatePrice(HistoryPriceVo historyPriceVo, CommodityVo commodityVo) {
+    public void updatePrice(Integer memId, CommodityVo commodityVo) {
         commodityVo.setUpdateTime(new Date());
+        updatePrice(commodityVo,memId);
         commodityDao.update(commodityVo);
-        historyPriceVo.setCreateTime(new Date());
-        historyPriceDao.create(historyPriceVo);
+    }
+
+    /**
+     * 更新历史价格
+     * @param vo
+     * @param memId
+     */
+    private void updatePrice(CommodityVo vo, Integer memId){
+        Commodity oldCommodity= commodityDao.findById(vo.getId());
+        if (oldCommodity==null){
+            throw new RuntimeException("商品不存在");
+        }
+        // 比较当前价格和之前价格是否有变动
+        if (!(vo.getPrice() == oldCommodity.getPrice())){
+            // 以前的价格存为历史价格
+            HistoryPriceVo historyPrice=new HistoryPriceVo();
+            historyPrice.setCommodityId(oldCommodity.getId());
+            historyPrice.setCreateId(memId);
+            historyPrice.setPrice(oldCommodity.getPrice());
+            historyPrice.setCreateTime(new Date());
+            vo.setPriceUpdateTime(new Date());
+            historyPriceDao.create(historyPrice);
+        }
     }
 
 

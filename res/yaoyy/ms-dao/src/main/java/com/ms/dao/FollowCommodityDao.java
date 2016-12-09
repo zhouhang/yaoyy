@@ -13,5 +13,5 @@ public interface FollowCommodityDao extends ICommonDao<FollowCommodity>{
 
     Integer count(Integer userId);
 
-    void unwatch(@Param("followId") Integer followId, @Param("userId") Integer userId);
+    void unwatch(@Param("followId") Integer followId, @Param("commodityId") Integer commodityId, @Param("userId") Integer userId);
 }

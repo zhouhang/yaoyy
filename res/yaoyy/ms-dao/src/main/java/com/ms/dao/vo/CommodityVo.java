@@ -16,6 +16,9 @@ public class CommodityVo extends Commodity{
     // 量大价优价格梯度
     private List<Gradient> gradient;
 
+    // 用户是否关注
+    private Boolean watch = false;
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -38,5 +41,13 @@ public class CommodityVo extends Commodity{
 
     public void setUnitName(String unitName) {
         this.unitName = unitName;
+    }
+
+    public Boolean getWatch() {
+        return watch;
+    }
+
+    public void setWatch(Boolean watch) {
+        this.watch = watch;
     }
 }

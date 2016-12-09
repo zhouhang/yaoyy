@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class FollowCommodityServiceImpl  extends AbsCommonService<FollowCommodit
 	@Override
 	@Transactional
 	public void watch(Integer commodityId, Integer userId) {
+		//TODO: 需检查商品有没有意见被关注,或者设置联合主键
 		Commodity commodity = commodityService.findById(commodityId);
 		FollowCommodity follow = new FollowCommodity();
 		follow.setUserId(userId);
@@ -51,8 +53,8 @@ public class FollowCommodityServiceImpl  extends AbsCommonService<FollowCommodit
 
 	@Override
 	@Transactional
-	public void unwatch(Integer followId, Integer userId) {
-		followCommodityDao.unwatch(followId,userId);
+	public void unwatch(Integer followId, Integer commodityId, Integer userId) {
+		followCommodityDao.unwatch(followId,commodityId,userId);
 	}
 
 	@Override
@@ -65,6 +67,16 @@ public class FollowCommodityServiceImpl  extends AbsCommonService<FollowCommodit
 		FollowCommodityVo vo = new FollowCommodityVo();
 		vo.setUserId(userId);
 		return followCommodityDao.findByParams(vo);
+	}
+
+	@Override
+	public List<Integer> findCommodityIds(Integer userId) {
+		FollowCommodityVo vo = new FollowCommodityVo();
+		vo.setUserId(userId);
+		 List<FollowCommodityVo> list = followCommodityDao.findByParams(vo);
+		List<Integer> followIds = new ArrayList<>();
+		list.forEach(follow ->{followIds.add(follow.getCommodityId());});
+		return followIds;
 	}
 
 	@Override

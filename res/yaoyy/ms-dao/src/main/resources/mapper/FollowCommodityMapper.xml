@@ -65,7 +65,17 @@
 
     <delete id="unwatch" parameterType="java.lang.Integer">
         delete from follow_commodity
-        where id = #{followId} and user_id = #{userId}
+        <where>
+            <if test="followId != null">
+                id = #{followId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="commodityId != null">
+                and commodity_id = #{commodityId}
+            </if>
+        </where>
     </delete>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.FollowCommodity">

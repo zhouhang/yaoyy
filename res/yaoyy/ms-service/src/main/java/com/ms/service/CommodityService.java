@@ -14,7 +14,7 @@ public interface CommodityService extends ICommonService<Commodity>{
 
     public List<CommodityVo> findByIds(String ids);
 
-    public void save(CommodityVo commodity);
+    public void save(CommodityVo commodity, Integer memId);
 
     public CommodityVo findById(Integer id);
 
@@ -34,10 +34,9 @@ public interface CommodityService extends ICommonService<Commodity>{
 
     /**
      * 调价
-     * @param historyPriceVo 历史价格
      * @param commodityVo 现在更新的价格
      */
-    public void updatePrice(HistoryPriceVo historyPriceVo,CommodityVo commodityVo);
+    public void updatePrice(Integer memId, CommodityVo commodityVo);
 
 
 
