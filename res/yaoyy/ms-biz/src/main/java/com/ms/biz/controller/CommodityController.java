@@ -8,6 +8,7 @@ import com.ms.dao.vo.CommodityVo;
 import com.ms.service.ArticleService;
 import com.ms.service.CommodityService;
 import com.ms.service.FollowCommodityService;
+import com.ms.service.HistoryPriceService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
@@ -51,6 +52,9 @@ public class CommodityController extends BaseController{
 
     @Autowired
     private FollowCommodityService followCommodityService;
+
+    @Autowired
+    private HistoryPriceService historyPriceService;
 
     /**
      * 商品详情页面
@@ -125,8 +129,23 @@ public class CommodityController extends BaseController{
         return Result.success().data(commodities);
     }
 
-
-
-
+    /**
+     * 商品的价格历史记录
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/price/{id}",method=RequestMethod.GET)
+    public String getDetail(@PathVariable("id") Integer id, ModelMap model){
+        CommodityVo commodityVo=commodityService.findById(id);
+        if(commodityVo==null){
+            throw new NotFoundException("找不到该商品");
+        }
+        List<CommodityVo> commodityVoList=commodityService.findByCategoryId(commodityVo.getCategoryId());
+        // 获取商品的价格历史数据
+        model.addAllAttributes(historyPriceService.findByCommodityId(id));
+        model.put("commodityVo",commodityVo);
+        model.put("commodityVoList",commodityVoList);
+        return "commodity_price";
+    }
 
 }
