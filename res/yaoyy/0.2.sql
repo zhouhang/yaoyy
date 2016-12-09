@@ -83,3 +83,11 @@ ADD COLUMN `price_update_time` DATETIME NULL COMMENT '价格更新时间' AFTER 
 ALTER TABLE `commodity`
 ADD COLUMN `supplier_id`  int(11) NOT NULL COMMENT '供应商id' AFTER `thumbnail_url`;
 
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('28', '供应商列表', 'button', '', '32', 'supplier:list', '2016-12-09 17:29:07');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('29', '供应商详情', 'button', '', '32', 'supplier:edit', '2016-12-09 17:29:55');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('30', '报价单列表', 'button', '', '33', 'quotation:list', '2016-12-09 17:30:45');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('31', '报价单详情', 'button', '', '33', 'quotation:edit', '2016-12-09 17:31:05');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('32', '供应商主页', 'button', '', '0', 'supplier:index', '2016-12-09 17:33:06');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('33', '报价单主页', 'button', '', '0', 'quotation:index', '2016-12-09 17:33:45');
+
+
