@@ -132,7 +132,7 @@ public class CommodityController extends BaseController{
 
     /**
      * 更改商品价格
-     * @param commdityId
+     * @param id
      * @param price
      * @return
      */
