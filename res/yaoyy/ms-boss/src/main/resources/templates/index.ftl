@@ -63,7 +63,7 @@
 
     <div class="box">
         <p>扫码绑定微信号</p>
-        <div id="canvas" url="http://hztjn.free.natapp.cc/wechat/member?memberId=${member_session_boss.id!}">
+        <div id="canvas" url="${bizUrl!}/wechat/member?memberId=${member_session_boss.id!}">
 
         </div>
     </div>
