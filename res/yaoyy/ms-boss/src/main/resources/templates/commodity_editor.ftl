@@ -156,8 +156,8 @@
             <div class="item">
                 <div class="txt">绑定供应商：</div>
                 <div class="cnt">
-                    <input type="text" name="supplier" id="supplier" class="ipt" value="${commodity.supplierName}" placeholder="绑定供应商" autocomplete="off">
-                    <input type="hidden" name="supplierId" value="${commodity.supplierId}">
+                    <input type="text" name="supplier" id="supplier" class="ipt" value="${commodity.supplierName!}" placeholder="绑定供应商" autocomplete="off">
+                    <input type="hidden" name="supplierId" value="${commodity.supplierId!}">
                     <div class="cnt-table hide" id="supplierSuggestions">
                         <table class="suggestions">
                             <thead>
