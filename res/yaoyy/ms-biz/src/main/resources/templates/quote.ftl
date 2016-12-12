@@ -49,9 +49,11 @@
 
         </div>
         <#else>
-            <div class="title">暂时没有报价单</div>
+        <div class="ui-notice ui-notice-extra">
+           暂时没有报价单
             <br>
             <a class="ubtn ubtn-primary" href="/">返回首页</a>
+        </div>
         </#if>
     ${(quotationVo.description)!}
     </div>
