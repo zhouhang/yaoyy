@@ -26,8 +26,15 @@ public class SpringBootTest {
     public void sendKeFuMessage() {
         try {
             WxMpKefuMessage.WxArticle article1 = new WxMpKefuMessage.WxArticle();
-            article1.setDescription("Is Really A Happy Day");
-            article1.setTitle("Happy Day");
+            article1.setDescription("王彬 提交了一个新的寄样申请 " +
+                    "\n\n商品：三棱 去毛统个、长2cm-6cm、直径2cm-4cm" +
+                    "\n姓名：王彬" +
+                    "\n手机号：18801285391" +
+                    "\n地区：湖北武汉" +
+                    "\n\n请在后台寄样列表查看");
+
+
+            article1.setTitle("新寄样申请通知");
 
 
             WxMpKefuMessage message  = WxMpKefuMessage
