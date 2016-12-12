@@ -95,3 +95,7 @@ INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permissio
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('33', '报价单主页', 'button', '', '0', 'quotation:index', '2016-12-09 17:33:45');
 
 
+ALTER TABLE `member`
+ADD COLUMN `tel`  varchar(255) NULL COMMENT '座机号码' AFTER `email`,
+ADD COLUMN `openid`  varchar(255) NULL COMMENT '微信openid' AFTER `tel`
+
