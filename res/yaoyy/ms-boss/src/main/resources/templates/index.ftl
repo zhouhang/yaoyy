@@ -60,8 +60,16 @@
             </@shiro.hasPermission>
         </ul>
     </div>
+
+    <div class="box">
+        <p>扫码绑定微信号</p>
+        <div id="canvas" url="http://hztjn.free.natapp.cc/wechat/member?memberId=${member_session_boss.id!}">
+
+        </div>
+    </div>
 </div>
 <#include "./common/footer.ftl"/>
+<script src="/assets/js/jquery.qrcode.min.js"></script>
 <script>
     var _global = {
         fn: {
@@ -79,6 +87,27 @@
                     $("#pick").css("display", pickD);
                     $("#sample").css("display", sampleD);
                 })
+                this.createQrcode();
+            },
+            // 生成二维码
+            createQrcode:function() {
+                var canvasSupport = !!document.createElement('canvas').getContext;
+                if (canvasSupport) {
+                    $("#canvas").qrcode({
+                        width: 256,
+                        height: 256,
+                        text: $("#canvas").attr('url')
+                    })
+                } else {
+                    $('.qrcode').each(function() {
+                        var url = $("#canvas").attr('url');
+                        $("#canvas").find('.canvas img').attr({
+                            'src': 'http://qr.liantu.com/api.php?text=' + url,
+                            'width': 124,
+                            'height': 124
+                        });
+                    })
+                }
             }
         }
     }
