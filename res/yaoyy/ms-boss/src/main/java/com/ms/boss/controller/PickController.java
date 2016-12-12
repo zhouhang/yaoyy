@@ -12,9 +12,12 @@ import com.ms.service.PickCommodityService;
 import com.ms.service.PickService;
 import com.ms.service.PickTrackingService;
 import com.ms.service.UserDetailService;
+import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +50,9 @@ public class PickController extends BaseController{
 
     @Autowired
     HttpSession httpSession;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * 选货单列表
@@ -96,6 +102,10 @@ public class PickController extends BaseController{
     @ResponseBody
     private Result delete(Pick pick){
         pickService.update(pick);
+        if(pick.getAbandon()==1){
+            MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
+            applicationContext.publishEvent(msgConsumeEvent);
+        }
         return Result.success().msg("操作成功");
     }
 
