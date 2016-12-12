@@ -95,12 +95,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             commodity.setUpdateTime(new Date());
             commodity.setPriceUpdateTime(new Date());
             commodityDao.create(commodity);
-            HistoryPriceVo historyPrice=new HistoryPriceVo();
-            historyPrice.setCommodityId(commodity.getId());
-            historyPrice.setCreateId(memId);
-            historyPrice.setPrice(commodity.getPrice());
-            historyPrice.setCreateTime(new Date());
-            historyPriceDao.create(historyPrice);
         } else {
             commodity.setUpdateTime(new Date());
             updatePrice(commodity,memId);

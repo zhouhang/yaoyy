@@ -21,8 +21,10 @@
         <#list list as follow>
             <div class="item">
                 <div class="hd">
+                    <a href="/commodity/detail/${follow.commodityId}">
                     <em>${follow.name}</em>
                     <span>${follow.title}</span>
+                    </a>
                 </div>
                 <div class="price">
                     <i>&yen;</i> <b>${follow.currentPrice}</b> 元
