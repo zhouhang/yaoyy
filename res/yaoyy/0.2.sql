@@ -6,8 +6,11 @@ CREATE TABLE `follow_commodity` (
   `price` decimal(10,2) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `follow_commodity_ibfk` (`commodity_id`),
+  CONSTRAINT `follow_commodity_ibfk` FOREIGN KEY (`commodity_id`) REFERENCES `commodity` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for history_price
