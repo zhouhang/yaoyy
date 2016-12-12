@@ -20,7 +20,7 @@
     
     <div class="ui-content">
         <div class="ui-notice">
-            绑定微信后可以通过微信实时接收系统消息！绑定失败请咨询qq:327075297
+            绑定微信后可以通过微信实时接收系统消息！
         </div>
         <div class="ui-form">
             <form action="">
@@ -29,9 +29,13 @@
                     <img src="uploads/avatar.jpg" width="30" height="30" alt="">  
                     <em>hu1900620</em>      
                 </div>
-                <div class="item">
-                    <input type="text" class="ipt" name="username" id="username" placeholder="BOSS系统用户名" autocomplete="off">
-                    <span class="error"></span>
+                <div class="weinxin">
+                    <span>微信号：</span>    
+                    <em>系统账号</em>
+                </div>
+                <div class="weinxin">
+                    <span>姓&#12288;名：</span>    
+                    <em>张静</em>
                 </div>
                 <div class="item">
                     <button type="submit" class="ubtn ubtn-primary" id="submit">绑定</button>
@@ -41,34 +45,17 @@
     </div>
 
     <script src="assets/js/zepto.min.js"></script>
-    <script src="assets/js/app.js"></script>
     <script>
 
     var _global = {
         fn: {
             init: function() {
-                this.validator();
+                this.submit();
             },
-            validator: function() {
-                var self = this;
+            submit: function() {
                 $('#submit').on('click', function() {
-                    return self.username();
+                    
                 })
-
-                self.SMSCodeEvent();
-            },
-            username: function() {
-                var $el = $('#username'),
-                    val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入系统用户名！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
-                }
-                return false;
             }
         }
     }
