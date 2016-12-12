@@ -12,7 +12,10 @@ import com.ms.dao.model.PickTracking;
 import com.ms.dao.vo.PickTrackingVo;
 import com.ms.dao.vo.PickVo;
 import com.ms.service.PickTrackingService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,9 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 	private PickTrackingDao pickTrackingDao;
 	@Autowired
 	private PickDao pickDao;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 
 	@Override
@@ -53,9 +59,13 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 			pick.setId(pickTrackingVo.getPickId());
 			if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_AGREE.getValue()){
 				pick.setStatus(PickEnum.PICK_HANDING.getValue());
+				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
+				applicationContext.publishEvent(msgConsumeEvent);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.TPICK_REFUSE.getValue()){
 				pick.setStatus(PickEnum.PICK_REFUSE.getValue());
+				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
+				applicationContext.publishEvent(msgConsumeEvent);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_FINISH.getValue()){
 				pick.setStatus(PickEnum.PICK_FINISH.getValue());

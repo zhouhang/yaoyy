@@ -83,10 +83,6 @@
                 $("#myform").validator({
                     fields: {
                         title: '标题: required',
-                        description: {
-                            rule: '报价单描述: required',
-                            target: '#describeError'
-                        }
                     },
                     valid: function(form) {
                         // 验证成功
@@ -139,6 +135,14 @@
                              quoteList.push(quote);
 
                         })
+                        if(quoteList.length==0){
+                            $.notify({
+                                type: 'error',
+                                title: '添加失败',
+                                text: '报价清单必须填写'
+                            });
+                            return;
+                        }
                         data.content=JSON.stringify(quoteList);
 
                         $.ajax({

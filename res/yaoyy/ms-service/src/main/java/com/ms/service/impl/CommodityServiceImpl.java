@@ -95,12 +95,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             commodity.setUpdateTime(new Date());
             commodity.setPriceUpdateTime(new Date());
             commodityDao.create(commodity);
-            HistoryPriceVo historyPrice=new HistoryPriceVo();
-            historyPrice.setCommodityId(commodity.getId());
-            historyPrice.setCreateId(memId);
-            historyPrice.setPrice(commodity.getPrice());
-            historyPrice.setCreateTime(new Date());
-            historyPriceDao.create(historyPrice);
         } else {
             commodity.setUpdateTime(new Date());
             updatePrice(commodity,memId);
@@ -198,7 +192,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             throw new RuntimeException("商品不存在");
         }
         // 比较当前价格和之前价格是否有变动
-        if (!(vo.getPrice() == oldCommodity.getPrice())){
+        if (!(vo.getPrice().floatValue() == oldCommodity.getPrice().floatValue())){
             // 以前的价格存为历史价格
             HistoryPriceVo historyPrice=new HistoryPriceVo();
             historyPrice.setCommodityId(oldCommodity.getId());

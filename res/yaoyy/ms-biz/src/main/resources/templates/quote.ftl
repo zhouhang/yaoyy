@@ -17,8 +17,8 @@
     <div class="qoute">
         <div class="title">${(quotationVo.title)!}</div>
         <div class="desc"></div>
-        <div class="hd">报价单描述：</div>
         <#if quotationVo?exists>
+            <div class="hd">报价单描述：</div>
         <#assign content=quotationVo.content?eval />
         <div class="bd">
             <#list  content as data >
@@ -48,8 +48,12 @@
             </#list>
 
         </div>
+        <#else>
+            <div class="title">暂时没有报价单</div>
+            <br>
+            <a class="ubtn ubtn-primary" href="/">返回首页</a>
         </#if>
-    <!--${(quotationVo.description)!}-->
+    ${(quotationVo.description)!}
     </div>
 </section><!-- /ui-content -->
 
