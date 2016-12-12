@@ -95,7 +95,7 @@ public class WechatController extends BaseController{
                              ModelMap model){
         try {
             if(StringUtils.isBlank(code)){
-                String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/login";
+                String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/member";
                 String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
                 response.sendRedirect(OAUTH_URL);
             }
@@ -104,7 +104,9 @@ public class WechatController extends BaseController{
 
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
-            model.put("wxMpUser",wxMpUser);
+            model.put("headImgUrl",wxMpUser.getHeadImgUrl());
+            model.put("nickname",wxMpUser.getNickname());
+            model.put("openId",wxMpUser.getOpenId());
         }catch (Exception e){
             logger.error(e);
         }
