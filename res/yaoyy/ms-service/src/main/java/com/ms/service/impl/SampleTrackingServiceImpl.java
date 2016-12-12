@@ -14,7 +14,11 @@ import com.ms.dao.model.SendSample;
 import com.ms.dao.model.TrackingDetail;
 import com.ms.dao.vo.SampleTrackingVo;
 import com.ms.service.SampleTrackingService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgConsumeEvent;
+import com.ms.service.observer.MsgProducerEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +38,9 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 
 	@Autowired
 	private TrackingDetailDao tackingDetailDao;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 
 
@@ -69,9 +76,16 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 			sendSample.setId(sampleTracking.getSendId());
 			if(recordType.intValue()==TrackingEnum.TRACKING_AGREE.getValue()){
 				sendSample.setStatus(SampleEnum.SAMPLE_AGREE.getValue());
+				/**
+				 * 消费掉消息
+				 */
+				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(sendSample.getId(),MessageEnum.SAMPLE);
+				applicationContext.publishEvent(msgConsumeEvent);
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_REFUSE.getValue()){
 				sendSample.setStatus(SampleEnum.SAMPLE_REFUSE.getValue());
+				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(sendSample.getId(),MessageEnum.SAMPLE);
+				applicationContext.publishEvent(msgConsumeEvent);
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_SEND.getValue()){
 				trackingDetail.setType(TrackingDetailEnum.TYPE_SEND.getValue());
