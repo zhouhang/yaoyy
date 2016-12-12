@@ -4,7 +4,6 @@
     <resultMap id="MessageResultMap" type="com.ms.dao.model.Message">
             <id column="id"  property="id" />
             <result column="user_id"  property="userId" />
-            <result column="url"  property="url" />
             <result column="content"  property="content" />
             <result column="type"  property="type" />
             <result column="status"  property="status" />
@@ -17,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,url,content,type,status,event_id,create_time
+        id,user_id,content,type,status,event_id,create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="MessageResultMap">
@@ -55,9 +54,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Message">
         insert into
-        message (user_id,url,content,type,status,event_id,create_time)
+        message (user_id,content,type,status,event_id,create_time)
         values
-        (#{userId},#{url},#{content},#{type},#{status},#{eventId},#{createTime})
+        (#{userId},#{content},#{type},#{status},#{eventId},#{createTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Message">
@@ -66,10 +65,6 @@
                                                         
             <if test="userId != null">
                 user_id = #{userId},
-            </if>
-                                            
-            <if test="url != null">
-                url = #{url},
             </if>
                                             
             <if test="content != null">

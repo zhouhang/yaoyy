@@ -23,7 +23,7 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 
 	@Override
 	public PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+    	PageHelper.startPage(pageNum, pageSize);
     	List<MessageVo>  list = messageDao.findByParams(messageVo);
         PageInfo page = new PageInfo(list);
         return page;

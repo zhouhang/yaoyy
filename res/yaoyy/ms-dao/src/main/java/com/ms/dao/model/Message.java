@@ -13,9 +13,6 @@ public class Message  implements Serializable {
 	//产生消息的用户id
 	private Integer userId;
 	
-	//跳转页面
-	private String url;
-	
 	private String content;
 	
 	//类型
@@ -45,14 +42,6 @@ public class Message  implements Serializable {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-	
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 	
 	public String getContent() {
