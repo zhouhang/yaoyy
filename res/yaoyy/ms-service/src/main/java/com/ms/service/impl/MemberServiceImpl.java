@@ -131,4 +131,9 @@ public class MemberServiceImpl extends AbsCommonService<Member> implements Membe
             throw new RuntimeException("密码错误");
         }
     }
+
+    @Override
+    public List<Member> findOpenIdNotNull() {
+        return memberDao.findAllUser();
+    }
 }

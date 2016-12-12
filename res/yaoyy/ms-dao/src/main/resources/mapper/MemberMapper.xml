@@ -136,5 +136,11 @@
         where username = #{username}
     </select>
 
+    <select id="findAllUser" resultMap="MemberResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member where openid is not null
+    </select>
+
 
 </mapper>

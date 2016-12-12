@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Member;
 import com.ms.dao.vo.MemberVo;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,5 +30,7 @@ public interface MemberService extends ICommonService<Member>{
     void deleteMember(int memberId);
 
     void changePassword(Member member, String oldPassword, String newPassword);
+
+    List<Member> findOpenIdNotNull();
 
 }
