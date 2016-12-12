@@ -41,11 +41,7 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 	@Override
 	@Transactional
 	public void consumeMsg(Integer eventId, MessageEnum type) {
-		Message message = new Message();
-		message.setEventId(eventId);
-		message.setStatus(1);
-		message.setType(type.get());
-		update(message);
+		messageDao.consumeMsg(eventId, type.get());
 	}
 
 	@Override
