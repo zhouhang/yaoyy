@@ -90,6 +90,11 @@
         </set>
         where id = #{id}
     </update>
+
+    <update id="consumeMsg" parameterType="java.lang.Integer">
+        update message set status = 1 where event_id = #{eventId} and type = #{type}
+    </update>
+
     <select id="count"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select count(id)
         from message WHERE  status = 0 and type = #{type}
