@@ -15,4 +15,16 @@ public enum  MessageEnum {
     public Integer get() {
         return value;
     }
+
+    public static String getUrl(Integer type) {
+        String url = "";
+        switch (type){
+            case 0: url = "/pick/detail/";
+                break;
+            case 1: url = "/sample/detail/";
+                break;
+            default: break;
+        }
+        return url;
+    }
 }

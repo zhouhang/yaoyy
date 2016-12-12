@@ -1,5 +1,6 @@
 package com.ms.boss.controller;
 
+import com.ms.boss.properties.BossSystemProperties;
 import com.ms.dao.vo.MessageVo;
 import com.ms.service.MessageService;
 import com.ms.service.enums.MessageEnum;
@@ -24,6 +25,9 @@ public class MessageController extends BaseController{
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private BossSystemProperties bossSystemProperties;
+
     /**
      * 用户未处理消息
      * @return
@@ -32,6 +36,9 @@ public class MessageController extends BaseController{
     @ResponseBody
     public Result message() {
         List<MessageVo> list = messageService.findUnReadMsg();
+        list.forEach(message -> {
+            message.setUrl(bossSystemProperties.getBaseUrl() + MessageEnum.getUrl(message.getType()) + message.getEventId());
+        });
         Map<String,Object> map = new HashMap<>();
         map.put("count", list.size());
         map.put("list",list);
@@ -39,7 +46,7 @@ public class MessageController extends BaseController{
     }
 
     /**
-     * 选货单消息数量
+     * 选货单寄样单消息数量
      * @return
      */
     @RequestMapping(value = "/count")
