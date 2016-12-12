@@ -82,7 +82,7 @@ ADD COLUMN `price_update_time` DATETIME NULL COMMENT '价格更新时间' AFTER 
 
 
 ALTER TABLE `commodity`
-ADD COLUMN `supplier_id`  int(11) NOT NULL COMMENT '供应商id' AFTER `thumbnail_url`;
+ADD COLUMN `supplier_id`  int(11) COMMENT '供应商id' AFTER `thumbnail_url`;
 
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('28', '供应商列表', 'button', '', '32', 'supplier:list', '2016-12-09 17:29:07');
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('29', '供应商详情', 'button', '', '32', 'supplier:edit', '2016-12-09 17:29:55');
