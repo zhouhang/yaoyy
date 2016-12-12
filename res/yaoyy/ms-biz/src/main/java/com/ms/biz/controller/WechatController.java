@@ -1,5 +1,6 @@
 package com.ms.biz.controller;
 
+import com.ms.biz.properties.BizSystemProperties;
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.model.User;
 import com.ms.service.UserService;
@@ -7,6 +8,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.WebUtil;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
@@ -49,7 +51,8 @@ public class WechatController extends BaseController{
     private WxMpService wxService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private BizSystemProperties systemProperties;
     @Autowired
     private HttpSession httpSession;
 
@@ -79,6 +82,35 @@ public class WechatController extends BaseController{
         WebUtil.print(response,"非法请求");
 
     }
+
+
+    /**
+     * 绑定微信到后台管理员
+     * @param code
+     * @return
+     */
+    @RequestMapping("member")
+    public String memberBind(String code,
+                             HttpServletResponse response,
+                             ModelMap model){
+        try {
+            if(StringUtils.isBlank(code)){
+                String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/login";
+                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+                response.sendRedirect(OAUTH_URL);
+            }
+
+
+
+            WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
+            WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+            model.put("wxMpUser",wxMpUser);
+        }catch (Exception e){
+            logger.error(e);
+        }
+        return "wechat_member";
+    }
+
 
 
 
