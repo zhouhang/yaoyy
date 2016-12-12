@@ -49,7 +49,7 @@
 
         </div>
         </#if>
-    <!--${(quotationVo.description)!}-->
+    ${(quotationVo.description)!}
     </div>
 </section><!-- /ui-content -->
 
