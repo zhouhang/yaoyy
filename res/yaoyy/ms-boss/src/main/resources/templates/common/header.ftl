@@ -6,7 +6,7 @@
         <ul>
             <li>
                 <div class="">
-                    <a id="msg_count" href="#"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a>
+                    <a id="msg_count" href="javascript:;"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a>
                 </div>
                 <div id="msg_list" class="dropdown">
                 </div>
