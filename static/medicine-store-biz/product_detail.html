@@ -68,7 +68,7 @@
                 <i>&yen;</i>
                 <em>140</em>
                 <b>元/公斤</b>
-                <span>量大价优</span>
+                <!-- <span>量大价优</span> -->
 
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
@@ -76,8 +76,20 @@
                     <button type="button" class="fa fa-plus op"></button>
                     <b>公斤</b>
                 </div>
+
+                <div class="tel">
+                    <i class="fa fa-tel"></i>
+                </div>
             </div>
-            <div class="sales">
+
+            <div class="attention">
+                <a href="javascript:;"><i class="fa fa-heart"></i>关注该商品报价</a>
+            </div>
+            <div class="his">
+                <a href="price_his.html">查看历史价格</a>
+                <span>价格更新时间：2016-10-27</span>
+            </div>
+            <!-- <div class="sales">
                 <dl>
                     <dt>1-499公斤</dt>
                     <dd>140元/公斤</dd>
@@ -91,7 +103,7 @@
                     <dd>100元/公斤</dd>
                 </dl>
                 <p>价格更新时间 2016年10月27日</p>
-            </div>
+            </div> -->
         </div>
 
         <div class="pdetail">
@@ -163,16 +175,21 @@
 
 	
     <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
 
     var _global = {
+        v: {
+            tel: ['18801285391', '027-1326541']
+        },
         fn: {
             init: function() {
                 this.slide();
                 this.tab();
                 this.quantity();
                 this.addCommodity();
+                this.attention();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -256,6 +273,21 @@
                     }
                     num = this.value;
                 }).val(min);
+
+                // 联系我们
+                var tel = [];
+                $.each(_global.v.tel, function(i, val) {
+                    tel.push('<dd><a href="tel:' , val , '">' , val , '</a></dd>');
+                })
+                tel.push('</dl>');
+                tel.unshift('<dl><dt>拨打电话：</dt>');
+                $quantity.next().on('click', '.fa-tel', function() {
+                    layer.open({
+                        // shade: false,
+                        className: 'layer-tel',
+                        content: tel.join('')
+                    });
+                })
             },
             addCommodity:function(){
                 var self = this;
@@ -288,8 +320,34 @@
                         this.destroy();
                     }
                 });
-            }
+            },
+            // 关注商品价格
+            attention: function() {
+                var id = 1021;
+                var timer = 0;
+                $('.attention').on('click', 'a', function() {
+                    var faved = true;
+                    if (this.className) {
+                        this.className = '';
+                        this.innerHTML = '<i class="fa fa-heart"></i>关注该商品报价';
+                        faved = false;
+                    } else {
+                        this.className = 'faved';
+                        this.innerHTML = '<i class="fa fa-heart"></i>已关注';
+                        faved = true;
+                    }
+                    clearTimeout(timer);
+                    timer = setTimeout(function() {
+                        $.ajax({
+                            url: '',
+                            data: {faved: faved, pid: id},
+                            success: function() {
 
+                            }
+                        })
+                    }, 300);
+                })
+            }
         }
     }
 

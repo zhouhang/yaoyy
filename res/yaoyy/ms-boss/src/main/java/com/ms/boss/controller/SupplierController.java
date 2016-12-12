@@ -1,10 +1,8 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.Supplier;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.SupplierVo;
-import com.ms.service.CategoryService;
 import com.ms.service.CommodityService;
 import com.ms.service.SupplierService;
 import com.ms.tools.entity.Result;
@@ -29,11 +27,19 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
-    @Autowired
-    private CategoryService categoryService;
+
 
     @Autowired
     private CommodityService commodityService;
+
+    /**
+     * 供应商list
+     * @param supplierVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String supplierList(SupplierVo supplierVo, Integer pageNum,
@@ -46,11 +52,29 @@ public class SupplierController {
         return "supplier_list";
     }
 
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "create", method = RequestMethod.GET)
+    public String createSupplier(){
+        return  "supplier_detail";
+    }
+
+
+
+
+    /**
+     * 供应商详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
-        supplierVo.setEnterCategoryList(categoryService.findByIds(supplierVo.getEnterCategory()));
+
 
         List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
 
@@ -60,6 +84,12 @@ public class SupplierController {
 
         return "supplier_detail";
     }
+
+    /**
+     * 保存供应商
+     * @param supplierVo
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public Result saveSupplier(SupplierVo supplierVo){
@@ -67,7 +97,16 @@ public class SupplierController {
         return Result.success("保存成功");
     }
 
-
+    /**
+     * 根据姓名查询供应商
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    @ResponseBody
+    public Result search(String name){
+        return Result.success("供应商列表").data(supplierService.search(name));
+    }
 
 
 }

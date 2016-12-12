@@ -48,7 +48,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
-    public Result list(CategoryVo categoryVo, Integer pageNum, Integer pageSize, ModelMap model) {
+    public Result list(CategoryVo categoryVo, Integer pageNum, Integer pageSize) {
         //不显示一级父类
         categoryVo.setLevel(CategoryEnum.LEVEL_BREED.getValue());
         categoryVo.setStatus(1);

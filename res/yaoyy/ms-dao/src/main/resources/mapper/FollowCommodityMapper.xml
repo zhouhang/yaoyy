@@ -10,17 +10,18 @@
         
     </resultMap>
 
-    <resultMap id="FollowCommodityResultMapVo" type="com.ms.dao.vo.FollowCommodityVo">
-            <id column="id"  property="id" />
-            <result column="commodity_id"  property="commodityId" />
-            <result column="price"  property="price" />
-            <result column="user_id"  property="userId" />
-            <result column="create_time"  property="createTime" />
+    <resultMap id="FollowCommodityResultMapVo" type="com.ms.dao.vo.FollowCommodityVo" extends="FollowCommodityResultMap">
+            <result column="currentPrice"  property="currentPrice" />
+            <result column="title"  property="title" />
+            <result column="name"  property="name" />
         
     </resultMap>
 
     <sql id="Base_Column_List">
         id,commodity_id,price,user_id,create_time
+    </sql>
+    <sql id="Base_Column_List_Alisa">
+        fc.id as id,fc.commodity_id as commodity_id,fc.price as price,fc.user_id as user_id,fc.create_time as create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="FollowCommodityResultMap">
@@ -38,18 +39,43 @@
 
     <select id="findByParams" resultMap="FollowCommodityResultMapVo" parameterType="com.ms.dao.vo.FollowCommodityVo">
         select
-        <include refid="Base_Column_List" />
-        from follow_commodity
+        <include refid="Base_Column_List_Alisa" />,
+        co.title as title,co.name as name,co.price as currentPrice
+        from follow_commodity fc
+        inner join commodity co on fc.commodity_id = co.id
         <where>
             <if test="id != null">
-                id = #{id}
+                fc.id = #{id}
+            </if>
+            <if test="userId != null">
+                and fc.user_id = #{userId}
             </if>
         </where>
+    </select>
+
+    <select id="count"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id)
+        from follow_commodity WHERE  user_id = #{userId}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from follow_commodity
         where id = #{id}
+    </delete>
+
+    <delete id="unwatch" parameterType="java.lang.Integer">
+        delete from follow_commodity
+        <where>
+            <if test="followId != null">
+                id = #{followId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="commodityId != null">
+                and commodity_id = #{commodityId}
+            </if>
+        </where>
     </delete>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.FollowCommodity">

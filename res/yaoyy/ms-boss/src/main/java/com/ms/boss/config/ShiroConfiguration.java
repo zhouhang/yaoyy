@@ -109,6 +109,8 @@ public class ShiroConfiguration {
                 "/tracking/**=bossAuthorization;" +
                 "/sample/**=bossAuthorization;" +
                 "/special/**=bossAuthorization;" +
+                "/supplier/**=bossAuthorization;" +
+                "/quotation/**=bossAuthorization;" +
                 "/user/**=bossAuthorization;" +
                 "/commodity/**=bossAuthorization;");
         return shiroFilterFactoryBean;

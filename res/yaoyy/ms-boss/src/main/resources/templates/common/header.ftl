@@ -5,13 +5,22 @@
     <div class="menu">
         <ul>
             <li>
+                <div class="">
+                    <a id="msg_count" href="#"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a>
+                </div>
+                <div id="msg_list" class="dropdown">
+                </div>
+            </li>
+            <li>
                 <a href="javascript:;" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
             </li>
-            <li class="dropdown user user-menu">
-                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user"></i>
-                    <span class="hidden-xs">${(member_session_boss.username)!}</span>
-                </a>
+            <li>
+                <div class="">
+                    <a href="javascript:;"> <i class="fa fa-user"></i><span class="hidden-xs">${(member_session_boss.username)!}</span></a>
+                </div>
+                <div class="dropdown">
+                    <a href="javascript:;" id="jmodifyPwd">修改密码</a>
+                </div>
             </li>
             <li>
                 <a href="/logout">
@@ -21,4 +30,19 @@
             </li>
         </ul>
     </div>
+    <script>
+        $(function() {
+            $.post("/msg/list", function (result) {
+                if (result.status == 200) {
+                    var data = result.data;
+                    var html = "";
+                    $.each(data.list,function(k,v){
+                        html += '<a href="'+ v.url+'">'+v.content+'</a>';
+                    })
+                    $("#msg_list").html(html);
+                    $("#msg_count").find("sup").html(data.count).css(data.count == 0?"none":"inline-block");
+                }
+            })
+        })
+    </script>
 </div>

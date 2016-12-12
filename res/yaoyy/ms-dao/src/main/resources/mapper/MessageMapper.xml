@@ -4,29 +4,19 @@
     <resultMap id="MessageResultMap" type="com.ms.dao.model.Message">
             <id column="id"  property="id" />
             <result column="user_id"  property="userId" />
-            <result column="url"  property="url" />
             <result column="content"  property="content" />
             <result column="type"  property="type" />
             <result column="status"  property="status" />
             <result column="event_id"  property="eventId" />
             <result column="create_time"  property="createTime" />
-        
     </resultMap>
 
-    <resultMap id="MessageResultMapVo" type="com.ms.dao.vo.MessageVo">
-            <id column="id"  property="id" />
-            <result column="user_id"  property="userId" />
-            <result column="url"  property="url" />
-            <result column="content"  property="content" />
-            <result column="type"  property="type" />
-            <result column="status"  property="status" />
-            <result column="event_id"  property="eventId" />
-            <result column="create_time"  property="createTime" />
-        
+    <resultMap id="MessageResultMapVo" type="com.ms.dao.vo.MessageVo" extends="MessageResultMap">
+
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,url,content,type,status,event_id,create_time
+        id,user_id,content,type,status,event_id,create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="MessageResultMap">
@@ -50,7 +40,11 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
         </where>
+        ORDER BY create_time DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -60,9 +54,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Message">
         insert into
-        message (user_id,url,content,type,status,event_id,create_time)
+        message (user_id,content,type,status,event_id,create_time)
         values
-        (#{userId},#{url},#{content},#{type},#{status},#{eventId},#{createTime})
+        (#{userId},#{content},#{type},#{status},#{eventId},#{createTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Message">
@@ -71,10 +65,6 @@
                                                         
             <if test="userId != null">
                 user_id = #{userId},
-            </if>
-                                            
-            <if test="url != null">
-                url = #{url},
             </if>
                                             
             <if test="content != null">
@@ -100,4 +90,14 @@
         </set>
         where id = #{id}
     </update>
+
+    <update id="consumeMsg" parameterType="java.lang.Integer">
+        update message set status = 1 where event_id = #{eventId} and type = #{type}
+    </update>
+
+    <select id="count"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id)
+        from message WHERE  status = 0 and type = #{type}
+    </select>
+
 </mapper>

@@ -62,6 +62,9 @@ public class Commodity  implements Serializable {
 	private Date updateTime;
 
 	private Integer supplierId;
+
+	// 价格更新时间
+	private Date priceUpdateTime;
 	
 	public Commodity(){}
 
@@ -232,5 +235,14 @@ public class Commodity  implements Serializable {
 
 	public void setThumbnailUrl(String thumbnailUrl) {
 		this.thumbnailUrl = thumbnailUrl;
+	}
+
+	public Date getPriceUpdateTime() {
+		if (priceUpdateTime == null) priceUpdateTime = updateTime;
+		return priceUpdateTime;
+	}
+
+	public void setPriceUpdateTime(Date priceUpdateTime) {
+		this.priceUpdateTime = priceUpdateTime;
 	}
 }

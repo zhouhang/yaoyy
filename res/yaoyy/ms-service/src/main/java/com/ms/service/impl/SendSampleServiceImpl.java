@@ -15,12 +15,15 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.CommodityService;
 import com.ms.service.HistoryCommodityService;
 import com.ms.service.SendSampleService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgProducerEvent;
 import com.ms.service.properties.SystemProperties;
 import com.ms.service.sms.SmsUtil;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.ejb.access.EjbAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +59,9 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 
 	@Autowired
 	private SmsUtil smsUtil;
+
+	@Autowired
+	private  ApplicationContext applicationContext;
 
 
 
@@ -211,6 +217,15 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		sampleTracking.setSendId(sendSample.getId());
 		sampleTracking.setRecordType(TrackingEnum.TRACKING_APPLY.getValue());
 		sampleTrackingDao.create(sampleTracking);
+
+		/**
+		 * 存消息
+		 *
+		 */
+		String content=sendSample.getNickname()+"寄样申请";
+		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE,content);
+		applicationContext.publishEvent(msgProducerEvent);
+
 
 
 	}

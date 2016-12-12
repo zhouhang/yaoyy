@@ -72,7 +72,7 @@ public class HomeController extends BaseController{
         try {
             subject.login(token);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info(username +"登入失败",e.getCause());
             return Result.error().msg("用户名密码错误!");
         }
 

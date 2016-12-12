@@ -9,8 +9,11 @@ import com.ms.dao.vo.*;
 import com.ms.service.CommodityService;
 import com.ms.service.PickCommodityService;
 import com.ms.service.PickService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +45,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	private CommodityService commodityService;
 
 	private CodeDao codeDao;
+
+	@Autowired
+	private  ApplicationContext applicationContext;
 
 
 
@@ -172,6 +178,14 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickTracking.setPickId(pick.getId());
 		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_APPLY.getValue());
 		pickTrackingDao.create(pickTracking);
+
+		/**
+		 * 存消息
+		 *
+		 */
+		String content=pick.getNickname()+"提交选货单";
+		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK,content);
+		applicationContext.publishEvent(msgProducerEvent);
 
 
 

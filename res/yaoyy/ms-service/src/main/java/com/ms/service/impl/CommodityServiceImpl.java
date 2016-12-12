@@ -2,11 +2,14 @@ package com.ms.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ms.dao.HistoryPriceDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CommodityDao;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.Gradient;
+import com.ms.dao.model.HistoryPrice;
 import com.ms.dao.vo.CommodityVo;
+import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.CommoditySearchService;
 import com.ms.service.CommodityService;
 import com.ms.service.GradientService;
@@ -32,6 +35,9 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Autowired
     private PathConvert pathConvert;
+
+    @Autowired
+    private HistoryPriceDao historyPriceDao;
 
     //@Autowired
     //private CommoditySearchService commoditySearchService;
@@ -81,15 +87,23 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Override
     @Transactional
-    public void save(CommodityVo commodity) {
+    public void save(CommodityVo commodity,Integer memId) {
 
         commodity.setPictureUrl(pathConvert.saveFileFromTemp(commodity.getPictureUrl(),folderName));
         if (commodity.getId() == null) {
             commodity.setCreateTime(new Date());
             commodity.setUpdateTime(new Date());
+            commodity.setPriceUpdateTime(new Date());
             commodityDao.create(commodity);
+            HistoryPriceVo historyPrice=new HistoryPriceVo();
+            historyPrice.setCommodityId(commodity.getId());
+            historyPrice.setCreateId(memId);
+            historyPrice.setPrice(commodity.getPrice());
+            historyPrice.setCreateTime(new Date());
+            historyPriceDao.create(historyPrice);
         } else {
             commodity.setUpdateTime(new Date());
+            updatePrice(commodity,memId);
             commodityDao.update(commodity);
         }
 
@@ -164,6 +178,38 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     public List<CommodityVo> findBySupplier(Integer supplierId) {
         return commodityDao.findBySupplier(supplierId);
     }
+
+    @Override
+    @Transactional
+    public void updatePrice(Integer memId, CommodityVo commodityVo) {
+        commodityVo.setUpdateTime(new Date());
+        updatePrice(commodityVo,memId);
+        commodityDao.update(commodityVo);
+    }
+
+    /**
+     * 更新历史价格
+     * @param vo
+     * @param memId
+     */
+    private void updatePrice(CommodityVo vo, Integer memId){
+        Commodity oldCommodity= commodityDao.findById(vo.getId());
+        if (oldCommodity==null){
+            throw new RuntimeException("商品不存在");
+        }
+        // 比较当前价格和之前价格是否有变动
+        if (!(vo.getPrice() == oldCommodity.getPrice())){
+            // 以前的价格存为历史价格
+            HistoryPriceVo historyPrice=new HistoryPriceVo();
+            historyPrice.setCommodityId(oldCommodity.getId());
+            historyPrice.setCreateId(memId);
+            historyPrice.setPrice(oldCommodity.getPrice());
+            historyPrice.setCreateTime(new Date());
+            vo.setPriceUpdateTime(new Date());
+            historyPriceDao.create(historyPrice);
+        }
+    }
+
 
 
     @Override

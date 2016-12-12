@@ -29,7 +29,7 @@
             <div class="item">
                 <div class="txt"><i>*</i>专场图片：</div>
                 <div class="cnt cnt-mul">
-                    <div class="up-img x3">
+                    <div class="thumb up-img x3">
                         <#if special.pictuerUrl??>
                             <img src="${special.pictuerUrl?default('')}" /><i class="del"></i>
                         </#if>
@@ -118,12 +118,6 @@
                         $('#pictuerUrl').val('');
                         layer.close(index);
                     });
-                    return false;
-                })
-
-                // 点击图片看大图
-                $upImg.on('click', 'img', function() {
-                    _showImg(this.src);
                     return false;
                 })
 

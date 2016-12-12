@@ -24,7 +24,7 @@
                 <li>
                     <a href="/pickCommodity/list">
                         <i class="fa fa-cart"></i>
-                        <span>选货单</span>
+                        <span>采购单</span>
                         <b id="cartNum"></b>
                     </a>
                 </li>
@@ -70,7 +70,24 @@
                     <button type="button" class="fa fa-plus op"></button>
                     <b>${commodityVo.unitName!}</b>
                 </div>
+
+                <div class="tel">
+                    <i class="fa fa-tel"></i>
+                </div>
             </div>
+
+            <div class="attention">
+            <#if commodityVo.watch>
+                <a href="javascript:;" class="faved"><i class="fa fa-heart"></i>已关注</a>
+            <#else >
+                <a href="javascript:;"><i class="fa fa-heart"></i>关注该商品报价</a>
+            </#if>
+            </div>
+            <div class="his">
+                <a href="/commodity/price/${commodityVo.id}">查看历史价格</a>
+                <span>价格更新时间：${commodityVo.priceUpdateTime?date}</span>
+            </div>
+
             <div class="sales">
                 <#list commodityVo.gradient as gradient>
                 <dl>
@@ -105,9 +122,13 @@
 
 
     <#include "./common/footer.ftl"/>
+    <script src="/assets/js/layer.js"></script>
     <script>
 
     var _global = {
+        v: {
+            tel: ['18801285391', '027-1326541']
+        },
         fn: {
             init: function() {
                 this.slide();
@@ -115,6 +136,7 @@
                 this.quantity();
                 this.initAttr();
                 this.addCommodity();
+                this.attention();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -198,6 +220,21 @@
                     }
                     num = this.value;
                 }).val(min);
+
+                // 联系我们
+                var tel = [];
+                $.each(_global.v.tel, function(i, val) {
+                    tel.push('<dd><a href="tel:' , val , '">' , val , '</a></dd>');
+                })
+                tel.push('</dl>');
+                tel.unshift('<dl><dt>拨打电话：</dt>');
+                $quantity.next().on('click', '.fa-tel', function() {
+                    layer.open({
+                        // shade: false,
+                        className: 'layer-tel',
+                        content: tel.join('')
+                    });
+                })
             },
             initAttr: function () {
                 var html = ['<table><tbody>'];
@@ -247,6 +284,41 @@
                         this.destroy();
                     }
                 });
+            },
+            // 关注商品价格
+            attention: function() {
+                var timer = 0;
+                var url;
+                $('.attention').on('click', 'a', function () {
+                    // 用户未登入点关注按钮直接跳转到登入界面
+                <#if login>
+                    var faved = true;
+                    if (this.className) {
+                        this.className = '';
+                        this.innerHTML = '<i class="fa fa-heart"></i>关注该商品报价';
+                        faved = false;
+                        url = "/follow/unwatch";
+                    } else {
+                        this.className = 'faved';
+                        this.innerHTML = '<i class="fa fa-heart"></i>已关注';
+                        faved = true;
+                        url = "/follow/watch";
+                    }
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {commodityId: ${commodityVo.id}},
+                            success: function (result) {
+                                //关注成功
+                            }
+                        })
+                    }, 300);
+                <#else >
+                    window.location.href = "/user/login";
+                </#if>
+                })
             }
 
         }

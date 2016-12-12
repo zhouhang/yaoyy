@@ -126,4 +126,36 @@
         </dd>
     </dl>
     </@shiro.hasPermission>
+   <@shiro.hasPermission name="supplier:index">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-users"></i>
+                <span>供应商管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+            <@shiro.hasPermission name="supplier:list">
+            <a href="/supplier/list"><i class="fa fa-circle-o"></i>供应商列表</a>
+            </@shiro.hasPermission>
+        </dd>
+    </dl>
+    </@shiro.hasPermission>
+   <@shiro.hasPermission name="quotation:index">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-flag"></i>
+                <span>资讯管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+           <@shiro.hasPermission name="quotation:list">
+            <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
+           </@shiro.hasPermission>
+        </dd>
+    </dl>
+   </@shiro.hasPermission>
 </div>
