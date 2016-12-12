@@ -1,5 +1,6 @@
 package com.ms.boss.controller;
 
+import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossToken;
 import com.ms.dao.model.Member;
 import com.ms.service.MemberService;
@@ -13,6 +14,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +35,9 @@ public class HomeController extends BaseController{
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    BossSystemProperties bossSystemProperties;
 
     @RequestMapping(value = "/")
     public String index(HttpServletRequest request,
@@ -99,7 +104,8 @@ public class HomeController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index() {
+    public String index(ModelMap model) {
+        model.put("bizUrl", bossSystemProperties.getBizBaseUrl());
         return "index";
     }
 }

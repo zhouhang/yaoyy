@@ -280,7 +280,7 @@
             // 查询品种
             searchBreeds: function() {
                 var self = this;
-                vals = [],
+                vals = [${(supplierVo.enterCategory)!}],
                         timer = 0,
                         $breeds = $('#breeds'),
                         $breedsId = $('#breedsId'),
