@@ -51,6 +51,7 @@
                 and fc.user_id = #{userId}
             </if>
         </where>
+        ORDER BY co.category_id, fc.create_time DESC
     </select>
 
     <select id="count"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
