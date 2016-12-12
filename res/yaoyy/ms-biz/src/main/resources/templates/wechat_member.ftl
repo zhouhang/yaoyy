@@ -17,19 +17,24 @@
         绑定微信后可以通过微信实时接收系统消息！绑定失败请咨询qq:327075297
     </div>
     <div class="ui-form">
-        <form action="">
+        <form id="bindForm"action="">
             <input type="hidden" name="openId" value="${openId!}">
+            <input type="hidden" name="memberId" value="${memberId!}">
             <div class="weinxin">
                 <span>微信号：</span>
                 <img src="${headImgUrl!}" width="30" height="30" alt="">
                 <em>${nickname!}</em>
             </div>
-            <div class="item">
-                <input type="text" class="ipt" name="username" id="username" placeholder="BOSS系统用户名" autocomplete="off">
-                <span class="error"></span>
+            <div class="weinxin">
+                <span>微信号：</span>
+                <em>${nickname!}</em>
+            </div>
+            <div class="weinxin">
+                <span>姓&#12288;名：</span>
+                <em>${memberName!}</em>
             </div>
             <div class="item">
-                <button type="submit" class="ubtn ubtn-primary" id="submit">绑定</button>
+                <button type="button" class="ubtn ubtn-primary" id="submit">绑定</button>
             </div>
         </form>
     </div>
@@ -40,28 +45,27 @@
     var _global = {
         fn: {
             init: function() {
-                this.validator();
+                this.formInit();
             },
-            validator: function() {
-                var self = this;
-                $('#submit').on('click', function() {
-                    return self.username();
-                })
-
-                self.SMSCodeEvent();
-            },
-            username: function() {
-                var $el = $('#username'),
-                        val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入系统用户名！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
-                }
-                return false;
+            formInit: function() {
+              $("#submit").click(function(){
+                  $.ajax({
+                      url: "/wechat/memberBind",
+                      type:'POST',
+                      dataType: 'json',
+                      data: $("#bindForm").serialize(),
+                      success: function(data) {
+                          if (data.status == '200') {
+                              location.href="/wechat/bindsuccess?memberId="+data.data;
+                          } else {
+                              popover(data.msg);
+                          }
+                      },
+                      error: function(XMLHttpRequest, textStatus, errorThrown) {
+                          popover('网络连接超时，请您稍后重试!');
+                      }
+                  })
+              })
             }
         }
     }

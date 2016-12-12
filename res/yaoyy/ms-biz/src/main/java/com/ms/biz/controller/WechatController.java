@@ -2,7 +2,9 @@ package com.ms.biz.controller;
 
 import com.ms.biz.properties.BizSystemProperties;
 import com.ms.biz.shiro.BizToken;
+import com.ms.dao.model.Member;
 import com.ms.dao.model.User;
+import com.ms.service.MemberService;
 import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
@@ -23,6 +25,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.subject.WebSubject;
+import org.elasticsearch.common.collect.HppcMaps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +58,9 @@ public class WechatController extends BaseController{
     private BizSystemProperties systemProperties;
     @Autowired
     private HttpSession httpSession;
+
+    @Autowired
+    private MemberService memberService;
 
 
     /**
@@ -91,27 +97,54 @@ public class WechatController extends BaseController{
      */
     @RequestMapping("member")
     public String memberBind(String code,
+                             Integer memberId,
                              HttpServletResponse response,
                              ModelMap model){
         try {
-            if(StringUtils.isBlank(code)){
-                String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/member";
-                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+            if(code==null){
+                String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/member?memberId="+memberId.toString();
+                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO,"weixin_state");
                 response.sendRedirect(OAUTH_URL);
             }
 
 
-
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+            Member member=memberService.findById(memberId);
             model.put("headImgUrl",wxMpUser.getHeadImgUrl());
             model.put("nickname",wxMpUser.getNickname());
             model.put("openId",wxMpUser.getOpenId());
+            model.put("memberName",member.getName());
+            model.put("memberId",member.getId());
         }catch (Exception e){
             logger.error(e);
         }
         return "wechat_member";
     }
+
+    @RequestMapping("memberBind")
+    @ResponseBody
+    public Result bindPhone(HttpServletResponse response,
+                            HttpServletRequest request,
+                            String openId,
+                            Integer memberId
+                           ){
+
+        Member member=new Member();
+        member.setId(memberId);
+        member.setOpenid(openId);
+        memberService.update(member);
+        return Result.success("绑定成功").data(memberId);
+    }
+    @RequestMapping("bindsuccess")
+    public String bindsuccess(
+                             Integer memberId,
+                             ModelMap model){
+        Member member=memberService.findById(memberId);
+        model.put("memberName",member.getName());
+        return "bind_success";
+    }
+
 
 
 
