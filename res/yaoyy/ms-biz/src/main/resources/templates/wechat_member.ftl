@@ -6,7 +6,7 @@
 </head>
 <body class="ui-body-nofoot">
 <header class="ui-header">
-    <div class="title">药优优系统微信绑定</div>
+    <div class="title">药优优后台人员微信绑定</div>
     <div class="abs-l mid">
         <a href="javascript:history.back();" class="fa fa-back"></a>
     </div>
