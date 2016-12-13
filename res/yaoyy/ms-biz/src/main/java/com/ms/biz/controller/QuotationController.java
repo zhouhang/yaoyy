@@ -1,14 +1,18 @@
 package com.ms.biz.controller;
 
+import com.ms.dao.model.Quotation;
 import com.ms.dao.vo.QuotationVo;
 import com.ms.service.QuotationService;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by xiao on 2016/12/8.
@@ -30,7 +34,9 @@ public class QuotationController {
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String latestQuotation(ModelMap model){
         QuotationVo quotationVo=quotationService.getRecent();
+        List<QuotationVo> quotationVos=quotationService.recentList();
         model.put("quotationVo",quotationVo);
+        model.put("historyVos",quotationVos);
         return "quote";
     }
 
@@ -45,6 +51,16 @@ public class QuotationController {
         return Result.success().data(quotationVo);
 
     }
+
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public String quotationDetail(@PathVariable("id") Integer id, ModelMap model){
+        Quotation quotation=quotationService.findById(id);
+        List<QuotationVo> quotationVos=quotationService.recentList();
+        model.put("quotationVo",quotation);
+        model.put("historyVos",quotationVos);
+        return "quote";
+    }
+
 
 
 
