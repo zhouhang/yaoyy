@@ -34,7 +34,7 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 	public int create(Message message) {
 		message.setCreateTime(new Date());
 		message.setStatus(0);
-		message.setUserId(null);
+		message.setUserId(message.getUserId());
 		return super.create(message);
 	}
 

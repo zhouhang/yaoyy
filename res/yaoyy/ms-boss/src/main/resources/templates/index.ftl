@@ -98,15 +98,6 @@
                         height: 256,
                         text: $("#canvas").attr('url')
                     })
-                } else {
-                    $('.qrcode').each(function() {
-                        var url = $("#canvas").attr('url');
-                        $("#canvas").find('.canvas img').attr({
-                            'src': 'http://qr.liantu.com/api.php?text=' + url,
-                            'width': 124,
-                            'height': 124
-                        });
-                    })
                 }
             }
         }
