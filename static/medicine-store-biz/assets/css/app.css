@@ -116,6 +116,7 @@ em,i{font-style:normal;}
 .ui-footer .ui-nav span{display:block;margin-top:2px;}
 .ui-footer .ui-nav i{position:relative;}
 .ui-footer .ui-nav b{position:absolute;top:2px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.2rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
+.ui-footer .ui-nav .dot{min-width:10px;height:10px;margin-left:.7em;}
 .ui-footer .ui-nav .two li{width:50%;}
 .ui-footer .extra li{width:20%;}
 .ui-footer .extra li.wide{width:30%;}
