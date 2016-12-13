@@ -365,11 +365,9 @@
                         $.notify({
                             type: 'success',
                             title: '保存成功',
-                            text: '3秒后自动刷新页面',
                             delay: 3e3,
                             call: function() {
                                 setTimeout(function() {
-                                    window.location.reload();
                                 }, 3e3);
                             }
                         });
