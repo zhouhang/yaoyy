@@ -124,7 +124,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 	public void save(SendSampleVo sendSampleVo) {
 
 		//发送短信通知
-		sendSms(sendSampleVo);
+		//sendSms(sendSampleVo);
 
 		UserVo userVo=userDao.findByPhone(sendSampleVo.getPhone());
 		Integer nowLogin=sendSampleVo.getUserId();//现在登录的userid

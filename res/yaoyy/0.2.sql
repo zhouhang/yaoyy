@@ -97,5 +97,5 @@ INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permissio
 
 ALTER TABLE `member`
 ADD COLUMN `tel`  varchar(255) NULL COMMENT '座机号码' AFTER `email`,
-ADD COLUMN `openid`  varchar(255) NULL COMMENT '微信openid' AFTER `tel`
+ADD COLUMN `openid`  varchar(255) NULL COMMENT '微信openid' AFTER `tel`;
 
