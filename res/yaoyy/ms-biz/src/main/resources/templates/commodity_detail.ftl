@@ -325,7 +325,7 @@
                         })
                     }, 300);
                 <#else >
-                    window.location.href = "/user/login?url=/commodity/detail/${commodityVo.id}";
+                    window.location.href = "/follow/watch?commodityId=${commodityVo.id}";
                 </#if>
                 })
             }

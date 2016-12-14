@@ -48,6 +48,13 @@ public class FollowCommodityController {
         return Result.success("关注成功");
     }
 
+    @RequestMapping(value = "watch", method = RequestMethod.GET)
+    public String watchGet(Integer commodityId){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        followCommodityService.watch(commodityId, user.getId());
+        return "redirect:/commodity/detail/"+ commodityId;
+    }
+
     /**
      * 取消关注商品
      * @param id
