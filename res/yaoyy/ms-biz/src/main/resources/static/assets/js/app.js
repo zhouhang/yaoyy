@@ -329,6 +329,9 @@ function udpateQuotetime(time) {
             _YYY.localstorage.set(_YYY.QUOTETIME, time);
         }
 }
+/**
+ * 显示报价单红点
+ */
 function quoteShowRed(){
     var url = document.URL.split('#')[0].split('?')[0].toLowerCase();
     if(url.indexOf("/quotation/index")!=-1){
