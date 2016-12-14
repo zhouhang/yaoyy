@@ -4,8 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.HistoryPriceDao;
+import com.ms.dao.model.Commodity;
 import com.ms.dao.model.HistoryPrice;
 import com.ms.dao.vo.HistoryPriceVo;
+import com.ms.service.CommodityService;
 import com.ms.service.HistoryPriceService;
 import com.ms.tools.utils.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class HistoryPriceServiceImpl  extends AbsCommonService<HistoryPrice> imp
 
 	@Autowired
 	private HistoryPriceDao historyPriceDao;
+
+	@Autowired
+	private CommodityService commodityService;
 
 
 	@Override
@@ -48,6 +53,11 @@ public class HistoryPriceServiceImpl  extends AbsCommonService<HistoryPrice> imp
 			SimpleDateFormat sdf = new SimpleDateFormat("MM.dd HH:mm");
 			dateR.add(sdf.format(his.getCreateTime()));
 		});
+		// 获取商品当前价格
+		Commodity commodity = commodityService.findById(commodityId);
+		value.add(commodity.getPrice());
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd HH:mm");
+		dateR.add(sdf.format(commodity.getPriceUpdateTime()));
 		map.put("date", GsonUtil.toJson(dateR));
 		map.put("value", GsonUtil.toJson(value));
 		return map;

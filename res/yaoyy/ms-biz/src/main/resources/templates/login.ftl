@@ -17,7 +17,7 @@
         <div class="logo">药优优</div>
         <form action="/user/login" method="post">
             <div class="item">
-                <input type="tel" class="ipt" name="phone" id="phone" placeholder="手机号" autocomplete="off">
+                <input type="tel" class="ipt" name="phone" value="${phone!}" id="phone" placeholder="手机号" autocomplete="off">
                 <span class="error"></span>
             </div>
             <div class="item">

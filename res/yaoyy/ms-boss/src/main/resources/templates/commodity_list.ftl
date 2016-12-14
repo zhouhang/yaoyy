@@ -283,7 +283,7 @@
                     type: 1,
                     moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
-                    title: '编辑商品',
+                    title: '快速调价',
                     cancel: function() {
                         k.abort();
                     }

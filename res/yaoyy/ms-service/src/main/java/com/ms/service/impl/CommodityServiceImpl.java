@@ -6,12 +6,14 @@ import com.ms.dao.HistoryPriceDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CommodityDao;
 import com.ms.dao.model.Commodity;
+import com.ms.dao.model.FollowCommodity;
 import com.ms.dao.model.Gradient;
 import com.ms.dao.model.HistoryPrice;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.CommoditySearchService;
 import com.ms.service.CommodityService;
+import com.ms.service.FollowCommodityService;
 import com.ms.service.GradientService;
 import com.ms.tools.ClazzUtil;
 import com.ms.tools.upload.PathConvert;
@@ -38,6 +40,9 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Autowired
     private HistoryPriceDao historyPriceDao;
+
+    @Autowired
+    private FollowCommodityService followCommodityService;
 
     //@Autowired
     //private CommoditySearchService commoditySearchService;
@@ -201,6 +206,8 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             historyPrice.setCreateTime(new Date());
             vo.setPriceUpdateTime(new Date());
             historyPriceDao.create(historyPrice);
+            // 商品价格变动时修改用户关注的商品状态
+            followCommodityService.updateStatus(vo.getId());
         }
     }
 

@@ -1,11 +1,13 @@
 package com.ms.biz.controller;
 
+import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.model.User;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
 
 /**
  * Author: koabs
@@ -37,7 +41,23 @@ public class UserController extends BaseController{
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage() {
+    public String loginPage(String url, HttpServletRequest request) {
+        if (!Strings.isNullOrEmpty(url)) {
+            try {
+                // 用户不通过 Shiro 拦截到登入页面时通过url 传递参数来实现登入成功后跳转
+                SavedRequest savedRequest = new SavedRequest(request);
+                Field requestURI = savedRequest.getClass().getDeclaredField("requestURI");
+                requestURI.setAccessible(true);
+                requestURI.set(savedRequest, url);
+                Field queryString = savedRequest.getClass().getDeclaredField("queryString");
+                queryString.setAccessible(true);
+                queryString.set(savedRequest, null);
+                httpSession.setAttribute(WebUtils.SAVED_REQUEST_KEY, savedRequest);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return "login";
     }
 
@@ -76,6 +96,7 @@ public class UserController extends BaseController{
             userService.login(subject, token);
         } catch (Exception e) {
             model.put("error", e.getMessage());
+            model.put("phone",phone);
             return "login";
         }
 
@@ -112,6 +133,7 @@ public class UserController extends BaseController{
             userService.login(subject, token);
         } catch (Exception e) {
             model.put("error",e.getMessage());
+            model.put("phone",phone);
             return "register";
         }
         return "redirect:/";
@@ -132,6 +154,7 @@ public class UserController extends BaseController{
             token.setValidationCode(code);
             userService.login(subject, token);
         } catch (Exception e) {
+            model.put("phone",phone);
             model.put("error",e.getMessage());
             return "login_sms";
         }

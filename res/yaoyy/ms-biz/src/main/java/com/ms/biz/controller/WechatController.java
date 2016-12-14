@@ -100,6 +100,7 @@ public class WechatController extends BaseController{
                              Integer memberId,
                              HttpServletResponse response,
                              ModelMap model){
+        String modelName="wechat_member";
         try {
             if(code==null){
                 String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/member?memberId="+memberId.toString();
@@ -111,15 +112,22 @@ public class WechatController extends BaseController{
             WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
             WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
             Member member=memberService.findById(memberId);
-            model.put("headImgUrl",wxMpUser.getHeadImgUrl());
-            model.put("nickname",wxMpUser.getNickname());
-            model.put("openId",wxMpUser.getOpenId());
-            model.put("memberName",member.getName());
-            model.put("memberId",member.getId());
+            if(member.getOpenid()==null||member.getOpenid().equals("")){
+                model.put("headImgUrl",wxMpUser.getHeadImgUrl());
+                model.put("nickname",wxMpUser.getNickname());
+                model.put("openId",wxMpUser.getOpenId());
+                model.put("memberName",member.getName());
+                model.put("memberId",member.getId());
+            }
+            else{
+                model.put("memberName",member.getName());
+                modelName= "bind_success";
+            }
+
         }catch (Exception e){
             logger.error(e);
         }
-        return "wechat_member";
+        return modelName;
     }
 
     @RequestMapping("memberBind")

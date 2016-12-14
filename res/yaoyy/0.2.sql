@@ -99,6 +99,8 @@ ALTER TABLE `member`
 ADD COLUMN `tel`  varchar(255) NULL COMMENT '座机号码' AFTER `email`,
 ADD COLUMN `openid`  varchar(255) NULL COMMENT '微信openid' AFTER `tel`;
 
+ALTER TABLE `yaoyy`.`follow_commodity`
+ADD COLUMN `status` INT NULL DEFAULT 0 COMMENT '标识商品价格是否有改变，0无，1有' AFTER `create_time`;
 
 ALTER TABLE `commodity`
 ADD COLUMN `process`  varchar(255) NULL COMMENT '加工方式' AFTER `spec`,
