@@ -14,9 +14,9 @@
 <#include "./common/navigation.ftl">
 
 <section class="ui-content">
-    <div class="qoute">
-        <div class="title">${(quotationVo.title)!}</div>
         <#if quotationVo?exists>
+            <div class="qoute">
+            <div class="title">${(quotationVo.title)!}</div>
            <div class="item">
               <div class="desc"> ${(quotationVo.description)!}</div>
             </div>
@@ -57,6 +57,7 @@
                     </#list>
                 </ul>
             </div>
+        </div>
         <#else>
         <div class="ui-notice ui-notice-extra">
            暂时没有报价单
@@ -65,7 +66,7 @@
         </div>
         </#if>
 
-    </div>
+
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
