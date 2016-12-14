@@ -142,6 +142,24 @@
                 </div>
             </div>
             <div class="item">
+                <div class="txt"><i>*</i>加工方式：</div>
+                <div class="cnt">
+                    <input type="text" name="process" class="ipt" value="${commodity.process!}" placeholder="加工方式" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt"><i>*</i>性状特征：</div>
+                <div class="cnt">
+                    <input type="text" name="exterior" class="ipt" value="${commodity.exterior!}" placeholder="性状特征" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt"><i>*</i>执行标准：</div>
+                <div class="cnt">
+                    <input type="text" name="executiveStandard" class="ipt" value="${commodity.executiveStandard!}" placeholder="执行标准" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
                 <div class="txt">起购数量：</div>
                 <div class="cnt">
                     <input type="text" name="minimumQuantity" class="ipt" value="${commodity.minimumQuantity!}" placeholder="起购数量" autocomplete="off">
@@ -374,6 +392,9 @@
                         title: '标题: required; length(1~50)',
                         price: '价格: required; range(1~9999)',
                         spec: '规格等级: required',
+                        process: '加工方式: required',
+                        exterior: '性状特征: required',
+                        executiveStandard: '执行标准: required',
                         origin: '产地: required',
                         harYear: '采收年份: required',
                         thumbnailUrl: '商品缩略图: required',

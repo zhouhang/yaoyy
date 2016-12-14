@@ -243,12 +243,21 @@
                 html.push('<tr><td class="tit">品名</td><td>${commodityVo.categoryName}</td></tr>');
                 html.push('<tr><td class="tit">切制规格</td><td>${commodityVo.spec}</td></tr>');
                 html.push('<tr><td class="tit">产地</td><td>${commodityVo.origin}</td></tr>');
-                html.push('<tr><td class="tit">采收年份</td><td>${commodityVo.harYear}</td></tr>');
+                html.push('<tr><td class="tit">采收时间</td><td>${commodityVo.harYear}</td></tr>');
+                <#if commodityVo.process??>
+                    html.push('<tr><td class="tit">加工方式</td><td>${commodityVo.process!}</td></tr>');
+                </#if>
+                <#if commodityVo.exterior??>
+                    html.push('<tr><td class="tit">性状特征</td><td>${commodityVo.exterior!}</td></tr>');
+                </#if>
                 <#if commodityVo.attribute?exists && commodityVo.attribute != "">
                     var parameter = ${commodityVo.attribute};
                     $.each(parameter, function (k, v) {
                         html.push('<tr><td class="tit">' , k , '</td><td>' , v , '</td></tr>');
                     })
+                </#if>
+                <#if commodityVo.executiveStandard??>
+                    html.push('<tr><td class="tit">执行标准</td><td>${commodityVo.executiveStandard!}</td></tr>');
                 </#if>
                 html.push('</tbody></table>');
                 $('#attributeItem').html(html.join(''));

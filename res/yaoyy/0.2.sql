@@ -99,3 +99,9 @@ ALTER TABLE `member`
 ADD COLUMN `tel`  varchar(255) NULL COMMENT '座机号码' AFTER `email`,
 ADD COLUMN `openid`  varchar(255) NULL COMMENT '微信openid' AFTER `tel`;
 
+
+ALTER TABLE `commodity`
+ADD COLUMN `process`  varchar(255) NULL COMMENT '加工方式' AFTER `spec`,
+ADD COLUMN `exterior`  varchar(255) NULL COMMENT '性状特征' AFTER `process`,
+ADD COLUMN `executive_standard`  varchar(255) NULL COMMENT '执行标准' AFTER `exterior`;
+
