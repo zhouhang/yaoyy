@@ -147,6 +147,7 @@ a.ubtn{height:28px;}
 .box .tools .filter .group .ubtn{margin-left:40px;}
 .box .tools .ubtn{height:32px;line-height:32px;min-width:80px;font-size:14px;}
 .box .tools .action-add{float:left;}
+.box .qrcode{padding:20px 30px;}
 .box-hd{margin-bottom:10px;}
 .table{font-size:12px;}
 .table th{padding:8px;border:1px solid #ccc;background:#ededed;}
@@ -408,7 +409,7 @@ a.ubtn{height:28px;}
 .q-list li .fa-file-text{color:#d81b60;}
 .q-list li .cnt{margin:15px;padding:0 15px;transition:background .3s;}
 .q-list li em{position:relative;display:inline-block;line-height:1;margin-left:10px;color:#fff;vertical-align:middle;}
-.q-list li em .fa{font-size:20px;-webkit-animation:bellshake 2s linear 0s infinite;-moz-animation:bellshake 2s linear 0s infinite;animation:bellshake 2s linear 0s infinite;-webkit-transform-origin:top center;-moz-transform-origin:top center;transform-origin:top center;}
+.q-list li em .fa{font-size:20px;-webkit-animation:bellshake 2s linear infinite;-moz-animation:bellshake 2s linear infinite;animation:bellshake 2s linear infinite;-webkit-transform-origin:top center;-moz-transform-origin:top center;transform-origin:top center;}
 .q-list li em .fa:before{content:"\f0a2";}
 .q-list li sup{position:absolute;top:-2px;left:98%;min-width:10px;padding:2px 3px;font:12px/1 arial;text-align:center;background:#fff;color:#f00;border-radius:8px;}
 @-webkit-keyframes bellshake{0%{-webkit-transform:rotate(0deg)}5%{-webkit-transform:rotate(18deg)}15%{-webkit-transform:rotate(-15deg)}25%{-webkit-transform:rotate(12deg)}35%{-webkit-transform:rotate(-9deg)}45%{-webkit-transform:rotate(6deg)}55%{-webkit-transform:rotate(-3deg)}60%{-webkit-transform:rotate(0deg)}}@-moz-keyframes bellshake{0%{-moz-transform:rotate(0deg)}5%{-moz-transform:rotate(18deg)}15%{-moz-transform:rotate(-15deg)}25%{-moz-transform:rotate(12deg)}35%{-moz-transform:rotate(-9deg)}45%{-moz-transform:rotate(6deg)}55%{-moz-transform:rotate(-3deg)}60%{-moz-transform:rotate(0deg)}}@keyframes bellshake{0%{transform:rotate(0deg)}5%{transform:rotate(18deg)}15%{transform:rotate(-15deg)}25%{transform:rotate(12deg)}35%{transform:rotate(-9deg)}45%{transform:rotate(6deg)}55%{transform:rotate(-3deg)}60%{transform:rotate(0deg)}}
