@@ -12,6 +12,7 @@ import com.ms.service.HistoryPriceService;
 import com.ms.tools.utils.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -50,17 +51,34 @@ public class HistoryPriceServiceImpl  extends AbsCommonService<HistoryPrice> imp
 		List<String> dateR = new ArrayList<>();
 		list.forEach(his -> {
 			value.add(his.getPrice());
-			SimpleDateFormat sdf = new SimpleDateFormat("MM.dd HH:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
 			dateR.add(sdf.format(his.getCreateTime()));
 		});
 		// 获取商品当前价格
 		Commodity commodity = commodityService.findById(commodityId);
-		value.add(commodity.getPrice());
-		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd HH:mm");
-		dateR.add(sdf.format(commodity.getPriceUpdateTime()));
+		SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
+		if (dateR.contains(sdf.format(commodity.getPriceUpdateTime()))){
+			value.set(value.size()-1,commodity.getPrice());
+		} else {
+			value.add(commodity.getPrice());
+			dateR.add(sdf.format(commodity.getPriceUpdateTime()));
+		}
 		map.put("date", GsonUtil.toJson(dateR));
 		map.put("value", GsonUtil.toJson(value));
 		return map;
+	}
+
+	@Override
+	@Transactional
+	public Integer save(HistoryPrice historyPrice) {
+		HistoryPrice oldPrice = historyPriceDao.duplicate(historyPrice.getCommodityId(),historyPrice.getCreateTime());
+		if (oldPrice == null){
+			create(historyPrice);
+		} else {
+			historyPrice.setId(oldPrice.getId());
+			update(historyPrice);
+		}
+		return null;
 	}
 
 	@Override
