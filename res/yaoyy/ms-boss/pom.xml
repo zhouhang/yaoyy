@@ -152,7 +152,7 @@
                 <spring.dataSource.username>yaoyy</spring.dataSource.username>
                 <spring.dataSource.password>123456</spring.dataSource.password>
                 <doc.base.url>http://localhost:8189/</doc.base.url>
-                <biz.base.url>http://3j651.free.natapp.cc</biz.base.url>
+                <biz.base.url>http://smjf9.free.natapp.cc</biz.base.url>
                 <pro.upload.path>E:/development/apache-tomcat-8.0.361/webapps/ms-files/</pro.upload.path>
                 <pro.upload.url>http://localhost:8189/ms-files/</pro.upload.url>
                 <elasticsearch.host>192.168.1.41</elasticsearch.host>
