@@ -335,22 +335,21 @@ function quoteShowRed(){
         return;
     }
     var qutoTime=getQuotetime();
-    if(qutoTime==null){
-        $("#newQuote").attr("class","dot");
-    }
-    else{
-        $.ajax({
+    $.ajax({
             url: "/quotation/getRecent",
             type: "POST",
             success: function(data) {
                var quote=data.data;
-                var timestamp = Date.parse(quote.updateTime);
-                if(qutoTime<timestamp){
-                    $("#newQuote").attr("class","dot");
+                if(quote!=null){
+                    var timestamp = Date.parse(quote.updateTime);
+                    if(qutoTime==null||qutoTime<timestamp){
+                        $("#newQuote").attr("class","dot");
+                    }
                 }
+
             }
         })
-    }
+
 
 }
 
