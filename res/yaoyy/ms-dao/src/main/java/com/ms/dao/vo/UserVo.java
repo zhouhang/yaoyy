@@ -31,6 +31,10 @@ public class UserVo extends User{
 
     private String typeName;
 
+    public void setIdentityTypeName(String identityTypeName) {
+        this.identityTypeName = identityTypeName;
+    }
+
     private String identityTypeName;
 
     public String getNickname() {

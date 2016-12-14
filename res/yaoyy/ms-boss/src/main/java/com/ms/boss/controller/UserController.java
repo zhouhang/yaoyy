@@ -34,7 +34,9 @@ public class UserController extends BaseController{
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Result detail(@PathVariable("id")Integer id){
-        return Result.success("用户详情").data(userService.findById(id));
+        UserVo userVo=userService.findById(id);
+        userVo.setIdentityTypeName(userVo.getIdentityTypeName());
+        return Result.success("用户详情").data(userVo);
     }
 
     /**
