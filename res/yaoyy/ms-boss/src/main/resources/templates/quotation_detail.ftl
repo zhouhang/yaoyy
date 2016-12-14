@@ -397,18 +397,19 @@
                         _global.v.flag = false;
                     }
                 })
-
+                
+                // 体验不好
                 // loading
-                layer.open({
-                    area: ['200px'],
-                    type: 1,
-                    moveType: 1,
-                    content: '<div class="layer-loading">加载中...</div>',
-                    title: '添加规格',
-                    cancel: function() {
-                        k.abort();
-                    }
-                });
+                // layer.open({
+                //     area: ['200px'],
+                //     type: 1,
+                //     moveType: 1,
+                //     content: '<div class="layer-loading">加载中...</div>',
+                //     title: '添加规格',
+                //     cancel: function() {
+                //         k.abort();
+                //     }
+                // });
             },
             /**
              * [inArray 查询数组元素]
