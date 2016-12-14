@@ -74,6 +74,11 @@
     var _global = {
         fn: {
             init: function() {
+                $("#newQuote").removeAttr("class");
+                 <#if quotationVo?exists>
+                     var timestamp= Date.parse(new Date('${(quotationVo.updateTime?datetime)!}'));
+                     udpateQuotetime(timestamp);
+                 </#if>
             }
         }
     }

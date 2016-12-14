@@ -143,6 +143,7 @@ function gallery(weChatImagePreview) {
 var _YYY = {
     CARTNAME: 'cartList', // 采购单存储key
     APPLYINFO: 'userInfo', // 申请寄样以及申请选货单提交的资料
+    QUOTETIME:'quoteTime',//最近查看quote时间
 
     is_weixn: (function() {
         var ua = navigator.userAgent.toLowerCase();  
@@ -314,6 +315,45 @@ function deleteInfo() {
     _YYY.localstorage.remove(_YYY.APPLYINFO);
 }
 
+function getQuotetime(){
+    var quoteTime = _YYY.localstorage.get(_YYY.QUOTETIME);
+    if(quoteTime !== null) {
+        return parseInt(quoteTime);
+    } else {
+        return null;
+    }
+}
+function udpateQuotetime(time) {
+    var quoteTime  =  _YYY.localstorage.get(_YYY.QUOTETIME);
+    if (quoteTime==null||parseInt(quoteTime)<time) {
+            _YYY.localstorage.set(_YYY.QUOTETIME, time);
+        }
+}
+function quoteShowRed(){
+    var url = document.URL.split('#')[0].split('?')[0].toLowerCase();
+    if(url.indexOf("/quotation/index")!=-1){
+        return;
+    }
+    var qutoTime=getQuotetime();
+    if(qutoTime==null){
+        $("#newQuote").attr("class","dot");
+    }
+    else{
+        $.ajax({
+            url: "/quotation/getRecent",
+            type: "POST",
+            success: function(data) {
+               var quote=data.data;
+                var timestamp = Date.parse(quote.updateTime);
+                if(qutoTime<timestamp){
+                    $("#newQuote").attr("class","dot");
+                }
+            }
+        })
+    }
+
+}
+
 // 导航高亮
 function navigationActive(){
     var $nav = $('#foot-nav'),
@@ -335,4 +375,5 @@ function navigationActive(){
 $(function() {
     navigationActive();
     showCommodityCount();
+    quoteShowRed();
 })

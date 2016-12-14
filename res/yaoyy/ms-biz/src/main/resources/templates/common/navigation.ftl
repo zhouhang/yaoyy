@@ -24,7 +24,7 @@
                 <a href="/quotation/index">
                     <i class="fa fa-flag"></i>
                     <span>道地行情</span>
-                    <b class="dot"></b>
+                    <b  id="newQuote"></b>
                 </a>
             </li>
             <li>
