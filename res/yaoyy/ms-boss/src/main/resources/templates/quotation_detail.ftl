@@ -101,10 +101,7 @@
                              quote.categoryId=$(this).find("tr th.cat").attr("cid");
                              var attributes=[];
                              $(this).find("tr.attrName th").each(function(index){
-                                 var attrName=$(this).text();
-                                 if(index==2){
-                                     attrName=$(this).find('input').val();
-                                 }
+                                 var attrName=$(this).find('input').val();
                                  if(index==3){
                                      return;
                                  }
@@ -117,13 +114,10 @@
                                  attrValue.commdityId=commdityId;
                                  var values=[];
                                  $(this).find("td").each(function (index) {
-                                     var attval=$(this).text();
                                      if(index==3){
                                          return;
                                      }
-                                     if(index==2){
-                                         attval=$(this).find('input').val();
-                                     }
+                                     var attval=$(this).find('input').val();
                                      values.push(attval);
                                  })
                                  attrValue.values=values;
@@ -192,25 +186,14 @@
                        model.push('<tr><th colspan="4" class="cat" cid="',contentItem.categoryId ,'">' , contentItem.categoryName , '</th></tr>');
                        model.push('<tr class="attrName"> ');
                        $.each(contentItem.attributes, function(ai, item) {
-                           if(ai!=2){
-                               model.push('<th>',item,'</th>');
-                           }
-                           else{
-                               model.push('<th><div class="inner"><input class="ipt" placeholder="自定义" value="',item,'" type="text"></div></th> ');
-                           }
-
+                           model.push('<th><div class="inner"><input class="ipt" placeholder="自定义" value="',item,'" type="text"></div></th> ');
                        })
                        model.push('<th>操作</th></tr></thead><tbody>');
 
                        $.each(contentItem.attrValues, function(i, item) {
                            model.push('<tr id="' , item.commdityId , '">');
                            $.each(item.values,function(index, val){
-                               if(index!=2){
-                                   model.push('<td>',val,'</td>');
-                               }
-                              else{
-                                   model.push('<td><div class="inner"><input class="ipt" type="text" value="',val,'"></div></td> ');
-                               }
+                               model.push('<td><div class="inner"><input class="ipt" type="text" value="',val,'"></div></td> ');
                            })
                            model.push('<td><button type="button" class="ubtn ubtn-blue del">删除</button></td>');
                            model.push('</tr>')
@@ -338,11 +321,16 @@
                 model.push('<table id="table' , categoryId , '">');
                 model.push('<thead>');
                 model.push('<tr><th colspan="4" class="cat" cid="',categoryId ,'">' , categoryName , '</th></tr>');
-                model.push('<tr class="attrName"><th>规格</th> \n <th>药优优报价</th> \n <th><div class="inner"><input class="ipt" placeholder="自定义" value="" type="text"></div></th> \n <th>操作</th></tr>');
+                model.push('<tr class="attrName"><th><div class="inner"><input class="ipt" placeholder="自定义" value="规格" type="text"></div></th>' +
+                        '<th><div class="inner"><input class="ipt" placeholder="自定义" value="药优优报价" type="text"></div></th>' +
+                        '<th><div class="inner"><input class="ipt" placeholder="自定义" value="亳州市场价" type="text"></div></th> \n <th>操作</th></tr>');
                 model.push('</thead>');
                 model.push('<tbody>');
                 $.each(data, function(i, item) {
-                    model.push('<tr id="' , item.id , '"><td>' , item.spec , '</td> \n <td>' , item.price , '</td> \n <td><div class="inner"><input class="ipt" type="text"></div></td> \n <td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>');
+                    model.push('<tr id="' , item.id , '"><td><div class="inner"><input class="ipt" value="',  item.spec ,'"type="text"></div> </td>' +
+                            '<td><div class="inner"><input class="ipt" value="' , item.price+'元/'+item.unitName , '" type="text"></div></td>  ' +
+                            '<td><div class="inner"><input class="ipt" type="text"></div></td>' +
+                            '<td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>');
                 })
                 model.push('</tbody>');
                 model.push('<tfoot class="hide">');
