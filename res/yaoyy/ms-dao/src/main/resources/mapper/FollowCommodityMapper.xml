@@ -7,7 +7,7 @@
             <result column="price"  property="price" />
             <result column="user_id"  property="userId" />
             <result column="create_time"  property="createTime" />
-        
+            <result column="status"  property="status" />
     </resultMap>
 
     <resultMap id="FollowCommodityResultMapVo" type="com.ms.dao.vo.FollowCommodityVo" extends="FollowCommodityResultMap">
@@ -18,10 +18,10 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,commodity_id,price,user_id,create_time
+        id,commodity_id,price,user_id,create_time,status
     </sql>
     <sql id="Base_Column_List_Alisa">
-        fc.id as id,fc.commodity_id as commodity_id,fc.price as price,fc.user_id as user_id,fc.create_time as create_time
+        fc.id as id,fc.commodity_id as commodity_id,fc.price as price,fc.user_id as user_id,fc.create_time as create_time, fc.status as status
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="FollowCommodityResultMap">
@@ -50,13 +50,16 @@
             <if test="userId != null">
                 and fc.user_id = #{userId}
             </if>
+            <if test="commodityId != null">
+                and fc.commodity_id = #{commodityId}
+            </if>
         </where>
         ORDER BY co.category_id, fc.create_time DESC
     </select>
 
     <select id="count"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select count(id)
-        from follow_commodity WHERE  user_id = #{userId}
+        from follow_commodity WHERE  user_id = #{userId} and status = 1
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -81,9 +84,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.FollowCommodity">
         insert into
-        follow_commodity (commodity_id,price,user_id,create_time)
+        follow_commodity (commodity_id,price,user_id,create_time,status)
         values
-        (#{commodityId},#{price},#{userId},#{createTime})
+        (#{commodityId},#{price},#{userId},#{createTime},#{status})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.FollowCommodity">
@@ -105,8 +108,21 @@
             <if test="createTime != null">
                 create_time = #{createTime},
             </if>
-                            
+
+            <if test="status != null">
+                status = #{status},
+            </if>
         </set>
         where id = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="java.lang.Integer">
+        update follow_commodity SET  status = 1
+        where commodity_id = #{commodityId}
+    </update>
+
+    <update id="changeRead" parameterType="java.lang.Integer">
+        update follow_commodity SET  status = 0
+        where user_id = #{userId}
     </update>
 </mapper>

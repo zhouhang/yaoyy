@@ -316,7 +316,7 @@
                         })
                     }, 300);
                 <#else >
-                    window.location.href = "/user/login";
+                    window.location.href = "/user/login?url=/commodity/detail/${commodityVo.id}";
                 </#if>
                 })
             }

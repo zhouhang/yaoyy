@@ -14,4 +14,18 @@ public interface FollowCommodityDao extends ICommonDao<FollowCommodity>{
     Integer count(Integer userId);
 
     void unwatch(@Param("followId") Integer followId, @Param("commodityId") Integer commodityId, @Param("userId") Integer userId);
+
+    /**
+     * 商品价格变动后更新关注的商品动态
+     * @param commodityId
+     * @return
+     */
+    Integer updateStatus(@Param("commodityId")Integer commodityId);
+
+    /**
+     * 修改用户关注商品状态为已读
+     * @param userId
+     * @return
+     */
+    Integer changeRead(Integer userId);
 }

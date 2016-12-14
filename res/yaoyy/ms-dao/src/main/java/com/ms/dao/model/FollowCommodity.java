@@ -21,6 +21,8 @@ public class FollowCommodity  implements Serializable {
 	
 	//创建时间
 	private Date createTime;
+
+	private Integer status;
 	
 	public FollowCommodity(){}
 	
@@ -63,5 +65,12 @@ public class FollowCommodity  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 }

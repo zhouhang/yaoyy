@@ -41,14 +41,20 @@ public class FollowCommodityServiceImpl  extends AbsCommonService<FollowCommodit
 	@Override
 	@Transactional
 	public void watch(Integer commodityId, Integer userId) {
-		//TODO: 需检查商品有没有意见被关注,或者设置联合主键
-		Commodity commodity = commodityService.findById(commodityId);
-		FollowCommodity follow = new FollowCommodity();
-		follow.setUserId(userId);
-		follow.setPrice(commodity.getPrice());
-		follow.setCommodityId(commodityId);
-		follow.setCreateTime(new Date());
-		followCommodityDao.create(follow);
+		//检查商品有没有意见被关注,或者设置联合主键
+		FollowCommodityVo vo = new FollowCommodityVo();
+		vo.setUserId(userId);
+		vo.setCommodityId(commodityId);
+		List<FollowCommodityVo> list = followCommodityDao.findByParams(vo);
+		if (list == null || list.size()==0) {
+			Commodity commodity = commodityService.findById(commodityId);
+			FollowCommodity follow = new FollowCommodity();
+			follow.setUserId(userId);
+			follow.setPrice(commodity.getPrice());
+			follow.setCommodityId(commodityId);
+			follow.setCreateTime(new Date());
+			followCommodityDao.create(follow);
+		}
 	}
 
 	@Override
@@ -77,6 +83,18 @@ public class FollowCommodityServiceImpl  extends AbsCommonService<FollowCommodit
 		List<Integer> followIds = new ArrayList<>();
 		list.forEach(follow ->{followIds.add(follow.getCommodityId());});
 		return followIds;
+	}
+
+	@Override
+	@Transactional
+	public Integer updateStatus(Integer commodityId) {
+		return followCommodityDao.updateStatus(commodityId);
+	}
+
+	@Override
+	@Transactional
+	public Integer changeRead(Integer userId) {
+		return followCommodityDao.changeRead(userId);
 	}
 
 	@Override

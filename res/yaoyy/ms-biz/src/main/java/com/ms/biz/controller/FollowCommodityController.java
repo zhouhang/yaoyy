@@ -30,6 +30,7 @@ public class FollowCommodityController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(ModelMap model) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        followCommodityService.changeRead(user.getId());
         model.put("list",followCommodityService.findCommodity(user.getId()));
         return "user_follow";
     }

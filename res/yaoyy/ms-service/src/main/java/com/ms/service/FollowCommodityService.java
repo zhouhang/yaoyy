@@ -3,6 +3,7 @@ package com.ms.service;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.FollowCommodity;
 import com.ms.dao.vo.FollowCommodityVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -45,4 +46,18 @@ public interface FollowCommodityService extends ICommonService<FollowCommodity>{
      * @return
      */
     public List<Integer> findCommodityIds(Integer userId);
+
+    /**
+     * 商品价格变动后更新关注的商品动态
+     * @param commodityId
+     * @return
+     */
+    Integer updateStatus(Integer commodityId);
+
+    /**
+     * 修改用户关注商品状态为已读
+     * @param userId
+     * @return
+     */
+    Integer changeRead(Integer userId);
 }
