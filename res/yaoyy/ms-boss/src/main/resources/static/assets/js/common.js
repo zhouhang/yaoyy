@@ -396,9 +396,33 @@ function modifyPwd() {
     })
 }
 
+// 消息提醒
+function _newMsg() {
+    $.post('/msg/list', function (result) {
+        if (result.status == 200) {
+            var model = [],
+                count = result.data.count || '';
+            $.each(result.data.list,function(i, item){
+                model.push('<a href="', item.url, '">', item.content, '</a>');
+            })
+            $('#msgList').html(model.join(''));
+            if (count) {
+                $('#newsNum').html(count).show();
+            } else {
+                $('#newsNum').empty().hide();
+            }
+        }
+    })
+    // 5分钟请求一次
+    setTimeout(function() {
+        _newMsg();
+    }, 3e5);
+}
+
 $(function() {
     _fix();
     _aside();
+    _newMsg();
     modifyPwd();
 
     $(document).ajaxError(function(event,request, settings){

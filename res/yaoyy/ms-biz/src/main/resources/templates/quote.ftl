@@ -16,11 +16,12 @@
 <section class="ui-content">
     <div class="qoute">
         <div class="title">${(quotationVo.title)!}</div>
-        <div class="desc"></div>
         <#if quotationVo?exists>
-            <div class="hd">报价单描述：</div>
+           <div class="item">
+              <div class="desc"> ${(quotationVo.description)!}</div>
+            </div>
         <#assign content=quotationVo.content?eval />
-        <div class="bd">
+        <div class="item">
             <#list  content as data >
             <table>
                 <thead>
@@ -38,7 +39,7 @@
                     <#if value_index==0>
                     <td><a href="/commodity/detail/${attrValue.commdityId}">${value}</a></td>
                     <#else >
-                        <td><em>${value}</em>元/公斤</td>
+                        <td><em>${value}</em></td>
                     </#if>
                     </#list>
                 </tr>
@@ -48,6 +49,14 @@
             </#list>
 
         </div>
+            <div class="his">
+                <h3>历史报价单</h3>
+                <ul>
+                    <#list historyVos as historyVo >
+                        <li><a href="/quotation/detail/${historyVo.id}">${historyVo.title}</a></li>
+                    </#list>
+                </ul>
+            </div>
         <#else>
         <div class="ui-notice ui-notice-extra">
            暂时没有报价单
@@ -55,7 +64,7 @@
             <a class="ubtn ubtn-primary" href="/">返回首页</a>
         </div>
         </#if>
-    ${(quotationVo.description)!}
+
     </div>
 </section><!-- /ui-content -->
 
@@ -65,6 +74,11 @@
     var _global = {
         fn: {
             init: function() {
+                $("#newQuote").removeAttr("class");
+                 <#if quotationVo?exists>
+                     var timestamp= Date.parse(new Date('${(quotationVo.updateTime?datetime)!}'));
+                     udpateQuotetime(timestamp);
+                 </#if>
             }
         }
     }

@@ -116,6 +116,7 @@ em,i{font-style:normal;}
 .ui-footer .ui-nav span{display:block;margin-top:2px;}
 .ui-footer .ui-nav i{position:relative;}
 .ui-footer .ui-nav b{position:absolute;top:2px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.2rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
+.ui-footer .ui-nav .dot{min-width:10px;height:10px;margin-left:.7em;}
 .ui-footer .ui-nav .two li{width:50%;}
 .ui-footer .extra li{width:20%;}
 .ui-footer .extra li.wide{width:30%;}
@@ -234,6 +235,7 @@ em,i{font-style:normal;}
 .pinfo .tag{padding:10px 12px 0;color:#d74141;}
 .pinfo .norms{padding:10px 12px 20px;overflow:hidden;}
 .pinfo .norms a{float:left;max-width:100%;line-height:30px;margin:10px 10px 0 0;padding:0 10px;white-space:nowrap;border:1px solid #e7e7e7;color:#aaa;text-align:center;-webkit-border-radius:15px;border-radius:15px;overflow:hidden;text-overflow:ellipsis;}
+.pinfo .norms a:active,
 .pinfo .norms a.current{color:#b9a060;border-color:#b9a060;}
 .pinfo .price{position:relative;padding:16px 12px;color:#666;font-size:1.2rem;border-top:1px solid #e7e7e7;}
 .pinfo .price em{font-size:2.5rem;color:#b9a060;}
@@ -255,6 +257,7 @@ em,i{font-style:normal;}
 .pinfo .attention .faved{background:#b9a060;color:#fff;}
 .pinfo .his{padding:0 0 20px 12px;}
 .pinfo .his a{margin-right:10px;color:#5c92cf;}
+.pinfo .his a:active{color:#fa6d75;text-decoration:underline;}
 .pinfo .his span{font-size:1.2rem;color:#aaa;}
 .pinfo .his span{font-size:1.2rem;color:#aaa;}
 .ptrend{position:relative;margin:10px 0;padding-top:78.133%;background:#fff;}
@@ -385,15 +388,21 @@ em,i{font-style:normal;}
 /* 报价单 */
 .qoute{padding:15px 12px;font-size:1.2rem;}
 .qoute .title{font-size:1.8rem;text-align:center;}
-.qoute .desc{margin-top:5px;font-size:1.2rem;color:#666;text-align:center;}
-.qoute .hd{margin-top:25px;font-weight:700;}
-.qoute .bd table{width:100%;margin-top:15px;border-collapse:collapse;border-spacing:0;}
-.qoute .bd th{width:30%;height:30px;border:1px solid #ccc;}
-.qoute .bd th:nth-child(1){width:40%;}
-.qoute .bd td{border:1px solid #ccc;text-align:center;}
-.qoute .bd a{display:block;padding:13px;text-align:left;color:#5c92cf;}
-.qoute .bd em{font-size:1.6rem;font-weight:700;}
-.qoute .bd .cat{height:40px;font-size:1.8rem;background:#f3f3f3;}
+.qoute .time{margin-top:5px;font-size:1.2rem;color:#666;text-align:center;}
+.qoute .item{margin-top:30px;}
+.qoute .item .desc{font-size:1.4rem;}
+.qoute .item table{width:100%;margin-top:15px;border-collapse:collapse;border-spacing:0;}
+.qoute .item th{width:30%;height:30px;border:1px solid #ccc;}
+.qoute .item th:nth-child(1){width:40%;}
+.qoute .item td{border:1px solid #ccc;text-align:center;}
+.qoute .item a{display:block;padding:13px;text-align:left;}
+.qoute .item em{font-size:1.6rem;font-weight:700;}
+.qoute .item .cat{height:40px;font-size:1.8rem;background:#f3f3f3;}
+.qoute .his{margin-top:30px;}
+.qoute .his h3{margin-bottom:10px;font-size:1.4rem;}
+.qoute .his li{line-height:2;font-size:1.4rem;}
+.qoute a{color:#5c92cf;}
+.qoute a:active{color:#fa6d75;text-decoration:underline;}
 
 /* page 404 500 */
 .error-page{padding-top:90px;text-align:center;}

@@ -180,7 +180,7 @@
                     html.push('<div class="fa-form fa-form-info fa-form-layer">');
                     html.push('<div class="item"> \n <div class="txt">手机：</div> \n <div class="val">', data.phone, '</div> \n </div>');
                     html.push('<div class="item"> \n <div class="txt">称呼：</div> \n <div class="val">', data.nickname, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">身份类型：</div> \n <div class="val">', data.identityType, '</div> \n </div>');
+                    html.push('<div class="item"> \n <div class="txt">身份类型：</div> \n <div class="val">', data.identityTypeName, '</div> \n </div>');
                     html.push('<div class="item"> \n <div class="txt">姓名/单位：</div> \n <div class="val">', data.name, '</div> \n </div>');
                     html.push('<div class="item"> \n <div class="txt">用户备注：</div> \n <div class="val">', data.remark, '</div> \n </div>');
                     html.push('<div class="item"> \n <div class="txt">注册时间：</div> \n <div class="val">', data.createTime, '</div> \n </div>');
