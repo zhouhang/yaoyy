@@ -17,4 +17,6 @@ public interface HistoryPriceService extends ICommonService<HistoryPrice>{
      * @return
      */
     public Map<String,String> findByCommodityId(Integer commodityId);
+
+    Integer save(HistoryPrice historyPrice);
 }

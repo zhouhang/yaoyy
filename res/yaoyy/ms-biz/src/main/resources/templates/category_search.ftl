@@ -29,6 +29,7 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+<script src="/assets/js/layer.js"></script>
 <script>
 
     var _global = {
@@ -52,6 +53,9 @@
                     html.push('<ul>');
                     h = his.split(',');
                     for (var i in h) {
+                        if (!h[i]) {
+                            continue;
+                        }
                         html.push('<li><i class="fa fa-clock"></i>');
                         html.push('<span>' + h[i] + '</span>');
                         html.push('<em class="fa fa-del mid"></em>');
@@ -101,8 +105,12 @@
             // 添加一条历史记录
             addHistory: function(val) {
                 var his = _YYY.localstorage.get(_global.v.searchHistoryName) || '';
-                his = (',' + his).replace(',' + val, '');
-                his  = val + ',' + his.substring(1);
+                if (his) {
+                    his = (',' + his).replace(',' + val, '');
+                    his = val + ',' + his.substring(1);
+                } else {
+                    his = val;
+                }
                 _YYY.localstorage.set(_global.v.searchHistoryName, his);
             },
             clearHistory: function() {
@@ -112,11 +120,7 @@
                 var self = this;
                 $('#submit').on('click', function() {
                     var val = $.trim($('#keyword').val());
-                    if (val) {
-                        self.addHistory(val);
-                    } else {
-
-                    }
+                    val && self.addHistory(val);
                 })
             },
             autocomplete: function() {

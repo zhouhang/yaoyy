@@ -163,24 +163,11 @@
                 <tbody>
                 <tr>
                     <td>
-                        <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="加工方式"
+                        <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="含硫情况"
                                                      autocomplete="off"></div>
                     </td>
                     <td>
-                        <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="趁鲜加工"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <button class="ubtn ubtn-red">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrN_2" class="ipt" value="年限"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrV_2" class="ipt" value="今年新货"
+                        <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="无硫"
                                                      autocomplete="off"></div>
                     </td>
                     <td>

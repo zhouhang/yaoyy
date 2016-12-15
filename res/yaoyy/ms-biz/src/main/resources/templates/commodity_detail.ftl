@@ -127,7 +127,7 @@
 
     var _global = {
         v: {
-            tel: ['18801285391', '027-1326541']
+            tel: ['18056796628', '0558-5120088']
         },
         fn: {
             init: function() {
@@ -325,7 +325,7 @@
                         })
                     }, 300);
                 <#else >
-                    window.location.href = "/user/login?url=/commodity/detail/${commodityVo.id}";
+                    window.location.href = "/follow/watch?commodityId=${commodityVo.id}";
                 </#if>
                 })
             }

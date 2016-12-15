@@ -48,6 +48,12 @@
         ORDER By create_time ASC
     </select>
 
+    <select id="duplicate"  resultMap="HistoryPriceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from history_price WHERE commodity_id = #{commodityId} and DATE_FORMAT(create_time,"%Y-%m-%d") = DATE_FORMAT(#{createTime},"%Y-%m-%d")
+    </select>
+
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from history_price
         where id = #{id}

@@ -41,23 +41,7 @@ public class UserController extends BaseController{
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage(String url, HttpServletRequest request) {
-        if (!Strings.isNullOrEmpty(url)) {
-            try {
-                // 用户不通过 Shiro 拦截到登入页面时通过url 传递参数来实现登入成功后跳转
-                SavedRequest savedRequest = new SavedRequest(request);
-                Field requestURI = savedRequest.getClass().getDeclaredField("requestURI");
-                requestURI.setAccessible(true);
-                requestURI.set(savedRequest, url);
-                Field queryString = savedRequest.getClass().getDeclaredField("queryString");
-                queryString.setAccessible(true);
-                queryString.set(savedRequest, null);
-                httpSession.setAttribute(WebUtils.SAVED_REQUEST_KEY, savedRequest);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+    public String loginPage() {
         return "login";
     }
 
