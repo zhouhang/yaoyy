@@ -58,6 +58,9 @@
                     html.push('<ul>');
                     h = his.split(',');
                     for (var i in h) {
+                        if (!h[i]) {
+                            continue;
+                        }
                         html.push('<li><i class="fa fa-clock"></i>');
                         html.push('<span>' + h[i] + '</span>');
                         html.push('<em class="fa fa-del mid"></em>');
@@ -107,8 +110,12 @@
             // 添加一条历史记录
             addHistory: function(val) {
                 var his = _YYY.localstorage.get(_global.v.searchHistoryName) || '';
-                his = (',' + his).replace(',' + val, '');
-                his  = val + ',' + his.substring(1);
+                if (his) {
+                    his = (',' + his).replace(',' + val, '');
+                    his = val + ',' + his.substring(1);
+                } else {
+                    his = val;
+                }
                 _YYY.localstorage.set(_global.v.searchHistoryName, his);
             },
             clearHistory: function() {
@@ -118,11 +125,7 @@
                 var self = this;
                 $('#submit').on('click', function() {
                     var val = $.trim($('#keyword').val());
-                    if (val) {
-                        self.addHistory(val);
-                    } else {
-
-                    }
+                    val && self.addHistory(val);
                 })
             },
             autocomplete: function() {
@@ -132,10 +135,11 @@
                 var search = function() {
                     $.ajax({
                         url: 'json/catName.json',
+                        cache: false,
                         success: function(data) {
                             var html = [];
                             $.each(data.data, function(i, item) {
-                                html.push('<a href="' ,item.href ,'">', item.name, '</a>');
+                                html.push('<a href="', item.href, '">', item.name, '</a>');
                             })
                             $suggestions.show().find('.suggest-panel').html(html.join(''));
                         }
