@@ -74,7 +74,7 @@
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="javascript:history.back();">返回上一页</a> \n </div>');
                 } else {
-                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在30分钟内与您取得联系如您需要寄样服务可以直接与我们电话沟通，我们为您提供免费的寄样服务。联系电话：0558-5897775 \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在30分钟内与您取得联系如您需要寄样服务可以直接与我们电话沟通，我们为您提供免费的寄样服务。联系电话：0558-5120088 \n </div>');
                 }
             },
             tohtml:function (data, arr) {
@@ -108,7 +108,7 @@
                 html.push('<div class="ft">');
                 html.push('<input type="text" class="text" id="username" placeholder="姓名">');
                 html.push('<input type="tel" class="text" id="mobile" placeholder="手机号">');
-                html.push('<button type="button" class="ubtn ubtn-primary" id="submit">提交</button>');
+                html.push('<button type="button" class="ubtn ubtn-primary" id="submit">选货登记</button>');
                 html.push('</div>');
                 $wrap.html(html.join(''));
 

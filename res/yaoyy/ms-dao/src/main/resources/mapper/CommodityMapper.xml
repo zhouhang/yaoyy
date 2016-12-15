@@ -84,6 +84,7 @@
                and cm.status = #{status}
             </if>
         </where>
+        ORDER BY cm.category_id,sort DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

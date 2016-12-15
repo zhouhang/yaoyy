@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                 <#list sendSampleVoPageInfo.list as sendSample>
-                    <tr>
+                    <tr >
                         <td>${sendSample.code}</td>
                         <td>${sendSample.nickname}</td>
                         <td>${sendSample.phone}</td>

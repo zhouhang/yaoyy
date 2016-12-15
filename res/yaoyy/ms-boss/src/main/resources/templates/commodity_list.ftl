@@ -41,12 +41,11 @@
                     <th><input type="checkbox"></th>
                     <th>商品名称</th>
                     <th>品种</th>
-                    <th>标题</th>
+                    <th width="320">标题</th>
                     <th>规格等级</th>
-                    <th>产地</th>
                     <th>价格</th>
                     <th>排序</th>
-                    <th width="100">创建时间</th>
+                    <th>更新时间</th>
                     <th width="250" class="tc">操作</th>
                 </tr>
                 </thead>
@@ -56,14 +55,13 @@
                     <td><input type="checkbox" value="${commodity.id}"></td>
                     <td>${commodity.name}<#if commodity.mark == 1 ><em class="c-red">【量大价优】</em></#if></td>
                     <td>${commodity.categoryName!}</td>
-                    <td>${commodity.title}</td>
+                    <td>${commodity.title!}</td>
                     <td>${commodity.spec}</td>
-                    <td>${commodity.origin}</td>
                     <td>${commodity.price}/${commodity.unitName}</td>
                     <td>${commodity.sort}</td>
-                    <td><#if commodity.createTime?exists>${commodity.createTime?datetime}</#if></td>
+                    <td><#if commodity.updateTime??> ${commodity.updateTime?datetime} <#else>${commodity.createTime?datetime} </#if></td>
                     <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-blue jprice" data-id="${commodity.id}">调价</a>
+                        <a href="javascript:;" class="ubtn ubtn-red jprice" data-id="${commodity.id}">调价</a>
                         <a href="/commodity/detail/${commodity.id}" class="ubtn ubtn-blue jedit">编辑</a>
                         <a href="${commodity.id}" class="ubtn ubtn-gray jdel">删除</a>
                         <#if commodity.status==0>
@@ -208,8 +206,8 @@
                                             delay: 2e3,
                                             call: function() {
                                                 // 关闭弹层
+                                                layer.closeAll();
                                                 setTimeout(function() {
-                                                    layer.closeAll();
                                                     location.reload();
                                                 }, 2e3);
                                             }

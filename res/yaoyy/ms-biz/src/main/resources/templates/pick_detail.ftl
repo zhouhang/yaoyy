@@ -17,7 +17,7 @@
         <div class="item">
             <ul class="info">
                 <li>选货单状态：${pickVo.bizStatusText}</li>
-                <li>寄样单号：${pickVo.code}</li>
+                <li>选货单号：${pickVo.code}</li>
                 <li>申请时间：${(pickVo.createTime?datetime)!}</li>
             </ul>
             <ul class="time">
@@ -44,7 +44,7 @@
 
 
         <div class="ui-extra">
-            咨询电话：<a href="tel:027-33641141" target="_blank">0558-5897775</a>
+            咨询电话：<a href="tel:027-33641141" target="_blank">0558-5120088</a>
         </div>
     </div>
 </section><!-- /ui-content -->
