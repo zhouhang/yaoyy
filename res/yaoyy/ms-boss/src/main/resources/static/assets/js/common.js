@@ -397,17 +397,26 @@ function modifyPwd() {
 }
 
 // 消息提醒
-function _newMsg() {
+function _newMsg(notification) {
     $.post('/msg/list', function (result) {
         if (result.status == 200) {
             var model = [],
+                temp = [],
                 count = result.data.count || '';
             $.each(result.data.list,function(i, item){
                 model.push('<a href="', item.url, '">', item.content, '</a>');
+                temp.push(item.content);
+                if (i > 8) {
+                    return false;
+                }
             })
             $('#msgList').html(model.join(''));
             if (count) {
                 $('#newsNum').html(count).show();
+                notification && showNotification({
+                    title: '药优优消息',
+                    body: temp.join('，')
+                });
             } else {
                 $('#newsNum').empty().hide();
             }
@@ -415,8 +424,34 @@ function _newMsg() {
     })
     // 5分钟请求一次
     setTimeout(function() {
-        _newMsg();
+        _newMsg(true);
     }, 3e5);
+}
+
+
+function showNotification(options) {
+    if (!window.Notification || !options) {
+        return;
+    }
+    Notification.requestPermission(function() {}); // 获取权限
+
+    var defaults = {
+        body: options.body || '',
+        icon: options.icon || 'http://boss.yaobest.com/assets/images/slogan.png',
+        tag: options.tag || (new Date).getTime()
+    }
+    if (defaults.body.length > 40) {
+        defaults.body = defaults.body.substring(0, 37) + '...';
+    }
+    var t = new Notification(options.title || '消息', defaults);
+
+    t.onshow = function(){
+        $('body').append('<audio src="assets/media/voice.mp3" id="notification-audio" preload="auto" autoplay></audio>');
+    }
+    setTimeout(function() {
+        $('#notification-audio').remove();
+        t.close();
+    }, options.delay || 5e3);
 }
 
 $(function() {
