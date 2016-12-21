@@ -1,6 +1,7 @@
 package com.ms;
 
 
+import com.ms.tools.Initializer.YamlFileApplicationContextInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -37,7 +38,7 @@ public class Application extends SpringBootServletInitializer implements Embedde
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
+        return application.sources(Application.class).initializers(new YamlFileApplicationContextInitializer());
     }
 
     @Bean
