@@ -1,9 +1,4 @@
 spring:
-    dataSource:
-        url: @spring.dataSource.url@
-        username: @spring.dataSource.username@
-        password: @spring.dataSource.password@
-        driverClassName: com.mysql.jdbc.Driver
     freemarker:
             suffix: .ftl
             templateEncoding: UTF-8
@@ -16,9 +11,6 @@ spring:
 #mybatis:
 #  mapperLocations: classpath:mapper/*.xml
 #  typeAliasesPackage: com.ms.dao.model
-elasticsearch:
-         host: @elasticsearch.host@
-         port: @elasticsearch.port@
 
 doc:
    base:
@@ -27,10 +19,6 @@ doc:
 upload:
     path: @pro.upload.path@
     url: @pro.upload.url@
-
-redis:
-    url: @redis.url@
-    port: @redis.port@
 
 #logging:
 #    level:

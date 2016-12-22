@@ -20,26 +20,37 @@
         </div>
     </div>
     <div class="umenu">
-        <a href="/pick/list">
-            <i class="fa fa-cart"></i>
-            <span>我的选货单</span>
-        </a>
-        <a href="/sample/list">
-            <i class="fa fa-order"></i>
-            <span>我的寄样单</span>
-        </a>
-        <a href="/follow/list">
-            <i class="fa fa-heart"></i>
-            <span>商品关注</span>
-            <#if followCount?exists && followCount != 0>
-                <b>${followCount}</b>
-            </#if>
-
-        </a>
-        <a href="/center/updatePassword">
-            <i class="fa fa-lock"></i>
-            <span>修改密码</span>
-        </a>
+        <ul>
+            <li>
+                <a href="/pick/list">
+                    <i class="fa fa-cart"></i>
+                    <span>我的选货单</span>
+                </a>
+            </li>
+            <li>
+                <a href="/sample/list">
+                    <i class="fa fa-order"></i>
+                    <span>我的寄样单</span>
+                </a>
+            </li>
+            <li>
+                <a href="/center/updatePassword">
+                    <i class="fa fa-lock"></i>
+                    <span>修改密码</span>
+                </a>
+            </li>
+            <li>
+                <a href="/follow/list">
+                    <i class="fa fa-heart"></i>
+                    <span>商品关注</span>
+                    <#if followCount?exists && followCount != 0>
+                        <b>${followCount}</b>
+                    </#if>
+                </a>
+            </li>
+            <li></li>
+            <li></li>
+        </ul>
     </div>
 </div>
 <#include "./common/footer.ftl"/>
