@@ -132,14 +132,14 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
-                    <exclude>static/assets/awesome/fonts/**</exclude>
+                    <exclude>static/assets/**</exclude>
                 </excludes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <includes>
-                    <include>static/assets/awesome/fonts/**</include>
+                    <include>static/assets/**</include>
                 </includes>
             </resource>
         </resources>
