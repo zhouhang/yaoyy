@@ -26,7 +26,8 @@ public class Application extends SpringBootServletInitializer implements Embedde
 
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        new SpringApplicationBuilder(Application.class)
+                .initializers(new YamlFileApplicationContextInitializer()).run(args);
     }
 
     @Override
