@@ -28,7 +28,7 @@ public class Md5Util {
 
 
     public static void main(String[] args) {
-		System.out.println(md5("1481610641065"+"fe68a821107c34bf9863348831e26755"));
+		System.out.println(md5("0"+"fe68a821107c34bf9863348831e26755"));
 	}
 
 }

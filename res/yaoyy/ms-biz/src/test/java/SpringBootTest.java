@@ -16,8 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @org.springframework.boot.test.context.SpringBootTest(classes = Application.class)
 public class SpringBootTest {
 
-
-
     @Autowired
     private WxMpService wxService;
 
