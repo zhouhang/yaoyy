@@ -4,6 +4,8 @@ wechat:
     appId: @wechat.mp.appid@
     secret: @wechat.mp.secret@
     token: @wechat.mp.token@
+    partnerId: 1423682502
+    partnerKey: 49a8a3011d2eb2734a5e88938bea8c1e
 
 
 
