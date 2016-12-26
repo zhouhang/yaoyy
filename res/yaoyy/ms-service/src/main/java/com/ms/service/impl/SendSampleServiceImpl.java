@@ -198,7 +198,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		sendSample.setCreateTime(now);
 		sendSample.setCode("");
 		sendSampleDao.create(sendSample);
-		sendSample.setCode(SeqNoUtil.get("", sendSample.getId(), 6));
+		sendSample.setCode(SeqNoUtil.getSampleCode());
 		sendSampleDao.update(sendSample);
 
 
