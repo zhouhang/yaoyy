@@ -62,14 +62,24 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 				applicationContext.publishEvent(msgConsumeEvent);
 			}
-			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.TPICK_REFUSE.getValue()){
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_REFUSE.getValue()){
 				pick.setStatus(PickEnum.PICK_REFUSE.getValue());
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 				applicationContext.publishEvent(msgConsumeEvent);
 			}
-			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_FINISH.getValue()){
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER.getValue()){
+				pick.setStatus(PickEnum.PICK_PAY.getValue());
+			}
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYALL.getValue()){
+				pick.setStatus(PickEnum.PICK_DELIVERY.getValue());
+			}
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue()){
+				pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
+			}
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_RECEIPT.getValue()){
 				pick.setStatus(PickEnum.PICK_FINISH.getValue());
 			}
+
 			else{
 				pick.setStatus(PickEnum.PICK_NOTFINISH.getValue());
 			}

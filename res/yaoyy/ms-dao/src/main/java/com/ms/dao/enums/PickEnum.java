@@ -13,7 +13,8 @@ public enum PickEnum {
     PICK_PAY(5,"待支付"),
     PICK_DELIVERY(6,"待发货"),
     PICK_DELIVERIED(7,"已发货"),
-    PICK_CONFIRM(8,"待用户确认");
+    PICK_CONFIRM(8,"待用户确认"),
+    PICK_CANCLE(9,"已取消");
 
 
 

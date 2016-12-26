@@ -127,6 +127,20 @@ public class PickController extends BaseController{
         return Result.success().msg("保存成功");
     }
 
+    /**
+     * 生成订单
+     * @param pickVo
+     * @return
+     */
+    @RequestMapping(value="createOrder",method=RequestMethod.POST)
+    @ResponseBody
+    private Result createOrder(PickVo pickVo){
+
+        pickService.createOrder(pickVo);
+        return Result.success().msg("生成订单成功");
+    }
+
+
 
 
 
