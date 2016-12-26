@@ -26,6 +26,15 @@ public class OrderInvoiceServiceImpl  extends AbsCommonService<OrderInvoice> imp
         return page;
 	}
 
+	@Override
+	public OrderInvoiceVo findByOrderId(Integer orderId) {
+		return null;
+	}
+
+	@Override
+	public Integer save(OrderInvoice invoice) {
+		return null;
+	}
 
 	@Override
 	public ICommonDao<OrderInvoice> getDao() {

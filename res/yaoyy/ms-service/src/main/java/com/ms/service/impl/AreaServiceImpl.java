@@ -26,6 +26,21 @@ public class AreaServiceImpl  extends AbsCommonService<Area> implements AreaServ
         return page;
 	}
 
+	@Override
+	public List<Area> findByParent(Integer parentId) {
+		List<Area> list = null;
+		if (parentId == null) {
+			list = areaDao.findByLevel(1);
+		} else {
+			list = areaDao.findByParent(parentId);
+		}
+		return list;
+	}
+
+	@Override
+	public AreaVo findVoById(Integer id) {
+		return areaDao.findVoById(id);
+	}
 
 	@Override
 	public ICommonDao<Area> getDao() {

@@ -15,17 +15,7 @@
         
     </resultMap>
 
-    <resultMap id="ShippingAddressResultMapVo" type="com.ms.dao.vo.ShippingAddressVo">
-            <id column="id"  property="id" />
-            <result column="user_id"  property="userId" />
-            <result column="is_default"  property="isDefault" />
-            <result column="consignee"  property="consignee" />
-            <result column="postcode"  property="postcode" />
-            <result column="tel"  property="tel" />
-            <result column="area_id"  property="areaId" />
-            <result column="detail"  property="detail" />
-            <result column="create_time"  property="createTime" />
-            <result column="aliases"  property="aliases" />
+    <resultMap id="ShippingAddressResultMapVo" type="com.ms.dao.vo.ShippingAddressVo" extends="ShippingAddressResultMap">
         
     </resultMap>
 
@@ -54,12 +44,24 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="isDefault != null">
+                and is_default = #{isDefault}
+            </if>
         </where>
+        order by is_default desc
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from shipping_address
         where id = #{id}
+    </delete>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+        delete from shipping_address
+        where id = #{id} and user_id = #{userId}
     </delete>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.ShippingAddress">
@@ -68,6 +70,10 @@
         values
         (#{userId},#{isDefault},#{consignee},#{postcode},#{tel},#{areaId},#{detail},#{createTime},#{aliases})
     </insert>
+
+    <update id="updateAllNotDefault" parameterType="java.lang.Integer">
+        update shipping_address set is_default = 0 where user_id = #{userId};
+    </update>
 
     <update id="update" parameterType="com.ms.dao.model.ShippingAddress">
         update shipping_address
@@ -112,4 +118,8 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="getCountByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id)  FROM shipping_address WHERE user_id = #{userId}
+    </select>
 </mapper>
