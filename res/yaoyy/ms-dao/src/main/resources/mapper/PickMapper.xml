@@ -2,33 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ms.dao.PickDao">
     <resultMap id="PickResultMap" type="com.ms.dao.model.Pick">
-            <id column="id"  property="id" />
-            <result column="user_id"  property="userId" />
-            <result column="code"  property="code" />
-            <result column="status"  property="status" />
-            <result column="abandon"  property="abandon" />
-            <result column="create_time"  property="createTime" />
-            <result column="update_time"  property="updateTime" />
-            <result column="nickname"  property="nickname" />
-            <result column="phone"  property="phone" />
-        
+        <id column="id"  property="id" />
+        <result column="user_id"  property="userId" />
+        <result column="nickname"  property="nickname" />
+        <result column="phone"  property="phone" />
+        <result column="code"  property="code" />
+        <result column="abandon"  property="abandon" />
+        <result column="status"  property="status" />
+        <result column="shipping_costs"  property="shippingCosts" />
+        <result column="bagging"  property="bagging" />
+        <result column="checking"  property="checking" />
+        <result column="taxation"  property="taxation" />
+        <result column="settle_type"  property="settleType" />
+        <result column="deposit"  property="deposit" />
+        <result column="bill_time"  property="billTime" />
+        <result column="addr_history_id"  property="addrHistoryId" />
+        <result column="remark"  property="remark" />
+        <result column="amounts_payable"  property="amountsPayable" />
+        <result column="member_id"  property="memberId" />
+        <result column="sum"  property="sum" />
+        <result column="expire_date"  property="expireDate" />
+        <result column="update_time"  property="updateTime" />
+        <result column="create_time"  property="createTime" />
+
     </resultMap>
 
     <resultMap id="PickResultMapVo" type="com.ms.dao.vo.PickVo">
-            <id column="id"  property="id" />
-            <result column="user_id"  property="userId" />
-            <result column="code"  property="code" />
-            <result column="status"  property="status" />
-            <result column="abandon"  property="abandon" />
-            <result column="create_time"  property="createTime" />
-            <result column="update_time"  property="updateTime" />
-            <result column="nickname"  property="nickname" />
-            <result column="phone"  property="phone" />
-        
+        <id column="id"  property="id" />
+        <result column="user_id"  property="userId" />
+        <result column="nickname"  property="nickname" />
+        <result column="phone"  property="phone" />
+        <result column="code"  property="code" />
+        <result column="abandon"  property="abandon" />
+        <result column="status"  property="status" />
+        <result column="shipping_costs"  property="shippingCosts" />
+        <result column="bagging"  property="bagging" />
+        <result column="checking"  property="checking" />
+        <result column="taxation"  property="taxation" />
+        <result column="settle_type"  property="settleType" />
+        <result column="deposit"  property="deposit" />
+        <result column="bill_time"  property="billTime" />
+        <result column="addr_history_id"  property="addrHistoryId" />
+        <result column="remark"  property="remark" />
+        <result column="amounts_payable"  property="amountsPayable" />
+        <result column="member_id"  property="memberId" />
+        <result column="sum"  property="sum" />
+        <result column="expire_date"  property="expireDate" />
+        <result column="update_time"  property="updateTime" />
+        <result column="create_time"  property="createTime" />
+
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,code,nickname,phone,status,abandon,create_time,update_time
+        id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,expire_date,update_time,create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="PickResultMap">
@@ -76,46 +102,100 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Pick">
         insert into
-        pick (user_id,code,nickname,phone,status,create_time,update_time)
+        pick (user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,expire_date,update_time,create_time)
         values
-        (#{userId},#{code},#{nickname},#{phone},#{status},#{createTime},#{updateTime})
+        (#{userId},#{nickname},#{phone},#{code},#{abandon},#{status},#{shippingCosts},#{bagging},#{checking},#{taxation},#{settleType},#{deposit},#{billTime},#{addrHistoryId},#{remark},#{amountsPayable},#{memberId},#{sum},#{expireDate},#{updateTime},#{createTime})
     </insert>
+
 
     <update id="update" parameterType="com.ms.dao.model.Pick">
         update pick
         <set>
-                                                        
+
             <if test="userId != null">
                 user_id = #{userId},
-            </if>
-                                            
-            <if test="code != null">
-                code = #{code},
             </if>
 
             <if test="nickname != null">
                 nickname = #{nickname},
             </if>
+
             <if test="phone != null">
                 phone = #{phone},
             </if>
-                                            
-            <if test="status != null">
-                status = #{status},
+
+            <if test="code != null">
+                code = #{code},
             </if>
 
             <if test="abandon != null">
                 abandon = #{abandon},
             </if>
-                                            
-            <if test="createTime != null">
-                create_time = #{createTime},
+
+            <if test="status != null">
+                status = #{status},
             </if>
-                                            
+
+            <if test="shippingCosts != null">
+                shipping_costs = #{shippingCosts},
+            </if>
+
+            <if test="bagging != null">
+                bagging = #{bagging},
+            </if>
+
+            <if test="checking != null">
+                checking = #{checking},
+            </if>
+
+            <if test="taxation != null">
+                taxation = #{taxation},
+            </if>
+
+            <if test="settleType != null">
+                settle_type = #{settleType},
+            </if>
+
+            <if test="deposit != null">
+                deposit = #{deposit},
+            </if>
+
+            <if test="billTime != null">
+                bill_time = #{billTime},
+            </if>
+
+            <if test="addrHistoryId != null">
+                addr_history_id = #{addrHistoryId},
+            </if>
+
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+
+            <if test="amountsPayable != null">
+                amounts_payable = #{amountsPayable},
+            </if>
+
+            <if test="memberId != null">
+                member_id = #{memberId},
+            </if>
+
+            <if test="sum != null">
+                sum = #{sum},
+            </if>
+
+            <if test="expireDate != null">
+                expire_date = #{expireDate},
+            </if>
+
             <if test="updateTime != null">
                 update_time = #{updateTime},
             </if>
-                            
+
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+
         </set>
         where id = #{id}
     </update>
