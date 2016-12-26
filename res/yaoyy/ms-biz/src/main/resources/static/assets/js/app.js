@@ -229,10 +229,12 @@ var _YYY = {
 function showCommodityCount() {
     var cartName =  _YYY.localstorage.get(_YYY.CARTNAME);
     var arr = cartName === null ? [] : eval(cartName);
+    var count=arr.length;
+    /*
     var count = 0;
     $.each(arr, function(i, item) {
         count += parseInt(item.num, 10);
-    })
+    })*/
     $('#cartNum').html(count === 0 ? '' : count);
 }
 
