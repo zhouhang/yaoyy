@@ -9,7 +9,12 @@ public enum PickEnum {
     PICK_HANDING(1,"已受理"),
     PICK_NOTFINISH(2,"交易未完成"),
     PICK_FINISH(3,"交易已完成"),
-    PICK_REFUSE(4,"审核不通过");
+    PICK_REFUSE(4,"审核不通过"),
+    PICK_PAY(5,"待支付"),
+    PICK_DELIVERY(6,"待发货"),
+    PICK_DELIVERIED(7,"已发货"),
+    PICK_CONFIRM(8,"待用户确认");
+
 
 
 
