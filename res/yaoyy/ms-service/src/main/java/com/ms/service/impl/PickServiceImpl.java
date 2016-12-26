@@ -152,9 +152,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setUpdateTime(now);
 		pick.setCreateTime(now);
 		pick.setCode("");
+
+		/**
+		 * 设置code
+		 */
+		pick.setCode(SeqNoUtil.getOrderCode());
 		pickDao.create(pick);
-		pick.setCode(SeqNoUtil.get("", pick.getId(), 6));
-		pickDao.update(pick);
 
 		pickVo.getPickCommodityVoList().forEach(c->{
 			c.setPickId(pick.getId());
