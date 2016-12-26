@@ -85,6 +85,12 @@ public class IndexController extends BaseController{
         return "index";
     }
 
+    /**
+     * 寄样页面
+     * @param commdityId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "apply/sample/{id}", method = RequestMethod.GET)
     public String apply(@PathVariable("id")Integer commdityId,ModelMap model) {
 
@@ -100,7 +106,11 @@ public class IndexController extends BaseController{
         return "apply_sample";
     }
 
-
+    /**
+     * 申请寄样post请求
+     * @param sendSampleVo
+     * @return
+     */
     @RequestMapping(value = "apply/sample", method = RequestMethod.POST)
     @ResponseBody
     public Result applySample(SendSampleVo sendSampleVo) {

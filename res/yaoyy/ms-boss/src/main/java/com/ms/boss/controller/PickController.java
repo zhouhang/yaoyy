@@ -79,7 +79,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
-    private String list(@PathVariable("id") Integer id,  ModelMap model){
+    private String detail(@PathVariable("id") Integer id,  ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
         if(userDetail==null){
