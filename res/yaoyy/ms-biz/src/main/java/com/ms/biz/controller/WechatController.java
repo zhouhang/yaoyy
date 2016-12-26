@@ -12,10 +12,14 @@ import com.ms.tools.entity.Result;
 import com.ms.tools.utils.WebUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.mp.api.WxMpPayService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.pay.WxPayJsSDKCallback;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -38,6 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * Created by wangbin on 2016/10/28.
@@ -243,6 +248,7 @@ public class WechatController extends BaseController{
     }
 
 
+
     @RequestMapping("test")
     public String test(HttpServletRequest request,
                        HttpServletResponse response,
@@ -253,6 +259,7 @@ public class WechatController extends BaseController{
         model.put("signature",signature);
         return "wechat_test";
     }
+
 
     @RequestMapping("send")
     public void send(){
@@ -269,5 +276,59 @@ public class WechatController extends BaseController{
     }
 
 
+
+
+    //  参考地址  https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+    //调用统一下单接口
+    @RequestMapping("pay")
+    @ResponseBody
+    public Result pay(HttpServletRequest request,
+                      HttpServletResponse response,
+                      ModelMap model)throws Exception{
+        WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
+        orderRequest.setBody("支付内容");
+        orderRequest.setTradeType("JSAPI");
+        orderRequest.setNotifyURL("http://burgleaf.tunnel.2bdata.com/wechat/pay/callback");
+        orderRequest.setOutTradeNo(System.currentTimeMillis()+"");
+        orderRequest.setTotalFee(1);//元转成分
+        orderRequest.setOpenid("oQnHnv7-CXQOiguW9JG8k9Kptq4k");
+        orderRequest.setSpbillCreateIp(request.getRemoteAddr());
+        WxMpPayService wxMpPayService = wxService.getPayService();
+        //返回结果
+        Map<String, String> result = wxMpPayService.getPayInfo(orderRequest);
+        return Result.success().data(result);
+    }
+
+    //支付页面
+    @RequestMapping("pay/page")
+    public String payPage(HttpServletRequest request,
+                          HttpServletResponse response){
+        return "pay_test_page";
+    }
+
+    //支付成功通知
+    @RequestMapping("pay/callback")
+    public void payCallBack(HttpServletRequest request,
+                          HttpServletResponse response){
+        WxMpPayService wxMpPayService = wxService.getPayService();
+        try {
+            String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
+            WxPayJsSDKCallback result = wxMpPayService.getJSSDKCallbackData(xmlResult);
+            System.out.println(result);
+            if("SUCCESS".equals(result.getReturn_code())){
+                //支付成功
+                String Result =  "<xml>"+
+                        "<return_code><![CDATA[SUCCESS]]></return_code>"+
+                        "<return_msg><![CDATA[OK]]></return_msg>"+
+                        "</xml>";
+                WebUtil.print(response, xmlResult);
+
+            }else{
+                //支付失败
+            }
+        } catch (Exception e) {
+            logger.error("微信回调结果异常,异常原因{}",e);
+        }
+    }
 
 }
