@@ -158,4 +158,16 @@
         </dd>
     </dl>
    </@shiro.hasPermission>
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-flag"></i>
+                <span>账单流水管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+            <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
+        </dd>
+    </dl>
 </div>
