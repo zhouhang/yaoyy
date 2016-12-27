@@ -162,7 +162,7 @@
     <dl>
         <dt>
             <a href="javascript:;">
-                <i class="fa fa-flag"></i>
+                <i class="fa fa-money"></i>
                 <span>账单流水管理</span>
                 <i class="fa fa-angle-down arrow"></i>
             </a>
