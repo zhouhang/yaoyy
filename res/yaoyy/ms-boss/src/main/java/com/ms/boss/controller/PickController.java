@@ -1,9 +1,11 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.Pick;
+import com.ms.dao.model.PickCommodity;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.PickCommodityVo;
 import com.ms.dao.vo.PickTrackingVo;
@@ -20,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -79,7 +78,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
-    private String detail(@PathVariable("id") Integer id,  ModelMap model){
+    private String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
         if(userDetail==null){
@@ -90,7 +89,22 @@ public class PickController extends BaseController{
         model.put("pickVo",pickVo);
         model.put("userDetail",userDetail);
         model.put("pickTrackingVos",pickTrackingVos);
-        return "pick_detail";
+        if(edit!=null){
+            return "pick_info3";
+        }
+       if(pickVo.getStatus()== PickEnum.PICK_NOTHANDLE.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_REFUSE.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_HANDING.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_NOTFINISH.getValue()
+                ){
+            return "pick_info1";
+        }
+        else{
+           //获取支付信息,收货信息和发票信息
+             
+            return "pick_info2";
+        }
+
     }
 
     /**
@@ -139,6 +153,20 @@ public class PickController extends BaseController{
         pickService.createOrder(pickVo);
         return Result.success().msg("生成订单成功");
     }
+    @RequestMapping(value="updateNum",method=RequestMethod.POST)
+    @ResponseBody
+    private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
+        //修改数量
+        pickCommodities.forEach(pc->{
+            pickCommodityService.update(pc);
+        });
+
+        return Result.success().msg("修改成功");
+    }
+
+
+
+
 
 
 

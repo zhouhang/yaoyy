@@ -7,6 +7,7 @@ import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.CommodityService;
+import com.ms.service.MemberService;
 import com.ms.service.PickCommodityService;
 import com.ms.service.PickService;
 import com.ms.service.enums.MessageEnum;
@@ -49,6 +50,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private  ApplicationContext applicationContext;
 
+	@Autowired
+	private MemberService memberService;
 
 
 
@@ -197,9 +200,35 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void createOrder(PickVo pickVo) {
+		//全款或保证金
+		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+           pickVo.setStatus(PickEnum.PICK_PAY.getValue());
+		}
+		else{
+			pickVo.setStatus(PickEnum.PICK_CONFIRM.getValue());
+		}
 		pickDao.update(pickVo);
 
+		//创建一条跟踪记录
+		PickTracking pickTracking=new PickTracking();
+		if(pickVo.getMemberId()!=null){
+			Member member=memberService.findById(pickVo.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+		}
+		else{
+			PickVo pick=pickDao.findVoById(pickVo.getId());
+			pickTracking.setName(pick.getNickname());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+		}
 
+
+		pickTracking.setExtra("");
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
+		pickTracking.setPickId(pickVo.getId());
+		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_ORDER.getValue());
+		pickTrackingDao.create(pickTracking);
 
 
 	}

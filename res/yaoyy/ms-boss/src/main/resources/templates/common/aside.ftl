@@ -77,13 +77,13 @@
         <dt>
             <a href="javascript:;">
                 <i class="fa fa-shopping-bag"></i>
-                <span>选货单管理</span>
+                <span>订单管理</span>
                 <i class="fa fa-angle-down arrow"></i>
             </a>
         </dt>
         <dd>
             <@shiro.hasPermission name="pick:list">
-            <a href="/pick/list"><i class="fa fa-circle-o"></i>选货单列表</a>
+            <a href="/pick/list"><i class="fa fa-circle-o"></i>订单列表</a>
             </@shiro.hasPermission>
         </dd>
     </dl>
