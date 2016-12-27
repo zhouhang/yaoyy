@@ -17,6 +17,9 @@ import com.ms.tools.entity.Result;
 import com.ms.tools.entity.ResultStatus;
 import com.ms.tools.utils.CookieUtils;
 import com.ms.tools.utils.GsonUtil;
+import me.chanjar.weixin.mp.api.WxMpPayService;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,10 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by xiao on 2016/11/1.
@@ -49,7 +49,8 @@ public class PickController extends BaseController{
     @Autowired
     private PickTrackingService pickTrackingService;
 
-
+    @Autowired
+    private WxMpService wxService;
 
 
     /**
@@ -95,7 +96,6 @@ public class PickController extends BaseController{
 
         return "pick_detail";
     }
-
 
 
 

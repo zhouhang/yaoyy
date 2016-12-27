@@ -119,8 +119,8 @@ CREATE TABLE `pay_document` (
 CREATE TABLE `pay_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pay_code` varchar(255) DEFAULT NULL COMMENT '支付流水号',
-  `order_code` varchar(255) NOT NULL COMMENT '订单编号',
-  `order_id` int(11) DEFAULT NULL,
+  `code` varchar(255) NOT NULL COMMENT '订单编号或者账单编号',
+  `order_id` int(11) DEFAULT NULL COMMENT '关联订单',
   `code_type` int(5) DEFAULT NULL COMMENT '单号类型：0:订单，1：账单',
   `account_bill_id` int(11) DEFAULT NULL COMMENT '关联账单',
   `payment_id` int(11) DEFAULT NULL COMMENT '三方支付id',
@@ -132,9 +132,12 @@ CREATE TABLE `pay_record` (
   `payment_time` datetime NOT NULL COMMENT '支付时间',
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '0付款待确认，1支付成功，2支付失败',
   `pay_type` int(5) DEFAULT NULL COMMENT '支付渠道 ：0,线下转账，1支付宝支付,2.微信支付',
+  `member_id` int(11) DEFAULT NULL COMMENT '操作者id',
+  `operate_time` datetime DEFAULT NULL COMMENT '操作时间',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='支付记录表';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='支付记录表';
+
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

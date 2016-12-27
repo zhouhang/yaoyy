@@ -11,4 +11,18 @@ public interface PickService extends ICommonService<Pick>{
     public PickVo findVoById(Integer id);
 
     public void save(PickVo pickVo);
+
+    /**
+     *为用户生成订单
+     * @param pickVo
+     */
+    public void createOrder(PickVo pickVo);
+
+
+    /**
+     * 更改订单状态
+     * @param id
+     * @param status
+     */
+    public void changeOrderStatus(Integer id,Integer status);
 }

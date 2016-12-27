@@ -461,7 +461,7 @@ function showNotification(options) {
 $(function() {
     _fix();
     _aside();
-    _newMsg(true);
+    _newMsg();
     modifyPwd();
 
     $(document).ajaxError(function(event,request, settings){

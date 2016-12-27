@@ -194,6 +194,26 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	}
 
+	@Override
+	@Transactional
+	public void createOrder(PickVo pickVo) {
+		pickDao.update(pickVo);
+
+
+
+
+	}
+
+	@Override
+	@Transactional
+	public void changeOrderStatus(Integer id, Integer status) {
+		Pick pick=new Pick();
+		pick.setId(id);
+		pick.setStatus(status);
+		pick.setUpdateTime(new Date());
+		pickDao.update(pick);
+	}
+
 
 	@Override
 	public ICommonDao<Pick> getDao() {

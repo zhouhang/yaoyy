@@ -13,9 +13,10 @@ public class PayRecord  implements Serializable {
 	//支付流水号
 	private String payCode;
 	
-	//订单编号
-	private String orderCode;
+	//订单编号或者账单编号
+	private String code;
 	
+	//关联订单
 	private Integer orderId;
 	
 	//单号类型：0:订单，1：账单
@@ -51,6 +52,12 @@ public class PayRecord  implements Serializable {
 	//支付渠道 ：0,线下转账，1支付宝支付,2.微信支付
 	private Integer payType;
 	
+	//操作者id
+	private Integer memberId;
+	
+	//操作时间
+	private Date operateTime;
+	
 	//创建时间
 	private Date createTime;
 	
@@ -72,12 +79,12 @@ public class PayRecord  implements Serializable {
 		this.payCode = payCode;
 	}
 	
-	public String getOrderCode() {
-		return orderCode;
+	public String getCode() {
+		return code;
 	}
 
-	public void setOrderCode(String orderCode) {
-		this.orderCode = orderCode;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	public Integer getOrderId() {
@@ -174,6 +181,22 @@ public class PayRecord  implements Serializable {
 
 	public void setPayType(Integer payType) {
 		this.payType = payType;
+	}
+	
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}
+	
+	public Date getOperateTime() {
+		return operateTime;
+	}
+
+	public void setOperateTime(Date operateTime) {
+		this.operateTime = operateTime;
 	}
 	
 	public Date getCreateTime() {
