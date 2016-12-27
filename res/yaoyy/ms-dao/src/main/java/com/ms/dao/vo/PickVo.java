@@ -4,6 +4,7 @@ import com.ms.dao.enums.BizPickEnum;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.model.Commodity;
+import com.ms.dao.model.OrderInvoice;
 import com.ms.dao.model.Pick;
 import com.ms.dao.observer.OrderStatusEvent;
 import com.ms.tools.utils.SpringUtil;
@@ -32,6 +33,9 @@ public class PickVo extends Pick{
     private List<PickCommodityVo> pickCommodityVoList;
 
     private float total;
+
+    // 发票信息
+    private OrderInvoice invoice;
 
     public float getTotal() {
         return total;
@@ -65,6 +69,14 @@ public class PickVo extends Pick{
 
     public void setStatusText(String statusText) {
         this.statusText = statusText;
+    }
+
+    public OrderInvoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(OrderInvoice invoice) {
+        this.invoice = invoice;
     }
 
     /**
