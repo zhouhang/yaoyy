@@ -2,6 +2,7 @@ package com.ms.dao.vo;
 
 import com.ms.dao.enums.BizPickEnum;
 import com.ms.dao.enums.PickEnum;
+import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.Pick;
 import com.ms.dao.observer.OrderStatusEvent;
@@ -48,6 +49,15 @@ public class PickVo extends Pick{
         this.pickCommodityVoList = pickCommodityVoList;
     }
 
+    private String SettleTypeName;
+
+    public String getSettleTypeName() {
+        return SettleTypeEnum.get(getSettleType());
+    }
+
+    public void setSettleTypeName(String settleTypeName) {
+        SettleTypeName = settleTypeName;
+    }
 
     public String getStatusText() {
         return PickEnum.findByValue(getStatus());

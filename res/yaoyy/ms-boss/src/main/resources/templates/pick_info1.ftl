@@ -174,7 +174,7 @@
 <input type="hidden"  class="ipt" value="${pickVo.id}" name="id">
     <div class="item">
         <div class="txt">商品总价：</div>
-        <div class="cnt"><input type="text" class="ipt" id="sum2"name="sum" value="0" disabled></div>
+        <div class="cnt"><input type="text" class="ipt" id="sum2" name="sum" value="0" disabled></div>
     </div>
     <div class="item">
         <div class="txt">运费：</div>
@@ -372,9 +372,9 @@
 
                     // 付款方式
                     $body.on('click', '.cbx', function() {
-                        if (this.value == 1) {
+                        if (this.value == 0) {
                             $('#calc').find('.group').hide();
-                        } else if (this.value == 2) {
+                        } else if (this.value == 1) {
                             $('#calc').find('.group').show().find('.item').show();
                         } else {
                             $('#calc').find('.group').show().find('.item').hide().eq(1).show();
@@ -383,9 +383,11 @@
 
                     // 确定
                     $body.on('click', '#calc .ubtn-blue', function() {
+                        var sum=$("#sum2").val();
+                        var amountsPayable=$("#sum3").text();
                         $.ajax({
                             url: _global.v.createOrder,
-                            data: $("#orderForm").serialize(),
+                            data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
                             type: "POST",
                             success: function(data) {
                                 window.location.reload();

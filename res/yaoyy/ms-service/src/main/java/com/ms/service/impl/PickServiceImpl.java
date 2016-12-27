@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -207,6 +208,11 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		else{
 			pickVo.setStatus(PickEnum.PICK_CONFIRM.getValue());
 		}
+		//设置有效期
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, 3);
+		pickVo.setExpireDate(calendar.getTime());
 		pickDao.update(pickVo);
 
 		//创建一条跟踪记录

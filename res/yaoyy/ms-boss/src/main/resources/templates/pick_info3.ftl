@@ -1,43 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>订单详情-boss</title>
-    <meta name="renderer" content="webkit" />
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/style.css" />
+<#include "./common/meta.ftl"/>
 </head>
 <body class='wrapper'>
-
-<div class="header">
-    <div class="logo">
-        <a href="index.html">药优优</a>
-    </div>
-    <div class="menu">
-        <ul>
-            <li>
-                <a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
-            </li>
-            <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user"></i>
-                    <span class="hidden-xs">王彬</span>
-                </a>
-            </li>
-            <li>
-                <a href="/logout">
-                    <i class="fa fa-power-off"></i>
-                    退出
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<!-- 侧栏菜单 -->
-<div class="aside" id="jaside"></div>
+<#include "./common/header.ftl"/>
+<#include "./common/aside.ftl"/>
 
 <div class="content">
     <div class="breadcrumb">
@@ -58,27 +27,29 @@
                 <div class="hd">基本信息</div>
                 <div class="item">
                     <div class="txt">订单编号：</div>
-                    <div class="val">20161014001</div>
+                    <div class="val">${pickVo.code}</div>
                 </div>
                 <div class="item">
                     <div class="txt">状态：</div>
-                    <div class="val c-red">待支付</div>
+                    <div class="val c-red">${pickVo.statusText}</div>
                 </div>
                 <div class="item">
                     <div class="txt">客户姓名：</div>
-                    <div class="val">王先生</div>
+                    <div class="val">${pickVo.nickname}</div>
                 </div>
                 <div class="item">
                     <div class="txt">手机号：</div>
-                    <div class="val">18801285391</div>
+                    <div class="val">${pickVo.phone}</div>
                 </div>
+                <!--
                 <div class="item">
                     <div class="txt">地区：</div>
                     <div class="val">安徽亳州</div>
                 </div>
+                -->
                 <div class="item">
                     <div class="txt">申请时间：</div>
-                    <div class="val">2016年6月28日 12：30</div>
+                    <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
 
@@ -99,28 +70,21 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <#list pickVo.pickCommodityVoList as pickCommodityVo >
                         <tr>
-                            <td><a href="#">茯苓</a></td>
-                            <td>云南</td>
-                            <td><p>2级货，过4号筛，直径0.8cm以内</p></td>
-                            <td><input type="text" class="ipt number" disabled value="10" data-price="50"></td>
-                            <td>公斤</td>
-                            <td>50元/公斤</td>
-                            <td><span>500</span>元</td>
+                            <td><a href="#">${pickCommodityVo.name}</a></td>
+                            <td>${pickCommodityVo.origin}</td>
+                            <td><p>${pickCommodityVo.spec}</p></td>
+                            <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num}"></td>
+                            <td>${pickCommodityVo.unit}</td>
+                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                            <td><span>${pickCommodityVo.total}</span>元</td>
                         </tr>
-                        <tr>
-                            <td><a href="#">天麻</a></td>
-                            <td>陕西</td>
-                            <td><p>2级货，统片，颜色均匀，过10号筛</p></td>
-                            <td><input type="text" class="ipt number" disabled value="10" data-price="50"></td>
-                            <td>公斤</td>
-                            <td>50元/公斤</td>
-                            <td><span>500</span>元</td>
-                        </tr>
+                        </#list>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">1000元</em></td>
+                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -128,105 +92,109 @@
             </div>
 
             <div class="box fa-form" id="calc">
+                <form id="orderForm">
+                    <input type="hidden"  class="ipt" value="${pickVo.id}" name="id">
                 <div class="hd">报价清单</div>
                 <div class="item">
                     <div class="txt">商品总价：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt" id="sum2" value="800" disabled><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt" id="sum2"  name="sum" value="${pickVo.sum!}" disabled><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">运费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="${pickVo.shippingCosts!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="0"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="0"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">税款：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="0"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">总计：</div>
-                    <div class="cnt"><em class="c-red" id="sum3">800</em></div>
+                    <div class="cnt"><em class="c-red" id="sum3"  name="amountsPayable">800</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">付款方式：</div>
                     <div class="cnt cbxs2">
-                        <label><input type="radio" name="paytype" class="cbx" value="1" checked>全款</label>
-                        <label><input type="radio" name="paytype" class="cbx" value="2">保证金</label>
-                        <label><input type="radio" name="paytype" class="cbx" value="3">赊账</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="2">赊账</label>
                     </div>
                 </div>
                 <div class="group">
                     <div class="item">
                         <div class="txt">保证金金额：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit" value="0"><span class="unit">元</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" value="0"><span class="unit">元</span></div></div>
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" value="0"><span class="unit">天</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" value="0"><span class="unit">天</span></div></div>
                     </div>
                 </div>
                 <div class="ft">
                     <button type="button" class="ubtn ubtn-blue">提交订单</button>
                 </div>
+                    </form>
             </div>
         </div>
         <div class="items">
             <div class="box fa-form">
                 <div class="hd">客户信息</div>
-                <form id="myform">
+                <form id="userForm">
+                    <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
                     <div class="item">
                         <div class="txt">个人称呼：</div>
                         <div class="cnt">
-                            <input type="text" name="username" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">联系电话：</div>
                         <div class="cnt">
-                            <input type="text" name="mobile" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text"value="${userDetail.phone!}" name="phone"  class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">地区：</div>
                         <div class="cnt">
-                            <input type="text" name="region" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text" value="${userDetail.area?default('')}"  name="area" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">身份类型：</div>
                         <div class="cnt cbxs">
-                            <label><input type="radio" name="type" class="cbx">饮片厂</label>
-                            <label><input type="radio" name="type" class="cbx">药厂</label>
-                            <label><input type="radio" name="type" class="cbx">药材经营公司</label>
-                            <label><input type="radio" name="type" class="cbx">个体经营户</label>
-                            <label><input type="radio" name="type" class="cbx">合作社</label>
-                            <label><input type="radio" name="type" class="cbx">种植基地</label>
-                            <label><input type="radio" name="type" class="cbx">其他</label>
-                            <label><input type="radio" name="type" class="cbx">个人经营</label>
-                            <label><input type="radio" name="type" class="cbx">采购经理</label>
-                            <label><input type="radio" name="type" class="cbx">销售经理</label>
+                            <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
+                            <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
+                            <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
+                            <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
+                            <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
+                            <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
+                            <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
+                            <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
+                            <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
+                            <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">姓名/单位：</div>
                         <div class="cnt">
-                            <input type="text" name="company" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                            <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">用户备注：</div>
                         <div class="cnt">
-                            <textarea name="" id="" class="ipt ipt-mul"></textarea>
+                            <textarea name="" id="userRemark" class="ipt ipt-mul">${userDetail.remark!}</textarea>
                         </div>
                     </div>
                     <div class="ft">
-                        <button type="button" class="ubtn ubtn-blue">保存客户信息</button>
+                        <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
                     </div>
                 </form>
             </div>
@@ -234,15 +202,8 @@
     </div>
 </div>
 
-<div class="footer">
-    <div class="inner">
-        &copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有.
-    </div>
-</div>
+<#include "./common/footer.ftl"/>
 
-<script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     !(function() {
@@ -252,6 +213,10 @@
 
         var _global = {
             v: {
+                userUpdateUrl:'sample/userComplete/',
+                trackingCreateUrl:'pick/trackingSave',
+                updateCommodityNum:'pick/updateNum',
+                createOrder:"pick/createOrder"
             },
             fn: {
                 init: function() {
@@ -283,12 +248,33 @@
                             $(this).html('完成');
                             $ipts.prop('disabled', false);
 
-                            // 发送数据到后台
-                            $.ajax({})
+
                         } else {
                             status = 'done';
                             $(this).html('修改');
                             $ipts.prop('disabled', true);
+                            // 发送数据到后台
+                            var pickCommoditys=[];
+                            $ipts.each(function(i) {
+                                var pickCommodity={};
+                                pickCommodity.id=$(this).attr("pc");
+                                pickCommodity.num=this.value;
+                                var price=$(this).data('price');
+                                pickCommodity.total=pickCommodity.num * price;
+                                pickCommoditys.push(pickCommodity);
+                            })
+
+                            $.ajax({
+                                url: _global.v.updateCommodityNum,
+                                data: JSON.stringify(pickCommoditys),
+                                type: "POST",
+                                contentType : 'application/json',
+                                success: function(data){
+                                    if (data.status == "200") {
+                                    }
+
+                                }
+                            });
                         }
                     })
                 },
@@ -364,9 +350,9 @@
 
                     // 付款方式
                     $body.on('click', '.cbx', function() {
-                        if (this.value == 1) {
+                        if (this.value == 0) {
                             $('#calc').find('.group').hide();
-                        } else if (this.value == 2) {
+                        } else if (this.value == 1) {
                             $('#calc').find('.group').show().find('.item').show();
                         } else {
                             $('#calc').find('.group').show().find('.item').hide().eq(1).show();
@@ -375,9 +361,39 @@
 
                     // 确定
                     $body.on('click', '#calc .ubtn-blue', function() {
-                        window.location.href = 'pick_info2.html';
+                        var sum=$("#sum2").val();
+                        var amountsPayable=$("#sum3").text();
+                        $.ajax({
+                            url: _global.v.createOrder,
+                            data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
+                            type: "POST",
+                            success: function(data) {
+                                window.location.reload();
+                            }
+                        })
                     })
+                    $("#saveUser").on('click', function() {
+                        var url = _global.v.userUpdateUrl;
+                        $.ajax({
+                            url: url,
+                            data: $("#userForm").serialize()+"&remark="+$("#userRemark").val(),
+                            type: "POST",
+                            success: function(data){
+                                if (data.status == "200") {
+                                    $.notify({
+                                        type: 'success',
+                                        title: '保存成功',
+                                        delay: 3e3,
+                                        call: function() {
+                                            setTimeout(function() {
+                                            }, 3e3);
+                                        }
+                                    });
+                                }
 
+                            }
+                        });
+                    });
                     // 关闭弹层
                     // $body.on('click', '#calc .ubtn-gray', function() {
                     //     layer.closeAll();

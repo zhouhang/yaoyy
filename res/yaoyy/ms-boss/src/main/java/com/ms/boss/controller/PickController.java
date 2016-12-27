@@ -3,17 +3,9 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
-import com.ms.dao.model.Member;
-import com.ms.dao.model.Pick;
-import com.ms.dao.model.PickCommodity;
-import com.ms.dao.model.UserDetail;
-import com.ms.dao.vo.PickCommodityVo;
-import com.ms.dao.vo.PickTrackingVo;
-import com.ms.dao.vo.PickVo;
-import com.ms.service.PickCommodityService;
-import com.ms.service.PickService;
-import com.ms.service.PickTrackingService;
-import com.ms.service.UserDetailService;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgConsumeEvent;
@@ -52,6 +44,15 @@ public class PickController extends BaseController{
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private ShippingAddressHistoryService shippingAddressHistoryService;
+
+    @Autowired
+    private OrderInvoiceService orderInvoiceService;
+
+    @Autowired
+    private PayRecordService payRecordService;
 
     /**
      * 选货单列表
@@ -101,7 +102,24 @@ public class PickController extends BaseController{
         }
         else{
            //获取支付信息,收货信息和发票信息
-             
+            PayRecordVo param=new PayRecordVo();
+            param.setCodeType(0);
+            param.setOrderId(pickVo.getId());
+            if(pickVo.getStatus()==PickEnum.PICK_PAY.getValue()){
+                param.setStatus(0);
+            }
+            else{
+                param.setStatus(1);
+            }
+            PayRecordVo payRecord=payRecordService.findByOrderId(param);
+            OrderInvoiceVo orderInvoiceVo=orderInvoiceService.findByOrderId(pickVo.getId());
+            ShippingAddressHistory shippingAddressHistory=null;
+            if(pickVo.getAddrHistoryId()!=null){
+                 shippingAddressHistory=shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
+            }
+            model.put("payRecord",payRecord);
+            model.put("shippingAddressHistory",shippingAddressHistory);
+            model.put("orderInvoiceVo",orderInvoiceVo);
             return "pick_info2";
         }
 
@@ -149,7 +167,8 @@ public class PickController extends BaseController{
     @RequestMapping(value="createOrder",method=RequestMethod.POST)
     @ResponseBody
     private Result createOrder(PickVo pickVo){
-
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickVo.setMemberId(mem.getId());
         pickService.createOrder(pickVo);
         return Result.success().msg("生成订单成功");
     }

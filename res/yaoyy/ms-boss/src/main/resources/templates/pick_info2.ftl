@@ -55,37 +55,38 @@
 
             <div class="box fa-form fa-form-info">
                 <div class="hd">收货信息</div>
+               <#if shippingAddressHistory?exists>
                 <div class="item">
                     <div class="txt">收货人：</div>
-                    <div class="val">王彬</div>
+                    <div class="val">${shippingAddressHistory.consignee!}</div>
                 </div>
                 <div class="item">
                     <div class="txt">收货人电话：</div>
-                    <div class="val">18801285391</div>
+                    <div class="val">${shippingAddressHistory.tel!}</div>
                 </div>
                 <div class="item">
                     <div class="txt">收货地址：</div>
-                    <div class="val">武汉市洪山区光谷银座</div>
+                    <div class="val">>${shippingAddressHistory.detail!}</div>
                 </div>
+               </#if>
+               <#if orderInvoiceVo?exists>
                 <div class="item">
                     <div class="txt">发票：</div>
-                    <div class="val">沪谯药业</div>
+                    <div class="val">${orderInvoiceVo.content!}</div>
                 </div>
+               </#if>
                 <div class="item">
                     <div class="txt">备注：</div>
-                    <div class="val">无</div>
+                    <div class="val">${pickVo.remark!}</div>
                 </div>
             </div>
 
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
-                    <li><span>2016年10月12日 12:30</span><span>用户提交采购单</span></li>
-                    <li>操作人   2016年10月12日    12：30   同意/拒绝受理该采购单</li>
-                    <li>操作人   2016年10月12日    12：30   为客户下单/结束交易</li>
-                    <li>操作人   2016年10月12日    12：30   修改了商品详情/修改了结算详情</li>
-                    <li>2016年10月12日    12：30   用户支付了保证金/支付了全款/确认了订单</li>
-                    <li>操作人   2016年10月12日    12：30   确认发货</li>
+                <#list pickTrackingVos as tracking>
+                    <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
+                </#list>
                 </ol>
             </div>
 
@@ -105,28 +106,21 @@
                         </tr>
                         </thead>
                         <tbody>
+                       <#list pickVo.pickCommodityVoList as pickCommodityVo >
                         <tr>
-                            <td><a href="#">茯苓</a></td>
-                            <td>云南</td>
-                            <td><p>2级货，过4号筛，直径0.8cm以内</p></td>
-                            <td>10</td>
-                            <td>公斤</td>
-                            <td>50元/公斤</td>
-                            <td>500元</td>
+                            <td><a href="#">${pickCommodityVo.name}</a></td>
+                            <td>${pickCommodityVo.origin}</td>
+                            <td><p>${pickCommodityVo.spec}</p></td>
+                            <td>${pickCommodityVo.num}</td>
+                            <td>${pickCommodityVo.unit}</td>
+                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                            <td>${pickCommodityVo.total}元</td>
                         </tr>
-                        <tr>
-                            <td><a href="#">天麻</a></td>
-                            <td>陕西</td>
-                            <td><p>2级货，统片，颜色均匀，过10号筛</p></td>
-                            <td>10</td>
-                            <td>公斤</td>
-                            <td>50元/公斤</td>
-                            <td>500元</td>
-                        </tr>
+                       </#list>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="7" class="total"><span>合计：</span><em>800元</em></td>
+                            <td colspan="7" class="total"><span>合计：</span><em>${pickVo.sum!}元</em></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -137,130 +131,144 @@
                 <div class="hd">结算详情</div>
                 <div class="item">
                     <div class="txt">商品总价：</div>
-                    <div class="val"><em>350.00元</em></div>
+                    <div class="val"><em>${pickVo.sum!}元</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">运费：</div>
-                    <div class="val"><em>50.00元</em></div>
+                    <div class="val"><em>${pickVo.shippingCosts!}元</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
-                    <div class="val"><em>0元</em>（免包装费）</div>
+                    <div class="val"><em>${pickVo.bagging!}元</em>（免包装费）</div>
                 </div>
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="val"><em>0元</em>（免检测费）</div>
+                    <div class="val"><em>${pickVo.checking!}元</em>（免检测费）</div>
+                </div>
+                <div class="item">
+                    <div class="txt">税费：</div>
+                    <div class="val"><em>${pickVo.taxation!}元</em>（免检测费）</div>
                 </div>
                 <div class="item f16">
                     <div class="txt">总计：</div>
-                    <div class="val"><em>400元</em></div>
+                    <div class="val"><em>${pickVo.amountsPayable!}元</em></div>
                 </div>
                 <div class="hr"></div>
                 <div class="item f16">
                     <div class="txt">结算类型：</div>
-                    <div class="val">支付保证金 <!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
+                    <div class="val">${pickVo.SettleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
                 </div>
+                <#if pickVo.settleType==1>
                 <div class="item">
                     <div class="txt">账期：</div>
-                    <div class="val">30天</div>
+                    <div class="val">${pickVo.billTime!}天</div>
                 </div>
-                <div class="item">
-                    <div class="txt">保证金金额：</div>
-                    <div class="val"><em>100.00元</em></div>
-                </div>
-                <!--
-                <div class="item">
-                    <div class="txt">支付方式：</div>
-                    <div class="val">微信支付</div>
-                </div>
+                <#elseif pickVo.settleType==2>
+                    <div class="item">
+                        <div class="txt">账期：</div>
+                        <div class="val">${pickVo.billTime!}天</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">保证金金额：</div>
+                        <div class="val"><em>${pickVo.deposit!}元</em></div>
+                    </div>
+                </#if>
+                <#if payRecord?exists>
+                    <div class="item">
+                        <div class="txt">支付方式：</div>
+                        <div class="val">${payRecord.payTypeText}</div>
+                    </div>
+                <#if payRecord.payType!=0>
+
                 <div class="item">
                     <div class="txt">已付款：</div>
-                    <div class="val"><em>100.00元</em></div>
+                    <div class="val"><em>${payRecord.actualPayment}</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">欠款：</div>
-                    <div class="val"><em>300.00元</em></div>
+                    <div class="val"><em>${pickVo.amountsPayable-payRecord.actualPayment}元</em></div>
                 </div>
-                <div class="item">
-                    <div class="txt">支付时间：</div>
-                    <div class="val">2016年6月28日 12：30</div>
-                </div>
-                -->
-                <div class="ft">
-                    <a href="pick_info3.html" class="ubtn ubtn-blue">修改订单</a>
-                </div>
-                <!--
-                <div class="item">
-                    <div class="txt">支付方式：</div>
-                    <div class="val">银行转账</div>
-                </div>
-                <div class="item">
-                    <div class="txt">支付凭证：</div>
-                    <div class="val thumb">
-                        <img src="uploads/Koala.jpg" alt="" width="160" height="80">
+
+                <#else>
+
+                    <div class="item">
+                        <#if payRecord.payDocuments?exists>
+                        <#list payRecord.payDocuments as payDocument>
+                            <div class="txt">支付凭证：</div>
+                            <div class="val thumb"><img width="160" height="80" src="${payDocument.path}" alt=""></div>
+                        </#list>
+                        </#if>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="txt">支付时间：</div>
-                    <div class="val">2016年6月28日 12：30</div>
-                </div>
+                    <#if payRecord.status==0>
+                    <div class="ft">
+                        <button class="ubtn ubtn-blue">确认收款</button>
+                    </div>
+                    </#if>
+                </#if>
+                    <div class="item">
+                        <div class="txt">支付时间：</div>
+                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
+                    </div>
+                </#if>
+
                 <div class="ft">
-                    <button class="ubtn ubtn-blue">确认收款</button>
+                    <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
                 </div>
-                -->
+
             </div>
         </div>
         <div class="items">
             <div class="box fa-form">
                 <div class="hd">客户信息</div>
-                <form id="myform">
+                <form id="userForm">
+                    <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
                     <div class="item">
                         <div class="txt">个人称呼：</div>
                         <div class="cnt">
-                            <input type="text" name="username" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">联系电话：</div>
                         <div class="cnt">
-                            <input type="text" name="mobile" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text"value="${userDetail.phone!}" name="phone"  class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">地区：</div>
                         <div class="cnt">
-                            <input type="text" name="region" class="ipt" placeholder="" autocomplete="off">
+                            <input type="text" value="${userDetail.area?default('')}"  name="area" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">身份类型：</div>
                         <div class="cnt cbxs">
-                            <label><input type="radio" name="type" class="cbx">饮片厂</label>
-                            <label><input type="radio" name="type" class="cbx">药厂</label>
-                            <label><input type="radio" name="type" class="cbx">药材经营公司</label>
-                            <label><input type="radio" name="type" class="cbx">个体经营户</label>
-                            <label><input type="radio" name="type" class="cbx">合作社</label>
-                            <label><input type="radio" name="type" class="cbx">种植基地</label>
-                            <label><input type="radio" name="type" class="cbx">其他</label>
-                            <label><input type="radio" name="type" class="cbx">个人经营</label>
-                            <label><input type="radio" name="type" class="cbx">采购经理</label>
-                            <label><input type="radio" name="type" class="cbx">销售经理</label>
+                            <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
+                            <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
+                            <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
+                            <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
+                            <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
+                            <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
+                            <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
+                            <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
+                            <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
+                            <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">姓名/单位：</div>
                         <div class="cnt">
-                            <input type="text" name="company" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                            <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
                         <div class="txt">用户备注：</div>
                         <div class="cnt">
-                            <textarea name="" id="" class="ipt ipt-mul"></textarea>
+                            <textarea name="" id="userRemark" class="ipt ipt-mul">${userDetail.remark!}</textarea>
                         </div>
                     </div>
                     <div class="ft">
-                        <button type="button" class="ubtn ubtn-blue">保存客户信息</button>
+                        <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
                     </div>
                 </form>
             </div>
@@ -293,6 +301,28 @@
                     $wrapper.css('min-height', 'auto');
                     _fix();
                 })
+                $("#saveUser").on('click', function() {
+                    var url = _global.v.userUpdateUrl;
+                    $.ajax({
+                        url: url,
+                        data: $("#userForm").serialize()+"&remark="+$("#userRemark").val(),
+                        type: "POST",
+                        success: function(data){
+                            if (data.status == "200") {
+                                $.notify({
+                                    type: 'success',
+                                    title: '保存成功',
+                                    delay: 3e3,
+                                    call: function() {
+                                        setTimeout(function() {
+                                        }, 3e3);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+                });
             }
         }
     }
