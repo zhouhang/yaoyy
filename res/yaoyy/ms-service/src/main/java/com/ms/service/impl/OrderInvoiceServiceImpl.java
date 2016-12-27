@@ -20,7 +20,7 @@ public class OrderInvoiceServiceImpl  extends AbsCommonService<OrderInvoice> imp
 
 	@Override
 	public PageInfo<OrderInvoiceVo> findByParams(OrderInvoiceVo orderInvoiceVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+    	PageHelper.startPage(pageNum, pageSize);
     	List<OrderInvoiceVo>  list = orderInvoiceDao.findByParams(orderInvoiceVo);
         PageInfo page = new PageInfo(list);
         return page;
@@ -28,12 +28,23 @@ public class OrderInvoiceServiceImpl  extends AbsCommonService<OrderInvoice> imp
 
 	@Override
 	public OrderInvoiceVo findByOrderId(Integer orderId) {
-		return null;
+		OrderInvoiceVo vo = new OrderInvoiceVo();
+		vo.setOrderId(orderId);
+		List<OrderInvoiceVo> list = orderInvoiceDao.findByParams(vo);
+		return list.size()>0?list.get(0):null;
 	}
 
 	@Override
 	public Integer save(OrderInvoice invoice) {
-		return null;
+		//检查订单Id 对应的发票是否已经存在
+		//存在就更新,不存在就给订单创建新的发票
+		//检查该订单属于属于当前用户
+		if (invoice.getId()== null){
+			super.create(invoice);
+		} else {
+			super.update(invoice);
+		}
+		return invoice.getId();
 	}
 
 	@Override

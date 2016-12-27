@@ -11,24 +11,14 @@
             <result column="registered_tel"  property="registeredTel" />
             <result column="bank_name"  property="bankName" />
             <result column="bank_account"  property="bankAccount" />
-        
+            <result column="order_id"  property="orderId" />
     </resultMap>
 
-    <resultMap id="OrderInvoiceResultMapVo" type="com.ms.dao.vo.OrderInvoiceVo">
-            <id column="id"  property="id" />
-            <result column="name"  property="name" />
-            <result column="type"  property="type" />
-            <result column="content"  property="content" />
-            <result column="identifier"  property="identifier" />
-            <result column="registered_address"  property="registeredAddress" />
-            <result column="registered_tel"  property="registeredTel" />
-            <result column="bank_name"  property="bankName" />
-            <result column="bank_account"  property="bankAccount" />
-        
+    <resultMap id="OrderInvoiceResultMapVo" type="com.ms.dao.vo.OrderInvoiceVo" extends="OrderInvoiceResultMap">
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account
+        id,name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account,order_id
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="OrderInvoiceResultMap">
@@ -52,6 +42,9 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
         </where>
     </select>
 
@@ -62,9 +55,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.OrderInvoice">
         insert into
-        order_invoice (name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account)
+        order_invoice (name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account,order_id)
         values
-        (#{name},#{type},#{content},#{identifier},#{registeredAddress},#{registeredTel},#{bankName},#{bankAccount})
+        (#{name},#{type},#{content},#{identifier},#{registeredAddress},#{registeredTel},#{bankName},#{bankAccount},#{orderId})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.OrderInvoice">
@@ -102,7 +95,10 @@
             <if test="bankAccount != null">
                 bank_account = #{bankAccount},
             </if>
-                            
+
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
         </set>
         where id = #{id}
     </update>

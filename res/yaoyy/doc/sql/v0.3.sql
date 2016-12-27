@@ -152,6 +152,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线上支付表';
 
-
+ALTER TABLE `yaoyy`.`order_invoice`
+ADD COLUMN `order_id` INT NULL COMMENT '订单ID' AFTER `bank_account`;
 
 
