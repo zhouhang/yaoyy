@@ -14,22 +14,9 @@
             <result column="level"  property="level" />
             <result column="position"  property="position" />
             <result column="sort"  property="sort" />
-        
     </resultMap>
 
-    <resultMap id="AreaResultMapVo" type="com.ms.dao.vo.AreaVo">
-            <id column="id"  property="id" />
-            <result column="areaname"  property="areaname" />
-            <result column="parentid"  property="parentid" />
-            <result column="shortname"  property="shortname" />
-            <result column="areacode"  property="areacode" />
-            <result column="zipcode"  property="zipcode" />
-            <result column="pinyin"  property="pinyin" />
-            <result column="lng"  property="lng" />
-            <result column="lat"  property="lat" />
-            <result column="level"  property="level" />
-            <result column="position"  property="position" />
-            <result column="sort"  property="sort" />
+    <resultMap id="AreaResultMapVo" type="com.ms.dao.vo.AreaVo" extends="AreaResultMap">
         
     </resultMap>
 
@@ -59,6 +46,32 @@
                 id = #{id}
             </if>
         </where>
+    </select>
+
+    <!--通过等级查找地区-->
+    <select id="findByLevel" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        where level = #{level,jdbcType=INTEGER}
+    </select>
+
+    <!--通过父ID查询地区-->
+    <select id="findByParent" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        where parentid = #{parentid,jdbcType=INTEGER}
+    </select>
+
+    <select id="findVoById" parameterType="java.lang.Integer" resultType="com.ms.dao.vo.AreaVo">
+        SELECT
+        a.id as id,a.areaname as areaname,b.id as cityId,b.areaname as city,c.id as provinceId,c.areaname as province
+        FROM
+        area a
+        LEFT JOIN area b ON b.id = a.parentid
+        LEFT JOIN area c ON c.id = b.parentid
+        WHERE a.id = #{id}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

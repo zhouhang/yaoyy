@@ -33,7 +33,10 @@ public class OrderInvoice  implements Serializable {
 	
 	//银行账户
 	private String bankAccount;
-	
+
+	// 订单Id
+	private Integer orderId;
+
 	public OrderInvoice(){}
 	
 	public Integer getId() {
@@ -107,5 +110,12 @@ public class OrderInvoice  implements Serializable {
 	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
-	
+
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
 }

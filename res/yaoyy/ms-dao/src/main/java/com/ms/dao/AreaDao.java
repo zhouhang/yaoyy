@@ -10,4 +10,9 @@ public interface AreaDao extends ICommonDao<Area>{
 
     public List<AreaVo> findByParams(AreaVo areaVo);
 
+    public List<Area> findByParent(Integer parentId);
+
+    public List<Area> findByLevel(Integer level);
+
+    public AreaVo findVoById(Integer id);
 }
