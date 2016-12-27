@@ -158,6 +158,7 @@
         </dd>
     </dl>
    </@shiro.hasPermission>
+<@shiro.hasPermission name="pay:index">
     <dl>
         <dt>
             <a href="javascript:;">
@@ -166,8 +167,11 @@
                 <i class="fa fa-angle-down arrow"></i>
             </a>
         </dt>
+    <@shiro.hasPermission name="payRecord:list">
         <dd>
             <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
         </dd>
+    </@shiro.hasPermission>
     </dl>
+</@shiro.hasPermission>
 </div>

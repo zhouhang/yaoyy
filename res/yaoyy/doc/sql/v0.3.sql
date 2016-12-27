@@ -156,6 +156,9 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='线上支付表';
 
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('34', '账单流水管理', 'button', '', '0', 'pay:index', '2016-12-27 10:13:21');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('35', '交易流水列表', 'button', '', '34', 'payRecord:list', '2016-12-27 10:14:03');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('36', '交易流水详情', 'button', '', '34', 'payRecord:detail', '2016-12-27 10:14:39');
 
 
 
