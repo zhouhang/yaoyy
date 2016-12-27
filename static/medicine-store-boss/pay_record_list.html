@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>账单列表-boss</title>
+    <title>交易流水列表-boss</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
@@ -42,8 +42,8 @@
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
-				<li>账单管理</li>
-        		<li>账单列表</li>
+				<li>账单流水管理</li>
+        		<li>交易流水列表</li>
     		</ul>
 		</div>
 
@@ -51,14 +51,10 @@
 			<div class="tools">
 				<div class="filter">
 					<form action="">
-						<input type="text" class="ipt" placeholder="客户姓名">
-						<input type="text" class="ipt" placeholder="订单号">
-						<select name="" class="slt">
-							<option value="">选择状态</option>
-							<option value="">全部</option>
-							<option value="">已结清</option>
-							<option value="">未结清</option>
-						</select>
+						<input type="text" class="ipt" placeholder="用户手机号">
+						<input type="text" class="ipt" placeholder="单号">
+						<input type="text" class="ipt" placeholder="起始日期">
+						<input type="text" class="ipt" placeholder="结束日期">
 						<button class="ubtn ubtn-blue">搜索</button>
 					</form>
 				</div>
@@ -68,59 +64,63 @@
 				<table>
 					<thead>
 						<tr>
-							<th>账单号</th>
-							<th>订单号</th>
-							<th>客户姓名</th>
-							<th>单位</th>
-							<th>账单金额</th>
-							<th>剩余账期</th>
-							<th>操作人</th>
+							<th>交易流水号</th>
+							<th>单号</th>
+							<th>单号类型</th>
+							<th>用户姓名</th>
+							<th>支付金额</th>
+							<th>支付渠道</th>
 							<th>状态</th>
-							<th>创建时间</th>
 							<th width="100" class="tc">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td>z148237771633</td>
+							<td>201611161450000036</td>
 							<td>147926357194</td>
+							<td>订单</td>
 							<td>张三</td>
-							<td>沪谯药业</td>
-							<td>155000元</td>
-							<td>20天</td>
-							<td>王彬</td>
-							<td>未结清</td>
-							<td>2016-10-11 18:21</td>
+							<td>200元</td>
+							<td>微信支付</td>
+							<td>支付成功</td>
 							<td class="tc">
-								<a href="bill_info.html" class="ubtn ubtn-blue">查看</a>
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
 							</td>
 						</tr>
 						<tr>
-							<td>z148237771633</td>
+							<td>201611161450000036</td>
 							<td>147926357194</td>
-							<td>张三</td>
-							<td>沪谯药业</td>
-							<td>155000元</td>
-							<td>20天</td>
-							<td>王彬</td>
-							<td>未结清</td>
-							<td>2016-10-11 18:21</td>
+							<td>订单</td>
+							<td>李四</td>
+							<td>300元</td>
+							<td>微信支付</td>
+							<td>支付成功</td>
 							<td class="tc">
-								<a href="bill_info.html" class="ubtn ubtn-blue">查看</a>
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
 							</td>
 						</tr>
 						<tr>
-							<td>z148237771633</td>
+							<td>201611161450000036</td>
 							<td>147926357194</td>
-							<td>张三</td>
-							<td>沪谯药业</td>
-							<td>155000元</td>
-							<td>20天</td>
-							<td>王彬</td>
-							<td>未结清</td>
-							<td>2016-10-11 18:21</td>
+							<td>订单</td>
+							<td>王五</td>
+							<td>400元</td>
+							<td>线下转账</td>
+							<td>支付失败</td>
 							<td class="tc">
-								<a href="bill_info.html" class="ubtn ubtn-blue">查看</a>
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
+							</td>
+						</tr>
+						<tr>
+							<td>201611161450000036</td>
+							<td>147926357194</td>
+							<td>订单</td>
+							<td>赵六</td>
+							<td>500元</td>
+							<td>线下转账</td>
+							<td>支付失败</td>
+							<td class="tc">
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
 							</td>
 						</tr>
 					</tbody>

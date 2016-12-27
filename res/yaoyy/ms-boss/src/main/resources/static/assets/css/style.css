@@ -175,17 +175,28 @@ a.ubtn{height:28px;}
 .pagination .slt{height:26px;line-height:26px;margin-left:6px;}
 
 /* 寄样追踪 */
-.trace{margin:0 0 30px 140px;line-height:32px;}
+.trace{margin:0 0 0 30px;line-height:26px;font-size:14px;}
 .trace .fore{margin-bottom:20px;font-size:18px;font-weight:700;}
 .trace li span{margin-right:10px;word-break:break-all;word-wrap:break-word;}
+
+/* fa-tab */
+.fa-tab{margin-bottom:-15px;}
+.fa-tab span{display:inline-block;line-height:40px;padding:0 20px;cursor:pointer;}
+.fa-tab .on{color:#23c0fa;font-weight:700;background:#fff;border-radius:5px 5px 0 0;}
+.fa-tab-cont{}
+.fa-tab-cont .items:nth-child(n+2){display:none;}
 
 /* fa-form */
 .fa-form{font-size:12px;}
 .fa-form .hd{margin:0 0 15px 30px;font-size:18px;font-weight:700;}
 .fa-form .item{position:relative;margin-bottom:20px;padding-left:140px;}
+.fa-form .f16{font-size:16px;}
+.fa-form .hr{margin-top:20px;height:10px;border-top:1px solid #ccc;}
 .fa-form .txt{position:absolute;top:0;left:0;width:130px;line-height:32px;color:#999;text-align:right;}
 .fa-form .txt i{margin-right:6px;color:#d74141;vertical-align:middle;font:700 14px tahoma;}
 .fa-form .val{min-height:32px;line-height:32px;}
+.fa-form .val em{color:#e33737;}
+.fa-form .val a{margin-left:10px;font-size:12px;}
 .fa-form .cnt{position:relative;min-height:32px;line-height:32px;margin-bottom:10px;}
 .fa-form .cnt em{margin:0 4px;}
 .fa-form .cnt .slt{min-width:200px;}
@@ -211,7 +222,8 @@ a.ubtn{height:28px;}
 .fa-form .ml{margin-left:10px;}
 .fa-form .cbxs{width:600px;margin-bottom:15px;}
 .fa-form .cbxs label{display:inline-block;min-width:100px;}
-.fa-form table{width:700px;margin-left:140px;line-height:1.5;}
+.fa-form .cbxs2 label{margin-right:15px;}
+.fa-form table{width:750px;margin-left:140px;line-height:1.5;}
 .fa-form th{padding:8px;background:#e7e7e7;border:1px solid #ccc;text-align:center;}
 .fa-form td{height:40px;background:#fff;border:1px solid #ccc;text-align:center;}
 .fa-form td .ipt-wrap{position:relative;padding:0 10px;}
@@ -225,6 +237,11 @@ a.ubtn{height:28px;}
 .Validform_wrong{display:block;}
 .fa-form .cnt-table{padding-top:10px;}
 .fa-form .cnt-table table{margin:0;}
+.fa-form .attr{position:relative;width:750px;margin:0 0 0 30px;}
+.fa-form .attr table{margin:0;}
+.fa-form .attr p{width:200px;height:18px;padding:0 8px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fa-form .attr .total{text-align:right;padding-right:10px;font-size:14px;}
+.fa-form .attr .op{position:absolute;top:-30px;right:0;padding:3px 5px;color:#23c0fa;cursor:pointer;}
 .fa-form .suggestions{width:372px;margin:0;}
 .fa-form .suggestions th{height:30px;padding:0;}
 .fa-form .suggestions td{height:30px;}
@@ -240,6 +257,8 @@ a.ubtn{height:28px;}
 .fa-form .list li .info strong{margin-right:10px;font-size:16px;font-weight:700;}
 .fa-form .list li .edit{float:left;padding:10px;}
 .fa-form .list li .price{position:absolute;bottom:5px;left:140px;}
+.fa-form .group{display:none;overflow:hidden;*zoom:1;}
+.fa-form .group .item{float:left;width:100px;}
 
 /*报价单管理*/
 .group-list{width:700px;}
