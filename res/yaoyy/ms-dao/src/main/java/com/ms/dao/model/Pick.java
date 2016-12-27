@@ -61,6 +61,9 @@ public class Pick  implements Serializable {
 	//商品合计
 	private Float sum;
 	
+	//发货时间
+	private Date deliveryDate;
+	
 	//订单过期时间
 	private Date expireDate;
 	
@@ -220,6 +223,14 @@ public class Pick  implements Serializable {
 
 	public void setSum(Float sum) {
 		this.sum = sum;
+	}
+	
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 	
 	public Date getExpireDate() {

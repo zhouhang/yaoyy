@@ -71,7 +71,8 @@ ADD COLUMN `remark`  varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NUL
 ADD COLUMN `amounts_payable`  decimal(10,2) NULL DEFAULT NULL COMMENT '实际应付' AFTER `remark`,
 ADD COLUMN `member_id`  int(11) NULL DEFAULT NULL COMMENT '操作人id' AFTER `amounts_payable`,
 ADD COLUMN `sum`  decimal(10,2) NULL DEFAULT NULL COMMENT '商品合计' AFTER `member_id`,
-ADD COLUMN `expire_date`  datetime NULL DEFAULT NULL COMMENT '订单过期时间' AFTER `sum`;
+ADD COLUMN `expire_date`  datetime NULL DEFAULT NULL COMMENT '订单过期时间' AFTER `sum`,
+ADD COLUMN `delivery_date`  datetime NULL DEFAULT NULL COMMENT '发货时间' AFTER `sum`;
 
 
 CREATE TABLE `account_bill` (
