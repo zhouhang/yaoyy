@@ -11,4 +11,6 @@ public interface AccountBillDao extends ICommonDao<AccountBill>{
 
     public List<AccountBillVo> findByParams(AccountBillVo accountBillVo);
 
+    public AccountBillVo findVoById(Integer id);
+
 }

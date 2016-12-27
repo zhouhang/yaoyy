@@ -7,15 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
 
 /**
  * 交易流水
@@ -29,6 +25,14 @@ public class PayRecordController extends BaseController{
     private PayRecordService payRecordService;
 
 
+    /**
+     * 交易流水列表
+     * @param payRecordVo
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(PayRecordVo payRecordVo,Integer pageNum, Integer pageSize, ModelMap model){
 
@@ -37,6 +41,13 @@ public class PayRecordController extends BaseController{
 
         return "pay_record_list";
     }
+
+    /**
+     * 交易流水详情
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         PayRecordVo payRecordVo=payRecordService.findVoById(id);

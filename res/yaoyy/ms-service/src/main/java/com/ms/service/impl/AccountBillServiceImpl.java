@@ -20,10 +20,18 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 
 	@Override
 	public PageInfo<AccountBillVo> findByParams(AccountBillVo accountBillVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?10:pageSize;
+        PageHelper.startPage(pageNum, pageSize);
     	List<AccountBillVo>  list = accountBillDao.findByParams(accountBillVo);
         PageInfo page = new PageInfo(list);
         return page;
+	}
+
+	@Override
+	public AccountBillVo findVoById(Integer id) {
+		accountBillDao.findVoById(id);
+		return null;
 	}
 
 
