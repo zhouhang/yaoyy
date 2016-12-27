@@ -1,4 +1,4 @@
-package com.ms.service.observer;
+package com.ms.dao.observer;
 
 import org.springframework.context.ApplicationEvent;
 

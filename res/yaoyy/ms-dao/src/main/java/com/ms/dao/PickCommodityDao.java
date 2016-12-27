@@ -9,7 +9,7 @@ import java.util.List;
 public interface PickCommodityDao extends ICommonDao<PickCommodity>{
 
     public List<PickCommodityVo> findByParams(PickCommodityVo pickCommodityVo);
-
+    public void deleteByPickId(Integer pickId);
 
 
 }

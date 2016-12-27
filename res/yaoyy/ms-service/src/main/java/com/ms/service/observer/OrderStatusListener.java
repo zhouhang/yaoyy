@@ -1,5 +1,6 @@
 package com.ms.service.observer;
 
+import com.ms.dao.observer.OrderStatusEvent;
 import com.ms.service.PickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
