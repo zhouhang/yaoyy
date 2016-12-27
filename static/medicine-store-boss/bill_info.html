@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>交易流水详情-boss</title>
+    <title>账单详情-boss</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
@@ -42,31 +42,27 @@
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
-                <li>账单流水管理</li>
-                <li>交易流水详情</li>
+                <li>账单管理</li>
+                <li>账单详情</li>
     		</ul>
 		</div>
 
         <div class="box fa-form fa-form-info">
-            <div class="hd">交易信息</div>
+            <div class="hd">基本信息</div>
             <div class="item">
-                <div class="txt">支付流水号：</div>
-                <div class="val">201611161450000036</div>
+                <div class="txt">账单编号：</div>
+                <div class="val c-blue">z20161014002</div>
             </div>
             <div class="item">
-                <div class="txt">单号：</div>
-                <div class="val">20161014001</div>
+                <div class="txt">订单编号：</div>
+                <div class="val c-blue">20161014001</div>
             </div>
             <div class="item">
-                <div class="txt">单号类型：</div>
-                <div class="val">订单</div>
-            </div>
-            <div class="item">
-                <div class="txt">用户姓名：</div>
+                <div class="txt">客户姓名：</div>
                 <div class="val">王彬</div>
             </div>
             <div class="item">
-                <div class="txt">用户手机：</div>
+                <div class="txt">客户电话：</div>
                 <div class="val">18801285391</div>
             </div>
             <div class="item">
@@ -74,56 +70,143 @@
                 <div class="val">沪谯药业</div>
             </div>
             <div class="item">
-                <div class="txt">支付金额：</div>
-                <div class="val">500元</div>
+                <div class="txt">地区：</div>
+                <div class="val">安徽亳州</div>
             </div>
             <div class="item">
-                <div class="txt">支付渠道：</div>
-                <div class="val">银行转账</div>
+                <div class="txt">身份类型：</div>
+                <div class="val">饮片厂</div>
+            </div>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">商品信息</div>
+            <div class="attr">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>产地</th>
+                            <th width="200">规格等级</th>
+                            <th width="80">数量</th>
+                            <th>单位</th>
+                            <th>价格</th>
+                            <th>合计</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#">茯苓</a></td>
+                            <td>云南</td>
+                            <td><p>2级货，过4号筛，直径0.8cm以内</p></td>
+                            <td><input type="text" class="ipt number" disabled value="10" data-price="50"></td>
+                            <td>公斤</td>
+                            <td>50元/公斤</td>
+                            <td><span>500</span>元</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">天麻</a></td>
+                            <td>陕西</td>
+                            <td><p>2级货，统片，颜色均匀，过10号筛</p></td>
+                            <td><input type="text" class="ipt number" disabled value="10" data-price="50"></td>
+                            <td>公斤</td>
+                            <td>50元/公斤</td>
+                            <td><span>500</span>元</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">1000元</em></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="box fa-form fa-form-info">
+            <div class="hd">账单信息</div>
+            <div class="item">
+                <div class="txt">申请时间：</div>
+                <div class="val">2016年12月24日</div>
+            </div>
+            <div class="item">
+                <div class="txt">操作人：</div>
+                <div class="val">王彬</div>
+            </div>
+            <div class="item">
+                <div class="txt">状态：</div>
+                <div class="val">未结清</div>
+            </div>
+            <div class="item">
+                <div class="txt">商品总价：</div>
+                <div class="val"><em>350.00元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">运费：</div>
+                <div class="val"><em>50.00元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">包装费：</div>
+                <div class="val"><em>0元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">检测费：</div>
+                <div class="val"><em>0元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">税款：</div>
+                <div class="val"><em>0元</em></div>
+            </div>
+            <div class="item f16">
+                <div class="txt">总计：</div>
+                <div class="val"><em>400元</em></div>
+            </div>
+            <div class="hr"></div>
+            <div class="item f16">
+                <div class="txt">账单类型：</div>
+                <div class="val">保证金</div>
+            </div>
+            <div class="item">
+                <div class="txt">账期：</div>
+                <div class="val">30天</div>
+            </div>
+            <div class="item">
+                <div class="txt">保证金金额：</div>
+                <div class="val"><em>100.00元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">已付款：</div>
+                <div class="val"><em>100.00元</em></div>
+            </div>
+            <div class="item">
+                <div class="txt">欠款：</div>
+                <div class="val"><em>300.00元</em></div>
+            </div>
+            <div class="item f16">
+                <div class="txt">剩余帐期：</div>
+                <div class="val"><em>20天</em></div>
             </div>
         </div>
 
         <div class="box fa-form fa-form-info">
             <div class="hd">付款信息</div>
             <div class="item">
-                <div class="txt">收款账户：</div>
-                <div class="val">企业银行账户</div>
-            </div>
-            <div class="item">
-                <div class="txt">开户行：</div>
-                <div class="val">中国银行魏武大道支行</div>
-            </div>
-            <div class="item">
-                <div class="txt">开户人：</div>
-                <div class="val">亳州东方康元药材信息有限公司</div>
-            </div>
-            <div class="item">
-                <div class="txt">收款账户号：</div>
-                <div class="val">62220210010700708721</div>
+                <div class="txt">支付方式：</div>
+                <div class="val">银行转账</div>
             </div>
             <div class="item">
                 <div class="txt">支付凭证：</div>
-                <div class="val thumb"><img width="160" height="80" src="uploads/Koala.jpg" alt=""></div>
+                <div class="val thumb">
+                    <img src="uploads/Koala.jpg" alt="" width="160" height="80">
+                </div>
             </div>
             <div class="item">
                 <div class="txt">支付时间：</div>
-                <div class="val">2016年6月28日  12：30</div>
+                <div class="val">2016年6月28日 12：30</div>
             </div>
-        </div>
-
-		<div class="box fa-form fa-form-info">
-            <div class="item">
-                <div class="txt">支付结果：</div>
-                <div class="val">支付成功</div>
-            </div>
-            <div class="item">
-                <div class="txt">操作人员：</div>
-                <div class="val">张静</div>
-            </div>
-            <div class="item">
-                <div class="txt">记录时间：</div>
-                <div class="val">2016年6月28日  12：30</div>
-            </div>
+            <div class="ft">
+                <button class="ubtn ubtn-blue">确认收款</button>
+            </div> 
         </div>
 
 	</div>
@@ -138,205 +221,5 @@
 
 <script src="assets/js/jquery191.js"></script>
 <script src="assets/js/common.js"></script>
-<script src="assets/js/jquery.autocomplete.js"></script>
-<script src="assets/plugins/layer/layer.js"></script>
-<script src="assets/plugins/laydate/laydate.js"></script>
-<script src="assets/plugins/validator/jquery.validator.min.js"></script>
-<script>
-	var _global = {
-		v: {
-		},
-		fn: {
-			init: function() {
-                this.userinfo();
-                this.submitEvent();
-			},
-            // 补全信息
-            userinfo: function() {
-                var self = this,
-                    $jgoosList = $('#jgoosList'),
-                    idx = $jgoosList.find('.cnt').length;
-
-                // 添加商品
-                $('#jaddNewGoods').on('click', function() {
-                    $jgoosList.append('<div class="cnt"> \n <div class="ipt-wrap"><input type="text" name="goods' + (++idx) + '" id="goods' + (++idx) + '" class="ipt" autocomplete="off"></div> \n <button type="button" class="ubtn ubtn-red ml">删除</button> \n </div>');
-                    self.searchProduct($('#goods' + idx));
-                })
-
-                // 删除价格
-                $jgoosList.on('click', '.ubtn-red', function(){
-                    $(this).prev().find('.ipt').autocomplete('dispose');
-                    $(this).parent().remove();
-                })
-
-                self.searchProduct($('#goods1'));
-
-            },
-			// 查询品种
-			searchProduct: function($ele) {
-				$ele.autocomplete({
-                    serviceUrl: 'json/catName.json',
-                    paramName: 'name',
-                    deferRequestBy: 100,
-                    showNoSuggestionNotice: true,
-                    noSuggestionNotice: '没有该品种',
-                    transformResult: function (response) {
-                        response = JSON.parse(response);
-                        if (response.status == "y") {
-                            return {
-                                suggestions: $.map(response.data, function (dataItem) {
-                                    return {value: dataItem.name, data: dataItem.id};
-                                })
-                            };
-                        } else {
-                            return {
-                                suggestions: []
-                            }
-                        }
-                    },
-                    onSelect: function (suggestion) {
-                    }
-                });
-			},
-            // 提交事件
-            submitEvent: function() {
-                var self = this,
-                    $trace = $('#trace'),
-                    $pa = $trace.parent();
-
-                // 同意受理
-                $pa.on('click', '.submit1', function() {
-                    self.submit1();
-                    return false;
-                })
-
-                // 拒绝受理
-                $pa.on('click', '.submit2', function(){
-                    self.submit2();
-                    return false;
-                })
-
-                // 提交记录
-                $pa.on('click', '.submit3', function(){
-                    var text = $('#traceForm').find('.ipt').val();
-                    $.ajax({
-                        url: '',
-                        data: {msg: text},
-                        success: function(data) {
-                            data = {
-                                date: '2016年10月20日 15:20',
-                                operator: 'frank',
-                                msg: text
-                            }
-                            $('#traceForm').find('.ipt').val('');
-                            self.addNewRevord(data);
-                        }
-                    })
-                })
-
-                // 交易完成
-                $pa.on('click', '.submit4', function() {
-                    layer.confirm('寄样完成后不能进行跟踪记录操作，是否确认', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
-                        $('#traceForm').remove();
-                        layer.close(index);
-                    });
-                })
-                // 交易未完成
-                $pa.on('click', '.submit5', function() {
-                    self.submit5();
-                    return false;
-                })
-            },
-            // 同意受理
-            submit1: function() {
-                $.ajax({
-                    url: '',
-                    // data: {},
-                    success: function(data) {
-                        data = {
-                            operator: 'frank',
-                            date: '2016年10月20日 15:20'
-                        }
-                        $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意受理该采购单</span></li>');
-                        $('.submit2').parent().remove();
-                        $('#traceForm').show();
-                    }
-                })
-            },
-            // 拒绝受理
-            submit2: function() {
-                layer.prompt({
-                    moveType: 1,
-                    formType: 2,
-                    title: '拒绝原因',
-                    btn: ['拒绝', '关闭']
-                }, function(text, index) {
-                    $.ajax({
-                        url: '',
-                        data: {msg: text},
-                        success: function(data) {
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>拒绝受理该采购单</span></li><li><span>拒绝理由：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                        }
-                    })
-                    layer.close(index);
-                });
-            },
-            // 交易未完成
-            submit5: function() {
-                layer.prompt({
-                    moveType: 1,
-                    formType: 2,
-                    title: '取消原因',
-                    btn: ['确认', '关闭']
-                }, function(text, index) {
-                    $.ajax({
-                        url: '',
-                        data: {msg: text},
-                        success: function(data) {
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>交易未完成</span></li><li><span>原因：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                        }
-                    })
-                    layer.close(index);
-                });
-            },
-            // 表单
-            layerForm: function(modal, title) {                
-                layer.open({
-                    area: ['600px'],
-                    type: 1,
-                    moveType: 1,
-                    content: modal,
-                    title: title
-                });
-            },
-            // 添加记录
-            addNewRevord: function(data) {
-                var html = [];
-                $.each(data, function(i, item) {
-                    html.push('<span>' + item + '</span>');
-                })
-                html.length > 1 && $('#trace').append('<li>' + html.join('') + '</li>');
-            } 
-		}
-	}
-
-	$(function() {
-		_global.fn.init();
-	})
-</script>
 </body>
 </html>
