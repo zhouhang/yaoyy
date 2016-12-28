@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>选货单详情-药优优</title>
+    <title>订单详情-药优优</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body class="ui-body-nofoot body-gray">
     <header class="ui-header">
-        <div class="title">选货单详情</div>
+        <div class="title">订单详情</div>
         <div class="abs-l mid">
             <a href="javascript:history.back();" class="fa fa-back"></a>
         </div>
@@ -22,22 +22,41 @@
         <div class="sinfo">
             <div class="item">
                 <ul class="info">
-                    <li>选货单状态：交易完成</li>
-                    <li>寄样单号：114411414</li>
+                    <li>订单状态：交易完成</li>
+                    <li>订单号：114411414</li>
                     <li>申请时间：2016-10-12 12：30</li>
+                    <li><strong>请在3天内完成支付，否则订单会自动被取消。</strong></li>
+                </ul>
+                <ul class="step">
+                    <li class="active">
+                        <i></i>
+                        <span>提交订单</span>
+                    </li>
+                    <li>
+                        <i></i>
+                        <span>支付完成</span>
+                    </li>
+                    <li>
+                        <i></i>
+                        <span>待收货</span>
+                    </li>
+                    <li>
+                        <i></i>
+                        <span>交易完成</span>
+                    </li>
                 </ul>
                 <ul class="time">
                     <li>
                         <time>2016-10-12 12：30</time>
-                        <span>提交选货单</span>
+                        <span>提交订单</span>
                     </li>
                     <li>
                         <time>2016-10-12 14：30</time>
-                        <span>选货单审核通过</span>
+                        <span>订单审核通过</span>
                     </li>
                     <li>
                         <time>2016-10-12 14：30</time>
-                        <span>选货单审核不通过</span>
+                        <span>订单审核不通过</span>
                         <span>拒绝理由： 客户非采购人士</span>
                     </li>
                     <li>
@@ -48,14 +67,68 @@
             </div>
 
             <div class="item">
-                <div class="hd">选货单：</div>
+                <div class="hd">订单：</div>
                 <ul class="list">
                     <li><a href="product_detail.html"><em>茯苓</em><span>云南  2级货  过4号筛  直径0.8cm以内  20元/公斤</span></a><sub><em>10</em> 公斤 <b>&yen; <em>200</em></b> 元</sub></li>
                     <li><a href="product_detail.html"><em>冬虫夏草</em><span>西藏  1级货  过4号筛  直径0.8cm以内 800元/公斤</span></a><sub><em>5</em> 公斤 <b>&yen; <em>4000</em></b> 元</sub></li>
                     <li><a href="product_detail.html"><em>三七</em><span>云南  2级货  过4号筛  直径0.8cm以内 60元/公斤</span></a><sub><em>10</em> 公斤 <b>&yen; <em>600</em></b> 元</sub></li>
                 </ul>
+                <div class="total">
+                    总计：<b>4800</b>元
+                </div>
             </div>
 
+            <div class="item more">
+                <div class="title">王彬  18801285391 <em>默认</em></div>
+                <div class="address">湖北省武汉市洪山区城区珞瑜路光谷银座15楼</div>
+                <a href="consignee.html" class="mid"><i class="fa fa-front"></i></a>
+            </div>
+
+            <div class="item">
+                <div class="more">
+                    <div class="txt"><strong>发票：</strong>不开发票</div>
+                    <a href="invoice.html" class="mid"><i class="fa fa-front"></i></a>
+                </div>
+                <div class="more hr">
+                    <div class="txt"><strong>备注：</strong>无</div>
+                    <a href="note.html" class="mid"><i class="fa fa-front"></i></a>
+                </div>
+            </div>
+
+            <div class="item summary">
+                <dl>
+                    <dt>商品总价：</dt>
+                    <dd><em>4800.00</em>元</dd>
+                </dl>
+                <dl>
+                    <dt>运费：</dt>
+                    <dd><em>50.00</em>元</dd>
+                </dl>
+                <dl>
+                    <dt>包装费：</dt>
+                    <dd><em>0</em>元（免包装费）</dd>
+                </dl>
+                <dl>
+                    <dt>检测费：</dt>
+                    <dd><em>0</em>元（免检测费）</dd>
+                </dl>
+                <dl>
+                    <dt>税款：</dt>
+                    <dd><em>0</em>元</dd>
+                </dl>
+                <dl class="f18">
+                    <dt>总计：</dt>
+                    <dd><em>4850.00</em>元</dd>
+                </dl>
+            </div>
+
+
+            <div class="button">
+                <button type="button" class="ubtn ubtn-primary">微信支付</button>
+                <button type="button" class="ubtn ubtn-primary">支付宝支付</button>
+                <button type="button" class="ubtn ubtn-primary">银行转账</button>
+                <button type="button" class="ubtn ubtn-primary">取消订单</button>
+            </div>
 
             <div class="ui-extra">
                 咨询电话：<a href="tel:027-33641141" target="_blank">027-33641141</a>
