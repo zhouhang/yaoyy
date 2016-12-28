@@ -12,6 +12,7 @@ import com.ms.service.PickCommodityService;
 import com.ms.service.PickService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -249,6 +250,35 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickDao.update(pick);
 	}
 
+	@Override
+	@Transactional
+	public void cancel(Integer id, Integer userId) {
+		// 判断订单属于当前用户,再取消
+		Pick pick = findById(id);
+		if (pick!= null && pick.getId().equals(userId)) {
+			throw new ControllerException("没有权限取消订单");
+			// TODO: 判断当前订单的状态是否 处于可取消状态
+		}
+		changeOrderStatus(id,PickEnum.PICK_CANCLE.getValue());
+	}
+
+	@Override
+	@Transactional
+	public void receipt(Integer id, Integer userId) {
+		// 判断订单属于当前用户,再取消
+		Pick pick = findById(id);
+		if (pick!= null && pick.getId().equals(userId)) {
+			throw new ControllerException("没有权限取消订单");
+			// TODO: 判断当前订单的状态是否 处于可确认收货状态
+		}
+		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
+	}
+
+	@Override
+	@Transactional
+	public void saveOrder(PickVo pickVo) {
+
+	}
 
 	@Override
 	public ICommonDao<Pick> getDao() {
