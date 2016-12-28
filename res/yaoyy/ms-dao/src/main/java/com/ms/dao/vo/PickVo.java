@@ -64,6 +64,8 @@ public class PickVo extends Pick{
     }
 
     public String getStatusText() {
+        aotoComplete();
+        setPickStatus ();
         return PickEnum.findByValue(getStatus());
     }
 
@@ -81,7 +83,7 @@ public class PickVo extends Pick{
 
     /**
      * 每次显示是
-     * 发货后15天自动收货完成订单
+     * 发货后10天自动收货完成订单
      */
     private void aotoComplete() {
         if (getDeliveryDate()!= null && getStatus().equals(PickEnum.PICK_DELIVERIED.getValue())){
@@ -89,7 +91,7 @@ public class PickVo extends Pick{
             Long currentTime = new Date().getTime();
             Long createTime = this.getDeliveryDate().getTime() + intervals;
             if (createTime <= currentTime) {
-                // 如果发货后 15天 订单设置为自动收货
+                // 如果发货后 10天 订单设置为自动收货
                 SpringUtil.getApplicationContext().publishEvent(new OrderStatusEvent(getId(), PickEnum.PICK_FINISH.getValue()));
             }
         }
@@ -100,6 +102,9 @@ public class PickVo extends Pick{
      * @return
      */
     public void setPickStatus () {
+             if(this.getStatus()==null){
+                 return;
+             }
             if (this.getStatus().equals(PickEnum.PICK_PAY.getValue())) {
 
                 Long day = 24 * 60 * 60 * 1000L;

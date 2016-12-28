@@ -208,16 +208,8 @@ public class PickController extends BaseController{
     @RequestMapping(value="delivery",method=RequestMethod.POST)
     @ResponseBody
     private Result delivery(LogisticalVo logisticalVo){
-        logisticalService.save(logisticalVo);
-
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-        PickTrackingVo pickTrackingVo=new PickTrackingVo();
-        pickTrackingVo.setPickId(logisticalVo.getOrderId());
-        pickTrackingVo.setOperator(mem.getId());
-        pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
-        pickTrackingVo.setName(mem.getName());
-        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue());
-        pickTrackingService.save(pickTrackingVo);
+        pickService.delivery(logisticalVo,mem);
         return Result.success().msg("发货成功");
     }
 

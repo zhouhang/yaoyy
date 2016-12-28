@@ -8,6 +8,7 @@ import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
@@ -54,6 +55,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private PickTrackingService  pickTrackingService;
+
+	@Autowired
+	private LogisticalService logisticalService;
 
 
 
@@ -285,6 +289,34 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		for(PickCommodity pickCommodity:pickCommodities){
 			pickCommodityService.update(pickCommodity);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void delivery(LogisticalVo logisticalVo,Member mem) {
+		logisticalService.save(logisticalVo);
+
+		Date now=new Date();
+		Pick pick =new Pick();
+		pick.setId(logisticalVo.getOrderId());
+		pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
+		pick.setDeliveryDate(logisticalVo.getShipDate());
+		pick.setUpdateTime(now);
+		pickDao.update(pick);
+
+		PickTrackingVo pickTrackingVo=new PickTrackingVo();
+		pickTrackingVo.setPickId(logisticalVo.getOrderId());
+		pickTrackingVo.setOperator(mem.getId());
+		pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+		pickTrackingVo.setName(mem.getName());
+		pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue());
+		if(pickTrackingVo.getExtra()==null){
+			pickTrackingVo.setExtra("");
+		}
+		pickTrackingVo.setCreateTime(now);
+		pickTrackingVo.setUpdateTime(now);
+
+		pickTrackingDao.create(pickTrackingVo);
 	}
 
 	@Override
