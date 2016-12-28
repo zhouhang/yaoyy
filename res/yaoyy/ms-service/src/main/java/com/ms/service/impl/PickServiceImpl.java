@@ -317,6 +317,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void saveOrder(PickVo pickVo) {
+		//判断提交的订单是否属于当前用户
+		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
+		// 保存发票信息
+		// 保存订单
 
 	}
 
