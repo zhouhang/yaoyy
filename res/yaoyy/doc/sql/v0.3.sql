@@ -162,4 +162,11 @@ INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permissio
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('35', '交易流水列表', 'button', '', '34', 'payRecord:list', '2016-12-27 10:14:03');
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('36', '交易流水详情', 'button', '', '34', 'payRecord:detail', '2016-12-27 10:14:39');
 
-
+ALTER TABLE `yaoyy`.`pick`
+CHANGE COLUMN `shipping_costs` `shipping_costs` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '运费' ,
+CHANGE COLUMN `bagging` `bagging` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '包装费' ,
+CHANGE COLUMN `checking` `checking` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '检测费' ,
+CHANGE COLUMN `taxation` `taxation` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '税费' ,
+CHANGE COLUMN `deposit` `deposit` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '保证金' ,
+CHANGE COLUMN `amounts_payable` `amounts_payable` DECIMAL(10,2) NULL DEFAULT 0 COMMENT '实际应付' ,
+CHANGE COLUMN `sum` `sum` DECIMAL(10,2) NULL DEFAULT 0 COMMENT '商品合计' ;
