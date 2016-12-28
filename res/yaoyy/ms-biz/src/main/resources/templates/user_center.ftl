@@ -48,7 +48,12 @@
                     </#if>
                 </a>
             </li>
-            <li></li>
+            <li>
+                <a href="/address/list">
+                    <i class="fa fa-region"></i>
+                    <span>收货地址</span>
+                </a>
+            </li>
             <li></li>
         </ul>
     </div>

@@ -8,7 +8,9 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpSession;
  * 12/26/16.
  * 收货地址
  */
+@Controller
 @RequestMapping("/address")
 public class AddressController {
     @Autowired
@@ -37,8 +40,8 @@ public class AddressController {
     public String list(ModelMap model){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        model.put("list",addressService.findByUserId(user.getId()));
-        return "";
+        model.put("addressList",addressService.findByUserId(user.getId()));
+        return "address_list";
     }
 
     /**
@@ -87,15 +90,20 @@ public class AddressController {
      * @param model
      * @return
      */
-    @RequestMapping("/detail")
-    public String detail(Integer id, ModelMap model){
+    @RequestMapping("/detail/{id}")
+    public String detail(@PathVariable("id") Integer id, ModelMap model){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         ShippingAddressVo addressVo = addressService.findVoById(id);
-        if (addressVo.getUserId() != user.getId()) {
+        if (!addressVo.getUserId().equals(user.getId())) {
             throw new ControllerException("没有权限访问该地址详情.");
         }
         model.put("vo",addressVo);
-        return "";
+        return "address_detail";
+    }
+
+    @RequestMapping("/add")
+    public String addAddress(ModelMap model){
+        return "add_address";
     }
 }

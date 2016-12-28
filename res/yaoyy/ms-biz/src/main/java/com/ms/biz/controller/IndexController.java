@@ -158,8 +158,8 @@ public class IndexController extends BaseController{
      */
     @RequestMapping(value = "/area")
     @ResponseBody
-    public Result area(@RequestParam("parentId") Integer parentId) {
+    public Result area(Integer parentId) {
         List<Area> list = areaService.findByParent(parentId);
-        return Result.success().data(GsonUtil.toJsonInclude(list, "id", "areaname"));
+        return Result.success().data(list);
     }
 }
