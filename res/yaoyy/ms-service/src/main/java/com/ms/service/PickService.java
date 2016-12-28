@@ -14,6 +14,10 @@ public interface PickService extends ICommonService<Pick>{
 
     public PickVo findVoById(Integer id);
 
+    /**
+     * 保存用户提交的订单申请
+     * @param pickVo
+     */
     public void save(PickVo pickVo);
 
     /**
@@ -22,6 +26,12 @@ public interface PickService extends ICommonService<Pick>{
      */
     public void createOrder(PickVo pickVo);
 
+    /**
+     * 保存用户提交的订单确认信息
+     * 收货地址,发票,备注等
+     * @param pickVo
+     */
+    public void saveOrder(PickVo pickVo);
 
     /**
      * 更改订单状态
@@ -30,6 +40,20 @@ public interface PickService extends ICommonService<Pick>{
      */
     public void changeOrderStatus(Integer id,Integer status);
 
+    /**
+     * 前台用户取消订单
+     * @param id
+     * @param userId
+     */
+    public void cancel(Integer id, Integer userId);
+
+    /**
+     * 前台用户确认收货
+     * @param id
+     * @param userId
+     */
+    public void receipt(Integer id, Integer userId);
+
 
     /**
      * 更新商品数量
@@ -37,4 +61,8 @@ public interface PickService extends ICommonService<Pick>{
      * @param pickTrackingVo
      */
     public void updateCommodityNum(List<PickCommodity> pickCommodities, PickTrackingVo pickTrackingVo);
+
+
+
+
 }

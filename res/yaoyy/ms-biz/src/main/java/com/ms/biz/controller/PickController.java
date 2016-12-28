@@ -1,20 +1,18 @@
 package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.Commodity;
-import com.ms.dao.model.PickCommodity;
-import com.ms.dao.model.User;
-import com.ms.dao.model.UserDetail;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.PayRecordVo;
 import com.ms.dao.vo.PickCommodityVo;
 import com.ms.dao.vo.PickTrackingVo;
 import com.ms.dao.vo.PickVo;
-import com.ms.service.CommodityService;
-import com.ms.service.PickCommodityService;
-import com.ms.service.PickService;
-import com.ms.service.PickTrackingService;
+import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.entity.ResultStatus;
+import com.ms.tools.exception.ControllerException;
+import com.ms.tools.ueditor.CropResult;
+import com.ms.tools.upload.UploadService;
 import com.ms.tools.utils.CookieUtils;
 import com.ms.tools.utils.GsonUtil;
 import me.chanjar.weixin.mp.api.WxMpPayService;
@@ -26,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +51,11 @@ public class PickController extends BaseController{
     @Autowired
     private WxMpService wxService;
 
+    @Autowired
+    private OrderInvoiceService orderInvoiceService;
+
+    @Autowired
+    UploadService uploadService;
 
     /**
      * 选货单列表
@@ -77,7 +81,6 @@ public class PickController extends BaseController{
 
         return Result.success().data(pickVoPageInfo);
 
-
     }
 
     /**
@@ -98,6 +101,102 @@ public class PickController extends BaseController{
     }
 
 
+    /**
+     * 保存订单信息
+     * @param pickVo
+     * @param type 支付类型 根据不同的类型返回不同的跳转Url
+     * @return
+     */
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @ResponseBody
+    public Result save(PickVo pickVo,Integer type){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        return null;
+    }
 
+    /**
+     *取消订单
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "cancel", method = RequestMethod.POST)
+    public String cancel(Integer id){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        pickService.cancel(id,user.getId());
+        return "redirect:/pick/cancelSuccess";
+    }
+
+    /**
+     * 取消成功页面
+     * @return
+     */
+    @RequestMapping(value = "cancelSuccess", method = RequestMethod.GET)
+    public String cancelSuccess(){
+        return "";
+    }
+
+    /**
+     * 确认收货
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "receipt", method = RequestMethod.POST)
+    @ResponseBody
+    public Result receipt(Integer id){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        pickService.receipt(id,user.getId());
+        return Result.success("订单完成");
+    }
+
+    /**
+     * 银行转账页面
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "bankTransfer", method = RequestMethod.GET)
+    public String bankTransfer(Integer orderId){
+        // 根据订单Id 获取转账金额.同时确认订单属于当前用户
+        return "";
+    }
+
+    /**
+     * 上传转账图片
+     * @param img
+     * @return
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public CropResult updateFile(@RequestParam(required = false) MultipartFile img) throws Exception{
+        return uploadService.uploadImage(img);
+    }
+
+    /**
+     * 保存银行转账
+     * @param record
+     * @return
+     */
+    @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
+    public String bankTransferSave(PayRecordVo record){
+        // 根据订单Id 获取转账金额.同时确认订单属于当前用户
+        return "";
+    }
+
+    /**
+     * 转账成功页面
+     * @return
+     */
+    @RequestMapping(value = "bankTransferSuccess", method = RequestMethod.GET)
+    public String bankTransferSuccess(){
+        return "";
+    }
+
+    /**
+     * 支付成功页面
+     * @return
+     */
+    @RequestMapping(value = "paySuccess", method = RequestMethod.GET)
+    public String paySuccess(){
+        return "";
+    }
 
 }
