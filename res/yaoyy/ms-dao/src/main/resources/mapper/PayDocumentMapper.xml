@@ -53,6 +53,11 @@
         where id = #{id}
     </delete>
 
+    <delete id="deleteByRecordId" parameterType="java.lang.Integer">
+        delete from pay_document
+        where pay_record_id = #{recordId}
+    </delete>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.PayDocument">
         insert into
         pay_document (pay_record_id,path,create_date)

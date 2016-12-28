@@ -10,5 +10,5 @@ public interface PayRecordService extends ICommonService<PayRecord>{
     public PayRecordVo findVoById(Integer id);
     public PayRecordVo findByOrderId(PayRecordVo payRecordVo);
 
-    PayRecord save(PayRecord payRecord);
+    PayRecordVo save(PayRecordVo payRecord);
 }

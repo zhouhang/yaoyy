@@ -10,6 +10,7 @@ import com.ms.dao.model.PayRecord;
 import com.ms.dao.vo.PayDocumentVo;
 import com.ms.dao.vo.PayRecordVo;
 import com.ms.service.PayRecordService;
+import com.ms.tools.upload.PathConvert;
 import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,13 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 	@Autowired
 	private PayDocumentDao payDocumentDao;
 
+	@Autowired
+	private PathConvert pathConvert;
+
+	/**
+	 * 商品图片保存路径
+	 */
+	private String folderName = "pay/";
 
 	@Override
 	public PageInfo<PayRecordVo> findByParams(PayRecordVo payRecordVo,Integer pageNum,Integer pageSize) {
@@ -64,7 +72,7 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 
 	@Override
 	@Transactional
-	public PayRecord save(PayRecord payRecord) {
+	public PayRecordVo save(PayRecordVo payRecord) {
 		if (payRecord.getId()!= null) {
 			update(payRecord);
 		} else {
@@ -74,7 +82,17 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 			payRecord.setPayCode(SeqNoUtil.get("",payRecord.getId(),6));
 			update(payRecord);
 		}
-		return null;
+		// 删除原图片再保存图片
+		payDocumentDao.deleteByRecordId(payRecord.getId());
+		if (payRecord.getPayDocuments()!= null && payRecord.getPayDocuments().size() >0 ){
+			payRecord.getPayDocuments().forEach(doc ->{
+				doc.setCreateDate(new Date());
+				doc.setPayRecordId(payRecord.getId());
+				doc.setPath(pathConvert.saveFileFromTemp(doc.getPath(),folderName));
+				payDocumentDao.create(doc);
+			});
+		}
+		return payRecord;
 	}
 
 	@Override
