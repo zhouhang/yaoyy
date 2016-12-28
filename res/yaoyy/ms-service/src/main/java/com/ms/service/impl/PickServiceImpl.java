@@ -285,9 +285,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		for(PickCommodity pickCommodity:pickCommodities){
 			pickCommodityService.update(pickCommodity);
 		}
-        //保存更新记录
-		pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_UPDATE.getValue());
-		pickTrackingService.save(pickTrackingVo);
+        //保存数量时不更新跟踪记录
+		//pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_UPDATE.getValue());
+		//pickTrackingService.save(pickTrackingVo);
 	}
 
 
