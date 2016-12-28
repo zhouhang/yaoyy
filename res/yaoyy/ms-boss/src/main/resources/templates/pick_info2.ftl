@@ -52,7 +52,7 @@
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
-
+            <#if pickVo.status!=5>
             <div class="box fa-form fa-form-info">
                 <div class="hd">收货信息</div>
                <#if shippingAddressHistory?exists>
@@ -80,7 +80,7 @@
                     <div class="val">${pickVo.remark!}</div>
                 </div>
             </div>
-
+            </#if>
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
@@ -156,7 +156,7 @@
                 <div class="hr"></div>
                 <div class="item f16">
                     <div class="txt">结算类型：</div>
-                    <div class="val">${pickVo.SettleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
+                    <div class="val">${pickVo.settleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
                 </div>
                 <#if pickVo.settleType==1>
                 <div class="item">
@@ -177,6 +177,10 @@
                     <div class="item">
                         <div class="txt">支付方式：</div>
                         <div class="val">${payRecord.payTypeText}</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">支付时间：</div>
+                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
                     </div>
                 <#if payRecord.payType!=0>
 
@@ -205,14 +209,18 @@
                     </div>
                     </#if>
                 </#if>
-                    <div class="item">
-                        <div class="txt">支付时间：</div>
-                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
-                    </div>
+
                 </#if>
 
                 <div class="ft">
-                    <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
+                    <#if pickVo.status==5&&!payRecord?exists>
+                        <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
+                    </#if>
+
+                    <#if pickVo.status==6>
+                    <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
+                    </#if>
+
                 </div>
 
             </div>
@@ -277,7 +285,31 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+<form id="temp" class="hide">
+    <div class="fa-form fa-form-layer">
+        <div class="item">
+            <div class="txt"><i>*</i>发货信息：</div>
+            <div class="cnt cnt-mul"><textarea name="note" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
+        </div>
 
+        <div class="item">
+            <div class="txt"><i>*</i>发货日期：</div>
+            <div class="cnt"><div class="ipt-wrap"><input type="text" name="date" class="ipt" value="" onclick="laydate()"></div></div>
+        </div>
+        <div class="item">
+            <div class="txt">发货单据：</div>
+            <div class="cnt cnt-mul">
+                <span class="thumb up-img x1" id="imgCrop"></span>
+                <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
+            </div>
+        </div>
+
+        <div class="button">
+            <button type="submit" class="ubtn ubtn-blue">确认</button>
+            <button type="button" class="ubtn ubtn-gray">关闭</button>
+        </div>
+    </div>
+</form>
 
 
 <script src="assets/plugins/laydate/laydate.js"></script>
@@ -289,6 +321,9 @@
         fn: {
             init: function() {
                 this.tab();
+                this.bindEvent();
+                this.goodsImg();
+                this.upImg();
             },
             tab: function() {
                 var $items = $('.fa-tab-cont').find('.items'),
@@ -323,7 +358,72 @@
                         }
                     });
                 });
+            },
+        bindEvent: function() {
+            var self = this;
+            $trace = $('#trace'),
+                    $pa = $trace.parent(),
+                    $temp = $('#temp');
+
+            $('#submit2').on('click', function() {
+                layer.open({
+                    area: ['600px'],
+                    type: 1,
+                    moveType: 1,
+                    content: $temp,
+                    title: '报价清单'
+                });
+            })
+
+            // 关闭弹层
+            $temp.on('click', '.ubtn-gray', function () {
+                layer.closeAll();
+            })
+
+            $temp.validator({
+                fields: {
+                    note: '发货信息: required',
+                    date: '发货日期: required'
+                },
+                valid: function (form) {
+                    alert('提交')
+                }
+            });
+        },
+        goodsImg: function() {
+            var self = this,
+                    $temp = $('#temp');
+
+            // 删除图片
+            $temp.on('click', '.del', function() {
+                var $self = $(this);
+                layer.confirm('确认删除图片？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $('#imgCrop').empty();
+                    $('#pictureUrl').val('');
+                    self.upImg();
+                });
+                return false;
+            })
+        },
+        upImg: function() {
+            var self = this;
+            var options = {
+                uploadUrl:'img_save_to_file.php',
+                customUploadButtonId: 'imgCrop',
+                loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
+                onAfterImgUpload: function(response){
+                    self.cropModal && self.cropModal.destroy();
+                    $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
+                    $('#pictureUrl').val(response.url).trigger('validate');
+                }
             }
+
+            self.cropModal && self.cropModal.destroy();
+            self.cropModal = new Croppic('imgCropWrap', options);
+        }
         }
     }
 

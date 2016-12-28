@@ -2,7 +2,11 @@ package com.ms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Pick;
+import com.ms.dao.model.PickCommodity;
+import com.ms.dao.vo.PickTrackingVo;
 import com.ms.dao.vo.PickVo;
+
+import java.util.List;
 
 public interface PickService extends ICommonService<Pick>{
 
@@ -49,5 +53,16 @@ public interface PickService extends ICommonService<Pick>{
      * @param userId
      */
     public void receipt(Integer id, Integer userId);
+
+
+    /**
+     * 更新商品数量
+     * @param pickCommodities
+     * @param pickTrackingVo
+     */
+    public void updateCommodityNum(List<PickCommodity> pickCommodities, PickTrackingVo pickTrackingVo);
+
+
+
 
 }

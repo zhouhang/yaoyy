@@ -54,7 +54,9 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 	public void save(PickTrackingVo pickTrackingVo) {
 		Integer recordType=pickTrackingVo.getRecordType();
 		Date now=new Date();
-		if(recordType!= PickTrackingTypeEnum.PICK_RECORD.getValue()&&recordType!=PickTrackingTypeEnum.PICK_APPLY.getValue()){
+		if(recordType!= PickTrackingTypeEnum.PICK_RECORD.getValue()
+				&& recordType!=PickTrackingTypeEnum.PICK_APPLY.getValue()
+				&& recordType!=PickTrackingTypeEnum.PICK_UPDATE.getValue()) {
 			Pick pick =new Pick();
 			pick.setId(pickTrackingVo.getPickId());
 			if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_AGREE.getValue()){
