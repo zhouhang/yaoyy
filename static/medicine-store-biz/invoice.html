@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>发票-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="ui-body-nofoot">
+    <header class="ui-header">
+        <div class="title">发票</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+
+    <section class="ui-content">
+        <div class="invoice">
+            <div class="item">
+                <div class="tit">发票抬头</div>
+                <label><input type="radio" name="taitou" class="cbx" value="1"><span>个人</span></label>
+                <label><input type="radio" name="taitou" class="cbx" value="2"><span>公司</span></label>
+                <input type="text" class="ipt" placeholder="请输入公司名称" id="companyName">
+            </div>
+            <div class="item">
+                <div class="tit">发票内容</div>
+                <label><input type="radio" name="detail" class="cbx" value="1"><span>不开发票</span></label>
+                <label><input type="radio" name="detail" class="cbx" value="2"><span>明细</span></label>
+            </div>
+
+            <div class="button">
+                <button type="button" class="ubtn ubtn-primary" id="submit">确认</button>
+            </div>
+        </div>
+    </section><!-- /ui-content -->
+	
+    
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
+    <script src="assets/js/app.js"></script>    
+    <script>
+        var _global = {
+            fn: {
+                init: function() {
+                    this.bindEvent();
+                    this.submit();
+                },
+                bindEvent: function() {
+                    var self = this;
+                    $('.cbx[name="taitou"]').on('click', function() {
+                        $('#companyName')[this.value === '2' ? 'show' : 'hide']();
+                    })
+                },
+                submit: function() {
+                    var self = this;
+                    $('#submit').on('click', function() {
+                        location.href = 'pick_detail.html';
+                    })
+                }
+            }
+        }
+
+        $(function(){
+            _global.fn.init();
+        });
+
+    </script>
+</body>
+</html>
