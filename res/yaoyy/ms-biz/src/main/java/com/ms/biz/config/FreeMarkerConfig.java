@@ -21,6 +21,7 @@ public class FreeMarkerConfig {
     public void freeMarkerConfigurer(){
         try {
             configuration.setSharedVariable("baseUrl",systemProperties.getBaseUrl());
+            configuration.setSharedVariable("consumerHotline","0558-5120088");
         }catch (Exception e){
             e.printStackTrace();
         }

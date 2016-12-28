@@ -103,6 +103,17 @@ public class PickController extends BaseController{
         return "pick_detail";
     }
 
+    /**
+     * 订单备注页面
+     * 订单备注信息 保存于SessionStorage中 订单提交后删除
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="note/{id}",method=RequestMethod.GET)
+    public String note(@PathVariable("id") Integer id, ModelMap model){
+        model.put("id",id);
+        return "pick_note";
+    }
 
     /**
      * 保存订单信息

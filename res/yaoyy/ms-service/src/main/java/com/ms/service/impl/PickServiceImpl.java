@@ -161,6 +161,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setUpdateTime(now);
 		pick.setCreateTime(now);
 		pick.setCode("");
+		pick.setAbandon(0);
 
 		/**
 		 * 设置code
