@@ -6,12 +6,10 @@ import com.ms.dao.*;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
-import com.ms.service.CommodityService;
-import com.ms.service.MemberService;
-import com.ms.service.PickCommodityService;
-import com.ms.service.PickService;
+import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -53,6 +51,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private PickTrackingService  pickTrackingService;
 
 
 
@@ -201,9 +202,60 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void createOrder(PickVo pickVo) {
+
+		PickVo oldPick=pickDao.findVoById(pickVo.getId());
+		if(oldPick.getStatus()!=PickEnum.PICK_PAY.getValue()){
+			//创建一条生成订单跟踪记录
+			PickTracking pickTracking=new PickTracking();
+			if(pickVo.getMemberId()!=null){
+				Member member=memberService.findById(pickVo.getMemberId());
+				pickTracking.setName(member.getName());
+				pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			}
+			else{
+				PickVo pick=pickDao.findVoById(pickVo.getId());
+				pickTracking.setName(pick.getNickname());
+				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+			}
+
+
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(pickVo.getId());
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_ORDER.getValue());
+			pickTrackingDao.create(pickTracking);
+
+		}
+		else{
+			//创建一条修改结算详情的记录
+			for(PickCommodity pickCommodity:pickVo.getPickCommodityVoList()){
+				pickCommodityService.update(pickCommodity);
+			}
+			PickTracking pickTracking=new PickTracking();
+			if(pickVo.getMemberId()!=null){
+				Member member=memberService.findById(pickVo.getMemberId());
+				pickTracking.setName(member.getName());
+				pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			}
+			else{
+				PickVo pick=pickDao.findVoById(pickVo.getId());
+				pickTracking.setName(pick.getNickname());
+				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+			}
+
+
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(pickVo.getId());
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_UPDATE.getValue());
+			pickTrackingDao.create(pickTracking);
+
+		}
 		//全款或保证金
 		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
-           pickVo.setStatus(PickEnum.PICK_PAY.getValue());
+			pickVo.setStatus(PickEnum.PICK_PAY.getValue());
 		}
 		else{
 			pickVo.setStatus(PickEnum.PICK_CONFIRM.getValue());
@@ -214,27 +266,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		calendar.add(Calendar.DATE, 3);
 		pickVo.setExpireDate(calendar.getTime());
 		pickDao.update(pickVo);
-
-		//创建一条跟踪记录
-		PickTracking pickTracking=new PickTracking();
-		if(pickVo.getMemberId()!=null){
-			Member member=memberService.findById(pickVo.getMemberId());
-			pickTracking.setName(member.getName());
-			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
-		}
-		else{
-			PickVo pick=pickDao.findVoById(pickVo.getId());
-			pickTracking.setName(pick.getNickname());
-			pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
-		}
-
-
-		pickTracking.setExtra("");
-		pickTracking.setCreateTime(new Date());
-		pickTracking.setUpdateTime(new Date());
-		pickTracking.setPickId(pickVo.getId());
-		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_ORDER.getValue());
-		pickTrackingDao.create(pickTracking);
 
 
 	}
@@ -248,7 +279,50 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setUpdateTime(new Date());
 		pickDao.update(pick);
 	}
+    @Override
+	@Transactional
+	public void updateCommodityNum(List<PickCommodity> pickCommodities) {
+		for(PickCommodity pickCommodity:pickCommodities){
+			pickCommodityService.update(pickCommodity);
+		}
+	}
 
+	@Override
+	@Transactional
+	public void cancel(Integer id, Integer userId) {
+		// 判断订单属于当前用户,再取消
+		Pick pick = findById(id);
+		if (pick!= null && pick.getId().equals(userId)) {
+			throw new ControllerException("没有权限取消订单");
+			// TODO: 判断当前订单的状态是否 处于可取消状态
+		}
+		changeOrderStatus(id,PickEnum.PICK_CANCLE.getValue());
+	}
+
+
+
+
+	@Override
+	@Transactional
+	public void receipt(Integer id, Integer userId) {
+		// 判断订单属于当前用户,再取消
+		Pick pick = findById(id);
+		if (pick!= null && pick.getId().equals(userId)) {
+			throw new ControllerException("没有权限取消订单");
+			// TODO: 判断当前订单的状态是否 处于可确认收货状态
+		}
+		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
+	}
+
+	@Override
+	@Transactional
+	public void saveOrder(PickVo pickVo) {
+		//判断提交的订单是否属于当前用户
+		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
+		// 保存发票信息
+		// 保存订单
+
+	}
 
 	@Override
 	public ICommonDao<Pick> getDao() {

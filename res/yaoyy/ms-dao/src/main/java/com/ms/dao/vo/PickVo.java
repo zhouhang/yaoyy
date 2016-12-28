@@ -53,14 +53,14 @@ public class PickVo extends Pick{
         this.pickCommodityVoList = pickCommodityVoList;
     }
 
-    private String SettleTypeName;
+    private String settleTypeName;
 
     public String getSettleTypeName() {
         return SettleTypeEnum.get(getSettleType());
     }
 
     public void setSettleTypeName(String settleTypeName) {
-        SettleTypeName = settleTypeName;
+        this.settleTypeName = settleTypeName;
     }
 
     public String getStatusText() {

@@ -52,7 +52,7 @@
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
-
+            <#if pickVo.status!=5>
             <div class="box fa-form fa-form-info">
                 <div class="hd">收货信息</div>
                <#if shippingAddressHistory?exists>
@@ -80,7 +80,7 @@
                     <div class="val">${pickVo.remark!}</div>
                 </div>
             </div>
-
+            </#if>
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
@@ -139,15 +139,23 @@
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
-                    <div class="val"><em>${pickVo.bagging!}元</em>（免包装费）</div>
+                    <div class="val"><em>${pickVo.bagging!}元</em>
+                        <#if pickVo.bagging==0>
+                            （免包装费）
+                        </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="val"><em>${pickVo.checking!}元</em>（免检测费）</div>
+                    <div class="val"><em>${pickVo.checking!}元</em>
+                    <#if pickVo.checking==0>
+                        （免检测费）
+                    </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">税费：</div>
-                    <div class="val"><em>${pickVo.taxation!}元</em>（免检测费）</div>
+                    <div class="val"><em>${pickVo.taxation!}元</em></div>
                 </div>
                 <div class="item f16">
                     <div class="txt">总计：</div>
@@ -156,7 +164,7 @@
                 <div class="hr"></div>
                 <div class="item f16">
                     <div class="txt">结算类型：</div>
-                    <div class="val">${pickVo.SettleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
+                    <div class="val">${pickVo.settleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
                 </div>
                 <#if pickVo.settleType==1>
                 <div class="item">
@@ -177,6 +185,10 @@
                     <div class="item">
                         <div class="txt">支付方式：</div>
                         <div class="val">${payRecord.payTypeText}</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">支付时间：</div>
+                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
                     </div>
                 <#if payRecord.payType!=0>
 
@@ -201,18 +213,42 @@
                     </div>
                     <#if payRecord.status==0>
                     <div class="ft">
-                        <button class="ubtn ubtn-blue">确认收款</button>
+                        <button class="ubtn ubtn-blue" payReocrdId="${payRecord.id}"  id="configPay">确认收款</button>
                     </div>
                     </#if>
                 </#if>
-                    <div class="item">
-                        <div class="txt">支付时间：</div>
-                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
-                    </div>
+
+                </#if>
+                <#if logisticalVo?exists>
+                <div class="hr"></div>
+                <div class="item f16">
+                    <div class="txt">物流详情：</div>
+                    <div class="val"></div>
+                </div>
+                <div class="item">
+                    <div class="txt">发货日期：</div>
+                    <div class="val">${logisticalVo.shipDate?string("yyyy年MM月dd日")}</div>
+                </div>
+
+                <div class="item">
+                    <div class="txt">发货信息：</div>
+                    <div class="val">${logisticalVo.content}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">发货单据：</div>
+                    <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl}" alt=""></div>
+                </div>
                 </#if>
 
                 <div class="ft">
-                    <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
+                    <#if pickVo.status==5&&!payRecord?exists>
+                        <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
+                    </#if>
+
+                    <#if pickVo.status==6>
+                    <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
+                    </#if>
+
                 </div>
 
             </div>
@@ -277,18 +313,50 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+<form id="temp" class="hide">
+    <input type="hidden"  class="ipt" value="${pickVo.id}" name="orderId">
+    <div class="fa-form fa-form-layer">
+        <div class="item">
+            <div class="txt"><i>*</i>发货信息：</div>
+            <div class="cnt cnt-mul"><textarea name="note" id="content" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
+        </div>
 
+        <div class="item">
+            <div class="txt"><i>*</i>发货日期：</div>
+            <div class="cnt"><div class="ipt-wrap"><input type="text" name="shipDate" class="ipt" value="" onclick="laydate()"></div></div>
+        </div>
+        <div class="item">
+            <div class="txt">发货单据：</div>
+            <div class="cnt cnt-mul">
+                <span class="thumb up-img x1" id="imgCrop"></span>
+                <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
+            </div>
+        </div>
 
-
+        <div class="button">
+            <button type="submit" class="ubtn ubtn-blue">确认</button>
+            <button type="button" class="ubtn ubtn-gray">关闭</button>
+        </div>
+    </div>
+</form>
+<!-- 上传图片文本域 -->
+<div id="imgCropWrap"></div>
+<script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var _global = {
         v: {
+            userUpdateUrl:'sample/userComplete/',
+            configPayUrl:'payRecord/config/',
+            deliveryUrl:'pick/delivery/'
         },
         fn: {
             init: function() {
                 this.tab();
+                this.bindEvent();
+                this.goodsImg();
+                this.upImg();
             },
             tab: function() {
                 var $items = $('.fa-tab-cont').find('.items'),
@@ -323,7 +391,96 @@
                         }
                     });
                 });
+            },
+        bindEvent: function() {
+            var self = this;
+            $trace = $('#trace'),
+                    $pa = $trace.parent(),
+                    $temp = $('#temp');
+
+            $('#submit2').on('click', function() {
+                layer.open({
+                    area: ['600px'],
+                    type: 1,
+                    moveType: 1,
+                    content: $temp,
+                    title: '物流清单'
+                });
+            })
+
+
+            $('#configPay').on('click', function() {
+                $.ajax({
+                    url: _global.v.configPayUrl,
+                    data: {"payRecordId":$(this).attr("payReocrdId"),"orderId":${pickVo.id}},
+                    type: "POST",
+                    success: function(data) {
+                        if (data.status == "200") {
+                            window.location.reload();
+                        }
+                    }
+                })
+            })
+
+            // 关闭弹层
+            $temp.on('click', '.ubtn-gray', function () {
+                layer.closeAll();
+            })
+
+            $temp.validator({
+                fields: {
+                    note: '发货信息: required',
+                    date: '发货日期: required'
+                },
+                valid: function (form) {
+                    $.ajax({
+                            url: _global.v.deliveryUrl,
+                            data: $("#temp").serialize()+"&content="+$("#content").val(),
+                            type: "POST",
+                            success: function(data){
+                                if (data.status == "200") {
+                                    window.location.reload();
+                                };
+                            }
+
+                            });
+                 }
+           });
+        },
+        goodsImg: function() {
+            var self = this,
+                    $temp = $('#temp');
+
+            // 删除图片
+            $temp.on('click', '.del', function() {
+                var $self = $(this);
+                layer.confirm('确认删除图片？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $('#imgCrop').empty();
+                    $('#pictureUrl').val('');
+                    self.upImg();
+                });
+                return false;
+            })
+        },
+        upImg: function() {
+            var self = this;
+            var options = {
+                uploadUrl:'/gen/upload',
+                customUploadButtonId: 'imgCrop',
+                loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
+                onAfterImgUpload: function(response){
+                    self.cropModal && self.cropModal.destroy();
+                    $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
+                    $('#pictureUrl').val(response.url).trigger('validate');
+                }
             }
+
+            self.cropModal && self.cropModal.destroy();
+            self.cropModal = new Croppic('imgCropWrap', options);
+        }
         }
     }
 

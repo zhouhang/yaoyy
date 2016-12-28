@@ -7,4 +7,6 @@ import com.ms.dao.vo.LogisticalVo;
 public interface LogisticalService extends ICommonService<Logistical>{
 
     public PageInfo<LogisticalVo> findByParams(LogisticalVo logisticalVo,Integer pageNum,Integer pageSize);
+    public LogisticalVo findByOrderId(Integer orderId);
+    public void save(LogisticalVo logisticalVo);
 }

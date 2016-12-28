@@ -42,12 +42,20 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="payRecordId!= null">
+                and pay_record_id = #{payRecordId}
+            </if>
         </where>
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from pay_document
         where id = #{id}
+    </delete>
+
+    <delete id="deleteByRecordId" parameterType="java.lang.Integer">
+        delete from pay_document
+        where pay_record_id = #{recordId}
     </delete>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.PayDocument">

@@ -88,6 +88,15 @@
             <if test="phone != null">
                 ud.phone like CONCAT('%','${phone}','%' )
             </if>
+            <if test="orderId != null">
+                and pr.order_id =#{orderId}
+            </if>
+            <if test="codeType != null">
+                and pr.code_type =#{codeType}
+            </if>
+            <if test="status != null">
+                and pr.status =#{status}
+            </if>
             <if test="code != null">
                 and pr.code like CONCAT('%','${code}','%' )
             </if>

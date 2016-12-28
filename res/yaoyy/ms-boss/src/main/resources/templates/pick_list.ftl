@@ -26,7 +26,7 @@
                         <option value="0">未受理</option>
                         <option value="1">已受理</option>
                         <option value="4">审核不通过</option>
-                        <option value="2">交易未完成</option>
+                        <option value="2">交易未达成</option>
                         <option value="3">交易已完成</option>
                         <option value="5">待支付</option>
                         <option value="6">待发货</option>
