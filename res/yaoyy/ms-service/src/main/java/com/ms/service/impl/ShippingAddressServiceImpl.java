@@ -57,7 +57,9 @@ public class ShippingAddressServiceImpl  extends AbsCommonService<ShippingAddres
 		// 地址只有一个时不管是否设置默认收货地址都当做默认的收货地址
 		ShippingAddressVo vo = new ShippingAddressVo();
 		vo.setUserId(userId);
-		vo.setIsDefault(true);
+		if (shippingAddressDao.getCountByUserId(userId)>1){
+			vo.setIsDefault(true);
+		}
 		List<ShippingAddressVo> list = shippingAddressDao.findByParams(vo);
 		return getFullAdd(list.size()>0?list.get(0):null);
 	}
@@ -98,7 +100,8 @@ public class ShippingAddressServiceImpl  extends AbsCommonService<ShippingAddres
 	 * 获取地址全称
 	 */
 	private ShippingAddressVo getFullAdd(ShippingAddressVo shippingAddressVo){
-		if (shippingAddressVo.getAreaId() != null) {
+
+		if (shippingAddressVo != null && shippingAddressVo.getAreaId() != null) {
 			AreaVo area = areaService.findVoById(shippingAddressVo.getAreaId());
 			shippingAddressVo.setProvinceId(area.getProvinceId());
 			shippingAddressVo.setCityId(area.getCityId());
