@@ -65,7 +65,7 @@ public class PickVo extends Pick{
 
     public String getStatusText() {
         aotoComplete();
-        setPickStatus ();
+        setPickStatus();
         return PickEnum.findByValue(getStatus());
     }
 
