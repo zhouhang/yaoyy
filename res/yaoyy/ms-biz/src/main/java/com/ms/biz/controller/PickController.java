@@ -57,6 +57,9 @@ public class PickController extends BaseController{
     @Autowired
     UploadService uploadService;
 
+    @Autowired
+    PayRecordService payRecordService;
+
     /**
      * 选货单列表
      * @return
@@ -111,6 +114,8 @@ public class PickController extends BaseController{
     @ResponseBody
     public Result save(PickVo pickVo,Integer type){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        pickVo.setUserId(user.getId());
+        pickService.saveOrder(pickVo);
         return null;
     }
 
@@ -154,8 +159,14 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.GET)
-    public String bankTransfer(Integer orderId){
+    public String bankTransfer(Integer orderId, ModelMap model){
         // 根据订单Id 获取转账金额.同时确认订单属于当前用户
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        Pick pick = pickService.findById(orderId);
+        if (!(pick!= null && pick.getUserId() == user.getId())){
+            throw new ControllerException("用户无权限访问此付款页面.");
+        }
+        model.put("total",pick.getAmountsPayable());
         return "";
     }
 
@@ -177,8 +188,16 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
     public String bankTransferSave(PayRecordVo record){
-        // 根据订单Id 获取转账金额.同时确认订单属于当前用户
-        return "";
+        // 根据订单Id同时确认订单属于当前用户
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        Pick pick = pickService.findById(record.getOrderId());
+        if (!(pick!= null && pick.getUserId() == user.getId())){
+            throw new ControllerException("用户无权限访问此付款页面.");
+        }
+        record.setUserId(user.getId());
+        record.setCode(pick.getCode());
+        payRecordService.save(record);
+        return "redirect:/pick/bankTransferSuccess";
     }
 
     /**

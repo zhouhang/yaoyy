@@ -10,8 +10,12 @@ import com.ms.dao.model.PayRecord;
 import com.ms.dao.vo.PayDocumentVo;
 import com.ms.dao.vo.PayRecordVo;
 import com.ms.service.PayRecordService;
+import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -57,6 +61,21 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 		return null;
 	}
 
+
+	@Override
+	@Transactional
+	public PayRecord save(PayRecord payRecord) {
+		if (payRecord.getId()!= null) {
+			update(payRecord);
+		} else {
+			payRecord.setPaymentTime(new Date());
+			payRecord.setCreateTime(new Date());
+			create(payRecord);
+			payRecord.setPayCode(SeqNoUtil.get("",payRecord.getId(),6));
+			update(payRecord);
+		}
+		return null;
+	}
 
 	@Override
 	public ICommonDao<PayRecord> getDao() {
