@@ -541,8 +541,7 @@ em,i{font-style:normal;}
 .consignee .add .fa{font-size:1.8rem;vertical-align:-1px;}
 .consignee .cbx:checked+strong:after{content:'默认';display:inline-block;margin-left:18px;padding:3px 3px 0;font-size:1rem;font-weight:400;color:#fff;background:#b9a060;border-radius:8px;text-align:center;vertical-align:2px;}
 
-/*.pick-region{display:none;}*/
-.pick-region{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9;}
+.pick-region{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9;display:none;}
 .pick-region .tab{background:#fff;overflow:hidden;}
 .pick-region .tab span{position:relative;float:left;width:25%;line-height:44px;color:#d74141;text-align:center;overflow:hidden;}
 .pick-region .tab span:after{content:'';position:absolute;bottom:0;left:20%;width:60%;height:2px;background:#d74141;}
