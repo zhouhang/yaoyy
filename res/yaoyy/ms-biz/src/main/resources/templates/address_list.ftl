@@ -13,15 +13,18 @@
 </header><!-- /ui-header -->
 
 <section class="ui-content">
-    <div class="consignee">
+    <div class="consignee" id="attention_commodity">
         <#list addressList as addresss>
         <div class="item">
             <label>
                 <input type="radio"   class="fa-cbx cbx mid" <#if addresss.isDefault==true>checked</#if> >
                 <strong>${addresss.consignee}  ${addresss.tel}</strong>
                 <span>${addresss.detail}</span>
-                <a href="/address/detail/${addresss.id}"><i class="fa fa-edit mid"></i></a>
             </label>
+                <div class="op">
+                    <a href="#"  onclick="return false" ><i class="fa fa-remove" rid="${addresss.id}"></i> 删除</a>
+                    <a href="/address/detail/${addresss.id}"><i class="fa fa-edit"></i> 编辑</a>
+                </div>
         </div>
         </#list>
 
@@ -54,14 +57,22 @@
                         content: '确定要删除吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
-                            $this.closest('.item').remove();
-                            layer.close(index);
-                            if ($wrap.find('.item').length === 0) {
-                                $wrap.empty();
-                                self.empty(true);
-                            }
+                            $.ajax({
+                                url: '/address/delete/'+$this.attr("rid"),
+                                type: 'POST',
+                                success: function(result) {
+                                    $this.closest('.item').remove();
+                                    layer.close(index);
+                                    if ($wrap.find('.item').length === 0) {
+                                        $wrap.empty();
+                                        self.empty(true);
+                                    }
+                                }
+                            })
+
                         }
                     });
+                    return false;
                 })
             },
             empty: function(isEmpty) {

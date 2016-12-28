@@ -75,9 +75,9 @@ public class AddressController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Result delete(Integer id){
+    public Result delete(@PathVariable("id") Integer id){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         addressService.delete(user.getId(),id);
