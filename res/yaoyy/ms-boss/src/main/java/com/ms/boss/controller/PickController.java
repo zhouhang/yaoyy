@@ -2,6 +2,7 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.PickEnum;
+import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
@@ -13,6 +14,7 @@ import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -172,13 +174,39 @@ public class PickController extends BaseController{
         pickService.createOrder(pickVo);
         return Result.success().msg("生成订单成功");
     }
+
+    @RequestMapping(value="updateOrder",method=RequestMethod.POST)
+    @ResponseBody
+    private Result updateOrder(@RequestBody PickVo pickVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickVo.setMemberId(mem.getId());
+        pickService.createOrder(pickVo);
+        return Result.success().msg("修改订单成功");
+    }
+
+
     @RequestMapping(value="updateNum",method=RequestMethod.POST)
     @ResponseBody
     private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
         //修改数量
-        pickCommodities.forEach(pc->{
-            pickCommodityService.update(pc);
-        });
+        Integer pickId=null;
+        PickTrackingVo pickTrackingVo=null;
+        if(pickCommodities.size()>0){
+            pickId=pickCommodities.get(0).getPickId();
+        }
+
+        if(pickId!=null){
+            //保存一条修改记录
+            Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+            pickTrackingVo=new PickTrackingVo();
+            pickTrackingVo.setPickId(pickId);
+            pickTrackingVo.setOperator(mem.getId());
+            pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+            pickTrackingVo.setName(mem.getName());
+        }
+
+        pickService.updateCommodityNum(pickCommodities,pickTrackingVo);
+
 
         return Result.success().msg("修改成功");
     }

@@ -56,7 +56,7 @@
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
                 <div class="attr">
-                    <div class="op">修改</div>
+                    <div class="op"></div>
                     <table>
                         <thead>
                         <tr>
@@ -75,7 +75,7 @@
                             <td><a href="#">${pickCommodityVo.name}</a></td>
                             <td>${pickCommodityVo.origin}</td>
                             <td><p>${pickCommodityVo.spec}</p></td>
-                            <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num}"></td>
+                            <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num}"></td>
                             <td>${pickCommodityVo.unit}</td>
                             <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
                             <td><span>${pickCommodityVo.total}</span>元</td>
@@ -123,8 +123,10 @@
                     <div class="txt">付款方式：</div>
                     <div class="cnt cbxs2">
                         <label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>
+                        <!--
                         <label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>
                         <label><input type="radio" name="settleType" class="cbx" value="2">赊账</label>
+                        -->
                     </div>
                 </div>
                 <div class="group">
@@ -214,9 +216,7 @@
         var _global = {
             v: {
                 userUpdateUrl:'sample/userComplete/',
-                trackingCreateUrl:'pick/trackingSave',
-                updateCommodityNum:'pick/updateNum',
-                createOrder:"pick/createOrder"
+                createOrder:"pick/updateOrder"
             },
             fn: {
                 init: function() {
@@ -241,42 +241,8 @@
                 modify: function() {
                     var status = 'done',
                             $ipts = $('.attr').find('.ipt');
+                    //$ipts.prop('disabled', false);
 
-                    $('.op').on('click', function() {
-                        if (status === 'done') { // 修改
-                            status = 'modify';
-                            $(this).html('完成');
-                            $ipts.prop('disabled', false);
-
-
-                        } else {
-                            status = 'done';
-                            $(this).html('修改');
-                            $ipts.prop('disabled', true);
-                            // 发送数据到后台
-                            var pickCommoditys=[];
-                            $ipts.each(function(i) {
-                                var pickCommodity={};
-                                pickCommodity.id=$(this).attr("pc");
-                                pickCommodity.num=this.value;
-                                var price=$(this).data('price');
-                                pickCommodity.total=pickCommodity.num * price;
-                                pickCommoditys.push(pickCommodity);
-                            })
-
-                            $.ajax({
-                                url: _global.v.updateCommodityNum,
-                                data: JSON.stringify(pickCommoditys),
-                                type: "POST",
-                                contentType : 'application/json',
-                                success: function(data){
-                                    if (data.status == "200") {
-                                    }
-
-                                }
-                            });
-                        }
-                    })
                 },
                 bindEvent: function() {
                     var self = this,
@@ -363,12 +329,26 @@
                     $body.on('click', '#calc .ubtn-blue', function() {
                         var sum=$("#sum2").val();
                         var amountsPayable=$("#sum3").text();
+                        var pickCommoditys=[];
+                        $ipts.each(function(i) {
+                            var pickCommodity={};
+                            pickCommodity.id=$(this).attr("pc");
+                            pickCommodity.num=this.value;
+                            var price=$(this).data('price');
+                            pickCommodity.total=pickCommodity.num * price;
+                            pickCommoditys.push(pickCommodity);
+                        })
+                        var pick=$("#orderForm").serializeObject();
+                        pick.sum=sum;
+                        pick.amountsPayable=amountsPayable;
+                        pick.pickCommodityVoList=pickCommoditys;
                         $.ajax({
                             url: _global.v.createOrder,
-                            data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
+                            data: JSON.stringify(pick),
                             type: "POST",
+                            contentType : 'application/json',
                             success: function(data) {
-                                window.location.reload();
+                                window.location.href = '/pick/detail/'+${pickVo.id};
                             }
                         })
                     })
