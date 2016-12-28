@@ -81,6 +81,10 @@
                             <td><span>${pickCommodityVo.total}</span>元</td>
                         </tr>
                         </#list>
+                        <tfoot>
+                        <tr>
+                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                        </tr>
                         </tfoot>
                     </table>
                 </div>
