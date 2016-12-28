@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>新增收货地址-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="ui-body-nofoot">
+    <header class="ui-header">
+        <div class="title">新增收货地址</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+        
+    <div class="ui-content">
+        <div class="ui-form hide">
+            <form action="">
+                <div class="item">
+                    <input type="text" class="ipt" name="name" id="name" placeholder="收货人" autocomplete="off">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <input type="tel" class="ipt" name="mobile" id="mobile" placeholder="联系电话" autocomplete="off">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="region" id="region" placeholder="-省-市-区/县-" readonly="" autocomplete="off">
+                    <span class="error"></span>
+                    <em class="fa fa-front mid"></em>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="address" id="address" placeholder="详细地址" autocomplete="off">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <label class="cbx">
+                        <input type="checkbox" class="fa-cbx" checked="">
+                        设为默认收货地址（每次购买时会默认使用该地址）
+                    </label>
+                </div>
+                <div class="item">
+                    <button type="submit" class="ubtn ubtn-primary" id="submit">确认</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="pick-region">
+            <div class="ui-header">
+                <div class="title">地址选择</div>
+                <div class="abs-l mid">
+                    <a href="javascript:;" class="fa fa-back" id="back"></a>
+                </div>
+                <div class="tab">
+                    <span>请选择</span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="tabcont">
+                <div class="cont">
+                    <ul>
+                        <li data-id="1">北京</li>
+                    </ul>
+                    <ul>
+                        <li data-id="2816">密云区</li>
+                        <li data-id="7222">朝阳区</li>
+                        <li data-id="2901">昌平区</li>
+                        <li data-id="2953">平谷区</li>
+                        <li data-id="2800">海淀区</li>
+                        <li data-id="2801">西城区</li>
+                        <li data-id="2802">东城区</li>
+                        <li data-id="2803">崇文区</li>
+                        <li data-id="2804">宣武区</li>
+                        <li data-id="2805">丰台区</li>
+                        <li data-id="2806">石景山区</li>
+                        <li data-id="2807">门头沟</li>
+                        <li data-id="2808">房山区</li>
+                        <li data-id="2809">通州区</li>
+                        <li data-id="3065">延庆县</li>
+                        <li data-id="2810">大兴区</li>
+                        <li data-id="2812">顺义区</li>
+                        <li data-id="2814">怀柔区</li>
+                    </ul>
+                    <ul>
+                        <li data-id="6667">城区</li>
+                        <li data-id="2862">城区以外</li>
+                    </ul>
+                    <ul>
+                        <li>镇</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.submit();
+                this.region();
+            },
+            submit: function() {
+                var self = this;
+                $('#submit').on('click', function() {
+                    var pass = self.validator();
+                    if (pass) {
+                        console.log('验证成功')
+                    } else {
+                        console.log('验证失败')
+                    }
+                    return false;
+                })
+            },
+            validator: function() {
+                return this.checkName() && this.checkMobile() && this.checkRegion() && this.checkAddress();
+            },
+            checkName: function() {
+                var $el = $('#name'),
+                    val = $el.val();
+                if (!val) {
+                    $el.next().html('请输入收货人！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkMobile: function() {
+                var $el = $('#mobile'),
+                    val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入手机号码！').show();
+
+                } else if (!_YYY.verify.isMobile(val)) {
+                    $el.next().html('请输入有效的手机号！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkRegion: function() { 
+                var $el = $('#region'),
+                    val = $el.val();
+                if (!val) {
+                    $el.next().html('请选择地区！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkAddress: function() {
+                var $el = $('#address'),
+                    val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入详细地址！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            region: function() {
+
+                var self = this,
+                    $tab = $('.tab'),
+                    $tabcont = $('.tabcont'),
+                    $item = $tabcont.find('ul'),
+                    $cont = $('.cont'),
+                    choose = [];
+
+                var tab = function(idx) {
+                    var distance = idx * $tabcont.width();
+                    $item.css('position','absolute').eq(idx).css('position','relative');
+                    $cont.css({
+                        '-webkit-transition':'all .3s ease',
+                        'transition':'all .3s ease',
+                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+                        'transform':'translate3d(-' + distance + 'px,0,0)'
+                    });
+                }
+
+                // 选择地区
+                $('#region').on('click', function() {
+                    $('.pick-region').show();
+                    $('.ui-form').hide();
+                })
+
+                // 返回
+                $('#back').on('click', function() {
+                    $('.pick-region').hide();
+                    $('.ui-form').show();
+                })
+
+                // tab
+                $tab.on('click', 'span', function() {
+                    var idx = $(this).index();
+
+                    $(this).html('请选择');
+                    $tab.find('span').each(function(i) {
+                        i > idx && $(this).empty();
+                    })
+                    tab(idx);
+                })
+
+                // 城市级联
+                $tabcont.on('click', 'li', function() {
+                    var idx = $(this).parent().index(),
+                        name = this.innerHTML,
+                        cid = $(this).data('id');
+                    $.ajax({
+                        url: '',
+                        data: {cid: cid},
+                        success: function(result) {
+                            result = {
+                                data: [
+                                    {id: '1', text: '武汉'},
+                                    {id: '2', text: '杭州'}
+                                ]
+                            }
+                            $tab.find('span').eq(idx).html(name).next().html('请选择');
+                            self.toHtml(result.data, $item.eq(++idx));
+                            tab(idx);
+                        }
+                    })
+                })
+            },
+            toHtml: function(data, $wrap) {
+                var model = [];
+                $.each(data, function(i, item) {
+                    model.push('<li data-id="' , item.id ,'">', item.text, '</li>');
+                })
+                $wrap.html(model.join(''));
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>
