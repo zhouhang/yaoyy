@@ -58,9 +58,9 @@ public interface PickService extends ICommonService<Pick>{
     /**
      * 更新商品数量
      * @param pickCommodities
-     * @param pickTrackingVo
+     *
      */
-    public void updateCommodityNum(List<PickCommodity> pickCommodities, PickTrackingVo pickTrackingVo);
+    public void updateCommodityNum(List<PickCommodity> pickCommodities);
 
 
 

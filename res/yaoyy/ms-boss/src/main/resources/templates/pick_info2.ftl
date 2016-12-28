@@ -139,15 +139,23 @@
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
-                    <div class="val"><em>${pickVo.bagging!}元</em>（免包装费）</div>
+                    <div class="val"><em>${pickVo.bagging!}元</em>
+                        <#if pickVo.bagging==0>
+                            （免包装费）
+                        </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="val"><em>${pickVo.checking!}元</em>（免检测费）</div>
+                    <div class="val"><em>${pickVo.checking!}元</em>
+                    <#if pickVo.checking==0>
+                        （免检测费）
+                    </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">税费：</div>
-                    <div class="val"><em>${pickVo.taxation!}元</em>（免检测费）</div>
+                    <div class="val"><em>${pickVo.taxation!}元</em></div>
                 </div>
                 <div class="item f16">
                     <div class="txt">总计：</div>
@@ -205,11 +213,31 @@
                     </div>
                     <#if payRecord.status==0>
                     <div class="ft">
-                        <button class="ubtn ubtn-blue">确认收款</button>
+                        <button class="ubtn ubtn-blue" payReocrdId="${payRecord.id}"  id="configPay">确认收款</button>
                     </div>
                     </#if>
                 </#if>
 
+                </#if>
+                <#if logisticalVo?exists>
+                <div class="hr"></div>
+                <div class="item f16">
+                    <div class="txt">物流详情：</div>
+                    <div class="val"></div>
+                </div>
+                <div class="item">
+                    <div class="txt">发货日期：</div>
+                    <div class="val">${logisticalVo.shipDate?string("yyyy年MM月dd日")}</div>
+                </div>
+
+                <div class="item">
+                    <div class="txt">发货信息：</div>
+                    <div class="val">${logisticalVo.content}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">发货单据：</div>
+                    <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl}" alt=""></div>
+                </div>
                 </#if>
 
                 <div class="ft">
@@ -286,15 +314,16 @@
 
 <#include "./common/footer.ftl"/>
 <form id="temp" class="hide">
+    <input type="hidden"  class="ipt" value="${pickVo.id}" name="orderId">
     <div class="fa-form fa-form-layer">
         <div class="item">
             <div class="txt"><i>*</i>发货信息：</div>
-            <div class="cnt cnt-mul"><textarea name="note" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
+            <div class="cnt cnt-mul"><textarea name="note" id="content" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
         </div>
 
         <div class="item">
             <div class="txt"><i>*</i>发货日期：</div>
-            <div class="cnt"><div class="ipt-wrap"><input type="text" name="date" class="ipt" value="" onclick="laydate()"></div></div>
+            <div class="cnt"><div class="ipt-wrap"><input type="text" name="shipDate" class="ipt" value="" onclick="laydate()"></div></div>
         </div>
         <div class="item">
             <div class="txt">发货单据：</div>
@@ -310,13 +339,17 @@
         </div>
     </div>
 </form>
-
-
+<!-- 上传图片文本域 -->
+<div id="imgCropWrap"></div>
+<script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var _global = {
         v: {
+            userUpdateUrl:'sample/userComplete/',
+            configPayUrl:'payRecord/config/',
+            deliveryUrl:'pick/delivery/'
         },
         fn: {
             init: function() {
@@ -371,8 +404,22 @@
                     type: 1,
                     moveType: 1,
                     content: $temp,
-                    title: '报价清单'
+                    title: '物流清单'
                 });
+            })
+
+
+            $('#configPay').on('click', function() {
+                $.ajax({
+                    url: _global.v.configPayUrl,
+                    data: {"payRecordId":$(this).attr("payReocrdId"),"orderId":${pickVo.id}},
+                    type: "POST",
+                    success: function(data) {
+                        if (data.status == "200") {
+                            window.location.reload();
+                        }
+                    }
+                })
             })
 
             // 关闭弹层
@@ -386,9 +433,19 @@
                     date: '发货日期: required'
                 },
                 valid: function (form) {
-                    alert('提交')
-                }
-            });
+                    $.ajax({
+                            url: _global.v.deliveryUrl,
+                            data: $("#temp").serialize()+"&content="+$("#content").val(),
+                            type: "POST",
+                            success: function(data){
+                                if (data.status == "200") {
+                                    window.location.reload();
+                                };
+                            }
+
+                            });
+                 }
+           });
         },
         goodsImg: function() {
             var self = this,
@@ -411,7 +468,7 @@
         upImg: function() {
             var self = this;
             var options = {
-                uploadUrl:'img_save_to_file.php',
+                uploadUrl:'/gen/upload',
                 customUploadButtonId: 'imgCrop',
                 loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
                 onAfterImgUpload: function(response){

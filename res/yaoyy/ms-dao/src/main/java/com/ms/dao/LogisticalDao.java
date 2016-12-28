@@ -10,4 +10,6 @@ public interface LogisticalDao extends ICommonDao<Logistical>{
 
     public List<LogisticalVo> findByParams(LogisticalVo logisticalVo);
 
+    public LogisticalVo findByOrderId(Integer orderId);
+
 }

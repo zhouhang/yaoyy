@@ -202,22 +202,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void createOrder(PickVo pickVo) {
-		//全款或保证金
-		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
-			pickVo.setStatus(PickEnum.PICK_PAY.getValue());
-		}
-		else{
-			pickVo.setStatus(PickEnum.PICK_CONFIRM.getValue());
-		}
-		//设置有效期
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.add(Calendar.DATE, 3);
-		pickVo.setExpireDate(calendar.getTime());
-		pickDao.update(pickVo);
 
-		if(pickVo.getStatus()!=PickEnum.PICK_PAY.getValue()){
-
+		PickVo oldPick=pickDao.findVoById(pickVo.getId());
+		if(oldPick.getStatus()!=PickEnum.PICK_PAY.getValue()){
 			//创建一条生成订单跟踪记录
 			PickTracking pickTracking=new PickTracking();
 			if(pickVo.getMemberId()!=null){
@@ -266,6 +253,19 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			pickTrackingDao.create(pickTracking);
 
 		}
+		//全款或保证金
+		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+			pickVo.setStatus(PickEnum.PICK_PAY.getValue());
+		}
+		else{
+			pickVo.setStatus(PickEnum.PICK_CONFIRM.getValue());
+		}
+		//设置有效期
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, 3);
+		pickVo.setExpireDate(calendar.getTime());
+		pickDao.update(pickVo);
 
 
 	}
@@ -279,15 +279,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setUpdateTime(new Date());
 		pickDao.update(pick);
 	}
-@Override
+    @Override
 	@Transactional
-	public void updateCommodityNum(List<PickCommodity> pickCommodities, PickTrackingVo pickTrackingVo) {
+	public void updateCommodityNum(List<PickCommodity> pickCommodities) {
 		for(PickCommodity pickCommodity:pickCommodities){
 			pickCommodityService.update(pickCommodity);
 		}
-        //保存数量时不更新跟踪记录
-		//pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_UPDATE.getValue());
-		//pickTrackingService.save(pickTrackingVo);
 	}
 
 	@Override

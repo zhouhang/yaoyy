@@ -105,15 +105,15 @@
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="${pickVo.bagging!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="${pickVo.checking!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">税款：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="0"><span class="unit">元</span></div></div>
+                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="${pickVo.taxation!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
                     <div class="txt">总计：</div>

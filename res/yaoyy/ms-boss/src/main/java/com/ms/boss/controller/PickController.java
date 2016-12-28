@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +56,9 @@ public class PickController extends BaseController{
 
     @Autowired
     private PayRecordService payRecordService;
+
+    @Autowired
+    private LogisticalService logisticalService;
 
     /**
      * 选货单列表
@@ -119,6 +123,8 @@ public class PickController extends BaseController{
             if(pickVo.getAddrHistoryId()!=null){
                  shippingAddressHistory=shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
             }
+            LogisticalVo logisticalVo=logisticalService.findByOrderId(pickVo.getId());
+            model.put("logisticalVo",logisticalVo);
             model.put("payRecord",payRecord);
             model.put("shippingAddressHistory",shippingAddressHistory);
             model.put("orderInvoiceVo",orderInvoiceVo);
@@ -189,27 +195,36 @@ public class PickController extends BaseController{
     @ResponseBody
     private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
         //修改数量
-        Integer pickId=null;
-        PickTrackingVo pickTrackingVo=null;
-        if(pickCommodities.size()>0){
-            pickId=pickCommodities.get(0).getPickId();
-        }
-
-        if(pickId!=null){
-            //保存一条修改记录
-            Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-            pickTrackingVo=new PickTrackingVo();
-            pickTrackingVo.setPickId(pickId);
-            pickTrackingVo.setOperator(mem.getId());
-            pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
-            pickTrackingVo.setName(mem.getName());
-        }
-
-        pickService.updateCommodityNum(pickCommodities,pickTrackingVo);
-
+        pickService.updateCommodityNum(pickCommodities);
 
         return Result.success().msg("修改成功");
     }
+
+    /**
+     * 确认发货
+     * @param logisticalVo
+     * @return
+     */
+    @RequestMapping(value="delivery",method=RequestMethod.POST)
+    @ResponseBody
+    private Result delivery(LogisticalVo logisticalVo){
+        logisticalService.save(logisticalVo);
+
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        PickTrackingVo pickTrackingVo=new PickTrackingVo();
+        pickTrackingVo.setPickId(logisticalVo.getOrderId());
+        pickTrackingVo.setOperator(mem.getId());
+        pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+        pickTrackingVo.setName(mem.getName());
+        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue());
+        pickTrackingService.save(pickTrackingVo);
+        return Result.success().msg("发货成功");
+    }
+
+
+
+
+
 
 
 
