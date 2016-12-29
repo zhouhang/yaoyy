@@ -69,18 +69,24 @@
         </div>
     <#if pickVo.amountsPayable?exists && pickVo.amountsPayable != 0>
         <div class="item more">
-            <div class="title">王彬  18801285391 <em>默认</em></div>
-            <div class="address">湖北省武汉市洪山区城区珞瑜路光谷银座15楼</div>
-        <#if pickVo.status == 5>
-            <a href="consignee.html" class="mid"><i class="fa fa-front"></i></a>
-        </#if>
+            <#if address?exists>
+            <div class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
+
+            <div class="address"><#if pickVo.addrHistoryId?exists>${address.area}${address.detail} <#else > ${address.fullAdd}${address.detail}</#if></div>
+            <#else >
+            <div class="title">请先添加收货地址</div>
+            <div class="address">+</div>
+            </#if>
+            <#if pickVo.status == 5>
+            <a href="/address/select" class="mid"><i class="fa fa-front"></i></a>
+            </#if>
         </div>
 
         <div class="item">
             <div class="more">
-                <div class="txt"><strong>发票：</strong>不开发票</div>
+                <div class="txt"><strong>发票：</strong><span id="invoice">不开发票</span></div>
         <#if pickVo.status == 5>
-                <a href="invoice.html" class="mid"><i class="fa fa-front"></i></a>
+                <a href="/pick/invoice/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
             </div>
             <div class="more hr">
@@ -89,6 +95,31 @@
                 <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
             </div>
+        <#if logistical?exists>
+            <ul class="freight hr">
+                <li><strong>物流详情：</strong></li>
+                <li>
+                    <span>发货信息：</span>
+                    <em>${logistical.content}</em>
+                </li>
+                <li>
+                    <span>物流单号：</span>
+                    <em>20554845</em>
+                </li>
+                <li>
+                    <span>司机电话：</span>
+                    <em>13058497548</em>
+                </li>
+                <li>
+                    <span>发货时间：</span>
+                    <em>${logistical.shipDate?datetime}</em>
+                </li>
+                <li>
+                    <span>发货单据：</span>
+                    <img src="${logistical.pictureUrl}" alt="">
+                </li>
+            </ul>
+        </#if>
         </div>
 
         <div class="item summary">
@@ -121,9 +152,14 @@
 
         <div class="button">
         <#if pickVo.status == 5>
-            <button type="button" class="ubtn ubtn-primary">银行转账</button>
+            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
         </#if>
-            <button type="button" class="ubtn ubtn-primary">取消订单</button>
+        <#if [0,1,2,4,5]?seq_contains(pickVo.status)>
+            <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
+        </#if>
+        <#if pickVo.status == 7>
+            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">确认收货</button>
+        </#if>
         </div>
 
         <div class="ui-extra">
@@ -136,12 +172,76 @@
 <script>
 
     var _global = {
+        v:{
+            saveUrl:"/pick/save"
+        },
         fn: {
             init: function() {
+                // 初始化,订单处于待支付状态时
                 var note = sessionStorage.getItem("pickNote${pickVo.id}");
                 if (note) {
                     $("#note").html(note);
                 }
+                var invoice = sessionStorage.getItem("pickInvoice${id}");
+                if (invoice) {
+                    $("#invoice").html(JSON.parse(invoice).content);
+                }
+                // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
+                var address = sessionStorage.getItem("pickAddrId${id}");
+                if (address) {
+                    address = JSON.parse(address).id;
+                    // 初始化 地址内容
+                }
+
+                this.bindEven();
+            },
+            bindEven: function () {
+                $("#bankTransfer").click(function(){
+                    _global.fn.save();
+                })
+
+                $("#cancel").click(function () {
+                    
+                })
+            },
+            save:function(){
+                var  pick = {
+                    id:${pickVo.id},
+                    addrHistoryId:<#if address?exists>${address.id} <#else > null </#if>
+                }
+                // 发票
+                var invoice = sessionStorage.getItem("pickInvoice${id}");
+                if (invoice) {
+                    pick.invoice = JSON.parse(invoice);
+                }
+
+                // 备注
+                pick.note = sessionStorage.getItem("pickNote${pickVo.id}");
+
+                // 地址
+                if (sessionStorage.getItem("pickAddrId${id}")) {
+                    pick.addrHistoryId = JSON.parse(sessionStorage.getItem("pickAddrId${id}")).id;
+                }
+
+                // 判断地址不能为空 防止重复提交功能
+                $.ajax({
+                    url: _global.v.saveUrl+"?type=1",
+                    data: JSON.stringify(pick),
+                    type: "POST",
+                    contentType : 'application/json',
+                    success: function(result) {
+                        if(result.status=="200"){
+                          sessionStorage.clear();
+                          window.location.href = result.data; // 跳转到指定页面
+                        }
+                    },
+                    error: function() {
+                        popover('网络错误，请刷新页面重试');
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1e3);
+                    }
+                })
             }
         }
     }

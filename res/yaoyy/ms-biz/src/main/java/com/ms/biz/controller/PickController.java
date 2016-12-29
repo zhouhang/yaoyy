@@ -1,11 +1,9 @@
 package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.dao.enums.BizPickEnum;
 import com.ms.dao.model.*;
-import com.ms.dao.vo.PayRecordVo;
-import com.ms.dao.vo.PickCommodityVo;
-import com.ms.dao.vo.PickTrackingVo;
-import com.ms.dao.vo.PickVo;
+import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
@@ -60,6 +58,15 @@ public class PickController extends BaseController{
     @Autowired
     PayRecordService payRecordService;
 
+    @Autowired
+    ShippingAddressHistoryService shippingAddressHistoryService;
+
+    @Autowired
+    ShippingAddressService shippingAddressService;
+
+    @Autowired
+    LogisticalService logisticalService;
+
     /**
      * 选货单列表
      * @return
@@ -94,11 +101,31 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="detail/{id}",method=RequestMethod.GET)
     public String detail(@PathVariable("id") Integer id, ModelMap model){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo pickVo=pickService.findVoById(id);
+        if (!(pickVo!= null && pickVo.getUserId() == user.getId())){
+            throw new ControllerException("用户无权限访问此页面.");
+        }
         List<PickTrackingVo> pickTrackingVos=pickTrackingService.findByPickId(id);
 
         model.put("pickVo",pickVo);
         model.put("pickTrackingVos",pickTrackingVos);
+
+        //  获取默认的收货地址
+        if (pickVo.getAddrHistoryId() == null){
+            // 获取默认地址信息
+            ShippingAddressVo address = shippingAddressService.getDefault(user.getId());
+            // 设置 历史地址id 为-1;
+            address.setId(-1);
+            model.put("address", address);
+        } else {
+            ShippingAddressHistory shippingAddressHistory=shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
+            model.put("address", shippingAddressHistory);
+        }
+
+        // 处于已发货状态获取物流信息
+        LogisticalVo logisticalVo=logisticalService.findByOrderId(pickVo.getId());
+        model.put("logistical",logisticalVo);
 
         return "pick_detail";
     }
@@ -116,18 +143,36 @@ public class PickController extends BaseController{
     }
 
     /**
+     * 保存发票信息
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value="invoice/{id}",method=RequestMethod.GET)
+    public String invoice(@PathVariable("id") Integer id, ModelMap model){
+        model.put("id",id);
+        return "pick_invoice";
+    }
+
+    /**
      * 保存订单信息
      * @param pickVo
      * @param type 支付类型 根据不同的类型返回不同的跳转Url
      * @return
      */
-    @RequestMapping(value = "save", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Result save(PickVo pickVo,Integer type){
+    public Result save(@RequestBody PickVo pickVo,Integer type){
+        Result result = null;
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         pickVo.setUserId(user.getId());
         pickService.saveOrder(pickVo);
-        return null;
+
+        if (type == 1) {
+            // 根据type 类型返回不同的跳转链接
+            result = Result.success().data("/pick/bankTransfer?orderId="+pickVo.getId());
+        }
+        return result;
     }
 
     /**
@@ -177,8 +222,18 @@ public class PickController extends BaseController{
         if (!(pick!= null && pick.getUserId() == user.getId())){
             throw new ControllerException("用户无权限访问此付款页面.");
         }
+        PayRecordVo param=new PayRecordVo();
+        param.setCodeType(0);
+        param.setOrderId(orderId);
+        PayRecordVo vo = payRecordService.findByOrderId(param);
         model.put("total",pick.getAmountsPayable());
-        return "";
+        model.put("orderId",orderId);
+        if (vo != null) {
+            model.put("id", vo.getId());
+            if (vo.getPayDocuments()!= null && vo.getPayDocuments().size()>0)
+            model.put("url",vo.getPayDocuments().get(0).getPath());
+        }
+        return "pick_pay";
     }
 
     /**
@@ -198,17 +253,28 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
-    public String bankTransferSave(PayRecordVo record){
+    public String bankTransferSave(PayRecordVo record, MultipartFile file){
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Pick pick = pickService.findById(record.getOrderId());
         if (!(pick!= null && pick.getUserId() == user.getId())){
             throw new ControllerException("用户无权限访问此付款页面.");
         }
+
+        CropResult crop = uploadService.uploadImage(file);
+        PayDocumentVo document = new PayDocumentVo();
+        document.setPath(crop.getUrl());
+        List<PayDocumentVo> list = new ArrayList<>();
+        list.add(document);
+        record.setPayDocuments(list);
         record.setUserId(user.getId());
         record.setCode(pick.getCode());
+        record.setCodeType(0);
+        record.setStatus(0);
+        record.setPayType(0);
+        // 判断之前没有支付记录TODO:
         payRecordService.save(record);
-        return "redirect:/pick/bankTransferSuccess";
+        return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();
     }
 
     /**
@@ -216,8 +282,9 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransferSuccess", method = RequestMethod.GET)
-    public String bankTransferSuccess(){
-        return "";
+    public String bankTransferSuccess(Integer orderId, ModelMap model){
+        model.put("orderId",orderId);
+        return "pick_pay_success";
     }
 
     /**

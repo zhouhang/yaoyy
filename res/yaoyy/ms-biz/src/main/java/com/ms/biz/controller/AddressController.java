@@ -45,6 +45,19 @@ public class AddressController {
     }
 
     /**
+     * 订单选择地址的列表
+     * @param model
+     * @return
+     */
+    @RequestMapping("/select")
+    public String select(ModelMap model){
+        //获取登陆用户userId
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        model.put("addressList",addressService.findByUserId(user.getId()));
+        return "address_select";
+    }
+
+    /**
      * 获取用户默认地址
      * @return
      */
