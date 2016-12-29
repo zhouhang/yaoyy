@@ -68,17 +68,19 @@
                     <div class="txt">收货地址：</div>
                     <div class="val">>${shippingAddressHistory.detail!}</div>
                 </div>
+                   <#if orderInvoiceVo?exists>
+                       <div class="item">
+                           <div class="txt">发票：</div>
+                           <div class="val">${orderInvoiceVo.content!}</div>
+                       </div>
+                   </#if>
+                   <div class="item">
+                       <div class="txt">备注：</div>
+                       <div class="val">${pickVo.remark!}</div>
+                   </div>
                </#if>
-               <#if orderInvoiceVo?exists>
-                <div class="item">
-                    <div class="txt">发票：</div>
-                    <div class="val">${orderInvoiceVo.content!}</div>
-                </div>
-               </#if>
-                <div class="item">
-                    <div class="txt">备注：</div>
-                    <div class="val">${pickVo.remark!}</div>
-                </div>
+
+
             </div>
             </#if>
             <div class="box fa-form">
@@ -140,7 +142,7 @@
                 <div class="item">
                     <div class="txt">包装费：</div>
                     <div class="val"><em>${pickVo.bagging!}元</em>
-                        <#if pickVo.bagging==0>
+                        <#if pickVo.bagging?exists&&pickVo.bagging==0>
                             （免包装费）
                         </#if>
                     </div>
@@ -148,7 +150,7 @@
                 <div class="item">
                     <div class="txt">检测费：</div>
                     <div class="val"><em>${pickVo.checking!}元</em>
-                    <#if pickVo.checking==0>
+                    <#if pickVo.checking?exists&&pickVo.checking==0>
                         （免检测费）
                     </#if>
                     </div>
@@ -166,12 +168,12 @@
                     <div class="txt">结算类型：</div>
                     <div class="val">${pickVo.settleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
                 </div>
-                <#if pickVo.settleType==1>
+                <#if pickVo.settleType?exists&&pickVo.settleType==1>
                 <div class="item">
                     <div class="txt">账期：</div>
                     <div class="val">${pickVo.billTime!}天</div>
                 </div>
-                <#elseif pickVo.settleType==2>
+                <#elseif pickVo.settleType?exists&&pickVo.settleType==2>
                     <div class="item">
                         <div class="txt">账期：</div>
                         <div class="val">${pickVo.billTime!}天</div>
