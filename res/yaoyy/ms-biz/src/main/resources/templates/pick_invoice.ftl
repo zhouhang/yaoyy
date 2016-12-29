@@ -38,9 +38,29 @@
     var _global = {
         fn: {
             init: function() {
-                // 初始化赋值TODO:
                 this.bindEvent();
                 this.submit();
+                // 初始化赋值TODO:
+                var invoice = sessionStorage.getItem("pickInvoice${id}");
+                if (invoice) {
+                    invoice = JSON.parse(invoice);
+
+                    $("input[name=taitou]").each(function(){
+                        if($(this).val() == invoice.type){
+                            if (invoice.type == 2){
+                                $(this).trigger("click");
+                            }
+                            $(this).attr("checked",true)
+                        }
+                    });
+
+                    $("input[name=detail]").each(function(){
+                        if($(this).val() == invoice.content){
+                            $(this).attr("checked",true)
+                        }
+                    });
+                    $("#companyName").val(invoice.name);
+                }
             },
             bindEvent: function() {
                 var self = this;
