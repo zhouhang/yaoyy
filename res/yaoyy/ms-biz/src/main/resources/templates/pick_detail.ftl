@@ -146,11 +146,11 @@
         <#if pickVo.status == 5>
             <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
         </#if>
-        <#if [0,1,2,4,5]?seq_contains(pickVo.status)>
+        <#if [0,1,5]?seq_contains(pickVo.status)>
             <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
         </#if>
         <#if pickVo.status == 7>
-            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">确认收货</button>
+            <button type="button" id="receipt" class="ubtn ubtn-primary">确认收货</button>
         </#if>
         </div>
 
@@ -165,7 +165,9 @@
 
     var _global = {
         v:{
-            saveUrl:"/pick/save"
+            saveUrl:"/pick/save",
+            cancelUrl:"/pick/cancel",
+            receiptUrl:"/pick/receipt"
         },
         fn: {
             init: function() {
@@ -203,8 +205,43 @@
                 })
 
                 $("#cancel").click(function () {
-                    
-                })
+                    //取消订单
+                    $.ajax({
+                        url: _global.v.cancelUrl + "?id=${pickVo.id}",
+                        type: "POST",
+                        success: function (result) {
+                            if (result.status == "200") {
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            popover('网络错误，请刷新页面重试');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1e3);
+                        }
+                    })
+                });
+
+                $("#receipt").click(function () {
+                    // 确认收货
+                    $.ajax({
+                        url: _global.v.receiptUrl + "?id=${pickVo.id}",
+                        type: "POST",
+                        success: function (result) {
+                            if (result.status == "200") {
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            popover('网络错误，请刷新页面重试');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1e3);
+                        }
+                    })
+                });
+
             },
             save:function(){
                 var  pick = {
