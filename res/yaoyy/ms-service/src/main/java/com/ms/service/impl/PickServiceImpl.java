@@ -417,6 +417,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				orderInvoiceService.create(pickVo.getInvoice());
 			} else {
 				// 确认空值的问题
+				pickVo.getInvoice().setId(invoice.getId());
 				BeanUtils.copyProperties(pickVo.getInvoice(),invoice);
 				invoice.setOrderId(pickVo.getId());
 				orderInvoiceService.update(invoice);

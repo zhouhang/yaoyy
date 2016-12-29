@@ -198,7 +198,18 @@
                 }
                 var invoice = sessionStorage.getItem("pickInvoice${id}");
                 if (invoice) {
-                    $("#invoice").html(JSON.parse(invoice).content);
+                    invoice = JSON.parse(invoice);
+                    var content = "";
+                    if (invoice.content == "不开发票") {
+                        content = "不开发票";
+                    } else {
+                        if (invoice.type == 2) {
+                            content = invoice.name + " " + invoice.content;
+                        } else {
+                            content = "个人 " + invoice.content;
+                        }
+                    }
+                    $("#invoice").html(content);
                 }
                 // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
                 var address = sessionStorage.getItem("pickAddrId${id}");

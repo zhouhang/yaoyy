@@ -19,7 +19,7 @@
             <label class="item-select" rid = ${addresss.id}>
                 <input type="radio"   class="fa-cbx cbx mid">
                 <strong>${addresss.consignee}  ${addresss.tel}</strong>
-                <span>${addresss.detail}</span>
+                <span>${address.fullAdd} ${addresss.detail}</span>
             </label>
                 <div class="op">
                     <a href="#"  class="add-del" rid="${addresss.id}" onclick="return false" ><i class="fa fa-remove add-del" rid="${addresss.id}"></i> 删除</a>
@@ -71,7 +71,7 @@
                 });
 
                 //删除
-                $wrap.on('click', '.fa-remove', function() {
+                $wrap.on('click', '.add-del', function() {
                     var $this = $(this);
                     layer.open({
                         content: '确定要删除吗？',
