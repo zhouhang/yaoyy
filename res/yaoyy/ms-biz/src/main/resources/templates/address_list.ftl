@@ -17,7 +17,7 @@
         <#list addressList as addresss>
         <div class="item">
             <label>
-                <input type="radio"   class="fa-cbx cbx mid" <#if addresss.isDefault==true>checked</#if> >
+                <#if addresss.isDefault==true><input type="radio"   class="fa-cbx cbx mid" checked ></#if>
                 <strong>${addresss.consignee}  ${addresss.tel}</strong>
                 <span>${addresss.detail}</span>
             </label>
