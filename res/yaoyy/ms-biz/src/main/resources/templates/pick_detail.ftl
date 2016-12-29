@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">订单详情</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="/pick/list" class="fa fa-back"></a>
     </div>
 </header><!-- /ui-header -->
 
