@@ -90,7 +90,7 @@
         </#if>
             </div>
             <div class="more hr">
-                <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.note?exists>${pickVo.note}<#else >无</#if></span></div>
+                <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.remark?exists>${pickVo.remark}<#else >无</#if></span></div>
         <#if pickVo.status == 5>
                 <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
@@ -125,11 +125,11 @@
             </dl>
             <dl>
                 <dt>包装费：</dt>
-                <dd><em>${pickVo.bagging?default(0)}</em>元（免包装费）</dd>
+                <dd><em>${pickVo.bagging?default(0)}</em>元<#if !(pickVo.bagging?exists) || pickVo.bagging ==0>（免包装费）</#if></dd>
             </dl>
             <dl>
                 <dt>检测费：</dt>
-                <dd><em>${pickVo.checking?default(0)}</em>元（免检测费）</dd>
+                <dd><em>${pickVo.checking?default(0)}</em>元<#if !(pickVo.checking?exists) || pickVo.checking ==0>（免检测费）</#if></dd>
             </dl>
             <dl>
                 <dt>税款：</dt>
