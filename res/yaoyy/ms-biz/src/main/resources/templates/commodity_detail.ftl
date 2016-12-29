@@ -32,7 +32,7 @@
                     <a class="sample" href="apply/sample/${commodityVo.id}">免费寄样</a>
                 </li>
                 <li class="wide">
-                    <a class="cart" href="javascript:;" id="addCommodity">加入选货单</a>
+                    <a class="cart" href="javascript:;" id="addCommodity">加入采购单</a>
                 </li>
             </ul>
         </nav>
