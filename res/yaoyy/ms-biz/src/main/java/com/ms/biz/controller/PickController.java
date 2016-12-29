@@ -281,7 +281,9 @@ public class PickController extends BaseController{
             throw new ControllerException("用户无权限访问此付款页面.");
         }
 
-        PayDocumentVo document = new PayDocumentVo();
+        // 不处于待支付z状态的订单也无法访问此页面 跑出404 页面 TODO:
+
+       PayDocumentVo document = new PayDocumentVo();
         document.setPath(url);
         List<PayDocumentVo> list = new ArrayList<>();
         list.add(document);

@@ -41,7 +41,7 @@
             <span>上传支付凭证：</span>
                 <span class="ui-file">
                 <#if url?exists>
-                    <img src="${url}" alt=""><i class="del fa fa-del"></i>
+                    <img src="${url}" alt="" style="width: 60px; height: 60px;"><i class="del fa fa-del"></i>
                 <#else >
                     <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
                 </#if>

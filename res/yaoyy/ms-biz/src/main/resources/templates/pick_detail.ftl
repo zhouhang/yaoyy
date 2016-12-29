@@ -55,7 +55,7 @@
         </div>
 
         <div class="item">
-            <div class="hd">订单：</div>
+            <div class="hd">商品详情：</div>
             <ul class="list">
                 <#list pickVo.pickCommodityVoList as pickCommodityVo>
                 <li><a href="commodity/detail/${pickCommodityVo.realCommodityId}"><em>${pickCommodityVo.name}</em><span>${pickCommodityVo.origin}  ${pickCommodityVo.spec}  ${pickCommodityVo.price}元/${pickCommodityVo.unit}</span></a><sub><em>${pickCommodityVo.num}</em> ${pickCommodityVo.unit} <b>&yen; <em>${pickCommodityVo.total}</em></b> 元</sub></li>
