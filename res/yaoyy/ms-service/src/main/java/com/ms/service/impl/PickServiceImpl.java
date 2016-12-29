@@ -407,10 +407,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		if (pickVo.getInvoice() != null && pickVo.getInvoice().getType()!= null){
 			OrderInvoice invoice = orderInvoiceService.findByOrderId(pickVo.getId());
 			if (invoice == null) {
+				pickVo.getInvoice().setOrderId(pickVo.getId());
 				orderInvoiceService.create(pickVo.getInvoice());
 			} else {
 				// 确认空值的问题
 				BeanUtils.copyProperties(pickVo.getInvoice(),invoice);
+				invoice.setOrderId(pickVo.getId());
 				orderInvoiceService.update(invoice);
 			}
 
