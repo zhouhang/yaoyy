@@ -52,7 +52,6 @@
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
-            <#if pickVo.status!=5>
             <div class="box fa-form fa-form-info">
                 <div class="hd">收货信息</div>
                <#if shippingAddressHistory?exists>
@@ -71,7 +70,7 @@
                    <#if orderInvoiceVo?exists>
                        <div class="item">
                            <div class="txt">发票：</div>
-                           <div class="val">${orderInvoiceVo.content!}</div>
+                           <div class="val">${orderInvoiceVo.name!} ${orderInvoiceVo.content!}</div>
                        </div>
                    </#if>
                    <div class="item">
@@ -82,7 +81,6 @@
 
 
             </div>
-            </#if>
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
@@ -137,7 +135,11 @@
                 </div>
                 <div class="item">
                     <div class="txt">运费：</div>
-                    <div class="val"><em>${pickVo.shippingCosts!}元</em></div>
+                    <div class="val"><em>${pickVo.shippingCosts!}元</em>
+                    <#if pickVo.shippingCosts?exists&&pickVo.shippingCosts==0>
+                        （免运费）
+                    </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">包装费：</div>
