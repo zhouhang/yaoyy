@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">收货地址</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="/center/index" class="fa fa-back"></a>
     </div>
 </header><!-- /ui-header -->
 

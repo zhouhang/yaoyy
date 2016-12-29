@@ -17,12 +17,12 @@
         <#list addressList as addresss>
         <div class="item">
             <label class="item-select" rid = ${addresss.id}>
-                <input type="radio"   class="fa-cbx cbx mid" <#if addresss.isDefault==true>checked</#if> >
+                <input type="radio"   class="fa-cbx cbx mid">
                 <strong>${addresss.consignee}  ${addresss.tel}</strong>
                 <span>${addresss.detail}</span>
             </label>
                 <div class="op">
-                    <a href="#"  onclick="return false" ><i class="fa fa-remove" rid="${addresss.id}"></i> 删除</a>
+                    <a href="#"  class="add-del" rid="${addresss.id}" onclick="return false" ><i class="fa fa-remove add-del" rid="${addresss.id}"></i> 删除</a>
                     <a href="/address/detail/${addresss.id}"><i class="fa fa-edit"></i> 编辑</a>
                 </div>
         </div>
@@ -81,6 +81,14 @@
                                 url: '/address/delete/'+$this.attr("rid"),
                                 type: 'POST',
                                 success: function(result) {
+                                    // 删除时要删除对应 session 缓存值
+                                    var addr = sessionStorage.getItem("pickAddrId${orderId}");
+                                    if (addr) {
+                                        addr = JSON.parse(addr);
+                                        if(addr.id == $this.attr("rid")){
+                                            sessionStorage.removeItem("pickAddrId${orderId}");
+                                        }
+                                    }
                                     $this.closest('.item').remove();
                                     layer.close(index);
                                     if ($wrap.find('.item').length === 0) {
@@ -94,14 +102,7 @@
                     });
                     return false;
                 })
-            },
-            empty: function(isEmpty) {
-                if (isEmpty) {
-                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 您还没有关注商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
-                } else {
-                    $('.ui-notice').remove();
-                }
-            },
+            }
         }
     }
 
