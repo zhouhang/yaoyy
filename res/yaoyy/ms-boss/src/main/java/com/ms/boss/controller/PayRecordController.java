@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 
 /**
@@ -83,13 +84,16 @@ public class PayRecordController extends BaseController{
     @ResponseBody
     @Transactional
     public Result config(Integer payRecordId, Integer orderId){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         PayRecord payRecord=new PayRecord();
         payRecord.setId(payRecordId);
         payRecord.setStatus(1);
+        payRecord.setMemberId(mem.getId());
+        payRecord.setOperateTime(new Date());
         payRecordService.update(payRecord);
 
         //确认收款之后记录一条记录用户付全款的跟踪记录
-        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+
         PickTrackingVo pickTrackingVo=new PickTrackingVo();
         pickTrackingVo.setPickId(orderId);
         pickTrackingVo.setOperator(mem.getId());
