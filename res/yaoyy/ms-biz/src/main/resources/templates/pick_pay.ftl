@@ -39,6 +39,7 @@
         </div>
         <div class="ft">
             <span>上传支付凭证：</span>
+            <img id="img" src="">
             <#if url?exists>
             <img src="${url}">
             <#else >
@@ -58,11 +59,49 @@
 
 <#include "./common/footer.ftl"/>
 <script src="assets/js/layer.js"></script>
+<script src="assets/js/lrz.bundle.js"></script>
 <script>
     var _global = {
         fn: {
             init: function() {
                 this.submit();
+                $('input[type="file"]').on('change', function(ev) {
+
+                    //图片lrz压缩上传
+                    lrz($(this).get(0).files[0], {
+                        width: 800
+                    }).then(function (rst) {
+                        base64 = rst.base64;
+                        base64 = base64.substr(base64.indexOf(',') + 1);
+                        $.ajax({
+                            url: "/pick/upload",
+                            data: {
+                                img: base64,
+                                fileName:rst.origin.name
+                            },
+                            type: 'post',
+                            dataType: 'json',
+                            beforeSend: function (jqXHR, settings) {
+                                popover('图片正在上传，请稍后...');
+                            },
+                            success: function (result) {
+                                if (result.status === '200') {
+                                    popover('上传图片成功');
+                                    $("#img").attr("src",result.url);
+                                } else {
+                                    popover('上传图片失败，请刷新页面重试！');
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                popover('网络连接超时，请您稍后重试！');
+                            }
+                        })
+                    }).catch(function (err) {
+                        // 处理失败会执行
+                    }).always(function () {
+                        // 不管是成功失败，都会执行
+                    });
+                });
             },
             submit: function() {
 //                var self = this;
