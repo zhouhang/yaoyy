@@ -24,13 +24,13 @@
             <li>
                 <a href="/pick/list">
                     <i class="fa fa-cart"></i>
-                    <span>我的选货单</span>
+                    <span>订单列表</span>
                 </a>
             </li>
             <li>
                 <a href="/sample/list">
                     <i class="fa fa-order"></i>
-                    <span>我的寄样单</span>
+                    <span>寄样单列表</span>
                 </a>
             </li>
             <li>
