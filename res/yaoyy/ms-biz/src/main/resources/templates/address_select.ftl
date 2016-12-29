@@ -71,7 +71,7 @@
                 });
 
                 //删除
-                $wrap.on('click', '.fa-remove', function() {
+                $wrap.on('click', '.add-del', function() {
                     var $this = $(this);
                     layer.open({
                         content: '确定要删除吗？',
