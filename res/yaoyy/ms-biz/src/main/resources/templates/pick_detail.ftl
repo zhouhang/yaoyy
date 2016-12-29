@@ -84,13 +84,13 @@
 
         <div class="item">
             <div class="more">
-                <div class="txt"><strong>发票：</strong><span id="invoice">不开发票</span></div>
+                <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content}<#else >不开发票</#if></span></div>
         <#if pickVo.status == 5>
                 <a href="/pick/invoice/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
             </div>
             <div class="more hr">
-                <div class="txt"><strong>备注：</strong><span id="note">无</span></div>
+                <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.remark?exists>${pickVo.remark}<#else >无</#if></span></div>
         <#if pickVo.status == 5>
                 <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
@@ -125,11 +125,11 @@
             </dl>
             <dl>
                 <dt>包装费：</dt>
-                <dd><em>${pickVo.bagging?default(0)}</em>元（免包装费）</dd>
+                <dd><em>${pickVo.bagging?default(0)}</em>元<#if !(pickVo.bagging?exists) || pickVo.bagging ==0>（免包装费）</#if></dd>
             </dl>
             <dl>
                 <dt>检测费：</dt>
-                <dd><em>${pickVo.checking?default(0)}</em>元（免检测费）</dd>
+                <dd><em>${pickVo.checking?default(0)}</em>元<#if !(pickVo.checking?exists) || pickVo.checking ==0>（免检测费）</#if></dd>
             </dl>
             <dl>
                 <dt>税款：</dt>
@@ -169,6 +169,14 @@
         },
         fn: {
             init: function() {
+            <#if [1,5]?seq_contains(pickVo.status)>
+                <#if orderInvoiceSession?exists>
+                    sessionStorage.setItem("pickInvoice${pickVo.id}", "${orderInvoiceSession}");
+                </#if>
+                <#if remarkSession?exists>
+                    sessionStorage.setItem("pickNote${pickVo.id}", "${remarkSession}");
+                </#if>
+
                 // 初始化,订单处于待支付状态时
                 var note = sessionStorage.getItem("pickNote${pickVo.id}");
                 if (note) {
@@ -186,7 +194,7 @@
                     $("#address_title").html(address.title);
                     $("#address_detail").html(address.detail);
                 }
-
+            </#if>
                 this.bindEven();
             },
             bindEven: function () {
@@ -210,7 +218,7 @@
                 }
 
                 // 备注
-                pick.note = sessionStorage.getItem("pickNote${pickVo.id}");
+                pick.remark = sessionStorage.getItem("pickNote${pickVo.id}");
 
                 // 地址
                 if (sessionStorage.getItem("pickAddrId${id}")) {

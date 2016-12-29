@@ -382,6 +382,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				sah.setAreaId(sa.getAreaId());
 				shippingAddressHistoryService.create(sah);
 				pickVo.setAddrHistoryId(sah.getId());
+			} else {
+				pickVo.setAddrHistoryId(null);
 			}
 		} else {
 			throw new ControllerException("地址不能为空.");
