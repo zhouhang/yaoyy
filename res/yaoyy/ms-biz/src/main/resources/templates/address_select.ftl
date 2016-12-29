@@ -53,10 +53,13 @@
                 // 选中地址
                 $wrap.on('click', '.item-select', function() {
                     var $this = $(this);
-                    $this.attr("rid");
                     var addr = {};
-                    addr.
-                }
+                    addr.id =  $this.attr("rid");
+                    addr.title= $this.find("strong").html();
+                    addr.detail = $this.find("span").html();
+                    sessionStorage.setItem("pickAddrId${orderId}",JSON.stringify(addr));
+                    window.location.href = "/pick/detail/${orderId}";
+                });
 
                 //删除
                 $wrap.on('click', '.fa-remove', function() {

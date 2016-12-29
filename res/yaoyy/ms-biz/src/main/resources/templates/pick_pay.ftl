@@ -16,7 +16,7 @@
     <form id="bankTransfer" method="post" enctype="multipart/form-data" action="/pick/bankTransfer">
     <div class="pay">
         <div class="hd">
-            <em>需付金额：<strong>&yen;${total?number}</strong>元</em>
+            <em>需付金额：<strong>&yen;${total?string}</strong>元</em>
             <span>请在三天内完成汇款，否则订单会自动被取消。</span>
         </div>
         <div class="bd">
@@ -39,9 +39,13 @@
         </div>
         <div class="ft">
             <span>上传支付凭证：</span>
+            <#if url?exists>
+            <img src="${url}">
+            <#else >
                 <span class="ui-file">
                     <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" id="jUpload" />
                 </span>
+            </#if>
         </div>
         <input type="text" style="display: none" name="orderId" value="${orderId}">
         <input type="text" style="display: none" name="id" <#if id?exists>value="${id}"</#if>>

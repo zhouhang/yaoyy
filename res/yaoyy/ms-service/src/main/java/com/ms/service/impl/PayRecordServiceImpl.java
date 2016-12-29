@@ -3,12 +3,11 @@ package com.ms.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.ICommonDao;
-import com.ms.dao.PayDocumentDao;
 import com.ms.dao.PayRecordDao;
-import com.ms.dao.model.PayDocument;
 import com.ms.dao.model.PayRecord;
 import com.ms.dao.vo.PayDocumentVo;
 import com.ms.dao.vo.PayRecordVo;
+import com.ms.service.PayDocumentService;
 import com.ms.service.PayRecordService;
 import com.ms.tools.upload.PathConvert;
 import com.ms.tools.utils.SeqNoUtil;
@@ -26,7 +25,7 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 	private PayRecordDao payRecordDao;
 
 	@Autowired
-	private PayDocumentDao payDocumentDao;
+	private PayDocumentService payDocumentService;
 
 	@Autowired
 	private PathConvert pathConvert;
@@ -52,7 +51,7 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 		PayRecordVo payRecordVo=payRecordDao.findVoById(id);
 		PayDocumentVo payDocument =new PayDocumentVo();
 		payDocument.setPayRecordId(id);
-		payRecordVo.setPayDocuments(payDocumentDao.findByParams(payDocument));
+		payRecordVo.setPayDocuments(payDocumentService.findByParams(payDocument));
 		return payRecordVo;
 	}
 
@@ -63,9 +62,7 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 			PayRecordVo payRecord=list.get(0);
 			PayDocumentVo payDocument =new PayDocumentVo();
 			payDocument.setPayRecordId(payRecord.getId());
-			// TODO: 需调用Service 层方法来转换图片
-			payDocument.setPath(pathConvert.getUrl(payDocument.getPath()));
-            payRecord.setPayDocuments(payDocumentDao.findByParams(payDocument));
+            payRecord.setPayDocuments(payDocumentService.findByParams(payDocument));
 			return payRecord;
 		}
 		return null;
@@ -85,13 +82,13 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 			update(payRecord);
 		}
 		// 删除原图片再保存图片
-		payDocumentDao.deleteByRecordId(payRecord.getId());
+		payDocumentService.deleteByRecordId(payRecord.getId());
 		if (payRecord.getPayDocuments()!= null && payRecord.getPayDocuments().size() >0 ){
 			payRecord.getPayDocuments().forEach(doc ->{
 				doc.setCreateDate(new Date());
 				doc.setPayRecordId(payRecord.getId());
 				doc.setPath(pathConvert.saveFileFromTemp(doc.getPath(),folderName));
-				payDocumentDao.create(doc);
+				payDocumentService.create(doc);
 			});
 		}
 		return payRecord;

@@ -70,15 +70,15 @@
     <#if pickVo.amountsPayable?exists && pickVo.amountsPayable != 0>
         <div class="item more">
             <#if address?exists>
-            <div class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
+            <div id="address_title" class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
 
-            <div class="address"><#if pickVo.addrHistoryId?exists>${address.area}${address.detail} <#else > ${address.fullAdd}${address.detail}</#if></div>
+            <div id="address_detail" class="address"><#if pickVo.addrHistoryId?exists>${address.area}${address.detail} <#else > ${address.fullAdd}${address.detail}</#if></div>
             <#else >
-            <div class="title">请先添加收货地址</div>
-            <div class="address">+</div>
+            <div id="address_title" class="title">请先添加收货地址</div>
+            <div id="address_detail" class="address">+</div>
             </#if>
             <#if pickVo.status == 5>
-            <a href="/address/select" class="mid"><i class="fa fa-front"></i></a>
+            <a href="/address/select?orderId=${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
             </#if>
         </div>
 
@@ -99,20 +99,12 @@
             <ul class="freight hr">
                 <li><strong>物流详情：</strong></li>
                 <li>
-                    <span>发货信息：</span>
-                    <em>${logistical.content}</em>
-                </li>
-                <li>
-                    <span>物流单号：</span>
-                    <em>20554845</em>
-                </li>
-                <li>
-                    <span>司机电话：</span>
-                    <em>13058497548</em>
-                </li>
-                <li>
                     <span>发货时间：</span>
                     <em>${logistical.shipDate?datetime}</em>
+                </li>
+                <li>
+                    <span>发货信息：</span>
+                    <em>${logistical.content}</em>
                 </li>
                 <li>
                     <span>发货单据：</span>
@@ -189,8 +181,10 @@
                 // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
                 var address = sessionStorage.getItem("pickAddrId${id}");
                 if (address) {
-                    address = JSON.parse(address).id;
+                    address = JSON.parse(address);
                     // 初始化 地址内容
+                    $("#address_title").html(address.title);
+                    $("#address_detail").html(address.detail);
                 }
 
                 this.bindEven();
