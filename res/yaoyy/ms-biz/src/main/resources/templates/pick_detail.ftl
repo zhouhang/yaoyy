@@ -100,7 +100,7 @@
                 <li><strong>物流详情：</strong></li>
                 <li>
                     <span>发货时间：</span>
-                    <em><#if logistical.shipDat?exists>${logistical.shipDate?datetime}</#if></em>
+                    <em><#if logistical.shipDate?exists>${logistical.shipDate?datetime}</#if></em>
                 </li>
                 <li>
                     <span>发货信息：</span>
