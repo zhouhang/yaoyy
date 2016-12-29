@@ -228,6 +228,8 @@ em,i{font-style:normal;}
 .ui-file:after{content:'';position:absolute;top:50%;left:25%;width:50%;height:1px;background:#b9a060;}
 .ui-file:before{content:'';position:absolute;top:25%;left:50%;width:1px;height:50%;background:#b9a060;}
 .ui-file .upfile{position:absolute;top:0;right:0;font-size:30em;opacity:0;}
+.ui-file img{position:absolute;top:0;right:0;bottom:0;left:0;z-index:1;}
+.ui-file .del{position:absolute;top:0;right:0;z-index:1;padding:3px 3px 2px;background:rgba(0,0,0,.7);color:#fff;font-size:1.2rem;}
 
 /* page seach */
 .search-his{background:#fff;}

@@ -44,7 +44,7 @@
             <img src="${url}">
             <#else >
                 <span class="ui-file">
-                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" id="jUpload" />
+                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
                 </span>
             </#if>
         </div>
@@ -65,9 +65,18 @@
         fn: {
             init: function() {
                 this.submit();
-                $('input[type="file"]').on('change', function(ev) {
-
+                this.upfile();
+            },
+            submit: function() {
+//                var self = this;
+//                $('#submit').on('click', function() {
+//                    $("form").submit();
+//                })
+            },
+            upfile: function() {
+                $('.ui-file').on('change', '.file', function(ev) {
                     //图片lrz压缩上传
+                    var self = $(this);
                     lrz($(this).get(0).files[0], {
                         width: 800
                     }).then(function (rst) {
@@ -87,7 +96,7 @@
                             success: function (result) {
                                 if (result.status === '200') {
                                     popover('上传图片成功');
-                                    $("#img").attr("src",result.url);
+                                    self.parent().append('<img src="' + result.url + '" alt=""><i class="del fa fa-del"></i>');
                                 } else {
                                     popover('上传图片失败，请刷新页面重试！');
                                 }
@@ -102,12 +111,9 @@
                         // 不管是成功失败，都会执行
                     });
                 });
-            },
-            submit: function() {
-//                var self = this;
-//                $('#submit').on('click', function() {
-//                    $("form").submit();
-//                })
+                $('.ui-file').on('click', '.del', function() {
+                    $(this).parent().html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
+                })
             }
         }
     }
