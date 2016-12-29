@@ -7,6 +7,7 @@ import com.ms.dao.PayDocumentDao;
 import com.ms.dao.model.PayDocument;
 import com.ms.dao.vo.PayDocumentVo;
 import com.ms.service.PayDocumentService;
+import com.ms.tools.upload.PathConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,6 +18,8 @@ public class PayDocumentServiceImpl  extends AbsCommonService<PayDocument> imple
 	@Autowired
 	private PayDocumentDao payDocumentDao;
 
+	@Autowired
+	private PathConvert pathConvert;
 
 	@Override
 	public PageInfo<PayDocumentVo> findByParams(PayDocumentVo payDocumentVo,Integer pageNum,Integer pageSize) {
@@ -26,6 +29,19 @@ public class PayDocumentServiceImpl  extends AbsCommonService<PayDocument> imple
         return page;
 	}
 
+	@Override
+	public List<PayDocumentVo> findByParams(PayDocumentVo payDocumentVo) {
+		List<PayDocumentVo>  list = payDocumentDao.findByParams(payDocumentVo);
+		list.forEach(doc ->{
+			doc.setPath(pathConvert.getUrl(doc.getPath()));
+		});
+		return list;
+	}
+
+	@Override
+	public void deleteByRecordId(Integer recordId) {
+		payDocumentDao.deleteByRecordId(recordId);
+	}
 
 	@Override
 	public ICommonDao<PayDocument> getDao() {

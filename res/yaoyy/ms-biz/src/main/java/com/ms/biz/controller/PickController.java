@@ -115,11 +115,11 @@ public class PickController extends BaseController{
         if (pickVo.getAddrHistoryId() == null){
             // 获取默认地址信息
             ShippingAddressVo address = shippingAddressService.getDefault(user.getId());
-            // 设置 历史地址id 为-1;
-            address.setId(-1);
             model.put("address", address);
         } else {
             ShippingAddressHistory shippingAddressHistory=shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
+            // 设置 历史地址id 为-1;
+            shippingAddressHistory.setId(-1);
             model.put("address", shippingAddressHistory);
         }
 

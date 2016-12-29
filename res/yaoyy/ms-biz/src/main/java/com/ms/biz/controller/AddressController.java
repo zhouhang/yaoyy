@@ -50,10 +50,11 @@ public class AddressController {
      * @return
      */
     @RequestMapping("/select")
-    public String select(ModelMap model){
+    public String select(Integer orderId, ModelMap model){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         model.put("addressList",addressService.findByUserId(user.getId()));
+        model.put("orderId",orderId);
         return "address_select";
     }
 
