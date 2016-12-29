@@ -44,7 +44,7 @@
                 </span>
         </div>
         <input type="text" style="display: none" name="orderId" value="${orderId}">
-        <input type="text" style="display: none" name="id" value="${id}">
+        <input type="text" style="display: none" name="id" <#if id?exists>value="${id}"</#if>>
         <div class="button">
             <button type="submit" class="ubtn ubtn-primary" id="submit">确认支付</button>
         </div>
