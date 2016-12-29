@@ -127,6 +127,17 @@ public class PickController extends BaseController{
         LogisticalVo logisticalVo=logisticalService.findByOrderId(pickVo.getId());
         model.put("logistical",logisticalVo);
 
+        // 发票信息
+        OrderInvoiceVo orderInvoiceVo=orderInvoiceService.findByOrderId(pickVo.getId());
+        model.put("orderInvoiceVo",orderInvoiceVo);
+        if (orderInvoiceVo!= null) {
+            // 订单为待支付状态时才设置
+            model.put("orderInvoiceSession", GsonUtil.toJson(orderInvoiceVo));
+        }
+        if (pickVo.getRemark()!= null) {
+            model.put("remarkSession", pickVo.getRemark());
+        }
+
         return "pick_detail";
     }
 
