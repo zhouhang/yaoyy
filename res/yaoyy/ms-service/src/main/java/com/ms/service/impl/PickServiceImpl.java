@@ -9,6 +9,7 @@ import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
@@ -68,6 +69,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private OrderInvoiceService orderInvoiceService;
+
+
 
 	@Override
 	public PageInfo<PickVo> findByParams(PickVo pickVo,Integer pageNum,Integer pageSize) {
@@ -340,6 +343,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			// TODO: 判断当前订单的状态是否 处于可取消状态
 		}
 		changeOrderStatus(id,PickEnum.PICK_CANCLE.getValue());
+		//用户提交之后立即取消时候需要消费掉这条消息，否则消费不了
+		MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
+		applicationContext.publishEvent(msgConsumeEvent);
 	}
 
 

@@ -133,7 +133,10 @@
                 if(userinfo){
                     $('#username').val(userinfo.nickname);
                     $('#mobile').val(userinfo.phone);
-                }         
+                }
+                else{
+                    $('#mobile').val(${phone!});
+                }
 
                 $('#submit').on('click', function() {
                     if (isSubmit || !self.checkName() || !self.checkMobile()) {

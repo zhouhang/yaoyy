@@ -22,7 +22,7 @@
                 <span>${addresss.detail}</span>
             </label>
                 <div class="op">
-                    <a href="#"  onclick="return false" ><i class="fa fa-remove" rid="${addresss.id}"></i> 删除</a>
+                    <a href="#"  class="add-del" rid="${addresss.id}" onclick="return false" ><i class="fa fa-remove add-del" rid="${addresss.id}"></i> 删除</a>
                     <a href="/address/detail/${addresss.id}"><i class="fa fa-edit"></i> 编辑</a>
                 </div>
         </div>
@@ -51,7 +51,7 @@
                         $wrap = $('#attention_commodity');
 
                 //删除
-                $wrap.on('click', '.fa-remove', function() {
+                $wrap.on('click', '.add-del', function() {
                     var $this = $(this);
                     layer.open({
                         content: '确定要删除吗？',
