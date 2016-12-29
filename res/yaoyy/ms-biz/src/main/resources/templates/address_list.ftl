@@ -19,7 +19,7 @@
             <label>
                 <#if addresss.isDefault==true><input type="radio"   class="fa-cbx cbx mid" checked ></#if>
                 <strong>${addresss.consignee}  ${addresss.tel}</strong>
-                <span>${address.fullAdd} ${addresss.detail}</span>
+                <span>${addresss.fullAdd} ${addresss.detail}</span>
             </label>
                 <div class="op">
                     <a href="#"  class="add-del" rid="${addresss.id}" onclick="return false" ><i class="fa fa-remove add-del" rid="${addresss.id}"></i> 删除</a>
