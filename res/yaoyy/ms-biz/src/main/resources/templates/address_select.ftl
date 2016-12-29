@@ -44,6 +44,15 @@
     var _global = {
         fn: {
             init: function() {
+                // 初始化选择之前选择的地址
+                var addr = sessionStorage.getItem("pickAddrId${orderId}");
+                if (addr) {
+                    addr = JSON.parse(addr);
+                    if(addr.id != -1){
+                        // 选择地址
+                        $("label[rid='"+addr.id+"']").find("input").attr("checked",true);
+                    }
+                }
                 this.bindEvent();
             },
             bindEvent: function() {

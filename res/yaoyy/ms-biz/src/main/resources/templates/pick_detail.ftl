@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">订单详情</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="/pick/list" class="fa fa-back"></a>
     </div>
 </header><!-- /ui-header -->
 
@@ -173,10 +173,22 @@
             init: function() {
             <#if [1,5]?seq_contains(pickVo.status)>
                 <#if orderInvoiceSession?exists>
-                    sessionStorage.setItem("pickInvoice${pickVo.id}", "${orderInvoiceSession}");
+                    if (sessionStorage.getItem("pickInvoice${pickVo.id}")== undefined) {
+                        sessionStorage.setItem("pickInvoice${pickVo.id}", '${orderInvoiceSession}');
+                    }
                 </#if>
                 <#if remarkSession?exists>
-                    sessionStorage.setItem("pickNote${pickVo.id}", "${remarkSession}");
+                if (!sessionStorage.getItem("pickNote${pickVo.id}")) {
+                    sessionStorage.setItem("pickNote${pickVo.id}", '${remarkSession}');
+                }
+                </#if>
+                <#if address?exists>
+                    if (sessionStorage.getItem("pickAddrId${id}") == undefined) {
+                        var addr = {};
+                        addr.id = ${address.id};
+                        addr.titleN = "ss";
+                        sessionStorage.setItem("pickAddrId${id}", JSON.stringify(addr));
+                    };
                 </#if>
 
                 // 初始化,订单处于待支付状态时
@@ -193,8 +205,10 @@
                 if (address) {
                     address = JSON.parse(address);
                     // 初始化 地址内容
-                    $("#address_title").html(address.title);
-                    $("#address_detail").html(address.detail);
+                    if (address.title) {
+                        $("#address_title").html(address.title);
+                        $("#address_detail").html(address.detail);
+                    }
                 }
             </#if>
                 this.bindEven();
