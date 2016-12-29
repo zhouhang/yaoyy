@@ -355,6 +355,20 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			// TODO: 判断当前订单的状态是否 处于可确认收货状态
 		}
 		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
+
+		//增加跟踪记录
+		PickTracking pickTracking=new PickTracking();
+		pickTracking.setName(pick.getNickname());
+		pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+
+
+
+		pickTracking.setExtra("");
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
+		pickTracking.setPickId(pick.getId());
+		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RECEIPT.getValue());
+		pickTrackingDao.create(pickTracking);
 	}
 
 	@Override
