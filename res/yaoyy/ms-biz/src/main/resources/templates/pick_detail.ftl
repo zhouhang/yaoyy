@@ -100,15 +100,15 @@
                 <li><strong>物流详情：</strong></li>
                 <li>
                     <span>发货时间：</span>
-                    <em>${logistical.shipDate?datetime}</em>
+                    <em><#if logistical.shipDat?exists>${logistical.shipDate?datetime}</#if></em>
                 </li>
                 <li>
                     <span>发货信息：</span>
-                    <em>${logistical.content}</em>
+                    <em>${logistical.content!}</em>
                 </li>
                 <li>
                     <span>发货单据：</span>
-                    <img src="${logistical.pictureUrl}" alt="">
+                    <img src="${logistical.pictureUrl!}" alt="">
                 </li>
             </ul>
         </#if>
@@ -258,6 +258,7 @@
 
             },
             save:function(){
+                if (!this.checkMsg()) return;
                 var  pick = {
                     id:${pickVo.id},
                     addrHistoryId:<#if address?exists>${address.id} <#else > null </#if>
@@ -295,6 +296,15 @@
                         }, 1e3);
                     }
                 })
+            },
+            checkMsg: function () {
+                // 默认验证通过
+                if (sessionStorage.getItem("pickAddrId${id}") == undefined) {
+                    popover('请填写收货地址');
+                    return false;
+                }
+
+                return true;
             }
         }
     }

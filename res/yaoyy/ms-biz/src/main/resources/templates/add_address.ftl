@@ -96,7 +96,7 @@
                             type: 'POST',
                             data: $("#addressForm").serialize()+"&isDefault="+isDefault,
                             success: function(result) {
-                                location.href ="/address/list";
+                                location.href = document.referrer;
                             }
                         })
                     } else {
