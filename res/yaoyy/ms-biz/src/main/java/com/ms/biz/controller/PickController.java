@@ -6,6 +6,7 @@ import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.entity.BASE64DecodedMultipartFile;
 import com.ms.tools.entity.Result;
 import com.ms.tools.entity.ResultStatus;
 import com.ms.tools.exception.ControllerException;
@@ -23,10 +24,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
 import java.util.*;
 
 /**
@@ -255,8 +259,12 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
-    public CropResult updateFile(@RequestParam(required = false) MultipartFile img) throws Exception{
-        return uploadService.uploadImage(img);
+    public CropResult updateFile(String img, String fileName) throws Exception{
+        img=img.substring(img.indexOf(",")+1);//需要去掉头部信息，这很重要
+        BASE64Decoder base64Decoder = new BASE64Decoder();
+        byte[] result = base64Decoder.decodeBuffer(img);//解码
+        BASE64DecodedMultipartFile multipartFile = new BASE64DecodedMultipartFile(result, fileName);
+        return uploadService.uploadImage(multipartFile);
     }
 
     /**
@@ -284,6 +292,8 @@ public class PickController extends BaseController{
         record.setCodeType(0);
         record.setStatus(0);
         record.setPayType(0);
+        // 设置默认信息
+
         // 判断之前没有支付记录TODO:
         payRecordService.save(record);
         return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();
