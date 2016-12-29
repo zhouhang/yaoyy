@@ -2,10 +2,16 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.PickEnum;
+import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.TrackingTypeEnum;
+import com.ms.dao.model.Member;
 import com.ms.dao.model.PayRecord;
 import com.ms.dao.vo.PayRecordVo;
+import com.ms.dao.vo.PickTrackingVo;
 import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
+import com.ms.service.PickTrackingService;
+import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -31,6 +39,12 @@ public class PayRecordController extends BaseController{
 
     @Autowired
     private PickService pickService;
+
+    @Autowired
+    private PickTrackingService pickTrackingService;
+
+    @Autowired
+    HttpSession httpSession;
 
 
     /**
@@ -74,7 +88,15 @@ public class PayRecordController extends BaseController{
         payRecord.setStatus(1);
         payRecordService.update(payRecord);
 
-        pickService.changeOrderStatus(orderId, PickEnum.PICK_DELIVERY.getValue());
+        //确认收款之后记录一条记录用户付全款的跟踪记录
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        PickTrackingVo pickTrackingVo=new PickTrackingVo();
+        pickTrackingVo.setPickId(orderId);
+        pickTrackingVo.setOperator(mem.getId());
+        pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+        pickTrackingVo.setName(mem.getName());
+        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
+        pickTrackingService.save(pickTrackingVo);
 
         return Result.success().data("确认收款");
     }
