@@ -192,10 +192,11 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "cancel", method = RequestMethod.POST)
-    public String cancel(Integer id){
+    @ResponseBody
+    public Result cancel(Integer id){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         pickService.cancel(id,user.getId());
-        return "redirect:/pick/cancelSuccess";
+        return Result.success("订单取消成功!");
     }
 
     /**
