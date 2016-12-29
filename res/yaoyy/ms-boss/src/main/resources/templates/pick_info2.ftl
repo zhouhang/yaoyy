@@ -52,7 +52,6 @@
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
-            <#if pickVo.status!=5>
             <div class="box fa-form fa-form-info">
                 <div class="hd">收货信息</div>
                <#if shippingAddressHistory?exists>
@@ -82,7 +81,6 @@
 
 
             </div>
-            </#if>
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
