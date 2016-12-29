@@ -13,7 +13,7 @@
 </header><!-- /ui-header -->
 
 <section class="ui-content">
-    <form id="bankTransfer" method="post" enctype="multipart/form-data" action="/pick/bankTransfer">
+
     <div class="pay">
         <div class="hd">
             <em>需付金额：<strong>&yen;${total?string}</strong>元</em>
@@ -26,35 +26,37 @@
             </div>
             <div class="row">
                 <div class="txt">账户名称：</div>
-                <div class="val">亳州东方康元中药材信息有限公司</div>
+                <div class="val">亳州市东方康元中药材信息咨询有限公司</div>
             </div>
             <div class="row">
                 <div class="txt">帐号：</div>
-                <div class="val">1109 0795 0110 201</div>
+                <div class="val">1318040809266666630</div>
             </div>
             <div class="row">
                 <div class="txt">开户行：</div>
-                <div class="val">中国银行魏武大道支行</div>
+                <div class="val">中国工商银行亳州谯陵分理处</div>
             </div>
         </div>
         <div class="ft">
             <span>上传支付凭证：</span>
-            <img id="img" src="">
-            <#if url?exists>
-            <img src="${url}">
-            <#else >
                 <span class="ui-file">
-                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" id="jUpload" />
+                <#if url?exists>
+                    <img src="${url}" alt=""><i class="del fa fa-del"></i>
+                <#else >
+                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
+                </#if>
                 </span>
-            </#if>
         </div>
+        <form id="bankTransfer" method="post" action="/pick/bankTransfer">
+        <input type="text" style="display: none" name="url" id="url" <#if url?exists>value="${url}" </#if> >
         <input type="text" style="display: none" name="orderId" value="${orderId}">
         <input type="text" style="display: none" name="id" <#if id?exists>value="${id}"</#if>>
         <div class="button">
             <button type="submit" class="ubtn ubtn-primary" id="submit">确认支付</button>
         </div>
+        </form>
     </div>
-    </form>
+
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
@@ -65,9 +67,23 @@
         fn: {
             init: function() {
                 this.submit();
-                $('input[type="file"]').on('change', function(ev) {
-
+                this.upfile();
+            },
+            submit: function() {
+                var self = this;
+                $('#bankTransfer').submit(function () {
+                    if ($("#url").val()== null || $("#url").val() == "") {
+                        popover('请上传转账凭证');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+            },
+            upfile: function() {
+                $('.ui-file').on('change', '.upfile', function(ev) {
                     //图片lrz压缩上传
+                    var self = $(this);
                     lrz($(this).get(0).files[0], {
                         width: 800
                     }).then(function (rst) {
@@ -85,9 +101,10 @@
                                 popover('图片正在上传，请稍后...');
                             },
                             success: function (result) {
-                                if (result.status === '200') {
+                                if (result.status === 'success') {
                                     popover('上传图片成功');
-                                    $("#img").attr("src",result.url);
+                                    self.parent().append('<img src="' + result.url + '" alt=""><i class="del fa fa-del"></i>');
+                                    $("#url").val(result.url);
                                 } else {
                                     popover('上传图片失败，请刷新页面重试！');
                                 }
@@ -102,12 +119,10 @@
                         // 不管是成功失败，都会执行
                     });
                 });
-            },
-            submit: function() {
-//                var self = this;
-//                $('#submit').on('click', function() {
-//                    $("form").submit();
-//                })
+                $('.ui-file').on('click', '.del', function() {
+                    $(this).parent().html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
+                    $("#url").val(null);
+                })
             }
         }
     }

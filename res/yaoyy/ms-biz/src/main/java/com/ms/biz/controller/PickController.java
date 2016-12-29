@@ -273,7 +273,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
-    public String bankTransferSave(PayRecordVo record, MultipartFile file){
+    public String bankTransferSave(PayRecordVo record, String url){
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Pick pick = pickService.findById(record.getOrderId());
@@ -281,9 +281,8 @@ public class PickController extends BaseController{
             throw new ControllerException("用户无权限访问此付款页面.");
         }
 
-        CropResult crop = uploadService.uploadImage(file);
         PayDocumentVo document = new PayDocumentVo();
-        document.setPath(crop.getUrl());
+        document.setPath(url);
         List<PayDocumentVo> list = new ArrayList<>();
         list.add(document);
         record.setPayDocuments(list);
@@ -293,7 +292,9 @@ public class PickController extends BaseController{
         record.setStatus(0);
         record.setPayType(0);
         // 设置默认信息
-
+        record.setPayAccount("亳州市东方康元中药材信息咨询有限公司");
+        record.setPayBankCard("1318040809266666630");
+        record.setPayBank("中国工商银行亳州谯陵分理处");
         // 判断之前没有支付记录TODO:
         payRecordService.save(record);
         return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();
