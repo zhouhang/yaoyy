@@ -105,7 +105,11 @@
         </div>
         <div class="item">
             <div class="txt">记录时间：</div>
-            <div class="val">${payRecordVo.operateTime?string("yyyy年MM月dd日 HH:mm")}</div>
+            <div class="val">
+                <#if payRecordVo.operateTime?exists>
+                ${payRecordVo.operateTime?string("yyyy年MM月dd日 HH:mm")}
+                </#if>
+            </div>
         </div>
     </div>
         <#else>
@@ -122,7 +126,11 @@
                 </div>
                 <div class="item">
                     <div class="txt">支付时间：</div>
-                    <div class="val">${payRecordVo.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
+                    <div class="val">
+                        <#if payRecordVo.paymentTime?exists>
+                             ${payRecordVo.paymentTime?string("yyyy年MM月dd日 HH:mm")}
+                        </#if>
+                    </div>
                 </div>
             </div>
         </#if>
