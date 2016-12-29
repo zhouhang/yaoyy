@@ -209,7 +209,7 @@
                         <#if payRecord.payDocuments?exists>
                         <#list payRecord.payDocuments as payDocument>
                             <div class="txt">支付凭证：</div>
-                            <div class="val thumb"><img width="160" height="80" src="${payDocument.path}" alt=""></div>
+                            <div class="val thumb"><img width="160" height="80" src="${payDocument.path!}" alt=""></div>
                         </#list>
                         </#if>
                     </div>
@@ -238,7 +238,7 @@
                 </div>
                 <div class="item">
                     <div class="txt">发货单据：</div>
-                    <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl}" alt=""></div>
+                    <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl!}" alt=""></div>
                 </div>
                 </#if>
 
