@@ -63,6 +63,7 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 			PayRecordVo payRecord=list.get(0);
 			PayDocumentVo payDocument =new PayDocumentVo();
 			payDocument.setPayRecordId(payRecord.getId());
+			// TODO: 需调用Service 层方法来转换图片
             payRecord.setPayDocuments(payDocumentDao.findByParams(payDocument));
 			return payRecord;
 		}

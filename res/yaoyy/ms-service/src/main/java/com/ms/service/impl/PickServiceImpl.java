@@ -12,6 +12,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,14 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private LogisticalService logisticalService;
 
+	@Autowired
+	private ShippingAddressService shippingAddressService;
 
+	@Autowired
+	private ShippingAddressHistoryService shippingAddressHistoryService;
+
+	@Autowired
+	private OrderInvoiceService orderInvoiceService;
 
 	@Override
 	public PageInfo<PickVo> findByParams(PickVo pickVo,Integer pageNum,Integer pageSize) {
@@ -95,6 +103,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		pickVo.setPickCommodityVoList(pickCommodityVos);
 
+		// 发票信息
+		pickVo.setInvoice(orderInvoiceService.findByOrderId(pickVo.getId()));
 		return pickVo;
 	}
 
@@ -350,11 +360,47 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void saveOrder(PickVo pickVo) {
-		//判断提交的订单是否属于当前用户
-		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
-		// 保存发票信息
+
+
 		// 保存订单
 
+		// 判断提交的订单是否属于当前用户
+		Pick originPick = findById(pickVo.getId());
+		if (!(originPick!= null && pickVo.getUserId().equals(originPick.getUserId()))){
+			throw new ControllerException("用户无权限访问此页面.");
+		}
+
+		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
+		if (pickVo.getAddrHistoryId() != null ){
+			// 历史地址ID = -1 表示用户修改时未修改地址信息
+			if (pickVo.getAddrHistoryId() != -1) {
+				ShippingAddressVo sa = shippingAddressService.findVoById(pickVo.getAddrHistoryId());
+				ShippingAddressHistory sah = new ShippingAddressHistory();
+				BeanUtils.copyProperties(sa, sah);
+				sah.setId(null);
+				sah.setArea(sa.getFullAdd());
+				sah.setAreaId(sa.getAreaId());
+				shippingAddressHistoryService.create(sah);
+				pickVo.setAddrHistoryId(sah.getId());
+			}
+		} else {
+			throw new ControllerException("地址不能为空.");
+		}
+
+		// 保存发票信息 保存前需要先检查下用户发票之前是否存在
+		if (pickVo.getInvoice() != null && pickVo.getInvoice().getType()!= null){
+			OrderInvoice invoice = orderInvoiceService.findByOrderId(pickVo.getId());
+			if (invoice == null) {
+				orderInvoiceService.create(pickVo.getInvoice());
+			} else {
+				// 确认空值的问题
+				BeanUtils.copyProperties(pickVo.getInvoice(),invoice);
+				orderInvoiceService.update(invoice);
+			}
+
+		}
+
+		update(pickVo);
 	}
 
 	@Override
