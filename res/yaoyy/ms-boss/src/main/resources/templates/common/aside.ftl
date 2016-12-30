@@ -77,13 +77,13 @@
         <dt>
             <a href="javascript:;">
                 <i class="fa fa-shopping-bag"></i>
-                <span>选货单管理</span>
+                <span>订单管理</span>
                 <i class="fa fa-angle-down arrow"></i>
             </a>
         </dt>
         <dd>
             <@shiro.hasPermission name="pick:list">
-            <a href="/pick/list"><i class="fa fa-circle-o"></i>选货单列表</a>
+            <a href="/pick/list"><i class="fa fa-circle-o"></i>订单列表</a>
             </@shiro.hasPermission>
         </dd>
     </dl>
@@ -126,4 +126,52 @@
         </dd>
     </dl>
     </@shiro.hasPermission>
+   <@shiro.hasPermission name="supplier:index">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-users"></i>
+                <span>供应商管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+            <@shiro.hasPermission name="supplier:list">
+            <a href="/supplier/list"><i class="fa fa-circle-o"></i>供应商列表</a>
+            </@shiro.hasPermission>
+        </dd>
+    </dl>
+    </@shiro.hasPermission>
+   <@shiro.hasPermission name="quotation:index">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-flag"></i>
+                <span>资讯管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+           <@shiro.hasPermission name="quotation:list">
+            <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
+           </@shiro.hasPermission>
+        </dd>
+    </dl>
+   </@shiro.hasPermission>
+<@shiro.hasPermission name="pay:index">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-money"></i>
+                <span>账单流水管理</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+    <@shiro.hasPermission name="payRecord:list">
+        <dd>
+            <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
+        </dd>
+    </@shiro.hasPermission>
+    </dl>
+</@shiro.hasPermission>
 </div>

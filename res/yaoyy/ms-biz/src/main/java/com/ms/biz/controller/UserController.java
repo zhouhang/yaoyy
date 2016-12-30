@@ -1,19 +1,15 @@
 package com.ms.biz.controller;
 
+import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.model.User;
-import com.ms.dao.vo.UserVo;
 import com.ms.service.UserService;
-import com.ms.service.enums.RedisEnum;
-import com.ms.service.utils.CommonUtils;
 import com.ms.tools.entity.Result;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
 
 /**
  * Author: koabs
@@ -83,6 +80,7 @@ public class UserController extends BaseController{
             userService.login(subject, token);
         } catch (Exception e) {
             model.put("error", e.getMessage());
+            model.put("phone",phone);
             return "login";
         }
 
@@ -119,6 +117,7 @@ public class UserController extends BaseController{
             userService.login(subject, token);
         } catch (Exception e) {
             model.put("error",e.getMessage());
+            model.put("phone",phone);
             return "register";
         }
         return "redirect:/";
@@ -139,6 +138,7 @@ public class UserController extends BaseController{
             token.setValidationCode(code);
             userService.login(subject, token);
         } catch (Exception e) {
+            model.put("phone",phone);
             model.put("error",e.getMessage());
             return "login_sms";
         }

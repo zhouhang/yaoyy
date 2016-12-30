@@ -34,4 +34,7 @@ public interface CategoryService extends ICommonService<Category>{
      */
     public PageInfo<CategoryVo> findByParamsBiz(CategoryVo categoryVo,Integer pageNum,Integer pageSize);
 
+
+    public List<CategoryVo> findByIds(String ids);
+
 }

@@ -89,9 +89,27 @@
                 </div>
             </div>
             <div class="item">
-                <div class="txt"><i>*</i>采收年份：</div>
+                <div class="txt"><i>*</i>采收时间：</div>
                 <div class="cnt">
-                    <input type="text" name="harYear" class="ipt" placeholder="采收年份" autocomplete="off">
+                    <input type="text" name="harYear" class="ipt" placeholder="采收时间" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt"><i>*</i>加工方式：</div>
+                <div class="cnt">
+                    <input type="text" name="process" class="ipt"  placeholder="加工方式" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt"><i>*</i>性状特征：</div>
+                <div class="cnt">
+                    <input type="text" name="exterior" class="ipt"  placeholder="性状特征" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt"><i>*</i>执行标准：</div>
+                <div class="cnt">
+                    <input type="text" name="executiveStandard" class="ipt"  placeholder="执行标准" autocomplete="off">
                 </div>
             </div>
             <div class="item">
@@ -104,6 +122,25 @@
                 <div class="txt">商品标语：</div>
                 <div class="cnt">
                     <input type="text" name="slogan" class="ipt" placeholder="商品标语" autocomplete="off">
+                </div>
+            </div>
+            <div class="item">
+                <div class="txt">绑定供应商：</div>
+                <div class="cnt">
+                    <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
+                    <input type="hidden" name="supplierId">
+                    <div class="cnt-table hide" id="supplierSuggestions">
+                        <table class="suggestions">
+                            <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>手机</th>
+                                <th>地区</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,24 +163,11 @@
                 <tbody>
                 <tr>
                     <td>
-                        <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="加工方式"
+                        <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="含硫情况"
                                                      autocomplete="off"></div>
                     </td>
                     <td>
-                        <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="趁鲜加工"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <button class="ubtn ubtn-red">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrN_2" class="ipt" value="年限"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrV_2" class="ipt" value="今年新货"
+                        <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="无硫"
                                                      autocomplete="off"></div>
                     </td>
                     <td>
@@ -159,7 +183,7 @@
             <div class="item">
                 <div class="txt"><i>*</i>商品缩略图：</div>
                 <div class="cnt cnt-mul">
-                    <span class="up-img x4" id="jpic1"></span>
+                    <span class="thumb up-img x4" id="jpic1"></span>
                     <input type="hidden" value="" name="thumbnailUrl" id="thumbnailUrl">
                     <span class="tips">图片尺寸：220 X 180</span>
                 </div>
@@ -167,7 +191,7 @@
             <div class="item">
                 <div class="txt"><i>*</i>商品图片：</div>
                 <div class="cnt cnt-mul">
-                    <span class="up-img x3" id="jpic2"></span>
+                    <span class="thumb up-img x3" id="jpic2"></span>
                     <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
                     <span class="tips">图片尺寸：750 X 400</span>
                 </div>
@@ -224,6 +248,7 @@
                 this.myform();
                 this.goodsImg();
                 this.parameter();
+                this.supplier();
             },
             // 查询品种
             catname: function () {
@@ -270,7 +295,7 @@
                             '<input type="text" name="price' + idx + '" class="ipt ipt-short" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n' +
                             ' <span class="unit">元</span> \n </div> \n <button type="button" class="ubtn ubtn-red ml">删除</button> \n </div>');
                 })
-                
+
                 // 单位
                 $('#unit').code('UNIT');
                 $('#unit').on('change', function () {
@@ -298,20 +323,23 @@
                         title: '标题: required; length(1~50)',
                         price: '价格: required; range(1~9999)',
                         spec: '规格等级: required',
+                        process: '加工方式: required',
+                        exterior: '性状特征: required',
+                        executiveStandard: '执行标准: required',
                         origin: '产地: required',
                         harYear: '采收年份: required',
                         thumbnailUrl: '商品缩略图: required',
                         pictureUrl: '商品图片: required',
-                        minimumQuantity:'起购数量: range(0~9999)',
+                        minimumQuantity: '起购数量: range(0~9999)',
                         detail: {
                             rule: '商品详情: required',
                             target: '#detailsError'
                         }
                     },
-                    valid: function() {
+                    valid: function () {
                         self.submitForm();
                     },
-                    invalid: function() {
+                    invalid: function () {
                         console.log('error')
                     }
                 });
@@ -334,14 +362,14 @@
                     attr[$($(v).find("input")[0]).val()] = $($(v).find("input")[1]).val();
                 })
                 var data = $("#myform").serializeObject();
-                $.each(data, function(k,v){
-                    if (k.match("attr")){
+                $.each(data, function (k, v) {
+                    if (k.match("attr")) {
                         delete data[k];
                     }
                 })
                 data.attribute = JSON.stringify(attr);
 
-                if ($("input[name='mark']").is(':checked')){
+                if ($("input[name='mark']").is(':checked')) {
                     var gradient = new Array();
                     // 量大价优按钮被选中
                     var divs = $("#jsalesPrice > .cnt ");
@@ -360,7 +388,7 @@
 
                 $("#jsubmit").attr("disabled", "disabled");
                 $.ajaxSetup({
-                    contentType : 'application/json'
+                    contentType: 'application/json'
                 });
                 $.post("/commodity/save", JSON.stringify(data), function (data) {
                     if (data.status == 200) {
@@ -369,8 +397,8 @@
                             title: '保存成功',
                             text: '3秒后自动跳转到商品列表页',
                             delay: 3e3,
-                            call: function() {
-                                setTimeout(function() {
+                            call: function () {
+                                setTimeout(function () {
                                     location.href = '/commodity/list';
                                 }, 3e3);
                             }
@@ -395,14 +423,8 @@
                     return false;
                 })
 
-                // 点击图片看大图
-                $upImg.on('click', 'img', function () {
-                    _showImg(this.src);
-                    return false;
-                })
-
                 // 缩略图
-                $('#jpic1').on('click', function() {
+                $('#jpic1').on('click', function () {
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['500px'],
@@ -420,7 +442,7 @@
                 })
 
                 // 商品图
-                $('#jpic2').on('click', function() {
+                $('#jpic2').on('click', function () {
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['810px'],
@@ -489,6 +511,61 @@
                 // 删除
                 $table.on('click', '.ubtn-red', function () {
                     $(this).closest('tr').remove();
+                })
+            },
+            supplier: function () {
+                var self = this;
+                vals = [],
+                        timer = 0,
+                        $supplier = $('#supplier'),
+                        $supplierSuggestions = $('#supplierSuggestions');
+
+                var ajaxSearch = function (val) {
+                    timer && clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        $.ajax({
+                            url: 'supplier/search',
+                            data: {name: val},
+                            method:"POST",
+                            success: function (response) {
+                                var html = [''];
+                                if (response && response.status === 200) {
+                                    $.each(response.data, function (i, item) {
+                                        html.push('<tr class="items" data-name="' + item.name + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.phone + '</td><td>' + item.area + '</td></tr>');
+                                    })
+                                } else {
+                                    html.push('<tr><td colspan="3">未查询到供应商，请重新输入</td></tr>');
+                                }
+                                $supplierSuggestions.show().find('tbody').html(html.join(''));
+                            },
+                            error: function () {
+                                $supplierSuggestions.show().find('tbody').html('<tr><td colspan="3">网络错误</td></tr>');
+                            }
+                        })
+                    }, 300);
+                }
+
+                $supplier.on('input', function () {
+                    var val = this.value;
+                    if (val) {
+                        ajaxSearch(val);
+                    } else {
+                        $supplierSuggestions.hide();
+                    }
+                })
+
+                $('body').on('click', function () {
+                    $supplierSuggestions.hide();
+                })
+
+                // 添加商品
+                $supplierSuggestions.on('click', '.items', function () {
+                    var name = $(this).data('name'),
+                            id = $(this).data('id');
+                    $supplier.val(name).next().val(id);
+                    $supplierSuggestions.hide();
+                }).on('click', 'table', function () {
+                    return false;
                 })
             }
         }

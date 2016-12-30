@@ -15,11 +15,15 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.CommodityService;
 import com.ms.service.HistoryCommodityService;
 import com.ms.service.SendSampleService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgProducerEvent;
+import com.ms.service.properties.SystemProperties;
 import com.ms.service.sms.SmsUtil;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.ejb.access.EjbAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +36,8 @@ import java.util.List;
 public class SendSampleServiceImpl  extends AbsCommonService<SendSample> implements SendSampleService{
 
 
-	@Value("${sms.serviceMobile}")
-	private String serviceMobile;
+	@Autowired
+	private SystemProperties systemProperties;
 
 	@Autowired
 	private SendSampleDao sendSampleDao;
@@ -55,6 +59,9 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 
 	@Autowired
 	private SmsUtil smsUtil;
+
+	@Autowired
+	private  ApplicationContext applicationContext;
 
 
 
@@ -117,7 +124,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 	public void save(SendSampleVo sendSampleVo) {
 
 		//发送短信通知
-		sendSms(sendSampleVo);
+		//sendSms(sendSampleVo);
 
 		UserVo userVo=userDao.findByPhone(sendSampleVo.getPhone());
 		Integer nowLogin=sendSampleVo.getUserId();//现在登录的userid
@@ -189,10 +196,9 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 
 		sendSample.setUpdateTime(now);
 		sendSample.setCreateTime(now);
-		sendSample.setCode("");
+		sendSample.setCode(SeqNoUtil.getSampleCode());
 		sendSampleDao.create(sendSample);
-		sendSample.setCode(SeqNoUtil.get("", sendSample.getId(), 6));
-		sendSampleDao.update(sendSample);
+
 
 
 		SampleTracking sampleTracking=new SampleTracking();
@@ -211,6 +217,15 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		sampleTracking.setRecordType(TrackingEnum.TRACKING_APPLY.getValue());
 		sampleTrackingDao.create(sampleTracking);
 
+		/**
+		 * 存消息
+		 *
+		 */
+		String content=sendSample.getNickname()+"寄样申请";
+		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE,content);
+		applicationContext.publishEvent(msgProducerEvent);
+
+
 
 	}
 
@@ -224,7 +239,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 				@Override
 				public void run() {
 					try {
-						smsUtil.sendSampleSms(userInfo,commodityInfo,serviceMobile);
+						smsUtil.sendSampleSms(userInfo,commodityInfo,systemProperties.getServiceMobile());
 					}catch (Exception e){
 						e.printStackTrace();
 					}

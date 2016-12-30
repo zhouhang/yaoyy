@@ -40,5 +40,21 @@ public class SeqNoUtil {
         return prefix+DateUtils.dateToStringWithFormat(new Date(), "yyyyMMddHHmm")+seq;
     }
 
+    // 订单Code
+    public static  String getOrderCode() {
+        return System.currentTimeMillis()/1000 + getRandomNum(2);
+    }
+
+    // 账单Code
+    public static String getBillCode() {
+        return "Z" + System.currentTimeMillis()/1000 + getRandomNum(2);
+    }
+
+    // 寄样单Code
+    public static String getSampleCode() {
+        return "S" + System.currentTimeMillis()/1000 + getRandomNum(2);
+    }
+
+
 
 }

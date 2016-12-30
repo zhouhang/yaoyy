@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>报价单详情-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class='wrapper'>
+
+	<div class="header">
+		<div class="logo">
+			<a href="index.html">药优优</a>
+		</div>
+		<div class="menu">
+			<ul>
+				<li>
+					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
+				</li>
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user"></i>
+						<span class="hidden-xs">王彬</span>
+					</a>
+				</li>
+				<li>
+					<a href="/logout">
+						<i class="fa fa-power-off"></i>
+						退出
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- 侧栏菜单 -->
+	<div class="aside" id="jaside"></div>
+
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>报价单管理</li>
+                <li>报价单详情</li>
+    		</ul>
+		</div>
+
+		<div class="box fa-form">
+            <form id="myform">
+				<div class="item">
+					<div class="txt"><i>*</i>标题：</div>
+					<div class="cnt">
+						<input type="text" name="title" class="ipt" placeholder="请输入标题" autocomplete="off">
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt">品种：</div>
+					<div class="cnt">
+                        <input type="text" name="breed" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
+                        <button type="button" class="ubtn ubtn-blue">添加到报价清单</button>
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt"><i>*</i>报价清单：</div>
+					<div class="cnt">
+                        <div class="group-list" id="quoteList"></div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt">报价单描述：</div>
+                    <div class="cnt cnt-mul">
+                        <img width="700" height="400" src="uploads/editor.jpg" alt="">
+                    </div>
+				</div>
+
+				<div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存草稿</button>
+					<button type="button" class="ubtn ubtn-red" id="jpublish">直接发布</button>
+				</div>
+            </form>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="inner">
+			&copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有. 
+		</div>
+	</div>
+	
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/jquery.autocomplete.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script>
+	var _global = {
+        v: {
+            flag: false
+        },
+		fn: {
+			init: function() {
+                this.checkForm();
+                this.searchBreeds();
+			},
+            checkForm: function() {
+            	// 表单验证
+                $("#myform").validator({
+                    fields: {
+                    	title: '标题: required'
+                    },
+                    valid: function(form) {
+                        // 验证成功
+                        
+
+                        // 成功提示
+                        $.notify({
+                            type: 'success', 
+                            title: '操作成功',
+                            delay: 1e3, 
+                            call: function() {
+                                setTimeout(function() {
+                                    location.href = 'quote_list.html';
+                                }, 1e3);
+                            }
+                        });
+                    }
+                });
+            },
+            // 查询品种
+            searchBreeds: function() {
+                var self = this;
+                    vals = [],
+                    timer = 0,
+                    breedId = 0,
+                    $breed = $('#breed');
+
+                $breed.autocomplete({
+                    serviceUrl: 'json/breedlist.json',
+                    paramName: 'name',
+                    deferRequestBy: 100,
+                    showNoSuggestionNotice: true,
+                    noSuggestionNotice: '没有该品种',
+                    transformResult: function (response) {
+                        response = JSON.parse(response);
+                        if (response.status == "y") {
+                            return {
+                                suggestions: $.map(response.data, function (dataItem) {
+                                    return {value: dataItem.name, data: dataItem.id};
+                                })
+                            };
+                        } else {
+                            return {
+                                suggestions: []
+                            }
+                        }
+                    },
+                    onSelect: function (suggestion) {
+                        breedId = suggestion.data;
+                        console.log(breedId)
+                    }
+                });
+
+                // 添加到报价单
+                $breed.next().on('click', function() {
+                    if (breedId === 0) {
+                        return;
+                    }
+                    if ($('#table' + breedId).length === 1) {
+                        $.notify({
+                            type: 'error', 
+                            title: '添加失败',
+                            text: '此品种已在报价清单中'
+                        });
+                        breedId = 0;
+                        $breed.val('');
+                        return false;
+                    }
+                    $.ajax({
+                        url: 'json/group.json',
+                        data: {breedId: breedId},
+                        success: function(response) {
+                            breedId = 0;
+                            $breed.val('');
+                            self.toHtml(response.data);
+                        }
+                    })
+                })
+
+                // 删除报价清单商品
+                $('#quoteList').on('click', '.del', function() {
+                    var $pa = $(this).closest('tr');
+                    if ($pa.siblings().length === 0) {
+                        $pa.closest('table').remove();
+                    } else {
+                        $pa.closest('table').find('tfoot').show();
+                        $pa.remove();
+                    }
+                })
+
+                // 添加一个规格
+                $('#quoteList').on('click', '.add', function() {
+                    if (_global.v.flag) {
+                        return false;
+                    }
+                    _global.v.flag = true;
+                    self.showinfo($(this).data('id'));
+                    return false; // 阻止链接跳转
+                })
+            },
+            toHtml: function(data) {
+                var $quoteList = $('#quoteList');
+                var model = [];
+                model.push('<table id="table' , data.iid , '">');
+                model.push('<thead>');
+                model.push('<tr><th colspan="4" class="cat">' , data.name , '</th></tr>');
+                model.push('<tr><th><i>*</i>规格</th> \n <th>药优优报价</th> \n <th><div class="inner"><input class="ipt" placeholder="自定义" value="" type="text"></div></th> \n <th>操作</th></tr>');
+                model.push('</thead>');
+                model.push('<tbody>');
+                $.each(data.list, function(i, item) {
+                    model.push('<tr id="tr' , item.iid , '"><td>' , item.norms , '</td> \n <td>' , item.price , '</td> \n <td><div class="inner"><input class="ipt" type="text"></div></td> \n <td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>');
+                })
+                model.push('</tbody>');
+                model.push('<tfoot class="hide">');
+                model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , data.iid , '">+添加一个规格</a></td></tr>');
+                model.push('</tfoot>');
+                model.push('</table>');
+                $quoteList.append(model.join(''));
+            },
+            showinfo: function(id) {
+                var showBox = function(data) {
+                    var model = [];
+                    var tr = {};
+                    $.each(data.list, function(i, item) {
+                        if ($('#tr' + item.iid).length === 0) {
+                            model.push('<li>');
+                            model.push('<div class="info">' , item.norms , '</div>');
+                            model.push('<div class="price">' , item.price , '</div>');
+                            model.push('<div class="edit"><button type="button" class="ubtn ubtn-blue join" data-iid="' , item.iid , '">添加</button></div>');
+                            model.push('</li>');
+                            tr[item.iid] = '<tr id="tr' + item.iid + '"><td>' + item.norms + '</td> \n <td>' + item.price + '</td> \n <td><div class="inner"><input class="ipt" type="text"></div></td> \n <td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>';
+                        }
+                    })
+                    layer.closeAll();
+                    if (model.length === 0) {
+                         $.notify({
+                            type: 'error', 
+                            title: '添加失败',
+                            text: '所有商品已添加'
+                        });
+                        return;
+                    }
+                    model.unshift('<div class="group-choose"><ul>');
+                    model.push('</ul></div>');
+                    layer.open({
+                        area: ['600px'],
+                        type: 1,
+                        moveType: 1,
+                        content: model.join(''),
+                        title: '添加规格'
+                    });
+
+                    $('.group-choose').on('click', '.join', function() {
+                        var iid = $(this).data('iid');
+                        if (tr[iid]) {
+                            if ($(this).closest('li').siblings().length === 0) {
+                                $('#table' + id).find('tbody').append(tr[iid]).next().hide();
+                            } else {
+                                $('#table' + id).find('tbody').append(tr[iid]);
+                            }
+                            layer.closeAll();
+                        }
+                    })
+                }
+
+                // 体验不好
+                // 加载数据
+                // var k = $.ajax({
+                //     url: 'json/group.json',
+                //     data: {breedId: id},
+                //     success: function(response) {
+                //         showBox(response.data);
+                //     },
+                //     complete: function() {
+                //         _global.v.flag = false;
+                //     }
+                // })
+
+                // loading
+                layer.open({
+                    area: ['200px'],
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="layer-loading">加载中...</div>',
+                    title: '添加规格',
+                    cancel: function() {
+                        k.abort();
+                    }
+                });
+            },
+            /**
+             * [inArray 查询数组元素]
+             * @param  {[string]} needle [查询值]
+             * @param  {[Array]} array  [查询数组]
+             * @param  {[bollen]} del    [选填，为true时删除该值]
+             * @return {[bollen]}        [true or false]
+             */
+            inArray: function(needle, array, del) {
+                if (typeof needle == 'string' || typeof needle == 'number') {
+                    for (var i in array) {
+                        if (array[i] == needle) {
+                            del && array.splice(i, 1);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>

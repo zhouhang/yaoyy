@@ -117,4 +117,9 @@
         </set>
         where id = #{id}
     </update>
+    <delete id="deleteByPickId" parameterType="java.lang.Integer">
+        delete from pick_commodity
+        where pick_id = #{pickId}
+    </delete>
+
 </mapper>

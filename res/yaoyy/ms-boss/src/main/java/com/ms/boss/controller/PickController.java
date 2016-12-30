@@ -1,28 +1,25 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.dao.enums.PickEnum;
+import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
-import com.ms.dao.model.Member;
-import com.ms.dao.model.Pick;
-import com.ms.dao.model.UserDetail;
-import com.ms.dao.vo.PickCommodityVo;
-import com.ms.dao.vo.PickTrackingVo;
-import com.ms.dao.vo.PickVo;
-import com.ms.service.PickCommodityService;
-import com.ms.service.PickService;
-import com.ms.service.PickTrackingService;
-import com.ms.service.UserDetailService;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
+import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +44,21 @@ public class PickController extends BaseController{
 
     @Autowired
     HttpSession httpSession;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private ShippingAddressHistoryService shippingAddressHistoryService;
+
+    @Autowired
+    private OrderInvoiceService orderInvoiceService;
+
+    @Autowired
+    private PayRecordService payRecordService;
+
+    @Autowired
+    private LogisticalService logisticalService;
 
     /**
      * 选货单列表
@@ -73,7 +85,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
-    private String list(@PathVariable("id") Integer id,  ModelMap model){
+    private String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
         if(userDetail==null){
@@ -84,7 +96,41 @@ public class PickController extends BaseController{
         model.put("pickVo",pickVo);
         model.put("userDetail",userDetail);
         model.put("pickTrackingVos",pickTrackingVos);
-        return "pick_detail";
+        if(edit!=null){
+            return "pick_info3";
+        }
+       if(pickVo.getStatus()== PickEnum.PICK_NOTHANDLE.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_REFUSE.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_HANDING.getValue()
+                ||pickVo.getStatus()==PickEnum.PICK_NOTFINISH.getValue()
+                ){
+            return "pick_info1";
+        }
+        else{
+           //获取支付信息,收货信息和发票信息
+            PayRecordVo param=new PayRecordVo();
+            param.setCodeType(0);
+            param.setOrderId(pickVo.getId());
+            if(pickVo.getStatus()==PickEnum.PICK_PAY.getValue()){
+                param.setStatus(0);
+            }
+            else{
+                param.setStatus(1);
+            }
+            PayRecordVo payRecord=payRecordService.findByOrderId(param);
+            OrderInvoiceVo orderInvoiceVo=orderInvoiceService.findByOrderId(pickVo.getId());
+            ShippingAddressHistory shippingAddressHistory=null;
+            if(pickVo.getAddrHistoryId()!=null){
+                 shippingAddressHistory=shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
+            }
+            LogisticalVo logisticalVo=logisticalService.findByOrderId(pickVo.getId());
+            model.put("logisticalVo",logisticalVo);
+            model.put("payRecord",payRecord);
+            model.put("shippingAddressHistory",shippingAddressHistory);
+            model.put("orderInvoiceVo",orderInvoiceVo);
+            return "pick_info2";
+        }
+
     }
 
     /**
@@ -96,6 +142,10 @@ public class PickController extends BaseController{
     @ResponseBody
     private Result delete(Pick pick){
         pickService.update(pick);
+        if(pick.getAbandon()==1){
+            MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
+            applicationContext.publishEvent(msgConsumeEvent);
+        }
         return Result.success().msg("操作成功");
     }
 
@@ -116,6 +166,62 @@ public class PickController extends BaseController{
 
         return Result.success().msg("保存成功");
     }
+
+    /**
+     * 生成订单
+     * @param pickVo
+     * @return
+     */
+    @RequestMapping(value="createOrder",method=RequestMethod.POST)
+    @ResponseBody
+    private Result createOrder(PickVo pickVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickVo.setMemberId(mem.getId());
+        pickService.createOrder(pickVo);
+        return Result.success().msg("生成订单成功");
+    }
+
+    @RequestMapping(value="updateOrder",method=RequestMethod.POST)
+    @ResponseBody
+    private Result updateOrder(@RequestBody PickVo pickVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickVo.setMemberId(mem.getId());
+        pickService.createOrder(pickVo);
+        return Result.success().msg("修改订单成功");
+    }
+
+
+    @RequestMapping(value="updateNum",method=RequestMethod.POST)
+    @ResponseBody
+    private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
+        //修改数量
+        pickService.updateCommodityNum(pickCommodities);
+
+        return Result.success().msg("修改成功");
+    }
+
+    /**
+     * 确认发货
+     * @param logisticalVo
+     * @return
+     */
+    @RequestMapping(value="delivery",method=RequestMethod.POST)
+    @ResponseBody
+    private Result delivery(LogisticalVo logisticalVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickService.delivery(logisticalVo,mem);
+        return Result.success().msg("发货成功");
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

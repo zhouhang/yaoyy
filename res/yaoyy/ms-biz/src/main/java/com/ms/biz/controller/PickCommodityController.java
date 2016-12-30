@@ -40,7 +40,11 @@ public class PickCommodityController extends BaseController{
      * @return
      */
     @RequestMapping(value="list",method= RequestMethod.GET)
-    public String commodityList() throws Exception {
+    public String commodityList(ModelMap model) throws Exception {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        if(user!=null){
+            model.put("phone", user.getPhone());
+        }
         return "pick_commodity";
     }
 

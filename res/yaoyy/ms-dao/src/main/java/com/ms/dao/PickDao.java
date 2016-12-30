@@ -12,4 +12,6 @@ public interface PickDao extends ICommonDao<Pick>{
 
     public PickVo findVoById(Integer id);
 
+
+
 }

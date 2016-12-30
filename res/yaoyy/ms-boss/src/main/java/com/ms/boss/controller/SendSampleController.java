@@ -5,10 +5,13 @@ import com.ms.dao.enums.SampleEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +53,9 @@ public class SendSampleController extends BaseController{
     @Autowired
     HistoryCommodityService historyCommodityService;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
 
     /**
      * 根据查询条件获取寄样列表
@@ -70,7 +76,6 @@ public class SendSampleController extends BaseController{
 
         model.put("sendSampleVoPageInfo",sendSampleVoPageInfo);
         model.put("sendSampleVo",sendSampleVo);
-        model.put("sendSampleVoParams", Reflection.serialize(sendSampleVo));
 
         return "sample_list";
     }
@@ -127,6 +132,10 @@ public class SendSampleController extends BaseController{
     @ResponseBody
     public Result delete(SendSample sendSample) {
         sendSampleService.update(sendSample);
+        if(sendSample.getAbandon()==1){
+            MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(sendSample.getId(), MessageEnum.SAMPLE);
+            applicationContext.publishEvent(msgConsumeEvent);
+        }
         return Result.success().msg("修改成功");
     }
 

@@ -17,5 +17,12 @@ public interface MemberDao extends ICommonDao<Member>{
 
 	List<Resources> findResourcesByUserName(String username);
 
+	/**
+	 * 查找所有的绑定了微信的后台用户
+	 * @return
+	 */
+	List<Member> findAllUser();
+
+
 
 }

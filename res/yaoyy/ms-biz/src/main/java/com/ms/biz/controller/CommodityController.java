@@ -3,9 +3,13 @@ package com.ms.biz.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Article;
 import com.ms.dao.model.Commodity;
+import com.ms.dao.model.User;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.service.ArticleService;
 import com.ms.service.CommodityService;
+import com.ms.service.FollowCommodityService;
+import com.ms.service.HistoryPriceService;
+import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
 import com.ms.tools.utils.HttpUtil;
@@ -19,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -40,7 +45,16 @@ public class CommodityController extends BaseController{
     private ArticleService articleService;
 
     @Autowired
+    private HttpSession httpSession;
+
+    @Autowired
     private WxMpService wxService;
+
+    @Autowired
+    private FollowCommodityService followCommodityService;
+
+    @Autowired
+    private HistoryPriceService historyPriceService;
 
     /**
      * 商品详情页面
@@ -62,6 +76,16 @@ public class CommodityController extends BaseController{
         if(commodityVo.getMark()==1){
             commodityVo.setPrice(commodityVo.getGradient().get(0).getPrice());
         }
+        Boolean login = false;
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        if (user != null) {
+            List<Integer> ids = followCommodityService.findCommodityIds(user.getId());
+            if (ids.contains(id)){
+                commodityVo.setWatch(true);
+            }
+            login = true;
+        }
+        model.put("login",login);
 
         List<CommodityVo> commodityVoList=commodityService.findByCategoryId(commodityVo.getCategoryId());
         model.put("commodityVo",commodityVo);
@@ -74,6 +98,7 @@ public class CommodityController extends BaseController{
                 model.put("article", article.getContent());
             }
         }
+
         try {
             String url = HttpUtil.getFullUrl(request);
             WxJsapiSignature signature = wxService.createJsapiSignature(url);
@@ -81,8 +106,6 @@ public class CommodityController extends BaseController{
         }catch (Exception e){
             logger.error(e);
         }
-
-
         return "commodity_detail";
     }
 
@@ -106,8 +129,23 @@ public class CommodityController extends BaseController{
         return Result.success().data(commodities);
     }
 
-
-
-
+    /**
+     * 商品的价格历史记录
+     * @param id
+     * @return
+     */
+    @RequestMapping(value="/price/{id}",method=RequestMethod.GET)
+    public String getDetail(@PathVariable("id") Integer id, ModelMap model){
+        CommodityVo commodityVo=commodityService.findById(id);
+        if(commodityVo==null){
+            throw new NotFoundException("找不到该商品");
+        }
+        List<CommodityVo> commodityVoList=commodityService.findByCategoryId(commodityVo.getCategoryId());
+        // 获取商品的价格历史数据
+        model.addAllAttributes(historyPriceService.findByCommodityId(id));
+        model.put("commodityVo",commodityVo);
+        model.put("commodityVoList",commodityVoList);
+        return "commodity_price";
+    }
 
 }

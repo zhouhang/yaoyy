@@ -8,6 +8,9 @@
             <result column="har_year"  property="harYear" />
             <result column="origin"  property="origin" />
             <result column="spec"  property="spec" />
+            <result column="process"  property="process" />
+            <result column="exterior"  property="exterior" />
+            <result column="executive_standard"  property="executiveStandard" />
             <result column="category_id"  property="categoryId" />
             <result column="picture_url"  property="pictureUrl" />
             <result column="detail"  property="detail" />
@@ -23,24 +26,26 @@
             <result column="slogan"  property="slogan" />
             <result column="thumbnail_url"  property="thumbnailUrl" />
             <result column="supplier_id"  property="supplierId" />
+            <result column="price_update_time"  property="priceUpdateTime" />
     </resultMap>
 
     <resultMap id="CommodityResultMapVo" type="com.ms.dao.vo.CommodityVo" extends="CommodityResultMap">
         <result column="unitName"  property="unitName" />
         <result column="categoryName"  property="categoryName" />
+        <result column="supplierName"  property="supplierName" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,name,har_year,origin,spec,category_id,picture_url,detail,
-        status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplierId
+        id,title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,
+        status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time
     </sql>
 
     <sql id="Base_Column_List_Alisa">
         cm.id as id,cm.title as title,cm.name as name,cm.har_year as har_year,
-        cm.origin as origin, cm.spec as spec,cm.category_id as category_id,cm.picture_url as picture_url,
+        cm.origin as origin, cm.spec as spec,cm.process as process,cm.exterior as exterior,cm.executive_standard as executiveStandard,cm.category_id as category_id,cm.picture_url as picture_url,
         cm.detail as detail,cm.status as status,cm.attribute as attribute,cm.price as price,
         cm.unit as unit,cm.sort as sort, cm.mark as mark,cm.create_time as create_time,cm.update_time as update_time,
-        cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url,cm.supplier_id as supplier_id
+        cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url,cm.supplier_id as supplier_id,cm.price_update_time as price_update_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="CommodityResultMap">
@@ -60,10 +65,11 @@
         select
         <include refid="Base_Column_List_Alisa" />,
         ca.variety as categoryName,
-        cd.name as unitName
+        cd.name as unitName,sp.name as supplierName
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
         LEFT JOIN code cd on cm.unit = cd.id
+        LEFT JOIN supplier sp on cm.supplier_id = sp.id
         <where>
             <if test="id != null">
                 cm.id = #{id}
@@ -78,6 +84,7 @@
                and cm.status = #{status}
             </if>
         </where>
+        ORDER BY cm.category_id,sort DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -87,10 +94,10 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Commodity">
         insert into
-        commodity (title,name,har_year,origin,spec,category_id,picture_url,detail,status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id)
+        commodity (title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time)
         values
-        (#{title},#{name},#{harYear},#{origin},#{spec},#{categoryId},#{pictureUrl},
-        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{mark},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId})
+        (#{title},#{name},#{harYear},#{origin},#{spec},#{process},#{exterior},#{executiveStandard},#{categoryId},#{pictureUrl},
+        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{mark},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId},#{priceUpdateTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Commodity">
@@ -116,7 +123,19 @@
             <if test="spec != null">
                 spec = #{spec},
             </if>
-                                            
+
+            <if test="process != null">
+                process = #{process},
+            </if>
+
+            <if test="exterior != null">
+                exterior = #{exterior},
+            </if>
+
+            <if test="executiveStandard != null">
+                executive_standard = #{executiveStandard},
+            </if>
+
             <if test="categoryId != null">
                 category_id = #{categoryId},
             </if>
@@ -175,6 +194,13 @@
 
             <if test="supplierId != null">
                 supplier_id = #{supplierId},
+            </if>
+
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
+            </if>
+            <if test="priceUpdateTime != null">
+                price_update_time = #{priceUpdateTime},
             </if>
 
         </set>
@@ -262,5 +288,17 @@
         delete from commodity
         where category_id=#{categoryId}
     </delete>
+
+
+    <select id="findBySupplier" resultMap="CommodityResultMapVo" >
+        select
+        <include refid="Base_Column_List_Alisa" />,
+        ca.variety as categoryName,
+        cd.name as unitName
+        from commodity as cm
+        LEFT JOIN category ca on cm.category_id=ca.id
+        LEFT JOIN code cd on cm.unit = cd.id
+        where cm.supplier_id=#{supplierId}
+    </select>
 
 </mapper>

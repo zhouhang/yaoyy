@@ -1,5 +1,6 @@
 package com.ms.boss.config;
 
+import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossAuthorizationFilter;
 import com.ms.boss.shiro.BossRealm;
 import com.ms.boss.shiro.RetryLimitHashedCredentialsMatcher;
@@ -12,9 +13,11 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -25,11 +28,10 @@ import java.util.Map;
 
 
 @Configuration
-@AutoConfigureAfter(RedisConfig.class)
+@AutoConfigureAfter({RedisConfig.class})
 public class ShiroConfiguration {
 
-    @Value("${doc.base.url}")
-    private String baseUrl;
+
 
     private static Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
@@ -107,6 +109,9 @@ public class ShiroConfiguration {
                 "/tracking/**=bossAuthorization;" +
                 "/sample/**=bossAuthorization;" +
                 "/special/**=bossAuthorization;" +
+                "/supplier/**=bossAuthorization;" +
+                "/quotation/**=bossAuthorization;" +
+                "/payRecord/**=bossAuthorization;" +
                 "/user/**=bossAuthorization;" +
                 "/commodity/**=bossAuthorization;");
         return shiroFilterFactoryBean;
@@ -133,9 +138,6 @@ public class ShiroConfiguration {
     public ShiroTagFreeMarkerConfigurer getShiroTagFreeMarkerConfigurer() {
         ShiroTagFreeMarkerConfigurer shiroTagFreeMarkerConfigurer = new ShiroTagFreeMarkerConfigurer();
         shiroTagFreeMarkerConfigurer.setTemplateLoaderPath("classpath:/templates/");
-        Map<String , Object> variables = new HashMap<>();
-        variables.put("baseUrl",baseUrl);
-        shiroTagFreeMarkerConfigurer.setFreemarkerVariables(variables);
         return shiroTagFreeMarkerConfigurer;
     }
 

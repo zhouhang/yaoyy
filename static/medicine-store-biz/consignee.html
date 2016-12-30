@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>收货地址-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="ui-body-nofoot body-gray">
+    <header class="ui-header">
+        <div class="title">收货地址</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+
+    <section class="ui-content">
+        <div class="consignee">
+            <div class="item">
+                <label>
+                    <input type="radio" name="default" class="fa-cbx cbx mid" checked>
+                    <strong>王彬  18801285391</strong>
+                    <span>湖北省武汉市洪山区城区珞瑜路光谷银座15楼</span>
+                </label>
+                <div class="op">
+                    <a href="#"><i class="fa fa-remove"></i> 删除</a>
+                    <a href="#"><i class="fa fa-edit"></i> 编辑</a>
+                </div>
+            </div>
+
+            <div class="item">
+                <label>
+                    <input type="radio" name="default" class="fa-cbx cbx mid">
+                    <strong>王彬  18801285391</strong>
+                    <span>湖北省武汉市洪山区城区珞瑜路光谷银座15楼</span>
+                </label>
+                <div class="op">
+                    <a href="#"><i class="fa fa-remove"></i> 删除</a>
+                    <a href="#"><i class="fa fa-edit"></i> 编辑</a>
+                </div>
+            </div>
+
+            <div class="item">
+                <a href="consignee_add.html" class="add"><i class="fa fa-add"></i> 新增收货地址</a>
+            </div>
+        </div>
+    </section><!-- /ui-content -->
+
+<div class="ui-loading"></div>
+    
+
+	
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.bindEvent();
+            },
+            bindEvent: function() {
+                var self = this,
+                    $wrap = $('#attention_commodity');
+
+                //删除
+                $wrap.on('click', '.fa-remove', function() {
+                    var $this = $(this);
+                    layer.open({
+                        content: '确定要删除吗？',
+                        btn: ['确定', '取消'],
+                        yes: function(index) {
+                            $this.closest('.item').remove();
+                            layer.close(index);
+                            if ($wrap.find('.item').length === 0) {
+                                $wrap.empty();
+                                self.empty(true);
+                            }
+                        }
+                    });
+                })
+            },
+            empty: function(isEmpty) {
+                if (isEmpty) {
+                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 您还没有关注商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
+                } else {
+                    $('.ui-notice').remove();
+                }
+            },
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+    });
+
+</script>
+</body>
+</html>

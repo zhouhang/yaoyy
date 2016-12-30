@@ -3,6 +3,7 @@ package com.ms.service;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.vo.CommodityVo;
+import com.ms.dao.vo.HistoryPriceVo;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface CommodityService extends ICommonService<Commodity>{
 
     public List<CommodityVo> findByIds(String ids);
 
-    public void save(CommodityVo commodity);
+    public void save(CommodityVo commodity, Integer memId);
 
     public CommodityVo findById(Integer id);
 
@@ -28,6 +29,14 @@ public interface CommodityService extends ICommonService<Commodity>{
     public void updateStatusByCategoryId(Commodity commodity);
 
     public void updateStatus(int status,int commodityId);
+
+    public List<CommodityVo> findBySupplier(Integer supplierId);
+
+    /**
+     * 调价
+     * @param commodityVo 现在更新的价格
+     */
+    public void updatePrice(Integer memId, CommodityVo commodityVo);
 
 
 

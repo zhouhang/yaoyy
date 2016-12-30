@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserDetailVo;
+import com.ms.service.FollowCommodityService;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
@@ -10,6 +11,7 @@ import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("center/")
-public class UserCenterController extends BaseController{
+public class UserCenterController extends BaseController {
 
     @Autowired
     private HttpSession httpSession;
@@ -33,19 +35,23 @@ public class UserCenterController extends BaseController{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FollowCommodityService followCommodityService;
+
     @RequestMapping("index")
     public String index(HttpServletRequest request,
-                        ModelMap modelMap){
+                        ModelMap modelMap) {
         String nickname = null;
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         if (user != null) {
             UserDetailVo detailVo = userDetailService.findByUserId(user.getId());
-            if (detailVo != null && detailVo.getNickname() != null){
+            if (detailVo != null && detailVo.getNickname() != null) {
                 nickname = detailVo.getNickname();
             } else {
                 nickname = "";
             }
+            modelMap.put("followCount", followCommodityService.count(user.getId()));
         }
         modelMap.put("nickname", nickname);
         return "user_center";
@@ -53,10 +59,11 @@ public class UserCenterController extends BaseController{
 
     /**
      * 修改密码
+     *
      * @return
      */
     @RequestMapping(value = "updatePassword", method = RequestMethod.GET)
-    public String findPassword(ModelMap modelMap){
+    public String findPassword(ModelMap modelMap) {
         //获取登陆用户userId
         // 用户未登入请求用户登入
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -74,10 +81,12 @@ public class UserCenterController extends BaseController{
 
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     @ResponseBody
-    public Result resetPassword(String code, String password){
+    public Result resetPassword(String code, String password) {
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         userService.resetPassword(user.getPhone(), code, password);
         return Result.success("密码重置成功");
     }
+
+
 }

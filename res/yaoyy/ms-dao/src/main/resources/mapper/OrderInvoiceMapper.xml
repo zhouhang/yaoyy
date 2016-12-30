@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.OrderInvoiceDao">
+    <resultMap id="OrderInvoiceResultMap" type="com.ms.dao.model.OrderInvoice">
+            <id column="id"  property="id" />
+            <result column="name"  property="name" />
+            <result column="type"  property="type" />
+            <result column="content"  property="content" />
+            <result column="identifier"  property="identifier" />
+            <result column="registered_address"  property="registeredAddress" />
+            <result column="registered_tel"  property="registeredTel" />
+            <result column="bank_name"  property="bankName" />
+            <result column="bank_account"  property="bankAccount" />
+            <result column="order_id"  property="orderId" />
+    </resultMap>
+
+    <resultMap id="OrderInvoiceResultMapVo" type="com.ms.dao.vo.OrderInvoiceVo" extends="OrderInvoiceResultMap">
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account,order_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="OrderInvoiceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from order_invoice
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="OrderInvoiceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from order_invoice
+    </select>
+
+    <select id="findByParams" resultMap="OrderInvoiceResultMapVo" parameterType="com.ms.dao.vo.OrderInvoiceVo">
+        select
+        <include refid="Base_Column_List" />
+        from order_invoice
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from order_invoice
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.OrderInvoice">
+        insert into
+        order_invoice (name,type,content,identifier,registered_address,registered_tel,bank_name,bank_account,order_id)
+        values
+        (#{name},#{type},#{content},#{identifier},#{registeredAddress},#{registeredTel},#{bankName},#{bankAccount},#{orderId})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.OrderInvoice">
+        update order_invoice
+        <set>
+                                                        
+            <if test="name != null">
+                name = #{name},
+            </if>
+                                            
+            <if test="type != null">
+                type = #{type},
+            </if>
+                                            
+            <if test="content != null">
+                content = #{content},
+            </if>
+                                            
+            <if test="identifier != null">
+                identifier = #{identifier},
+            </if>
+                                            
+            <if test="registeredAddress != null">
+                registered_address = #{registeredAddress},
+            </if>
+                                            
+            <if test="registeredTel != null">
+                registered_tel = #{registeredTel},
+            </if>
+                                            
+            <if test="bankName != null">
+                bank_name = #{bankName},
+            </if>
+                                            
+            <if test="bankAccount != null">
+                bank_account = #{bankAccount},
+            </if>
+
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

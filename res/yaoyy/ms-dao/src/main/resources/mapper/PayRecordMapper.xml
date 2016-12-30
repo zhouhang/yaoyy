@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.PayRecordDao">
+    <resultMap id="PayRecordResultMap" type="com.ms.dao.model.PayRecord">
+            <id column="id"  property="id" />
+            <result column="pay_code"  property="payCode" />
+            <result column="code"  property="code" />
+            <result column="order_id"  property="orderId" />
+            <result column="code_type"  property="codeType" />
+            <result column="account_bill_id"  property="accountBillId" />
+            <result column="payment_id"  property="paymentId" />
+            <result column="actual_payment"  property="actualPayment" />
+            <result column="pay_bank"  property="payBank" />
+            <result column="pay_account"  property="payAccount" />
+            <result column="pay_bank_card"  property="payBankCard" />
+            <result column="user_id"  property="userId" />
+            <result column="payment_time"  property="paymentTime" />
+            <result column="status"  property="status" />
+            <result column="pay_type"  property="payType" />
+            <result column="member_id"  property="memberId" />
+            <result column="operate_time"  property="operateTime" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="PayRecordResultMapVo" type="com.ms.dao.vo.PayRecordVo">
+            <id column="id"  property="id" />
+            <result column="code"  property="code" />
+            <result column="phone"  property="phone" />
+            <result column="nickname"  property="nickname" />
+            <result column="name"  property="name" />
+            <result column="member_name"  property="memberName" />
+            <result column="pay_code"  property="payCode" />
+            <result column="code"  property="code" />
+            <result column="order_id"  property="orderId" />
+            <result column="code_type"  property="codeType" />
+            <result column="account_bill_id"  property="accountBillId" />
+            <result column="payment_id"  property="paymentId" />
+            <result column="actual_payment"  property="actualPayment" />
+            <result column="pay_bank"  property="payBank" />
+            <result column="pay_account"  property="payAccount" />
+            <result column="pay_bank_card"  property="payBankCard" />
+            <result column="user_id"  property="userId" />
+            <result column="payment_time"  property="paymentTime" />
+            <result column="status"  property="status" />
+            <result column="pay_type"  property="payType" />
+            <result column="member_id"  property="memberId" />
+            <result column="operate_time"  property="operateTime" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,pay_code,code,order_id,code_type,account_bill_id,payment_id,actual_payment,pay_bank,pay_account,pay_bank_card,user_id,payment_time,status,pay_type,member_id,operate_time,create_time
+    </sql>
+    <sql id="Left_Join_list">
+        pr.id as id,pr.pay_code as pay_code,pr.code as code,pr.order_id as order_id, pr.code_type as code_type,pr.account_bill_id as account_bill_id,pr.payment_id as payment_id ,pr.actual_payment as actual_payment,
+        pr.pay_bank as pay_bank ,pr.pay_account as pay_account ,pr.pay_bank_card as pay_bank_card,pr.user_id as user_id  ,pr.payment_time as payment_time ,pr.status as status,pr.pay_type as pay_type ,pr.member_id as member_id ,
+        pr.operate_time as operate_time ,pr.create_time as create_time,ud.phone as phone,ud.nickname as nickname,ud.name as name,m.name as member_name
+    </sql>
+
+
+
+
+
+
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="PayRecordResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from pay_record
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="PayRecordResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from pay_record
+    </select>
+
+    <select id="findByParams" resultMap="PayRecordResultMapVo" parameterType="com.ms.dao.vo.PayRecordVo">
+        select
+        <include refid="Left_Join_list" />
+        from pay_record pr
+        LEFT JOIN user_detail ud on ud.user_id=pr.user_id
+        LEFT JOIN member m on m.id=pr.member_id
+        <where>
+            <if test="phone != null">
+                ud.phone like CONCAT('%','${phone}','%' )
+            </if>
+            <if test="orderId != null">
+                and pr.order_id =#{orderId}
+            </if>
+            <if test="codeType != null">
+                and pr.code_type =#{codeType}
+            </if>
+            <if test="status != null">
+                and pr.status =#{status}
+            </if>
+            <if test="code != null">
+                and pr.code like CONCAT('%','${code}','%' )
+            </if>
+            <if test="startDate != null">
+                and pr.create_time <![CDATA[ >= ]]> #{startDate}
+            </if>
+            <if test="endDate != null">
+                and pr.create_time <![CDATA[ <= ]]> #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from pay_record
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.PayRecord">
+        insert into
+        pay_record (pay_code,code,order_id,code_type,account_bill_id,payment_id,actual_payment,pay_bank,pay_account,pay_bank_card,user_id,payment_time,status,pay_type,member_id,operate_time,create_time)
+        values
+        (#{payCode},#{code},#{orderId},#{codeType},#{accountBillId},#{paymentId},#{actualPayment},#{payBank},#{payAccount},#{payBankCard},#{userId},#{paymentTime},#{status},#{payType},#{memberId},#{operateTime},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.PayRecord">
+        update pay_record
+        <set>
+                                                        
+            <if test="payCode != null">
+                pay_code = #{payCode},
+            </if>
+                                            
+            <if test="code != null">
+                code = #{code},
+            </if>
+                                            
+            <if test="orderId != null">
+                order_id = #{orderId},
+            </if>
+                                            
+            <if test="codeType != null">
+                code_type = #{codeType},
+            </if>
+                                            
+            <if test="accountBillId != null">
+                account_bill_id = #{accountBillId},
+            </if>
+                                            
+            <if test="paymentId != null">
+                payment_id = #{paymentId},
+            </if>
+                                            
+            <if test="actualPayment != null">
+                actual_payment = #{actualPayment},
+            </if>
+                                            
+            <if test="payBank != null">
+                pay_bank = #{payBank},
+            </if>
+                                            
+            <if test="payAccount != null">
+                pay_account = #{payAccount},
+            </if>
+                                            
+            <if test="payBankCard != null">
+                pay_bank_card = #{payBankCard},
+            </if>
+                                            
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+                                            
+            <if test="paymentTime != null">
+                payment_time = #{paymentTime},
+            </if>
+                                            
+            <if test="status != null">
+                status = #{status},
+            </if>
+                                            
+            <if test="payType != null">
+                pay_type = #{payType},
+            </if>
+                                            
+            <if test="memberId != null">
+                member_id = #{memberId},
+            </if>
+                                            
+            <if test="operateTime != null">
+                operate_time = #{operateTime},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findVoById" parameterType="java.lang.Integer" resultMap="PayRecordResultMapVo">
+        select
+        <include refid="Left_Join_list" />
+        from pay_record pr
+        LEFT JOIN user_detail ud on ud.user_id=pr.user_id
+        LEFT JOIN member m on m.id=pr.member_id
+        where pr.id = #{id}
+    </select>
+
+
+
+
+</mapper>

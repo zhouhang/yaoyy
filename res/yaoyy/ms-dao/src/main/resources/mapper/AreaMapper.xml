@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.AreaDao">
+    <resultMap id="AreaResultMap" type="com.ms.dao.model.Area">
+            <id column="id"  property="id" />
+            <result column="areaname"  property="areaname" />
+            <result column="parentid"  property="parentid" />
+            <result column="shortname"  property="shortname" />
+            <result column="areacode"  property="areacode" />
+            <result column="zipcode"  property="zipcode" />
+            <result column="pinyin"  property="pinyin" />
+            <result column="lng"  property="lng" />
+            <result column="lat"  property="lat" />
+            <result column="level"  property="level" />
+            <result column="position"  property="position" />
+            <result column="sort"  property="sort" />
+    </resultMap>
+
+    <resultMap id="AreaResultMapVo" type="com.ms.dao.vo.AreaVo" extends="AreaResultMap">
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,areaname,parentid,shortname,areacode,zipcode,pinyin,lng,lat,level,position,sort
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+    </select>
+
+    <select id="findByParams" resultMap="AreaResultMapVo" parameterType="com.ms.dao.vo.AreaVo">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!--通过等级查找地区-->
+    <select id="findByLevel" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        where level = #{level,jdbcType=INTEGER}
+    </select>
+
+    <!--通过父ID查询地区-->
+    <select id="findByParent" parameterType="java.lang.Integer" resultMap="AreaResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from area
+        where parentid = #{parentid,jdbcType=INTEGER}
+    </select>
+
+    <select id="findVoById" parameterType="java.lang.Integer" resultType="com.ms.dao.vo.AreaVo">
+        SELECT
+        a.id as id,a.areaname as areaname,b.id as cityId,b.areaname as city,c.id as provinceId,c.areaname as province
+        FROM
+        area a
+        LEFT JOIN area b ON b.id = a.parentid
+        LEFT JOIN area c ON c.id = b.parentid
+        WHERE a.id = #{id}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from area
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Area">
+        insert into
+        area (areaname,parentid,shortname,areacode,zipcode,pinyin,lng,lat,level,position,sort)
+        values
+        (#{areaname},#{parentid},#{shortname},#{areacode},#{zipcode},#{pinyin},#{lng},#{lat},#{level},#{position},#{sort})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.Area">
+        update area
+        <set>
+                                                        
+            <if test="areaname != null">
+                areaname = #{areaname},
+            </if>
+                                            
+            <if test="parentid != null">
+                parentid = #{parentid},
+            </if>
+                                            
+            <if test="shortname != null">
+                shortname = #{shortname},
+            </if>
+                                            
+            <if test="areacode != null">
+                areacode = #{areacode},
+            </if>
+                                            
+            <if test="zipcode != null">
+                zipcode = #{zipcode},
+            </if>
+                                            
+            <if test="pinyin != null">
+                pinyin = #{pinyin},
+            </if>
+                                            
+            <if test="lng != null">
+                lng = #{lng},
+            </if>
+                                            
+            <if test="lat != null">
+                lat = #{lat},
+            </if>
+                                            
+            <if test="level != null">
+                level = #{level},
+            </if>
+                                            
+            <if test="position != null">
+                position = #{position},
+            </if>
+                                            
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

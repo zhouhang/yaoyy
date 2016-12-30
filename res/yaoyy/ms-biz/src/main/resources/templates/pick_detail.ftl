@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>选货单详情-药优优</title>
+    <title>订单详情-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
 <body class="ui-body-nofoot body-gray">
 <header class="ui-header">
-    <div class="title">选货单详情</div>
+    <div class="title">订单详情</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="/pick/list" class="fa fa-back"></a>
     </div>
 </header><!-- /ui-header -->
 
@@ -16,16 +16,41 @@
     <div class="sinfo">
         <div class="item">
             <ul class="info">
-                <li>选货单状态：${pickVo.bizStatusText}</li>
-                <li>寄样单号：${pickVo.code}</li>
+                <li>订单状态：${pickVo.bizStatusText}</li>
+                <li>订单号：${pickVo.code}</li>
                 <li>申请时间：${(pickVo.createTime?datetime)!}</li>
+                <#if pickVo.status = 5>
+                <li><strong>请在3天内完成支付，否则订单会自动被取消。</strong></li>
+                </#if>
+            </ul>
+            <ul class="step">
+                <li <#if [0,1,2,4,5]?seq_contains(pickVo.status)>class="active"</#if> >
+                    <i></i>
+                    <span>提交订单</span>
+                </li>
+                <li <#if 6= pickVo.status >class="active"</#if>>
+                    <i></i>
+                    <span>支付完成</span>
+                </li>
+                <li <#if 7= pickVo.status >class="active"</#if>>
+                    <i></i>
+                    <span>待收货</span>
+                </li>
+                <li <#if 3= pickVo.status>class="active"</#if>>
+                    <i></i>
+                    <span>交易完成</span>
+                </li>
             </ul>
             <ul class="time">
                 <#list pickTrackingVos as tracking >
                     <#if tracking.recordType!=3>
                     <li>
                         <time>${(tracking.createTime?datetime)!}</time>
-                        <span>${tracking.recordTypeText}</span>
+                        <span> &nbsp; &nbsp; &nbsp;${tracking.bizRecordTypeText}
+                            <#if tracking.recordType==6>
+                            ${tracking.memberTel!}
+                             </#if>
+                        </span>
                         <span>${tracking.extra?default('')}</span>
                     </li>
                     </#if>
@@ -34,17 +59,107 @@
         </div>
 
         <div class="item">
-            <div class="hd">选货单：</div>
+            <div class="hd">商品详情：</div>
             <ul class="list">
                 <#list pickVo.pickCommodityVoList as pickCommodityVo>
                 <li><a href="commodity/detail/${pickCommodityVo.realCommodityId}"><em>${pickCommodityVo.name}</em><span>${pickCommodityVo.origin}  ${pickCommodityVo.spec}  ${pickCommodityVo.price}元/${pickCommodityVo.unit}</span></a><sub><em>${pickCommodityVo.num}</em> ${pickCommodityVo.unit} <b>&yen; <em>${pickCommodityVo.total}</em></b> 元</sub></li>
                 </#list>
             </ul>
+        <#if pickVo.sum?exists && pickVo.sum != 0>
+            <div class="total">
+                总计：<b>${pickVo.sum?default(0)}</b>元
+            </div>
+        </#if>
+        </div>
+    <#if pickVo.amountsPayable?exists && pickVo.amountsPayable != 0>
+        <div class="item more">
+            <#if address?exists>
+            <div id="address_title" class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
+
+            <div id="address_detail" class="address"><#if pickVo.addrHistoryId?exists>${address.area}${address.detail} <#else > ${address.fullAdd}${address.detail}</#if></div>
+            <#else >
+            <div id="address_title" class="title">请先添加收货地址</div>
+            <div id="address_detail" class="address">+</div>
+            </#if>
+            <#if pickVo.status == 5>
+            <a href="/address/select?orderId=${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+            </#if>
         </div>
 
+        <div class="item">
+            <div class="more">
+                <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content}<#else >不开发票</#if></span></div>
+        <#if pickVo.status == 5>
+                <a href="/pick/invoice/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+        </#if>
+            </div>
+            <div class="more hr">
+                <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.remark?exists>${pickVo.remark}<#else >无</#if></span></div>
+        <#if pickVo.status == 5>
+                <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+        </#if>
+            </div>
+        <#if logistical?exists>
+            <ul class="freight hr">
+                <li><strong>物流详情：</strong></li>
+                <li>
+                    <span>发货时间：</span>
+                    <em><#if logistical.shipDate?exists>${logistical.shipDate?datetime}</#if></em>
+                </li>
+                <li>
+                    <span>发货信息：</span>
+                    <em>${logistical.content!}</em>
+                </li>
+                <li>
+                    <span>发货单据：</span>
+                    <img src="${logistical.pictureUrl!}" alt="">
+                </li>
+            </ul>
+        </#if>
+        </div>
+
+        <div class="item summary">
+            <dl>
+                <dt>商品总价：</dt>
+                <dd><em>${pickVo.sum?default(0)}</em>元</dd>
+            </dl>
+            <dl>
+                <dt>运费：</dt>
+                <dd><em>${pickVo.shippingCosts?default(0)}</em>元</dd>
+            </dl>
+            <dl>
+                <dt>包装费：</dt>
+                <dd><em>${pickVo.bagging?default(0)}</em>元<#if !(pickVo.bagging?exists) || pickVo.bagging ==0>（免包装费）</#if></dd>
+            </dl>
+            <dl>
+                <dt>检测费：</dt>
+                <dd><em>${pickVo.checking?default(0)}</em>元<#if !(pickVo.checking?exists) || pickVo.checking ==0>（免检测费）</#if></dd>
+            </dl>
+            <dl>
+                <dt>税款：</dt>
+                <dd><em>${pickVo.taxation?default(0)}</em>元</dd>
+            </dl>
+            <dl class="f18">
+                <dt>总计：</dt>
+                <dd><em>${pickVo.amountsPayable?default(0)}</em>元</dd>
+            </dl>
+        </div>
+    </#if>
+
+        <div class="button">
+        <#if pickVo.status == 5>
+            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
+        </#if>
+        <#if [0,1,5]?seq_contains(pickVo.status)>
+            <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
+        </#if>
+        <#if pickVo.status == 7>
+            <button type="button" id="receipt" class="ubtn ubtn-primary">确认收货</button>
+        </#if>
+        </div>
 
         <div class="ui-extra">
-            咨询电话：<a href="tel:027-33641141" target="_blank">0558-5897775</a>
+            咨询电话：<a href="tel:${consumerHotline}" target="_blank">${consumerHotline}</a>
         </div>
     </div>
 </section><!-- /ui-content -->
@@ -53,8 +168,158 @@
 <script>
 
     var _global = {
+        v:{
+            saveUrl:"/pick/save",
+            cancelUrl:"/pick/cancel",
+            receiptUrl:"/pick/receipt"
+        },
         fn: {
             init: function() {
+            <#if [1,5]?seq_contains(pickVo.status)>
+                <#if orderInvoiceSession?exists>
+                    if (sessionStorage.getItem("pickInvoice${pickVo.id}")== undefined) {
+                        sessionStorage.setItem("pickInvoice${pickVo.id}", '${orderInvoiceSession}');
+                    }
+                </#if>
+                <#if remarkSession?exists>
+                if (!sessionStorage.getItem("pickNote${pickVo.id}")) {
+                    sessionStorage.setItem("pickNote${pickVo.id}", '${remarkSession}');
+                }
+                </#if>
+                <#if address?exists>
+                    if (sessionStorage.getItem("pickAddrId${id}") == undefined) {
+                        var addr = {};
+                        addr.id = ${address.id};
+                        addr.titleN = "ss";
+                        sessionStorage.setItem("pickAddrId${id}", JSON.stringify(addr));
+                    };
+                </#if>
+
+                // 初始化,订单处于待支付状态时
+                var note = sessionStorage.getItem("pickNote${pickVo.id}");
+                if (note) {
+                    $("#note").html(note);
+                }
+                var invoice = sessionStorage.getItem("pickInvoice${id}");
+                if (invoice) {
+                    invoice = JSON.parse(invoice);
+                    var content = "";
+                    if (invoice.content == "不开发票") {
+                        content = "不开发票";
+                    } else {
+                        if (invoice.type == 2) {
+                            content = invoice.name + " " + invoice.content;
+                        } else {
+                            content = "个人 " + invoice.content;
+                        }
+                    }
+                    $("#invoice").html(content);
+                }
+                // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
+                var address = sessionStorage.getItem("pickAddrId${id}");
+                if (address) {
+                    address = JSON.parse(address);
+                    // 初始化 地址内容
+                    if (address.title) {
+                        $("#address_title").html(address.title);
+                        $("#address_detail").html(address.detail);
+                    }
+                }
+            </#if>
+                this.bindEven();
+            },
+            bindEven: function () {
+                $("#bankTransfer").click(function(){
+                    _global.fn.save();
+                })
+
+                $("#cancel").click(function () {
+                    //取消订单
+                    $.ajax({
+                        url: _global.v.cancelUrl + "?id=${pickVo.id}",
+                        type: "POST",
+                        success: function (result) {
+                            if (result.status == "200") {
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            popover('网络错误，请刷新页面重试');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1e3);
+                        }
+                    })
+                });
+
+                $("#receipt").click(function () {
+                    // 确认收货
+                    $.ajax({
+                        url: _global.v.receiptUrl + "?id=${pickVo.id}",
+                        type: "POST",
+                        success: function (result) {
+                            if (result.status == "200") {
+                                window.location.reload();
+                            }
+                        },
+                        error: function () {
+                            popover('网络错误，请刷新页面重试');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1e3);
+                        }
+                    })
+                });
+
+            },
+            save:function(){
+                if (!this.checkMsg()) return;
+                var  pick = {
+                    id:${pickVo.id},
+                    addrHistoryId:<#if address?exists>${address.id} <#else > null </#if>
+                }
+                // 发票
+                var invoice = sessionStorage.getItem("pickInvoice${id}");
+                if (invoice) {
+                    pick.invoice = JSON.parse(invoice);
+                }
+
+                // 备注
+                pick.remark = sessionStorage.getItem("pickNote${pickVo.id}");
+
+                // 地址
+                if (sessionStorage.getItem("pickAddrId${id}")) {
+                    pick.addrHistoryId = JSON.parse(sessionStorage.getItem("pickAddrId${id}")).id;
+                }
+
+                // 判断地址不能为空 防止重复提交功能
+                $.ajax({
+                    url: _global.v.saveUrl+"?type=1",
+                    data: JSON.stringify(pick),
+                    type: "POST",
+                    contentType : 'application/json',
+                    success: function(result) {
+                        if(result.status=="200"){
+                          sessionStorage.clear();
+                          window.location.href = result.data; // 跳转到指定页面
+                        }
+                    },
+                    error: function() {
+                        popover('网络错误，请刷新页面重试');
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 1e3);
+                    }
+                })
+            },
+            checkMsg: function () {
+                // 默认验证通过
+                if (sessionStorage.getItem("pickAddrId${id}") == undefined) {
+                    popover('请填写收货地址');
+                    return false;
+                }
+
+                return true;
             }
         }
     }

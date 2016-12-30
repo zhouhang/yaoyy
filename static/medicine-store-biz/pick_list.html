@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>选货单列表-药优优</title>
+    <title>订单列表-药优优</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body class="ui-body-nofoot body-gray">
     <header class="ui-header">
-        <div class="title">选货单列表</div>
+        <div class="title">订单列表</div>
         <div class="abs-l mid">
             <a href="javascript:history.back();" class="fa fa-back"></a>
         </div>
@@ -20,14 +20,14 @@
 
     <section class="ui-content">
         <div class="ui-notice ui-notice-extra hide">
-            选货单列表还没有商品，<br>去商品详情页面可以添加商品到选货单！
+            订单列表还没有商品，<br>去商品详情页面可以添加商品到订单！
             <a class="ubtn ubtn-primary" href='/'>返回首页</a>
         </div>
         <div class="pick-list">
             <!-- <div class="item">
                 <dl>
                     <dt>
-                        状态：<em>选货单已提交  客服马上与您联系</em>
+                        状态：<em>订单已提交  客服马上与您联系</em>
                         <time>2017-06-20  10:30</time> 
                     </dt>
                     <dd>
@@ -144,7 +144,7 @@
                     })
 
                     html.push('</dl> \n');
-                    item.lists.length > 5 && html.push('<div class="more">更多</div>'); // 选货单超过5条显示更多按钮
+                    item.lists.length > 5 && html.push('<div class="more">更多</div>'); // 订单超过5条显示更多按钮
 
                     html.push('</a>\n </div>');
                 })
@@ -154,7 +154,7 @@
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
-                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 订单列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 }
             },
             pagenav: function(pageNum, pages) {

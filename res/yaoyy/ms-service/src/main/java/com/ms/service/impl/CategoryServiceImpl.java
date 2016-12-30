@@ -17,6 +17,7 @@ import com.ms.tools.upload.PathConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -161,6 +162,15 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 		return pageInfo;
 	}
 
+	@Override
+	public List<CategoryVo> findByIds(String ids) {
+		List<Integer> list = new ArrayList<>();
+		for(String id :ids.split(",")){
+			list.add(Integer.parseInt(id));
+		}
+		return categoryDao.findByIds(list);
+
+	}
 
 
 	/**

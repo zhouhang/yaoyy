@@ -58,7 +58,7 @@
 				<div class="item">
                     <div class="txt"><i>*</i>专场图片：</div>
                     <div class="cnt cnt-mul">
-                        <div class="up-img" id="">
+                        <div class="up-img x3" id="">
                             <!-- <img src="images/blank.gif"><i class="del"></i> -->
                         </div>
                         <input type="hidden" value="" name="imgUrl" id="imgUrl">
@@ -67,11 +67,11 @@
 				<div class="item">
 					<div class="txt"><i>*</i>添加商品：</div>
 					<div class="cnt">
-						<div id="chooseGoods"><!-- <span>紫藤叶过56号筛 一等品<i></i></span> --></div>
+						<div class="choose" id="chooseGoods"><!-- <span>紫藤叶过56号筛 一等品<i></i></span> --></div>
 						<input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
 						<input type="hidden" name="goodsName" id="goodsName">
 						<div class="cnt-table hide" id="goodsSuggestions">
-							<table>
+							<table class="suggestions">
 								<thead>
 									<tr>
 										<th>名称</th>
@@ -138,11 +138,11 @@
                 $upImg.on('click', function() {
                     layer.open({
                         skin: 'layui-layer-molv', 
-                        area: ['600px'],
+                        area: ['810px'],
                         closeBtn: 1,
                         type: 1,
                         moveType: 1,
-                        content: '<div class="img-upload-main"><div class="clip" id="imgCrop"></div></div>',
+                        content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传图片',
                         cancel: function() {
                             self.cropModal.destroy();

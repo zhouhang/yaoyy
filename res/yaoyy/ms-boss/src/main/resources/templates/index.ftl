@@ -19,14 +19,14 @@
             <@shiro.hasPermission name="sample:list">
             <li>
                 <div class="cnt bg-aqua">
-                    <a href="/sample/list"> <span><i class="fa fa-truck"></i></span> 寄样列表 <sup>4</sup></a>
+                    <a href="/sample/list"> <span><i class="fa fa-truck"></i></span> 寄样列表  <em id="sampleNum"></em></a>
                 </div>
             </li>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="pick:list">
             <li>
                 <div class="cnt bg-green">
-                    <a href="/pick/list"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表</a>
+                    <a href="/pick/list"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表 <em id="pickNum"></em></a>
                 </div>
             </li>
             </@shiro.hasPermission>
@@ -60,7 +60,62 @@
             </@shiro.hasPermission>
         </ul>
     </div>
+
+    <div class="box">
+        <p>扫码绑定微信号</p>
+        <div class="qrcode"></div>
+    </div>
 </div>
 <#include "./common/footer.ftl"/>
+<script src="/assets/js/jquery.qrcode.min.js"></script>
+<script>
+    var _global = {
+        fn: {
+            init: function () {
+                this.newMsg();
+                this.createQrcode();
+            },
+            // 消息提醒
+            newMsg: function() {
+                var self = this;
+                $.post('/msg/count', function (result) {
+                    if (result.status == 200) {
+                        var pickNum = result.data.pick || '',
+                            sampleNum = result.data.sample || '';
+
+                        if (pickNum) {
+                            $("#pickNum").html('<i class="fa"></i><sup>' + pickNum + '</sup>');
+                        } else {
+                            $("#pickNum").empty();
+                        }
+                        if (sampleNum) {
+                            $("#sampleNum").html('<i class="fa"></i><sup>' + sampleNum + '</sup>');
+                        } else {
+                            $("#sampleNum").empty();
+                        }
+                    }
+                })
+                
+                // 5分钟请求一次
+                setTimeout(function() {
+                    self.newMsg();
+                }, 3e5);
+            },
+            // 生成二维码
+            createQrcode:function() {
+                var canvasSupport = !!document.createElement('canvas').getContext;
+                $('.qrcode').qrcode({
+                    render: canvasSupport ? 'canvas' : 'table',
+                    width: 160,
+                    height: 160,
+                    text: '${bizUrl!}/wechat/member?memberId=${member_session_boss.id!}'
+                })
+            }
+        }
+    }
+    $(function() {
+        _global.fn.init();
+    })
+</script>
 </body>
 </html>

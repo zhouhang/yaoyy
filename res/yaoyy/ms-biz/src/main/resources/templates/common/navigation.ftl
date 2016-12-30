@@ -16,8 +16,15 @@
             <li>
                 <a href="/pickCommodity/list" id="commodityCart">
                     <i class="fa fa-cart"></i>
-                    <span>选货单</span>
+                    <span>采购单</span>
                     <b id="cartNum"></b>
+                </a>
+            </li>
+            <li>
+                <a href="/quotation/index">
+                    <i class="fa fa-flag"></i>
+                    <span>道地行情</span>
+                    <b  id="newQuote"></b>
                 </a>
             </li>
             <li>

@@ -1,27 +1,26 @@
 package com.ms.service.properties;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by wangbin on 2016/12/2.
  */
+@ConfigurationProperties(locations="classpath:config.yml", prefix = "wechat.mp")
 @Component
-@PropertySource(value="classpath:config.properties")
 public class WechatProperties {
 
 
     /**
      * 设置微信公众号的appid
      */
-    @Value("${wechat.mp.appid}")
     private String appId;
 
     /**
      * 设置微信公众号的app secret
      */
-    @Value("${wechat.mp.secret}")
     private String secret;
 
     /**
@@ -37,7 +36,6 @@ public class WechatProperties {
     /**
      * 设置微信公众号的token
      */
-    @Value("${wechat.mp.token}")
     private String token;
 
     /**

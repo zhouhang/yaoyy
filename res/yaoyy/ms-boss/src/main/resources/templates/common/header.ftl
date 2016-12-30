@@ -5,18 +5,25 @@
     <div class="menu">
         <ul>
             <li>
-                <a href="javascript:;" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
+                <div>
+                    <a href="javascript:;"> <i class="fa fa-envelope"></i> 消息 <sup id="newsNum"></sup></a>
+                </div>
+                <div class="dropdown" id="msgList"></div>
             </li>
-            <li class="dropdown user user-menu">
-                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user"></i>
-                    <span class="hidden-xs">${(member_session_boss.username)!}</span>
-                </a>
+            <li>
+                <a href="javascript:;"> <i class="fa fa-question-circle"></i> 帮助 </a>
+            </li>
+            <li>
+                <div>
+                    <a href="javascript:;"> <i class="fa fa-user"></i> ${(member_session_boss.username)!}</a>
+                </div>
+                <div class="dropdown">
+                    <a href="javascript:;" id="jmodifyPwd">修改密码</a>
+                </div>
             </li>
             <li>
                 <a href="/logout">
-                    <i class="fa fa-power-off"></i>
-                    退出
+                    <i class="fa fa-power-off"></i> 退出
                 </a>
             </li>
         </ul>

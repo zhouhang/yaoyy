@@ -112,7 +112,7 @@
         <div class="item">
             <div class="txt"><i>*</i>图片：</div>
             <div class="cnt cnt-mul">
-                <span class="up-img x4" id="imgCrop"></span>
+                <span class="thumb up-img x4" id="imgCrop"></span>
                 <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
                 <span class="tips">图片尺寸：220 X 180</span>
             </div>
@@ -147,11 +147,11 @@
             },
             bindEvent: function() {
                 var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search =$("#search");
-                var $pageSize=$("#pageSize");
+                    $cbx = $table.find('td input:checkbox'),
+                    $checkAll = $table.find('th input:checkbox'),
+                    count = $cbx.length,
+                    $search =$("#search"),
+                    $pageSize=$("#pageSize");
 
                 // 删除
                 $table.on('click', '.jdel', function() {
@@ -294,7 +294,7 @@
 
                     // 如果有图片，填充图片
                     if (data.pictureUrl) {
-                        $('#imgCrop').html('<img src="' + data.pictureUrl + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+                        $('#imgCrop').html('<img src="' + data.pictureUrl + '" /><i class="del" title="删除"></i>');
                         self.cropModal && self.cropModal.destroy();
                     } else {
                         $('#imgCrop').empty();
@@ -354,11 +354,6 @@
                     });
                     return false;
                 })
-                // 点击图片看大图
-                $myform.on('click', 'img', function() {
-                    _showImg(this.src);
-                    return false;
-                })
             },
             upImg: function() {
                 var self = this;
@@ -369,7 +364,7 @@
                     loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
                     onAfterImgUpload: function(response){
                         self.cropModal && self.cropModal.destroy();
-                        $('#imgCrop').show().html('<img src="' + response.url + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+                        $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
                         $('#pictureUrl').val(response.url).trigger('validate');
                     }
                 }

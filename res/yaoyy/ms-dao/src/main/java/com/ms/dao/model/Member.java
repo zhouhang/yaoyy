@@ -10,9 +10,7 @@ public class Member implements Serializable {
 	
 	private Integer id;
 
-
 	private String username;
-
 
 	private String password;
 	
@@ -21,6 +19,10 @@ public class Member implements Serializable {
 	private String name;
 
 	private String email;
+
+	private String tel;
+
+	private String openid;
 
 	private String mobile;
 
@@ -131,4 +133,21 @@ public class Member implements Serializable {
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
 }

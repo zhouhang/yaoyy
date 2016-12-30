@@ -2,6 +2,7 @@ package com.ms.dao.enums;
 
 /**
  * Created by xiao on 2016/11/9.
+ * 后台订单状态描述
  */
 public enum BizSampleEnum {
 

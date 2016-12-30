@@ -10,13 +10,7 @@
         
     </resultMap>
 
-    <resultMap id="HistoryPriceResultMapVo" type="com.ms.dao.vo.HistoryPriceVo">
-            <id column="id"  property="id" />
-            <result column="commodity_id"  property="commodityId" />
-            <result column="price"  property="price" />
-            <result column="create_time"  property="createTime" />
-            <result column="create_id"  property="createId" />
-        
+    <resultMap id="HistoryPriceResultMapVo" type="com.ms.dao.vo.HistoryPriceVo" extends="HistoryPriceResultMap">
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -44,7 +38,20 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="commodityId != null">
+                and commodity_id = #{commodityId}
+            </if>
+            <if test="validityDate != null">
+                and create_time <![CDATA[ >= ]]> #{validityDate}
+            </if>
         </where>
+        ORDER By create_time ASC
+    </select>
+
+    <select id="duplicate"  resultMap="HistoryPriceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from history_price WHERE commodity_id = #{commodityId} and DATE_FORMAT(create_time,"%Y-%m-%d") = DATE_FORMAT(#{createTime},"%Y-%m-%d")
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

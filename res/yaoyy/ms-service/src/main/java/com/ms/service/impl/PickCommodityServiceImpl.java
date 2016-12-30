@@ -64,6 +64,30 @@ public class PickCommodityServiceImpl  extends AbsCommonService<PickCommodity> i
 	  });
 	}
 
+	@Override
+	@Transactional
+	public void deleteByPickId(Integer pickId) {
+		pickCommodityDao.deleteByPickId(pickId);
+	}
+
+	@Override
+	@Transactional
+	public void updatePickCommodity(List<PickCommodityVo> pickCommodities) {
+		deleteByPickId(pickCommodities.get(0).getPickId());
+		Date now=new Date();
+		pickCommodities.forEach(p->{
+			CommodityVo commodityVo=commodityService.findById(p.getCommodityId());
+			HistoryCommodity historyCommodity=historyCommodityService.saveCommodity(commodityVo);
+			p.setCommodityId(historyCommodity.getId());
+			p.setPrice(commodityVo.getPrice());
+			float total=(commodityVo.getPrice())*(p.getNum());
+			p.setTotal(total);
+			p.setUnit(commodityVo.getUnitName());
+			p.setCreateTime(now);
+			pickCommodityDao.create(p);
+		});
+	}
+
 
 	@Override
 	public ICommonDao<PickCommodity> getDao() {

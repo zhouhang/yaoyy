@@ -12,4 +12,11 @@ public interface PickCommodityService extends ICommonService<PickCommodity>{
     public List<PickCommodityVo> findByPickId(Integer pickId);
     public void saveList(List<PickCommodityVo> pickCommodities);
 
+    /**
+     * 按pickId删除选货单，用于修改选货单
+     */
+    public void deleteByPickId(Integer pickId);
+
+    public void updatePickCommodity(List<PickCommodityVo> pickCommodities);
+
 }

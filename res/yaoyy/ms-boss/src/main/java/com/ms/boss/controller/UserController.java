@@ -1,7 +1,6 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.User;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
@@ -35,7 +34,9 @@ public class UserController extends BaseController{
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Result detail(@PathVariable("id")Integer id){
-        return Result.success("用户详情").data(userService.findById(id));
+        UserVo userVo=userService.findById(id);
+        userVo.setIdentityTypeName(userVo.getIdentityTypeName());
+        return Result.success("用户详情").data(userVo);
     }
 
     /**

@@ -22,8 +22,19 @@ public class Commodity  implements Serializable {
 
 	//规格等级
 	private String spec;
+
+	//加工方式
+	private String process;
+
+	//性状特征
+	private String exterior;
+
+	//执行标准
+	private String executiveStandard;
+
 	//品种id
 	private Integer categoryId;
+
 
 	// 商品图片
 	private String pictureUrl;
@@ -62,6 +73,9 @@ public class Commodity  implements Serializable {
 	private Date updateTime;
 
 	private Integer supplierId;
+
+	// 价格更新时间
+	private Date priceUpdateTime;
 	
 	public Commodity(){}
 
@@ -232,5 +246,38 @@ public class Commodity  implements Serializable {
 
 	public void setThumbnailUrl(String thumbnailUrl) {
 		this.thumbnailUrl = thumbnailUrl;
+	}
+
+	public Date getPriceUpdateTime() {
+		if (priceUpdateTime == null) priceUpdateTime = updateTime;
+		return priceUpdateTime;
+	}
+
+	public void setPriceUpdateTime(Date priceUpdateTime) {
+		this.priceUpdateTime = priceUpdateTime;
+	}
+
+	public String getProcess() {
+		return process;
+	}
+
+	public void setProcess(String process) {
+		this.process = process;
+	}
+
+	public String getExterior() {
+		return exterior;
+	}
+
+	public void setExterior(String exterior) {
+		this.exterior = exterior;
+	}
+
+	public String getExecutiveStandard() {
+		return executiveStandard;
+	}
+
+	public void setExecutiveStandard(String executiveStandard) {
+		this.executiveStandard = executiveStandard;
 	}
 }

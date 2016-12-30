@@ -126,7 +126,7 @@
 							<td>100</td>
 							<td>2016-05-18 15:22</td>
 							<td class="tc">
-								<a href="subject_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
+								<a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="1">编辑</a>
 								<a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
 								<a href="javascript:;" class="ubtn ubtn-gray jputaway">上架</a>
 							</td>
@@ -200,15 +200,15 @@
 			<div class="item">
 				<div class="txt"><i>*</i>图片：</div>
 				<div class="cnt cnt-mul">
-					<span class="up-img x1" id="imgCrop"></span>
+					<span class="thumb up-img x1" id="imgCrop"></span>
                     <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
                     <span class="tips">图片尺寸：750 X 350</span>
 				</div>
 			</div>
 
 		    <div class="button">
-		        <button type="submit" class="ubtn ubtn-blue">确认</button>
-		        <button type="button" class="ubtn ubtn-gray">关闭</button>
+		        <button type="submit" class="ubtn ubtn-blue">保存</button>
+		        <button type="button" class="ubtn ubtn-gray">取消</button>
 		    </div>
 		</div>
 	</form>
@@ -329,7 +329,7 @@
 					$advForm.find('.ipt[name="sort"]').val(data.sort);
 					// 如果有图片，填充图片
 					if (data.pictureUrl) {
-						$('#imgCrop').html('<img src="' + data.pictureUrl + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+						$('#imgCrop').html('<img src="' + data.pictureUrl + '" /><i class="del" title="删除"></i>');
 						self.cropModal && self.cropModal.destroy();
 					} else {
 						$('#imgCrop').empty();
@@ -389,17 +389,17 @@
                     return false;
                 })
 
-                // 点击图片看大图
-                $myform.on('click', 'img', function() {
-                    var url = this.src;
-                    window.open(url);
-                    return false;
-                })
+                // // 点击图片看大图
+                // $myform.on('click', 'img', function() {
+                //     var url = this.src;
+                //     window.open(url);
+                //     return false;
+                // })
 
                 // 切换上传图片的尺寸
                 $('#typeId').on('change', function() {
-                	var tips = this.value === 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
-                	$('#imgCrop').attr('class', 'up-img x' + this.value)
+                	var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
+                	$('#imgCrop').attr('class', 'thumb up-img x' + this.value)
                 	.nextAll('.tips').html(tips);
                 })
             },
@@ -411,7 +411,7 @@
                     loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
                     onAfterImgUpload: function(response){
                         self.cropModal && self.cropModal.destroy();
-                        $('#imgCrop').show().html('<img src="' + response.url + '" title="点击图片看大图" /><i class="del" title="删除"></i>');
+                        $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
                         $('#pictureUrl').val(response.url).trigger('validate');
                     }
                 }

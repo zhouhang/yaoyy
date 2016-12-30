@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>交易流水列表-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class='wrapper'>
+
+	<div class="header">
+		<div class="logo">
+			<a href="index.html">药优优</a>
+		</div>
+		<div class="menu">
+			<ul>
+				<li>
+					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
+				</li>
+				<li class="dropdown user user-menu">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user"></i>
+						<span class="hidden-xs">王彬</span>
+					</a>
+				</li>
+				<li>
+					<a href="/logout">
+						<i class="fa fa-power-off"></i>
+						退出
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- 侧栏菜单 -->
+	<div class="aside" id="jaside"></div>
+
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+				<li>账单流水管理</li>
+        		<li>交易流水列表</li>
+    		</ul>
+		</div>
+
+		<div class="box">
+			<div class="tools">
+				<div class="filter">
+					<form action="">
+						<input type="text" class="ipt" placeholder="用户手机号">
+						<input type="text" class="ipt" placeholder="单号">
+						<input type="text" class="ipt" placeholder="起始日期">
+						<input type="text" class="ipt" placeholder="结束日期">
+						<button class="ubtn ubtn-blue">搜索</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>交易流水号</th>
+							<th>单号</th>
+							<th>单号类型</th>
+							<th>用户姓名</th>
+							<th>支付金额</th>
+							<th>支付渠道</th>
+							<th>状态</th>
+							<th width="100" class="tc">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>201611161450000036</td>
+							<td>147926357194</td>
+							<td>订单</td>
+							<td>张三</td>
+							<td>200元</td>
+							<td>微信支付</td>
+							<td>支付成功</td>
+							<td class="tc">
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
+							</td>
+						</tr>
+						<tr>
+							<td>201611161450000036</td>
+							<td>147926357194</td>
+							<td>订单</td>
+							<td>李四</td>
+							<td>300元</td>
+							<td>微信支付</td>
+							<td>支付成功</td>
+							<td class="tc">
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
+							</td>
+						</tr>
+						<tr>
+							<td>201611161450000036</td>
+							<td>147926357194</td>
+							<td>订单</td>
+							<td>王五</td>
+							<td>400元</td>
+							<td>线下转账</td>
+							<td>支付失败</td>
+							<td class="tc">
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
+							</td>
+						</tr>
+						<tr>
+							<td>201611161450000036</td>
+							<td>147926357194</td>
+							<td>订单</td>
+							<td>赵六</td>
+							<td>500元</td>
+							<td>线下转账</td>
+							<td>支付失败</td>
+							<td class="tc">
+								<a href="pay_record_detail.html" class="ubtn ubtn-blue">查看</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<div class="pages">
+					<label>每页</label>
+					<select name="" class="slt" id="page_select">
+			            <option value="10">10</option>
+			            <option value="25">25</option>
+			            <option value="50">50</option>
+			            <option value="100">100</option>
+			        </select>
+					<a href="#" class="text">上页</a>
+					<span class="curr">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<i>...</i>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#" class="text">下页</a>
+				</div>
+				<div class="info">
+					显示第 1 至 10 项结果，共 <em id="pageSize">72</em> 项
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="inner">
+			&copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有. 
+		</div>
+	</div>
+	
+
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script>
+	var _global = {
+		v: {
+			deleteUrl: '',
+			flag: false
+		},
+		fn: {
+			init: function() {
+                this.bindEvent();
+			},
+			bindEvent: function() {
+			}
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>

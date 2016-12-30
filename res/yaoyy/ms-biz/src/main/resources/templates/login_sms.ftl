@@ -17,7 +17,7 @@
         <div class="logo">药优优</div>
         <form action="/user/loginSMS" method="post">
             <div class="item">
-                <input type="tel" class="ipt" name="phone" id="mobile" placeholder="手机号" autocomplete="off">
+                <input type="tel" class="ipt" name="phone" id="mobile" placeholder="手机号" value="${phone!}" autocomplete="off">
                 <span class="error"></span>
                 <i class="mid"></i>
                 <button type="button" class="send" id="send">发送验证码</button>

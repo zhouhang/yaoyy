@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                 <#list sendSampleVoPageInfo.list as sendSample>
-                    <tr>
+                    <tr >
                         <td>${sendSample.code}</td>
                         <td>${sendSample.nickname}</td>
                         <td>${sendSample.phone}</td>
@@ -81,7 +81,7 @@
         </div>
 
     <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=sendSampleVoPageInfo url="sample/list" params=sendSampleVoParams />
+    <@pager.pager info=sendSampleVoPageInfo url="sample/list" params="" />
     </div>
 </div>
 

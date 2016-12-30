@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>银行转账-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css?id=122">
+</head>
+<body class="ui-body-nofoot">
+    <header class="ui-header">
+        <div class="title">银行转账</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+
+    <section class="ui-content">
+        <div class="pay">
+            <div class="hd">
+                <em>需付金额：<strong>&yen;4850.00</strong>元</em>
+                <span>请在三天内完成汇款，否则订单会自动被取消。</span>
+            </div>
+            <div class="bd">
+                <div class="row">
+                    <div class="txt">支付方式：</div>
+                    <div class="val">银行汇款</div>
+                </div>
+                <div class="row">
+                    <div class="txt">账户名称：</div>
+                    <div class="val">亳州东方康元中药材信息有限公司</div>
+                </div>
+                <div class="row">
+                    <div class="txt">帐号：</div>
+                    <div class="val">1109 0795 0110 201</div>
+                </div>
+                <div class="row">
+                    <div class="txt">开户行：</div>
+                    <div class="val">中国银行魏武大道支行</div>
+                </div>
+            </div>
+            <div class="ft">
+                <span>上传支付凭证：</span>
+                <span class="ui-file thumb">
+                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
+                </span>
+            </div>
+            <div class="button">
+                <button type="button" class="ubtn ubtn-primary" id="submit">确认支付</button>
+            </div>
+        </div>
+    </section><!-- /ui-content -->
+    
+
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/app.js?id=122"></script>
+    <script src="assets/js/lrz.bundle.js?=2"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.submit();
+                this.upfile();
+            },
+            submit: function() {
+                var self = this;
+                $('#bankTransfer').submit(function () {
+                    if ($("#url").val()== null || $("#url").val() == "") {
+                        popover('请上传转账凭证');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+            },
+            upfile: function() {
+                var $el = $('.ui-file');
+                var reset = function() {
+                    $el.html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
+                    $("#url").val('');
+                }
+                var showLader = function() {
+                    $el.html('<i class="loader"></i>');
+                }
+                $el.on('change', '.upfile', function(ev) {
+                    showLader();
+                    lrz(this.files[0], {
+                        width: 800
+                    }).then(function (rst) {
+                        var base64 = rst.base64;
+                        base64 = base64.substr(base64.indexOf(',') + 1);
+                        $.ajax({
+                            url: 'upImg.php',
+                            data: {
+                                img: base64,
+                                fileName:rst.origin.name
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.status == '1') {
+                                    $el.html('<img src="' + result.url + '" alt="" data-src="' + result.url + '"><i class="del"></i>');
+                                    $("#url").val(result.url);
+                                } else {
+                                    popover('上传图片失败，请刷新页面重试！');
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                popover('网络连接超时，请您稍后重试！');
+                            }
+                        })
+                    }).catch(function (err) {
+                        // 处理失败会执行
+                        reset();
+                    }).always(function () {
+                        // 不管是成功失败，都会执行
+                    });
+                });
+                $el.on('click', '.del', function() {
+                    reset();
+                })
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+    });
+</script>
+</body>
+</html>

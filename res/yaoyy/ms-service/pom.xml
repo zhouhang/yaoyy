@@ -55,6 +55,11 @@
             <artifactId>freemarker</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
             <version>${weixin.mp.version}</version>
@@ -70,14 +75,13 @@
                 <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-            </properties>
-        </profile>
-        <profile>
-            <id>ppcL</id>
-            <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>192.168.1.41</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>192.168.1.41</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaoyy</spring.dataSource.username>
+                <spring.dataSource.password>123456</spring.dataSource.password>
             </properties>
         </profile>
         <profile>
@@ -86,6 +90,13 @@
                 <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>192.168.1.41</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>192.168.1.41</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaoyy</spring.dataSource.username>
+                <spring.dataSource.password>123456</spring.dataSource.password>
             </properties>
         </profile>
         <profile>
@@ -94,22 +105,43 @@
                 <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>192.168.1.41</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>192.168.1.41</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaoyy</spring.dataSource.username>
+                <spring.dataSource.password>123456</spring.dataSource.password>
             </properties>
         </profile>
         <profile>
             <id>ccx</id>
             <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
+                <wechat.mp.appid>wx9daa6d513b72c70c</wechat.mp.appid>
+                <wechat.mp.secret>c80fe6efd3ee806bdb762ac9a7b86913</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>192.168.1.41</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>192.168.1.41</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaoyy</spring.dataSource.username>
+                <spring.dataSource.password>123456</spring.dataSource.password>
             </properties>
         </profile>
         <profile>
             <id>wb</id>
             <properties>
-                <wechat.mp.appid>wxa7f10cbf0dc060b9</wechat.mp.appid>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>fe68a821107c34bf9863348831e26755</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>192.168.1.41</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>192.168.1.41</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaoyy</spring.dataSource.username>
+                <spring.dataSource.password>123456</spring.dataSource.password>
             </properties>
         </profile>
         <profile>
@@ -118,6 +150,13 @@
                 <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
+                <elasticsearch.host>localhost</elasticsearch.host>
+                <elasticsearch.port>9300</elasticsearch.port>
+                <redis.url>127.0.0.1</redis.url>
+                <redis.port>6379</redis.port>
+                <spring.dataSource.url>jdbc:mysql://localhost:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
+                <spring.dataSource.username>yaobest</spring.dataSource.username>
+                <spring.dataSource.password>yaobest20161110</spring.dataSource.password>
             </properties>
         </profile>
     </profiles>
@@ -128,7 +167,7 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/config.properties</include>
+                    <include>**/config.yml</include>
                 </includes>
             </resource>
         </resources>

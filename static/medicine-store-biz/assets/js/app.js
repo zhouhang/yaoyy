@@ -64,10 +64,7 @@ function gallery(weChatImagePreview) {
 		html.push('		<span class="num"></span>/<span class="sum"></span>');
 		html.push('	</div>');
 		html.push('	<div class="gallery-back">');
-		html.push('		<i class="iconfont icon-back"></i>');
-		html.push('	</div>');
-		html.push('	<div class="gallery-close">');
-		html.push('		<i class="iconfont icon-close"></i>');
+		html.push('		<i class="fa fa-back"></i>');
 		html.push('	</div>');
 		html.push('</div>');
 		$('body').append(html.join(''));
@@ -333,6 +330,7 @@ function navigationActive(){
 }
 
 $(function() {
+    gallery();
     navigationActive();
     showCommodityCount();
 })

@@ -1,5 +1,6 @@
 package com.ms.boss.config;
 
+import com.ms.boss.properties.BossSystemProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -15,18 +16,15 @@ public class FreeMarkerConfig {
     @Autowired
     protected freemarker.template.Configuration configuration;
 
-    @Value("${doc.base.url}")
-    private String baseUrl;
-
-    @Value("${biz.base.url}")
-    private String bizBaseUrl;
+    @Autowired
+    private BossSystemProperties bossSystemProperties;
 
 
     @PostConstruct
     public void freeMarkerConfigurer(){
         try {
-            configuration.setSharedVariable("baseUrl",baseUrl);
-            configuration.setSharedVariable("bizBaseUrl",bizBaseUrl);
+            configuration.setSharedVariable("baseUrl",bossSystemProperties.getBaseUrl());
+            configuration.setSharedVariable("bizBaseUrl",bossSystemProperties.getBizBaseUrl());
             configuration.setDefaultEncoding("UTF-8");
         }catch (Exception e){
             e.printStackTrace();

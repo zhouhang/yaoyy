@@ -17,20 +17,26 @@
 		</div>
 		<div class="menu">
 			<ul>
-				<li><a href="#"> <i class="fa fa-envelope"></i> 消息 <sup>4</sup></a></li>
 				<li>
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
-				</li>
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="hidden-xs">王彬</span>
-					</a>
+					<div>
+	                    <a href="javascript:;"> <i class="fa fa-envelope"></i> 消息 <sup id="newsNum"></sup></a>
+	                </div>
+	                <div class="dropdown" id="msgList"></div>
 				</li>
 				<li>
-					<a href="/logout">
-						<i class="fa fa-power-off"></i>
-						退出
+					<a href="#"> <i class="fa fa-question-circle"></i> 帮助 </a>
+				</li>
+				<li>
+					<div>
+						<a href="#"> <i class="fa fa-user"></i> 王彬</a>
+					</div>
+					<div class="dropdown">
+						<a href="javascript:;" id="jmodifyPwd">修改密码</a>
+					</div>
+				</li>
+				<li>
+					<a href="login.html">
+						<i class="fa fa-power-off"></i> 退出
 					</a>
 				</li>
 			</ul>
@@ -51,12 +57,12 @@
 			<ul class="q-list">
 				<li>
 					<div class="cnt bg-aqua">
-						<a href="sample_list.html"> <span><i class="fa fa-truck"></i></span> 寄样列表 <sup>4</sup></a>
+						<a href="sample_list.html"> <span><i class="fa fa-truck"></i></span> 寄样列表 <em id="sampleNum"></em></a>
 					</div>
 				</li>
 				<li>
 					<div class="cnt bg-green">
-						<a href="pick_list.html"><span><i class="fa fa-shopping-bag"></i></span> 选货单列表</a>
+						<a href="pick_list.html"><span><i class="fa fa-shopping-bag"></i></span> 订单列表 <em id="pickNum"></em></a>
 					</div>
 				</li>
 				<li>
@@ -66,7 +72,7 @@
 				</li>
 				<li>
 					<div class="cnt bg-red">
-						<a href="subject_list.html"><span><i class="fa fa-star"></i></span> 专场列表</a>
+						<a href="supject_list.html"><span><i class="fa fa-star"></i></span> 专场列表</a>
 					</div>
 				</li>
 				<li>
@@ -80,8 +86,11 @@
 					</div>
 				</li>
 			</ul>
+		</div>
 
-
+		<div class="box">
+			<p>扫码绑定微信号</p>
+        	<div class="qrcode"></div>
 		</div>
 	</div>
 
@@ -94,7 +103,9 @@
 
 
 <script src="assets/js/jquery191.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/js/common.js"></script>
+<script src="assets/js/jquery.qrcode.min.js"></script>
 <script>
 	var _global = {
 		v: {
@@ -103,7 +114,48 @@
 		},
 		fn: {
 			init: function() {
-			}
+                this.newMsg();
+				this.createQrcode();
+			},
+            newMsg: function() {
+                var self = this;
+                $.ajax({
+                	url: '',
+                	success: function(result) {
+                		result = {"status":200,"msg":"","data":{"pick":0,"sample":3}};
+                		if (result.status == 200) {
+	                        var pickNum = result.data.pick || '',
+	                            sampleNum = result.data.sample || '';
+
+	                        if (pickNum) {
+	                            $("#pickNum").html('<i class="fa"></i><sup>' + pickNum + '</sup>');
+	                        } else {
+	                            $("#pickNum").empty();
+	                        }
+	                        if (sampleNum) {
+	                            $("#sampleNum").html('<i class="fa"></i><sup>' + sampleNum + '</sup>');
+	                        } else {
+	                            $("#sampleNum").empty();
+	                        }
+	                    }
+                	}
+                })
+
+                // 1分钟请求一次
+                setTimeout(function() {
+                    self.newMsg();
+                }, 3e5);
+            },
+            // 生成二维码
+            createQrcode:function() {
+                var canvasSupport = !!document.createElement('canvas').getContext;
+                $('.qrcode').qrcode({
+                    render: canvasSupport ? 'canvas' : 'table',
+                    width: 160,
+                    height: 160,
+                    text: 'http://127.0.0.1:8188//wechat/member?memberId=34'
+                })
+            }
 		}
 	}
 

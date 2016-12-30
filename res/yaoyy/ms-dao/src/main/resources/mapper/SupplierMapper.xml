@@ -17,20 +17,7 @@
         
     </resultMap>
 
-    <resultMap id="SupplierResultMapVo" type="com.ms.dao.vo.SupplierVo">
-            <id column="id"  property="id" />
-            <result column="name"  property="name" />
-            <result column="phone"  property="phone" />
-            <result column="phone2"  property="phone2" />
-            <result column="email"  property="email" />
-            <result column="telephone"  property="telephone" />
-            <result column="area"  property="area" />
-            <result column="enter_category"  property="enterCategory" />
-            <result column="qq"  property="qq" />
-            <result column="mark"  property="mark" />
-            <result column="create_time"  property="createTime" />
-            <result column="update_time"  property="updateTime" />
-        
+    <resultMap id="SupplierResultMapVo" type="com.ms.dao.vo.SupplierVo" extends="SupplierResultMap">
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -57,6 +44,9 @@
         <where>
             <if test="id != null">
                 id = #{id}
+            </if>
+            <if test="name != null">
+                name like CONCAT('%','${name}','%' )
             </if>
         </where>
     </select>
@@ -124,4 +114,12 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="findVoById" parameterType="java.lang.Integer" resultMap="SupplierResultMapVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier
+        where id = #{id}
+    </select>
+
 </mapper>

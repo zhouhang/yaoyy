@@ -8,6 +8,8 @@
         <result column="salt" property="salt"/>
         <result column="name" property="name"/>
         <result column="mobile" property="mobile"/>
+        <result column="tel" property="tel"/>
+        <result column="openid" property="openid"/>
         <result column="roleName" property="roleName"/>
         <result column="roleId" property="roleId"/>
         <result column="is_del" property="isDel"/>
@@ -16,7 +18,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,username,password,salt,name,mobile,email,is_del,create_date,update_date
+        id,username,password,salt,name,mobile,tel,openid,email,is_del,create_date,update_date
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="MemberResultMap">
@@ -39,9 +41,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Member">
         insert into
-        member (username,password,salt,name,mobile,email,is_del,create_date,update_date)
+        member (username,password,salt,name,mobile,tel,openid,email,is_del,create_date,update_date)
         values
-        (#{username},#{password},#{salt},#{name},#{mobile},#{email},#{isDel},#{createDate},#{updateDate})
+        (#{username},#{password},#{salt},#{name},#{mobile},#{tel},#{openid},#{email},#{isDel},#{createDate},#{updateDate})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Member">
@@ -63,9 +65,14 @@
             <if test="name != null">
                 name = #{name},
             </if>
-
             <if test="mobile != null">
                 mobile = #{mobile},
+            </if>
+            <if test="tel != null">
+                tel = #{tel},
+            </if>
+            <if test="openid != null">
+                openid = #{openid},
             </if>
             <if test="email != null">
                 email = #{email},
@@ -127,6 +134,12 @@
         left join role_resources c on c.role_id = b.role_id
         left join resources d on c.resources_id = d.id
         where username = #{username}
+    </select>
+
+    <select id="findAllUser" resultMap="MemberResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from member where openid is not null
     </select>
 
 
