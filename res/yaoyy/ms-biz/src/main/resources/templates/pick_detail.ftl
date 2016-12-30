@@ -46,7 +46,11 @@
                     <#if tracking.recordType!=3>
                     <li>
                         <time>${(tracking.createTime?datetime)!}</time>
-                        <span>${tracking.recordTypeText}</span>
+                        <span> &nbsp; &nbsp; &nbsp;${tracking.bizRecordTypeText}
+                            <#if tracking.recordType==6>
+                            ${tracking.memberTel!}
+                             </#if>
+                        </span>
                         <span>${tracking.extra?default('')}</span>
                     </li>
                     </#if>

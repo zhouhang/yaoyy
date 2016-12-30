@@ -7,10 +7,13 @@ import com.ms.dao.PickDao;
 import com.ms.dao.PickTrackingDao;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.TrackingTypeEnum;
+import com.ms.dao.model.Member;
 import com.ms.dao.model.Pick;
 import com.ms.dao.model.PickTracking;
 import com.ms.dao.vo.PickTrackingVo;
 import com.ms.dao.vo.PickVo;
+import com.ms.service.MemberService;
 import com.ms.service.PickTrackingService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgConsumeEvent;
@@ -33,6 +36,9 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	@Autowired
+	private MemberService memberService;
+
 
 	@Override
 	public PageInfo<PickTrackingVo> findByParams(PickTrackingVo pickTrackingVo,Integer pageNum,Integer pageSize) {
@@ -46,7 +52,20 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 	public List<PickTrackingVo> findByPickId(Integer pickId) {
 		PickTrackingVo pickTrackingVo=new PickTrackingVo();
 		pickTrackingVo.setPickId(pickId);
-		return pickTrackingDao.findByParams(pickTrackingVo);
+		List<PickTrackingVo> pickTrackingVos=pickTrackingDao.findByParams(pickTrackingVo);
+		pickTrackingVos.forEach(pt->{
+			if (pt.getOpType().equals(TrackingTypeEnum.TYPE_ADMIN.getValue())) {
+				if(pt.getOperator()!=null){
+					Member m=memberService.findById(pt.getOperator());
+					if(m!=null){
+						pt.setMemberTel(m.getTel());
+					}
+				}
+
+
+			}
+		});
+		return pickTrackingVos;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.BizPickEnum;
+import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
@@ -299,6 +301,26 @@ public class PickController extends BaseController{
         record.setPayBank("中国工商银行亳州谯陵分理处");
         // 判断之前没有支付记录TODO:
         payRecordService.save(record);
+
+
+        //增加跟踪记录
+        PickTrackingVo pickTrackingVo=new PickTrackingVo();
+        pickTrackingVo.setPickId(record.getOrderId());
+        pickTrackingVo.setOperator(user.getId());
+        pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+        pickTrackingVo.setName(pick.getNickname());
+        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SUBMIT_PAY.getValue());
+        if(pickTrackingVo.getExtra()==null){
+            pickTrackingVo.setExtra("");
+        }
+        pickTrackingVo.setCreateTime(new Date());
+        pickTrackingVo.setUpdateTime(new Date());
+
+        pickTrackingService.create(pickTrackingVo);
+
+
+
+
         return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();
     }
 

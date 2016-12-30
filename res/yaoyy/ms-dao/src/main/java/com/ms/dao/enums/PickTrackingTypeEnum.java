@@ -2,6 +2,7 @@ package com.ms.dao.enums;
 
 /**
  * Created by xiao on 2016/10/31.
+ * 后台订单跟踪记录描述
  */
 public enum PickTrackingTypeEnum {
 
@@ -14,11 +15,13 @@ public enum PickTrackingTypeEnum {
     PICK_FINISH(5,"该选货单交易完成"),
     PICK_ORDER(6,"为客户下单"),
     PICK_RECEIPT(7,"确认收货"),
-    PICK_PAYALL(8,"支付了全款"),
+    PICK_PAYALL(8,"确认支付了全款"),
     PICK_PAYPOSIT(9,"支付了保证金"),
     PICK_ORDER_DELIVERIED(11,"订单已发货"),
     PICK_CONFIRM(12,"确认了订单"),
-    PICK_UPDATE(13,"修改了订单");
+    PICK_UPDATE(13,"修改了订单"),
+    PICK_SUBMIT_PAY(14,"提交了支付信息"),
+    PICK_CANCEL(15,"订单已取消");
 
 
 

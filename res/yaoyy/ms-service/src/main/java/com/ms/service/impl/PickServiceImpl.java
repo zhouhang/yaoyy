@@ -229,11 +229,13 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				Member member=memberService.findById(pickVo.getMemberId());
 				pickTracking.setName(member.getName());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+				pickTracking.setOperator(member.getId());
 			}
 			else{
 				PickVo pick=pickDao.findVoById(pickVo.getId());
 				pickTracking.setName(pick.getNickname());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+				pickTracking.setOperator(pickVo.getUserId());
 			}
 
 
@@ -255,12 +257,15 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				Member member=memberService.findById(pickVo.getMemberId());
 				pickTracking.setName(member.getName());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+				pickTracking.setOperator(member.getId());
 			}
 			else{
 				PickVo pick=pickDao.findVoById(pickVo.getId());
 				pickTracking.setName(pick.getNickname());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+				pickTracking.setOperator(pickVo.getUserId());
 			}
+
 
 
 			pickTracking.setExtra("");
@@ -296,6 +301,29 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setStatus(status);
 		pick.setUpdateTime(new Date());
 		pickDao.update(pick);
+
+		//增加跟踪记录
+		PickVo pickVo=pickDao.findVoById(id);
+		PickTracking pickTracking=new PickTracking();
+		pickTracking.setName(pickVo.getNickname());
+		pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+		pickTracking.setOperator(pickVo.getUserId());
+
+
+
+		pickTracking.setExtra("");
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
+		pickTracking.setPickId(pickVo.getId());
+		if(status==PickEnum.PICK_CANCLE.getValue()){
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_CANCEL.getValue());
+			pickTrackingDao.create(pickTracking);
+		}else if(status==PickEnum.PICK_FINISH.getValue()){
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RECEIPT.getValue());
+			pickTrackingDao.create(pickTracking);
+		}
+
+
 	}
     @Override
 	@Transactional
@@ -344,6 +372,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		}
 		changeOrderStatus(id,PickEnum.PICK_CANCLE.getValue());
 		//用户提交之后立即取消时候需要消费掉这条消息，否则消费不了
+
+
 		MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 		applicationContext.publishEvent(msgConsumeEvent);
 	}
@@ -362,19 +392,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		}
 		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
 
-		//增加跟踪记录
-		PickTracking pickTracking=new PickTracking();
-		pickTracking.setName(pick.getNickname());
-		pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
-
-
-
-		pickTracking.setExtra("");
-		pickTracking.setCreateTime(new Date());
-		pickTracking.setUpdateTime(new Date());
-		pickTracking.setPickId(pick.getId());
-		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RECEIPT.getValue());
-		pickTrackingDao.create(pickTracking);
 	}
 
 	@Override

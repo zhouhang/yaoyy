@@ -2,9 +2,10 @@ package com.ms.dao.enums;
 
 /**
  * Created by xiao on 2016/11/9.
+ * 前台订单状态描述
  */
 public enum BizPickEnum {
-    PICK_NOTHANDLE(0,"选货单已提交，等待客服来电"),
+    PICK_NOTHANDLE(0,"采购单已提交，等待客服来电"),
     PICK_HANDING(1,"选货单已受理"),
     PICK_NOTFINISH(2,"交易未达成"),
     PICK_FINISH(3,"交易已完成"),

@@ -36,7 +36,7 @@ public class LogisticalServiceImpl  extends AbsCommonService<Logistical> impleme
 	@Override
 	public LogisticalVo findByOrderId(Integer orderId) {
 		LogisticalVo logisticalVo=logisticalDao.findByOrderId(orderId);
-		if(logisticalVo!=null){
+		if(logisticalVo!=null&&logisticalVo.getPictureUrl()!=null){
 			logisticalVo.setPictureUrl(pathConvert.getUrl(logisticalVo.getPictureUrl()));
 		}
 		return logisticalVo;
