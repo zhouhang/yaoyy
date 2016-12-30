@@ -515,7 +515,7 @@
                     }, function(text, index) {
                         $.ajax({
                             url: _global.v.trackingCreateUrl,
-                            data: {pickId: ${pickVo.id},recordType:2,extra:"不同意理由："+text},
+                            data: {pickId: ${pickVo.id},recordType:2,extra:"理由："+text},
                             type: "POST",
                             success: function(data) {
                                 /*
