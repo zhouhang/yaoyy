@@ -7,9 +7,9 @@ package com.ms.dao.enums;
 public enum BizPickTrackingTypeEnum {
     PICK_APPLY(0,"提交采购单"),
     PICK_AGREE(1,"客服受理了采购单，等待客服为您报价"),
-    PICK_REFUSE(2,"拒绝受理选货单"),
+    PICK_REFUSE(2,"不能受理选货单"),
     PICK_RECORD(3,"跟踪记录"),
-    PICK_NOT_FINISH(4,"该采购单未完成"),
+    PICK_NOT_FINISH(4,"客服取消了该订单"),
     PICK_FINISH(5,"该采购单交易完成"),
     PICK_ORDER(6,"客服已为您报价，请尽快完成支付  若有疑问咨询电话："),
     PICK_RECEIPT(7,"您已确认收货，如货物有质量问题 药优优平台为您提供完善的售后保障 联系电话：0558-5120088"),
