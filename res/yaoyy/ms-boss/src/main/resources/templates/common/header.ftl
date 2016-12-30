@@ -1,6 +1,6 @@
 <div class="header">
     <div class="logo">
-        <a href="index.html">药优优</a>
+        <a href="/">药优优</a>
     </div>
     <div class="menu">
         <ul>

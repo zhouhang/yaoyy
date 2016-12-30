@@ -27,14 +27,14 @@ public class AccountBillController {
 
         PageInfo<AccountBillVo> billVoPageInfo=accountBillService.findByParams(accountBillVo,pageNum,pageSize);
         model.put("pageInfo",billVoPageInfo);
-        return "";
+        return "bill_list";
     }
 
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         AccountBillVo accountBillVo=accountBillService.findVoById(id);
-        model.put("accountBillVo",accountBillVo);
-        return "";
+        model.put("BillVo",accountBillVo);
+        return "bill_detail";
     }
 
 

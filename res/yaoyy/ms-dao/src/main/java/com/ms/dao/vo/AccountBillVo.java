@@ -1,5 +1,6 @@
 package com.ms.dao.vo;
 
+import com.ms.dao.enums.IdentityTypeEnum;
 import com.ms.dao.model.AccountBill;
 
 import java.util.Calendar;
@@ -16,6 +17,26 @@ public class AccountBillVo extends AccountBill{
     private String operateName;//操作人
 
     private String timeLeft;//账期剩余时间
+
+    private Integer userType;
+
+    private String userTypeName;
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
+
+    public String getUserTypeName() {
+        return IdentityTypeEnum.get(getUserType());
+    }
+
+    public void setUserTypeName(String userTypeName) {
+        this.userTypeName = userTypeName;
+    }
 
     public String getOperateName() {
         return operateName;
