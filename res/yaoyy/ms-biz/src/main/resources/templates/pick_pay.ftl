@@ -39,13 +39,13 @@
         </div>
         <div class="ft">
             <span>上传支付凭证：</span>
-                <span class="ui-file">
-                <#if url?exists>
-                    <img src="${url}" alt="" style="width: 60px; height: 60px;"><i class="del fa fa-del"></i>
-                <#else >
-                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
-                </#if>
-                </span>
+            <span class="ui-file thumb">
+            <#if url?exists>
+                <img src="${url}" alt=""><i class="del"></i>
+            <#else >
+                <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
+            </#if>
+            </span>
         </div>
         <form id="bankTransfer" method="post" action="/pick/bankTransfer">
         <input type="text" style="display: none" name="url" id="url" <#if url?exists>value="${url}" </#if> >
@@ -60,8 +60,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
-<script src="assets/js/layer.js"></script>
-<script src="assets/js/lrz.bundle.js"></script>
+<script src="assets/js/lrz.bundle.js?id=1"></script>
 <script>
     var _global = {
         fn: {
@@ -81,13 +80,20 @@
                 });
             },
             upfile: function() {
-                $('.ui-file').on('change', '.upfile', function(ev) {
-                    //图片lrz压缩上传
-                    var self = $(this);
-                    lrz($(this).get(0).files[0], {
+                var $el = $('.ui-file');
+                var reset = function() {
+                    $el.html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
+                    $("#url").val('');
+                }
+                var showLader = function() {
+                    $el.html('<i class="loader"></i>');
+                }
+                $el.on('change', '.upfile', function(ev) {
+                    showLader();
+                    lrz(this.files[0], {
                         width: 800
                     }).then(function (rst) {
-                        base64 = rst.base64;
+                        var base64 = rst.base64;
                         base64 = base64.substr(base64.indexOf(',') + 1);
                         $.ajax({
                             url: "/pick/upload",
@@ -95,15 +101,11 @@
                                 img: base64,
                                 fileName:rst.origin.name
                             },
-                            type: 'post',
+                            type: 'POST',
                             dataType: 'json',
-                            beforeSend: function (jqXHR, settings) {
-                                popover('图片正在上传，请稍后...');
-                            },
                             success: function (result) {
                                 if (result.status === 'success') {
-                                    popover('上传图片成功');
-                                    self.parent().append('<img src="' + result.url + '" alt=""><i class="del fa fa-del"></i>');
+                                    $el.html('<img src="' + result.url + '" alt="" data-src="' + result.url + '"><i class="del"></i>');
                                     $("#url").val(result.url);
                                 } else {
                                     popover('上传图片失败，请刷新页面重试！');
@@ -115,13 +117,13 @@
                         })
                     }).catch(function (err) {
                         // 处理失败会执行
+                        reset();
                     }).always(function () {
                         // 不管是成功失败，都会执行
                     });
                 });
-                $('.ui-file').on('click', '.del', function() {
-                    $(this).parent().html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
-                    $("#url").val(null);
+                $el.on('click', '.del', function() {
+                    reset();
                 })
             }
         }

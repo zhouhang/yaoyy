@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>银行转账-药优优</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/app.css?id=122">
 </head>
 <body class="ui-body-nofoot">
     <header class="ui-header">
@@ -44,10 +44,8 @@
             </div>
             <div class="ft">
                 <span>上传支付凭证：</span>
-                <span class="ui-file">
-                    <input type="file" accept="image/gif,image/jpeg,image/png" class="upfile" id="jUpload" />
-                    <img src="uploads/p6.jpg" alt="">
-                    <i class="del fa fa-del"></i>
+                <span class="ui-file thumb">
+                    <input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />
                 </span>
             </div>
             <div class="button">
@@ -58,19 +56,72 @@
     
 
     <script src="assets/js/zepto.min.js"></script>
-    <script src="assets/js/layer.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="assets/js/app.js?id=122"></script>
+    <script src="assets/js/lrz.bundle.js?=2"></script>
     <script>
 
     var _global = {
         fn: {
             init: function() {
                 this.submit();
+                this.upfile();
             },
             submit: function() {
                 var self = this;
-                $('#submit').on('click', function() {
-                    location.href = 'pay_result.html';
+                $('#bankTransfer').submit(function () {
+                    if ($("#url").val()== null || $("#url").val() == "") {
+                        popover('请上传转账凭证');
+                        return false;
+                    } else {
+                        return true;
+                    }
+                });
+            },
+            upfile: function() {
+                var $el = $('.ui-file');
+                var reset = function() {
+                    $el.html('<input type="file" name="file" accept="image/gif,image/jpeg,image/png" class="upfile" />');
+                    $("#url").val('');
+                }
+                var showLader = function() {
+                    $el.html('<i class="loader"></i>');
+                }
+                $el.on('change', '.upfile', function(ev) {
+                    showLader();
+                    lrz(this.files[0], {
+                        width: 800
+                    }).then(function (rst) {
+                        var base64 = rst.base64;
+                        base64 = base64.substr(base64.indexOf(',') + 1);
+                        $.ajax({
+                            url: 'upImg.php',
+                            data: {
+                                img: base64,
+                                fileName:rst.origin.name
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.status == '1') {
+                                    $el.html('<img src="' + result.url + '" alt="" data-src="' + result.url + '"><i class="del"></i>');
+                                    $("#url").val(result.url);
+                                } else {
+                                    popover('上传图片失败，请刷新页面重试！');
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                popover('网络连接超时，请您稍后重试！');
+                            }
+                        })
+                    }).catch(function (err) {
+                        // 处理失败会执行
+                        reset();
+                    }).always(function () {
+                        // 不管是成功失败，都会执行
+                    });
+                });
+                $el.on('click', '.del', function() {
+                    reset();
                 })
             }
         }
@@ -79,7 +130,6 @@
     $(function(){
         _global.fn.init();
     });
-
 </script>
 </body>
 </html>
