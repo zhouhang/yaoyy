@@ -42,17 +42,17 @@ public class SeqNoUtil {
 
     // 订单Code
     public static  String getOrderCode() {
-        return new Date().getTime() + getRandomNum(2);
+        return System.currentTimeMillis()/1000 + getRandomNum(2);
     }
 
     // 账单Code
     public static String getBillCode() {
-        return "Z" + new Date().getTime() + getRandomNum(2);
+        return "Z" + System.currentTimeMillis()/1000 + getRandomNum(2);
     }
 
     // 寄样单Code
     public static String getSampleCode() {
-        return "S" + new Date().getTime() + getRandomNum(2);
+        return "S" + System.currentTimeMillis()/1000 + getRandomNum(2);
     }
 
 
