@@ -414,16 +414,22 @@
 
 
             $('#configPay').on('click', function() {
-                $.ajax({
-                    url: _global.v.configPayUrl,
-                    data: {"payRecordId":$(this).attr("payReocrdId"),"orderId":${pickVo.id}},
-                    type: "POST",
-                    success: function(data) {
-                        if (data.status == "200") {
-                            window.location.reload();
+                layer.confirm('确认付款？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: _global.v.configPayUrl,
+                        data: {"payRecordId":$(this).attr("payReocrdId"),"orderId":${pickVo.id}},
+                        type: "POST",
+                        success: function(data) {
+                            if (data.status == "200") {
+                                window.location.reload();
+                            }
                         }
-                    }
-                })
+                    })
+                });
+
             })
 
             // 关闭弹层

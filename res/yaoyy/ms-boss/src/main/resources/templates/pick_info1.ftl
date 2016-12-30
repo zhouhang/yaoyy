@@ -479,24 +479,31 @@
                 },
                 // 同意受理
                 submit1: function() {
-                    $.ajax({
-                        url: _global.v.trackingCreateUrl,
-                        data: {pickId: ${pickVo.id},recordType:1},
-                        type: "POST",
-                        success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20'
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意受理该采购单</span></li>');
-                            $('.submit2').parent().remove();
-                            $('#traceForm').show();
-                            */
-                            window.location.reload();
 
-                        }
-                    })
+                    layer.confirm('确认受理？', {
+                        btn: ['确认','取消'] //按钮
+                    }, function(index){
+                        layer.close(index);
+                        $.ajax({
+                            url: _global.v.trackingCreateUrl,
+                            data: {pickId: ${pickVo.id},recordType:1},
+                            type: "POST",
+                            success: function(data) {
+                                /*
+                                data = {
+                                    operator: 'frank',
+                                    date: '2016年10月20日 15:20'
+                                }
+                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意受理该采购单</span></li>');
+                                $('.submit2').parent().remove();
+                                $('#traceForm').show();
+                                */
+                                window.location.reload();
+
+                            }
+                        })
+                    });
+
                 },
                 // 拒绝受理
                 submit2: function() {

@@ -327,30 +327,35 @@
 
                     // 确定
                     $body.on('click', '#calc .ubtn-blue', function() {
-                        var sum=$("#sum2").val();
-                        var amountsPayable=$("#sum3").text();
-                        var pickCommoditys=[];
-                        $ipts.each(function(i) {
-                            var pickCommodity={};
-                            pickCommodity.id=$(this).attr("pc");
-                            pickCommodity.num=this.value;
-                            var price=$(this).data('price');
-                            pickCommodity.total=pickCommodity.num * price;
-                            pickCommoditys.push(pickCommodity);
-                        })
-                        var pick=$("#orderForm").serializeObject();
-                        pick.sum=sum;
-                        pick.amountsPayable=amountsPayable;
-                        pick.pickCommodityVoList=pickCommoditys;
-                        $.ajax({
-                            url: _global.v.createOrder,
-                            data: JSON.stringify(pick),
-                            type: "POST",
-                            contentType : 'application/json',
-                            success: function(data) {
-                                window.location.href = '/pick/detail/'+${pickVo.id};
-                            }
-                        })
+                        layer.confirm('确认提交订单？', {
+                            btn: ['确认','取消'] //按钮
+                        }, function(index){
+                            layer.close(index);
+                            var sum=$("#sum2").val();
+                            var amountsPayable=$("#sum3").text();
+                            var pickCommoditys=[];
+                            $ipts.each(function(i) {
+                                var pickCommodity={};
+                                pickCommodity.id=$(this).attr("pc");
+                                pickCommodity.num=this.value;
+                                var price=$(this).data('price');
+                                pickCommodity.total=pickCommodity.num * price;
+                                pickCommoditys.push(pickCommodity);
+                            })
+                            var pick=$("#orderForm").serializeObject();
+                            pick.sum=sum;
+                            pick.amountsPayable=amountsPayable;
+                            pick.pickCommodityVoList=pickCommoditys;
+                            $.ajax({
+                                url: _global.v.createOrder,
+                                data: JSON.stringify(pick),
+                                type: "POST",
+                                contentType : 'application/json',
+                                success: function(data) {
+                                    window.location.href = '/pick/detail/'+${pickVo.id};
+                                }
+                            })
+                        });
                     })
                     $("#saveUser").on('click', function() {
                         var url = _global.v.userUpdateUrl;

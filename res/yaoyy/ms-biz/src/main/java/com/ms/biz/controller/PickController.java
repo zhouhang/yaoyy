@@ -107,7 +107,7 @@ public class PickController extends BaseController{
     public String detail(@PathVariable("id") Integer id, ModelMap model){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo pickVo=pickService.findVoById(id);
-        if (!(pickVo!= null && pickVo.getUserId() == user.getId())){
+        if (!(pickVo!= null && pickVo.getUserId().equals(user.getId()))){
             throw new ControllerException("用户无权限访问此页面.");
         }
         List<PickTrackingVo> pickTrackingVos=pickTrackingService.findByPickId(id);
@@ -235,7 +235,7 @@ public class PickController extends BaseController{
         // 根据订单Id 获取转账金额.同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Pick pick = pickService.findById(orderId);
-        if (!(pick!= null && pick.getUserId() == user.getId())){
+        if (!(pick!= null && pick.getUserId().equals(user.getId()))){
             throw new ControllerException("用户无权限访问此付款页面.");
         }
         PayRecordVo param=new PayRecordVo();
@@ -277,7 +277,7 @@ public class PickController extends BaseController{
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Pick pick = pickService.findById(record.getOrderId());
-        if (!(pick!= null && pick.getUserId() == user.getId())){
+        if (!(pick!= null && pick.getUserId().equals(user.getId()))){
             throw new ControllerException("用户无权限访问此付款页面.");
         }
 
