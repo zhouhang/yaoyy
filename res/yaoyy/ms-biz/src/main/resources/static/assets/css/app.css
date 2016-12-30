@@ -503,6 +503,7 @@ em,i{font-style:normal;}
 .pay .row{position:relative;padding:3px 0;}
 .pay .row .txt{position:absolute;top:3px;left:0;width:60px;text-align:right;color:#aaa;}
 .pay .row .val{min-height:16px;padding-left:60px;}
+.pay .button{margin:30px 0;}
 .pay .ft{padding:16px 0;font-size:1.4rem;}
 .pay .ft span{margin-right:10px;vertical-align:top;}
 
