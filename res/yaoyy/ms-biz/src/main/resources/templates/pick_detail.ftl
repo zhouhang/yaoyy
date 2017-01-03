@@ -143,12 +143,35 @@
                 <dt>总计：</dt>
                 <dd><em>${pickVo.amountsPayable?default(0)}</em>元</dd>
             </dl>
+            <#if pickVo.settleType==1>
+            <dl class="f18">
+                <dt>支付保证金：</dt>
+                <dd><em>${pickVo.deposit?default(0)}</em>元</dd>
+            </dl>
+            <dl class="f18">
+                <dt>账期：</dt>
+                <dd><em>${pickVo.billTime?default(0)}</em>天</dd>
+            </dl>
+            <dl class="f18">
+                <dt>剩余金额：</dt>
+                <dd><em>${pickVo.amountsPayable-pickVo.deposit}</em>元</dd>
+            </dl>
+            <#elseif pickVo.settleType==2>
+                <dl class="f18">
+                    <dt>账期：</dt>
+                    <dd><em>${pickVo.billTime?default(0)}</em>天</dd>
+                </dl>
+            </#if>
         </div>
     </#if>
 
         <div class="button">
         <#if pickVo.status == 5>
+            <#if  pickVo.settleType!=2>
             <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
+            <#else>
+            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">确认账单无误</button>
+            </#if>
         </#if>
         <#if [0,1,5]?seq_contains(pickVo.status)>
             <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
