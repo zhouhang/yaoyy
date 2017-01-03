@@ -168,7 +168,12 @@
                 <div class="hr"></div>
                 <div class="item f16">
                     <div class="txt">结算类型：</div>
-                    <div class="val">${pickVo.settleTypeName!}<!-- <a href="#" class="c-blue">跳转到账单页</a> --></div>
+                    <div class="val">${pickVo.settleTypeName!}
+                        <#if accountBillVo?exists>
+                        <a href="/bill/detail/${accountBillVo.id?c}" class="c-blue">跳转到账单页
+                        </#if>
+                        </a>
+                    </div>
                 </div>
                 <#if pickVo.settleType?exists&&pickVo.settleType==1>
                 <div class="item">

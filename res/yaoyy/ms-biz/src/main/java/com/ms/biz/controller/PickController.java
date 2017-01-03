@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.BizPickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
@@ -244,7 +245,13 @@ public class PickController extends BaseController{
         param.setCodeType(0);
         param.setOrderId(orderId);
         PayRecordVo vo = payRecordService.findByOrderId(param);
-        model.put("total",pick.getAmountsPayable());
+        if(pick.getSettleType()!= SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+            model.put("total",pick.getAmountsPayable());
+        }
+        else{
+            model.put("total",pick.getDeposit());
+        }
+
         model.put("orderId",orderId);
         if (vo != null) {
             model.put("id", vo.getId());

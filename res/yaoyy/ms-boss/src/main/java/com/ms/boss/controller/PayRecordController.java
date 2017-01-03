@@ -3,11 +3,16 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
+import com.ms.dao.model.AccountBill;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.PayRecord;
+import com.ms.dao.vo.AccountBillVo;
 import com.ms.dao.vo.PayRecordVo;
 import com.ms.dao.vo.PickTrackingVo;
+import com.ms.dao.vo.PickVo;
+import com.ms.service.AccountBillService;
 import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
 import com.ms.service.PickTrackingService;
@@ -45,7 +50,10 @@ public class PayRecordController extends BaseController{
     private PickTrackingService pickTrackingService;
 
     @Autowired
-    HttpSession httpSession;
+    private HttpSession httpSession;
+
+    @Autowired
+    private AccountBillService accountBillService;
 
 
     /**
@@ -91,6 +99,18 @@ public class PayRecordController extends BaseController{
         payRecord.setMemberId(mem.getId());
         payRecord.setOperateTime(new Date());
         payRecordService.update(payRecord);
+        //如果存在账期就为这个用户生成账单
+        PickVo pick=pickService.findVoById(orderId);
+        if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+            AccountBillVo accountBillVo=new AccountBillVo();
+            accountBillVo.setMemberId(mem.getId());
+            accountBillVo.setOrderId(pick.getId());
+            accountBillVo.setUserId(pick.getUserId());
+            accountBillVo.setBillTime(pick.getBillTime());
+            accountBillVo.setAmountsPayable(pick.getAmountsPayable());
+            accountBillService.saveAccountBill(accountBillVo);
+        }
+
 
         //确认收款之后记录一条记录用户付全款的跟踪记录
 
@@ -99,6 +119,12 @@ public class PayRecordController extends BaseController{
         pickTrackingVo.setOperator(mem.getId());
         pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
         pickTrackingVo.setName(mem.getName());
+        if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+            pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYPOSIT.getValue());
+        }
+        else{
+            pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
+        }
         pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         pickTrackingService.save(pickTrackingVo);
 

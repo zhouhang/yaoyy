@@ -157,5 +157,16 @@
         where ab.id = #{id}
     </select>
 
+    <select id="findVoByOrderId" parameterType="java.lang.Integer" resultMap="AccountBillResultMapVo">
+        select
+        <include refid="Left_Join_List" />
+        from account_bill ab
+        LEFT JOIN user_detail ud on ud.user_id=ab.user_id
+        LEFT JOIN pick p on p.id=ab.order_id
+        LEFT JOIN member m on m.id=ab.member_id
+        where ab.order_id = #{orderId}
+    </select>
+
+
 
 </mapper>

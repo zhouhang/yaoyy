@@ -9,4 +9,8 @@ public interface AccountBillService extends ICommonService<AccountBill>{
     public PageInfo<AccountBillVo> findByParams(AccountBillVo accountBillVo,Integer pageNum,Integer pageSize);
 
     public AccountBillVo findVoById(Integer id);
+
+    public void saveAccountBill(AccountBillVo accountBillVo);
+
+    public AccountBillVo findVoByOrderId(Integer orderId);
 }

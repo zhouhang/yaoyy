@@ -3,6 +3,7 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
+import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
@@ -60,6 +61,9 @@ public class PickController extends BaseController{
     @Autowired
     private LogisticalService logisticalService;
 
+    @Autowired
+    private AccountBillService accountBillService;
+
     /**
      * 选货单列表
      * @param pickVo
@@ -116,6 +120,10 @@ public class PickController extends BaseController{
             }
             else{
                 param.setStatus(1);
+            }
+            if(pickVo.getSettleType()!= SettleTypeEnum.SETTLE_ALL.getType()){
+                AccountBillVo accountBillVo=accountBillService.findVoByOrderId(pickVo.getId());
+                model.put("accountBillVo",accountBillVo);
             }
             PayRecordVo payRecord=payRecordService.findByOrderId(param);
             OrderInvoiceVo orderInvoiceVo=orderInvoiceService.findByOrderId(pickVo.getId());

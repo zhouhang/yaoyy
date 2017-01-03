@@ -9,8 +9,13 @@ import com.ms.dao.vo.AccountBillVo;
 import com.ms.dao.vo.PickVo;
 import com.ms.service.AccountBillService;
 import com.ms.service.PickService;
+import com.ms.tools.utils.SeqNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,6 +46,25 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 			accountBillVo.setPickVo(pickVo);
 		}
 		return accountBillVo;
+	}
+
+	@Override
+	@Transactional
+	public void saveAccountBill(AccountBillVo accountBillVo) {
+		accountBillVo.setStatus(0);
+		accountBillVo.setAlreadyPayable(0.0f);
+		accountBillVo.setCreateDate(new Date());
+		accountBillVo.setCode(SeqNoUtil.getBillCode());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, accountBillVo.getBillTime());
+		accountBillVo.setRepayTime(calendar.getTime());
+		accountBillDao.create(accountBillVo);
+	}
+
+	@Override
+	public AccountBillVo findVoByOrderId(Integer orderId) {
+		return accountBillDao.findVoByOrderId(orderId);
 	}
 
 
