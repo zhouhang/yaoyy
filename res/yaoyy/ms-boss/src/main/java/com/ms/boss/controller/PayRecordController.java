@@ -126,7 +126,6 @@ public class PayRecordController extends BaseController{
         else{
             pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         }
-        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         pickTrackingService.save(pickTrackingVo);
 
         return Result.success().data("确认收款");
