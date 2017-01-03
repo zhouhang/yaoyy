@@ -170,3 +170,12 @@ CHANGE COLUMN `taxation` `taxation` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '税费
 CHANGE COLUMN `deposit` `deposit` DECIMAL(11,2) NULL DEFAULT 0 COMMENT '保证金' ,
 CHANGE COLUMN `amounts_payable` `amounts_payable` DECIMAL(10,2) NULL DEFAULT 0 COMMENT '实际应付' ,
 CHANGE COLUMN `sum` `sum` DECIMAL(10,2) NULL DEFAULT 0 COMMENT '商品合计' ;
+
+#新增加的
+
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('37', '账单列表', 'button', '', '34', 'bill:list', '2017-01-03 09:52:46');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('38', '账单详情', 'button', '', '34', 'bill:detail', '2017-01-03 09:53:20');
+
+
+
+

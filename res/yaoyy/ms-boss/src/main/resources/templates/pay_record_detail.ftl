@@ -76,8 +76,8 @@
             <div class="val">${payRecordVo.payBankCard!}</div>
         </div>
         <div class="item">
-            <#list payRecordVo.payDocuments as payDocument>
             <div class="txt">支付凭证：</div>
+            <#list payRecordVo.payDocuments as payDocument>
             <div class="val thumb"><img width="160" height="80" src="${payDocument.path}" alt=""></div>
             </#list>
         </div>

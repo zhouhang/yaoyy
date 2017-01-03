@@ -123,10 +123,8 @@
                     <div class="txt">付款方式：</div>
                     <div class="cnt cbxs2">
                         <label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>
-                        <!--
                         <label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>
                         <label><input type="radio" name="settleType" class="cbx" value="2">赊账</label>
-                        -->
                     </div>
                 </div>
                 <div class="group">

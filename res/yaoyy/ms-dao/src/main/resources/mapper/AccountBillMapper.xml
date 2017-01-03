@@ -22,6 +22,7 @@
             <result column="order_id"  property="orderId" />
             <result column="order_code"  property="orderCode" />
             <result column="nickname"  property="nickname" />
+            <result column="user_type"  property="userType" />
             <result column="name"  property="name" />
             <result column="member_name"  property="operateName" />
             <result column="user_id"  property="userId" />
@@ -42,7 +43,7 @@
     <sql id="Left_Join_List">
         ab.id as id,ab.code as code,ab.order_id as order_id,ab.user_id as user_id ,ab.bill_time as bill_time,ab.amounts_payable as amounts_payable,ab.already_payable as already_payable ,
         ab.status as status ,ab.repay_time as repay_time,ab.member_id as member_id,ab.create_date as create_date,p.code as orderCode,
-        ud.nickname as nickname,ud.name as name,m.name as member_name
+        ud.nickname as nickname,ud.name as name,ud.type as user_type,m.name as member_name
     </sql>
 
 
