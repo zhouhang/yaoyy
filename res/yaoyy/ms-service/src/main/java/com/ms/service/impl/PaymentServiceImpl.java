@@ -26,6 +26,11 @@ public class PaymentServiceImpl  extends AbsCommonService<Payment> implements Pa
         return page;
 	}
 
+	@Override
+	public PaymentVo getByOutTradeNo(String outTradeNo) {
+		return paymentDao.getByOutTradeNo(outTradeNo);
+	}
+
 
 	@Override
 	public ICommonDao<Payment> getDao() {

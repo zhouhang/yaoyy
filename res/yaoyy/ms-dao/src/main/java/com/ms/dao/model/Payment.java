@@ -19,6 +19,15 @@ public class Payment  implements Serializable {
 	//支付状态
 	private Integer status;
 	
+	//0,账单支付1，订单支付
+	private Integer type;
+	
+	//订单id
+	private Integer orderId;
+	
+	//账单id
+	private Integer billId;
+	
 	//支付金额
 	private Float money;
 	
@@ -74,6 +83,30 @@ public class Payment  implements Serializable {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	
+	public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+	
+	public Integer getBillId() {
+		return billId;
+	}
+
+	public void setBillId(Integer billId) {
+		this.billId = billId;
 	}
 	
 	public Float getMoney() {

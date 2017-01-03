@@ -10,4 +10,6 @@ public interface PaymentDao extends ICommonDao<Payment>{
 
     public List<PaymentVo> findByParams(PaymentVo paymentVo);
 
+    public PaymentVo getByOutTradeNo(String outTradeNo);
+
 }
