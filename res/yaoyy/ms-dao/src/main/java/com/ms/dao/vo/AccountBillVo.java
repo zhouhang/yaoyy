@@ -22,6 +22,16 @@ public class AccountBillVo extends AccountBill{
 
     private String userTypeName;
 
+    private PickVo pickVo;
+
+    public PickVo getPickVo() {
+        return pickVo;
+    }
+
+    public void setPickVo(PickVo pickVo) {
+        this.pickVo = pickVo;
+    }
+
     public Integer getUserType() {
         return userType;
     }

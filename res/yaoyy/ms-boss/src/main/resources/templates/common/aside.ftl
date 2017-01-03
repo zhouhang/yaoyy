@@ -167,11 +167,14 @@
                 <i class="fa fa-angle-down arrow"></i>
             </a>
         </dt>
-    <@shiro.hasPermission name="payRecord:list">
-        <dd>
-            <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
-        </dd>
-    </@shiro.hasPermission>
+         <dd>
+        <@shiro.hasPermission name="payRecord:list">
+                <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
+        </@shiro.hasPermission>
+             <@shiro.hasPermission name="bill:list">
+                 <a href="/bill/list"><i class="fa fa-circle-o"></i>账单列表</a>
+             </@shiro.hasPermission>
+         </dd>
     </dl>
 </@shiro.hasPermission>
 </div>

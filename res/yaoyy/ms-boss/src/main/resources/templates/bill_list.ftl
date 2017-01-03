@@ -56,7 +56,7 @@
                     <td>${billVo.nickname}</td>
                     <td>${billVo.name}</td>
                     <td>${billVo.amountsPayable}元</td>
-                    <td>${billVo.timeLeft}天</td>
+                    <td>${billVo.timeLeft}</td>
                     <td>${billVo.operateName}</td>
                     <td>
                            <#if billVo.status==0>

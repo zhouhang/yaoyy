@@ -6,7 +6,9 @@ import com.ms.dao.ICommonDao;
 import com.ms.dao.AccountBillDao;
 import com.ms.dao.model.AccountBill;
 import com.ms.dao.vo.AccountBillVo;
+import com.ms.dao.vo.PickVo;
 import com.ms.service.AccountBillService;
+import com.ms.service.PickService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,6 +18,9 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 
 	@Autowired
 	private AccountBillDao accountBillDao;
+
+	@Autowired
+	private PickService  pickService;
 
 
 	@Override
@@ -30,8 +35,12 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 
 	@Override
 	public AccountBillVo findVoById(Integer id) {
-		accountBillDao.findVoById(id);
-		return null;
+		AccountBillVo accountBillVo=accountBillDao.findVoById(id);
+		if(accountBillVo!=null){
+			PickVo pickVo=pickService.findVoById(accountBillVo.getOrderId());
+			accountBillVo.setPickVo(pickVo);
+		}
+		return accountBillVo;
 	}
 
 

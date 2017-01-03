@@ -2,7 +2,11 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.vo.AccountBillVo;
+import com.ms.dao.vo.PayRecordVo;
+import com.ms.dao.vo.UserDetailVo;
 import com.ms.service.AccountBillService;
+import com.ms.service.PayRecordService;
+import com.ms.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +26,12 @@ public class AccountBillController {
     @Autowired
     private AccountBillService accountBillService;
 
+    @Autowired
+    private UserDetailService userDetailService;
+
+    @Autowired
+    private PayRecordService payRecordService;
+
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(AccountBillVo accountBillVo,Integer pageNum, Integer pageSize, ModelMap model){
 
@@ -33,7 +43,15 @@ public class AccountBillController {
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         AccountBillVo accountBillVo=accountBillService.findVoById(id);
-        model.put("BillVo",accountBillVo);
+        if(accountBillVo==null){
+            return "redirect:error/404";
+        }
+        UserDetailVo userDetailVo=userDetailService.findByUserId(accountBillVo.getUserId());
+        PayRecordVo payRecordVo=payRecordService.findByBillId(id);
+
+        model.put("billVo",accountBillVo);
+        model.put("userDetail",userDetailVo);
+        model.put("payRecord",payRecordVo);
         return "bill_detail";
     }
 

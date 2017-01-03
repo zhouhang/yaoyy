@@ -68,6 +68,22 @@ public class PayRecordServiceImpl  extends AbsCommonService<PayRecord> implement
 		return null;
 	}
 
+	@Override
+	public PayRecordVo findByBillId(Integer billId) {
+		PayRecordVo payRecordVo =new PayRecordVo();
+		payRecordVo.setAccountBillId(billId);
+		payRecordVo.setCodeType(1);
+		List<PayRecordVo>  list = payRecordDao.findByParams(payRecordVo);
+		if(list.size()!=0){
+			PayRecordVo payRecord=list.get(0);
+			PayDocumentVo payDocument =new PayDocumentVo();
+			payDocument.setPayRecordId(payRecord.getId());
+			payRecord.setPayDocuments(payDocumentService.findByParams(payDocument));
+			return payRecord;
+		}
+		return null;
+	}
+
 
 	@Override
 	@Transactional
