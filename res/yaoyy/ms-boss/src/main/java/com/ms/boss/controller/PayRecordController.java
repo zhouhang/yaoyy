@@ -107,6 +107,7 @@ public class PayRecordController extends BaseController{
             accountBillVo.setOrderId(pick.getId());
             accountBillVo.setUserId(pick.getUserId());
             accountBillVo.setBillTime(pick.getBillTime());
+            accountBillVo.setAlreadyPayable(pick.getDeposit());
             accountBillVo.setAmountsPayable(pick.getAmountsPayable());
             accountBillService.saveAccountBill(accountBillVo);
         }

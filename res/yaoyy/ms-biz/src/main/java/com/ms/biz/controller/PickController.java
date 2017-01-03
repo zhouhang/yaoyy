@@ -1,10 +1,7 @@
 package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.enums.BizPickEnum;
-import com.ms.dao.enums.PickTrackingTypeEnum;
-import com.ms.dao.enums.SettleTypeEnum;
-import com.ms.dao.enums.TrackingTypeEnum;
+import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
@@ -24,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,6 +71,9 @@ public class PickController extends BaseController{
 
     @Autowired
     LogisticalService logisticalService;
+
+    @Autowired
+    AccountBillService accountBillService;
 
     /**
      * 选货单列表
@@ -349,5 +350,63 @@ public class PickController extends BaseController{
     public String paySuccess(){
         return "";
     }
+
+    /**
+     * 确认成功页面
+     * @return
+     */
+    @RequestMapping(value = "configSuccess", method = RequestMethod.GET)
+    public String configSuccess(Integer orderId, ModelMap model){
+        model.put("orderId",orderId);
+        return "config_success";
+    }
+
+
+
+    /**
+     * 确认账单
+     * @param pickVo
+     * @return
+     */
+    @RequestMapping(value="configBill",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @Transactional
+    public Result  configBill(@RequestBody PickVo pickVo){
+
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        pickVo.setUserId(user.getId());
+        pickService.saveOrder(pickVo);
+        //为用户生成账期
+        PickVo pick=pickService.findVoById(pickVo.getId());
+        AccountBillVo accountBillVo=new AccountBillVo();
+        accountBillVo.setMemberId(pick.getMemberId());
+        accountBillVo.setOrderId(pick.getId());
+        accountBillVo.setUserId(pick.getUserId());
+        accountBillVo.setBillTime(pick.getBillTime());
+        accountBillVo.setAmountsPayable(pick.getAmountsPayable());
+        accountBillVo.setAlreadyPayable(0.0f);
+        accountBillService.saveAccountBill(accountBillVo);
+        //更新为状态待发货状态
+        pickService.changeOrderStatus(pick.getId(), PickEnum.PICK_DELIVERY.getValue());
+
+        //增加跟踪记录
+        PickTrackingVo pickTrackingVo=new PickTrackingVo();
+        pickTrackingVo.setPickId(pick.getId());
+        pickTrackingVo.setOperator(user.getId());
+        pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+        pickTrackingVo.setName(pick.getNickname());
+        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_CONFIRM.getValue());
+        if(pickTrackingVo.getExtra()==null){
+            pickTrackingVo.setExtra("");
+        }
+        pickTrackingVo.setCreateTime(new Date());
+        pickTrackingVo.setUpdateTime(new Date());
+
+        pickTrackingService.create(pickTrackingVo);
+
+        //跳转确认成功页面
+        return  Result.success().data("/pick/configSuccess?orderId="+pickVo.getId());
+    }
+
 
 }

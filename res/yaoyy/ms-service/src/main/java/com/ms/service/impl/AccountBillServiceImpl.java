@@ -52,7 +52,6 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 	@Transactional
 	public void saveAccountBill(AccountBillVo accountBillVo) {
 		accountBillVo.setStatus(0);
-		accountBillVo.setAlreadyPayable(0.0f);
 		accountBillVo.setCreateDate(new Date());
 		accountBillVo.setCode(SeqNoUtil.getBillCode());
 		Calendar calendar = Calendar.getInstance();

@@ -19,18 +19,22 @@
                 <li>订单状态：${pickVo.bizStatusText}</li>
                 <li>订单号：${pickVo.code}</li>
                 <li>申请时间：${(pickVo.createTime?datetime)!}</li>
-                <#if pickVo.status = 5>
+                <#if pickVo.status = 5&&pickVo.settleType!=2>
                 <li><strong>请在3天内完成支付，否则订单会自动被取消。</strong></li>
                 </#if>
             </ul>
             <ul class="step">
-                <li <#if [0,1,2,4,5]?seq_contains(pickVo.status)>class="active"</#if> >
+                <li <#if [0,1,2,4,5,8]?seq_contains(pickVo.status)>class="active"</#if> >
                     <i></i>
                     <span>提交订单</span>
                 </li>
                 <li <#if 6= pickVo.status >class="active"</#if>>
                     <i></i>
-                    <span>支付完成</span>
+                    <#if pickVo.settleType!=2>
+                        <span>支付完成</span>
+                    <#else>
+                        <span>确认账单</span>
+                    </#if>
                 </li>
                 <li <#if 7= pickVo.status >class="active"</#if>>
                     <i></i>
@@ -81,7 +85,7 @@
             <div id="address_title" class="title">请先添加收货地址</div>
             <div id="address_detail" class="address">+</div>
             </#if>
-            <#if pickVo.status == 5>
+            <#if pickVo.status == 5 ||pickVo.status== 8>
             <a href="/address/select?orderId=${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
             </#if>
         </div>
@@ -89,13 +93,13 @@
         <div class="item">
             <div class="more">
                 <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content}<#else >不开发票</#if></span></div>
-        <#if pickVo.status == 5>
+        <#if pickVo.status == 5||pickVo.status== 8>
                 <a href="/pick/invoice/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
             </div>
             <div class="more hr">
                 <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.remark?exists>${pickVo.remark}<#else >无</#if></span></div>
-        <#if pickVo.status == 5>
+        <#if pickVo.status == 5 ||pickVo.status== 8>
                 <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
         </#if>
             </div>
@@ -166,14 +170,16 @@
     </#if>
 
         <div class="button">
+        <#if  pickVo.settleType!=2>
         <#if pickVo.status == 5>
-            <#if  pickVo.settleType!=2>
             <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
-            <#else>
-            <button type="button" id="bankTransfer" class="ubtn ubtn-primary">确认账单无误</button>
-            </#if>
         </#if>
-        <#if [0,1,5]?seq_contains(pickVo.status)>
+          <#else>
+              <#if pickVo.status == 8>
+              <button type="button" id="configBill" class="ubtn ubtn-primary">确认账单无误</button>
+              </#if>
+        </#if>
+        <#if [0,1,5,8]?seq_contains(pickVo.status)>
             <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
         </#if>
         <#if pickVo.status == 7>
@@ -194,11 +200,12 @@
         v:{
             saveUrl:"/pick/save",
             cancelUrl:"/pick/cancel",
-            receiptUrl:"/pick/receipt"
+            receiptUrl:"/pick/receipt",
+            configUrl:"/pick/configBill"
         },
         fn: {
             init: function() {
-            <#if [1,5]?seq_contains(pickVo.status)>
+            <#if [1,5,8]?seq_contains(pickVo.status)>
                 <#if orderInvoiceSession?exists>
                     if (sessionStorage.getItem("pickInvoice${pickVo.id}")== undefined) {
                         sessionStorage.setItem("pickInvoice${pickVo.id}", '${orderInvoiceSession}');
@@ -253,7 +260,10 @@
             },
             bindEven: function () {
                 $("#bankTransfer").click(function(){
-                    _global.fn.save();
+                    _global.fn.save(1);
+                })
+                $("#configBill").click(function(){
+                    _global.fn.save(2);
                 })
 
                 $("#cancel").click(function () {
@@ -295,7 +305,7 @@
                 });
 
             },
-            save:function(){
+            save:function(btnType){
                 if (!this.checkMsg()) return;
                 var  pick = {
                     id:${pickVo.id},
@@ -316,8 +326,15 @@
                 }
 
                 // 判断地址不能为空 防止重复提交功能
+                var url="";
+                if(btnType==1){
+                    url=_global.v.saveUrl+"?type=1";
+                }
+                else{
+                    url=_global.v.configUrl;
+                }
                 $.ajax({
-                    url: _global.v.saveUrl+"?type=1",
+                    url: url,
                     data: JSON.stringify(pick),
                     type: "POST",
                     contentType : 'application/json',
