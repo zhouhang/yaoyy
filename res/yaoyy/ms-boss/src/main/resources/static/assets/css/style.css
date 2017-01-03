@@ -114,7 +114,7 @@ a.ubtn{height:28px;}
 
 /* aside */
 .aside{position:absolute;top:0;left:0;z-index:1;width:230px;height:100%;background:#222d32;}
-.aside:before{content:"";display:block;height:70px;}
+.aside:before{content:"";display:block;height:60px;}
 .aside dt{position:relative;line-height:44px;border-left:2px solid #222d32;}
 .aside dd{display:none;line-height:30px;padding:6px 0;background:#2c3b41;font-size:12px;}
 .aside dd a{padding-left:30px;}
