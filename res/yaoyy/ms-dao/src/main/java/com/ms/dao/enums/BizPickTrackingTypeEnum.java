@@ -14,9 +14,9 @@ public enum BizPickTrackingTypeEnum {
     PICK_ORDER(6,"客服已为您报价，请尽快完成支付  若有疑问咨询电话："),
     PICK_RECEIPT(7,"您已确认收货，如货物有质量问题 药优优平台为您提供完善的售后保障 联系电话：0558-5120088"),
     PICK_PAYALL(8,"您的付款确认无误，我们工作人员正在为您做发货准备"),
-    PICK_PAYPOSIT(9,"支付了保证金"),
+    PICK_PAYPOSIT(9,"您已支付了保证金，我们工作人员正在为您做发货准备"),
     PICK_ORDER_DELIVERIED(11,"我们已经为您发货，在收货后请点击确认收货按钮确认收货"),
-    PICK_CONFIRM(12,"确认了订单"),
+    PICK_CONFIRM(12,"您已确认订单，我们工作人员正在为您做发货准备"),
     PICK_UPDATE(13,"修改了订单"),
     PICK_SUBMIT_PAY(14,"您已经提交了支付信息，客服审核后会联系您并为您发货"),
     PICK_CANCEL(15,"订单已取消");

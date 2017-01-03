@@ -175,12 +175,12 @@
                         </a>
                     </div>
                 </div>
-                <#if pickVo.settleType?exists&&pickVo.settleType==1>
+                <#if pickVo.settleType?exists&&pickVo.settleType==2>
                 <div class="item">
                     <div class="txt">账期：</div>
                     <div class="val">${pickVo.billTime!}天</div>
                 </div>
-                <#elseif pickVo.settleType?exists&&pickVo.settleType==2>
+                <#elseif pickVo.settleType?exists&&pickVo.settleType==1>
                     <div class="item">
                         <div class="txt">账期：</div>
                         <div class="val">${pickVo.billTime!}天</div>

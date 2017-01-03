@@ -107,6 +107,7 @@ public class PayRecordController extends BaseController{
             accountBillVo.setOrderId(pick.getId());
             accountBillVo.setUserId(pick.getUserId());
             accountBillVo.setBillTime(pick.getBillTime());
+            accountBillVo.setAlreadyPayable(pick.getDeposit());
             accountBillVo.setAmountsPayable(pick.getAmountsPayable());
             accountBillService.saveAccountBill(accountBillVo);
         }
@@ -125,7 +126,6 @@ public class PayRecordController extends BaseController{
         else{
             pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         }
-        pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         pickTrackingService.save(pickTrackingVo);
 
         return Result.success().data("确认收款");

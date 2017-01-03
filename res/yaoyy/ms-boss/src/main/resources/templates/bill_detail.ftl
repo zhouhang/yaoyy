@@ -89,64 +89,73 @@
         <div class="hd">账单信息</div>
         <div class="item">
             <div class="txt">申请时间：</div>
-            <div class="val">2016年12月24日</div>
+            <div class="val">${(billVo.createDate?datetime)!}</div>
         </div>
         <div class="item">
             <div class="txt">操作人：</div>
-            <div class="val">王彬</div>
+            <div class="val">${billVo.operateName!}</div>
         </div>
         <div class="item">
             <div class="txt">状态：</div>
-            <div class="val">未结清</div>
+            <div class="val">
+            <#if billVo.status==0>
+                未结清
+            <#else>
+                已结清
+            </#if>
+            </div>
         </div>
         <div class="item">
             <div class="txt">商品总价：</div>
-            <div class="val"><em>350.00元</em></div>
+            <div class="val"><em>${billVo.pickVo.sum}元</em></div>
         </div>
         <div class="item">
             <div class="txt">运费：</div>
-            <div class="val"><em>50.00元</em></div>
+            <div class="val"><em>${billVo.pickVo.shippingCosts!}元</em></div>
         </div>
         <div class="item">
             <div class="txt">包装费：</div>
-            <div class="val"><em>0元</em></div>
+            <div class="val"><em>${billVo.pickVo.bagging!}元</em></div>
         </div>
         <div class="item">
             <div class="txt">检测费：</div>
-            <div class="val"><em>0元</em></div>
+            <div class="val"><em>${billVo.pickVo.checking!}元</em></div>
         </div>
         <div class="item">
             <div class="txt">税款：</div>
-            <div class="val"><em>0元</em></div>
+            <div class="val"><em>${billVo.pickVo.taxation!}元</em></div>
         </div>
         <div class="item f16">
             <div class="txt">总计：</div>
-            <div class="val"><em>400元</em></div>
+            <div class="val"><em>${billVo.pickVo.amountsPayable!}元</em></div>
         </div>
         <div class="hr"></div>
         <div class="item f16">
             <div class="txt">账单类型：</div>
-            <div class="val">保证金</div>
+            <div class="val">${billVo.pickVo.settleTypeName!}</div>
         </div>
         <div class="item">
             <div class="txt">账期：</div>
-            <div class="val">30天</div>
+            <div class="val">${billVo.pickVo.billTime!}天</div>
         </div>
-        <div class="item">
-            <div class="txt">保证金金额：</div>
-            <div class="val"><em>100.00元</em></div>
-        </div>
+       <#if billVo.pickVo.settleType==1>
+
+           <div class="item">
+               <div class="txt">保证金金额：</div>
+               <div class="val"><em>${billVo.pickVo.deposit!}元</em></div>
+           </div>
+       </#if>
         <div class="item">
             <div class="txt">已付款：</div>
-            <div class="val"><em>100.00元</em></div>
+            <div class="val"><em>${billVo.alreadyPayable!}元</em></div>
         </div>
         <div class="item">
             <div class="txt">欠款：</div>
-            <div class="val"><em>300.00元</em></div>
+            <div class="val"><em>${billVo.amountsPayable-billVo.alreadyPayable}元</em></div>
         </div>
         <div class="item f16">
             <div class="txt">剩余帐期：</div>
-            <div class="val"><em>20天</em></div>
+            <div class="val"><em>${billVo.timeLeft!}</em></div>
         </div>
     </div>
 
