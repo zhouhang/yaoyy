@@ -292,7 +292,7 @@ public class PickController extends BaseController{
 
         // 不处于待支付z状态的订单也无法访问此页面 跑出404 页面 TODO:
 
-       PayDocumentVo document = new PayDocumentVo();
+        PayDocumentVo document = new PayDocumentVo();
         document.setPath(url);
         List<PayDocumentVo> list = new ArrayList<>();
         list.add(document);
@@ -304,7 +304,7 @@ public class PickController extends BaseController{
         record.setPayType(0);
         // 设置默认信息
         record.setPayAccount("亳州市东方康元中药材信息咨询有限公司");
-        record.setPayBankCard("1318040809266666630");
+        record.setPayBankCard("1318 0404 0926 6666 630");
         record.setPayBank("中国工商银行亳州谯陵分理处");
         // 判断之前没有支付记录TODO:
         payRecordService.save(record);
