@@ -59,6 +59,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<weixin.mp.version>2.4.0</weixin.mp.version>
+		<dom4j.version>2.0.0</dom4j.version>
 	</properties>
 
 	<dependencyManagement>

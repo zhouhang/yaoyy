@@ -8,6 +8,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
@@ -48,8 +49,9 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				String relUrl = HttpUtil.getRelUrl(httpRequest);
 				String wechatLoginUrl = systemProperties.getBaseUrl()+"/wechat/login?call="+relUrl;
 				String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-				httpResponse.sendRedirect(OAUTH_URL);
-				logger.info("OAUTH_URL:" + OAUTH_URL);
+//				httpResponse.sendRedirect(OAUTH_URL);
+				WebUtils.issueRedirect(request, response, OAUTH_URL);
+
 			}
 			return false;
 		}

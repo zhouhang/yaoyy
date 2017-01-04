@@ -132,7 +132,7 @@
         <profile>
             <id>wb</id>
             <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
+                <wechat.mp.appid>wxa7f10cbf0dc060b9</wechat.mp.appid>
                 <wechat.mp.secret>fe68a821107c34bf9863348831e26755</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
                 <elasticsearch.host>192.168.1.41</elasticsearch.host>

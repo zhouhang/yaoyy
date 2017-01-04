@@ -92,7 +92,7 @@
         <profile>
             <id>wb</id>
             <properties>
-                <doc.base.url>http://localhost:8188</doc.base.url>
+                <doc.base.url>http://test.sankobuy.com:8080</doc.base.url>
                 <pro.upload.path>E:/development/apache-tomcat-8.0.361/webapps/ms-files/</pro.upload.path>
                 <pro.upload.url>http://localhost:8188/</pro.upload.url>
             </properties>

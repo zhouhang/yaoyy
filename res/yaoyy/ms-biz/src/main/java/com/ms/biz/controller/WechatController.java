@@ -356,6 +356,7 @@ public class WechatController extends BaseController {
                             HttpServletResponse response) {
         WxMpPayService wxMpPayService = wxService.getPayService();
         try {
+
             String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
             WxPayJsSDKCallback result = wxMpPayService.getJSSDKCallbackData(xmlResult);
             logger.info("微信支付通知"+result.toString());
@@ -371,8 +372,6 @@ public class WechatController extends BaseController {
                         "<return_msg><![CDATA[OK]]></return_msg>" +
                         "</xml>";
                 WebUtil.print(response, xmlResult);
-
-
             } else {
                 //支付失败
                 payment.setStatus(2);
