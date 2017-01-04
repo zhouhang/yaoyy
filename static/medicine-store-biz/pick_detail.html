@@ -127,7 +127,7 @@
                 <button type="button" class="ubtn ubtn-primary">微信支付</button>
                 <button type="button" class="ubtn ubtn-primary">支付宝支付</button>
                 <button type="button" class="ubtn ubtn-primary">银行转账</button>
-                <button type="button" class="ubtn ubtn-primary">取消订单</button>
+                <button type="button" class="ubtn ubtn-white" id="cancel">取消订单</button>
             </div>
 
             <div class="ui-extra">
@@ -138,12 +138,50 @@
 
 	
     <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
     <script src="assets/js/app.js"></script>
     <script>
 
     var _global = {
         fn: {
             init: function() {
+                this.bindEvent();
+            },
+            bindEvent: function() {
+                var wait = false;
+
+                //取消订单
+                $("#cancel").click(function () {
+                    if (wait) {
+                        return false;
+                    }
+                    layer.open({
+                        content: '确定要删除吗？',
+                        btn: ['确定', '取消'],
+                        yes: function(index) {
+                            $.ajax({
+                                url: _global.v.cancelUrl + "?id=${pickVo.id}",
+                                type: "POST",
+                                beforeSend: function() {
+                                    wait = true;
+                                },
+                                success: function (result) {
+                                    if (result.status == "200") {
+                                        window.location.reload();
+                                    } else {
+                                        wait = false;
+                                    }
+                                },
+                                error: function () {
+                                    popover('网络错误，请刷新页面重试');
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 1e3);
+                                }
+                            })
+                        }
+                    });
+                });
             }
         }
     }
