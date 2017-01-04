@@ -330,7 +330,7 @@ public class WechatController extends BaseController {
             orderRequest.setTotalFee((int) (total * 100));//元转成分
             payment.setMoney(total);
         }
-        //orderRequest.setTotalFee(1);//测试订单
+        orderRequest.setTotalFee(1);//测试订单
         String outTradeNo=SeqNoUtil.getPaymentCode();
         orderRequest.setNotifyURL(systemProperties.getBaseUrl() + "/wechat/pay/callback");
         orderRequest.setOutTradeNo(outTradeNo);

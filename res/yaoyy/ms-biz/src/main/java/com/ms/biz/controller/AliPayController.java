@@ -101,7 +101,7 @@ public class AliPayController {
                     Integer orderId, Integer billId) throws Exception{
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Map<String,Object> params = new HashMap<>();
-        Payment payment = new Payment();
+        PaymentVo payment = new PaymentVo();
         payment.setUserId(user.getId());
         payment.setPayType(PayTypeEnum.ALIPAY.getType());
 
@@ -138,7 +138,7 @@ public class AliPayController {
         String content =  JSONUtils.toJSONString(params);
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",aliPayProperties.getAppId(),aliPayProperties.getPrivate_key(),"json",aliPayProperties.getCharset(),aliPayProperties.getPublic_key(),"RSA2");
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
-        alipayRequest.setReturnUrl(systemProperties.getBaseUrl()+"/pick/list"); //回调页面
+        alipayRequest.setReturnUrl(systemProperties.getBaseUrl()+"/alipay/return"); //回调页面
         alipayRequest.setNotifyUrl(systemProperties.getBaseUrl()+"/alipay/callback");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent(content);//填充业务参数
         payment.setOutParam(content);
@@ -176,6 +176,7 @@ public class AliPayController {
             //支付成功
             PaymentVo payment=paymentService.getByOutTradeNo(params.get("out_trade_no"));
             if(payment!=null&&payment.getCallbackTime()==null) {
+                payment.setPayAppId(aliPayProperties.getAppId());
                 if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                     payment.setStatus(1);
                     payment.setTradeNo(params.get("trade_no"));
@@ -221,6 +222,7 @@ public class AliPayController {
             //支付成功
             PaymentVo payment=paymentService.getByOutTradeNo(params.get("out_trade_no"));
             if(payment!=null) {
+                payment.setPayAppId(aliPayProperties.getAppId());
                 if(payment.getCallbackTime()==null){
                     if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                         payment.setStatus(1);
