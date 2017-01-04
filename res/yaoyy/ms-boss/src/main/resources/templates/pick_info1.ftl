@@ -105,7 +105,7 @@
                 <form action=""  <#if pickVo.status==0||pickVo.status==2||pickVo.status=3||pickVo.status=3||pickVo.status=4> class="hide"</#if> id="traceForm">
                         <div class="ft">
                             <button type="button" class="ubtn ubtn-blue submit4">确认订单</button>
-                            <button type="button" class="ubtn ubtn-gray ml submit5">结束交易</button>
+                            <button type="button" class="ubtn ubtn-gray ml submit5">取消订单</button>
                         </div>
                 </form>
 

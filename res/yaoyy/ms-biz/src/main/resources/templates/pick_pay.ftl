@@ -30,7 +30,7 @@
             </div>
             <div class="row">
                 <div class="txt">帐号：</div>
-                <div class="val">1318040809266666630</div>
+                <div class="val">1318040409266666630</div>
             </div>
             <div class="row">
                 <div class="txt">开户行：</div>
