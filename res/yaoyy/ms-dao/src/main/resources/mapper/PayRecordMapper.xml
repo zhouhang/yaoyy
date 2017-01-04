@@ -107,6 +107,7 @@
                 and pr.create_time <![CDATA[ <= ]]> #{endDate}
             </if>
         </where>
+        ORDER  BY pr.create_time desc
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

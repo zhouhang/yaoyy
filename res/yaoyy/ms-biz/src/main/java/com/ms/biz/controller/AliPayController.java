@@ -128,7 +128,7 @@ public class AliPayController {
             payment.setMoney(total);
             params.put("total_amount",total);
         }
-        params.put("total_amount",0.01f);//测试用
+        //params.put("total_amount",0.01f);//测试用
         String outTradeNo= SeqNoUtil.getPaymentCode();
         params.put("out_trade_no",outTradeNo);
         payment.setOutTradeNo(outTradeNo);
