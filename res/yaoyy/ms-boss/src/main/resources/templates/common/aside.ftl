@@ -177,4 +177,18 @@
          </dd>
     </dl>
 </@shiro.hasPermission>
+<@shiro.hasPermission name="setting:all">
+    <dl>
+        <dt>
+            <a href="javascript:;">
+                <i class="fa fa-money"></i>
+                <span>系统设置</span>
+                <i class="fa fa-angle-down arrow"></i>
+            </a>
+        </dt>
+        <dd>
+            <a href="/setting"><i class="fa fa-circle-o"></i>系统设置</a>
+        </dd>
+    </dl>
+</@shiro.hasPermission>
 </div>

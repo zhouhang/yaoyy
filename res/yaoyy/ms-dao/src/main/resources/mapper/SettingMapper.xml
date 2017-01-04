@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.SettingDao">
+    <resultMap id="SettingResultMap" type="com.ms.dao.model.Setting">
+            <id column="id"  property="id" />
+            <result column="consumer_hotline"  property="consumerHotline" />
+            <result column="pay_account"  property="payAccount" />
+            <result column="pay_bank_card"  property="payBankCard" />
+            <result column="pay_bank"  property="payBank" />
+        
+    </resultMap>
+
+    <resultMap id="SettingResultMapVo" type="com.ms.dao.vo.SettingVo">
+            <id column="id"  property="id" />
+            <result column="consumer_hotline"  property="consumerHotline" />
+            <result column="pay_account"  property="payAccount" />
+            <result column="pay_bank_card"  property="payBankCard" />
+            <result column="pay_bank"  property="payBank" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,consumer_hotline,pay_account,pay_bank_card,pay_bank
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SettingResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from setting
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="SettingResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from setting
+    </select>
+
+    <select id="findByParams" resultMap="SettingResultMapVo" parameterType="com.ms.dao.vo.SettingVo">
+        select
+        <include refid="Base_Column_List" />
+        from setting
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from setting
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Setting">
+        insert into
+        setting (consumer_hotline,pay_account,pay_bank_card,pay_bank)
+        values
+        (#{consumerHotline},#{payAccount},#{payBankCard},#{payBank})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.Setting">
+        update setting
+        <set>
+                                                        
+            <if test="consumerHotline != null">
+                consumer_hotline = #{consumerHotline},
+            </if>
+                                            
+            <if test="payAccount != null">
+                pay_account = #{payAccount},
+            </if>
+                                            
+            <if test="payBankCard != null">
+                pay_bank_card = #{payBankCard},
+            </if>
+                                            
+            <if test="payBank != null">
+                pay_bank = #{payBank},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

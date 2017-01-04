@@ -177,5 +177,19 @@ INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permissio
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('38', '账单详情', 'button', '', '34', 'bill:detail', '2017-01-03 09:53:20');
 
 
+#20170103
+CREATE TABLE `yaoyy`.`setting` (
+  `id` INT NOT NULL,
+  `consumer_hotline` VARCHAR(45) NOT NULL COMMENT '客服电话',
+  `pay_account` VARCHAR(64) NULL COMMENT '账户名称',
+  `pay_bank_card` VARCHAR(32) NULL COMMENT '账号',
+  `pay_bank` VARCHAR(64) NULL COMMENT '开户行',
+  PRIMARY KEY (`id`))
+COMMENT = 'Boos 系统配置信息';
+ALTER TABLE `yaoyy`.`setting`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `consumer_hotline` `consumer_hotline` VARCHAR(45) NULL COMMENT '客服电话' ;
+
+INSERT INTO `yaoyy`.`resources` (`name`, `type`, `pid`, `permission`, `create_date`) VALUES ('系统设置', 'button', '0', 'setting:all', '2017-01-03 09:53:20');
 
 
