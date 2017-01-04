@@ -70,6 +70,16 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private OrderInvoiceService orderInvoiceService;
 
+	@Autowired
+	private PaymentService paymentService;
+
+	@Autowired
+	private PayRecordService payRecordService;
+
+	@Autowired
+	private AccountBillService accountBillService;
+
+
 
 
 	@Override
@@ -359,6 +369,69 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickTrackingVo.setUpdateTime(now);
 
 		pickTrackingDao.create(pickTrackingVo);
+	}
+
+	@Override
+	@Transactional
+	public void handlePay(PaymentVo payment) {
+		//更新payment
+		payment.setCallbackTime(new Date());
+		paymentService.update(payment);
+
+		//创建支付记录
+		PayRecordVo payRecordVo=new PayRecordVo();
+		payRecordVo.setCodeType(payment.getType());
+		//订单支付
+		if(payment.getType()==0){
+			PickVo pickVo=findVoById(payment.getOrderId());
+			payRecordVo.setCode(pickVo.getCode());
+			payRecordVo.setOrderId(payment.getOrderId());
+		}else{
+			AccountBillVo accountBillVo=accountBillService.findVoById(payment.getBillId());
+			payRecordVo.setCode(accountBillVo.getCode());
+			payRecordVo.setAccountBillId(payment.getBillId());
+		}
+		payRecordVo.setPaymentId(payment.getId());
+		payRecordVo.setUserId(payment.getUserId());
+		payRecordVo.setActualPayment(payment.getMoney());
+		payRecordVo.setPayAccount(payment.getPayAppId());
+		payRecordVo.setPaymentTime(payment.getCreateTime());
+		payRecordVo.setStatus(payment.getStatus());
+		payRecordVo.setPayType(payment.getPayType());
+		payRecordVo.setCreateTime(new Date());
+
+		payRecordService.save(payRecordVo);
+		//如果支付成功更新订单状态并添加跟踪记录
+		if(payment.getStatus()==1){
+			//如果存在账期就为这个用户生成账单
+			PickVo pick=findVoById(payment.getOrderId());
+			if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+				AccountBillVo accountBillVo=new AccountBillVo();
+				accountBillVo.setMemberId(pick.getMemberId());
+				accountBillVo.setOrderId(pick.getId());
+				accountBillVo.setUserId(pick.getUserId());
+				accountBillVo.setBillTime(pick.getBillTime());
+				accountBillVo.setAlreadyPayable(pick.getDeposit());
+				accountBillVo.setAmountsPayable(pick.getAmountsPayable());
+				accountBillService.saveAccountBill(accountBillVo);
+			}
+
+			PickTrackingVo pickTrackingVo=new PickTrackingVo();
+			pickTrackingVo.setPickId(payment.getOrderId());
+			pickTrackingVo.setOperator(pick.getMemberId());
+			pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			Member mem=memberService.findById(pick.getMemberId());
+			pickTrackingVo.setName(mem.getName());
+			if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+				pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_DEPOSTI.getValue());
+			}
+			else{
+				pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue());
+			}
+			pickTrackingService.save(pickTrackingVo);
+
+		}
+
 	}
 
 	@Override

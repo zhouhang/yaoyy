@@ -176,6 +176,27 @@ CHANGE COLUMN `sum` `sum` DECIMAL(10,2) NULL DEFAULT 0 COMMENT '商品合计' ;
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('37', '账单列表', 'button', '', '34', 'bill:list', '2017-01-03 09:52:46');
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `path`, `pid`, `permission`, `create_date`) VALUES ('38', '账单详情', 'button', '', '34', 'bill:detail', '2017-01-03 09:53:20');
 
+ALTER TABLE `payment`
+  MODIFY COLUMN `status`  int(5) NULL DEFAULT 0 COMMENT '支付状态' AFTER `pay_type`;
 
+#20170103
+CREATE TABLE `yaoyy`.`setting` (
+  `id` INT NOT NULL,
+  `consumer_hotline` VARCHAR(45) NOT NULL COMMENT '客服电话',
+  `pay_account` VARCHAR(64) NULL COMMENT '账户名称',
+  `pay_bank_card` VARCHAR(32) NULL COMMENT '账号',
+  `pay_bank` VARCHAR(64) NULL COMMENT '开户行',
+  PRIMARY KEY (`id`))
+COMMENT = 'Boos 系统配置信息';
+ALTER TABLE `yaoyy`.`setting`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `consumer_hotline` `consumer_hotline` VARCHAR(45) NULL COMMENT '客服电话' ;
 
+INSERT INTO `yaoyy`.`resources` (`name`, `type`, `pid`, `permission`, `create_date`) VALUES ('系统设置', 'button', '0', 'setting:all', '2017-01-03 09:53:20');
+
+ALTER TABLE `payment`
+  ADD COLUMN `type`  int(5) NULL DEFAULT 0 COMMENT '0,账单支付1，订单支付' AFTER `status`;
+ALTER TABLE `payment`
+  ADD COLUMN `order_id`  int(11) NULL DEFAULT NULL COMMENT '订单id' AFTER `type`,
+  ADD COLUMN `bill_id`  int(11) NULL DEFAULT NULL COMMENT '账单id' AFTER `order_id`;
 

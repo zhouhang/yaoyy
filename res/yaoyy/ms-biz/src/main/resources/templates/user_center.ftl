@@ -54,7 +54,15 @@
                     <span>收货地址</span>
                 </a>
             </li>
-            <li></li>
+            <li>
+            <#if billExist?exists>
+                <a href="/bill">
+                    <i class="fa fa-bill"></i>
+                    <span>我的账单</span>
+                </a>
+            </#if>
+            </li>
+
         </ul>
     </div>
 </div>

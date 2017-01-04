@@ -330,7 +330,6 @@ function navigationActive(){
 }
 
 $(function() {
-    gallery();
     navigationActive();
     showCommodityCount();
 })

@@ -67,6 +67,7 @@
             init: function() {
                 this.submit();
                 this.upfile();
+                gallery();
             },
             submit: function() {
                 var self = this;

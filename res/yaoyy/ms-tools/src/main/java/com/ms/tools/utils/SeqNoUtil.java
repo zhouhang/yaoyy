@@ -55,6 +55,9 @@ public class SeqNoUtil {
         return "S" + System.currentTimeMillis()/1000 + getRandomNum(2);
     }
 
+    //paymentCode
+    public static String getPaymentCode(){return "P" + System.currentTimeMillis()/1000 + getRandomNum(2);}
+
 
 
 }

@@ -5,7 +5,7 @@ import com.ms.dao.model.Member;
 import com.ms.dao.model.Pick;
 import com.ms.dao.model.PickCommodity;
 import com.ms.dao.vo.LogisticalVo;
-import com.ms.dao.vo.PickTrackingVo;
+import com.ms.dao.vo.PaymentVo;
 import com.ms.dao.vo.PickVo;
 
 import java.util.List;
@@ -70,6 +70,12 @@ public interface PickService extends ICommonService<Pick>{
      * @param logisticalVo
      */
     public void delivery(LogisticalVo logisticalVo,Member mem);
+
+    /**
+     * 三方支付回调处理
+     */
+
+    public void handlePay(PaymentVo payment);
 
 
 
