@@ -272,6 +272,12 @@
                 $("#configBill").click(function(){
                     self.save(2);
                 })
+                $("#wxpay").click(function(){
+                    self.wxpay();
+                })
+                $("#alipay").click(function(){
+                    self.alipay();
+                })
 
 
                 //取消订单
@@ -381,6 +387,7 @@
                     data: { orderId:${pickVo.id}},
                     type: "POST",
                     success: function(result) {
+                        console.log(result);
                         var obj = result.data;
                         WeixinJSBridge.invoke('getBrandWCPayRequest',{
                             "appId" : obj.appId,                  //公众号名称，由商户传入
@@ -390,16 +397,15 @@
                             "signType" : obj.signType,        //微信签名方式:
                             "paySign" : obj.paySign           //微信签名
                         },function(res){
-                            if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+                            if(res.err_msg == "get_brand_wcpay_request:ok") {
                                 window.location.href ="/pick/paySuccess?orderId="+${pickVo.id};
                             }
-                            console.log(res);
                         });
                     }
                 })
             },
             //支付宝支付
-            alipay:function{
+            alipay:function(){
                 
             },
             checkMsg: function () {

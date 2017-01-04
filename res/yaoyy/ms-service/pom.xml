@@ -117,7 +117,7 @@
         <profile>
             <id>ccx</id>
             <properties>
-                <wechat.mp.appid>wx9daa6d513b72c70c</wechat.mp.appid>
+                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
                 <wechat.mp.secret>c80fe6efd3ee806bdb762ac9a7b86913</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
                 <elasticsearch.host>192.168.1.41</elasticsearch.host>
@@ -133,7 +133,7 @@
             <id>wb</id>
             <properties>
                 <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>fe68a821107c34bf9863348831e26755</wechat.mp.secret>
+                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
                 <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
                 <elasticsearch.host>192.168.1.41</elasticsearch.host>
                 <elasticsearch.port>9300</elasticsearch.port>

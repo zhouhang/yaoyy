@@ -142,7 +142,7 @@
         </set>
         where id = #{id}
     </update>
-    <select id="getByOutTradeNo" parameterType="java.lang.Integer" resultMap="PaymentResultMapVo">
+    <select id="getByOutTradeNo"  resultMap="PaymentResultMapVo">
         select
         <include refid="Base_Column_List" />
         from payment

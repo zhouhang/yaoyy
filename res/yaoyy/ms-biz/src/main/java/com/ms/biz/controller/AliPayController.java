@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.ms.biz.properties.AliPayProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -62,12 +64,20 @@ public class AliPayController {
     public void callBack(HttpServletRequest request,
                          HttpServletResponse response)throws Exception{
         //获取返回所有参数
-        StringBuilder params = new StringBuilder();
-        for(Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()){
-            params.append(entry.getKey()).append(Arrays.asList(entry.getValue()).toString());
+        Map<String,String> params = new HashMap<String,String>();
+        Map requestParams = request.getParameterMap();
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            params.put(name, valueStr);
         }
-        String result =params.toString();
-        System.out.println(result);
+        boolean signVerified = AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublic_key(), aliPayProperties.getCharset());
+        System.out.println(params);
     }
 
 
