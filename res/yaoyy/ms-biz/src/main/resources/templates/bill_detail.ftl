@@ -44,8 +44,8 @@
 
         <#if bill.status == 0>
         <div class="button">
-            <button type="button" class="ubtn ubtn-primary">微信支付</button>
-            <button type="button" class="ubtn ubtn-primary">支付宝支付</button>
+            <button type="button"  id="wxpay" class="ubtn ubtn-primary">微信支付</button>
+            <button type="button" id="alipay" class="ubtn ubtn-primary">支付宝支付</button>
             <button type="button" class="ubtn ubtn-primary">银行转账</button>
         </div>
         </#if>
@@ -56,6 +56,64 @@
     </div>
 
 </section><!-- /ui-content -->
+<#include "./common/footer.ftl"/>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
 
+    var _global = {
+        v:{
+
+        },
+        fn: {
+            init: function() {
+                this.bindEven();
+            },
+            bindEven: function () {
+                var self = this,
+                        wait = false;
+                $("#wxpay").click(function(){
+                    self.wxpay();
+                })
+                $("#alipay").click(function(){
+                    self.alipay();
+                })
+
+            },
+            //微信支付
+            wxpay:function(){
+                $.ajax({
+                    url: "/wechat/pay",
+                    data: { billId:${bill.id}},
+                    type: "POST",
+                    success: function(result) {
+                        console.log(result);
+                        var obj = result.data;
+                        WeixinJSBridge.invoke('getBrandWCPayRequest',{
+                            "appId" : obj.appId,                  //公众号名称，由商户传入
+                            "timeStamp":obj.timeStamp,          //时间戳，自 1970 年以来的秒数
+                            "nonceStr" : obj.nonceStr,         //随机串
+                            "package" : obj.package,      //<span style="font-family:微软雅黑;">商品包信息</span>
+                            "signType" : obj.signType,        //微信签名方式:
+                            "paySign" : obj.paySign           //微信签名
+                        },function(res){
+                            if(res.err_msg == "get_brand_wcpay_request:ok") {
+                                window.location.href ="/pick/paySuccess?billId="+${bill.id};
+                            }
+                        });
+                    }
+                })
+            },
+            //支付宝支付
+            alipay:function(){
+                window.location.href ="alipay/index?billId="+${bill.id};
+            },
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+    });
+
+</script>
 </body>
 </html>

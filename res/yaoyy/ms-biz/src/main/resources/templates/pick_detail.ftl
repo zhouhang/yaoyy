@@ -26,7 +26,7 @@
             <ul class="step">
                 <li <#if [0,1,2,4,5,8]?seq_contains(pickVo.status)>class="active"</#if> >
                     <i></i>
-                    <span>提交订单</span>
+                    <span>提交采购单</span>
                 </li>
                 <li <#if 6= pickVo.status >class="active"</#if>>
                     <i></i>
@@ -406,7 +406,7 @@
             },
             //支付宝支付
             alipay:function(){
-                
+                window.location.href ="alipay/index?orderId="+${pickVo.id};
             },
             checkMsg: function () {
                 // 默认验证通过
