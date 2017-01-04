@@ -173,6 +173,8 @@
         <#if  pickVo.settleType!=2>
         <#if pickVo.status == 5>
             <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
+            <button type="button" id="wxpay" class="ubtn ubtn-primary">微信支付</button>
+            <button type="button" id="alipay" class="ubtn ubtn-primary">支付宝支付</button>
         </#if>
           <#else>
               <#if pickVo.status == 8>
@@ -194,6 +196,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 
     var _global = {
@@ -351,6 +354,34 @@
                         }, 1e3);
                     }
                 })
+            },
+            //微信支付
+            wxpay:function(){
+                $.ajax({
+                    url: "/wechat/pay",
+                    data: { orderId:${pickVo.id}},
+                    type: "POST",
+                    success: function(result) {
+                        var obj = result.data;
+                        WeixinJSBridge.invoke('getBrandWCPayRequest',{
+                            "appId" : obj.appId,                  //公众号名称，由商户传入
+                            "timeStamp":obj.timeStamp,          //时间戳，自 1970 年以来的秒数
+                            "nonceStr" : obj.nonceStr,         //随机串
+                            "package" : obj.package,      //<span style="font-family:微软雅黑;">商品包信息</span>
+                            "signType" : obj.signType,        //微信签名方式:
+                            "paySign" : obj.paySign           //微信签名
+                        },function(res){
+                            if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+                                window.location.href ="/pick/paySuccess?orderId="+${pickVo.id};
+                            }
+                            console.log(res);
+                        });
+                    }
+                })
+            },
+            //支付宝支付
+            alipay:function{
+
             },
             checkMsg: function () {
                 // 默认验证通过

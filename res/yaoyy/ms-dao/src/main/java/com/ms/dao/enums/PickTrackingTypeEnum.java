@@ -16,12 +16,15 @@ public enum PickTrackingTypeEnum {
     PICK_ORDER(6,"为客户下单"),
     PICK_RECEIPT(7,"确认收货"),
     PICK_PAYALL(8,"确认支付了全款"),
-    PICK_PAYPOSIT(9,"支付了保证金"),
+    PICK_PAYPOSIT(9,"确认支付了保证金"),
     PICK_ORDER_DELIVERIED(11,"订单已发货"),
     PICK_CONFIRM(12,"确认了订单"),
     PICK_UPDATE(13,"修改了订单"),
     PICK_SUBMIT_PAY(14,"提交了支付信息"),
-    PICK_CANCEL(15,"订单已取消");
+    PICK_CANCEL(15,"订单已取消"),
+    PICK_SELFPAY_DEPOSTI(16,"支付保证金"),
+    PICK_SELFPAY_ALL(17,"支付全款");
+
 
 
 

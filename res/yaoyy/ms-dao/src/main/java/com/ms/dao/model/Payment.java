@@ -16,10 +16,10 @@ public class Payment  implements Serializable {
 	//支付方式
 	private Integer payType;
 	
-	//支付状态
+	//支付状态 0待支付1支付成功2支付失败
 	private Integer status;
 	
-	//0,账单支付1，订单支付
+	//0:订单，1：账单
 	private Integer type;
 	
 	//订单id

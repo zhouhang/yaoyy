@@ -347,8 +347,9 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "paySuccess", method = RequestMethod.GET)
-    public String paySuccess(){
-        return "";
+    public String paySuccess(Integer orderId, ModelMap model){
+        model.put("orderId",orderId);
+        return "pay_success";
     }
 
     /**

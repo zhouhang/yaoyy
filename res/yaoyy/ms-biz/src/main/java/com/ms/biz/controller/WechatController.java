@@ -8,9 +8,11 @@ import com.ms.dao.model.Member;
 import com.ms.dao.model.Payment;
 import com.ms.dao.model.User;
 import com.ms.dao.vo.AccountBillVo;
+import com.ms.dao.vo.PaymentVo;
 import com.ms.dao.vo.PickVo;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.properties.WechatProperties;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.SeqNoUtil;
@@ -81,6 +83,9 @@ public class WechatController extends BaseController {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private WechatProperties wechatProperties;
 
 
     /**
@@ -305,7 +310,7 @@ public class WechatController extends BaseController {
             PickVo pick = pickService.findVoById(orderId);
             orderRequest.setBody("药优优订单支付");
             orderRequest.setNotifyURL(systemProperties + "/wechat/pay/callback");
-            payment.setType(1);
+            payment.setType(0);
             payment.setOrderId(orderId);
             if (pick.getSettleType() == SettleTypeEnum.SETTLE_ALL.getType()) {
                 orderRequest.setTotalFee((int) (pick.getAmountsPayable() * 100));//元转成分
@@ -320,7 +325,7 @@ public class WechatController extends BaseController {
             AccountBillVo accountBillVo = accountBillService.findVoById(billId);
             orderRequest.setBody("药优优账单支付");
             orderRequest.setNotifyURL(systemProperties + "/wechat/pay/callback");
-            payment.setType(0);
+            payment.setType(1);
             payment.setBillId(billId);
             Float total = accountBillVo.getAmountsPayable() - accountBillVo.getAlreadyPayable();
             orderRequest.setTotalFee((int) (total * 100));//元转成分
@@ -353,18 +358,25 @@ public class WechatController extends BaseController {
         try {
             String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
             WxPayJsSDKCallback result = wxMpPayService.getJSSDKCallbackData(xmlResult);
-            logger.info("微信支付通知"+result);
-            Payment payment=paymentService.getByOutTradeNo(result.getOut_trade_no());
+            logger.info("微信支付通知"+result.toString());
+            PaymentVo payment=paymentService.getByOutTradeNo(result.getOut_trade_no());
+            payment.setInParam(result.toString());
+            payment.setPayAppId(wechatProperties.getAppId());
             if ("SUCCESS".equals(result.getReturn_code())) {
-                //支付成功
+                 payment.setStatus(1);
+                 pickService.handlePay(payment);
+                 //支付成功
                 String Result = "<xml>" +
                         "<return_code><![CDATA[SUCCESS]]></return_code>" +
                         "<return_msg><![CDATA[OK]]></return_msg>" +
                         "</xml>";
                 WebUtil.print(response, xmlResult);
 
+
             } else {
                 //支付失败
+                payment.setStatus(2);
+                pickService.handlePay(payment);
             }
         } catch (Exception e) {
             logger.error("微信回调结果异常,异常原因{}", e);

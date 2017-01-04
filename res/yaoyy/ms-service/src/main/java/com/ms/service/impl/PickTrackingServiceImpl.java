@@ -92,7 +92,9 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 				pick.setStatus(PickEnum.PICK_PAY.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYALL.getValue()
-					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYPOSIT.getValue()){
+					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYPOSIT.getValue()
+					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue()
+					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_SELFPAY_DEPOSTI.getValue()){
 				pick.setStatus(PickEnum.PICK_DELIVERY.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue()){
