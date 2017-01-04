@@ -26,15 +26,15 @@
             </div>
             <div class="row">
                 <div class="txt">账户名称：</div>
-                <div class="val">亳州市东方康元中药材信息咨询有限公司</div>
+                <div class="val">${setting.payAccount}</div>
             </div>
             <div class="row">
                 <div class="txt">帐号：</div>
-                <div class="val">1318040409266666630</div>
+                <div class="val">${setting.payBankCard}</div>
             </div>
             <div class="row">
                 <div class="txt">开户行：</div>
-                <div class="val">中国工商银行亳州谯陵分理处</div>
+                <div class="val">${setting.payBank}</div>
             </div>
         </div>
         <div class="ft">

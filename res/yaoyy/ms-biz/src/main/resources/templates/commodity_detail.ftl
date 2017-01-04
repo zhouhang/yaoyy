@@ -207,10 +207,21 @@
                     num = Math.max($ipt.val() || 1, min);
 
                 $quantity.on('click', '.fa-plus', function() {
-                    $ipt.val(++num);
+                    num = Number(num) + ${commodityVo.minimumQuantity?default(1)};
+                    $ipt.val(num);
                 })
                 $quantity.on('click', '.fa-reduce', function() {
-                    num > min && $ipt.val(--num);
+                    num = Number(num);
+                    if (num > min) {
+                        if ((num-min) >= min ) {
+                            num = num - min;
+                        } else {
+                            num = min;
+                        }
+                        $ipt.val(num);
+                    } else {
+                        popover('最低' + min + '${commodityVo.unitName!}' + '起购！');
+                    }
                 })
                 // 只能输入数字
                 $ipt.on('blur', function() {

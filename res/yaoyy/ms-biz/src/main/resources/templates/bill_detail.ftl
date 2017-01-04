@@ -50,7 +50,7 @@
         </div>
         </#if>
         <div class="ui-extra">
-            咨询电话：<a href="tel:027-33641141" target="_blank">027-33641141</a>
+            咨询电话：<a href="tel:${consumerHotline}" target="_blank">${consumerHotline}</a>
         </div>
 
     </div>
