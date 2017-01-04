@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserDetailVo;
+import com.ms.service.AccountBillService;
 import com.ms.service.FollowCommodityService;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
@@ -38,6 +39,9 @@ public class UserCenterController extends BaseController {
     @Autowired
     private FollowCommodityService followCommodityService;
 
+    @Autowired
+    private AccountBillService billService;
+
     @RequestMapping("index")
     public String index(HttpServletRequest request,
                         ModelMap modelMap) {
@@ -52,6 +56,10 @@ public class UserCenterController extends BaseController {
                 nickname = "";
             }
             modelMap.put("followCount", followCommodityService.count(user.getId()));
+            //检查用户是否有账单
+            if (billService.findByUserId(user.getId(),1,10).getList().size()>0){
+                modelMap.put("billExist","billExist");
+            }
         }
         modelMap.put("nickname", nickname);
         return "user_center";

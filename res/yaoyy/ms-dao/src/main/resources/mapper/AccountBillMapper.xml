@@ -83,7 +83,9 @@
             <if test="status != null">
                 and ab.status=#{status}
             </if>
-
+            <if test="userId != null">
+                and ab.user_id=#{userId}
+            </if>
         </where>
     </select>
 
