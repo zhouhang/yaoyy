@@ -122,19 +122,19 @@
                 <div class="item">
                     <div class="txt">付款方式：</div>
                     <div class="cnt cbxs2">
-                        <label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>
-                        <label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>
-                        <label><input type="radio" name="settleType" class="cbx" value="2">赊账</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="0" <#if pickVo.settleType==0>checked</#if>>全款</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="1" <#if pickVo.settleType==1>checked</#if>>保证金</label>
+                        <label><input type="radio" name="settleType" class="cbx" value="2" <#if pickVo.settleType==2>checked</#if>>赊账</label>
                     </div>
                 </div>
                 <div class="group">
                     <div class="item">
                         <div class="txt">保证金金额：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" value="0"><span class="unit">元</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" value="${pickVo.deposit!}"><span class="unit">元</span></div></div>
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" value="0"><span class="unit">天</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" value="${pickVo.billTime!}"><span class="unit">天</span></div></div>
                     </div>
                 </div>
                 <div class="ft">
@@ -248,6 +248,14 @@
                             $body = $('body');
 
                     this.unitPrice = [];
+                    var settleType=${pickVo.settleType};
+                    if (settleType == 0) {
+                        $('#calc').find('.group').hide();
+                    } else if (settleType == 1) {
+                        $('#calc').find('.group').show().find('.item').show();
+                    } else {
+                        $('#calc').find('.group').show().find('.item').hide().eq(1).show();
+                    }
 
                     $ipts.each(function(i) {
                         var $sum = $(this).closest('tr').find('span'),

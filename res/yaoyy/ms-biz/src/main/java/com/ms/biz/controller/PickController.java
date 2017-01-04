@@ -75,6 +75,9 @@ public class PickController extends BaseController{
     @Autowired
     AccountBillService accountBillService;
 
+    @Autowired
+    SettingService settingService;
+
     /**
      * 选货单列表
      * @return
@@ -188,7 +191,7 @@ public class PickController extends BaseController{
         pickService.saveOrder(pickVo);
 
         if (type == 1) {
-            // 根据type 类型返回不同的跳转链接
+            //TODO: 根据type 类型返回不同的跳转链接
             result = Result.success().data("/pick/bankTransfer?orderId="+pickVo.getId());
         }
         return result;
@@ -259,6 +262,9 @@ public class PickController extends BaseController{
             if (vo.getPayDocuments()!= null && vo.getPayDocuments().size()>0)
             model.put("url",vo.getPayDocuments().get(0).getPath());
         }
+        // 后台配置的银行信息
+        Setting setting = settingService.find();
+        model.put("setting", setting);
         return "pick_pay";
     }
 
@@ -304,9 +310,11 @@ public class PickController extends BaseController{
         record.setStatus(0);
         record.setPayType(0);
         // 设置默认信息
-        record.setPayAccount("亳州市东方康元中药材信息咨询有限公司");
-        record.setPayBankCard("1318 0404 0926 6666 630");
-        record.setPayBank("中国工商银行亳州谯陵分理处");
+        // 后台配置的银行信息
+        Setting setting = settingService.find();
+        record.setPayAccount(setting.getPayAccount());
+        record.setPayBankCard(setting.getPayBankCard());
+        record.setPayBank(setting.getPayBank());
         // 判断之前没有支付记录TODO:
         payRecordService.save(record);
 
@@ -347,8 +355,9 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "paySuccess", method = RequestMethod.GET)
-    public String paySuccess(Integer orderId, ModelMap model){
+    public String paySuccess(Integer orderId,Integer billId, ModelMap model){
         model.put("orderId",orderId);
+        model.put("billId",billId);
         return "pay_success";
     }
 

@@ -122,7 +122,7 @@
                 </div>
                 <div class="item">
                     <div class="txt">微信账户号：</div>
-                    <div class="val">${payRecordVo.payBankCard!}</div>
+                    <div class="val">${payRecordVo.payAccount!}</div>
                 </div>
                 <div class="item">
                     <div class="txt">支付时间：</div>

@@ -309,7 +309,6 @@ public class WechatController extends BaseController {
         if (orderId != null) {
             PickVo pick = pickService.findVoById(orderId);
             orderRequest.setBody("药优优订单支付");
-            orderRequest.setNotifyURL(systemProperties + "/wechat/pay/callback");
             payment.setType(0);
             payment.setOrderId(orderId);
             if (pick.getSettleType() == SettleTypeEnum.SETTLE_ALL.getType()) {
@@ -324,15 +323,18 @@ public class WechatController extends BaseController {
         } else if (billId != null) {
             AccountBillVo accountBillVo = accountBillService.findVoById(billId);
             orderRequest.setBody("药优优账单支付");
-            orderRequest.setNotifyURL(systemProperties + "/wechat/pay/callback");
+
             payment.setType(1);
             payment.setBillId(billId);
             Float total = accountBillVo.getAmountsPayable() - accountBillVo.getAlreadyPayable();
             orderRequest.setTotalFee((int) (total * 100));//元转成分
             payment.setMoney(total);
         }
-        orderRequest.setOutTradeNo(SeqNoUtil.getPaymentCode());
-        payment.setOutTradeNo(SeqNoUtil.getPaymentCode());
+        //orderRequest.setTotalFee(1);//测试订单
+        String outTradeNo=SeqNoUtil.getPaymentCode();
+        orderRequest.setNotifyURL(systemProperties.getBaseUrl() + "/wechat/pay/callback");
+        orderRequest.setOutTradeNo(outTradeNo);
+        payment.setOutTradeNo(outTradeNo);
         orderRequest.setTradeType("JSAPI");
         orderRequest.setOpenid(user.getOpenid());
         orderRequest.setSpbillCreateIp(request.getRemoteAddr());
@@ -356,62 +358,35 @@ public class WechatController extends BaseController {
                             HttpServletResponse response) {
         WxMpPayService wxMpPayService = wxService.getPayService();
         try {
-
             String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
             WxPayJsSDKCallback result = wxMpPayService.getJSSDKCallbackData(xmlResult);
             logger.info("微信支付通知"+result.toString());
             PaymentVo payment=paymentService.getByOutTradeNo(result.getOut_trade_no());
-            payment.setInParam(result.toString());
-            payment.setPayAppId(wechatProperties.getAppId());
-            if ("SUCCESS".equals(result.getReturn_code())) {
-                 payment.setStatus(1);
-                 pickService.handlePay(payment);
-                 //支付成功
-                String Result = "<xml>" +
-                        "<return_code><![CDATA[SUCCESS]]></return_code>" +
-                        "<return_msg><![CDATA[OK]]></return_msg>" +
-                        "</xml>";
-                WebUtil.print(response, xmlResult);
-            } else {
-                //支付失败
-                payment.setStatus(2);
-                pickService.handlePay(payment);
+            if(payment!=null&&payment.getCallbackTime()==null){
+                payment.setInParam(result.toString());
+                payment.setPayAppId(wechatProperties.getAppId());
+                if ("SUCCESS".equals(result.getReturn_code())) {
+                    //支付成功
+                    payment.setStatus(1);
+                    payment.setTradeNo(result.getTransaction_id());
+                    pickService.handlePay(payment);
+                } else {
+                    //支付失败
+                    payment.setStatus(2);
+                    payment.setTradeNo(result.getTransaction_id());
+                    pickService.handlePay(payment);
+                }
             }
+
+            String Result = "<xml>" +
+                    "<return_code><![CDATA[SUCCESS]]></return_code>" +
+                    "<return_msg><![CDATA[OK]]></return_msg>" +
+                    "</xml>";
+            WebUtil.print(response, Result);
         } catch (Exception e) {
             logger.error("微信回调结果异常,异常原因{}", e);
         }
     }
 
 }
-
-
-
-    //  参考地址  https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
-    //调用统一下单接口
-    /*
-    @RequestMapping("pay")
-    @ResponseBody
-    public Result pay(HttpServletRequest request,
-                      HttpServletResponse response,
-                      ModelMap model)throws Exception{
-        WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
-        orderRequest.setBody("支付内容");
-        orderRequest.setTradeType("JSAPI");
-        orderRequest.setNotifyURL("http://burgleaf.tunnel.2bdata.com/wechat/pay/callback");
-        orderRequest.setOutTradeNo(System.currentTimeMillis()+"");
-        orderRequest.setTotalFee(1);//元转成分
-        orderRequest.setOpenid("oQnHnv7-CXQOiguW9JG8k9Kptq4k");
-        orderRequest.setSpbillCreateIp(request.getRemoteAddr());
-        WxMpPayService wxMpPayService = wxService.getPayService();
-        //返回结果
-        Map<String, String> result = wxMpPayService.getPayInfo(orderRequest);
-        return Result.success().data(result);
-    }
-
-    //支付页面
-    @RequestMapping("pay/page")
-    public String payPage(HttpServletRequest request,
-                          HttpServletResponse response){
-        return "pay_test_page";
-    }*/
 

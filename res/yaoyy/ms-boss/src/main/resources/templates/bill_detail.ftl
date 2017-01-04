@@ -159,27 +159,28 @@
         </div>
     </div>
 
-    <#if payRecordVo?exists>
+    <#if payRecord?exists>
     <div class="box fa-form fa-form-info">
         <div class="hd">付款信息</div>
         <div class="item">
             <div class="txt">支付方式：</div>
-            <div class="val">${payRecordVo.payTypeText!}</div>
+            <div class="val">${payRecord.payTypeText!}</div>
         </div>
+        <#if payRecord.payType==0>
         <div class="item">
             <div class="txt">支付凭证：</div>
-           <#list payRecordVo.payDocuments as payDocument>
+           <#list payRecord.payDocuments as payDocument>
             <div class="val thumb">
                 <img src="${payDocument.path}" alt="" width="160" height="80">
             </div>
             </#list>
-
         </div>
+        </#if>
         <div class="item">
             <div class="txt">支付时间：</div>
-            <div class="val">${payRecordVo.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
+            <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
         </div>
-        <#if payRecordVo.status==0>
+        <#if payRecord.status==0>
         <div class="ft">
             <button class="ubtn ubtn-blue">确认收款</button>
         </div>

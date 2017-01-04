@@ -217,7 +217,8 @@
                     var $ipt = $(this).prev(),
                         min = $ipt.data('min') || 1,
                         num = Math.max($ipt.val() || 1, min);
-                    $ipt.val(++num);
+                    num  = Number(num) + min;
+                    $ipt.val(num);
                     updateCommodity($ipt.attr('cid'), num);
                 })
                 // 数量减
@@ -225,9 +226,14 @@
                     var $ipt = $(this).next(),
                         min = $ipt.data('min') || 1,
                         num = Math.max($ipt.val() || 1, min);
-
+                    num = Number(num);
                     if (num > min) {
-                        $ipt.val(--num);
+                        if ((num-min) >= min ) {
+                            num = num - min;
+                        } else {
+                            num = min;
+                        }
+                        $ipt.val(num);
                         updateCommodity($ipt.attr('cid'), num);
                     } else {
                         popover('最低' + min + $ipt.data('unitname') + '起购！');

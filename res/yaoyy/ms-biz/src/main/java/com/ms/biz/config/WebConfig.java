@@ -3,6 +3,7 @@ package com.ms.biz.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ms.tools.utils.gson.adapter.StringDefaultAdapter;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.MultipartConfigElement;
@@ -42,13 +44,6 @@ import java.util.List;
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
-
-
-//    @Value("${spring.mvc.view.prefix}")
-//    private String prefix;
-//    @Value("${spring.mvc.view.suffix}")
-//    private String suffix;
-
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
@@ -60,7 +55,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
-
     @Bean
     public HandlerInterceptor viewObjectAddingInterceptor() {
         return new HandlerInterceptorAdapter() {
@@ -71,10 +65,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         };
     }
-
-
-
-
 
     /**
      * 配置多视图
@@ -88,18 +78,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         defaultViews.add( new MappingJackson2JsonView());
         viewResolver.setDefaultViews(defaultViews);
         return viewResolver;
-
     }
-
-//    @Bean
-//    public InternalResourceViewResolver defaultViewResolver() {
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//        viewResolver.setOrder(2);
-//        viewResolver.setViewClass(JstlView.class);
-//        viewResolver.setPrefix(prefix);
-//        viewResolver.setSuffix(suffix);
-//        return viewResolver;
-//    }
 
     @Bean
     public DispatcherServlet dispatcherServlet() {
@@ -146,33 +125,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return gsonConverter;
     }
 
-//    //显示声明CommonsMultipartResolver为mutipartResolver
-//    @Bean(name = "multipartResolver")
-//    public MultipartResolver multipartResolver(){
-//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-//        resolver.setDefaultEncoding("UTF-8");
-//        resolver.setResolveLazily(true);//resolveLazily属性启用是为了推迟文件解析，以在在UploadAction中捕获文件大小异常
-//        resolver.setMaxInMemorySize(40960);
-//        resolver.setMaxUploadSize(50*1024*1024);//上传文件大小 50M 50*1024*1024
-//        return resolver;
-//    }
-
-//    /**
-//     * Filter 的声明和注册
-//     */
-//    @Bean
-//    public Filter shiroFilter() {
-//        DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
-//        delegatingFilterProxy.setBeanName("shiroFilter");
-//        return delegatingFilterProxy;
-//    }
-//
-//    @Bean
-//    public FilterRegistrationBean myFilter() {
-//        FilterRegistrationBean registration = new FilterRegistrationBean();
-//        registration.setFilter(shiroFilter());
-//        registration.addUrlPatterns("/*");
-//        return registration;
-//    }
+    @Bean
+    public CommandLineRunner customFreemarker(FreeMarkerViewResolver resolver){
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... strings) throws Exception {
+                resolver.setViewClass(FreeMarkerView.class);
+            }
+        };
+    }
 
 }
