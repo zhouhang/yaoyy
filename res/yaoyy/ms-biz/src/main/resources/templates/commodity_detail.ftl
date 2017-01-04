@@ -123,6 +123,7 @@
 
     <#include "./common/footer.ftl"/>
     <script src="/assets/js/layer.js"></script>
+    <script src="/assets/js/dragloader.min.js"></script>
     <script>
 
     var _global = {
@@ -137,6 +138,7 @@
                 this.initAttr();
                 this.addCommodity();
                 this.attention();
+                this.change();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -155,7 +157,8 @@
             },
             // 详情内容
             tab: function() {
-                var $tab = $('.tab'),
+                var self = this,
+                    $tab = $('.tab'),
                     $tabcont = $('.tabcont'),
                     $item = $tabcont.find('.item'),
                     $detailCont = $('.detailCont'),
@@ -165,6 +168,8 @@
                 $tab.on('click', 'li', function() {
                     var idx = $(this).index(),
                         distance = idx * $tabcont.width();
+
+                    self.dragger.setDragUpDisabled(idx == 2);
                     // window.scrollTo(0, _distance);
                     $(this).addClass('current').siblings().removeClass('current');
                     $item.css('position','absolute').eq(idx).css('position','relative');
@@ -193,8 +198,6 @@
                         tabFix();
                     }, 50);
                 })
-
-                // $detailCont.on('webkitTransitionEnd MSTransitionEnd transitionend',function(){});
             },
             // 加减数量
             quantity: function() {
@@ -328,6 +331,30 @@
                     window.location.href = "/follow/watch?commodityId=${commodityVo.id}";
                 </#if>
                 })
+            },
+            change: function() {
+                var self = this;
+                self.dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpRegionCls: 'dragger-more',
+                    dragUpLoadFn: function() {
+                        setTimeout(function() {
+                            $('.tab').find('.current').next().trigger('click')
+                        }, 200);
+                    },
+                    dragUpHelper: function(status) {
+                        if (status == 'default') {
+                            return '<span>继续上拉切换下一页</span>';
+                        } else if (status == 'prepare') {
+                            return '<span>释放切换下一页</span>';
+                        } else if (status == 'load') {
+                            return '';
+                        }
+                    }
+                });
+                self.dragger.on('dragUpLoad', function() {
+                    self.dragger.reset();
+                });
             }
 
         }

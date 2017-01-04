@@ -182,7 +182,7 @@
               </#if>
         </#if>
         <#if [0,1,5,8]?seq_contains(pickVo.status)>
-            <button type="button" id="cancel" class="ubtn ubtn-primary">取消订单</button>
+            <button type="button" id="cancel" class="ubtn ubtn-white">取消订单</button>
         </#if>
         <#if pickVo.status == 7>
             <button type="button" id="receipt" class="ubtn ubtn-primary">确认收货</button>
@@ -196,6 +196,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
+<script src="/assets/js/layer.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 
@@ -262,30 +263,48 @@
                 this.bindEven();
             },
             bindEven: function () {
+                var self = this,
+                    wait = false;
+                    
                 $("#bankTransfer").click(function(){
-                    _global.fn.save(1);
+                    self.save(1);
                 })
                 $("#configBill").click(function(){
-                    _global.fn.save(2);
+                    self.save(2);
                 })
 
+
+                //取消订单
                 $("#cancel").click(function () {
-                    //取消订单
-                    $.ajax({
-                        url: _global.v.cancelUrl + "?id=${pickVo.id}",
-                        type: "POST",
-                        success: function (result) {
-                            if (result.status == "200") {
-                                window.location.reload();
-                            }
-                        },
-                        error: function () {
-                            popover('网络错误，请刷新页面重试');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 1e3);
+                    if (wait) {
+                        return false;
+                    }
+                    layer.open({
+                        content: '确定要删除吗？',
+                        btn: ['确定', '取消'],
+                        yes: function(index) {
+                            $.ajax({
+                                url: _global.v.cancelUrl + "?id=${pickVo.id}",
+                                type: "POST",
+                                beforeSend: function() {
+                                    wait = true;
+                                },
+                                success: function (result) {
+                                    if (result.status == "200") {
+                                        window.location.reload();
+                                    } else {
+                                        wait = false;
+                                    }
+                                },
+                                error: function () {
+                                    popover('网络错误，请刷新页面重试');
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 1e3);
+                                }
+                            })
                         }
-                    })
+                    });
                 });
 
                 $("#receipt").click(function () {
@@ -381,7 +400,7 @@
             },
             //支付宝支付
             alipay:function{
-
+                
             },
             checkMsg: function () {
                 // 默认验证通过
