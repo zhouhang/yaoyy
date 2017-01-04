@@ -66,6 +66,13 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 		return accountBillDao.findVoByOrderId(orderId);
 	}
 
+	@Override
+	public PageInfo<AccountBillVo> findByUserId(Integer userId,Integer pageNum,Integer pageSize) {
+		AccountBillVo vo = new AccountBillVo();
+		vo.setUserId(userId);
+		PageInfo<AccountBillVo>  list = findByParams(vo,pageNum,pageSize);
+		return list;
+	}
 
 	@Override
 	public ICommonDao<AccountBill> getDao() {
