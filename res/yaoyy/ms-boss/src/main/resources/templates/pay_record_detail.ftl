@@ -23,7 +23,13 @@
         </div>
         <div class="item">
             <div class="txt">单号：</div>
-            <div class="val">${payRecordVo.code!}</div>
+            <div class="val">
+             <#if payRecordVo.codeType==0>
+                    <a class="c-blue" href="/pick/detail/${payRecordVo.orderId}">${payRecordVo.code!}</a>
+                    <#else>
+                    <a class="c-blue" href="/bill/detail/${payRecordVo.accountBillId}">${payRecordVo.code!}</a>
+                    </#if>
+                </div>
         </div>
         <div class="item">
             <div class="txt">单号类型：</div>

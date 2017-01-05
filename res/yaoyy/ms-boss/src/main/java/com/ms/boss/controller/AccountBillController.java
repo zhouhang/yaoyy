@@ -89,7 +89,7 @@ public class AccountBillController {
          * 先修改支付记录状态，然后账单状态，写跟踪记录
          */
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-        PayRecordVo payRecordVo=payRecordService.findByBillId(payRecordId);
+        PayRecordVo payRecordVo=payRecordService.findVoById(payRecordId);
         
         payRecordVo.setStatus(1);
         payRecordVo.setMemberId(mem.getId());
@@ -98,7 +98,7 @@ public class AccountBillController {
 
         Integer billId=payRecordVo.getAccountBillId();
         AccountBillVo accountBillVo=accountBillService.findVoById(billId);
-        accountBillVo.setAlreadyPayable(accountBillVo.getAlreadyPayable()+payRecordVo.getActualPayment());
+        accountBillVo.setAlreadyPayable(accountBillVo.getAmountsPayable());
         accountBillVo.setStatus(1);
         accountBillService.update(accountBillVo);
 

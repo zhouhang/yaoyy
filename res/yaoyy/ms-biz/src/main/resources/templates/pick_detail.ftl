@@ -30,10 +30,14 @@
                 </li>
                 <li <#if 6= pickVo.status >class="active"</#if>>
                     <i></i>
-                    <#if pickVo.settleType?exists && pickVo.settleType!=2>
+                    <#if pickVo.settleType?exists>
+                        <#if pickVo.settleType!=2>
+                            <span>支付完成</span>
+                        <#else>
+                            <span>确认账单</span>
+                        </#if>
+                   <#else>
                         <span>支付完成</span>
-                    <#else>
-                        <span>确认账单</span>
                     </#if>
                 </li>
                 <li <#if 7= pickVo.status >class="active"</#if>>
@@ -288,7 +292,7 @@
                         return false;
                     }
                     layer.open({
-                        content: '确定要删除吗？',
+                        content: '确定要取消订单吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
                             $.ajax({

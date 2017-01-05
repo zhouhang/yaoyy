@@ -77,9 +77,8 @@
         <include refid="Base_Column_List" />
         from pick
         <where>
-            status!=-1
             <if test="code != null">
-               and  code = #{code}
+               code = #{code}
             </if>
             <if test="phone!= null">
                and  phone = #{phone}
