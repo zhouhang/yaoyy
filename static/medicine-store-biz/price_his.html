@@ -57,7 +57,6 @@
         fn: {
             init: function() {
                 this.his();
-                this.resize();
             },
             his: function() {
                 var date = ['09.01', '09.15', '10.01', '10.30', '11.20', '11.30'];
@@ -85,12 +84,8 @@
                     color: ['#b9a060']
                 };
                 chart.setOption(option);
-                this.chart = chart;
-            },
-            resize: function() {
-                var self = this;
                 $(window).on('resize', function() {
-                    self.chart.resize();
+                    chart.resize();
                 })
             }
         }

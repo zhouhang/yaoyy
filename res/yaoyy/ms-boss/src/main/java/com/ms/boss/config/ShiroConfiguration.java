@@ -114,6 +114,7 @@ public class ShiroConfiguration {
                 "/payRecord/**=bossAuthorization;" +
                 "/user/**=bossAuthorization;" +
                 "/setting/**=bossAuthorization;" +
+                "/bill/**=bossAuthorization;" +
                 "/commodity/**=bossAuthorization;");
         return shiroFilterFactoryBean;
     }
