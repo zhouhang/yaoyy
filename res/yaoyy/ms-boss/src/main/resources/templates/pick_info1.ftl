@@ -215,7 +215,7 @@
         </div>
         <div class="item">
             <div class="txt">账期：</div>
-            <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" value="0"><span class="unit">天</span></div></div>
+            <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime"value="60"><span class="unit">天</span></div></div>
         </div>
     </div>
     <div class="button">
@@ -387,6 +387,19 @@
                     $body.on('click', '#calc .ubtn-blue', function() {
                         var sum=$("#sum2").val();
                         var amountsPayable=$("#sum3").text();
+                        var billTime=$("#billTime").val();
+                        if(parseInt(billTime)<7){
+                            $.notify({
+                                type: 'error',
+                                title: '账期不得少于七天',
+                                delay: 3e3,
+                                call: function() {
+                                    setTimeout(function() {
+                                    }, 3e3);
+                                }
+                            });
+                            return;
+                        }
                         $.ajax({
                             url: _global.v.createOrder,
                             data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
