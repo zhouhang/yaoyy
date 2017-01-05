@@ -179,7 +179,7 @@
         <p>找到浏览器的<em>分享按钮</em><br>然后点击 <em>【发送给朋友】</em> 或 <em>【分享到朋友圈】</em></p>
     </div>
 	
-    <script src="assets/js/zepto.min.js"></script>
+    <script src="${urls.getForLookupPath('/assets/js/zepto.min.js')}"></script>
 
     <script>
     !function(e,n){"use strict";function t(e){l.touch&&!e.touches&&(e.touches=e.originalEvent.touches)}function i(e,n){n.isScrolling=void 0,n._moveDistance=0,n._startX=l.touch?e.touches[0].pageX:e.pageX||e.clientX,n._startY=l.touch?e.touches[0].pageY:e.pageY||e.clientY}function o(e,n){n._curX=l.touch?e.touches[0].pageX:e.pageX||e.clientX,n._curY=l.touch?e.touches[0].pageY:e.pageY||e.clientY,n._moveX=n._curX-n._startX,n._moveY=n._curY-n._startY,"undefined"==typeof n.isScrolling&&(n.isScrolling=n.opts.axisX?!!(Math.abs(n._moveX)>=Math.abs(n._moveY)):!!(Math.abs(n._moveY)>=Math.abs(n._moveX))),n.isScrolling&&(e.preventDefault?e.preventDefault():e.returnValue=!1,n._moveDistance=n.opts.axisX?n._moveX:n._moveY),n.opts.continuousScroll||(0==n._index&&n._moveDistance>0||n._index+1>=n._liLength&&n._moveDistance<0)&&(n._moveDistance=0)}function s(e){Math.abs(e._moveDistance)>=e._distance&&(e._moveDistance>e._distance?c(e,"prev"):Math.abs(e._moveDistance)>e._distance&&c(e,"next")),e._moveDistance=0}function c(e,n){"next"==n?(e.opts.li.eq(e._index).addClass("prev").removeClass("slideInUp").siblings().removeClass("prev").removeClass("slideInDown"),e._index++,e._index>=e._liLength&&(e._index=0),e.opts.li.eq(e._index).addClass("slideInUp")):"prev"==n&&(e.opts.li.removeClass("slideInUp slideInDown prev").eq(e._index).addClass("slideInDown"),e._index<=0?(e._index=e._liLength-1,e.opts.li.eq(e._index).addClass("prev")):(e.opts.li.eq(e._index-1).addClass("prev"),e._index--))}var a=["touchstart","touchmove","touchend"],l={touch:e.Modernizr&&Modernizr.touch===!0||function(){return!!("ontouchstart"in e||e.DocumentTouch&&document instanceof DocumentTouch)}()},u={touchStart:a[0],touchMove:a[1],touchEnd:a[2]};n.fn.swipeSlide=function(e){var n=[];return this.each(function(t,i){n.push(new r(i,e))}),n};var r=function(e,t){var i=this;i.$el=n(e),i._distance=50,i.init(t)};r.prototype.init=function(c){function a(){l._slideDistance=l.opts.axisX?l.$el.width():l.$el.height()}var l=this;return l.opts=n.extend({},{li:l.$el.children(".page"),index:0,continuousScroll:!0,speed:4e3,axisX:!1,transitionType:"ease",firstCallback:function(){},callback:function(){}},c),l._index=l.opts.index,l._liLength=l.opts.li.length,l.isScrolling,l.opts.firstCallback(l._index,l._liLength,l.$el),l._liLength<=1?!1:(a(),l.$el.on(u.touchStart,function(e){t(e),i(e,l)}),l.$el.on(u.touchMove,function(e){t(e),o(e,l)}),l.$el.on(u.touchEnd,function(){s(l)}),l.opts.li.on("webkitTransitionEnd MSTransitionEnd transitionend",function(){}),void n(e).on("onorientationchange"in e?"orientationchange":"resize",function(){clearTimeout(l.timer),l.timer=setTimeout(a,150)}))}}(window,window.Zepto||window.jQuery);
@@ -235,7 +235,7 @@
         }
     </script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="assets/js/weixin_share.js"></script>
+    <script src="${urls.getForLookupPath('/assets/js/weixin_share.js')}"></script>
 
     <script>
 

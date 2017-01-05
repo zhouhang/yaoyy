@@ -33,7 +33,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
-<script src="assets/js/layer.js"></script>
+<script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>
 <script>
     var _global = {
         fn: {

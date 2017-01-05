@@ -38,7 +38,7 @@
     </div>
 </section><!-- /ui-content -->
 <#include "./common/footer.ftl"/>
-<script src="/assets/js/echarts.min.js"></script>
+<script src="${urls.getForLookupPath('/assets/js/echarts.min.js')}"></script>
 <script>
 
     var _global = {
