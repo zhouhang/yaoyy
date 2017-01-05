@@ -17,6 +17,7 @@ import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.SeqNoUtil;
 import com.ms.tools.utils.WebUtil;
+import com.ms.tools.utils.XMLUtil;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpPayService;
@@ -361,22 +362,26 @@ public class WechatController extends BaseController {
             String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
             WxPayJsSDKCallback result = wxMpPayService.getJSSDKCallbackData(xmlResult);
             logger.info("微信支付通知"+result.toString());
-            PaymentVo payment=paymentService.getByOutTradeNo(result.getOut_trade_no());
-            if(payment!=null&&payment.getCallbackTime()==null){
-                payment.setInParam(result.toString());
-                payment.setPayAppId(wechatProperties.getAppId());
-                if ("SUCCESS".equals(result.getReturn_code())) {
-                    //支付成功
-                    payment.setStatus(1);
-                    payment.setTradeNo(result.getTransaction_id());
-                    pickService.handlePay(payment);
-                } else {
-                    //支付失败
-                    payment.setStatus(2);
-                    payment.setTradeNo(result.getTransaction_id());
-                    pickService.handlePay(payment);
+            Map<String,String> params=XMLUtil.parseXmlStringToMap(xmlResult);
+            if(wxMpPayService.checkJSSDKCallbackDataSignature(params,params.get("sign"))){
+                PaymentVo payment=paymentService.getByOutTradeNo(result.getOut_trade_no());
+                if(payment!=null&&payment.getCallbackTime()==null){
+                    payment.setInParam(result.toString());
+                    payment.setPayAppId(wechatProperties.getAppId());
+                    if ("SUCCESS".equals(result.getReturn_code())) {
+                        //支付成功
+                        payment.setStatus(1);
+                        payment.setTradeNo(result.getTransaction_id());
+                        pickService.handlePay(payment);
+                    } else {
+                        //支付失败
+                        payment.setStatus(2);
+                        payment.setTradeNo(result.getTransaction_id());
+                        pickService.handlePay(payment);
+                    }
                 }
             }
+
 
             String Result = "<xml>" +
                     "<return_code><![CDATA[SUCCESS]]></return_code>" +

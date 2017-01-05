@@ -420,7 +420,7 @@
 
             $('#configPay').on('click', function() {
                 var self=$(this);
-                layer.confirm('确认付款？', {
+                layer.confirm('确认收款？', {
                     btn: ['确认','取消'] //按钮
                 }, function(index){
                     layer.close(index);

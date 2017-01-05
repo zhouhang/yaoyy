@@ -110,6 +110,7 @@
                 and pr.account_bill_id = #{accountBillId}
             </if>
         </where>
+        ORDER  BY pr.create_time desc
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
