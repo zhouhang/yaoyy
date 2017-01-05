@@ -292,7 +292,7 @@ public class PickController extends BaseController{
     public String bankTransferSave(PayRecordVo record, String url){
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        Pick pick = pickService.findById(record.getOrderId());
+        Pick pick = pickService.findById(record.getAccountBillId());
         if (!(pick!= null && pick.getUserId().equals(user.getId()))){
             throw new ControllerException("用户无权限访问此付款页面.");
         }

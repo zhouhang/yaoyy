@@ -106,6 +106,9 @@
             <if test="endDate != null">
                 and pr.create_time <![CDATA[ <= ]]> #{endDate}
             </if>
+            <if test="accountBillId != null">
+                and pr.account_bill_id = #{accountBillId}
+            </if>
         </where>
         ORDER  BY pr.create_time desc
     </select>

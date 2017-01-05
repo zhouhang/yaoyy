@@ -46,7 +46,7 @@
         <div class="button">
             <button type="button"  id="wxpay" class="ubtn ubtn-primary">微信支付</button>
             <button type="button" id="alipay" class="ubtn ubtn-primary">支付宝支付</button>
-            <button type="button" class="ubtn ubtn-primary">银行转账</button>
+            <a href="/bill/bankTransfer?billId=${bill.id}" class="ubtn ubtn-primary">银行转账</a>
         </div>
         </#if>
         <div class="ui-extra">

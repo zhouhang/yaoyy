@@ -90,7 +90,7 @@
                     } else {
                         html.push('<strong>状态：<em class="blue">已结清</em></strong>');
                     }
-                    html.push('<a href="/bill/'+item.id+'" class="mid"><i class="fa fa-front"></i></a>');
+                    html.push('<a href="/bill/detail/'+item.id+'" class="mid"><i class="fa fa-front"></i></a>');
                     html.push('</div>');
                 })
                 html.push('</div>');
