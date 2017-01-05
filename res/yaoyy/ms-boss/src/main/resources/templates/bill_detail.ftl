@@ -182,7 +182,7 @@
         </div>
         <#if payRecord.status==0>
         <div class="ft">
-            <button class="ubtn ubtn-blue">确认收款</button>
+            <button class="ubtn ubtn-blue" id="configPay"payId="${payRecord.id}">确认收款</button>
         </div>
         </#if>
     </div>
@@ -191,6 +191,42 @@
 </div>
 
 <#include "./common/footer.ftl"/>>
+<script>
+    var _global = {
+        v: {
+            configUrl:'/bill/configPay'
+        },
+        fn: {
+            init: function() {
+                this.bindEvent();
+            },
+            bindEvent: function() {
+                $("#configPay").on('click',function () {
+                    var self=$(this);
+                    layer.confirm('确认付款？', {
+                        btn: ['确认','取消'] //按钮
+                    }, function(index){
+                        layer.close(index);
+                        $.ajax({
+                            url: _global.v.configUrl,
+                            data: {"payRecordId":self.attr("payId")}
+                            type: "POST",
+                            success: function(data) {
+                                if (data.status == "200") {
+                                    window.location.reload();
+                                }
+                            }
+                        })
+                    });
+                })
 
+            }
+        }
+    }
+
+    $(function() {
+        _global.fn.init();
+    })
+</script>
 </body>
 </html>

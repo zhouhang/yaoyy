@@ -22,7 +22,8 @@ public enum BizPickTrackingTypeEnum {
     PICK_CANCEL(15,"订单已取消"),
     PICK_SELFPAY_DEPOSTI(16,"您已支付保证金,我们工作人员正在为您做发货准备"),
     PICK_SELFPAY_ALL(17,"您已支付全款,我们工作人员正在为您做发货准备"),
-    PICK_PAY_BILL(18,"订单对应的账单支付成功");
+    PICK_PAY_BILL(18,"订单对应的账单支付成功"),
+    PICK_CONFIG_PAY_BILL(19,"客服已确认您支付了账单");
 
 
 
