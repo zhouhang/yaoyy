@@ -78,6 +78,20 @@ public class PickController extends BaseController{
             pickVo.setAbandon(0);
         }
         PageInfo<PickVo> pickVoPageInfo = pickService.findByParams(pickVo, pageNum, pageSize);
+        //寻找是否有待支付并且有提交转账记录的订单
+
+        pickVoPageInfo.getList().forEach(p->{
+            if(p.getStatus()==PickEnum.PICK_PAY.getValue()){
+                PayRecordVo param=new PayRecordVo();
+                param.setCodeType(0);
+                param.setOrderId(p.getId());
+                param.setStatus(0);
+                PayRecordVo payRecord=payRecordService.findByOrderId(param);
+                if(payRecord!=null){
+                    p.setStatusText("(付款待确认)");
+                }
+            }
+        });
         model.put("pickVoPageInfo", pickVoPageInfo);
         return "pick_list";
     }

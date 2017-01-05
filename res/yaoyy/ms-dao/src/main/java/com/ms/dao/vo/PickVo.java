@@ -66,7 +66,13 @@ public class PickVo extends Pick{
     public String getStatusText() {
         aotoComplete();
         setPickStatus();
-        return PickEnum.findByValue(getStatus());
+        if(statusText==null){
+            return PickEnum.findByValue(getStatus());
+        }
+        else{
+            return PickEnum.findByValue(getStatus())+statusText;
+        }
+
     }
 
     public void setStatusText(String statusText) {
@@ -105,7 +111,7 @@ public class PickVo extends Pick{
              if(this.getStatus()==null){
                  return;
              }
-            if (this.getStatus().equals(PickEnum.PICK_PAY.getValue())) {
+            if (this.getStatus().equals(PickEnum.PICK_PAY.getValue())&&this.getExpireDate()!=null) {
 
                 Long day = 24 * 60 * 60 * 1000L;
                 Long hour = 60 * 60 * 1000L;
