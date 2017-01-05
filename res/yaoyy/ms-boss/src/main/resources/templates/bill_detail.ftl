@@ -209,7 +209,7 @@
                         layer.close(index);
                         $.ajax({
                             url: _global.v.configUrl,
-                            data: {"payRecordId":self.attr("payId")}
+                            data: {"payRecordId":self.attr("payId")},
                             type: "POST",
                             success: function(data) {
                                 if (data.status == "200") {
