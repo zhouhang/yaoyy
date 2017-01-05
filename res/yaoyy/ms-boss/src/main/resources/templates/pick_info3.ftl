@@ -130,7 +130,7 @@
                 <div class="group">
                     <div class="item">
                         <div class="txt">保证金金额：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" value="${pickVo.deposit!}"><span class="unit">元</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" id="deposit"value="${pickVo.deposit!}"><span class="unit">元</span></div></div>
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
@@ -340,10 +340,24 @@
                             var sum=$("#sum2").val();
                             var amountsPayable=$("#sum3").text();
                             var billTime=$("#billTime").val();
+                            var deposit=$("#deposit").val();
+                            var settleType=$(".cbx[name='settleType']:checked").val();
                             if(parseInt(billTime)<7){
                                 $.notify({
                                     type: 'error',
                                     title: '账期不得少于七天',
+                                    delay: 3e3,
+                                    call: function() {
+                                        setTimeout(function() {
+                                        }, 3e3);
+                                    }
+                                });
+                                return;
+                            }
+                            if(settleType=='1'&&parseFloat(deposit)<=0){
+                                $.notify({
+                                    type: 'error',
+                                    title: '保证金不能为0',
                                     delay: 3e3,
                                     call: function() {
                                         setTimeout(function() {
