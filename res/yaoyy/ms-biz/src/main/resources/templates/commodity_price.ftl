@@ -72,6 +72,10 @@
                     color: ['#b9a060']
                 };
                 chart.setOption(option);
+
+                $(window).on('resize', function() {
+                    chart.resize();
+                })
             }
         }
     }
