@@ -181,7 +181,7 @@
     <dl>
         <dt>
             <a href="javascript:;">
-                <i class="fa fa-money"></i>
+                <i class="fa fa-cog"></i>
                 <span>系统设置</span>
                 <i class="fa fa-angle-down arrow"></i>
             </a>
