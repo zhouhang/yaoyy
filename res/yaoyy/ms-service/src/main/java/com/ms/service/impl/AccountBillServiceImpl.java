@@ -39,6 +39,13 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 	}
 
 	@Override
+	@Transactional
+	public int update(AccountBill accountBill) {
+		accountBill.setUpdateDate(new Date());
+		return super.update(accountBill);
+	}
+
+	@Override
 	public AccountBillVo findVoById(Integer id) {
 		AccountBillVo accountBillVo=accountBillDao.findVoById(id);
 		if(accountBillVo!=null){
@@ -53,6 +60,7 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 	public void saveAccountBill(AccountBillVo accountBillVo) {
 		accountBillVo.setStatus(0);
 		accountBillVo.setCreateDate(new Date());
+		accountBillVo.setUpdateDate(new Date());
 		accountBillVo.setCode(SeqNoUtil.getBillCode());
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());

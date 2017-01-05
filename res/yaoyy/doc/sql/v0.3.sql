@@ -200,3 +200,5 @@ ALTER TABLE `payment`
   ADD COLUMN `order_id`  int(11) NULL DEFAULT NULL COMMENT '订单id' AFTER `type`,
   ADD COLUMN `bill_id`  int(11) NULL DEFAULT NULL COMMENT '账单id' AFTER `order_id`;
 
+ALTER TABLE `yaoyy`.`account_bill`
+ADD COLUMN `update_date` DATETIME NULL COMMENT '更新时间' AFTER `create_date`;

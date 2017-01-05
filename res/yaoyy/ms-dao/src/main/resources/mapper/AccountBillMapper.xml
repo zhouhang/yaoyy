@@ -13,10 +13,10 @@
             <result column="repay_time"  property="repayTime" />
             <result column="member_id"  property="memberId" />
             <result column="create_date"  property="createDate" />
-        
+            <result column="update_date"  property="updateDate" />
     </resultMap>
 
-    <resultMap id="AccountBillResultMapVo" type="com.ms.dao.vo.AccountBillVo">
+    <resultMap id="AccountBillResultMapVo" type="com.ms.dao.vo.AccountBillVo" >
             <id column="id"  property="id" />
             <result column="code"  property="code" />
             <result column="order_id"  property="orderId" />
@@ -33,17 +33,17 @@
             <result column="repay_time"  property="repayTime" />
             <result column="member_id"  property="memberId" />
             <result column="create_date"  property="createDate" />
-        
+            <result column="update_date"  property="updateDate" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,code,order_id,user_id,bill_time,amounts_payable,already_payable,status,repay_time,member_id,create_date
+        id,code,order_id,user_id,bill_time,amounts_payable,already_payable,status,repay_time,member_id,create_date,update_date
     </sql>
 
     <sql id="Left_Join_List">
         ab.id as id,ab.code as code,ab.order_id as order_id,ab.user_id as user_id ,ab.bill_time as bill_time,ab.amounts_payable as amounts_payable,ab.already_payable as already_payable ,
         ab.status as status ,ab.repay_time as repay_time,ab.member_id as member_id,ab.create_date as create_date,p.code as orderCode,
-        ud.nickname as nickname,ud.name as name,ud.type as user_type,m.name as member_name
+        ud.nickname as nickname,ud.name as name,ud.type as user_type,m.name as member_name, ab.update_date as update_date
     </sql>
 
 
@@ -87,7 +87,13 @@
                 and ab.user_id=#{userId}
             </if>
         </where>
-        ORDER BY ab.create_date DESC
+        ORDER BY
+        <if test="userId != null">
+        ab.create_date DESC
+        </if>
+        <if test="userId == null">
+            ab.update_date DESC
+        </if>
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -97,9 +103,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.AccountBill">
         insert into
-        account_bill (code,order_id,user_id,bill_time,amounts_payable,already_payable,status,repay_time,member_id,create_date)
+        account_bill (code,order_id,user_id,bill_time,amounts_payable,already_payable,status,repay_time,member_id,create_date,update_date)
         values
-        (#{code},#{orderId},#{userId},#{billTime},#{amountsPayable},#{alreadyPayable},#{status},#{repayTime},#{memberId},#{createDate})
+        (#{code},#{orderId},#{userId},#{billTime},#{amountsPayable},#{alreadyPayable},#{status},#{repayTime},#{memberId},#{createDate},#{updateDate})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.AccountBill">
@@ -145,7 +151,11 @@
             <if test="createDate != null">
                 create_date = #{createDate},
             </if>
-                            
+
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+
         </set>
         where id = #{id}
     </update>

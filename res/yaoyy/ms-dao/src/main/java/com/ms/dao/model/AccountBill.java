@@ -39,6 +39,9 @@ public class AccountBill  implements Serializable {
 	
 	//创建时间
 	private Date createDate;
+
+	//更新时间
+	private Date updateDate;
 	
 	public AccountBill(){}
 	
@@ -129,5 +132,12 @@ public class AccountBill  implements Serializable {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 }
