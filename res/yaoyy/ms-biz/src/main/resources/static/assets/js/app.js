@@ -142,14 +142,7 @@ var _YYY = {
     APPLYINFO: 'userInfo', // 申请寄样以及申请选货单提交的资料
     QUOTETIME:'quoteTime',//最近查看quote时间
 
-    is_weixn: (function() {
-        var ua = navigator.userAgent.toLowerCase();  
-        if(ua.match(/MicroMessenger/i)=="micromessenger") {  
-            return true;  
-        } else {  
-            return false;  
-        }  
-    })(),
+    is_weixn: /MicroMessenger/.test(navigator.userAgent),
 
     timeago: {
         fillZero: function(number) {
