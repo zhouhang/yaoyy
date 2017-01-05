@@ -30,7 +30,7 @@
                 </li>
                 <li <#if 6= pickVo.status >class="active"</#if>>
                     <i></i>
-                    <#if pickVo.settleType!=2>
+                    <#if pickVo.settleType?exists && pickVo.settleType!=2>
                         <span>支付完成</span>
                     <#else>
                         <span>确认账单</span>
@@ -76,7 +76,8 @@
         </#if>
         </div>
     <#if pickVo.amountsPayable?exists && pickVo.amountsPayable != 0>
-        <div class="item more">
+        <div class="item">
+            <div class="more">
             <#if address?exists>
             <div id="address_title" class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
 
@@ -86,21 +87,22 @@
             <div id="address_detail" class="address">+</div>
             </#if>
             <#if pickVo.status == 5 ||pickVo.status== 8>
-            <a href="/address/select?orderId=${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+            <a href="/address/select?orderId=${pickVo.id}"><i class="fa fa-front mid"></i></a>
             </#if>
+            </div>
         </div>
 
         <div class="item">
             <div class="more">
                 <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content}<#else >不开发票</#if></span></div>
         <#if pickVo.status == 5||pickVo.status== 8>
-                <a href="/pick/invoice/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+                <a href="/pick/invoice/${pickVo.id}"><i class="fa fa-front mid"></i></a>
         </#if>
             </div>
             <div class="more hr">
                 <div class="txt"><strong>备注：</strong><span id="note"><#if pickVo.remark?exists>${pickVo.remark}<#else >无</#if></span></div>
         <#if pickVo.status == 5 ||pickVo.status== 8>
-                <a href="/pick/note/${pickVo.id}" class="mid"><i class="fa fa-front"></i></a>
+                <a href="/pick/note/${pickVo.id}"><i class="fa fa-front mid"></i></a>
         </#if>
             </div>
         <#if logistical?exists>
@@ -147,7 +149,7 @@
                 <dt>总计：</dt>
                 <dd><em>${pickVo.amountsPayable?default(0)}</em>元</dd>
             </dl>
-            <#if pickVo.settleType==1>
+            <#if pickVo.settleType?exists && pickVo.settleType==1>
             <dl class="f18">
                 <dt>支付保证金：</dt>
                 <dd><em>${pickVo.deposit?default(0)}</em>元</dd>
@@ -160,7 +162,7 @@
                 <dt>剩余金额：</dt>
                 <dd><em>${pickVo.amountsPayable-pickVo.deposit}</em>元</dd>
             </dl>
-            <#elseif pickVo.settleType==2>
+            <#elseif pickVo.settleType?exists && pickVo.settleType==2>
                 <dl class="f18">
                     <dt>账期：</dt>
                     <dd><em>${pickVo.billTime?default(0)}</em>天</dd>
@@ -170,7 +172,7 @@
     </#if>
 
         <div class="button">
-        <#if  pickVo.settleType!=2>
+        <#if pickVo.settleType?exists && pickVo.settleType!=2>
         <#if pickVo.status == 5>
             <button type="button" id="bankTransfer" class="ubtn ubtn-primary">银行转账</button>
             <button type="button" id="wxpay" class="ubtn ubtn-primary">微信支付</button>

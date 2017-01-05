@@ -1,14 +1,15 @@
 package com.ms.biz.controller;
 
-import com.github.pagehelper.PageInfo;
-import com.ms.dao.enums.PickTrackingTypeEnum;
-import com.ms.dao.enums.SettleTypeEnum;
-import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.Pick;
 import com.ms.dao.model.Setting;
 import com.ms.dao.model.User;
-import com.ms.dao.vo.*;
-import com.ms.service.*;
+import com.ms.dao.vo.AccountBillVo;
+import com.ms.dao.vo.PayDocumentVo;
+import com.ms.dao.vo.PayRecordVo;
+import com.ms.service.AccountBillService;
+import com.ms.service.PayRecordService;
+import com.ms.service.PickService;
+import com.ms.service.SettingService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -144,6 +144,7 @@ public class BillController extends BaseController{
         record.setCodeType(1);
         record.setStatus(0);
         record.setPayType(0);
+        record.setActualPayment(bill.getAmountsPayable()-bill.getAlreadyPayable());
         // 设置默认信息
         // 后台配置的银行信息
         Setting setting = settingService.find();

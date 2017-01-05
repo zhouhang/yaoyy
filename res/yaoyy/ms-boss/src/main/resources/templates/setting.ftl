@@ -82,7 +82,7 @@
                             data: {tel: $(form[0]).val()},
                             method:"POST",
                             success: function (response) {
-
+                                window.location.reload();
                             }
                         })
                     }
@@ -116,7 +116,7 @@
                             data: $(form).serializeObject(),
                             method:"POST",
                             success: function (response) {
-
+                                window.location.reload();
                             }
                         })
                     }
