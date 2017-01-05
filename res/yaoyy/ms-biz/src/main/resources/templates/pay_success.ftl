@@ -11,7 +11,7 @@
        <#if orderId?exists>
         <a href="/pick/detail/${orderId}" class="fa fa-back"></a>
        <#elseif billId?exists>
-           <a href="/bill/${billId}" class="fa fa-back"></a>
+           <a href="/bill/detail/${billId}" class="fa fa-back"></a>
        </#if>
 
     </div>
