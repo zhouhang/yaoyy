@@ -59,7 +59,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
-<script src="assets/js/lrz.bundle.js?id=1"></script>
+<script src="${urls.getForLookupPath('/assets/js/lrz.bundle.js')}"></script>
 <script>
     var _global = {
         fn: {

@@ -6,5 +6,5 @@
 <base href="${baseUrl}"/>
 
 <link rel="icon" href="favicon.ico">
-<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/app.css')}">
 

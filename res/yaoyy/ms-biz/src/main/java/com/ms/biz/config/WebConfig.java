@@ -20,6 +20,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.resource.VersionResourceResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -46,7 +47,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("classpath:/static/").resourceChain(false)
+                .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
     }
 
     @Override

@@ -30,7 +30,6 @@
 
 
 </section><!-- /ui-content -->
-
 <#include "./common/footer.ftl"/>
 <script>
 
@@ -87,7 +86,7 @@
     }
 </script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="assets/js/weixin_share.js"></script>
+<script src="${urls.getForLookupPath('/assets/js/weixin_share.js')}"></script>
 
 </body>
 </html>

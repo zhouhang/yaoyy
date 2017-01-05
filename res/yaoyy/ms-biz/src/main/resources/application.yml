@@ -6,7 +6,12 @@ spring:
     jmx:
           enabled: true
           default-domain: yaoyybiz
-
+    resources:
+          chain:
+              strategy:
+                  content:
+                        enabled: true
+                        paths: /**
 
 #mybatis:
 #  mapperLocations: classpath:mapper/*.xml
