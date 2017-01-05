@@ -202,3 +202,10 @@ ALTER TABLE `payment`
 
 ALTER TABLE `yaoyy`.`account_bill`
 ADD COLUMN `update_date` DATETIME NULL COMMENT '更新时间' AFTER `create_date`;
+
+#账单更新时间数据更新
+update account_bill set update_date = create_date where id > 10;
+
+ALTER TABLE `yaoyy`.`pick_commodity`
+CHANGE COLUMN `price` `price` DECIMAL(10,2) NULL DEFAULT NULL ,
+CHANGE COLUMN `total` `total` DECIMAL(20,2) NULL DEFAULT NULL ;

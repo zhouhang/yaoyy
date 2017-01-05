@@ -86,6 +86,7 @@ public class AccountBill  implements Serializable {
 	}
 	
 	public Float getAmountsPayable() {
+		if (amountsPayable == null) amountsPayable = 0F;
 		return amountsPayable;
 	}
 
@@ -94,6 +95,7 @@ public class AccountBill  implements Serializable {
 	}
 	
 	public Float getAlreadyPayable() {
+		if (alreadyPayable == null) alreadyPayable = 0F;
 		return alreadyPayable;
 	}
 
