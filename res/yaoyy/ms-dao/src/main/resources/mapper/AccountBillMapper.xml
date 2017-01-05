@@ -87,6 +87,7 @@
                 and ab.user_id=#{userId}
             </if>
         </where>
+        ORDER BY ab.create_date DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
