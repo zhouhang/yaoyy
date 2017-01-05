@@ -141,7 +141,7 @@ public class AliPayController {
         alipayRequest.setReturnUrl(systemProperties.getBaseUrl()+"/alipay/return"); //回调页面
         alipayRequest.setNotifyUrl(systemProperties.getBaseUrl()+"/alipay/callback");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent(content);//填充业务参数
-        payment.setOutParam(content);
+        payment.setInParam(content);
         logger.info("支付宝支付参数："+content);
         String form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
         payment.setStatus(0);
