@@ -24,7 +24,7 @@
         </div>
         <div class="item">
             <div class="txt">订单编号：</div>
-            <div class="val c-blue">${billVo.orderCode!}</div>
+            <div class="val"><a href="/pick/detail/${billVo.orderId}"class="c-blue">${billVo.orderCode!}</a></div>
         </div>
         <div class="item">
             <div class="txt">客户姓名：</div>
