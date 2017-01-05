@@ -113,6 +113,7 @@ public class ShiroConfiguration {
                 "/quotation/**=bossAuthorization;" +
                 "/payRecord/**=bossAuthorization;" +
                 "/user/**=bossAuthorization;" +
+                "/setting/**=bossAuthorization;" +
                 "/commodity/**=bossAuthorization;");
         return shiroFilterFactoryBean;
     }

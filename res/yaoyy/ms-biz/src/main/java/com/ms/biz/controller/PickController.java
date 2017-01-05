@@ -309,6 +309,13 @@ public class PickController extends BaseController{
         record.setCodeType(0);
         record.setStatus(0);
         record.setPayType(0);
+        if(pick.getSettleType()!= SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+            record.setActualPayment(pick.getAmountsPayable());
+        }
+        else{
+            record.setActualPayment(pick.getDeposit());
+        }
+
         // 设置默认信息
         // 后台配置的银行信息
         Setting setting = settingService.find();
