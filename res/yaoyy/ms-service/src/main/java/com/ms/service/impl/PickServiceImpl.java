@@ -415,21 +415,21 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 					accountBillVo.setAlreadyPayable(pick.getDeposit());
 					accountBillVo.setAmountsPayable(pick.getAmountsPayable());
 					accountBillService.saveAccountBill(accountBillVo);
-					PickTrackingVo pickTrackingVo=new PickTrackingVo();
-					pickTrackingVo.setPickId(payment.getOrderId());
-
-					pickTrackingVo.setOperator(pick.getUserId());
-					pickTrackingVo.setName(pick.getNickname());
-					pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
-
-					if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
-						pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_DEPOSTI.getValue());
-					}
-					else{
-						pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue());
-					}
-					pickTrackingService.save(pickTrackingVo);
 				}
+				PickTrackingVo pickTrackingVo=new PickTrackingVo();
+				pickTrackingVo.setPickId(payment.getOrderId());
+
+				pickTrackingVo.setOperator(pick.getUserId());
+				pickTrackingVo.setName(pick.getNickname());
+				pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+
+				if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+					pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_DEPOSTI.getValue());
+				}
+				else{
+					pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue());
+				}
+				pickTrackingService.save(pickTrackingVo);
 			}
 			else{
 				//账单支付需要更改账单状态

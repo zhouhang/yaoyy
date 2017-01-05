@@ -134,7 +134,7 @@
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" value="${pickVo.billTime!}"><span class="unit">天</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime" value="${pickVo.billTime!}"><span class="unit">天</span></div></div>
                     </div>
                 </div>
                 <div class="ft">
@@ -339,6 +339,19 @@
                             layer.close(index);
                             var sum=$("#sum2").val();
                             var amountsPayable=$("#sum3").text();
+                            var billTime=$("#billTime").val();
+                            if(parseInt(billTime)<7){
+                                $.notify({
+                                    type: 'error',
+                                    title: '账期不得少于七天',
+                                    delay: 3e3,
+                                    call: function() {
+                                        setTimeout(function() {
+                                        }, 3e3);
+                                    }
+                                });
+                                return;
+                            }
                             var pickCommoditys=[];
                             $ipts.each(function(i) {
                                 var pickCommodity={};
