@@ -103,10 +103,10 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_RECEIPT.getValue()){
 				pick.setStatus(PickEnum.PICK_FINISH.getValue());
 			}
-
-			else{
+			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_NOT_FINISH.getValue()){
 				pick.setStatus(PickEnum.PICK_NOTFINISH.getValue());
 			}
+
 
 			pick.setUpdateTime(now);
 			pickDao.update(pick);
