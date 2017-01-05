@@ -18,7 +18,7 @@
         <div class="bd">
             <p class="tit">订单详情</p>
 
-            <p><span>订单号：</span><em class="blue">${pick.code!}</em></p>
+            <p><span>订单号：</span><a href="/pick/detail/${pick.id!}"><em class="blue">${pick.code!}</em></a></p>
 
             <p><span>账单号：</span>${bill.code!}</p>
 
