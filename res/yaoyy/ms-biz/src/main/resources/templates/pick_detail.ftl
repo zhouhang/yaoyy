@@ -286,7 +286,7 @@
                         return false;
                     }
                     layer.open({
-                        content: '确定要删除吗？',
+                        content: '确定要取消订单吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
                             $.ajax({
