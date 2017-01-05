@@ -106,7 +106,7 @@ public class BillController extends BaseController{
         if (!(bill!= null && bill.getUserId().equals(user.getId()))){
             throw new ControllerException("用户无权限访问此付款页面.");
         }
-        model.put("total",bill.getAmountsPayable()-bill.getAlreadyPayable());
+        model.put("total",bill.getUnpaid());
         PayRecordVo payRecord = payRecordService.findByBillId(billId);
         if (payRecord != null) {
             model.put("id", payRecord.getId());

@@ -37,7 +37,7 @@
             <p class="tit">账单详情</p>
             <p><span>订单总金额：</span><b>&yen;${bill.amountsPayable!}</b>元</p>
             <p><span>已支付：</span><b>&yen;${bill.alreadyPayable}</b>元</p>
-            <p><span>欠款：</span><b>&yen;${bill.amountsPayable - bill.alreadyPayable}</b>元</p>
+            <p><span>欠款：</span><b>&yen;${bill.unpaid}</b>元</p>
             <p><span>账期：</span>${bill.billTime!}天</p>
             <p><span>剩余账期：</span>${bill.timeLeft}</p>
         </div>

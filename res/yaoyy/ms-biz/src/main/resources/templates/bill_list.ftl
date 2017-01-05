@@ -84,7 +84,7 @@
                     html.push('<p><span>订单总金额：</span><b>&yen;'+item.amountsPayable+'</b>元</p>');
                     html.push('<p><span>已支付：</span><b>&yen;'+item.alreadyPayable+'</b>元</p>');
                     if (item.status == 0) {
-                        html.push('<p><span>欠款：</span><b>&yen;'+(item.amountsPayable - item.alreadyPayable)+'</b>元</p>');
+                        html.push('<p><span>欠款：</span><b>&yen;'+(item.unpaid)+'</b>元</p>');
                         html.push('<p><span>剩余账期：</span>'+item.billTime+'天</p>');
                         html.push(' <strong>状态：<em class="red">未结清</em></strong>');
                     } else {

@@ -79,6 +79,9 @@ public class AccountBillServiceImpl  extends AbsCommonService<AccountBill> imple
 		AccountBillVo vo = new AccountBillVo();
 		vo.setUserId(userId);
 		PageInfo<AccountBillVo>  list = findByParams(vo,pageNum,pageSize);
+		list.getList().forEach(bill -> {
+			bill.getUnpaid();
+		});
 		return list;
 	}
 

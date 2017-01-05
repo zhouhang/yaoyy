@@ -3,6 +3,7 @@ package com.ms.dao.vo;
 import com.ms.dao.enums.IdentityTypeEnum;
 import com.ms.dao.model.AccountBill;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,6 +24,9 @@ public class AccountBillVo extends AccountBill{
     private String userTypeName;
 
     private PickVo pickVo;
+
+    // 待支付金额
+    private float unpaid;
 
     public PickVo getPickVo() {
         return pickVo;
@@ -111,5 +115,16 @@ public class AccountBillVo extends AccountBill{
 
     public void setTimeLeft(String timeLeft) {
         this.timeLeft = timeLeft;
+    }
+
+    public Float getUnpaid() {
+        BigDecimal b1 = new BigDecimal(Float.toString(getAmountsPayable()));
+        BigDecimal b2 = new BigDecimal(Float.toString(getAlreadyPayable()));
+        unpaid = Float.valueOf(b1.subtract(b2).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        return unpaid ;
+    }
+
+    public void setUnpaid(float unpaid) {
+        this.unpaid = unpaid;
     }
 }
