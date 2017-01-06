@@ -463,14 +463,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	public void cancel(Integer id, Integer userId) {
 		// 判断订单属于当前用户,再取消
 		Pick pick = findById(id);
-		if (pick!= null && pick.getId().equals(userId)) {
+		if (pick == null || !pick.getUserId().equals(userId)) {
 			throw new ControllerException("没有权限取消订单");
 			// TODO: 判断当前订单的状态是否 处于可取消状态
 		}
 		changeOrderStatus(id,PickEnum.PICK_CANCLE.getValue());
 		//用户提交之后立即取消时候需要消费掉这条消息，否则消费不了
-
-
 		MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 		applicationContext.publishEvent(msgConsumeEvent);
 	}
@@ -481,9 +479,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void receipt(Integer id, Integer userId) {
-		// 判断订单属于当前用户,再取消
+		// 判断订单属于当前用户,再确认收货
 		Pick pick = findById(id);
-		if (pick!= null && pick.getId().equals(userId)) {
+		if (pick == null || !pick.getUserId().equals(userId)) {
 			throw new ControllerException("没有权限取消订单");
 			// TODO: 判断当前订单的状态是否 处于可确认收货状态
 		}
