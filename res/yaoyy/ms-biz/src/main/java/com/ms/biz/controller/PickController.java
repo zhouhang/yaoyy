@@ -121,6 +121,7 @@ public class PickController extends BaseController{
 
         model.put("pickVo",pickVo);
         model.put("pickTrackingVos",pickTrackingVos);
+        model.put("authId",user.getOpenid());
 
         //  获取默认的收货地址
         if (pickVo.getAddrHistoryId() == null){

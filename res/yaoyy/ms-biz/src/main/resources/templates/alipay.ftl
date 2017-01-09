@@ -28,6 +28,7 @@
     <form id="alipayment" action='/alipay/pay' method=post target="_blank">
         <input type="hidden"  name="orderId" value="${orderId!}">
         <input type="hidden" name="billId" value="${billId!}">
+        <input type="hidden" name="userId" value="${userId!}">
     </form>
 </section><!-- /ui-content -->
 

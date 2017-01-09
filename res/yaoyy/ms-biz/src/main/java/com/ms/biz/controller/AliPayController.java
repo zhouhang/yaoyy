@@ -17,6 +17,7 @@ import com.ms.dao.vo.PickVo;
 import com.ms.service.AccountBillService;
 import com.ms.service.PaymentService;
 import com.ms.service.PickService;
+import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.exception.NotFoundException;
 import com.ms.tools.utils.SeqNoUtil;
@@ -59,6 +60,9 @@ public class AliPayController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 阿里支付页面
      * @param orderId
@@ -67,8 +71,11 @@ public class AliPayController {
      * @return
      */
     @RequestMapping(value = "index")
-    public String index(Integer orderId,Integer billId,ModelMap model){
-
+    public String index(Integer orderId,Integer billId,String authId,ModelMap model){
+        User user=userService.findByOpenId(authId);
+        if(user==null){
+            throw new NotFoundException("找不到该用户");
+        }
         if (orderId != null) {
             PickVo pick = pickService.findVoById(orderId);
             if(pick==null){
@@ -92,14 +99,15 @@ public class AliPayController {
         }
         model.put("orderId",orderId);
         model.put("billId",billId);
+        model.put("userId",user.getId());
         return "alipay";
     }
 
 
     @RequestMapping(value = "pay")
     public void pay(HttpServletResponse response,
-                    Integer orderId, Integer billId) throws Exception{
-        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+                    Integer orderId, Integer billId,Integer userId) throws Exception{
+        User user = userService.findById(userId);
         Map<String,Object> params = new HashMap<>();
         PaymentVo payment = new PaymentVo();
         payment.setUserId(user.getId());

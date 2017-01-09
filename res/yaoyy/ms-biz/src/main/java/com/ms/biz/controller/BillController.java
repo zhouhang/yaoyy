@@ -90,6 +90,7 @@ public class BillController extends BaseController{
         model.put("bill",accountBillVo);
         model.put("payRecord",payRecordVo);
         model.put("pick",pick);
+        model.put("authId",user.getOpenid());
         return "bill_detail";
     }
 
