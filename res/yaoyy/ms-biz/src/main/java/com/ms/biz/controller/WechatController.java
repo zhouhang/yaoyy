@@ -312,10 +312,10 @@ public class WechatController extends BaseController {
             orderRequest.setBody("药优优订单支付");
             payment.setType(0);
             payment.setOrderId(orderId);
-            if (pick.getSettleType() == SettleTypeEnum.SETTLE_ALL.getType()) {
+            if (SettleTypeEnum.SETTLE_ALL.getType().equals(pick.getSettleType())) {
                 orderRequest.setTotalFee((int) (pick.getAmountsPayable() * 100));//元转成分
                 payment.setMoney(pick.getAmountsPayable());
-            } else if (pick.getSettleType() == SettleTypeEnum.SETTLE_DEPOSIT.getType()) {
+            } else if (SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())) {
                 orderRequest.setTotalFee((int) (pick.getDeposit() * 100));
                 payment.setMoney(pick.getDeposit());
             }

@@ -232,7 +232,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	public void createOrder(PickVo pickVo) {
 
 		PickVo oldPick=pickDao.findVoById(pickVo.getId());
-		if(oldPick.getStatus()!=PickEnum.PICK_PAY.getValue()){
+		if(!PickEnum.PICK_PAY.getValue().equals(oldPick.getStatus())){
 			//创建一条生成订单跟踪记录
 			PickTracking pickTracking=new PickTracking();
 			if(pickVo.getMemberId()!=null){

@@ -129,13 +129,13 @@ public class PickController extends BaseController{
             PayRecordVo param=new PayRecordVo();
             param.setCodeType(0);
             param.setOrderId(pickVo.getId());
-            if(pickVo.getStatus()==PickEnum.PICK_PAY.getValue()){
+            if(PickEnum.PICK_PAY.getValue().equals(pickVo.getStatus())){
                 param.setStatus(0);
             }
             else{
                 param.setStatus(1);
             }
-            if(pickVo.getSettleType()!= SettleTypeEnum.SETTLE_ALL.getType()){
+            if(!SettleTypeEnum.SETTLE_ALL.getType().equals(pickVo.getSettleType())){
                 AccountBillVo accountBillVo=accountBillService.findVoByOrderId(pickVo.getId());
                 model.put("accountBillVo",accountBillVo);
             }

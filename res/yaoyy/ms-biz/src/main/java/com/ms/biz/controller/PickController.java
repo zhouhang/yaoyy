@@ -249,10 +249,9 @@ public class PickController extends BaseController{
         param.setCodeType(0);
         param.setOrderId(orderId);
         PayRecordVo vo = payRecordService.findByOrderId(param);
-        if(pick.getSettleType()!= SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+        if(!SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())){
             model.put("total",pick.getAmountsPayable());
-        }
-        else{
+        } else{
             model.put("total",pick.getDeposit());
         }
 
@@ -309,7 +308,7 @@ public class PickController extends BaseController{
         record.setCodeType(0);
         record.setStatus(0);
         record.setPayType(0);
-        if(pick.getSettleType()!= SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+        if(!SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())){
             record.setActualPayment(pick.getAmountsPayable());
         }
         else{

@@ -92,8 +92,8 @@ public class AccountBillVo extends AccountBill{
 
         if(this.getRepayTime()!=null){
             Long day = 24 * 60 * 60 * 1000L;
-            Long hour = 60 * 60 * 1000L;
-            Long minute = 60 * 1000L;
+//            Long hour = 60 * 60 * 1000L;
+//            Long minute = 60 * 1000L;
             Calendar now = Calendar.getInstance();
             now.setTime(this.getRepayTime());
             now.set(Calendar.HOUR_OF_DAY, 23);
