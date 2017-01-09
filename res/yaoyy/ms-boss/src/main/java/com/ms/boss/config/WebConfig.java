@@ -2,6 +2,7 @@ package com.ms.boss.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ms.tools.Interceptor.SecurityTokenInterceptor;
 import com.ms.tools.utils.gson.adapter.IntegerDefault0Adapter;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
@@ -47,6 +48,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(viewObjectAddingInterceptor());
+        registry.addInterceptor(new SecurityTokenInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 

@@ -10,6 +10,7 @@ import com.ms.dao.vo.CodeVo;
 import com.ms.service.CategoryService;
 import com.ms.dao.enums.CategoryEnum;
 import com.ms.service.CodeService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class CategoryController extends BaseController{
      */
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String listCategory(CategoryVo categoryVo, Integer pageNum,
                                Integer pageSize,ModelMap model
                        ) {
@@ -77,6 +79,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result saveCategory(CategoryVo category){
         categoryService.save(category);
         return Result.success("成功创建商品");
@@ -106,6 +109,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result updateCategory(CategoryVo category){
         categoryService.save(category);
         return Result.success("修改分类成功");

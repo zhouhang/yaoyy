@@ -103,7 +103,7 @@
 
                 // 删除
                 $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl + $(this).attr('href');
+                    var url = _global.v.deleteUrl + $(this).data('id');
                     layer.confirm('确认删除此文章？', {icon: 3, title: '提示'}, function (index) {
                         $.get(url, function (data) {
                             if (data.status == 200) {

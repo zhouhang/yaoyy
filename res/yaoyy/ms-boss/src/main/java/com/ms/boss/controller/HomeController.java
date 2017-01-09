@@ -4,6 +4,7 @@ import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossToken;
 import com.ms.dao.model.Member;
 import com.ms.service.MemberService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.utils.CommonUtils;
@@ -40,6 +41,7 @@ public class HomeController extends BaseController{
     BossSystemProperties bossSystemProperties;
 
     @RequestMapping(value = "/")
+    @SecurityToken(generateToken = true)
     public String index(HttpServletRequest request,
                         HttpServletResponse response) {
         return "login";
@@ -52,6 +54,7 @@ public class HomeController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String login(HttpServletRequest request,
                         HttpServletResponse response) {
         return "login";
@@ -67,6 +70,7 @@ public class HomeController extends BaseController{
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result loginSubmit(HttpServletRequest request,
                             HttpServletResponse response,
                             @RequestParam(required = true) String username,
