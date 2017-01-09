@@ -34,13 +34,12 @@ public class EncryptUtil
 	 * @return Password class which contains salted password and salt.
 	 */
     public static Password PiecesEncode(String plainPassword,String salt,String... encodes){
-		String finalPass = plainPassword;
 		String encode = ArrayUtils.isEmpty(encodes)?DEFAULT_ENCODE:encodes[0];
-		finalPass = salt+plainPassword;
+		plainPassword = salt+plainPassword;
 		Password p = new Password();
 		p.setPlainPassword(plainPassword);
 		p.setSalt(String.valueOf(salt));
-		p.setPassword(EncryptUtil.getSHA1(finalPass, encode));
+		p.setPassword(EncryptUtil.getSHA1(plainPassword, encode));
 		return p;
 	}
     

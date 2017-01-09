@@ -101,7 +101,7 @@ public class PayRecordController extends BaseController{
         payRecordService.update(payRecord);
         //如果存在账期就为这个用户生成账单
         PickVo pick=pickService.findVoById(orderId);
-        if(pick.getSettleType()== SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+        if(SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())){
             AccountBillVo accountBillVo=new AccountBillVo();
             accountBillVo.setMemberId(mem.getId());
             accountBillVo.setOrderId(pick.getId());

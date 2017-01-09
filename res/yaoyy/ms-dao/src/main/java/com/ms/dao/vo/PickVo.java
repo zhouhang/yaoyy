@@ -113,9 +113,9 @@ public class PickVo extends Pick{
              }
             if (this.getStatus().equals(PickEnum.PICK_PAY.getValue())&&this.getExpireDate()!=null) {
 
-                Long day = 24 * 60 * 60 * 1000L;
-                Long hour = 60 * 60 * 1000L;
-                Long minute = 60 * 1000L;
+//                Long day = 24 * 60 * 60 * 1000L;
+//                Long hour = 60 * 60 * 1000L;
+//                Long minute = 60 * 1000L;
                 Calendar now = Calendar.getInstance();
                 now.setTime(this.getExpireDate());
                 now.set(Calendar.HOUR_OF_DAY, 23);

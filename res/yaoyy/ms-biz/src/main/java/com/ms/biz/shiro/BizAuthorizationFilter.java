@@ -39,7 +39,6 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 			throws IOException {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String ua = httpRequest.getHeader("user-agent").toLowerCase();
 		Subject subject = getSubject(request, response);
 		// 先判断是否需要重新登录

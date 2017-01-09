@@ -81,9 +81,9 @@ public class AliPayController {
             if(pick==null){
                 throw new NotFoundException("找不到该订单");
             }
-            if (pick.getSettleType() == SettleTypeEnum.SETTLE_ALL.getType()) {
+            if (SettleTypeEnum.SETTLE_ALL.getType().equals(pick.getSettleType())) {
                 model.put("money",pick.getAmountsPayable());
-            } else if (pick.getSettleType() == SettleTypeEnum.SETTLE_DEPOSIT.getType()) {
+            } else if (SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())) {
                 model.put("money",pick.getDeposit());
             }
 
@@ -118,10 +118,10 @@ public class AliPayController {
             params.put("body","药优优订单支付");
             payment.setType(0);
             payment.setOrderId(orderId);
-            if (pick.getSettleType() == SettleTypeEnum.SETTLE_ALL.getType()) {
+            if (SettleTypeEnum.SETTLE_ALL.getType().equals(pick.getSettleType())) {
                 params.put("total_amount",pick.getAmountsPayable());
                 payment.setMoney(pick.getAmountsPayable());
-            } else if (pick.getSettleType() == SettleTypeEnum.SETTLE_DEPOSIT.getType()) {
+            } else if (SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())) {
                 payment.setMoney(pick.getDeposit());
                 params.put("total_amount",pick.getDeposit());
             }
