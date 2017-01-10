@@ -73,7 +73,7 @@ public class PickCommodityController extends BaseController{
 
 
 
-        return Result.success().data(userInfo);
+        return Result.success().data(userInfo.getId());
     }
 
 

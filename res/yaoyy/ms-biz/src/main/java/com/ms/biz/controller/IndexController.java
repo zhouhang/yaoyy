@@ -130,7 +130,7 @@ public class IndexController extends BaseController{
         sendSampleService.save(sendSampleVo);
         UserVo userInfo=userService.findByPhone(sendSampleVo.getPhone());
 
-        return Result.success().data(userInfo);
+        return Result.success().data(userInfo.getId());
     }
 
     @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
