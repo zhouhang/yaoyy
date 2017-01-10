@@ -92,6 +92,7 @@ public class CMSController extends BaseController{
     }
 
     @RequestMapping(value="editor/{id}",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String edit(@PathVariable("id") Integer id,ModelMap model){
         Article article = articleService.findById(id);
         model.put("article", article);

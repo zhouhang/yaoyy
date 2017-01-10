@@ -7,6 +7,7 @@ import com.ms.dao.vo.AdTypeVo;
 import com.ms.dao.vo.AdVo;
 import com.ms.service.AdService;
 import com.ms.service.AdTypeService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class AdController extends BaseController{
 
     @RequiresPermissions(value = "ad:list")
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String list(AdVo adVo, Integer pageNum, Integer pageSize, ModelMap model) {
         List<AdType> types = adTypeService.findAll();
         PageInfo pageInfo = adService.findByParams(adVo,pageNum,pageSize);
@@ -53,6 +55,7 @@ public class AdController extends BaseController{
     @RequiresPermissions(value = "ad:edit")
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(Ad ad) {
         adService.save(ad);
         return Result.success("保存成功!");

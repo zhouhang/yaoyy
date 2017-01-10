@@ -8,6 +8,7 @@ import com.ms.dao.vo.SpecialVo;
 import com.ms.service.SpecialCommodityService;
 import com.ms.service.SpecialService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.apache.commons.lang.StringUtils;
 import com.ms.tools.utils.Reflection;
@@ -68,6 +69,7 @@ public class SpecialController extends BaseController{
      * @return
      */
     @RequestMapping(value="create",method= RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String createSpecial(ModelMap model){
         Special special=new Special();
         model.put("special",special);
@@ -93,6 +95,7 @@ public class SpecialController extends BaseController{
      */
     @RequestMapping(value="save",method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(SpecialVo specialVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         specialVo.setUpdateMem(mem.getId());
@@ -125,6 +128,7 @@ public class SpecialController extends BaseController{
      */
 
     @RequestMapping(value="edit/{id}",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String edit(@PathVariable("id") Integer id,ModelMap model){
         Special special=specialService.findById(id);
         List<CommodityVo> commodities=specialService.findCommoditiesBySpecial(id);

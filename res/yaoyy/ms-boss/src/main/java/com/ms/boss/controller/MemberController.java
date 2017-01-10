@@ -10,6 +10,7 @@ import com.ms.service.MemberService;
 import com.ms.service.RoleMemberService;
 import com.ms.service.RoleService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import com.ms.tools.utils.WebUtil;
@@ -80,6 +81,7 @@ public class MemberController extends BaseController{
      */
     @RequiresPermissions(value = "member:add")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String add(HttpServletRequest request,
                        HttpServletResponse response,
                        ModelMap model){
@@ -96,6 +98,7 @@ public class MemberController extends BaseController{
      */
     @RequiresPermissions(value = "member:edit")
     @RequestMapping(value = "/edit/{id}",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String edit(HttpServletRequest request,
                        HttpServletResponse response,
                        ModelMap model,
@@ -119,6 +122,7 @@ public class MemberController extends BaseController{
     @RequiresPermissions(value = {"member:add","member:edit"},logical = Logical.OR)
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(HttpServletRequest request,
                      HttpServletResponse response,
                      Member member,

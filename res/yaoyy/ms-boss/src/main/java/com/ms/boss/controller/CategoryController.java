@@ -79,7 +79,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    @SecurityToken(generateToken = true,validateToken=true)
+    @SecurityToken(validateToken=true)
     public Result saveCategory(CategoryVo category){
         categoryService.save(category);
         return Result.success("成功创建商品");

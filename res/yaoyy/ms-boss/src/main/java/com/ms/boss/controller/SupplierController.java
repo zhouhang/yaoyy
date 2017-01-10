@@ -5,6 +5,7 @@ import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.service.CommodityService;
 import com.ms.service.SupplierService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,6 +58,7 @@ public class SupplierController {
      * @return
      */
     @RequestMapping(value = "create", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String createSupplier(){
         return  "supplier_detail";
     }
@@ -71,6 +73,7 @@ public class SupplierController {
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
@@ -92,6 +95,7 @@ public class SupplierController {
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result saveSupplier(SupplierVo supplierVo){
         supplierService.save(supplierVo);
         return Result.success("保存成功");

@@ -8,6 +8,7 @@ import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.CommodityService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,7 @@ public class CommodityController extends BaseController{
      * @return
      */
     @RequestMapping(value = "add", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String add() {
         // 获取单位信息
         return "commodity_add";
@@ -65,6 +67,7 @@ public class CommodityController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String detail(@PathVariable("id") Integer id, ModelMap model) {
         // 获取单位信息
         CommodityVo vo = commodityService.findById(id);
@@ -80,6 +83,7 @@ public class CommodityController extends BaseController{
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(@RequestBody CommodityVo commodity) {
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         commodityService.save(commodity,mem.getId());

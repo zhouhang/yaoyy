@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Quotation;
 import com.ms.dao.vo.QuotationVo;
 import com.ms.service.QuotationService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class QuotationController {
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String quotationDetail(@PathVariable("id") Integer id, ModelMap model){
         Quotation quotation=quotationService.findById(id);
         model.put("quotation",quotation);
@@ -54,6 +56,7 @@ public class QuotationController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String createQuotation(){
         return "quotation_detail";
     }
@@ -66,6 +69,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result saveQuotation(@RequestBody QuotationVo quotationVo){
         quotationService.save(quotationVo);
         return Result.success("修改成功");

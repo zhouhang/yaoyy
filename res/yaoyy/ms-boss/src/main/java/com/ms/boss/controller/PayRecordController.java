@@ -17,6 +17,7 @@ import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
 import com.ms.service.PickTrackingService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -80,6 +81,7 @@ public class PayRecordController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         PayRecordVo payRecordVo=payRecordService.findVoById(id);
         model.put("payRecordVo",payRecordVo);
@@ -91,6 +93,7 @@ public class PayRecordController extends BaseController{
     @RequestMapping(value = "config", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
+    @SecurityToken(validateToken=true)
     public Result config(Integer payRecordId, Integer orderId){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         PayRecord payRecord=new PayRecord();

@@ -180,6 +180,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="trackingSave",method=RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     private Result save(PickTrackingVo pickTrackingVo){
 
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
@@ -198,7 +199,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="createOrder",method=RequestMethod.POST)
     @ResponseBody
-    @SecurityToken(generateToken = true,validateToken=true)
+    @SecurityToken(validateToken=true)
     private Result createOrder(PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
@@ -232,6 +233,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="delivery",method=RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     private Result delivery(LogisticalVo logisticalVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickService.delivery(logisticalVo,mem);
