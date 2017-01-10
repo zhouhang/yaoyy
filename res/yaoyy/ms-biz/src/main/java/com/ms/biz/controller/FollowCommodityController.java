@@ -3,6 +3,7 @@ package com.ms.biz.controller;
 import com.ms.dao.model.User;
 import com.ms.service.FollowCommodityService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class FollowCommodityController {
     private HttpSession httpSession;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String list(ModelMap model) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         followCommodityService.changeRead(user.getId());
@@ -42,6 +44,7 @@ public class FollowCommodityController {
      */
     @RequestMapping(value = "watch", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result watch(Integer commodityId){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         followCommodityService.watch(commodityId, user.getId());
@@ -62,6 +65,7 @@ public class FollowCommodityController {
      */
     @RequestMapping(value = "unwatch", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result unwatch(Integer id, Integer commodityId){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         followCommodityService.unwatch(id,commodityId,user.getId());

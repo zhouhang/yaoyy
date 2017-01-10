@@ -6,6 +6,7 @@ import com.ms.dao.vo.UserVo;
 import com.ms.service.PickService;
 import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.editor.CustomStringEditor;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ public class PickCommodityController extends BaseController{
      * @return
      */
     @RequestMapping(value="list",method= RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String commodityList(ModelMap model) throws Exception {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         if(user!=null){
@@ -56,6 +58,7 @@ public class PickCommodityController extends BaseController{
      */
     @RequestMapping(value="save",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result deleteCommodity(@RequestBody PickVo pickVo){
 
         //没注册和申请寄样一样处理

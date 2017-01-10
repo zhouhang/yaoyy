@@ -9,6 +9,7 @@ import com.ms.dao.vo.SendSampleVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.NotFoundException;
@@ -94,6 +95,7 @@ public class IndexController extends BaseController{
      * @return
      */
     @RequestMapping(value = "apply/sample/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String apply(@PathVariable("id")Integer commdityId,ModelMap model) {
 
         Commodity commodity=commodityService.findById(commdityId);
@@ -115,6 +117,7 @@ public class IndexController extends BaseController{
      */
     @RequestMapping(value = "apply/sample", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result applySample(SendSampleVo sendSampleVo) {
 
         if(sendSampleVo.getIntention()==null){
