@@ -96,10 +96,6 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 				applicationContext.publishEvent(msgConsumeEvent);
 			}
-			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER.getValue()){
-				// 确认订单待支付(无效)
-				pick.setStatus(PickEnum.PICK_PAY.getValue());
-			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYALL.getValue()
 					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYPOSIT.getValue()
 					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue()
@@ -107,15 +103,8 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 				// 确认支付代发货
 				pick.setStatus(PickEnum.PICK_DELIVERY.getValue());
 			}
-			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue()){
-				// 用户待收货(无效)
-				pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
-			}
-			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_RECEIPT.getValue()){
-				// 完成订单
-				pick.setStatus(PickEnum.PICK_FINISH.getValue());
-			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_NOT_FINISH.getValue()){
+				//交易没达成
 				pick.setStatus(PickEnum.PICK_NOTFINISH.getValue());
 			}
 

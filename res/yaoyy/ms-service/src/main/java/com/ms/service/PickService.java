@@ -23,7 +23,7 @@ public interface PickService extends ICommonService<Pick>{
     public void save(PickVo pickVo);
 
     /**
-     * 为用户生成订单(客服确认订单)
+     * 为用户生成订单(客服确认订单)或是修改订单
      * @param pickVo
      */
     public void createOrder(PickVo pickVo);
