@@ -37,7 +37,6 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
-
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String ua = httpRequest.getHeader("user-agent").toLowerCase();
 		Subject subject = getSubject(request, response);
@@ -50,12 +49,20 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
 //				httpResponse.sendRedirect(OAUTH_URL);
 				WebUtils.issueRedirect(request, response, OAUTH_URL);
-
+			}else{
+				WebUtils.issueRedirect(request, response, getLoginUrl());
 			}
 			return false;
 		}
-
 		return true;
 	}
+
+
+	@Override
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+		return false;
+	}
+
+
 
 }

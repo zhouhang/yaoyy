@@ -7,6 +7,7 @@ import com.ms.dao.vo.SendSampleVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
 import com.ms.tools.utils.SeqNoUtil;
@@ -103,6 +104,7 @@ public class SendSampleController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String detail(@PathVariable("id") Integer id, ModelMap model) {
 
         SendSampleVo sendSampleVo=sendSampleService.findDetailById(id);
@@ -128,6 +130,7 @@ public class SendSampleController extends BaseController{
      * @return
      */
     @RequestMapping(value = "msg/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String getMsg(@PathVariable("id") Integer id,ModelMap model){
         if(id==null||sendSampleService.findById(id)==null){
             throw new NotFoundException("提交信息页面找不到");
@@ -143,6 +146,7 @@ public class SendSampleController extends BaseController{
      */
     @RequestMapping(value = "feedBack", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result feedBack(SampleTracking sampleTracking){
         //session获取用户信息
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());

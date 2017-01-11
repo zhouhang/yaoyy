@@ -7,6 +7,7 @@ import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgConsumeEvent;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import org.apache.commons.lang.StringUtils;
@@ -86,6 +87,7 @@ public class SendSampleController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String detail(@PathVariable("id") Integer id, ModelMap model)
     {
         //寄样单信息

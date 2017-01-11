@@ -105,7 +105,7 @@
             },
             //支付宝支付
             alipay:function(){
-                window.location.href ="alipay/index?billId="+${bill.id};
+                window.location.href ="alipay/index?billId=${bill.id}&authId=${authId}";
             },
         }
     }

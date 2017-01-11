@@ -11,6 +11,7 @@ import com.ms.service.SampleTrackingService;
 import com.ms.service.SendSampleService;
 import com.ms.service.TrackingDetailService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -54,6 +55,7 @@ public class SampleTrackingController {
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result createTracking(SampleTracking sampleTracking, TrackingDetail trackingDetail){
         //如果是用户预约或是寄送样品另外保存详细信息
         //要通过session取后台用户id

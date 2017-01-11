@@ -5,6 +5,7 @@ import com.ms.dao.model.User;
 import com.ms.dao.vo.ShippingAddressVo;
 import com.ms.service.ShippingAddressService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,7 @@ public class AddressController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(ShippingAddress address){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -105,6 +107,7 @@ public class AddressController {
      * @return
      */
     @RequestMapping("/detail/{id}")
+    @SecurityToken(generateToken = true)
     public String detail(@PathVariable("id") Integer id, ModelMap model){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -117,6 +120,7 @@ public class AddressController {
     }
 
     @RequestMapping("/add")
+    @SecurityToken(generateToken = true)
     public String addAddress(ModelMap model){
         return "add_address";
     }

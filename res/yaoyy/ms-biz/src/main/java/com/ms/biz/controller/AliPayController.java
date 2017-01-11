@@ -17,6 +17,7 @@ import com.ms.dao.vo.PickVo;
 import com.ms.service.AccountBillService;
 import com.ms.service.PaymentService;
 import com.ms.service.PickService;
+import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.exception.NotFoundException;
 import com.ms.tools.utils.SeqNoUtil;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -59,6 +61,9 @@ public class AliPayController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 阿里支付页面
      * @param orderId
@@ -67,8 +72,11 @@ public class AliPayController {
      * @return
      */
     @RequestMapping(value = "index")
-    public String index(Integer orderId,Integer billId,ModelMap model){
-
+    public String index(Integer orderId,Integer billId,String authId,ModelMap model){
+        User user=userService.findByOpenId(authId);
+        if(user==null){
+            throw new NotFoundException("找不到该用户");
+        }
         if (orderId != null) {
             PickVo pick = pickService.findVoById(orderId);
             if(pick==null){
@@ -92,14 +100,15 @@ public class AliPayController {
         }
         model.put("orderId",orderId);
         model.put("billId",billId);
+        model.put("userId",user.getId());
         return "alipay";
     }
 
 
     @RequestMapping(value = "pay")
     public void pay(HttpServletResponse response,
-                    Integer orderId, Integer billId) throws Exception{
-        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+                    Integer orderId, Integer billId,Integer userId) throws Exception{
+        User user = userService.findById(userId);
         Map<String,Object> params = new HashMap<>();
         PaymentVo payment = new PaymentVo();
         payment.setUserId(user.getId());
@@ -141,7 +150,7 @@ public class AliPayController {
         alipayRequest.setReturnUrl(systemProperties.getBaseUrl()+"/alipay/return"); //回调页面
         alipayRequest.setNotifyUrl(systemProperties.getBaseUrl()+"/alipay/callback");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent(content);//填充业务参数
-        payment.setInParam(content);
+        payment.setOutParam(content);
         logger.info("支付宝支付参数："+content);
         String form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
         payment.setStatus(0);
@@ -154,8 +163,7 @@ public class AliPayController {
 
     //https://doc.open.alipay.com/docs/doc.htm?treeId=203&articleId=105285&docType=1
     @RequestMapping(value = "callback")
-    @ResponseBody
-    public String callBack(HttpServletRequest request)throws Exception{
+    public void callBack(HttpServletRequest request,HttpServletResponse response)throws Exception{
         //获取返回所有参数
         Map<String,String> params = new HashMap<String,String>();
         Map requestParams = request.getParameterMap();
@@ -170,6 +178,7 @@ public class AliPayController {
             params.put(name, valueStr);
         }
         logger.info("支付宝回调参数："+params);
+        PrintWriter out=response.getWriter();
         boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublic_key(),aliPayProperties.getCharset(),"RSA2");
         if(result){
             String trade_status=params.get("trade_status");
@@ -177,6 +186,7 @@ public class AliPayController {
             PaymentVo payment=paymentService.getByOutTradeNo(params.get("out_trade_no"));
             if(payment!=null&&payment.getCallbackTime()==null) {
                 payment.setPayAppId(aliPayProperties.getAppId());
+                payment.setInParam(params.toString());
                 if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                     payment.setStatus(1);
                     payment.setTradeNo(params.get("trade_no"));
@@ -188,10 +198,10 @@ public class AliPayController {
                     pickService.handlePay(payment);
                 }
             }
-            return "success";
+            out.print("success");
         }
         else{
-            return "fail";
+            out.print("fail");
         }
     }
 
@@ -223,6 +233,7 @@ public class AliPayController {
             PaymentVo payment=paymentService.getByOutTradeNo(params.get("out_trade_no"));
             if(payment!=null) {
                 payment.setPayAppId(aliPayProperties.getAppId());
+                payment.setInParam(params.toString());
                 if(payment.getCallbackTime()==null){
                     if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                         payment.setStatus(1);

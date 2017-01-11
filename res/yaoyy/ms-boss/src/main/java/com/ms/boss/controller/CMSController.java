@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Article;
 import com.ms.dao.vo.ArticleVo;
 import com.ms.service.ArticleService;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class CMSController extends BaseController{
      * @return
      */
     @RequestMapping(value="create",method= RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String createArticle(){
         return "article_add";
     }
@@ -55,7 +57,7 @@ public class CMSController extends BaseController{
      * @param id
      * @return
      */
-    @RequestMapping(value="delete/{id}",method = RequestMethod.POST)
+    @RequestMapping(value="delete/{id}",method = RequestMethod.GET)
     @ResponseBody
     public Result delete(@PathVariable("id") Integer id){
         articleService.deleteById(id);
@@ -69,6 +71,7 @@ public class CMSController extends BaseController{
      */
     @RequestMapping(value="save",method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result save(Article article){
         articleService.save(article);
         return Result.success().msg("修改成功");
@@ -89,6 +92,7 @@ public class CMSController extends BaseController{
     }
 
     @RequestMapping(value="editor/{id}",method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String edit(@PathVariable("id") Integer id,ModelMap model){
         Article article = articleService.findById(id);
         model.put("article", article);

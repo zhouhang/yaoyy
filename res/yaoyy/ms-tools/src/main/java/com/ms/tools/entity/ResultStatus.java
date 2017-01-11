@@ -20,4 +20,7 @@ public class ResultStatus {
     // 参数验证未通过
     public static Integer ERROR_VERIFICATION = 501;
 
+    //重复请求
+    public static Integer REPEATSUBMIT=505;
+
 }

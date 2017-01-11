@@ -11,6 +11,7 @@ import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
 import com.ms.service.SettingService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.NotFoundException;
@@ -90,6 +91,7 @@ public class BillController extends BaseController{
         model.put("bill",accountBillVo);
         model.put("payRecord",payRecordVo);
         model.put("pick",pick);
+        model.put("authId",user.getOpenid());
         return "bill_detail";
     }
 
@@ -99,6 +101,7 @@ public class BillController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String bankTransfer(Integer billId, ModelMap model){
         // 根据订单Id 获取转账金额.同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -126,6 +129,7 @@ public class BillController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
+    @SecurityToken(validateToken=true)
     public String bankTransferSave(PayRecordVo record, String url){
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());

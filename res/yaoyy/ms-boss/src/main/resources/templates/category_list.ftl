@@ -257,6 +257,7 @@
                 $('#jaddNewCat').on('click', function() {
                     $('#imgCrop').empty();
                     $('#pictureUrl').val('');
+                    $("#cId").val('');
                     $carForm[0].reset();
                     $carForm.attr("action",_global.v.saveUrl);
                     self.upImg();

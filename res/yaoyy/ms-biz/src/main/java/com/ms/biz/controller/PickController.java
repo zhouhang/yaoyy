@@ -8,6 +8,7 @@ import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.BASE64DecodedMultipartFile;
 import com.ms.tools.entity.Result;
 import com.ms.tools.entity.ResultStatus;
@@ -117,6 +118,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value="detail/{id}",method=RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String detail(@PathVariable("id") Integer id, ModelMap model){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo pickVo=pickService.findVoById(id);
@@ -127,6 +129,7 @@ public class PickController extends BaseController{
 
         model.put("pickVo",pickVo);
         model.put("pickTrackingVos",pickTrackingVos);
+        model.put("authId",user.getOpenid());
 
         //  获取默认的收货地址
         if (pickVo.getAddrHistoryId() == null){
@@ -190,6 +193,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
+    @SecurityToken(generateToken = true,validateToken=true)
     public Result save(@RequestBody PickVo pickVo,Integer type){
         Result result = null;
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -210,6 +214,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "cancel", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result cancel(Integer id){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         pickService.cancel(id,user.getId());
@@ -232,6 +237,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "receipt", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     public Result receipt(Integer id){
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         pickService.receipt(id,user.getId());
@@ -244,6 +250,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String bankTransfer(Integer orderId, ModelMap model){
         // 根据订单Id 获取转账金额.同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -294,6 +301,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "bankTransfer", method = RequestMethod.POST)
+    @SecurityToken(validateToken=true)
     public String bankTransferSave(PayRecordVo record, String url){
         // 根据订单Id同时确认订单属于当前用户
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
@@ -395,6 +403,7 @@ public class PickController extends BaseController{
     @RequestMapping(value="configBill",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @Transactional
+    @SecurityToken(validateToken=true)
     public Result  configBill(@RequestBody PickVo pickVo){
 
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());

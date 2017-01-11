@@ -11,6 +11,7 @@ import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgConsumeEvent;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -103,6 +104,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     private String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
@@ -178,6 +180,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="trackingSave",method=RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     private Result save(PickTrackingVo pickTrackingVo){
 
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
@@ -196,6 +199,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="createOrder",method=RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     private Result createOrder(PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
@@ -229,6 +233,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="delivery",method=RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken=true)
     private Result delivery(LogisticalVo logisticalVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickService.delivery(logisticalVo,mem);

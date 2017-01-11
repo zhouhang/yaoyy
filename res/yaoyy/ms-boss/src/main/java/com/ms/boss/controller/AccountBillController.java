@@ -7,6 +7,7 @@ import com.ms.dao.model.Member;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class AccountBillController {
      * @return
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         AccountBillVo accountBillVo=accountBillService.findVoById(id);
         if(accountBillVo==null){
@@ -84,6 +86,7 @@ public class AccountBillController {
     @RequestMapping(value = "configPay", method = RequestMethod.POST)
     @ResponseBody
     @Transactional
+    @SecurityToken(validateToken=true)
     public Result configPay(Integer payRecordId){
         /**
          * 先修改支付记录状态，然后账单状态，写跟踪记录
