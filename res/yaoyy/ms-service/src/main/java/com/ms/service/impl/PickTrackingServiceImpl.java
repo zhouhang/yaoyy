@@ -17,6 +17,7 @@ import com.ms.service.MemberService;
 import com.ms.service.PickTrackingService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgConsumeEvent;
+import com.ms.service.observer.MsgProducerEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -79,28 +80,38 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 			Pick pick =new Pick();
 			pick.setId(pickTrackingVo.getPickId());
 			if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_AGREE.getValue()){
+				// 同意受理订单
 				pick.setStatus(PickEnum.PICK_HANDING.getValue());
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 				applicationContext.publishEvent(msgConsumeEvent);
+
+				// 通知用户客服受理订单
+				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_ACCEPT,null);
+				applicationContext.publishEvent(mp);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_REFUSE.getValue()){
+				// 拒绝受理选货单
 				pick.setStatus(PickEnum.PICK_REFUSE.getValue());
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
 				applicationContext.publishEvent(msgConsumeEvent);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER.getValue()){
+				// 确认订单待支付(无效)
 				pick.setStatus(PickEnum.PICK_PAY.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYALL.getValue()
 					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_PAYPOSIT.getValue()
 					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue()
 					||pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_SELFPAY_DEPOSTI.getValue()){
+				// 确认支付代发货
 				pick.setStatus(PickEnum.PICK_DELIVERY.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue()){
+				// 用户待收货(无效)
 				pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_RECEIPT.getValue()){
+				// 完成订单
 				pick.setStatus(PickEnum.PICK_FINISH.getValue());
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_NOT_FINISH.getValue()){

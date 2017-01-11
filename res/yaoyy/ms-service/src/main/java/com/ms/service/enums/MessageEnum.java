@@ -6,7 +6,19 @@ package com.ms.service.enums;
  */
 public enum  MessageEnum {
 
-    PICK(0),SAMPLE(1);
+    // 用户 选货登记(微信), 客服受理订单(微信), 客服确认订单(微信,短信),客服确认发货(微信),用户确认收货(微信)
+    // 客服 用户提交转账凭证,客户微信支付宝付款
+    // 待加: 账期确认时
+    PICK(0) ,// 选货登记(微信) 客服
+    PICK_C(8) ,// 选货登记(微信) 用户
+    SAMPLE(1),// 客户提交寄样申请 客服
+    PICK_ACCEPT(2),// 客服受理订单(微信)
+    PICK_CONFIRM(3),// 客服确认订单(微信,短信)
+    PICK_DELIVERY(4), // 客服确认发货(微信)
+    PICK_FINISH(5), // 用户确认收货(微信)
+    PAY_BANK(6), //用户提交转账凭证 客服
+    PAY_ONLINE(7) //客户微信支付宝付款(线上支付) 客服
+    ;
     private Integer value;
     MessageEnum(Integer value) {
         this.value = value;

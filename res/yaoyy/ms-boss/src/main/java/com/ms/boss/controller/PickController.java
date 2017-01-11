@@ -235,20 +235,4 @@ public class PickController extends BaseController{
         return Result.success().msg("发货成功");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

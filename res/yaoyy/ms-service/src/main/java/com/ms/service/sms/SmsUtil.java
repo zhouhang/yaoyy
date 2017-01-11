@@ -132,6 +132,18 @@ public class SmsUtil {
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
     }
 
+    /**
+     * 发送客服确认订单短信
+     * @param mobile
+     * @throws Exception
+     */
+    public void sendPickConfirm(String text,String mobile) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", systemProperties.getApikey());
+        param.put("mobile", mobile);
+        param.put("text", text);
+        HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
 
     /**
      * 一个手机号一分钟之内只能发送1条短信；

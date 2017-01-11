@@ -8,7 +8,6 @@ import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
-import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
@@ -222,8 +221,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		String content=pick.getNickname()+"提交选货单";
 		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK,content);
 		applicationContext.publishEvent(msgProducerEvent);
-
-
+		// 选货登记通知用户
+		MsgProducerEvent msgProducerEventC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_C,content);
+		applicationContext.publishEvent(msgProducerEventC);
 
 	}
 
@@ -240,8 +240,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTracking.setName(member.getName());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
 				pickTracking.setOperator(member.getId());
-			}
-			else{
+			} else{
 				PickVo pick=pickDao.findVoById(pickVo.getId());
 				pickTracking.setName(pick.getNickname());
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
@@ -300,6 +299,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickVo.setExpireDate(calendar.getTime());
 		pickDao.update(pickVo);
 
+		// 客服确认订单 通知用户
+		MsgProducerEvent mp =new MsgProducerEvent(pickVo.getUserId(),pickVo.getId(), MessageEnum.PICK_CONFIRM,null);
+		applicationContext.publishEvent(mp);
 
 	}
 
@@ -369,6 +371,11 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickTrackingVo.setUpdateTime(now);
 
 		pickTrackingDao.create(pickTrackingVo);
+
+		//通知用户待收货
+		pick = findById(pick.getId());
+		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_DELIVERY,null);
+		applicationContext.publishEvent(mp);
 	}
 
 	@Override
@@ -430,6 +437,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 					pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_SELFPAY_ALL.getValue());
 				}
 				pickTrackingService.save(pickTrackingVo);
+
+				// 支付成功 通知客服查看
+				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_ONLINE,null);
+				applicationContext.publishEvent(mp);
 			}
 			else{
 				//账单支付需要更改账单状态
@@ -487,6 +498,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		}
 		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
 
+		// 通知用户用户已经收货
+		pick = findById(pick.getId());
+		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_FINISH,null);
+		applicationContext.publishEvent(mp);
 	}
 
 	@Override

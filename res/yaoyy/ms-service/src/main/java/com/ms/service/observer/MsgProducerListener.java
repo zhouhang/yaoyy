@@ -1,15 +1,17 @@
 package com.ms.service.observer;
 
+import com.google.common.base.Strings;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.Message;
+import com.ms.dao.model.PayRecord;
+import com.ms.dao.model.User;
+import com.ms.dao.vo.PayRecordVo;
 import com.ms.dao.vo.PickCommodityVo;
 import com.ms.dao.vo.PickVo;
 import com.ms.dao.vo.SendSampleVo;
-import com.ms.service.MemberService;
-import com.ms.service.MessageService;
-import com.ms.service.PickService;
-import com.ms.service.SendSampleService;
+import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.sms.SmsUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +20,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,6 +46,15 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
     @Autowired
     SendSampleService sendSampleService;
 
+    @Autowired
+    PayRecordService payRecordService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    SmsUtil smsUtil;
+
     @Override
     public void onApplicationEvent(MsgProducerEvent event) {
         Message message = new Message();
@@ -50,64 +62,70 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
         message.setEventId(event.getEventId());
         message.setContent(event.getContent());
         message.setUserId(event.getUserId());
-        /**
-         * 发送微信消息给绑定微信的人
-         */
-
-        messageService.create(message);
-        List<Member> memberList =memberService.findOpenIdNotNull();
-        memberList.forEach(m->{
-            /**
-             * 选货单
-             */
-            String des="";
-            String title="";
-            if(event.getType()== MessageEnum.PICK){
-                PickVo pickVo=pickService.findVoById(event.getEventId());
-                List<String> names=new ArrayList<>();
-                pickVo.getPickCommodityVoList().forEach(c->{
-                    names.add(c.getName());
-                });
-                des=pickVo.getNickname() +" 提交了一个新订货登记通知 " +
-                        "\n\n商品：" + StringUtils.join(names,",")+
-                        "\n姓名：" +pickVo.getNickname()+
-                        "\n手机号：" +pickVo.getPhone()+
-                        "\n\n请在后台选货单列表查看";
-
-
-
-
-                title="新订货登记通知";
-                sendMessage(des,title,m.getOpenid());
+        // 1. 判断消息处理类型 客服,用户
+        // 2. 客服 存入数据库中待消费
+        // 3. 用户发送微信或者短信消息
+        Integer[] cs = {6,7,0,1};
+        List<Integer> csL = Arrays.asList(cs);
+        if (csL.contains(event.getType())){
+            //客服消息通知
+            messageService.create(message);
+            List<Member> memberList =memberService.findOpenIdNotNull();
+            SendMsg msg;
+            // 选货单
+            if (event.getType() == MessageEnum.PICK) {
+                PickVo pickVo = pickService.findVoById(event.getEventId());
+                msg = MsgBuild.build(pickVo,MessageEnum.PICK);
+            } else if (event.getType() == MessageEnum.SAMPLE) { //寄样
+                SendSampleVo sendSampleVo = sendSampleService.findDetailById(event.getEventId());
+                msg = MsgBuild.build(sendSampleVo);
+            } else {
+                PayRecordVo vo = payRecordService.findVoById(event.getEventId());
+                msg = MsgBuild.build(vo,event.getType());
             }
-            /**
-             * 寄样
-             */
-            else if(event.getType()== MessageEnum.SAMPLE){
-                SendSampleVo sendSampleVo=sendSampleService.findDetailById(event.getEventId());
-                List<String> names=new ArrayList<>();
-                sendSampleVo.getCommodityList().forEach(c->{
-                    names.add(c.getName() + ' ' + c.getOrigin() + ' ' + c.getSpec());
-                });
-                des=sendSampleVo.getNickname() +" 新寄样申请通知 " +
-                        "\n\n商品：" +StringUtils.join(names,"\n")+
-                        "\n姓名：" +sendSampleVo.getNickname()+
-                        "\n手机号：" +sendSampleVo.getPhone()+
-                        "\n地区：" +sendSampleVo.getArea()+
-                        "\n\n请在后台寄样列表查看";
-                title="新寄样申请通知";
-                sendMessage(des,title,m.getOpenid());
+            //发送微信消息给绑定微信的人
+            memberList.forEach(m-> {
+                sendMessage(msg, m.getOpenid());
+            });
+        } else {
+            //用户消息通知
+            User user = userService.findById(event.getUserId());
+            if (!Strings.isNullOrEmpty(user.getOpenid())){
+                // openId 不为空发送微信消息
+                SendMsg msg;
+                PickVo pickVo = pickService.findVoById(event.getEventId());
+                if (pickVo != null) {
+                    msg = MsgBuild.build(pickVo, event.getType());
+                    sendMessage(msg, user.getOpenid());
+                }
+
             }
-        });
+
+            if (event.getType() == MessageEnum.PICK_CONFIRM){
+                PickVo pickVo = pickService.findVoById(event.getEventId());
+                // 发送短信
+                try {
+                    smsUtil.sendPickConfirm(MsgBuild.buildSMS(pickVo), user.getPhone());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
 
     }
 
-    public void sendMessage(String des,String title,String openId) {
+    public void sendMessage(SendMsg msg,String openId) {
         try {
             WxMpKefuMessage.WxArticle article1 = new WxMpKefuMessage.WxArticle();
-            article1.setDescription(des);
-            article1.setTitle(title);
+            article1.setDescription(msg.content);
+            article1.setTitle(msg.title);
 
+            if (!Strings.isNullOrEmpty(msg.url)){
+                article1.setUrl(msg.url);
+            }
 
             WxMpKefuMessage message  = WxMpKefuMessage
                     .NEWS()

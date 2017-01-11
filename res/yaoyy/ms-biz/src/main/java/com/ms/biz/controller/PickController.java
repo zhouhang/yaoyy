@@ -5,7 +5,9 @@ import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.entity.BASE64DecodedMultipartFile;
 import com.ms.tools.entity.Result;
 import com.ms.tools.entity.ResultStatus;
@@ -19,6 +21,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.pay.request.WxPayUnifiedOrderRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +80,9 @@ public class PickController extends BaseController{
 
     @Autowired
     SettingService settingService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * 选货单列表
@@ -341,7 +347,9 @@ public class PickController extends BaseController{
         pickTrackingService.create(pickTrackingVo);
 
 
-
+        // 保存转账信息时通知客服
+        MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_BANK,null);
+        applicationContext.publishEvent(mp);
 
         return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();
     }
