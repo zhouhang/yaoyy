@@ -440,7 +440,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTrackingService.save(pickTrackingVo);
 
 				// 支付成功 通知客服查看
-				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_ONLINE,null);
+				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_ONLINE,null);
 				applicationContext.publishEvent(mp);
 			}
 			else{

@@ -40,7 +40,7 @@ public class MsgBuild {
                         "\n手机号：" + vo.getPhone();
 
                 msg.title = "您提交了一张采购单";
-                msg.url = MessageEnum.getUrl(type.get());
+                msg.url = url+vo.getId();
                 break;
             case PICK_ACCEPT:
                 msg.content ="您的订单已被受理" +
