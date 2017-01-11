@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class MsgBuild {
     public static SendMsg build(PickVo vo, MessageEnum type){
+        String url = "http://www.yaobest.com/pick/detail/";
         SendMsg msg = new SendMsg();
         List<String> names = new ArrayList<>();
         vo.setSum(0F);
@@ -36,19 +37,17 @@ public class MsgBuild {
                 msg.content =" 您提交了一张采购单，客服会在半个小时之内与您联系" +
                         "\n\n采购商品：" + StringUtils.join(names, ",") +
                         "\n姓名：" + vo.getNickname() +
-                        "\n手机号：" + vo.getPhone() +
-                        "\n\n点击查看";
+                        "\n手机号：" + vo.getPhone();
 
                 msg.title = "您提交了一张采购单";
                 msg.url = MessageEnum.getUrl(type.get());
                 break;
             case PICK_ACCEPT:
                 msg.content ="您的订单已被受理" +
-                        "\n\n您的订单已被受理，商品总价"+vo.getSum()+"元，客服马上会为您核算运费等其他费用。"+
-                        "\n\n点击查看";
+                        "\n\n您的订单已被受理，商品总价"+vo.getSum()+"元，客服马上会为您核算运费等其他费用。";
 
                 msg.title = "您的订单已被受理";
-                msg.url = MessageEnum.getUrl(type.get());
+                msg.url = url+vo.getId();
                 break;
             case PICK_CONFIRM:
 
@@ -68,20 +67,18 @@ public class MsgBuild {
                     msg.content += "请在订单详情页进行确认，我们会在您确认后马上为您发货。";
                 }
 
-                msg.content += "\n\n点击查看更多";
-
                 msg.title = "您的订单已核算完毕";
-                msg.url = MessageEnum.getUrl(type.get());
+                msg.url = url+vo.getId();
                 break;
             case PICK_DELIVERY:
                 msg.content ="您的订单号“"+vo.getCode()+"”的货物已经为您发货，请做好收货准备。点击查看物流详细信息。";
                 msg.title = "《药优优》平台已为您发货";
-                msg.url = MessageEnum.getUrl(type.get());
+                msg.url = url+vo.getId();
                 break;
             case PICK_FINISH:
                 msg.content ="您的订单号“"+vo.getCode() +"”的订单已完成。若有货物问题药优优平台为您提供完善的售后保障，联系电话：0558-5120088  ";
                 msg.title = "订单已完成";
-                msg.url = MessageEnum.getUrl(type.get());
+                msg.url = url+vo.getId();
                 break;
             default:
                 msg = null; break;
