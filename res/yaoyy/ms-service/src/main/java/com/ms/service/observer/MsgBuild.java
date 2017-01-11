@@ -17,8 +17,10 @@ public class MsgBuild {
     public static SendMsg build(PickVo vo, MessageEnum type){
         SendMsg msg = new SendMsg();
         List<String> names = new ArrayList<>();
+        vo.setSum(0F);
         vo.getPickCommodityVoList().forEach(c -> {
             names.add(c.getName());
+            vo.setSum(vo.getSum()+c.getTotal());
         });
         switch (type) {
             case PICK :
@@ -45,7 +47,7 @@ public class MsgBuild {
                         "\n\n您的订单已被受理，商品总价"+vo.getSum()+"元，客服马上会为您核算运费等其他费用。"+
                         "\n\n点击查看";
 
-                msg.title = "您提交了一张采购单";
+                msg.title = "您的订单已被受理";
                 msg.url = MessageEnum.getUrl(type.get());
                 break;
             case PICK_CONFIRM:

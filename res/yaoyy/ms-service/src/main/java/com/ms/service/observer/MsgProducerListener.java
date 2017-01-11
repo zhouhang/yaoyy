@@ -67,7 +67,7 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
         // 3. 用户发送微信或者短信消息
         Integer[] cs = {6,7,0,1};
         List<Integer> csL = Arrays.asList(cs);
-        if (csL.contains(event.getType())){
+        if (csL.contains(event.getType().get())){
             //客服消息通知
             messageService.create(message);
             List<Member> memberList =memberService.findOpenIdNotNull();

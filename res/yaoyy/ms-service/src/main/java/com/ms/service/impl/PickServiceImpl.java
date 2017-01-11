@@ -300,7 +300,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickDao.update(pickVo);
 
 		// 客服确认订单 通知用户
-		MsgProducerEvent mp =new MsgProducerEvent(pickVo.getUserId(),pickVo.getId(), MessageEnum.PICK_CONFIRM,null);
+		Pick pick = pickDao.findById(pickVo.getId());
+		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_CONFIRM,null);
 		applicationContext.publishEvent(mp);
 
 	}

@@ -86,7 +86,8 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 				applicationContext.publishEvent(msgConsumeEvent);
 
 				// 通知用户客服受理订单
-				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_ACCEPT,null);
+				Pick pickVo = pickDao.findById(pick.getId());
+				MsgProducerEvent mp =new MsgProducerEvent(pickVo.getUserId(),pickVo.getId(), MessageEnum.PICK_ACCEPT,null);
 				applicationContext.publishEvent(mp);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_REFUSE.getValue()){
