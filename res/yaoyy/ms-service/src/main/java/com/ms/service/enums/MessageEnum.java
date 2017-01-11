@@ -35,7 +35,9 @@ public enum  MessageEnum {
                 break;
             case 1: url = "/sample/detail/";
                 break;
-            default: break;
+            default:
+                url = "";
+                break;
         }
         return url;
     }
