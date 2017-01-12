@@ -53,10 +53,10 @@
                 u.id = #{id}
             </if>
             <if test="phone != null">
-                and u.phone = "%"#{phone}"%"
+                and u.phone LIKE "%"#{phone}"%"
             </if>
             <if test="name != null">
-                and ud.name = "%"#{name}"%"
+                and ud.name LIKE "%"#{name}"%"
             </if>
             <if test="identityType != null">
                 and ud.type = #{identityType}

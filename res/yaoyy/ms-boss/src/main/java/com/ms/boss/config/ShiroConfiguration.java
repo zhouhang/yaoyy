@@ -1,28 +1,24 @@
 package com.ms.boss.config;
 
-import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossAuthorizationFilter;
 import com.ms.boss.shiro.BossRealm;
 import com.ms.boss.shiro.RetryLimitHashedCredentialsMatcher;
 import com.ms.boss.shiro.ShiroTagFreeMarkerConfigurer;
 import com.ms.service.redis.RedisConfig;
 import com.ms.service.redis.RedisManager;
+import com.ms.service.shiro.CacheManager;
 import com.ms.service.shiro.MsShiroFilterFactoryBean;
 import com.ms.service.shiro.ShiroRedisCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,8 +26,6 @@ import java.util.Map;
 @Configuration
 @AutoConfigureAfter({RedisConfig.class})
 public class ShiroConfiguration {
-
-
 
     private static Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
@@ -46,10 +40,18 @@ public class ShiroConfiguration {
         return filterRegistration;
     }
 
+//    <property name="cachingEnabled" value="true"/>
+//    <property name="authenticationCachingEnabled" value="true"/>
+//    <property name="authenticationCacheName" value="${pieces.shiro.defaultRealm.authenticationCacheName}"/>
+//    <property name="authorizationCachingEnabled" value="true"/>
+//    <property name="authorizationCacheName" value="${pieces.shiro.defaultRealm.authorizationCacheName}"/>
+//    <property name="credentialsMatcher" ref="credentialsMatcher"/>
+
     @Bean(name = "bossRealm")
-    public BossRealm getShiroRealm(RetryLimitHashedCredentialsMatcher credentialsMatcher) {
+    public BossRealm getShiroRealm(CacheManager cacheManager,RetryLimitHashedCredentialsMatcher credentialsMatcher) {
         BossRealm bossRealm =  new BossRealm();
         bossRealm.setCredentialsMatcher(credentialsMatcher);
+        bossRealm.setCacheManager(cacheManager);
         return bossRealm;
     }
 
@@ -121,7 +123,7 @@ public class ShiroConfiguration {
 
 
     @Bean(name = "cacheManager")
-    public ShiroRedisCacheManager getCacheManager(RedisManager redisManager) {
+    public ShiroRedisCacheManager getCacheManager( RedisManager redisManager) {
         ShiroRedisCacheManager shiroRedisCacheManager = new ShiroRedisCacheManager();
         shiroRedisCacheManager.setRedisManager(redisManager);
         shiroRedisCacheManager.setApplicationPrefix("boss:");

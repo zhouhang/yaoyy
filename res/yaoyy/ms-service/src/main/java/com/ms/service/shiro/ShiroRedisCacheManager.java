@@ -2,7 +2,6 @@ package com.ms.service.shiro;
 
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
-import com.ms.service.shiro.CacheManager;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.slf4j.Logger;
