@@ -14,8 +14,10 @@ import java.util.List;
  * 1/10/17.
  */
 public class MsgBuild {
+    private static String url = "http://www.yaobest.com/pick/detail/";
+
     public static SendMsg build(PickVo vo, MessageEnum type){
-        String url = "http://www.yaobest.com/pick/detail/";
+
         SendMsg msg = new SendMsg();
         List<String> names = new ArrayList<>();
         vo.setSum(0F);
@@ -96,6 +98,12 @@ public class MsgBuild {
             case PAY_ONLINE:
                 msg.content ="客户 "+ vo .getNickname()+" 已支付金额"+vo.getActualPayment()+"元，订单号"+vo.getCode()+"。请在订单详情页面查看并发货";
                 msg.title = "客户进行了在线支付";
+                break;
+            case PAY_SUCCESS:
+                //
+                msg.content ="您的订单号“"+vo.getCode()+"”的订单已经付款成功，工作人员正在为您做发货准备。点击查看订单详情。";
+                msg.title = "您的订单已付款成功";
+                msg.url = url + vo.getOrderId();
                 break;
             default:
                 msg = null; break;

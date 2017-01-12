@@ -16,11 +16,14 @@ import com.ms.service.AccountBillService;
 import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
 import com.ms.service.PickTrackingService;
+import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -56,6 +59,8 @@ public class PayRecordController extends BaseController{
     @Autowired
     private AccountBillService accountBillService;
 
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * 交易流水列表
@@ -130,6 +135,9 @@ public class PayRecordController extends BaseController{
             pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_PAYALL.getValue());
         }
         pickTrackingService.save(pickTrackingVo);
+
+        MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(payRecord.getId(), MessageEnum.PAY_SUCCESS);
+        applicationContext.publishEvent(msgConsumeEvent);
 
         return Result.success().data("确认收款");
     }
