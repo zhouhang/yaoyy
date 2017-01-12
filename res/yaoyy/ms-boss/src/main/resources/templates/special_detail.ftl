@@ -100,29 +100,25 @@
         },
         fn: {
             init: function() {
-                this.goodsImg();
+                this.cropImg();
                 this.validator();
                 this.searchGoods();
             },
-            goodsImg: function() {
-                var self = this,
-                        $upImg = $('.up-img');
+            cropImg: function() {
+                var self = this;
 
                 // 删除图片
-                $upImg.on('click', '.del', function() {
+                $('.up-img').on('click', '.del', function() {
                     var $self = $(this);
-                    layer.confirm('确认删除商品图片？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
-                        $upImg.empty();
-                        $('#pictuerUrl').val('');
+                    layer.confirm('确认删除图片？', function(index){
+                        $self.parent().empty().next(':hidden').val('');
                         layer.close(index);
                     });
                     return false;
                 })
 
                 // 图片裁剪弹层框
-                $upImg.on('click', function() {
+                $('.up-img').on('click', function() {
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['810px'],
@@ -130,37 +126,34 @@
                         type: 1,
                         moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
-                        title: '上传图片',
+                        title: '上传专场图片',
                         cancel: function() {
                             self.cropModal.destroy();
                         }
                     });
-
-                    self.croppic();
-                });
+                    self.croppic($(this));
+                })
             },
-            croppic: function() {
-                var options = {
+            croppic: function($el) {
+                var self = this;
+                self.cropModal = new Croppic('imgCrop', {
+                    hideButton: true,
                     uploadUrl: '/gen/upload',
                     cropUrl: '/gen/clipping',
-                    imgEyecandyOpacity:0.5,
-                    loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
-                    onAfterImgCrop:function(response){
-                        $('.up-img').html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
-                        $('#pictuerUrl').val(response.url).trigger('validate');
-                        // 关闭弹层
+                    onBeforeImgUpload: function() {
+                        $('#imgCrop').find('.upimg-msg').remove();
+                    },
+                    onBeforeImgCrop: function() {
+                        $('#imgCrop').append('<span class="upimg-msg">图片剪裁中...</span>');
+                    },
+                    onAfterImgCrop:function(response){ 
+                        $el.html('<img src="' + response.url + '" /><i class="del" title="删除"></i>').next(':hidden').val(response.url).trigger('validate');
                         layer.closeAll();
                     },
                     onError:function(msg){
-                        $.notify({
-                            type: 'error',
-                            title: msg.title,   // 不允许的文件类型
-                            text: msg.message,     //'支持 jpg、jepg、png、gif等格式图片文件',
-                            delay: 3e3
-                        });
+                        $('#imgCrop').append('<span class="upimg-msg">' + msg + '</span>');
                     }
-                }
-                this.cropModal = new Croppic('imgCrop', options);
+                });
             },
             validator: function() {
                 // 表单验证
