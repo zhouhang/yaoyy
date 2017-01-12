@@ -44,7 +44,7 @@ public class MsgBuild {
                 break;
             case PICK_ACCEPT:
                 msg.content ="您的订单已被受理" +
-                        "\n\n您的订单已被受理，商品总价"+vo.getSum()+"元，客服马上会为您核算运费等其他费用。";
+                        "\n\n商品总价"+vo.getSum()+"元，客服马上会为您核算运费等其他费用。";
 
                 msg.title = "您的订单已被受理";
                 msg.url = url+vo.getId();
@@ -72,7 +72,7 @@ public class MsgBuild {
                 break;
             case PICK_DELIVERY:
                 msg.content ="您的订单号“"+vo.getCode()+"”的货物已经为您发货，请做好收货准备。点击查看物流详细信息。";
-                msg.title = "《药优优》平台已为您发货";
+                msg.title = "药优优平台已为您发货";
                 msg.url = url+vo.getId();
                 break;
             case PICK_FINISH:
