@@ -24,9 +24,6 @@ import java.io.IOException;
 public class BizAuthorizationFilter extends AuthorizationFilter {
 
 
-
-	private static final Logger logger = Logger.getLogger(WechatController.class);
-
 	@Autowired
 	private WxMpService wxService;
 
