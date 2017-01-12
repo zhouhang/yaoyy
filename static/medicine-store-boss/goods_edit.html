@@ -193,9 +193,7 @@
                 <div class="item">
                     <div class="txt"><i>*</i>商品缩略图：</div>
                     <div class="cnt cnt-mul">
-                        <div class="up-img x4" id="jpic1">
-                            <img src="uploads/croppedImg_9428.jpeg"><i class="del"></i>
-                        </div>
+                        <div class="thumb up-img x4" id="jpic1"></div>
                         <input type="hidden" value="" name="imgUrl1" id="imgUrl1">
                         <span class="tips">图片尺寸：220 X 180</span>
                     </div>
@@ -203,9 +201,7 @@
 				<div class="item">
                     <div class="txt"><i>*</i>商品图片：</div>
                     <div class="cnt cnt-mul">
-                        <div class="up-img x3" id="jpic2">
-                            <!-- <img src="images/blank.gif"><i class="del"></i> -->
-                        </div>
+                        <div class="thumb up-img x3" id="jpic2"></div>
                         <input type="hidden" value="" name="imgUrl2" id="imgUrl2">
                         <span class="tips">图片尺寸：750 X 400</span>
                     </div>
@@ -263,7 +259,7 @@
                 this.catname();
                 this.myform();
                 this.submitEvent();
-                this.goodsImg();
+                this.cropImg();
                 this.parameter();
                 this.supplier();
 			},
@@ -357,26 +353,19 @@
                 })
             },
             // 商品图片
-            goodsImg: function() {
-                var self = this,
-                	$upImg = $('.up-img');
+            cropImg: function() {
+                var self = this;
 
                 // 删除图片
-                $upImg.on('click', '.del', function() {
+                $('.up-img').on('click', '.del', function() {
                     var $self = $(this);
-                    layer.confirm('确认删除商品图片？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
-                    	$self.parent().empty().next().val('');
+                    layer.confirm('确认删除图片？', function(index){
+                        $self.parent().empty().next(':hidden').val('');
                         layer.close(index);
                     });
                     return false;
                 })
-                // 点击图片无效
-                $upImg.on('click', 'img', function() {
-                    _showImg(this.src);
-                    return false;
-                })
+
 
                 // 缩略图
                 $('#jpic1').on('click', function() {
@@ -388,11 +377,10 @@
                         moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x4" id="imgCrop"></div></div>',
                         title: '上传商品缩略图片',
-                        cancel: function () {
+                        cancel: function() {
                             self.cropModal.destroy();
                         }
                     });
-
                     self.croppic($(this));
                 })
 
@@ -406,36 +394,35 @@
                         moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传商品图片',
-                        cancel: function () {
+                        cancel: function() {
                             self.cropModal.destroy();
                         }
                     });
-
                     self.croppic($(this));
                 })
             },
             croppic: function($el) {
-                var options = {
+                var self = this;
+                self.cropModal = new Croppic('imgCrop', {
+                    hideButton: true,
                     uploadUrl:'img_save_to_file.php',
                     cropUrl:'img_crop_to_file.php',
-                    imgEyecandyOpacity:0.5,
-                    loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
+                    onBeforeImgUpload: function() {
+                        $('#imgCrop').find('.upimg-msg').remove();
+                    },
+                    onBeforeImgCrop: function() {
+                        $('#imgCrop').append('<span class="upimg-msg">图片剪裁中...</span>');
+                    },
                     onAfterImgCrop:function(response){ 
-                        $el.show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
-                        $el.next('input:hidden').val(response.url).trigger('validate');
-                        // 关闭弹层
-                        layer.closeAll();
+                        if (response.status && response.status === 'success') {
+                            $el.html('<img src="' + response.url + '" /><i class="del" title="删除"></i>').next(':hidden').val(response.url).trigger('validate');
+                            layer.closeAll();
+                        }
                     },
                     onError:function(msg){
-                        $.notify({
-                            type: 'error', 
-                            title: msg.title,   // 不允许的文件类型
-                            text: msg.message,     //'支持 jpg、jepg、png、gif等格式图片文件', 
-                            delay: 3e3
-                        });
+                        $('#imgCrop').append('<span class="upimg-msg">' + msg + '</span>');
                     }
-                }
-                this.cropModal = new Croppic('imgCrop', options);
+                });
             },
             // 商品自定义参数
             parameter: function() {

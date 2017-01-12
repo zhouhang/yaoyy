@@ -143,7 +143,7 @@
             init: function() {
                 this.bindEvent();
                 this.category();
-                this.goodsImg();
+                this.upfileImg();
                 this.filter();
                 $("#filterForm").initByUrlParams();
             },
@@ -266,7 +266,6 @@
                     $('#pictureUrl').val('');
                     $advForm[0].reset();
                     $advForm.find('.slt[name="typeId"]').trigger('change');
-                    self.upImg();
                     layer.open({
                         area: ['600px'],
                         type: 1,
@@ -300,11 +299,9 @@
 
                     // 如果有图片，填充图片
                     if (data.pictureUrl) {
-                        $('#imgCrop').html('<img src="' + data.pictureUrl + '/><i class="del" title="删除"></i>');
-                        self.cropModal && self.cropModal.destroy();
+                        $('#imgCrop').html('<img src="' + data.pictureUrl + '" /><i class="del" title="删除"></i>');
                     } else {
                         $('#imgCrop').empty();
-                        self.upImg();
                     }
                     $('#pictureUrl').val(data.pictureUrl);
                     layer.closeAll();
@@ -342,46 +339,41 @@
                     }
                 });
             },
-            goodsImg: function() {
-                var self = this,
-                    $myform = $('#myform');
+            upfileImg: function() {
+                $('body').append('<div id="upload" style="position:fixed;bottom:0;left:0;width:0;height:0;visibility:hidden;"></div>');
+
+                new Croppic('upload', {
+                    uploadUrl: '/gen/upload',
+                    onBeforeImgUpload: function() {
+                        $('#imgCrop').html('<span class="loader">图片上传中...</span>');
+                    },
+                    onAfterImgUpload: function(response){
+                        $('#imgCrop').html('<img src="' + response.url + '"><i class="del" title="删除">').next(':hidden').val(response.url).trigger('validate');
+                    },
+                    onError: function(msg){
+                        $('#imgCrop').html('<span class="upimg-msg">' + msg + '</span>');
+                    }
+                });
 
                 // 删除图片
-                $myform.on('click', '.del', function() {
+                $('#myform').on('click', '.del', function() {
                     var $self = $(this);
-                    layer.confirm('确认删除图片？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
+                    layer.confirm('确认删除图片？', function(index){
+                        $self.parent().empty().next(':hidden').val('');
                         layer.close(index);
-                        $('#imgCrop').empty();
-                        $('#pictureUrl').val('');
-                        self.upImg();
                     });
                     return false;
                 })
 
+                $('#myform').on('click', '#imgCrop', function() {
+                    $('#upload').find('.cropControlUpload').trigger('click');
+                })
+
                 // 切换上传图片的尺寸
                 $('#typeId').on('change', function() {
-                	var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
-                	$('#imgCrop').attr('class', 'thumb up-img x' + this.value)
-                	.nextAll('.tips').html(tips);
+                    var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
+                    $('#imgCrop').attr('class', 'thumb up-img x' + this.value).nextAll('.tips').html(tips);
                 })
-            },
-            upImg: function() {
-                var self = this;
-                var options = {
-                    uploadUrl: '/gen/upload',
-                    customUploadButtonId: 'imgCrop',
-                    loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
-                    onAfterImgUpload: function(response){
-                        self.cropModal && self.cropModal.destroy();
-                        $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
-                        $('#pictureUrl').val(response.url).trigger('validate');
-                    }
-                }
-
-                self.cropModal && self.cropModal.destroy();
-                self.cropModal = new Croppic('imgCropWrap', options);
             }
         }
     }

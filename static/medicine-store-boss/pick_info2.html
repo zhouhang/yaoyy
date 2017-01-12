@@ -348,8 +348,7 @@
             init: function() {
                 this.tab();
                 this.bindEvent();
-                this.goodsImg();
-                this.upImg();
+                this.upfileImg();
             },
             tab: function() {
                 var $items = $('.fa-tab-cont').find('.items'),
@@ -394,39 +393,35 @@
                     }
                 });
             },
-            goodsImg: function() {
-                var self = this,
-                    $temp = $('#temp');
+            upfileImg: function() {
+                $('body').append('<div id="upload" style="position:fixed;bottom:0;left:0;width:0;height:0;visibility:hidden;"></div>');
+
+                new Croppic('upload', {
+                    uploadUrl:'img_save_to_file.php',
+                    onBeforeImgUpload: function() {
+                        $('#imgCrop').html('<span class="loader">图片上传中...</span>');
+                    },
+                    onAfterImgUpload: function(response){
+                        $('#imgCrop').html('<img src="' + response.url + '"><i class="del" title="删除">').next(':hidden').val(response.url);
+                    },
+                    onError: function(msg){
+                        $('#imgCrop').html('<span class="upimg-msg">' + msg + '</span>');
+                    }
+                });
 
                 // 删除图片
-                $temp.on('click', '.del', function() {
+                $('#temp').on('click', '.del', function() {
                     var $self = $(this);
-                    layer.confirm('确认删除图片？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
+                    layer.confirm('确认删除图片？', function(index){
+                        $self.parent().empty().next(':hidden').val('');
                         layer.close(index);
-                        $('#imgCrop').empty();
-                        $('#pictureUrl').val('');
-                        self.upImg();
                     });
                     return false;
                 })
-            },
-            upImg: function() {
-                var self = this;
-                var options = {
-                    uploadUrl:'img_save_to_file.php',
-                    customUploadButtonId: 'imgCrop',
-                    loaderHtml:'<span class="loader">正在上传图片，请稍后...</span>',
-                    onAfterImgUpload: function(response){
-                        self.cropModal && self.cropModal.destroy();
-                        $('#imgCrop').show().html('<img src="' + response.url + '" /><i class="del" title="删除"></i>');
-                        $('#pictureUrl').val(response.url).trigger('validate');
-                    }
-                }
-                
-                self.cropModal && self.cropModal.destroy();
-                self.cropModal = new Croppic('imgCropWrap', options);
+
+                $('#temp').on('click', '#imgCrop', function() {
+                    $('#upload').find('.cropControlUpload').trigger('click');
+                })
             }
         }
     }
