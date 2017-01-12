@@ -137,7 +137,7 @@ public class PayRecordController extends BaseController{
         }
         pickTrackingService.save(pickTrackingVo);
 
-        MsgProducerEvent msgProducerEvent=new MsgProducerEvent(payRecord.getUserId(),payRecord.getId(), MessageEnum.PAY_SUCCESS, null);
+        MsgProducerEvent msgProducerEvent=new MsgProducerEvent(pick.getUserId(),payRecord.getId(), MessageEnum.PAY_SUCCESS, null);
         applicationContext.publishEvent(msgProducerEvent);
 
         return Result.success().data("确认收款");
