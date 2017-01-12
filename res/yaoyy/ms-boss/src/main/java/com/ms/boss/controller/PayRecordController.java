@@ -19,6 +19,7 @@ import com.ms.service.PickTrackingService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgConsumeEvent;
+import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,8 +137,8 @@ public class PayRecordController extends BaseController{
         }
         pickTrackingService.save(pickTrackingVo);
 
-        MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(payRecord.getId(), MessageEnum.PAY_SUCCESS);
-        applicationContext.publishEvent(msgConsumeEvent);
+        MsgProducerEvent msgProducerEvent=new MsgProducerEvent(payRecord.getId(), MessageEnum.PAY_SUCCESS, null);
+        applicationContext.publishEvent(msgProducerEvent);
 
         return Result.success().data("确认收款");
     }
