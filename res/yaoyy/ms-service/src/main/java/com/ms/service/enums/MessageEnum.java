@@ -17,7 +17,8 @@ public enum  MessageEnum {
     PICK_DELIVERY(4), // 客服确认发货(微信)
     PICK_FINISH(5), // 用户确认收货(微信)
     PAY_BANK(6), //用户提交转账凭证 客服
-    PAY_ONLINE(7) //客户微信支付宝付款(线上支付) 客服
+    PAY_ONLINE(7), //客户微信支付宝付款(线上支付) 客服
+    PAY_SUCCESS(9) // 支付宝支付成功回调,和客服后台确认转账信息有效
     ;
     private Integer value;
     MessageEnum(Integer value) {

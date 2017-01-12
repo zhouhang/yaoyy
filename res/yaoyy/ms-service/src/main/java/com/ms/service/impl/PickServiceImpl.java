@@ -442,6 +442,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				// 支付成功 通知客服查看
 				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_ONLINE,null);
 				applicationContext.publishEvent(mp);
+				MsgProducerEvent mpC =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_SUCCESS,null);
+				applicationContext.publishEvent(mpC);
+
 			}
 			else{
 				//账单支付需要更改账单状态

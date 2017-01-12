@@ -17,6 +17,7 @@ import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
     SmsUtil smsUtil;
 
     @Override
+    @Async
     public void onApplicationEvent(MsgProducerEvent event) {
         Message message = new Message();
         message.setType(event.getType().get());
@@ -93,11 +95,14 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
             if (!Strings.isNullOrEmpty(user.getOpenid())){
                 // openId 不为空发送微信消息
                 SendMsg msg;
-                PickVo pickVo = pickService.findVoById(event.getEventId());
-                if (pickVo != null) {
+                if (MessageEnum.PAY_SUCCESS == event.getType()){
+                    PayRecordVo vo = payRecordService.findVoById(event.getEventId());
+                    msg = MsgBuild.build(vo,event.getType());
+                } else {
+                    PickVo pickVo = pickService.findVoById(event.getEventId());
                     msg = MsgBuild.build(pickVo, event.getType());
-                    sendMessage(msg, user.getOpenid());
                 }
+                sendMessage(msg, user.getOpenid());
 
             }
 
