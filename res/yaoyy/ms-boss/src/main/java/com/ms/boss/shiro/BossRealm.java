@@ -34,14 +34,10 @@ public class BossRealm extends AuthorizingRealm {
 	@Autowired
 	private MemberDao memberDao;
 
-
-
-
 	
 	private Set<Permission> addCommonPermissions(Set<Permission> permissions){
 		return permissions;
 	}
-
 
 
 	/**

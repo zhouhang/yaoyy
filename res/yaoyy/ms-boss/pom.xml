@@ -64,59 +64,43 @@
     </dependencies>
 
 
+
     <profiles>
         <profile>
-            <id>test</id>
+            <id>wb</id>
             <properties>
-                <doc.base.url>http://boss.yaobest.com/</doc.base.url>
-                <biz.base.url>http://www.yaobest.com/</biz.base.url>
-                <pro.upload.path>E:\uploadfiles\yaobest\</pro.upload.path>
-                <pro.upload.url>http://static.yaobest.com/</pro.upload.url>
-            </properties>
-        </profile>
-        <profile>
-            <id>zxj</id>
-            <properties>
-                <doc.base.url>http://127.0.0.1:8189/</doc.base.url>
-                <biz.base.url>http://127.0.0.1:8188/</biz.base.url>
-                <pro.upload.path>D:\Program Files (x86)\Java\tomcat8\apache-tomcat-8.5.5\webapps\ms-files\</pro.upload.path>
-                <pro.upload.url>http://127.0.0.1:8189/ms-files/</pro.upload.url>
-            </properties>
-        </profile>
-        <profile>
-            <id>ppcT</id>
-            <properties>
-                <doc.base.url>http://127.0.0.1:8189/</doc.base.url>
-                <biz.base.url>http://127.0.0.1:8188/</biz.base.url>
-                <pro.upload.path>/Software/JAVAEE/apache-tomcat-8.0.23/webapps/ms-files/</pro.upload.path>
-                <pro.upload.url>http://127.0.0.1:8189/ms-files/</pro.upload.url>
+                <profiles.active>wb</profiles.active>
             </properties>
         </profile>
         <profile>
             <id>ccx</id>
             <properties>
-                <doc.base.url>http://127.0.0.1:8189/</doc.base.url>
-                <biz.base.url>http://hztjn.free.natapp.cc</biz.base.url>
-                <pro.upload.path>E:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ms-files/</pro.upload.path>
-                <pro.upload.url>http://127.0.0.1:8189/ms-files/</pro.upload.url>
+                <profiles.active>ccx</profiles.active>
             </properties>
         </profile>
         <profile>
-            <id>wb</id>
+            <id>ppcT</id>
             <properties>
-                <doc.base.url>http://localhost:8189/</doc.base.url>
-                <biz.base.url>http://localhost:8188</biz.base.url>
-                <pro.upload.path>E:/development/apache-tomcat-8.0.361/webapps/ms-files/</pro.upload.path>
-                <pro.upload.url>http://localhost:8189/ms-files/</pro.upload.url>
+                <profiles.active>ppcT</profiles.active>
             </properties>
         </profile>
         <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>zxj</id>
+            <properties>
+                <profiles.active>zxj</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
             <id>pro</id>
             <properties>
-                <doc.base.url>http://boss.yaobest.com</doc.base.url>
-                <biz.base.url>http://www.yaobest.com</biz.base.url>
-                <pro.upload.path>/opt/resources/yaobest/</pro.upload.path>
-                <pro.upload.url>http://static.yaobest.com/</pro.upload.url>
+                <profiles.active>pro</profiles.active>
             </properties>
         </profile>
     </profiles>
@@ -124,23 +108,18 @@
     <build>
         <finalName>boss</finalName>
         <resources>
-            <!--<resource>-->
-                <!--<directory>src/main/resources</directory>-->
-                <!--<filtering>true</filtering>-->
-            <!--</resource>-->
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
                 <excludes>
-                    <exclude>static/assets/**</exclude>
+                    <exclude>config/*</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>static/assets/**</include>
-                </includes>
+                <!-- 根据参数指定资源目录 -->
+                <directory>src/main/resources/config/config-${profiles.active}/</directory>
+                <!-- 指定编译后的目录即生成文件位置（默认为WEB-INF/class） -->
+                <targetPath>./</targetPath>
             </resource>
         </resources>
 

@@ -67,108 +67,59 @@
     </dependencies>
 
 
-
     <profiles>
         <profile>
-            <id>test</id>
+            <id>wb</id>
             <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>192.168.1.41</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>192.168.1.41</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaoyy</spring.dataSource.username>
-                <spring.dataSource.password>123456</spring.dataSource.password>
-            </properties>
-        </profile>
-        <profile>
-            <id>ppcT</id>
-            <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>192.168.1.41</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>192.168.1.41</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaoyy</spring.dataSource.username>
-                <spring.dataSource.password>123456</spring.dataSource.password>
-            </properties>
-        </profile>
-        <profile>
-            <id>zxj</id>
-            <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>192.168.1.41</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>192.168.1.41</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaoyy</spring.dataSource.username>
-                <spring.dataSource.password>123456</spring.dataSource.password>
+                <profiles.active>wb</profiles.active>
             </properties>
         </profile>
         <profile>
             <id>ccx</id>
             <properties>
-                <wechat.mp.appid>wx9daa6d513b72c70c</wechat.mp.appid>
-                <wechat.mp.secret>c80fe6efd3ee806bdb762ac9a7b86913</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>192.168.1.41</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>192.168.1.41</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaoyy</spring.dataSource.username>
-                <spring.dataSource.password>123456</spring.dataSource.password>
+                <profiles.active>ccx</profiles.active>
             </properties>
         </profile>
         <profile>
-            <id>wb</id>
+            <id>ppcT</id>
             <properties>
-                <wechat.mp.appid>wxa7f10cbf0dc060b9</wechat.mp.appid>
-                <wechat.mp.secret>fe68a821107c34bf9863348831e26755</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>192.168.1.41</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>192.168.1.41</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaoyy</spring.dataSource.username>
-                <spring.dataSource.password>123456</spring.dataSource.password>
+                <profiles.active>ppcT</profiles.active>
             </properties>
         </profile>
         <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>zxj</id>
+            <properties>
+                <profiles.active>zxj</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
             <id>pro</id>
             <properties>
-                <wechat.mp.appid>wx0b6c6683f64d3cc2</wechat.mp.appid>
-                <wechat.mp.secret>b52e6a9abba43685cf273c6028aec69d</wechat.mp.secret>
-                <wechat.mp.token>E10ADC3949BA59ABBE56E057F20F883E</wechat.mp.token>
-                <elasticsearch.host>localhost</elasticsearch.host>
-                <elasticsearch.port>9300</elasticsearch.port>
-                <redis.url>127.0.0.1</redis.url>
-                <redis.port>6379</redis.port>
-                <spring.dataSource.url>jdbc:mysql://localhost:3306/yaoyy?characterEncoding=utf-8</spring.dataSource.url>
-                <spring.dataSource.username>yaobest</spring.dataSource.username>
-                <spring.dataSource.password>yaobest20161110</spring.dataSource.password>
+                <profiles.active>pro</profiles.active>
             </properties>
         </profile>
     </profiles>
-
     <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/config.yml</include>
-                </includes>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <excludes>
+                    <exclude>config/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <!-- 根据参数指定资源目录 -->
+                <directory>src/main/resources/config/config-${profiles.active}/</directory>
+                <!-- 指定编译后的目录即生成文件位置（默认为WEB-INF/class） -->
+                <targetPath>./</targetPath>
             </resource>
         </resources>
     </build>

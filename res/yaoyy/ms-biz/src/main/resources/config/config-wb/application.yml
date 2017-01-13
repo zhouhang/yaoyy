@@ -1,0 +1,44 @@
+spring:
+    freemarker:
+            suffix: .ftl
+            templateEncoding: UTF-8
+            templateLoaderPath: classpath:/templates/
+    jmx:
+          enabled: true
+          default-domain: yaoyybiz
+    resources:
+          chain:
+              strategy:
+                  content:
+                        enabled: true
+                        paths: /**
+
+#mybatis:
+#  mapperLocations: classpath:mapper/*.xml
+#  typeAliasesPackage: com.ms.dao.model
+
+doc:
+   base:
+       url: http://localhost:8188
+
+upload:
+    path: E:/development/apache-tomcat-8.0.361/webapps/ms-files/
+    url: http://localhost:8189/ms-files/
+
+#logging:
+#    level:
+#        com:
+#          ms: DEBUG
+
+server:
+    error:
+        whitelabel:
+            enabled: false
+#    context-path: /
+
+
+alipay:
+    appId: appId
+    privateKey: privateKey
+    publicKey: publicKey
+    sellerId: sellerId

@@ -51,7 +51,9 @@ public class ShiroConfiguration {
     public BossRealm getShiroRealm(CacheManager cacheManager,RetryLimitHashedCredentialsMatcher credentialsMatcher) {
         BossRealm bossRealm =  new BossRealm();
         bossRealm.setCredentialsMatcher(credentialsMatcher);
-        bossRealm.setCacheManager(cacheManager);
+        bossRealm.setAuthenticationCachingEnabled(true);
+        bossRealm.setAuthenticationCacheName("authenticationCache");
+        bossRealm.setAuthorizationCacheName("authorizationCache");
         return bossRealm;
     }
 
@@ -123,7 +125,7 @@ public class ShiroConfiguration {
 
 
     @Bean(name = "cacheManager")
-    public ShiroRedisCacheManager getCacheManager( RedisManager redisManager) {
+    public ShiroRedisCacheManager getCacheManager(RedisManager redisManager) {
         ShiroRedisCacheManager shiroRedisCacheManager = new ShiroRedisCacheManager();
         shiroRedisCacheManager.setRedisManager(redisManager);
         shiroRedisCacheManager.setApplicationPrefix("boss:");
