@@ -54,6 +54,7 @@ public class ShiroConfiguration {
         bossRealm.setAuthenticationCachingEnabled(true);
         bossRealm.setAuthenticationCacheName("authenticationCache");
         bossRealm.setAuthorizationCacheName("authorizationCache");
+        bossRealm.setCacheManager(cacheManager);
         return bossRealm;
     }
 
