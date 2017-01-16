@@ -1,0 +1,29 @@
+
+wechat:
+  mp:
+    appId: wx9daa6d513b72c70c
+    secret: c80fe6efd3ee806bdb762ac9a7b86913
+    token: E10ADC3949BA59ABBE56E057F20F883E
+    partnerId: 1423682501
+    partnerKey: 49a8a3011d2eb2734a5e88938bea8c1f
+
+
+
+sms:
+  apikey: 49a8a3011d2eb2734a5e88938bea8c1e
+  serviceMobile: 18756759690
+
+spring:
+    dataSource:
+        url: jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8
+        username: yaoyy
+        password: 123456
+        driverClassName: com.mysql.jdbc.Driver
+
+elasticsearch:
+         host: 192.168.1.41
+         port: 9300
+
+redis:
+    url: 192.168.1.41
+    port: 6379

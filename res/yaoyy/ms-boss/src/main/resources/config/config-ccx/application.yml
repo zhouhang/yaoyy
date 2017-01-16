@@ -12,13 +12,13 @@ spring:
 #  typeAliasesPackage: com.ms.dao.model
 doc:
     base:
-        url: @doc.base.url@
+        url: http://127.0.0.1:8189
 biz:
     base:
-         url: @biz.base.url@
+         url: http://hztjn.free.natapp.cc
 upload:
-    path: @pro.upload.path@
-    url: @pro.upload.url@
+    path: E:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ms-files/
+    url: http://127.0.0.1:8189/ms-files/
 
 #logging:
 #    level:

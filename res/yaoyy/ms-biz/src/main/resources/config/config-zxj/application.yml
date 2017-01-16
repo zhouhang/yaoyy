@@ -19,11 +19,11 @@ spring:
 
 doc:
    base:
-       url: @doc.base.url@
+       url: http://127.0.0.1:8188
 
 upload:
-    path: @pro.upload.path@
-    url: @pro.upload.url@
+    path: D:\Program Files (x86)\Java\tomcat8\apache-tomcat-8.5.5\webapps\ms-files\
+    url: http://127.0.0.1:8088/ms-files/
 
 #logging:
 #    level:
@@ -37,3 +37,8 @@ server:
 #    context-path: /
 
 
+alipay:
+    appId: appId
+    privateKey: privateKey
+    publicKey: publicKey
+    sellerId: sellerId

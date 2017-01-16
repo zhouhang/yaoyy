@@ -9,7 +9,6 @@ import com.ms.biz.properties.AliPayProperties;
 import com.ms.biz.properties.BizSystemProperties;
 import com.ms.dao.enums.PayTypeEnum;
 import com.ms.dao.enums.SettleTypeEnum;
-import com.ms.dao.model.Payment;
 import com.ms.dao.model.User;
 import com.ms.dao.vo.AccountBillVo;
 import com.ms.dao.vo.PaymentVo;
@@ -18,7 +17,6 @@ import com.ms.service.AccountBillService;
 import com.ms.service.PaymentService;
 import com.ms.service.PickService;
 import com.ms.service.UserService;
-import com.ms.service.enums.RedisEnum;
 import com.ms.tools.exception.NotFoundException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.log4j.Logger;
@@ -26,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -145,7 +142,7 @@ public class AliPayController {
         params.put("product_code","QUICK_WAP_PAY");
         params.put("seller_id",aliPayProperties.getSellerId());
         String content =  JSONUtils.toJSONString(params);
-        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",aliPayProperties.getAppId(),aliPayProperties.getPrivate_key(),"json",aliPayProperties.getCharset(),aliPayProperties.getPublic_key(),"RSA2");
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",aliPayProperties.getAppId(),aliPayProperties.getPrivateKey(),"json",aliPayProperties.getCharset(),aliPayProperties.getPublicKey(),"RSA2");
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
         alipayRequest.setReturnUrl(systemProperties.getBaseUrl()+"/alipay/return"); //回调页面
         alipayRequest.setNotifyUrl(systemProperties.getBaseUrl()+"/alipay/callback");//在公共参数中设置回跳和通知地址
@@ -179,7 +176,7 @@ public class AliPayController {
         }
         logger.info("支付宝回调参数："+params);
         PrintWriter out=response.getWriter();
-        boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublic_key(),aliPayProperties.getCharset(),"RSA2");
+        boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublicKey(),aliPayProperties.getCharset(),"RSA2");
         if(result){
             String trade_status=params.get("trade_status");
             //支付成功
@@ -226,7 +223,7 @@ public class AliPayController {
             params.put(name, valueStr);
         }
         logger.info("支付宝返回页面："+params);
-        boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublic_key(),aliPayProperties.getCharset(),"RSA2");
+        boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublicKey(),aliPayProperties.getCharset(),"RSA2");
         if(result){
             String trade_status=params.get("trade_status");
             //支付成功
