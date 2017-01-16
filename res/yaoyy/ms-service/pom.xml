@@ -64,6 +64,11 @@
             <artifactId>weixin-java-mp</artifactId>
             <version>${weixin.mp.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.alipay</groupId>
+            <artifactId>api</artifactId>
+            <version>20161226110022</version>
+        </dependency>
     </dependencies>
 
 

@@ -4,36 +4,28 @@ spring:
             templateEncoding: UTF-8
             templateLoaderPath: classpath:/templates/
     jmx:
-          enabled: true
-          default-domain: yaoyybiz
-    resources:
-          chain:
-              strategy:
-                  content:
-                        enabled: true
-                        paths: /**
+         enabled: true
+         default-domain: yaoyyboss
 
 #mybatis:
 #  mapperLocations: classpath:mapper/*.xml
 #  typeAliasesPackage: com.ms.dao.model
-
 doc:
-   base:
-       url: http://www.yaobest.com
-
+    base:
+        url: http://boss.yaobest.com
+biz:
+    base:
+         url: http://www.yaobest.com
 upload:
-    path: E:\uploadfiles\yaobest\
+    path: /opt/resources/yaobest/
     url: http://static.yaobest.com/
 
 #logging:
 #    level:
-#        com:
-#          ms: DEBUG
+#        com.ms: DEBUG
+#     path: @log.path@
 
 server:
     error:
         whitelabel:
             enabled: false
-#    context-path: /
-
-

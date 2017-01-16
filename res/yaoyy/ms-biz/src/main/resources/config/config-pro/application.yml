@@ -19,11 +19,11 @@ spring:
 
 doc:
    base:
-       url: http://localhost:8188
+       url: http://www.yaobest.com
 
 upload:
-    path: E:/development/apache-tomcat-8.0.361/webapps/ms-files/
-    url: http://localhost:8189/ms-files/
+    path: /opt/resources/yaobest/
+    url: http://static.yaobest.com/
 
 #logging:
 #    level:
@@ -35,4 +35,5 @@ server:
         whitelabel:
             enabled: false
 #    context-path: /
+
 

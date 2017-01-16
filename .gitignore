@@ -31,4 +31,4 @@ out/
 Thumbs.db
 /static/json
 /static-boss/json
-config-pro/
+config-pro/config.yml

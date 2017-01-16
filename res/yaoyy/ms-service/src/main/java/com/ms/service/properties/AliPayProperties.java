@@ -1,26 +1,25 @@
-package com.ms.biz.properties;
+package com.ms.service.properties;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by wangbin on 2017/1/3.
  */
 @Component
+@ConfigurationProperties(locations="classpath:config.yml",prefix = "alipay")
 public class AliPayProperties {
 
-    @Value("${alipay.appId}")
+
     private String appId ;
 
-    @Value("${alipay.privateKey}")
     private String privateKey ;
 
     private String charset = "UTF-8";
 
-    @Value("${alipay.publicKey}")
     private String publicKey ;
 
-    @Value("${alipay.sellerId}")
     private String sellerId ;
 
     public String getAppId() {
@@ -43,5 +42,23 @@ public class AliPayProperties {
         return sellerId;
     }
 
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
 
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
 }

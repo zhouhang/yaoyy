@@ -37,8 +37,3 @@ server:
 #    context-path: /
 
 
-alipay:
-    appId: appId
-    privateKey: privateKey
-    publicKey: publicKey
-    sellerId: sellerId

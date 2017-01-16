@@ -53,11 +53,7 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.alipay</groupId>
-            <artifactId>api</artifactId>
-            <version>20161226110022</version>
-        </dependency>
+       
     </dependencies>
 
 

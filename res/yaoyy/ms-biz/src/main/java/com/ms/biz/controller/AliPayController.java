@@ -5,7 +5,7 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.ms.biz.properties.AliPayProperties;
+import com.ms.service.properties.AliPayProperties;
 import com.ms.biz.properties.BizSystemProperties;
 import com.ms.dao.enums.PayTypeEnum;
 import com.ms.dao.enums.SettleTypeEnum;

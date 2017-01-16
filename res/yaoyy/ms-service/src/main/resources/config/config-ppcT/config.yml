@@ -27,3 +27,9 @@ elasticsearch:
 redis:
     url: 192.168.1.41
     port: 6379
+
+alipay:
+    appId: appId
+    privateKey: privateKey
+    publicKey: publicKey
+    sellerId: sellerId
