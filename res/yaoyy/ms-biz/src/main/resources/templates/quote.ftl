@@ -4,7 +4,7 @@
     <title>报价单-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body">
+<body class="ui-body body-gray">
 <header class="ui-header">
     <div class="title">药优优中药材报价单</div>
     <div class="abs-l mid">

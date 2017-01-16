@@ -135,11 +135,14 @@
                             data:{variety:$('#keyword').val()},
                             success: function(data) {
                                 if(data.data.length!=0){
-                                    var html = [];
+                                    var model = [];
                                     $.each(data.data, function(i, item) {
-                                        html.push('<a href="category/list/?variety=' ,item.variety ,'">', item.variety, '</a>');
+                                        model.push('<a href="category/list/?variety=' ,item.variety ,'">', item.variety, '</a>');
                                     })
-                                    $suggestions.show().find('.suggest-panel').html(html.join(''));
+                                    if (model.length === 0) {
+                                        model.push('<span>暂无此商品</span>');
+                                    }
+                                    $suggestions.show().find('.suggest-panel').html(model.join(''));
                                 }
                             }
                         })

@@ -347,27 +347,21 @@ k
                 var self = this;
                 self.dragger = new DragLoader(document.body, {
                     disableDragDown: true,
-                    dragUpRegionCls: 'dragger-more',
                     dragUpLoadFn: function() {
                         setTimeout(function() {
                             $('.tab').find('.current').next().trigger('click')
                         }, 200);
                     },
-                    dragUpHelper: function(status) {
-                        if (status == 'default') {
-                            return '<span>继续上拉切换下一页</span>';
-                        } else if (status == 'prepare') {
-                            return '<span>释放切换下一页</span>';
-                        } else if (status == 'load') {
-                            return '';
-                        }
+                    dragUpDom: {
+                        before : '继续上拉切换下一页',
+                        prepare : '释放切换下一页',
+                        load: ''
                     }
                 });
                 self.dragger.on('dragUpLoad', function() {
                     self.dragger.reset();
                 });
             }
-
         }
     }
 
