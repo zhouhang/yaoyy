@@ -25,8 +25,7 @@ public class Application extends SpringBootServletInitializer implements Embedde
 
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Application.class)
-                .initializers(new YamlFileApplicationContextInitializer()).run(args);
+        new SpringApplicationBuilder(Application.class).initializers(new YamlFileApplicationContextInitializer()).run(args);
     }
 
     @Override
@@ -45,8 +44,8 @@ public class Application extends SpringBootServletInitializer implements Embedde
         ErrorPageFilter filter = new ErrorPageFilter();
         filter.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND,"/error/404"));
         filter.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/error/500"));
-        filter.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST,"/error/400"));
-        filter.addErrorPages(new ErrorPage(RuntimeException.class,"/error/500"));
+        filter.addErrorPages(new ErrorPage(HttpStatus.BAD_REQUEST,"/error/500"));
+        filter.addErrorPages(new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED,"/error/500"));
         return filter;
     }
 

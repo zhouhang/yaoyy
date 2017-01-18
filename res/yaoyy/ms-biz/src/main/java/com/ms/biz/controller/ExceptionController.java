@@ -87,6 +87,17 @@ public class ExceptionController implements ErrorController {
         return new ResponseEntity<Map<String, Object>>(body, status);
     }
 
+
+    @RequestMapping(value = "400")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> error400(HttpServletRequest request, ModelMap modelMap,
+                                                        RedirectAttributesModelMap map) {
+        Map<String, Object> body = getErrorAttributes(request,
+                isIncludeStackTrace(request, MediaType.TEXT_HTML));
+        HttpStatus status = getStatus(request);
+        return new ResponseEntity<Map<String, Object>>(body, status);
+    }
+
     /**
      * 定义500的ModelAndView
      * @param request

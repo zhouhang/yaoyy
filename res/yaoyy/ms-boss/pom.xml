@@ -112,7 +112,7 @@
                 <directory>src/main/resources</directory>
                 <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
                 <excludes>
-                    <exclude>config/*</exclude>
+                    <exclude>config/**</exclude>
                 </excludes>
             </resource>
             <resource>

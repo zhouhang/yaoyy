@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AliPayProperties {
 
 
-    private String appId ;
+    private String appId;
 
     private String privateKey ;
 

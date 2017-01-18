@@ -15,8 +15,8 @@ sms:
 
 spring:
     dataSource:
-        url: jdbc:mysql://192.168.1.41:3306/yaoyy?characterEncoding=utf-8
-        username: yaoyy
+        url: jdbc:mysql://localhost:3306/yaoyy?characterEncoding=utf-8
+        username: root
         password: 123456
         driverClassName: com.mysql.jdbc.Driver
 

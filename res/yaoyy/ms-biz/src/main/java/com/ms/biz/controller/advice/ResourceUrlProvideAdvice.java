@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.resource.ResourceUrlProvider;
 
+
 /**
  * Author: koabs
  * 1/5/17.
  */
 @ControllerAdvice
-public class ResourceUrlProvideAdvice {
+public class ResourceUrlProvideAdvice  {
 
     @Autowired
     private ResourceUrlProvider resourceUrlProvider;
@@ -19,4 +20,5 @@ public class ResourceUrlProvideAdvice {
     ResourceUrlProvider urls() {
         return this.resourceUrlProvider;
     }
+
 }

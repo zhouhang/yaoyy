@@ -1,8 +1,8 @@
-package com.ms.biz.exception;
+package com.ms.service.exception;
 
 import com.google.common.base.Throwables;
 import com.ms.tools.entity.Result;
-import com.ms.tools.exception.ControllerException;
+import com.ms.tools.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -32,29 +32,62 @@ public class BaseGlobalExceptionHandler {
     protected static final String DEFAULT_ERROR_MESSAGE = "系统忙，请稍后再试";
 
 
-    protected Result handleError(HttpServletRequest req, HttpServletResponse rsp, Exception e) {
+    protected ModelAndView handleError(HttpServletRequest req, HttpServletResponse rsp, Exception e, String viewName, HttpStatus status)throws Exception {
+        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null){
+            throw e;
+        }
         String errorMsg =  DEFAULT_ERROR_MESSAGE;
         String errorStack = Throwables.getStackTraceAsString(e);
-        logger.error("Request: {} raised {}", req.getRequestURI(), errorStack);
-        if (e instanceof ControllerException) {
-            throw (ControllerException)e;
+
+        getLogger().error("Request: {} raised {}", req.getRequestURI(), errorStack);
+        if(isAjaxRequest(req)){
+           return   handleAjaxError(rsp, errorMsg, e);
         }
-        return handleAjaxError(errorStack, e);
+        return handleViewError(req.getRequestURL().toString(), errorStack, errorMsg, viewName);
     }
 
+    /**
+     * 处理页面跳转错误
+     * @param url
+     * @param errorStack
+     * @param errorMessage
+     * @param viewName
+     * @return
+     */
+    protected ModelAndView handleViewError(String url, String errorStack, String errorMessage, String viewName) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", errorStack);
+        mav.addObject("url", url);
+        mav.addObject("message", errorMessage);
+        mav.addObject("timestamp", new Date());
+        mav.setViewName(viewName);
+        return mav;
+    }
 
-    protected Result handleAjaxError(String errorStack, Exception e) {
+    /**
+     * 处理ajax方法
+     * @param rsp
+     * @param errorStack
+     * @param e
+     * @return
+     */
+    protected ModelAndView handleAjaxError(HttpServletResponse rsp, String errorStack, Exception e) {
         Result result;
         if (isValidAndBindException(e)) {
             result = Result.failVerification().data(formatVaildAndBindError(e));
         } else {
             result = Result.error().msg(debug?e.getMessage():DEFAULT_ERROR_MESSAGE);
         }
-        return result;
+        WebUtil.printJson(rsp,result);
+        return null;
     }
 
 
-
+    /**
+     * 判断数据是否是ajax
+     * @param request
+     * @return
+     */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         String requestType = request.getHeader("X-Requested-With");
         if (requestType != null && requestType.indexOf("XMLHttpRequest")!=-1) {
@@ -100,5 +133,9 @@ public class BaseGlobalExceptionHandler {
             }
         }
         return result;
+    }
+
+    public Logger getLogger() {
+        return LoggerFactory.getLogger(BaseGlobalExceptionHandler.class);
     }
 }
