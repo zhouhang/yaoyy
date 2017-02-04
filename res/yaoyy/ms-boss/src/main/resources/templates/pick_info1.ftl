@@ -351,6 +351,9 @@
                         }
                     })
                             .on('blur', '.price', function() {
+                                if (!this.value) {
+                                    this.value = 0;
+                                }
                                 self.total2();
                             })
 
@@ -414,7 +417,7 @@
                             });
                             return;
                         }
-                        $.ajax({
+                       $.ajax({
                             url: _global.v.createOrder,
                             data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
                             type: "POST",

@@ -130,7 +130,7 @@
                 <div class="group">
                     <div class="item">
                         <div class="txt">保证金金额：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" id="deposit"value="${pickVo.deposit!}"><span class="unit">元</span></div></div>
+                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" id="deposit" value="${pickVo.deposit?c}"<span class="unit">元</span></div></div>
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
@@ -299,6 +299,9 @@
                         }
                     })
                             .on('blur', '.price', function() {
+                                if (!this.value) {
+                                    this.value = 0;
+                                }
                                 self.total2();
                             })
 

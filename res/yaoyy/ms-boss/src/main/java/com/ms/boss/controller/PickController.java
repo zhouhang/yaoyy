@@ -203,6 +203,13 @@ public class PickController extends BaseController{
     private Result createOrder(PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
+        //过滤不必要的参数
+        if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_ALL.getType())){
+            pickVo.setBillTime(0);
+            pickVo.setDeposit(0F);
+        }else if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_BILL.getType())){
+            pickVo.setDeposit(0F);
+        }
         pickService.createOrder(pickVo);
         return Result.success().msg("生成订单成功");
     }
