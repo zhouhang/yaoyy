@@ -63,7 +63,6 @@
                 <#if commodityVo.mark!=0>
                     <span>量大价优</span>
                 </#if>
-k
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
                     <input id="num"type="tel" class="ipt" value="${commodityVo.minimumQuantity?default(1)}" data-min="${commodityVo.minimumQuantity?default(1)}" autocomplete="off">
