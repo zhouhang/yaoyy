@@ -501,11 +501,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			// TODO: 判断当前订单的状态是否 处于可确认收货状态
 		}
 		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
-
-		// 通知用户用户已经收货
-		pick = findById(pick.getId());
-		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_FINISH,null);
-		applicationContext.publishEvent(mp);
 	}
 
 	@Override

@@ -1,10 +1,8 @@
 package com.ms.service.observer;
 
 import com.google.common.base.Strings;
-import com.ms.dao.model.Member;
-import com.ms.dao.model.Message;
-import com.ms.dao.model.PayRecord;
-import com.ms.dao.model.User;
+import com.ms.dao.SendSampleDao;
+import com.ms.dao.model.*;
 import com.ms.dao.vo.PayRecordVo;
 import com.ms.dao.vo.PickCommodityVo;
 import com.ms.dao.vo.PickVo;
@@ -56,6 +54,9 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
     @Autowired
     SmsUtil smsUtil;
 
+    @Autowired
+    SendSampleDao sendSampleDao;
+
     @Override
     @Async
     public void onApplicationEvent(MsgProducerEvent event) {
@@ -90,62 +91,74 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
                 sendMessage(msg, m.getOpenid());
             });
         } else {
-            //用户消息通知
-            User user = userService.findById(event.getUserId());
-            if (!Strings.isNullOrEmpty(user.getOpenid())){
-                // openId 不为空发送微信消息
-                SendMsg msg;
-                if (MessageEnum.PAY_SUCCESS == event.getType()){
-                    PayRecordVo vo = payRecordService.findVoById(event.getEventId());
-                    msg = MsgBuild.build(vo,event.getType());
-                } else {
-                    PickVo pickVo = pickService.findVoById(event.getEventId());
-                    msg = MsgBuild.build(pickVo, event.getType());
+            // 用户提交寄样申请发送确认消息.
+            if (event.getType() == MessageEnum.SAMPLE_C) {
+                SendSample sendSample = sendSampleDao.findById(event.getEventId());
+                try {
+                    smsUtil.sendSample(event.getContent(), sendSample.getPhone());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                sendMessage(msg, user.getOpenid());
-
+                return;
+            }
+            // 寄样申请通过发送通知消息.
+            if (event.getType() == MessageEnum.SAMPLE_CONFIRM) {
+                SendSample sendSample = sendSampleDao.findById(event.getEventId());
+                try {
+                    smsUtil.sendSampleConfirm(sendSample.getNickname(), sendSample.getPhone());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return;
             }
 
-            if (event.getType() == MessageEnum.PICK_CONFIRM){
-                PickVo pickVo = pickService.findVoById(event.getEventId());
+            //用户消息通知
+            User user = userService.findById(event.getUserId());
+            PickVo pickVo = pickService.findVoById(event.getEventId());
+            SendMsg msg = MsgBuild.build(pickVo, event.getType());
+            if (!Strings.isNullOrEmpty(user.getOpenid())) {
+                // openId 不为空发送微信消息
+                sendMessage(msg, user.getOpenid());
+            }
+            // 判断发货发送短信
+            // 支付成功发送短信通知用户
+            Integer[] custom = {3,4,9};
+            List<Integer> customL = Arrays.asList(custom);
+            if (customL.contains(event.getType().get())) {
+                String text;
+                if (event.getType() == MessageEnum.PICK_CONFIRM){
+                    text = MsgBuild.buildSMS(pickVo);
+                } else {
+                    text = "【药优优】" + msg.content;
+                }
                 // 发送短信
                 try {
-                    smsUtil.sendPickConfirm(MsgBuild.buildSMS(pickVo), user.getPhone());
+                    smsUtil.sendPickConfirm(text, user.getPhone());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         }
-
-
-
     }
 
     public void sendMessage(SendMsg msg,String openId) {
-        try {
-            WxMpKefuMessage.WxArticle article1 = new WxMpKefuMessage.WxArticle();
-            article1.setDescription(msg.content);
-            article1.setTitle(msg.title);
+            try {
+                WxMpKefuMessage.WxArticle article1 = new WxMpKefuMessage.WxArticle();
+                article1.setDescription(msg.content);
+                article1.setTitle(msg.title);
 
-            if (!Strings.isNullOrEmpty(msg.url)){
-                article1.setUrl(msg.url);
+                if (!Strings.isNullOrEmpty(msg.url)) {
+                    article1.setUrl(msg.url);
+                }
+
+                WxMpKefuMessage message = WxMpKefuMessage
+                        .NEWS()
+                        .toUser(openId)
+                        .addArticle(article1)
+                        .build();
+                wxService.getKefuService().sendKefuMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            WxMpKefuMessage message  = WxMpKefuMessage
-                    .NEWS()
-                    .toUser(openId)
-                    .addArticle(article1)
-                    .build();
-            wxService.getKefuService().sendKefuMessage(message);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
-
-
-
-
-
 }

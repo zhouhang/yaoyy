@@ -12,6 +12,8 @@ public enum  MessageEnum {
     PICK(0) ,// 选货登记(微信) 客服
     PICK_C(8) ,// 选货登记(微信) 用户
     SAMPLE(1),// 客户提交寄样申请 客服
+    SAMPLE_C(10),// 客户提交寄样申请 发送确认信息给客户
+    SAMPLE_CONFIRM(11), // 客服确认寄样申请有效 发送短信通知客户
     PICK_ACCEPT(2),// 客服受理订单(微信)
     PICK_CONFIRM(3),// 客服确认订单(微信,短信)
     PICK_DELIVERY(4), // 客服确认发货(微信)

@@ -8,9 +8,9 @@ import org.apache.commons.lang.ArrayUtils;
  */
 public enum TextTemplateEnum {
 
-    SMS_BIZ_CAPTCHA_REGISTER("{1}您的注册验证码是{2},该验证码在30分钟内有效."),
-    SMS_BIZ_CAPTCHA_LOGIN("{1}您的密码是{2},该密码在30分钟内有效."),
-    SMS_BIZ_RESET_PASSWORD("{1}您的验证码是{2},该密码在30分钟内有效."),
+    SMS_BIZ_CAPTCHA("{1}您的验证码是{2},该验证码在30分钟内有效."),
+    SMS_SAMPLE_APPLY("{1}您提交了一个寄样申请，商品：{2}，我们会在三十分钟内给您回复。"), // 用户提交寄样申请确认短信
+    SMS_SAMPLE_CONFIRM("{1} [{2}]您好，您提交的寄样申请已审核通过，我们会马上为您寄送样品。"), // 客服确认寄样申请有效通知客户
     SMS_BOSS_SAMPLE_SEND("{1} [{2}]用户提交了{3}寄样申请,请速联系.");
 
     private String value;
