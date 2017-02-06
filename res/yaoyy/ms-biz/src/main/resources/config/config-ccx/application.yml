@@ -19,7 +19,7 @@ spring:
 
 doc:
    base:
-       url: http://127.0.0.1:8188
+       url: http://376161552.tunnel.2bdata.com
 
 upload:
     path: E:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ms-files/
