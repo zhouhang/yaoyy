@@ -28,7 +28,7 @@ public class MsgBuild {
         switch (type) {
             case PICK :
                 msg.content = vo.getNickname() + " 提交了一个新订货登记通知 " +
-                        "\n\n商品：" + StringUtils.join(names, ",") +
+                        "\n商品：" + StringUtils.join(names, ",") +
                         "\n姓名：" + vo.getNickname() +
                         "\n手机号：" + vo.getPhone() +
                         "\n\n请在后台订单列表查看";
@@ -37,7 +37,7 @@ public class MsgBuild {
                 break;
             case PICK_C:
                 msg.content =" 您提交了一张采购单，客服会在半个小时之内与您联系" +
-                        "\n\n采购商品：" + StringUtils.join(names, ",") +
+                        "\n采购商品：" + StringUtils.join(names, ",") +
                         "\n姓名：" + vo.getNickname() +
                         "\n手机号：" + vo.getPhone();
 
@@ -45,8 +45,7 @@ public class MsgBuild {
                 msg.url = url+vo.getId();
                 break;
             case PICK_ACCEPT:
-                msg.content ="您的订单已被受理" +
-                        "\n\n您的订单号"+vo.getCode()+"("+StringUtils.join(names, ",")+")的订单已被受理，客服马上会为您核算运费等其他费用。";
+                msg.content = "您的订单号"+vo.getCode()+"("+StringUtils.join(names, ",")+")的订单已被受理，客服马上会为您核算运费等其他费用。";
 
                 msg.title = "您的订单已被受理";
                 msg.url = url+vo.getId();
@@ -54,12 +53,12 @@ public class MsgBuild {
             case PICK_CONFIRM:
 
                 msg.content =" 您的订单号“"+vo.getCode()+"("+StringUtils.join(names, ",")+")”已核算完毕" +
-                        "\n\n商品总价：" + vo.getSum() + "元"+
+                        "\n商品总价：" + vo.getSum() + "元"+
                         "\n运费：" + ((vo.getShippingCosts() == 0)?"0元（免运费）":(vo.getShippingCosts()+"元")) +
                         "\n包装费：" + ((vo.getBagging()== 0)?"0元（免包装费）":(vo.getBagging()+"元")) +
                         "\n检测费：" + ((vo.getChecking()==0)?"0元（免检测费）":(vo.getChecking()+"元")) +
                         "\n税费：" + vo.getTaxation() + "元"+
-                        "\n总计：" + vo.getAmountsPayable() +"元";
+                        "\n总计：" + vo.getAmountsPayable() +"元\n";
 
                 if (Integer.valueOf(0).equals(vo.getSettleType())){
                     msg.content += "为了不耽误您的发货，请尽快在订单详情页进行付款.";
