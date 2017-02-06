@@ -19,14 +19,25 @@ public class GlobalExceptionHandler  extends BaseGlobalExceptionHandler {
     @Autowired
     private ResourceUrlProvider resourceUrlProvider;
 
+
+    @ModelAttribute("urls")
+    ResourceUrlProvider urls() {
+        return this.resourceUrlProvider;
+    }
+
+
     //500的异常会被这个方法捕获
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ModelAndView handleError(HttpServletRequest req, HttpServletResponse rsp, Exception e) throws Exception  {
         ModelAndView modelAndView = super.handleError(req, rsp, e,"/error/500", HttpStatus.INTERNAL_SERVER_ERROR);
-        modelAndView.addObject("urls",this.resourceUrlProvider);
+        if(modelAndView!=null){
+            modelAndView.addObject("urls",this.resourceUrlProvider);
+        }
         return modelAndView;
     }
+
+
 
 
 }

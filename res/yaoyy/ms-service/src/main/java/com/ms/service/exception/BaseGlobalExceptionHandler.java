@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class BaseGlobalExceptionHandler {
 
-    private boolean debug = true;
+    private boolean debug = false;
 
     protected static final Logger logger = LoggerFactory.getLogger(BaseGlobalExceptionHandler.class);
 

@@ -412,7 +412,7 @@
             },
             //支付宝支付
             alipay:function(){
-                window.location.href ="alipay/index?orderId=${pickVo.id}&authId=${authId}";
+                window.location.href ="alipay/index?orderId=${pickVo.id}&authId=${authId!}";
             },
             checkMsg: function () {
                 // 默认验证通过

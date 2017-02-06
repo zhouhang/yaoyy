@@ -81,6 +81,9 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 				 */
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(sendSample.getId(),MessageEnum.SAMPLE);
 				applicationContext.publishEvent(msgConsumeEvent);
+				//同意寄样通知客户
+				MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_CONFIRM,null);
+				applicationContext.publishEvent(msgSample);
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_REFUSE.getValue()){
 				sendSample.setStatus(SampleEnum.SAMPLE_REFUSE.getValue());

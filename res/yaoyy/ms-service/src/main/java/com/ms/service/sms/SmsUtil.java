@@ -51,12 +51,12 @@ public class SmsUtil {
         check(mobile);
 
         //生成并发送验证码
-        String code = SeqNoUtil.getRandomNum(5);
+        String code = SeqNoUtil.getRandomNum(4);
 
         Map<String, Object> param = new HashMap<>();
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
-        param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA_LOGIN.getText("【药优优】", code));
+        param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA.getText("【药优优】", code));
 
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
         //记录发送成功的时间
@@ -76,12 +76,12 @@ public class SmsUtil {
         check(mobile);
 
         //生成并发送验证码
-        String code = SeqNoUtil.getRandomNum(5);
+        String code = SeqNoUtil.getRandomNum(4);
 
         Map<String, Object> param = new HashMap<>();
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
-        param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA_REGISTER.getText("【药优优】", code));
+        param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA.getText("【药优优】", code));
 
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
         //记录发送成功的时间
@@ -102,12 +102,12 @@ public class SmsUtil {
         check(mobile);
 
         //生成并发送验证码
-        String code = SeqNoUtil.getRandomNum(5);
+        String code = SeqNoUtil.getRandomNum(4);
 
         Map<String, Object> param = new HashMap<>();
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
-        param.put("text", TextTemplateEnum.SMS_BIZ_RESET_PASSWORD.getText("【药优优】", code));
+        param.put("text", TextTemplateEnum.SMS_BIZ_CAPTCHA.getText("【药优优】", code));
 
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
         //记录发送成功的时间
@@ -119,16 +119,29 @@ public class SmsUtil {
 
     /**
      * 发送寄样通知短信
-     * @param userInfo
      * @param commodityInfo
      * @param mobile
      * @throws Exception
      */
-    public void sendSampleSms(String userInfo,String commodityInfo,String mobile) throws Exception {
+    public void sendSample(String commodityInfo,String mobile) throws Exception {
         Map<String, Object> param = new HashMap<>();
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
-        param.put("text", TextTemplateEnum.SMS_BOSS_SAMPLE_SEND.getText("【药优优】", userInfo,commodityInfo));
+        param.put("text", TextTemplateEnum.SMS_SAMPLE_APPLY.getText("【药优优】",commodityInfo));
+        HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
+
+    /**
+     * 寄样申请通过通知客户
+     * @param text
+     * @param mobile
+     * @throws Exception
+     */
+    public void sendSampleConfirm(String text,String mobile) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", systemProperties.getApikey());
+        param.put("mobile", mobile);
+        param.put("text", TextTemplateEnum.SMS_SAMPLE_CONFIRM.getText("【药优优】",text));
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
     }
 
