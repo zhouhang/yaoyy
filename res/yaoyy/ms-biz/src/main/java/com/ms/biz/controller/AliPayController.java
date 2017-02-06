@@ -237,10 +237,10 @@ public class AliPayController {
                     }
 
                 if(payment.getType()==0){
-                    return "redirect:/pick/paySuccess?orderId="+payment.getOrderId();
+                    return "redirect:/paySuccess?orderId="+payment.getOrderId();
                 }
                 else{
-                    return "redirect:/pick/paySuccess?billId="+payment.getBillId();
+                    return "redirect:/paySuccess?billId="+payment.getBillId();
                 }
 
             }

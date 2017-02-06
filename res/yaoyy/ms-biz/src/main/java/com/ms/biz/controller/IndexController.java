@@ -165,4 +165,17 @@ public class IndexController extends BaseController{
         List<Area> list = areaService.findByParent(parentId);
         return Result.success().data(list);
     }
+    /**
+     * 支付成功页面
+     * @return
+     */
+    @RequestMapping(value = "paySuccess", method = RequestMethod.GET)
+    public String paySuccess(Integer orderId,Integer billId, ModelMap model){
+        model.put("orderId",orderId);
+        model.put("billId",billId);
+        return "pay_success";
+    }
+
+
+
 }
