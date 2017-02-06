@@ -11,18 +11,18 @@ import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
-import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.NotFoundException;
-import com.ms.tools.utils.GsonUtil;
 import com.ms.tools.utils.HttpUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -165,4 +165,6 @@ public class IndexController extends BaseController{
         List<Area> list = areaService.findByParent(parentId);
         return Result.success().data(list);
     }
+
+
 }

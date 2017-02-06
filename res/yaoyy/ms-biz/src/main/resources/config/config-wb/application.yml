@@ -19,7 +19,7 @@ spring:
 
 doc:
    base:
-       url: http://localhost:8188
+       url: http://192.168.1.179:8188
 
 upload:
     path: E:/development/apache-tomcat-8.0.361/webapps/ms-files/
@@ -35,4 +35,3 @@ server:
         whitelabel:
             enabled: false
 #    context-path: /
-

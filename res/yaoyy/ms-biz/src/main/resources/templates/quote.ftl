@@ -17,9 +17,7 @@
         <#if quotationVo?exists>
             <div class="qoute">
             <div class="title">${(quotationVo.title)!}</div>
-           <div class="item">
-              <div class="desc"> ${(quotationVo.description)!}</div>
-            </div>
+
         <#assign content=quotationVo.content?eval />
         <div class="item">
             <#list  content as data >
@@ -49,6 +47,9 @@
             </#list>
 
         </div>
+                <div class="item">
+                    <div class="desc"> ${(quotationVo.description)!}</div>
+                </div>
             <div class="his">
                 <h3>历史报价单</h3>
                 <ul>
