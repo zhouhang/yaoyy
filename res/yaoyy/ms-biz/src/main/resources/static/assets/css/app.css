@@ -593,3 +593,8 @@ em,i{font-style:normal;}
 .dialog-mask em{color:#fda21d;}
 .dialog-mask .guide{position:absolute;top:0;right:20px;width:85px;height:115px;}
 .dialog-mask .bd{padding:0 16.6%;}
+
+
+/* 侧栏二维码 */
+.sideQrcode{position:fixed;top:70px;left:50%;width:180px;margin-left:346px;padding:10px 0;border:1px solid #e7e7e7;border-radius:5px;background:#fff;text-align:center;}
+.sideQrcode span{display:block;color:#999;font-size:12px;}

@@ -362,6 +362,9 @@
                     }
                 })
                 .on('blur', '.price', function() {
+                    if (!this.value) {
+                        this.value = 0;
+                    }
                     self.total2();
                 })
 
