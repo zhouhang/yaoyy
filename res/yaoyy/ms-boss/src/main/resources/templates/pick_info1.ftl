@@ -471,7 +471,7 @@
                 total2: function() {
                     var sum = this.sum;
                     $('#calc').find('.price').each(function() {
-                        sum += parseFloat(this.value);
+                        sum += parseFloat(this.value==""?0:this.value);
                     })
                     $('#sum3').html(formatPrice(sum));
                     $('#deposit').val(sum*0.2);
