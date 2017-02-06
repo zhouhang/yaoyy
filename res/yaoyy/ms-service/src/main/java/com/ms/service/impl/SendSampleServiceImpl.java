@@ -123,15 +123,11 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 	@Transactional
 	public void save(SendSampleVo sendSampleVo) {
 
-		//发送短信通知
-		//sendSms(sendSampleVo);
-
 		UserVo userVo=userDao.findByPhone(sendSampleVo.getPhone());
-		Integer nowLogin=sendSampleVo.getUserId();//现在登录的userid
-		//如果所给的手机号已经注册
+		Integer nowLogin = sendSampleVo.getUserId();//现在登录的userid
+		//在用户未登入时所给的手机号未注册的话则给用户注册默认账号.
 		Date now=new Date();
-		int useId;//现在的userid
-		if (userVo==null){
+		if (userVo==null && nowLogin ==null){
 			User user=new User();
 			user.setPhone(sendSampleVo.getPhone());
 			user.setType(UserEnum.auto.getType());
@@ -141,19 +137,20 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 			user.setUpdateTime(now);
 			user.setCreateTime(now);
 			userDao.create(user);
+			nowLogin=user.getId();
+		}
 
-			useId=user.getId();
+		if (nowLogin == null) {
+			nowLogin = userVo.getId();
 		}
-		else{
-			useId=userVo.getId();
-		}
-		UserDetail userDetail=userDetailDao.findByUserId(useId);
-		if (userDetail==null){
-			userDetail=new UserDetail();
+
+		UserDetail userDetail = userDetailDao.findByUserId(nowLogin);
+		if (userDetail == null) {
+			userDetail = new UserDetail();
 			userDetail.setPhone(sendSampleVo.getPhone());
 			userDetail.setNickname(sendSampleVo.getNickname());
 			userDetail.setArea(sendSampleVo.getArea());
-			userDetail.setUserId(useId);
+			userDetail.setUserId(nowLogin);
 			userDetail.setName("");
 			userDetail.setRemark("");
 			userDetail.setType(0);
@@ -161,32 +158,17 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 			userDetail.setCreateTime(now);
 			userDetailDao.create(userDetail);
 		}
-		else{
-			userDetail.setPhone(sendSampleVo.getPhone());
-			userDetail.setNickname(sendSampleVo.getNickname());
-			userDetail.setArea(sendSampleVo.getArea());
-			userDetail.setUpdateTime(now);
-			userDetailDao.update(userDetail);
-		}
 
-		SendSample sendSample=new SendSample();
-		if(nowLogin==null){
-			sendSample.setUserId(useId);
-		}
-		else{
-			sendSample.setUserId(nowLogin);
-		}
-
+		SendSample sendSample = new SendSample();
+		sendSample.setUserId(nowLogin);
 		sendSample.setNickname(sendSampleVo.getNickname());
 		sendSample.setPhone(sendSampleVo.getPhone());
 		sendSample.setArea(sendSampleVo.getArea());
 		sendSample.setStatus(SampleEnum.SAMPLE_NOTHANDLE.getValue());
+
 		//寄样的商品存历史表
 		List<CommodityVo> commodityList =commodityService.findByIds(sendSampleVo.getIntention());
-
-
 		List<Integer> ids=new ArrayList<>();
-
 		commodityList.forEach(c->{
 			HistoryCommodity historyCommodity=historyCommodityService.saveCommodity(c);
 			ids.add(historyCommodity.getId());
@@ -199,17 +181,10 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		sendSample.setCode(SeqNoUtil.getSampleCode());
 		sendSampleDao.create(sendSample);
 
-
-
 		SampleTracking sampleTracking=new SampleTracking();
 		sampleTracking.setName(sendSampleVo.getNickname());
 		sampleTracking.setType(TrackingTypeEnum.TYPE_USER.getValue());
-		if(nowLogin==null){
-			sampleTracking.setOperator(useId);
-		}
-		else{
-			sampleTracking.setOperator(nowLogin);
-		}
+		sampleTracking.setOperator(nowLogin);
 
 		sampleTracking.setExtra("");
 		sampleTracking.setCreateTime(now);
@@ -225,33 +200,14 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE,content);
 		applicationContext.publishEvent(msgProducerEvent);
 
+		// 通知客户寄样申请成功.
+		// 获取寄样的商品
+		String text = commodityList.get(0).getName() +" " + commodityList.get(0).getOrigin()+" " + commodityList.get(0).getSpec();
+		MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_C,text);
+		applicationContext.publishEvent(msgSample);
 
 
 	}
-
-	//发送短信通知到客服
-	void sendSms(SendSampleVo sendSampleVo){
-
-		try {
-			String userInfo = sendSampleVo.getNickname()+" "+sendSampleVo.getPhone()+" "+sendSampleVo.getArea();
-			String commodityInfo = "["+sendSampleVo.getCommodityInfo()+"]";
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						smsUtil.sendSampleSms(userInfo,commodityInfo,systemProperties.getServiceMobile());
-					}catch (Exception e){
-						e.printStackTrace();
-					}
-				}
-			}).start();
-
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-
-	}
-
 
 	@Override
 	public ICommonDao<SendSample> getDao() {

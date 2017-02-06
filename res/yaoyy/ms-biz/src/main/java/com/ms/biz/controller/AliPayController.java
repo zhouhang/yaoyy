@@ -225,29 +225,22 @@ public class AliPayController {
         logger.info("支付宝返回页面："+params);
         boolean result=AlipaySignature.rsaCheckV1(params,aliPayProperties.getPublicKey(),aliPayProperties.getCharset(),"RSA2");
         if(result){
-            String trade_status=params.get("trade_status");
             //支付成功
             PaymentVo payment=paymentService.getByOutTradeNo(params.get("out_trade_no"));
             if(payment!=null) {
                 payment.setPayAppId(aliPayProperties.getAppId());
                 payment.setInParam(params.toString());
                 if(payment.getCallbackTime()==null){
-                    if (trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")) {
                         payment.setStatus(1);
                         payment.setTradeNo(params.get("trade_no"));
                         pickService.handlePay(payment);
-                    }//支付失败
-                    else {
-                        payment.setTradeNo(params.get("trade_no"));
-                        payment.setStatus(2);
-                        pickService.handlePay(payment);
                     }
-                }
+
                 if(payment.getType()==0){
-                    return "redirect:/pick/paySuccess?orderId="+payment.getOrderId();
+                    return "redirect:/paySuccess?orderId="+payment.getOrderId();
                 }
                 else{
-                    return "redirect:/pick/paySuccess?billId="+payment.getBillId();
+                    return "redirect:/paySuccess?billId="+payment.getBillId();
                 }
 
             }

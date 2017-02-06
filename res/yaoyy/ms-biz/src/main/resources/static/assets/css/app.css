@@ -503,9 +503,13 @@ em,i{font-style:normal;}
 .pay .hd strong{color:#b9a060;}
 .pay .hd span{color:#aaa;}
 .pay .bd{padding:13px 0;border-top:1px solid #e7e7e7;}
-.pay .row{position:relative;padding:3px 0;}
-.pay .row .txt{position:absolute;top:3px;left:0;width:60px;text-align:right;color:#aaa;}
-.pay .row .val{min-height:16px;padding-left:60px;}
+.pay .row{position:relative;padding:5px 0;}
+.pay .row .txt{position:absolute;top:5px;left:0;width:60px;text-align:right;color:#aaa;}
+.pay .row .val{min-height:16px;padding-left:66px;}
+.pay .row .ipt{width:240px;height:35px;margin:10px 0;padding:0 9px;color:#333;font-size:1.4rem;border:none;border:1px solid #e7e7e7;-webkit-border-radius:5px;border-radius:5px;}
+.pay .row .error{position:absolute;top:52px;left:22px;z-index:2;padding:2px 10px;font-size:1.2rem;background:#d74142;color:#fff;display:none}
+.pay .row .error:before{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74142;}
+.pay .row .ubtn{width:240px;line-height:25px;font-size:1.4rem;-webkit-border-radius:5px;border-radius:5px;}
 .pay .button{margin:30px 0;}
 .pay .ft{padding:16px 0;font-size:1.4rem;border-top:1px solid #e7e7e7;}
 .pay .ft span{margin-right:10px;vertical-align:top;}

@@ -442,7 +442,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				// 支付成功 通知客服查看
 				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_ONLINE,null);
 				applicationContext.publishEvent(mp);
-				MsgProducerEvent mpC =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_SUCCESS,null);
+				MsgProducerEvent mpC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_SUCCESS,null);
 				applicationContext.publishEvent(mpC);
 
 			}
@@ -501,11 +501,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			// TODO: 判断当前订单的状态是否 处于可确认收货状态
 		}
 		changeOrderStatus(id,PickEnum.PICK_FINISH.getValue());
-
-		// 通知用户用户已经收货
-		pick = findById(pick.getId());
-		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_FINISH,null);
-		applicationContext.publishEvent(mp);
 	}
 
 	@Override
