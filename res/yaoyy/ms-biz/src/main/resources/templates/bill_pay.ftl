@@ -147,12 +147,12 @@
                         $send.text(second + txt).prop('disabled', true);
                         if (second === 0) {
                             clearInterval(wait);
-                            $send.text("获取验证码").prop('disabled', false);
+                            $send.text("将银行账户信息发送到您的手机>>").prop('disabled', false);
                         }
                     }, 1e3);
                 }
                 var sendMSM = function() {
-                    popover('验证码发送中，请稍后...!');
+                    popover('银行账户信息发送中，请稍后...!');
                     $.ajax({
                         url: '/bill/sendBankInfo',
                         dataType: 'json',
