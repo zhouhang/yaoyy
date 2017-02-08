@@ -120,7 +120,7 @@
         <div class="comment">
             <div class="hd"><span>评论</span></div>
             <div class="op"><button class="btn" id="write">写评论...</button></div>
-            <ul>
+            <ul id="clist">
                 <li>
                     <div class="avatar">
                         <img src="uploads/avatar.jpg" alt="">
@@ -163,12 +163,14 @@
 	
     <script src="assets/js/zepto.min.js"></script>
     <script src="assets/js/app.js"></script>
+    <script src="assets/js/dragloader.min.js"></script>
     <script>
 
     var _global = {
         fn: {
             init: function() {
                 this.comment();
+                this.list();
             },
             comment: function() {
                 var $comment = $('#commentWrap'),   
@@ -206,6 +208,57 @@
                     }
                     return false;
                 })
+            },
+            list: function() {
+                var self = this;
+                var dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpLoadFn: function() {
+                        setTimeout(function() {
+
+                        $.ajax({
+                            type: 'GET',
+                            url: 'json/clist.json',
+                            dataType: 'json',
+                            success: function(data){
+                                if (!data.list) {
+                                    return;
+                                }
+                                var result = self.toHtml(data.list);
+                                $('#clist').append(result);
+                            },
+                            error: function(xhr, type){
+                                popover('网络连接超时，请您稍后重试!');
+                            },
+                            complete: function() {
+                                dragger.reset();
+                            }
+                        });
+                        }, 1e3)
+
+                    },
+                    dragUpDom: {
+                        before : '继续上拉加载更多',
+                        prepare : '释放加载',
+                        load: '加载中...'
+                    }
+                });
+                dragger.on('dragUpLoad', function() {
+                    // dragger.reset();
+                });
+            },
+            toHtml: function(data) {
+                var model = [];
+                $.each(data, function(i, item) {
+                    model.push('<li>\n');
+                    model.push(     '<div class="avatar"><img src="', item.pic, '"></div>\n');
+                    model.push(     '<div class="cnt">\n');
+                    model.push(         '<div class="uname">', item.uname, '</div>\n');
+                    model.push(         '<div class="words">', item.words, '</div>\n');
+                    model.push(     '</div>');
+                    model.push('</li>');
+                })
+                return model.join('');
             }
         }
     }
