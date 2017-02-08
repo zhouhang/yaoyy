@@ -144,7 +144,7 @@ em,i{font-style:normal;}
 .ui-form .item{position:relative;margin-bottom:20px;}
 .ui-form .item i{right:100px;width:1px;height:16px;background:#333;}
 .ui-form .ipt{width:100%;height:44px;padding:0 20px;color:#333;font-size:1.4rem;border:none;border:1px solid #e7e7e7;-webkit-border-radius:22px;border-radius:22px;}
-.ui-form .mul{width:100%;height:160px;padding:10px;font-size:1.4rem;border:1px solid #e7e7e7;-webkit-border-radius:3px;border-radius:3px;}
+.ui-form .mul{width:100%;height:160px;padding:10px;font-size:1.4rem;border:1px solid #e7e7e7;-webkit-border-radius:3px;border-radius:3px;resize:none;}
 .ui-form .send{position:absolute;top:0;right:0;bottom:0;width:100px;padding-right:20px;color:#333;font-size:1.4rem;border:none;background:#fff;border:1px solid #e7e7e7;border-left:0;-webkit-border-radius:0 22px 22px 0;border-radius:0 22px 22px 0;}
 .ui-form .error{position:absolute;top:88%;left:22px;z-index:2;padding:2px 10px;font-size:1.2rem;background:#d74142;color:#fff;display:none}
 .ui-form .error:before{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74142;}
@@ -443,18 +443,18 @@ em,i{font-style:normal;}
 /* 报价单 */
 .qoute{padding:15px 12px;font-size:1.2rem;background-color:#fff;}
 .qoute .title{font-size:1.8rem;text-align:center;}
-.qoute .time{margin-top:5px;font-size:1.2rem;color:#666;text-align:center;}
-.qoute .item{margin-top:30px;}
-.qoute .item .desc{font-size:1.4rem;}
-.qoute .item table{width:100%;margin-top:15px;border-collapse:collapse;border-spacing:0;}
-.qoute .item th{width:30%;height:30px;border:1px solid #ccc;}
-.qoute .item th:nth-child(1){width:40%;}
-.qoute .item td{border:1px solid #ccc;text-align:center;}
-.qoute .item a{display:block;padding:13px;text-align:left;}
-.qoute .item em{font-size:1.6rem;font-weight:700;}
-.qoute .item .cat{height:40px;font-size:1.8rem;background:#f3f3f3;}
-.qoute .his{margin-top:30px;}
-.qoute .his h3{margin-bottom:10px;font-size:1.4rem;}
+.qoute .hd{margin:25px 0 10px;font-size:1.4rem;font-weight:700;}
+.qoute .desc{border-top:1px solid #ccc;}
+.qoute .desc table{width:100%;margin-top:-1px;border-collapse:collapse;border-spacing:0;}
+.qoute .desc th{width:30%;height:30px;border:1px solid #ccc;font-weight:400;}
+.qoute .desc th:nth-child(1){width:40%;}
+.qoute .desc td:nth-child(3){color:#999;}
+.qoute .desc td:nth-child(3) em{font-weight:400;}
+.qoute .desc td{border:1px solid #ccc;text-align:center;}
+.qoute .desc a{display:block;padding:13px;text-align:left;}
+.qoute .desc em{font-size:1.6rem;font-weight:700;}
+.qoute .desc .cat{height:40px;font-size:1.8rem;font-weight:700;background:#f3f3f3;}
+.qoute .his{margin-top:10px;}
 .qoute .his li{line-height:2;font-size:1.4rem;}
 .qoute a{color:#5c92cf;}
 .qoute a:active{color:#fa6d75;text-decoration:underline;}
@@ -602,3 +602,23 @@ em,i{font-style:normal;}
 /* 侧栏二维码 */
 .sideQrcode{position:fixed;top:70px;left:50%;width:180px;margin-left:346px;padding:10px 0;border:1px solid #e7e7e7;border-radius:5px;background:#fff;text-align:center;}
 .sideQrcode span{display:block;color:#999;font-size:12px;}
+
+
+/* 评论 */
+.comment{background:#fff;padding:15px 12px 5px;}
+.comment .hd{line-height:30px;text-align:center;border-top:1px solid #e7e7e7;}
+.comment .hd span{position:relative;top:-15px;padding:0 20px;background:#fff;}
+.comment .op{margin-top:-20px;text-align:right;}
+.comment .btn{width:70px;height:25px;color:#5c92cf;font-size:1.2rem;background:#fff;border:1px solid #e7e7e7;-webkit-border-radius:13px;border-radius:13px;}
+.comment li{min-height:45px;margin-bottom:28px;}
+.comment li .avatar{float:left;width:40px;padding-top:5px;}
+.comment li .avatar img{width:100%;height:100%;border:1px solid #e7e7e7;-webkit-border-radius:50%;border-radius:50%;}
+.comment li .cnt{margin-left:60px;line-height:24px;}
+.comment li .cnt .uname{color:#5c92cf;}
+.comment li .cnt .words{color:#666;}
+.comment .ipt{padding:0 10px;font-size:1.2rem;-webkit-border-radius:8px;border-radius:8px;}
+.comment .mul{height:100px;margin:10px 0;-webkit-border-radius:8px;border-radius:8px;vertical-align:top;}
+.comment .ipt-wrap{position:fixed;bottom:-100%;left:0;width:100%;height:218px;padding:12px;background:#f3f3f3;z-index:9;text-align:right;transition:all .3s;border-top:1px solid #e7e7e7}
+.comment .ipt-wrap .btn{height:30px;color:#fff;background:#c4c4c4;border:none;-webkit-border-radius:8px;border-radius:8px;}
+.comment .ipt-wrap .primary{background:#b9a060;}
+.comment .slideInUp{bottom:0;}
