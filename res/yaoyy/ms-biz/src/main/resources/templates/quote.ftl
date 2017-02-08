@@ -75,7 +75,11 @@
                     <#list quoteFeedVos as feed>
                     <li>
                         <div class="avatar">
-                            <img src="uploads/avatar.jpg" alt="">
+                            <#if feed.id%10!=0>
+                            <img src="/assets/images/avatar/0${feed.id%10}.png" alt="">
+                            <#else>
+                                    <img src="/assets/images/avatar/10.png" alt="">
+                            </#if>
                         </div>
                         <div class="cnt">
                             <div class="uname">${feed.nickname?default('匿名用户')}</div>
@@ -204,11 +208,25 @@
             },
             toHtml: function(data) {
                 var model = [];
+
                 $.each(data, function(i, item) {
+                    var imgUrl="";
+                    if(item.id%10==0){
+                       imgUrl="/assets/images/avatar/10.png";
+                    }else{
+                        imgUrl="/assets/images/avatar/0"+item.id%10+".png";
+                    }
                     model.push('<li>\n');
-                    model.push(     '<div class="avatar"><img src="', "uploads/avatar.jpg", '"></div>\n');
+                    model.push(     '<div class="avatar"><img src="', imgUrl, '"></div>\n');
                     model.push(     '<div class="cnt">\n');
-                    model.push(         '<div class="uname">', item.nickname, '</div>\n');
+                    var nickname="";
+                    if(item.nickname==undefined){
+                        nickname="匿名用户";
+                    }else{
+                        nickname=item.nickname;
+                    }
+
+                    model.push(         '<div class="uname">',nickname , '</div>\n');
                     model.push(         '<div class="words">', item.content, '</div>\n');
                     model.push(     '</div>');
                     model.push('</li>');
