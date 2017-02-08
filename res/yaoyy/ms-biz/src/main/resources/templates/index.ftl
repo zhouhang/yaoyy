@@ -37,6 +37,7 @@
         fn: {
             init: function() {
                 this.slide();
+                this.sideQrcode();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -63,6 +64,12 @@
                         $nav.eq(i).addClass('current').siblings().removeClass('current');
                     }
                 });
+            },
+            sideQrcode: function() {
+                var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (!isMobile) {
+                    $('body').append('<div class="sideQrcode"><span>微信“扫一扫”立即关注</span><img src="/assets/images/qrcode.png" width="150" height="150"><span>微信号：药优优</span></div>');
+                }
             }
         }
     }

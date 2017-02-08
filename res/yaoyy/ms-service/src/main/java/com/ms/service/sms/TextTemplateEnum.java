@@ -16,7 +16,6 @@ public enum TextTemplateEnum {
     private String value;
 
     TextTemplateEnum(String value){
-
         this.value = value;
     }
 
