@@ -11,6 +11,7 @@ import com.ms.service.PayRecordService;
 import com.ms.service.PickService;
 import com.ms.service.SettingService;
 import com.ms.service.enums.RedisEnum;
+import com.ms.service.sms.SmsUtil;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.ControllerException;
@@ -50,7 +51,10 @@ public class BillController extends BaseController{
     @Autowired
     SettingService settingService;
 
-    /**
+    @Autowired
+    SmsUtil smsUtil;
+
+  /**
      * 账单列表页面
      * @return
      */
@@ -120,6 +124,7 @@ public class BillController extends BaseController{
         Setting setting = settingService.find();
         model.put("setting", setting);
         model.put("billId", billId);
+        model.put("phone", user.getPhone());
         return "bill_pay";
     }
 
@@ -168,5 +173,24 @@ public class BillController extends BaseController{
     public String bankTransferSuccess(Integer billId, ModelMap model){
         model.put("billId",billId);
         return "bill_pay_success";
+    }
+
+    @RequestMapping(value = "sendBankInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Result sendBankInfo(String phone, Integer billId){
+        Setting setting = settingService.find();
+        // 根据订单Id 获取转账金额.同时确认订单属于当前用户
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        AccountBillVo bill=accountBillService.findVoById(billId);
+        if (!(bill!= null && bill.getUserId().equals(user.getId()))){
+            throw new ControllerException("用户无权限访问此付款页面.");
+        }
+
+        try {
+            smsUtil.sendBankInfo(setting,bill.getOrderCode(),String.valueOf(bill.getUnpaid()),phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.success("发送成功");
     }
 }
