@@ -59,10 +59,9 @@
 
     <section class="ui-content">
         <div class="qoute">
-            <div class="title">药优优</div>
-            <div class="time">2016年11月28日报价  价格当天24点前有效</div>
-            <div class="item">
-                <div class="desc">报价单描述：</div>
+            <div class="title">【2017-02-14】药优优周报价更新</div>
+            <div class="hd">报价单描述：</div>
+            <div class="desc">
                 <table>
                     <thead>
                         <tr><th colspan="3" class="cat">浙江 三棱</th></tr>
@@ -90,9 +89,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="item">
-                <div class="desc">报价单描述：</div>
                 <table>
                     <thead>
                         <tr><th colspan="3" class="cat">亳州 白芍</th></tr>
@@ -111,21 +107,55 @@
                     </tbody>
                 </table>
             </div>
-
+            
+            <div class="hd">历史报价单</div>
             <div class="his">
-                <h3>历史报价单</h3>
                 <ul>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
+                    <li><a href="quote.html">2016-11-05 报价单&gt;&gt;</a></li>
+                    <li><a href="quote.html">2016-11-05 报价单&gt;&gt;</a></li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="comment">
+            <div class="hd"><span>评论</span></div>
+            <div class="op"><button class="btn" id="write">写评论...</button></div>
+            <ul>
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="ui-form ipt-wrap" id="commentWrap">
+                <form action="">
+                    <input type="text" name="uname" class="ipt" placeholder="您的昵称">
+                    <textarea name="words" id="msg" class="mul" cols="30" rows="10" placeholder="评论将显示在报价单下面，所有人可见"></textarea>
+                    <button type="submit" class="btn" id="submit">发表</button>
+                </form>
             </div>
         </div>
     </section><!-- /ui-content -->
@@ -138,6 +168,44 @@
     var _global = {
         fn: {
             init: function() {
+                this.comment();
+            },
+            comment: function() {
+                var $comment = $('#commentWrap'),   
+                    $uname = $comment.find('.ipt'),
+                    $words = $comment.find('.mul'),
+                    $submit = $('#submit'),
+                    flag = false;
+
+                $('#write').on('click', function() {
+                    $comment.addClass('slideInUp');
+                    $uname.focus();
+                    return false;
+                })
+
+                $comment.on('click', function() {
+                    return false;
+                })
+
+                $('body').on('click', function() {
+                    $comment.removeClass('slideInUp');
+                })
+
+                $words.on('keyup', function(){
+                    flag = this.value != '';
+                    if (flag) {
+                        $submit.addClass('primary');
+                    } else {
+                        $submit.removeClass('primary');
+                    }
+                })
+
+                $('#submit').on('click', function() {
+                    if (flag) {
+                        alert(9) 
+                    }
+                    return false;
+                })
             }
         }
     }
