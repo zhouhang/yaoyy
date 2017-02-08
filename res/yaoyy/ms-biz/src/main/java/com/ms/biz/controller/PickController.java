@@ -8,6 +8,7 @@ import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.service.sms.SmsUtil;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.BASE64DecodedMultipartFile;
 import com.ms.tools.entity.Result;
@@ -84,6 +85,9 @@ public class PickController extends BaseController{
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private SmsUtil smsUtil;
 
     /**
      * 选货单列表
@@ -277,6 +281,7 @@ public class PickController extends BaseController{
         // 后台配置的银行信息
         Setting setting = settingService.find();
         model.put("setting", setting);
+        model.put("phone", user.getPhone());
         return "pick_pay";
     }
 
@@ -335,7 +340,7 @@ public class PickController extends BaseController{
         record.setPayAccount(setting.getPayAccount());
         record.setPayBankCard(setting.getPayBankCard());
         record.setPayBank(setting.getPayBank());
-        // 判断之前没有支付记录TODO:
+        // 判断之前没有支付记录 TODO:
         payRecordService.save(record);
 
 
@@ -441,5 +446,28 @@ public class PickController extends BaseController{
         return  Result.success().data("/pick/configSuccess?orderId="+pickVo.getId());
     }
 
+    @RequestMapping(value = "sendBankInfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Result sendBankInfo(String phone, Integer orderId){
+        Setting setting = settingService.find();
+        // 根据订单Id 获取转账金额.同时确认订单属于当前用户
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        Pick pick = pickService.findById(orderId);
+        if (!(pick!= null && pick.getUserId().equals(user.getId()))){
+            throw new ControllerException("用户无权限访问此付款页面.");
+        }
+        Float total;
+        if(!SettleTypeEnum.SETTLE_DEPOSIT.getType().equals(pick.getSettleType())){
+            total = pick.getAmountsPayable();
+        } else{
+            total = pick.getDeposit();
+        }
+        try {
+            smsUtil.sendBankInfo(setting,pick.getCode(),String.valueOf(total),phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.success("发送成功");
+    }
 
 }

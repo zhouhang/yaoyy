@@ -1,5 +1,9 @@
 package com.ms.service.sms;
 
+import com.ms.dao.enums.SettleTypeEnum;
+import com.ms.dao.model.Pick;
+import com.ms.dao.model.Setting;
+import com.ms.dao.model.User;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.properties.SystemProperties;
 import com.ms.service.redis.RedisManager;
@@ -155,6 +159,26 @@ public class SmsUtil {
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         param.put("text", text);
+        HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
+
+    /**
+     * 给客服发送转账信息
+     * @param setting
+     * @param code
+     * @param total
+     * @param mobile
+     * @throws Exception
+     */
+    public void sendBankInfo(Setting setting, String code, String total, String mobile) throws Exception {
+        // 【药优优】 您的订货订单{2014414147}需要支付{500元}，汇款账户：亳州东方康元中药材信息有限公司，账号：1109 0795 0110 201 ，开户行：中国银行魏武大道支行   请在汇款留言栏填写如下内容：{“客户：张三，订单号：20144141474 汇款”}
+        // 您的订货订单#code#需要支付#total#，汇款账户：#payAccount#，账号：#payBankCard#，开户行：#payBank# 请在汇款留言栏填写如下内容：#remark#
+        String remark = "“订单号："+code +"汇款”";
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", systemProperties.getApikey());
+        param.put("mobile", mobile);
+        param.put("text", TextTemplateEnum.SMS_BIZ_BANK_INFO.getText("【药优优】",code,total,setting.getPayAccount(),
+                setting.getPayBankCard(),setting.getPayBank(),remark));
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
     }
 
