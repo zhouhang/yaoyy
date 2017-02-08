@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.QuoteFeedDao">
+    <resultMap id="QuoteFeedResultMap" type="com.ms.dao.model.QuoteFeed">
+            <id column="id"  property="id" />
+            <result column="qid"  property="qid" />
+            <result column="nickname"  property="nickname" />
+            <result column="content"  property="content" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="QuoteFeedResultMapVo" type="com.ms.dao.vo.QuoteFeedVo">
+            <id column="id"  property="id" />
+            <result column="qid"  property="qid" />
+            <result column="nickname"  property="nickname" />
+            <result column="content"  property="content" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,qid,nickname,content,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="QuoteFeedResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from quote_feed
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="QuoteFeedResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from quote_feed
+    </select>
+
+    <select id="findByParams" resultMap="QuoteFeedResultMapVo" parameterType="com.ms.dao.vo.QuoteFeedVo">
+        select
+        <include refid="Base_Column_List" />
+        from quote_feed
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from quote_feed
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.QuoteFeed">
+        insert into
+        quote_feed (qid,nickname,content,create_time)
+        values
+        (#{qid},#{nickname},#{content},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.QuoteFeed">
+        update quote_feed
+        <set>
+                                                        
+            <if test="qid != null">
+                qid = #{qid},
+            </if>
+                                            
+            <if test="nickname != null">
+                nickname = #{nickname},
+            </if>
+                                            
+            <if test="content != null">
+                content = #{content},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
