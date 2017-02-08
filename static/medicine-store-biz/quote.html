@@ -214,8 +214,6 @@
                 var dragger = new DragLoader(document.body, {
                     disableDragDown: true,
                     dragUpLoadFn: function() {
-                        setTimeout(function() {
-
                         $.ajax({
                             type: 'GET',
                             url: 'json/clist.json',
@@ -234,8 +232,6 @@
                                 dragger.reset();
                             }
                         });
-                        }, 1e3)
-
                     },
                     dragUpDom: {
                         before : '继续上拉加载更多',
