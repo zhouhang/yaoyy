@@ -1,6 +1,6 @@
 
 CREATE TABLE `quote_feed` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `qid` int(11) NOT NULL COMMENT '报价单id',
   `nickname` varchar(256) DEFAULT NULL COMMENT '昵称',
   `content` text COMMENT '评论内容',

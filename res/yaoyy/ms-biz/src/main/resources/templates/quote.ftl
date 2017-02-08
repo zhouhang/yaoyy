@@ -71,14 +71,14 @@
                 <div class="hd"><span>评论</span></div>
                 <div class="op"><button class="btn" id="write">写评论...</button></div>
                 <#if quoteFeedVos?size!=0>
-                <ul>
+                <ul id="clist">
                     <#list quoteFeedVos as feed>
                     <li>
                         <div class="avatar">
                             <img src="uploads/avatar.jpg" alt="">
                         </div>
                         <div class="cnt">
-                            <div class="uname">${feed.nickname?default("匿名用户")}</div>
+                            <div class="uname">${feed.nickname?default('匿名用户')}</div>
                             <div class="words">${feed.content!}</div>
                         </div>
                     </li>
@@ -90,8 +90,9 @@
 
 
                 <div class="ui-form ipt-wrap" id="commentWrap">
-                    <form action="">
-                        <input type="text" name="uname" class="ipt" placeholder="您的昵称">
+                    <form action="" id="feedForm">
+                        <input type="hidden"  class="ipt" value="${quotationVo.id!}" name="qid">
+                        <input type="text" name="nickname" class="ipt" placeholder="您的昵称">
                         <textarea name="words" id="msg" class="mul" cols="30" rows="10" placeholder="评论将显示在报价单下面，所有人可见"></textarea>
                         <button type="submit" class="btn" id="submit">发表</button>
                     </form>
@@ -101,6 +102,7 @@
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
+<script src="${urls.getForLookupPath('/assets/js/dragloader.min.js')}"></script>
 <script>
 
     var _global = {
@@ -112,6 +114,7 @@
                      udpateQuotetime(timestamp);
                  </#if>
                 this.comment();
+                this.list();
             },
             comment: function() {
                 var $comment = $('#commentWrap'),
@@ -144,12 +147,75 @@
                 })
 
                 $('#submit').on('click', function() {
+                    var url="/quotation/feed";
                     if (flag) {
-                        alert(9);
+                        $.ajax({
+                            url: url,
+                            data: $("#feedForm").serialize()+"&content="+$("#msg").val(),
+                            type: "POST",
+                            success: function(data){
+                                if (data.status == "200") {
+                                    $comment.removeClass('slideInUp');
+                                    window.location.reload();
+                                }
+
+                            }
+                        });
                     }
                     return false;
                 })
+            },
+            list: function() {
+                var self = this;
+                var pageNum = 2;
+                var dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpLoadFn: function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/quotation/getFeed',
+                                data: {qid:${quotationVo.id!},pageNum:pageNum, pageSize: 10},
+                                dataType: 'json',
+                                success: function(data){
+                                    if (data.data.pageNum<pageNum) {
+                                        return;
+                                    }
+                                    var result = self.toHtml(data.data.list);
+                                    $('#clist').append(result);
+                                    pageNum ++;
+                                },
+                                error: function(xhr, type){
+                                    popover('网络连接超时，请您稍后重试!');
+                                },
+                                complete: function() {
+                                    dragger.reset();
+                                }
+                            });
+                    },
+                    dragUpDom: {
+                        before : '继续上拉加载更多',
+                        prepare : '释放加载',
+                        load: '加载中...'
+                    }
+                });
+                dragger.on('dragUpLoad', function() {
+                    // dragger.reset();
+                });
+            },
+            toHtml: function(data) {
+                var model = [];
+                $.each(data, function(i, item) {
+                    model.push('<li>\n');
+                    model.push(     '<div class="avatar"><img src="', "uploads/avatar.jpg", '"></div>\n');
+                    model.push(     '<div class="cnt">\n');
+                    model.push(         '<div class="uname">', item.nickname, '</div>\n');
+                    model.push(         '<div class="words">', item.content, '</div>\n');
+                    model.push(     '</div>');
+                    model.push('</li>');
+                })
+                return model.join('');
             }
+
         }
     }
 

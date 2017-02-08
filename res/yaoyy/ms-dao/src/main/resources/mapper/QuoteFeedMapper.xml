@@ -44,7 +44,11 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="qid != null">
+            qid = #{qid}
+            </if>
         </where>
+        ORDER  BY create_time desc
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
