@@ -19,7 +19,7 @@
             <div class="title">${(quotationVo.title)!}</div>
 
         <#assign content=quotationVo.content?eval />
-        <div class="item">
+        <div class="desc">
             <#list  content as data >
             <table>
                 <thead>
@@ -50,13 +50,14 @@
                 <div class="item">
                     <div class="desc"> ${(quotationVo.description)!}</div>
                 </div>
-            <div class="his">
-                <h3>历史报价单</h3>
+                <div class="hd">历史报价单</div>
+                <div class="his">
                 <ul>
                     <#list historyVos as historyVo >
-                        <li><a href="/quotation/detail/${historyVo.id}">${historyVo.title}</a></li>
+                        <li><a href="/quotation/detail/${historyVo.id}">${historyVo.title}&gt;&gt;</a></li>
                     </#list>
                 </ul>
+                    </div>
             </div>
         </div>
         <#else>
@@ -66,7 +67,36 @@
             <a class="ubtn ubtn-primary" href="/">返回首页</a>
         </div>
         </#if>
+            <div class="comment">
+                <div class="hd"><span>评论</span></div>
+                <div class="op"><button class="btn" id="write">写评论...</button></div>
+                <#if quoteFeedVos?size!=0>
+                <ul>
+                    <#list quoteFeedVos as feed>
+                    <li>
+                        <div class="avatar">
+                            <img src="uploads/avatar.jpg" alt="">
+                        </div>
+                        <div class="cnt">
+                            <div class="uname">${feed.nickname?default("匿名用户")}</div>
+                            <div class="words">${feed.content!}</div>
+                        </div>
+                    </li>
+                    </#list>
+                </ul>
+                <#else>
+                    <div class="words">暂时没有评论</div>
+                </#if>
 
+
+                <div class="ui-form ipt-wrap" id="commentWrap">
+                    <form action="">
+                        <input type="text" name="uname" class="ipt" placeholder="您的昵称">
+                        <textarea name="words" id="msg" class="mul" cols="30" rows="10" placeholder="评论将显示在报价单下面，所有人可见"></textarea>
+                        <button type="submit" class="btn" id="submit">发表</button>
+                    </form>
+                </div>
+            </div>
 
 </section><!-- /ui-content -->
 
@@ -81,6 +111,44 @@
                      var timestamp= Date.parse(new Date('${(quotationVo.updateTime?datetime)!}'));
                      udpateQuotetime(timestamp);
                  </#if>
+                this.comment();
+            },
+            comment: function() {
+                var $comment = $('#commentWrap'),
+                        $uname = $comment.find('.ipt'),
+                        $words = $comment.find('.mul'),
+                        $submit = $('#submit'),
+                        flag = false;
+
+                $('#write').on('click', function() {
+                    $comment.addClass('slideInUp');
+                    $uname.focus();
+                    return false;
+                })
+
+                $comment.on('click', function() {
+                    return false;
+                })
+
+                $('body').on('click', function() {
+                    $comment.removeClass('slideInUp');
+                })
+
+                $words.on('keyup', function(){
+                    flag = this.value != '';
+                    if (flag) {
+                        $submit.addClass('primary');
+                    } else {
+                        $submit.removeClass('primary');
+                    }
+                })
+
+                $('#submit').on('click', function() {
+                    if (flag) {
+                        alert(9);
+                    }
+                    return false;
+                })
             }
         }
     }

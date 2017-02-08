@@ -28,6 +28,12 @@ public class QuoteFeedServiceImpl  extends AbsCommonService<QuoteFeed> implement
         return page;
 	}
 
+	@Override
+	public List<QuoteFeedVo> findAllFeed(QuoteFeedVo quoteFeedVo) {
+		List<QuoteFeedVo>  list = quoteFeedDao.findByParams(quoteFeedVo);
+		return list;
+	}
+
 
 	@Override
 	public ICommonDao<QuoteFeed> getDao() {

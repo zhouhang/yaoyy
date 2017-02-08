@@ -46,7 +46,7 @@ public class QuotationController {
         if(quotationVo!=null){
             quoteFeedVo.setQid(quotationVo.getId());
         }
-        PageInfo<QuoteFeedVo> quoteFeedVos=quoteFeedService.findByParams(quoteFeedVo,10,1);
+        List<QuoteFeedVo> quoteFeedVos=quoteFeedService.findAllFeed(quoteFeedVo);
         model.put("quotationVo",quotationVo);
         model.put("historyVos",quotationVos);
         model.put("quoteFeedVos",quoteFeedVos);
@@ -73,7 +73,7 @@ public class QuotationController {
         if(quotation!=null){
             quoteFeedVo.setQid(quotation.getId());
         }
-        PageInfo<QuoteFeedVo> quoteFeedVos=quoteFeedService.findByParams(quoteFeedVo,10,1);
+        List<QuoteFeedVo> quoteFeedVos=quoteFeedService.findAllFeed(quoteFeedVo);
         model.put("quotationVo",quotation);
         model.put("historyVos",quotationVos);
         model.put("quoteFeedVos",quoteFeedVos);
