@@ -67,10 +67,12 @@
             <a class="ubtn ubtn-primary" href="/">返回首页</a>
         </div>
         </#if>
-            <div class="comment">
-                <div class="hd"><span>评论</span></div>
-                <div class="op"><button class="btn" id="write">写评论...</button></div>
-                <#if quoteFeedVos?size!=0>
+
+                <#if quoteFeedVos?exists>
+                <div class="comment">
+                    <div class="hd"><span>评论</span></div>
+                    <div class="op"><button class="btn" id="write">写评论...</button></div>
+                    <#if quoteFeedVos?size!=0>
                 <ul id="clist">
                     <#list quoteFeedVos as feed>
                     <li>
@@ -93,15 +95,17 @@
                 </#if>
 
 
+
                 <div class="ui-form ipt-wrap" id="commentWrap">
                     <form action="" id="feedForm">
-                        <input type="hidden"  class="ipt" value="${quotationVo.id!}" name="qid">
+                        <input type="hidden"  class="ipt" value="${(quotationVo.id)!}" name="qid">
                         <input type="text" name="nickname" class="ipt" placeholder="您的昵称">
                         <textarea name="words" id="msg" class="mul" cols="30" rows="10" placeholder="评论将显示在报价单下面，所有人可见"></textarea>
                         <button type="submit" class="btn" id="submit">发表</button>
                     </form>
                 </div>
             </div>
+                </#if>
 
 </section><!-- /ui-content -->
 
@@ -178,7 +182,7 @@
                             $.ajax({
                                 type: 'POST',
                                 url: '/quotation/getFeed',
-                                data: {qid:${quotationVo.id!},pageNum:pageNum, pageSize: 10},
+                                data: {qid:${(quotationVo.id)!},pageNum:pageNum, pageSize: 10},
                                 dataType: 'json',
                                 success: function(data){
                                     if (data.data.pageNum<pageNum) {
