@@ -91,5 +91,19 @@
     });
 
 </script>
+<script>
+    var weixinShare = {
+        appId: '${signature.appid!}',
+        title: '<#if quotationVo?exists>${(quotationVo.title)!} <#else> 药优优中药材报价单</#if>',
+        desc: '药优优——原药材销售平台 优选好药，底价直采！ 质量保障，价格保障，货源保障！',
+        link: '${signature.url!}',
+        imgUrl: "${baseUrl}/assets/images/logo3.jpg",
+        timestamp: ${signature.timestamp?string("#")},
+        nonceStr: '${signature.noncestr!}',
+        signature: '${signature.signature!}'
+    }
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="${urls.getForLookupPath('/assets/js/weixin_share.js')}"></script>
 </body>
 </html>

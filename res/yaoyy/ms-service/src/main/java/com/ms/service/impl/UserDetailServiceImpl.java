@@ -9,6 +9,7 @@ import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserDetailVo;
 import com.ms.service.UserDetailService;
+import com.ms.tools.utils.EmojeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,7 @@ public class UserDetailServiceImpl  extends AbsCommonService<UserDetail> impleme
 	@Override
 	@Transactional
 	public void save(UserDetail userDetail) {
+		userDetail.setNickname(EmojeFilter.filterEmoji(userDetail.getNickname()));
 		Date now=new Date();
 		if(userDetail.getId()==null){
 			userDetail.setCreateTime(now);
