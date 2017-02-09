@@ -9,6 +9,10 @@ import com.ms.service.QuotationService;
 import com.ms.service.QuoteFeedService;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.ms.tools.utils.HttpUtil;
+import me.chanjar.weixin.common.bean.WxJsapiSignature;
+import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +39,11 @@ public class QuotationController {
     @Autowired
     private QuoteFeedService quoteFeedService;
 
+    @Autowired
+    private WxMpService wxService;
+
+    private static final Logger logger = Logger.getLogger(QuotationController.class);
+
 
     /**
      * 显示最近发布一条报价单
@@ -42,7 +52,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "index", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    public String latestQuotation(ModelMap model){
+    public String latestQuotation(ModelMap model,HttpServletRequest request){
         QuotationVo quotationVo=quotationService.getRecent();
         List<QuotationVo> quotationVos=quotationService.recentList();
         QuoteFeedVo quoteFeedVo=new QuoteFeedVo();
@@ -51,7 +61,13 @@ public class QuotationController {
             PageInfo<QuoteFeedVo> quoteFeedVos=quoteFeedService.findByParams(quoteFeedVo,1,10);
             model.put("quoteFeedVos",quoteFeedVos.getList());
         }
-
+        try {
+            String url = HttpUtil.getFullUrl(request);
+            WxJsapiSignature signature = wxService.createJsapiSignature(url);
+            model.put("signature",signature);
+        }catch (Exception e){
+            logger.error(e);
+        }
         model.put("quotationVo",quotationVo);
         model.put("historyVos",quotationVos);
 
@@ -78,7 +94,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    public String quotationDetail(@PathVariable("id") Integer id, ModelMap model){
+    public String quotationDetail(@PathVariable("id") Integer id, ModelMap model,HttpServletRequest request){
         Quotation quotation=quotationService.findById(id);
         List<QuotationVo> quotationVos=quotationService.recentList();
         QuoteFeedVo quoteFeedVo=new QuoteFeedVo();
@@ -86,6 +102,13 @@ public class QuotationController {
             quoteFeedVo.setQid(quotation.getId());
             PageInfo<QuoteFeedVo> quoteFeedVos=quoteFeedService.findByParams(quoteFeedVo,1,10);
             model.put("quoteFeedVos",quoteFeedVos.getList());
+        }
+        try {
+            String url = HttpUtil.getFullUrl(request);
+            WxJsapiSignature signature = wxService.createJsapiSignature(url);
+            model.put("signature",signature);
+        }catch (Exception e){
+            logger.error(e);
         }
 
         model.put("quotationVo",quotation);
