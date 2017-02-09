@@ -19,7 +19,7 @@ spring:
 
 doc:
    base:
-       url: http://192.168.1.179:8188
+       url: http://test.sankobuy.com:8080
 
 upload:
     path: E:/development/apache-tomcat-8.0.361/webapps/ms-files/
