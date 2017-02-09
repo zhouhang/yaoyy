@@ -37,6 +37,11 @@
                 <div class="val">${setting.payBank}</div>
             </div>
         </div>
+        <div class="row">
+            <input type="tel" class="ipt" id="mobile" placeholder="请输入您的手机号" value="${phone}">
+            <span class="error"></span>
+            <button type="button" class="ubtn ubtn-primary" id="send">将银行账户信息发送到您的手机&gt;&gt;</button>
+        </div>
         <div class="ft">
             <span>上传支付凭证：</span>
             <span class="ui-file thumb">
@@ -67,6 +72,7 @@
             init: function() {
                 this.submit();
                 this.upfile();
+                this.SMSCodeEvent();
                 gallery();
             },
             submit: function() {
@@ -126,6 +132,69 @@
                 $el.on('click', '.del', function() {
                     reset();
                 })
+            },
+            SMSCodeEvent: function() {
+                var $send = $('#send'),
+                        $mobile = $('#mobile'),
+                        self = this;
+                second = 0,
+                        wait = 0,
+                        txt = '秒后重试';
+
+                var lock = function() {
+                    wait && clearInterval(wait);
+                    wait = setInterval(function() {
+                        second--;
+                        $send.text(second + txt).prop('disabled', true);
+                        if (second === 0) {
+                            clearInterval(wait);
+                            $send.text("将银行账户信息发送到您的手机>>").prop('disabled', false);
+                        }
+                    }, 1e3);
+                }
+                var sendMSM = function() {
+                    popover('银行账户信息发送中，请稍后...!');
+                    $.ajax({
+                        url: '/pick/sendBankInfo',
+                        dataType: 'json',
+                        data: {phone:$mobile.val(),orderId:${orderId}},
+                        type: 'POST',
+                        success: function(data) {
+                            if (data.status === 200) {
+                                $send.text(second + txt).prop('disabled', true);
+                                lock();
+                                popover(data.info);
+                            } else {
+                                popover(data.info);
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            popover('网络连接超时，请您稍后重试!');
+                        }
+                    })
+                }
+                $send.prop('disabled', false).on('click', function() {
+                    if(second === 0 && self.checkMobile()) {
+                        second = 60; // 60秒倒计时
+                        sendMSM();
+                    }
+                })
+            },
+            checkMobile: function() {
+                var $el = $('#mobile'),
+                        val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入手机号码！').show();
+
+                } else if (!_YYY.verify.isMobile(val)) {
+                    $el.next().html('请输入有效的手机号！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
             }
         }
     }

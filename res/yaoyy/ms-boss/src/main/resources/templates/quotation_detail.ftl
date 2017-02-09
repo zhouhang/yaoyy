@@ -309,6 +309,7 @@
                 var $quoteList = $('#quoteList');
                 var categoryId="";
                 var categoryName="";
+                var categoryOrigin="";
                 if(data.length==0){
                     return;
                 }
@@ -316,11 +317,12 @@
                     var commodity=data[0];
                     categoryId=commodity.categoryId;
                     categoryName=commodity.categoryName;
+                    categoryOrigin=commodity.origin;
                 }
                 var model = [];
                 model.push('<table id="table' , categoryId , '">');
                 model.push('<thead>');
-                model.push('<tr><th colspan="4" class="cat" cid="',categoryId ,'">' , categoryName , '</th></tr>');
+                model.push('<tr><th colspan="4" class="cat" cid="',categoryId ,'">' , categoryOrigin+"  "+categoryName , '</th></tr>');
                 model.push('<tr class="attrName"><th><div class="inner"><input class="ipt" placeholder="自定义" value="规格" type="text"></div></th>' +
                         '<th><div class="inner"><input class="ipt" placeholder="自定义" value="药优优报价" type="text"></div></th>' +
                         '<th><div class="inner"><input class="ipt" placeholder="自定义" value="亳州市场价" type="text"></div></th> \n <th>操作</th></tr>');

@@ -59,10 +59,9 @@
 
     <section class="ui-content">
         <div class="qoute">
-            <div class="title">药优优</div>
-            <div class="time">2016年11月28日报价  价格当天24点前有效</div>
-            <div class="item">
-                <div class="desc">报价单描述：</div>
+            <div class="title">【2017-02-14】药优优周报价更新</div>
+            <div class="hd">报价单描述：</div>
+            <div class="desc">
                 <table>
                     <thead>
                         <tr><th colspan="3" class="cat">浙江 三棱</th></tr>
@@ -90,9 +89,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="item">
-                <div class="desc">报价单描述：</div>
                 <table>
                     <thead>
                         <tr><th colspan="3" class="cat">亳州 白芍</th></tr>
@@ -111,21 +107,55 @@
                     </tbody>
                 </table>
             </div>
-
+            
+            <div class="hd">历史报价单</div>
             <div class="his">
-                <h3>历史报价单</h3>
                 <ul>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
-                    <li><a href="quote.html">2016年11月05日报价单</a></li>
-                    <li><a href="quote.html">2016年10月31日报价单</a></li>
+                    <li><a href="quote.html">2016-11-05 报价单&gt;&gt;</a></li>
+                    <li><a href="quote.html">2016-11-05 报价单&gt;&gt;</a></li>
                 </ul>
+            </div>
+        </div>
+
+        <div class="comment">
+            <div class="hd"><span>评论</span></div>
+            <div class="op"><button class="btn" id="write">写评论...</button></div>
+            <ul id="clist">
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="avatar">
+                        <img src="uploads/avatar.jpg" alt="">
+                    </div>
+                    <div class="cnt">
+                        <div class="uname">匿名用户</div>
+                        <div class="words">亳州市场价跟我昨天上行的价格一样，药优优的 价格确实低一些！</div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="ui-form ipt-wrap" id="commentWrap">
+                <form action="">
+                    <input type="text" name="uname" class="ipt" placeholder="您的昵称">
+                    <textarea name="words" id="msg" class="mul" cols="30" rows="10" placeholder="评论将显示在报价单下面，所有人可见"></textarea>
+                    <button type="submit" class="btn" id="submit">发表</button>
+                </form>
             </div>
         </div>
     </section><!-- /ui-content -->
@@ -133,11 +163,98 @@
 	
     <script src="assets/js/zepto.min.js"></script>
     <script src="assets/js/app.js"></script>
+    <script src="assets/js/dragloader.min.js"></script>
     <script>
 
     var _global = {
         fn: {
             init: function() {
+                this.comment();
+                this.list();
+            },
+            comment: function() {
+                var $comment = $('#commentWrap'),   
+                    $uname = $comment.find('.ipt'),
+                    $words = $comment.find('.mul'),
+                    $submit = $('#submit'),
+                    flag = false;
+
+                $('#write').on('click', function() {
+                    $comment.addClass('slideInUp');
+                    $uname.focus();
+                    return false;
+                })
+
+                $comment.on('click', function() {
+                    return false;
+                })
+
+                $('body').on('click', function() {
+                    $comment.removeClass('slideInUp');
+                })
+
+                $words.on('keyup', function(){
+                    flag = this.value != '';
+                    if (flag) {
+                        $submit.addClass('primary');
+                    } else {
+                        $submit.removeClass('primary');
+                    }
+                })
+
+                $('#submit').on('click', function() {
+                    if (flag) {
+                        alert(9) 
+                    }
+                    return false;
+                })
+            },
+            list: function() {
+                var self = this;
+                var dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpLoadFn: function() {
+                        $.ajax({
+                            type: 'GET',
+                            url: 'json/clist.json',
+                            dataType: 'json',
+                            success: function(data){
+                                if (!data.list) {
+                                    return;
+                                }
+                                var result = self.toHtml(data.list);
+                                $('#clist').append(result);
+                            },
+                            error: function(xhr, type){
+                                popover('网络连接超时，请您稍后重试!');
+                            },
+                            complete: function() {
+                                dragger.reset();
+                            }
+                        });
+                    },
+                    dragUpDom: {
+                        before : '继续上拉加载更多',
+                        prepare : '释放加载',
+                        load: '加载中...'
+                    }
+                });
+                dragger.on('dragUpLoad', function() {
+                    // dragger.reset();
+                });
+            },
+            toHtml: function(data) {
+                var model = [];
+                $.each(data, function(i, item) {
+                    model.push('<li>\n');
+                    model.push(     '<div class="avatar"><img src="', item.pic, '"></div>\n');
+                    model.push(     '<div class="cnt">\n');
+                    model.push(         '<div class="uname">', item.uname, '</div>\n');
+                    model.push(         '<div class="words">', item.words, '</div>\n');
+                    model.push(     '</div>');
+                    model.push('</li>');
+                })
+                return model.join('');
             }
         }
     }
