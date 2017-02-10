@@ -49,7 +49,7 @@ public class UserDetailServiceImpl  extends AbsCommonService<UserDetail> impleme
 	@Override
 	@Transactional
 	public void save(UserDetail userDetail) {
-		userDetail.setNickname(EmojeFilter.filterEmoji(userDetail.getNickname()));
+		userDetail.setNickname(userDetail.getNickname());
 		Date now=new Date();
 		if(userDetail.getId()==null){
 			userDetail.setCreateTime(now);

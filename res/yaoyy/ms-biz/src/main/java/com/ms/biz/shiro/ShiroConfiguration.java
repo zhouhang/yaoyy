@@ -4,15 +4,15 @@ import com.ms.biz.config.WebConfig;
 import com.ms.dao.config.MyBatisConfig;
 import com.ms.service.redis.RedisConfig;
 import com.ms.service.redis.RedisManager;
+import com.ms.service.shiro.CacheManager;
 import com.ms.service.shiro.MsShiroFilterFactoryBean;
 import com.ms.service.shiro.ShiroRedisCacheManager;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -54,10 +54,14 @@ public class ShiroConfiguration {
         return retryLimitHashedCredentialsMatcher;
     }
 
-    @Bean(name = "realm")
-    public AuthorizingRealm getShiroRealm(RetryLimitHashedCredentialsMatcher credentialsMatcher) {
+    @Bean(name = "bizRealm")
+    public BizRealm getShiroRealm(CacheManager cacheManager, RetryLimitHashedCredentialsMatcher credentialsMatcher) {
         BizRealm realm =  new BizRealm();
         realm.setCredentialsMatcher(credentialsMatcher);
+        realm.setAuthenticationCachingEnabled(true);
+        realm.setAuthenticationCacheName("yaoyy_biz_authenticationCache");
+        realm.setAuthorizationCacheName("yaoyy_biz_authorizationCache");
+        realm.setCacheManager(cacheManager);
         return realm;
     }
 
@@ -74,7 +78,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(AuthorizingRealm realm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(BizRealm realm) {
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
         dwsm.setRealm(realm);
         return dwsm;

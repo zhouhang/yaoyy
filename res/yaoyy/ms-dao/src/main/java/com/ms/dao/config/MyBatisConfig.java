@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -63,11 +65,17 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         dataSource.setTestOnReturn(false);
         dataSource.setPoolPreparedStatements(false);
         dataSource.setMaxPoolPreparedStatementPerConnectionSize(20);
+
+        List<String> connectionProperties = new ArrayList<>();
+        connectionProperties.add("set names utf8mb4;");
+        dataSource.setConnectionInitSqls(connectionProperties);
         return dataSource;
     }
 
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean(DataSource dataSource) {
+
+
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.ms.dao.model");
