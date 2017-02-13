@@ -352,7 +352,10 @@
                             model.push('<div class="price">' , item.price , '</div>');
                             model.push('<div class="edit"><button type="button" class="ubtn ubtn-blue join" data-iid="' , item.id , '">添加</button></div>');
                             model.push('</li>');
-                            tr[item.id] = '<tr id="' + item.id + '"><td>' + item.spec + '</td> \n <td>' + item.price + '</td> \n <td><div class="inner"><input class="ipt" type="text"></div></td> \n <td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>';
+                            tr[item.id] = '<tr id="'+item.id + '"><td><div class="inner"><input class="ipt" value=" '+item.spec +'"type="text"></div> </td>' +
+                            '<td><div class="inner"><input class="ipt" value="' + item.price+'元/'+item.unitName + '" type="text"></div></td>  ' +
+                            '<td><div class="inner"><input class="ipt" type="text"></div></td>' +
+                            '<td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>';
                         }
                     })
                     layer.closeAll();
