@@ -444,8 +444,9 @@ em,i{font-style:normal;}
 .qoute{padding:15px 12px;font-size:1.2rem;background-color:#fff;}
 .qoute .title{font-size:1.8rem;text-align:center;}
 .qoute .hd{margin:25px 0 10px;font-size:1.4rem;font-weight:700;}
-.qoute .text{line-height:28px;}
-.qoute .text span{font-size:14px!important;}
+.qoute .text{line-height:28px;font-size:1.4rem;}
+.qoute .text p{font-size:1.4rem!important;}
+.qoute .text span{font-size:1.4rem!important;}
 .qoute .desc{border-top:1px solid #ccc;}
 .qoute .desc table{width:100%;margin-top:-1px;border-collapse:collapse;border-spacing:0;}
 .qoute .desc th{width:30%;height:30px;border:1px solid #ccc;font-weight:400;}
