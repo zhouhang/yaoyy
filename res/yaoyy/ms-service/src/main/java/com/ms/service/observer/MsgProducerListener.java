@@ -71,8 +71,13 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
         Integer[] cs = {6,7,0,1};
         List<Integer> csL = Arrays.asList(cs);
         if (csL.contains(event.getType().get())){
-            //客服消息通知
-            messageService.create(message);
+            Integer[] ms = {0,1};
+            List<Integer> msL = Arrays.asList(ms);
+            if (msL.contains(event.getType().get())) {
+                //客服消息通知 只有选货登记和寄样时才保存消息到数据库.
+                messageService.create(message);
+            }
+
             List<Member> memberList =memberService.findOpenIdNotNull();
             SendMsg msg;
             // 选货单
