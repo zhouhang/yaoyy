@@ -65,7 +65,7 @@
                 </div>
                 <div class="item">
                     <div class="txt">收货地址：</div>
-                    <div class="val">>${shippingAddressHistory.detail!}</div>
+                    <div class="val">${shippingAddressHistory.detail!}</div>
                 </div>
                    <#if orderInvoiceVo?exists>
                        <div class="item">
@@ -446,21 +446,24 @@
             $temp.validator({
                 fields: {
                     note: '发货信息: required',
-                    date: '发货日期: required'
+                    shipDate: '发货日期: required'
                 },
                 valid: function (form) {
-                    $.ajax({
+                    if ($(form).isValid()) {
+                        $.ajax({
                             url: _global.v.deliveryUrl,
-                            data: $("#temp").serialize()+"&content="+$("#content").val(),
+                            data: $("#temp").serialize() + "&content=" + $("#content").val(),
                             type: "POST",
-                            success: function(data){
+                            success: function (data) {
                                 if (data.status == "200") {
                                     window.location.reload();
-                                };
+                                }
+                                ;
                             }
 
-                            });
-                 }
+                        });
+                    }
+                }
            });
         },
         goodsImg: function() {
