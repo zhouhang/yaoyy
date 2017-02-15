@@ -444,6 +444,9 @@ em,i{font-style:normal;}
 .qoute{padding:15px 12px;font-size:1.2rem;background-color:#fff;}
 .qoute .title{font-size:1.8rem;text-align:center;}
 .qoute .hd{margin:25px 0 10px;font-size:1.4rem;font-weight:700;}
+.qoute .text{line-height:28px;font-size:1.4rem;}
+.qoute .text p{font-size:1.4rem!important;}
+.qoute .text span{font-size:1.4rem!important;}
 .qoute .desc{border-top:1px solid #ccc;}
 .qoute .desc table{width:100%;margin-top:-1px;border-collapse:collapse;border-spacing:0;}
 .qoute .desc th{width:30%;height:30px;border:1px solid #ccc;font-weight:400;}
@@ -452,7 +455,7 @@ em,i{font-style:normal;}
 .qoute .desc td:nth-child(3) em{font-weight:400;}
 .qoute .desc td{border:1px solid #ccc;text-align:center;}
 .qoute .desc a{display:block;padding:13px;text-align:left;}
-.qoute .desc em{font-size:1.6rem;font-weight:700;}
+.qoute .desc em{font-weight:700;}
 .qoute .desc .cat{height:40px;font-size:1.8rem;font-weight:700;background:#f3f3f3;}
 .qoute .his{margin-top:10px;}
 .qoute .his li{line-height:2;font-size:1.4rem;}
