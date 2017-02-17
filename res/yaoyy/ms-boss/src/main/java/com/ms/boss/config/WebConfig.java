@@ -2,7 +2,7 @@ package com.ms.boss.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ms.tools.Interceptor.SecurityTokenInterceptor;
+import com.ms.tools.interceptor.SecurityTokenInterceptor;
 import com.ms.tools.utils.gson.adapter.IntegerDefault0Adapter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;

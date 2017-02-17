@@ -29,3 +29,7 @@ server:
     error:
         whitelabel:
             enabled: false
+
+sucai:
+      log:
+        enabled: true

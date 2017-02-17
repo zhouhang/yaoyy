@@ -9,6 +9,7 @@ import com.ms.tools.entity.Result;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.utils.CommonUtils;
 import com.ms.tools.utils.WebUtil;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -55,6 +56,7 @@ public class HomeController extends BaseController{
      */
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = "用户登入", desc = "用户登入首页")
     public String login(HttpServletRequest request,
                         HttpServletResponse response) {
         return "login";
