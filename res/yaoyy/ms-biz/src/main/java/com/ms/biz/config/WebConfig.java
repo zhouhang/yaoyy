@@ -2,7 +2,7 @@ package com.ms.biz.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ms.tools.Interceptor.SecurityTokenInterceptor;
+import com.ms.tools.interceptor.SecurityTokenInterceptor;
 import com.ms.tools.utils.gson.adapter.StringDefaultAdapter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;

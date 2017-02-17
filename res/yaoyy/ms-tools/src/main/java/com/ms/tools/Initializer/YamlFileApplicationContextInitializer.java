@@ -1,4 +1,4 @@
-package com.ms.tools.Initializer;
+package com.ms.tools.initializer;
 
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.ApplicationContextInitializer;

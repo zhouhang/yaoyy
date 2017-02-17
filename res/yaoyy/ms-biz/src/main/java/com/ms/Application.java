@@ -1,6 +1,6 @@
 package com.ms;
 
-import com.ms.tools.Initializer.YamlFileApplicationContextInitializer;
+import com.ms.tools.initializer.YamlFileApplicationContextInitializer;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
