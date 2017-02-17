@@ -1,9 +1,11 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,6 +48,7 @@ public class UserController extends BaseController{
      */
     @RequestMapping(value = "disable/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.USER, desc = "禁用用户")
     public Result disable(@PathVariable("id")Integer id) {
         userService.disable(id);
         return Result.success("禁用成功!");
@@ -58,6 +61,7 @@ public class UserController extends BaseController{
      */
     @RequestMapping(value = "enable/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.USER, desc = "启用用户")
     public Result enable(@PathVariable("id")Integer id) {
         userService.enable(id);
         return Result.success("启用成功!");

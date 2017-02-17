@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.HistoryPrice;
 import com.ms.dao.model.Member;
@@ -10,6 +11,7 @@ import com.ms.service.CommodityService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -84,6 +86,7 @@ public class CommodityController extends BaseController{
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.COMMODITY, desc = "保存商品信息")
     public Result save(@RequestBody CommodityVo commodity) {
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         commodityService.save(commodity,mem.getId());
@@ -98,6 +101,7 @@ public class CommodityController extends BaseController{
      */
     @RequestMapping(value = "detete/{id}", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.COMMODITY, desc = "删除商品")
     public Result delete(@PathVariable("id") Integer id) {
         commodityService.deleteById(id);
         return Result.success("删除成功!");
@@ -117,6 +121,7 @@ public class CommodityController extends BaseController{
 
     @RequestMapping(value = "/updown", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.COMMODITY, desc = "下线商品信息")
     public Result upDownCommodity(Integer id,Integer status){
         commodityService.updateStatus(status,id);
         return  Result.success();
@@ -143,6 +148,7 @@ public class CommodityController extends BaseController{
 
     @RequestMapping(value = "/updatePrice", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.COMMODITY, desc = "更改商品价格")
     public Result updatePrice(Integer id,float price){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         CommodityVo commodityVo= new CommodityVo();
