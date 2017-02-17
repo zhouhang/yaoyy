@@ -12,7 +12,6 @@ import com.ms.service.shiro.ShiroRedisCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -63,12 +62,6 @@ public class ShiroConfiguration {
         return new LifecycleBeanPostProcessor();
     }
 
-    @Bean
-    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
-        daap.setProxyTargetClass(true);
-        return daap;
-    }
 
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager getDefaultWebSecurityManager(BossRealm realm) {
