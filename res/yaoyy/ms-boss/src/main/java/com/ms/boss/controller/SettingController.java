@@ -1,7 +1,9 @@
 package com.ms.boss.controller;
 
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.service.SettingService;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,7 @@ public class SettingController {
     @RequestMapping(value = "/tel")
     @ResponseBody
     @RequiresPermissions(value = "setting:all")
+    @BizLog(type = LogTypeConstant.SETTING, desc = "保存客服电话")
     public Result tel(String tel) {
         settingService.tel(tel);
         return  Result.success();
@@ -55,6 +58,7 @@ public class SettingController {
     @RequestMapping(value = "/bank")
     @ResponseBody
     @RequiresPermissions(value = "setting:all")
+    @BizLog(type = LogTypeConstant.SETTING, desc = "保存银行账号信息")
     public Result bank(String account, String card, String bank) {
         settingService.bank(account, card, bank);
         return  Result.success();

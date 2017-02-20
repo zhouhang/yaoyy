@@ -15,6 +15,11 @@ public interface LogTypeConstant {
     public final String SENDSAMPLE="寄样单模块";
     public final String SUPPLIER="供应商模块";
     public final String ROLE="角色模块";
+    public static final String COMMODITY = "商品模块";
+
+    public static final String USER = "用户模块";
+
+    public static final String SETTING = "配置模块";
 
 
 
