@@ -31,35 +31,35 @@ import java.util.List;
 public class PickController extends BaseController{
 
     @Autowired
-    private PickService pickService ;
+    PickService pickService ;
 
     @Autowired
-    private PickTrackingService pickTrackingService;
+    PickTrackingService pickTrackingService;
 
     @Autowired
-    private UserDetailService userDetailService;
+    UserDetailService userDetailService;
 
 
     @Autowired
     HttpSession httpSession;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    ApplicationContext applicationContext;
 
     @Autowired
-    private ShippingAddressHistoryService shippingAddressHistoryService;
+    ShippingAddressHistoryService shippingAddressHistoryService;
 
     @Autowired
-    private OrderInvoiceService orderInvoiceService;
+    OrderInvoiceService orderInvoiceService;
 
     @Autowired
-    private PayRecordService payRecordService;
+    PayRecordService payRecordService;
 
     @Autowired
-    private LogisticalService logisticalService;
+    LogisticalService logisticalService;
 
     @Autowired
-    private AccountBillService accountBillService;
+    AccountBillService accountBillService;
 
     /**
      * 选货单列表
@@ -70,8 +70,8 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "订单列表")
-    private String list(PickVo pickVo,Integer pageNum, Integer pageSize, ModelMap model){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单列表")
+    String list(PickVo pickVo,Integer pageNum, Integer pageSize, ModelMap model){
         if(pickVo.getAbandon()==null){
             pickVo.setAbandon(0);
         }
@@ -102,8 +102,8 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "订单详情")
-    private String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单详情")
+    String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
         if(userDetail==null){
@@ -162,8 +162,8 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="delete",method = RequestMethod.POST)
     @ResponseBody
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "订单状态更新")
-    private Result delete(Pick pick){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单状态更新")
+    Result delete(Pick pick){
         pickService.update(pick);
         if(pick.getAbandon()==1){
             MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(pick.getId(), MessageEnum.PICK);
@@ -180,8 +180,8 @@ public class PickController extends BaseController{
     @RequestMapping(value="trackingSave",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "选货单跟踪记录")
-    private Result save(PickTrackingVo pickTrackingVo){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "选货单跟踪记录")
+    Result save(PickTrackingVo pickTrackingVo){
 
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickTrackingVo.setOperator(mem.getId());
@@ -200,8 +200,8 @@ public class PickController extends BaseController{
     @RequestMapping(value="createOrder",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "生成订单")
-    private Result createOrder(PickVo pickVo){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "生成订单")
+    Result createOrder(PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
         //过滤不必要的参数
@@ -217,8 +217,8 @@ public class PickController extends BaseController{
 
     @RequestMapping(value="updateOrder",method=RequestMethod.POST)
     @ResponseBody
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "修改订单")
-    private Result updateOrder(@RequestBody PickVo pickVo){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "修改订单")
+    Result updateOrder(@RequestBody PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
         pickService.createOrder(pickVo);
@@ -228,8 +228,8 @@ public class PickController extends BaseController{
 
     @RequestMapping(value="updateNum",method=RequestMethod.POST)
     @ResponseBody
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "修改数量")
-    private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "修改数量")
+    Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
         //修改数量
         pickService.updateCommodityNum(pickCommodities);
 
@@ -244,8 +244,8 @@ public class PickController extends BaseController{
     @RequestMapping(value="delivery",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
-//    @BizLog(type = LogTypeConstant.ORDER, desc = "确认发货")
-    private Result delivery(LogisticalVo logisticalVo){
+    @BizLog(type = LogTypeConstant.ORDER, desc = "确认发货")
+    Result delivery(LogisticalVo logisticalVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickService.delivery(logisticalVo,mem);
         return Result.success().msg("发货成功");
