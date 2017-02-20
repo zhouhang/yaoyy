@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.SampleEnum;
 import com.ms.dao.enums.TrackingDetailEnum;
 import com.ms.dao.enums.TrackingEnum;
@@ -13,6 +14,7 @@ import com.ms.service.TrackingDetailService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -56,6 +58,7 @@ public class SampleTrackingController {
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "创建寄样单跟踪记录")
     public Result createTracking(SampleTracking sampleTracking, TrackingDetail trackingDetail){
         //如果是用户预约或是寄送样品另外保存详细信息
         //要通过session取后台用户id

@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
 import com.ms.dao.model.Member;
@@ -9,6 +10,7 @@ import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,7 @@ public class AccountBillController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.ACCOUNTBILL, desc = "账单列表")
     public String list(AccountBillVo accountBillVo,Integer pageNum, Integer pageSize, ModelMap model){
 
         PageInfo<AccountBillVo> billVoPageInfo=accountBillService.findByParams(accountBillVo,pageNum,pageSize);
@@ -69,6 +72,7 @@ public class AccountBillController {
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.ACCOUNTBILL, desc = "账单详情")
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         AccountBillVo accountBillVo=accountBillService.findVoById(id);
         if(accountBillVo==null){
@@ -87,6 +91,7 @@ public class AccountBillController {
     @ResponseBody
     @Transactional
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.ACCOUNTBILL, desc = "账单确认支付")
     public Result configPay(Integer payRecordId){
         /**
          * 先修改支付记录状态，然后账单状态，写跟踪记录

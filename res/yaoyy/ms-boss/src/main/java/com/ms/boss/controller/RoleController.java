@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.boss.shiro.BossRealm;
 import com.ms.dao.model.Resources;
 import com.ms.dao.model.Role;
@@ -12,6 +13,7 @@ import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import com.ms.tools.utils.WebUtil;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,6 +62,7 @@ public class RoleController extends BaseController{
      */
     @RequiresPermissions(value = "role:list")
     @RequestMapping(value = "/index")
+    @BizLog(type = LogTypeConstant.ROLE, desc = "角色列表")
     public String index(HttpServletRequest request,
                         HttpServletResponse response,
                         String  advices,
@@ -103,6 +106,7 @@ public class RoleController extends BaseController{
      */
     @RequiresPermissions(value = "role:edit")
     @RequestMapping(value = "/power/{id}")
+    @BizLog(type = LogTypeConstant.ROLE, desc = "权限列表")
     public String power(HttpServletRequest request,
                         HttpServletResponse response,
                         @PathVariable("id") Integer id,
@@ -122,6 +126,7 @@ public class RoleController extends BaseController{
      */
     @RequestMapping(value = "/resources")
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ROLE, desc = "角色对应资源列表")
     public List resources(HttpServletRequest request,
                           HttpServletResponse response,
                           Integer roleId,
@@ -157,6 +162,7 @@ public class RoleController extends BaseController{
     @RequiresPermissions(value = "role:edit")
     @RequestMapping(value = "/resources/save")
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ROLE, desc = "保存资源")
     public Result resourcesSave(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Integer roleId,
@@ -181,6 +187,7 @@ public class RoleController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/list/{roleId}")
+    @BizLog(type = LogTypeConstant.ROLE, desc = "用户角色列表")
     public String memberList(HttpServletRequest request,
                              HttpServletResponse response,
                              @PathVariable("roleId") Integer roleId,
@@ -212,6 +219,7 @@ public class RoleController extends BaseController{
     @RequiresPermissions(value = "role:edit")
     @RequestMapping(value = "delete/{roleId}")
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ROLE, desc = "删除角色")
     public Result delete(HttpServletRequest request,
                          HttpServletResponse response,
                          ModelMap model,

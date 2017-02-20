@@ -1,12 +1,14 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.service.CommodityService;
 import com.ms.service.SupplierService;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,6 +45,7 @@ public class SupplierController {
      */
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.SUPPLIER, desc = "供应商列表")
     public String supplierList(SupplierVo supplierVo, Integer pageNum,
                                Integer pageSize, ModelMap model){
 
@@ -74,6 +77,7 @@ public class SupplierController {
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.SUPPLIER, desc = "供应商详情")
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
@@ -96,6 +100,7 @@ public class SupplierController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.SUPPLIER, desc = "保存供应商")
     public Result saveSupplier(SupplierVo supplierVo){
         supplierService.save(supplierVo);
         return Result.success("保存成功");
@@ -108,6 +113,7 @@ public class SupplierController {
      */
     @RequestMapping(value = "search", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
         return Result.success("供应商列表").data(supplierService.search(name));
     }

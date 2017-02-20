@@ -2,6 +2,7 @@ package com.ms.boss.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.CodeEnum;
 import com.ms.dao.model.Category;
 import com.ms.dao.model.Code;
@@ -13,6 +14,7 @@ import com.ms.service.CodeService;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -49,6 +51,7 @@ public class CategoryController extends BaseController{
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "品种列表")
     public String listCategory(CategoryVo categoryVo, Integer pageNum,
                                Integer pageSize,ModelMap model
                        ) {
@@ -80,6 +83,7 @@ public class CategoryController extends BaseController{
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "保存品种（类别）")
     public Result saveCategory(CategoryVo category){
         categoryService.save(category);
         return Result.success("成功创建商品");
@@ -92,6 +96,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "删除品种(分类)")
     public Result deleteCategory(@PathVariable("id") Integer id){
         Category category=categoryService.findById(id);
         if(category!=null&&category.getLevel()==1){
@@ -110,6 +115,7 @@ public class CategoryController extends BaseController{
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(generateToken = true,validateToken=true)
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "修改品种(分类）")
     public Result updateCategory(CategoryVo category){
         categoryService.save(category);
         return Result.success("修改分类成功");
@@ -123,6 +129,7 @@ public class CategoryController extends BaseController{
 
     @RequestMapping(value = "/get/{id}",method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "获取品种（分类）信息")
     public Result getCategory(@PathVariable("id") Integer id){
         Category category=categoryService.findById(id);
         return  Result.success().data(category);
@@ -135,6 +142,7 @@ public class CategoryController extends BaseController{
      */
     @RequestMapping(value = "/search",method = RequestMethod.GET)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.CATEGORY, desc = "查询品种")
     public Result searchCategory(CategoryVo categoryVo){
         categoryVo.setLevel(CategoryEnum.LEVEL_BREED.getValue());
         List<CategoryVo> categoryVoList=categoryService.searchCategory(categoryVo);

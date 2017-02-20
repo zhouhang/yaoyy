@@ -1,5 +1,6 @@
 package com.ms.boss.controller;
 
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossToken;
 import com.ms.dao.model.Member;
@@ -56,7 +57,6 @@ public class HomeController extends BaseController{
      */
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    @BizLog(type = "用户登入", desc = "用户登入首页")
     public String login(HttpServletRequest request,
                         HttpServletResponse response) {
         return "login";

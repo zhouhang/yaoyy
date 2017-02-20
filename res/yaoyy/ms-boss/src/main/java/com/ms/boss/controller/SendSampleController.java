@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.SampleEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
@@ -10,6 +11,7 @@ import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -67,6 +69,7 @@ public class SendSampleController extends BaseController{
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "寄样列表")
     public String listSample(SendSampleVo sendSampleVo, Integer pageNum,
                                Integer pageSize, ModelMap model
     ) {
@@ -88,6 +91,7 @@ public class SendSampleController extends BaseController{
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "寄样详情")
     public String detail(@PathVariable("id") Integer id, ModelMap model)
     {
         //寄样单信息
@@ -132,6 +136,7 @@ public class SendSampleController extends BaseController{
      */
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "废弃或恢复寄样单")
     public Result delete(SendSample sendSample) {
         sendSampleService.update(sendSample);
         if(sendSample.getAbandon()==1){
@@ -148,6 +153,7 @@ public class SendSampleController extends BaseController{
      */
     @RequestMapping(value = "userComplete",method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "用户信息保存")
     public Result userComplete(UserDetail userDetail){
         userDetailServer.save(userDetail);
         return Result.success().msg("保存成功");
@@ -161,6 +167,7 @@ public class SendSampleController extends BaseController{
      */
     @RequestMapping(value = "addressSave",method=RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.SENDSAMPLE, desc = "地址信息保存和商品意向变化")
     public Result addressSave(SampleAddress address,String intention){
         sampleAddressServie.save(address);
         SendSample sendSample=new SendSample();

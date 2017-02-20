@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.boss.shiro.BossRealm;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.Role;
@@ -14,6 +15,7 @@ import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.ms.tools.utils.Reflection;
 import com.ms.tools.utils.WebUtil;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,7 @@ public class MemberController extends BaseController{
      * @return
      */
     @RequestMapping(value = "/index",method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.MEMBER, desc = "用户列表")
     public String index(HttpServletRequest request,
                         HttpServletResponse response,
                         Integer pageNum,
@@ -99,6 +102,7 @@ public class MemberController extends BaseController{
     @RequiresPermissions(value = "member:edit")
     @RequestMapping(value = "/edit/{id}",method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.MEMBER, desc = "用户编辑")
     public String edit(HttpServletRequest request,
                        HttpServletResponse response,
                        ModelMap model,
@@ -123,6 +127,7 @@ public class MemberController extends BaseController{
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.MEMBER, desc = "用户保存")
     public Result save(HttpServletRequest request,
                      HttpServletResponse response,
                      Member member,
@@ -147,6 +152,7 @@ public class MemberController extends BaseController{
      */
     @RequestMapping(value = "/delete/{id}")
     @ResponseBody
+    @BizLog(type = LogTypeConstant.MEMBER, desc = "删除用户")
     public Result delete(HttpServletRequest request,
                                              HttpServletResponse response,
                                              @PathVariable("id") Integer id,
@@ -186,6 +192,7 @@ public class MemberController extends BaseController{
     @RequiresPermissions(value = "member:role")
     @RequestMapping(value = "/role/save")
     @ResponseBody
+    @BizLog(type = LogTypeConstant.MEMBER, desc = "角色保存")
     public Result roleSave(HttpServletRequest request,
                          HttpServletResponse response,
                          Integer memberId,

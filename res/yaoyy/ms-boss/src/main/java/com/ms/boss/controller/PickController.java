@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.SettleTypeEnum;
@@ -13,6 +14,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -74,6 +76,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单列表")
     private String list(PickVo pickVo,Integer pageNum, Integer pageSize, ModelMap model){
         if(pickVo.getAbandon()==null){
             pickVo.setAbandon(0);
@@ -105,6 +108,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单详情")
     private String detail(@PathVariable("id") Integer id, String edit, ModelMap model){
         PickVo pickVo=pickService.findVoById(id);
         UserDetail userDetail=userDetailService.findByUserId(pickVo.getUserId());
@@ -164,6 +168,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value="delete",method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单状态更新")
     private Result delete(Pick pick){
         pickService.update(pick);
         if(pick.getAbandon()==1){
@@ -181,6 +186,7 @@ public class PickController extends BaseController{
     @RequestMapping(value="trackingSave",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "选货单跟踪记录")
     private Result save(PickTrackingVo pickTrackingVo){
 
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
@@ -200,6 +206,7 @@ public class PickController extends BaseController{
     @RequestMapping(value="createOrder",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "生成订单")
     private Result createOrder(PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
@@ -216,6 +223,7 @@ public class PickController extends BaseController{
 
     @RequestMapping(value="updateOrder",method=RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ORDER, desc = "修改订单")
     private Result updateOrder(@RequestBody PickVo pickVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickVo.setMemberId(mem.getId());
@@ -226,6 +234,7 @@ public class PickController extends BaseController{
 
     @RequestMapping(value="updateNum",method=RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.ORDER, desc = "修改数量")
     private Result updateNum(@RequestBody List<PickCommodity> pickCommodities){
         //修改数量
         pickService.updateCommodityNum(pickCommodities);
@@ -241,6 +250,7 @@ public class PickController extends BaseController{
     @RequestMapping(value="delivery",method=RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "确认发货")
     private Result delivery(LogisticalVo logisticalVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         pickService.delivery(logisticalVo,mem);

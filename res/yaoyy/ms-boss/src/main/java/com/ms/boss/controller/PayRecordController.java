@@ -1,6 +1,7 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.SettleTypeEnum;
@@ -22,6 +23,7 @@ import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.ApplicationContext;
@@ -72,6 +74,7 @@ public class PayRecordController extends BaseController{
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.PAYRECORD, desc = "交易流水列表")
     public String list(PayRecordVo payRecordVo,Integer pageNum, Integer pageSize, ModelMap model){
 
         PageInfo<PayRecordVo> payRecordVos=payRecordService.findByParams(payRecordVo,pageNum,pageSize);
@@ -88,6 +91,7 @@ public class PayRecordController extends BaseController{
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.PAYRECORD, desc = "交易流水详情")
     public  String detail(@PathVariable("id") Integer id, ModelMap model){
         PayRecordVo payRecordVo=payRecordService.findVoById(id);
         model.put("payRecordVo",payRecordVo);
@@ -100,6 +104,7 @@ public class PayRecordController extends BaseController{
     @ResponseBody
     @Transactional
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.PAYRECORD, desc = "确认收款")
     public Result config(Integer payRecordId, Integer orderId){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         PayRecord payRecord=new PayRecord();

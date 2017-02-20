@@ -1,11 +1,13 @@
 package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.model.Quotation;
 import com.ms.dao.vo.QuotationVo;
 import com.ms.service.QuotationService;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +35,7 @@ public class QuotationController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
+    @BizLog(type = LogTypeConstant.QUOTATION, desc = "报价单列表")
     public String quotationList(QuotationVo quotationVo, Integer pageNum,
                                  Integer pageSize, ModelMap model){
         PageInfo<QuotationVo> quotationVoPageInfo=quotationService.findByParams(quotationVo,pageNum,pageSize);
@@ -48,6 +51,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
+    @BizLog(type = LogTypeConstant.QUOTATION, desc = "报价单详情")
     public String quotationDetail(@PathVariable("id") Integer id, ModelMap model){
         Quotation quotation=quotationService.findById(id);
         model.put("quotation",quotation);
@@ -70,6 +74,7 @@ public class QuotationController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.QUOTATION, desc = "报价单保存")
     public Result saveQuotation(@RequestBody QuotationVo quotationVo){
         quotationService.save(quotationVo);
         return Result.success("修改成功");
@@ -82,6 +87,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.QUOTATION, desc = "报价单删除")
     public Result delete(@PathVariable("id") Integer id){
         quotationService.deleteById(id);
         return Result.success("删除成功");
@@ -95,6 +101,7 @@ public class QuotationController {
      */
     @RequestMapping(value = "updateStatus", method = RequestMethod.POST)
     @ResponseBody
+    @BizLog(type = LogTypeConstant.QUOTATION, desc = "报价单更新状态")
     public Result updateStatus(QuotationVo quotationVo){
         quotationVo.setUpdateTime(new Date());
         quotationService.update(quotationVo);
