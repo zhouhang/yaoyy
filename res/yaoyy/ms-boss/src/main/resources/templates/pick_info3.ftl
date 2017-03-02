@@ -104,13 +104,15 @@
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="${pickVo.shippingCosts!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
-                    <div class="txt">包装费：</div>
+                    <div class="txt">包装加工费：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="${pickVo.bagging!}"><span class="unit">元</span></div></div>
                 </div>
+                    <#--
                 <div class="item">
                     <div class="txt">检测费：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="${pickVo.checking!}"><span class="unit">元</span></div></div>
                 </div>
+                   -->
                 <div class="item">
                     <div class="txt">税款：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="${pickVo.taxation!}"><span class="unit">元</span></div></div>

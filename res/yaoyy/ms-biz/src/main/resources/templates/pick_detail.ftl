@@ -138,13 +138,15 @@
                 <dd><em>${pickVo.shippingCosts?default(0)}</em>元</dd>
             </dl>
             <dl>
-                <dt>包装费：</dt>
-                <dd><em>${pickVo.bagging?default(0)}</em>元<#if !(pickVo.bagging?exists) || pickVo.bagging ==0>（免包装费）</#if></dd>
+                <dt>包装加工费：</dt>
+                <dd><em>${pickVo.bagging?default(0)}</em>元<#if !(pickVo.bagging?exists) || pickVo.bagging ==0>（免包装加工费）</#if></dd>
             </dl>
+            <#--
             <dl>
                 <dt>检测费：</dt>
                 <dd><em>${pickVo.checking?default(0)}</em>元<#if !(pickVo.checking?exists) || pickVo.checking ==0>（免检测费）</#if></dd>
             </dl>
+            -->
             <dl>
                 <dt>税款：</dt>
                 <dd><em>${pickVo.taxation?default(0)}</em>元</dd>
