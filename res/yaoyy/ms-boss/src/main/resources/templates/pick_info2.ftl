@@ -142,13 +142,14 @@
                     </div>
                 </div>
                 <div class="item">
-                    <div class="txt">包装费：</div>
+                    <div class="txt">包装加工费：</div>
                     <div class="val"><em>${pickVo.bagging!}元</em>
                         <#if pickVo.bagging?exists&&pickVo.bagging==0>
-                            （免包装费）
+                            （免包装加工费）
                         </#if>
                     </div>
                 </div>
+                <#--
                 <div class="item">
                     <div class="txt">检测费：</div>
                     <div class="val"><em>${pickVo.checking!}元</em>
@@ -157,6 +158,7 @@
                     </#if>
                     </div>
                 </div>
+                -->
                 <div class="item">
                     <div class="txt">税费：</div>
                     <div class="val"><em>${pickVo.taxation!}元</em></div>

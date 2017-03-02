@@ -114,13 +114,15 @@
             <div class="val"><em>${billVo.pickVo.shippingCosts!}元</em></div>
         </div>
         <div class="item">
-            <div class="txt">包装费：</div>
+            <div class="txt">包装加工费：</div>
             <div class="val"><em>${billVo.pickVo.bagging!}元</em></div>
         </div>
+        <#--
         <div class="item">
             <div class="txt">检测费：</div>
             <div class="val"><em>${billVo.pickVo.checking!}元</em></div>
         </div>
+        -->
         <div class="item">
             <div class="txt">税款：</div>
             <div class="val"><em>${billVo.pickVo.taxation!}元</em></div>
