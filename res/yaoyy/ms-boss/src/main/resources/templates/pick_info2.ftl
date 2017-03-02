@@ -108,7 +108,7 @@
                         <tbody>
                        <#list pickVo.pickCommodityVoList as pickCommodityVo >
                         <tr>
-                            <td><a href="#">${pickCommodityVo.name}</a></td>
+                            <td><a href="/commodity/detail/${pickCommodityVo.id??}">${pickCommodityVo.name}</a></td>
                             <td>${pickCommodityVo.origin}</td>
                             <td><p>${pickCommodityVo.spec}</p></td>
                             <td>${pickCommodityVo.num}</td>

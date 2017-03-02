@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <#include "./common/meta.ftl"/>
-    <title>申请免费寄样-药优优</title>
+    <title>申请寄样-药优优</title>
 </head>
 <body class="ui-body-nofoot">
 <header class="ui-header">
-    <div class="title">申请免费寄样</div>
+    <div class="title">申请寄样</div>
     <div class="abs-l mid">
         <a href="javascript:history.back();" class="fa fa-back"></a>
     </div>

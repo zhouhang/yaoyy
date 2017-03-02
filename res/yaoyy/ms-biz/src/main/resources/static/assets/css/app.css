@@ -357,12 +357,12 @@ em,i{font-style:normal;}
 .sinfo .more .mid{right:0;}
 .sinfo .summary{padding:10px 12px;font-size:1.2rem;}
 .sinfo .summary dl{position:relative;text-align:right;height:22px;}
-.sinfo .summary dt{position:absolute;top:0;right:110px;}
-.sinfo .summary dd{position:absolute;top:0;right:0;width:110px;text-align:left;}
+.sinfo .summary dt{position:absolute;top:0;right:118px;}
+.sinfo .summary dd{position:absolute;top:0;right:0;width:118px;text-align:left;white-space:nowrap;}
 .sinfo .summary em{color:#b9a060;}
 .sinfo .summary .f18{line-height:1;margin-top:10px;font-size:1.8rem;}
 .sinfo .summary .f18 em{font-weight:700;}
-.sinfo .summary .f18 dt{right:106px;}
+.sinfo .summary .f18 dt{right:115px;}
 .sinfo .summary .link{margin-top:10px;text-align:right;}
 .sinfo .summary a{color:#5c92cf;}
 .sinfo .button+.ui-extra{padding-top:0;}

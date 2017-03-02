@@ -74,7 +74,7 @@
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单还没有商品，<br>去商品详情页面可以添加商品到选货单！ \n <a class="ubtn ubtn-primary" href="javascript:history.back();">返回上一页</a> \n </div>');
                 } else {
-                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在30分钟内与您取得联系如您需要寄样服务可以直接与我们电话沟通，我们为您提供免费的寄样服务。联系电话：0558-5120088 \n </div>');
+                    $('.ui-content').prepend('<div class="ui-notice"> \n 您的选货单如下，“选货登记”后我们会在5分钟内与您取得联系如您需要寄样服务可以直接与我们电话沟通，我们为您提供寄样服务。联系电话：0558-5120088 \n </div>');
                 }
             },
             tohtml:function (data, arr) {
@@ -168,7 +168,7 @@
                                 _YYY.localstorage.remove(_YYY.CARTNAME);
                                 layer.open({
                                     className: 'layer-custom',
-                                    content: '<div class="box"><div class="hd">您的选货单已提交成功！</div><div class="bd">我们会在30分钟之内与您取得联系。登录可以跟踪您的所有选货单申请。</div></div>'
+                                    content: '<div class="box"><div class="hd">您的选货单已提交成功！</div><div class="bd">我们会在5分钟之内与您取得联系。登录可以跟踪您的所有选货单申请。</div></div>'
                                     ,btn: ['历史选货单', '返回']
                                     ,yes: function(index){
                                         location.href = '/pick/list' + (_YYY.is_winxin ? '?source=WECHAT' : '');
