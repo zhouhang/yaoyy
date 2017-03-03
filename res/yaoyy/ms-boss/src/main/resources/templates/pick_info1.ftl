@@ -73,7 +73,7 @@
                         <tbody>
                        <#list pickVo.pickCommodityVoList as pickCommodityVo >
                         <tr>
-                            <td><a href="/commodity/detail/${pickCommodityVo.id??}">${pickCommodityVo.name}</a></td>
+                            <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
                             <td>${pickCommodityVo.origin}</td>
                             <td><p>${pickCommodityVo.spec}</p></td>
                             <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
