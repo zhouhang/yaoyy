@@ -1,13 +1,11 @@
 package com.ms.biz.controller;
 
-import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.model.User;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Field;
 
 /**
  * Author: koabs
@@ -42,6 +38,7 @@ public class UserController extends BaseController{
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage() {
+
         return "login";
     }
 
@@ -84,9 +81,10 @@ public class UserController extends BaseController{
             return "login";
         }
 
-        if ( WebUtils.getSavedRequest(request) != null) {
+        if (WebUtils.getSavedRequest(request) != null) {
             url =  WebUtils.getSavedRequest(request).getRequestUrl();;
         }
+
         return "redirect:" +url;
     }
 
@@ -130,7 +128,8 @@ public class UserController extends BaseController{
      * @return
      */
     @RequestMapping(value = "loginSMS", method = RequestMethod.POST)
-    public String loginSMS(String phone, String code, ModelMap model) {
+    public String loginSMS(String phone, String code, ModelMap model, HttpServletRequest request) {
+        String url = "/";
         try {
             User user = userService.loginSms(phone, code);
             Subject subject = SecurityUtils.getSubject();
@@ -143,7 +142,11 @@ public class UserController extends BaseController{
             return "login_sms";
         }
 
-        return "redirect:/";
+        if (WebUtils.getSavedRequest(request) != null) {
+            url =  WebUtils.getSavedRequest(request).getRequestUrl();;
+        }
+
+        return "redirect:"+url;
     }
 
 
