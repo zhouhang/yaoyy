@@ -2,15 +2,15 @@
 
 <div class="pagination">
     <#if info.total gt 0>
-    <div class="pages">
+    <div class="pages" id="pages">
         每页
-        <select name="" class="slt" id="page_select">
+        <select name="" class="slt">
             <option value="10">10</option>
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
         </select>
-        <a id="previous" href="javascript:;" class="text" data-index="${info.prePage}">上页</a>
+        <a id="pagePrev" href="javascript:;" class="text" data-index="${info.prePage}">上页</a>
         <#--比较:> , < , >= , <= (lt , lte , gt , gte)-->
         <#if (info.pageNum -info.firstPage) <= 3 && (info.lastPage -info.pageNum) <= 3 >
                 <#list 1..info.pages as i>
@@ -44,7 +44,7 @@
                 </#list>
                 <#--// 1,2 ... c-1 - x-->
         </#if>
-        <a id="next" href="javascript:;" class="text" data-index="${info.nextPage}">下页</a>
+        <a id="pageNext" href="javascript:;" class="text" data-index="${info.nextPage}">下页</a>
     </div>
     </#if>
     <div class="info">
@@ -53,23 +53,26 @@
     <script>
         !(function($){
             var currentPage = ${info.pageNum};
-            // 当前页码高亮
-            $('#page_select').parent().find('a[data-index="${info.pageNum}"]').addClass('curr');
-            // 设置上一页、下一页能否点击
-            $('#previous').attr('disable', ${info.isFirstPage?string('true','false')});
-            $('#next').attr('disable', ${info.isLastPage?string('true','false')});
 
-            $('#page_select').val('${info.pageSize}').on('change', function() {
-                // 选择对应的pageSize
+            <#if info.isFirstPage>
+            $('#pagePrev').addClass('disabled');
+            </#if>
+            <#if info.isLastPage>
+            $('#pageNext').addClass('disabled');
+            </#if>
+
+            $('#pages').find('.slt').val('${info.pageSize}').on('change', function() {
                 location.href = '${url}'+'?pageNum=${info.pageNum}&pageSize=' + this.value + '${(params)!}';
             })
-            .parent().on('click', 'a', function () {
-                // 页码按钮
-                if ($(this).attr('disable') !== 'true' && !$(this).hasClass('curr')){
-                    var index = $(this).data('index');
-                    location.href="${url}"+"?pageNum="+index+"&pageSize=${info.pageSize}${(params)!}"
+
+            $('#pages').find('a[data-index="${info.pageNum}"]').addClass('curr');
+
+            $('#pages').on('click', 'a', function () {
+                var index = $(this).data('index');
+                if (index == currentPage || index == 0) {
+                    return;
                 }
-                return false;
+                location.href="${url}"+"?pageNum="+index+"&pageSize=${info.pageSize}${(params)!}"
             })
         })(jQuery);
 

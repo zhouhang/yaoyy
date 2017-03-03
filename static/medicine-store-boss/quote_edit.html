@@ -2,43 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>报价单详情-boss</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body class='wrapper'>
+<body>
 
-	<div class="header">
-		<div class="logo">
-			<a href="index.html">药优优</a>
-		</div>
-		<div class="menu">
-			<ul>
-				<li>
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
-				</li>
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="hidden-xs">王彬</span>
-					</a>
-				</li>
-				<li>
-					<a href="/logout">
-						<i class="fa fa-power-off"></i>
-						退出
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- 侧栏菜单 -->
-	<div class="aside" id="jaside"></div>
-
+<div class="wrapper">
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
@@ -58,7 +32,9 @@
 				<div class="item">
 					<div class="txt">品种：</div>
 					<div class="cnt">
-                        <input type="text" name="breed" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
+                        <div class="ipt-wrap">
+                            <input type="text" name="breed" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
+                        </div>
                         <button type="button" class="ubtn ubtn-blue">添加到报价清单</button>
 					</div>
 				</div>
@@ -82,13 +58,7 @@
             </form>
 		</div>
 	</div>
-
-	<div class="footer">
-		<div class="inner">
-			&copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有. 
-		</div>
-	</div>
-	
+</div>
 
 <script src="assets/js/jquery191.js"></script>
 <script src="assets/js/common.js"></script>
@@ -164,16 +134,21 @@
                 });
 
                 // 添加到报价单
-                $breed.next().on('click', function() {
+                $breed.parent().next().on('click', function() {
                     if (breedId === 0) {
                         return;
                     }
                     if ($('#table' + breedId).length === 1) {
-                        $.notify({
-                            type: 'error', 
-                            title: '添加失败',
-                            text: '此品种已在报价清单中'
-                        });
+
+                        if (isMobile) {
+                            layer.msg('此品种已在报价清单中');
+                        } else {
+                            $.notify({
+                                type: 'error', 
+                                title: '添加失败',
+                                text: '此品种已在报价清单中'
+                            });
+                        }
                         breedId = 0;
                         $breed.val('');
                         return false;
@@ -213,7 +188,7 @@
             toHtml: function(data) {
                 var $quoteList = $('#quoteList');
                 var model = [];
-                model.push('<table id="table' , data.iid , '">');
+                model.push('<div class="table"><table id="table' , data.iid , '">');
                 model.push('<thead>');
                 model.push('<tr><th colspan="4" class="cat">' , data.name , '</th></tr>');
                 model.push('<tr><th><i>*</i>规格</th> \n <th>药优优报价</th> \n <th><div class="inner"><input class="ipt" placeholder="自定义" value="" type="text"></div></th> \n <th>操作</th></tr>');
@@ -226,7 +201,7 @@
                 model.push('<tfoot class="hide">');
                 model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , data.iid , '">+添加一个规格</a></td></tr>');
                 model.push('</tfoot>');
-                model.push('</table>');
+                model.push('</table></div>');
                 $quoteList.append(model.join(''));
             },
             showinfo: function(id) {
@@ -245,16 +220,21 @@
                     })
                     layer.closeAll();
                     if (model.length === 0) {
-                         $.notify({
-                            type: 'error', 
-                            title: '添加失败',
-                            text: '所有商品已添加'
-                        });
+                        if (isMobile) {
+                            layer.msg('所有商品已添加');
+                        } else {
+                            $.notify({
+                                type: 'error', 
+                                title: '添加失败',
+                                text: '所有商品已添加'
+                            });
+                        }
                         return;
                     }
                     model.unshift('<div class="group-choose"><ul>');
                     model.push('</ul></div>');
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,
@@ -277,28 +257,28 @@
 
                 // 体验不好
                 // 加载数据
-                // var k = $.ajax({
-                //     url: 'json/group.json',
-                //     data: {breedId: id},
-                //     success: function(response) {
-                //         showBox(response.data);
-                //     },
-                //     complete: function() {
-                //         _global.v.flag = false;
-                //     }
-                // })
+                var k = $.ajax({
+                    url: 'json/group.json',
+                    data: {breedId: id},
+                    success: function(response) {
+                        showBox(response.data);
+                    },
+                    complete: function() {
+                        _global.v.flag = false;
+                    }
+                })
 
                 // loading
-                layer.open({
-                    area: ['200px'],
-                    type: 1,
-                    moveType: 1,
-                    content: '<div class="layer-loading">加载中...</div>',
-                    title: '添加规格',
-                    cancel: function() {
-                        k.abort();
-                    }
-                });
+                // layer.open({
+                //     area: ['200px'],
+                //     type: 1,
+                //     moveType: 1,
+                //     content: '<div class="layer-loading">加载中...</div>',
+                //     title: '添加规格',
+                //     cancel: function() {
+                //         k.abort();
+                //     }
+                // });
             },
             /**
              * [inArray 查询数组元素]

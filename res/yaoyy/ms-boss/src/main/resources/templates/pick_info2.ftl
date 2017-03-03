@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>订单详情-boss</title>
-    <#include "./common/meta.ftl"/>
+<#include "./common/meta.ftl"/>
+<title>订单详情-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
 <div class="content">
     <div class="breadcrumb">
@@ -92,7 +93,7 @@
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr">
+                <div class="attr table">
                     <table>
                         <thead>
                         <tr>
@@ -350,8 +351,7 @@
         </div>
     </div>
 </form>
-<!-- 上传图片文本域 -->
-<div id="imgCropWrap"></div>
+
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
@@ -390,12 +390,7 @@
                             if (data.status == "200") {
                                 $.notify({
                                     type: 'success',
-                                    title: '保存成功',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '保存成功'
                                 });
                             }
 
@@ -410,10 +405,10 @@
                     $temp = $('#temp');
 
             $('#submit2').on('click', function() {
-                layer.open({
+                layer.open({      
+                    skin: isMobile ? 'layer-form' : '',        
                     area: ['600px'],
                     type: 1,
-                    moveType: 1,
                     content: $temp,
                     title: '物流清单'
                 });

@@ -70,12 +70,12 @@ public class ShiroConfiguration {
         return new LifecycleBeanPostProcessor();
     }
 
-    @Bean
-    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
-        daap.setProxyTargetClass(true);
-        return daap;
-    }
+//    @Bean
+//    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+//        DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
+//        daap.setProxyTargetClass(true);
+//        return daap;
+//    }
 
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager getDefaultWebSecurityManager(BizRealm realm) {
