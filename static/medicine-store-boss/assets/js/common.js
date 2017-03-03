@@ -97,15 +97,15 @@
 
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-layer.config({
-    moveType: 1,
-    success : function() {
-        isMobile && $('body').addClass('no-scroll');
-    },
-    end: function() {
-        isMobile && $('body').removeClass('no-scroll');
-    }
-});
+// layer.config({
+//     moveType: 1,
+//     success : function() {
+//         isMobile && $('body').addClass('no-scroll');
+//     },
+//     end: function() {
+//         isMobile && $('body').removeClass('no-scroll');
+//     }
+// });
 
 !(function($){
     var defaults = {

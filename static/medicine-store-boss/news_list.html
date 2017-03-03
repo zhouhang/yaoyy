@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>新闻公告列表-药优优</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+				<li>资讯管理</li>
+        		<li>网站公告</li>
+    		</ul>
+		</div>
+
+		<div class="box">
+			<div class="tools">
+				<div class="filter">
+					<form action="">
+						<input type="text" class="ipt" placeholder="请输入标题">
+						<button class="ubtn ubtn-blue">搜索</button>
+					</form>
+				</div>
+				
+
+				<div class="action-add">
+					<a href="news_info.html" class="ubtn ubtn-blue">新建公告</a>
+				</div>
+			</div>
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th><input type="checkbox" class="cbx"></th>
+							<th>标题</th>
+							<th>推送对象</th>
+							<th>创建时间</th>
+							<th width="230" class="tc">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="checkbox" class="cbx"></td>
+							<td>网站维护公告</td>
+							<td>全体成员</td>
+							<td>2016-10-11</td>
+							<td class="tc">
+								<a href="news_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
+								<a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
+								<a href="javascript:;" class="ubtn ubtn-gray jputaway">草稿</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<div class="pages">
+					<a href="#" class="text">上页</a>
+					<span class="curr">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<i>...</i>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#" class="text">下页</a>
+				</div>
+				<div class="info">
+					显示第 1 至 10 项结果，共 <em id="pageSize">72</em> 项
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script>
+	var _global = {
+		v: {
+			deleteUrl: ''
+		},
+		fn: {
+			init: function() {
+                this.bindEvent();
+			},
+			bindEvent: function() {
+				var $table = $('.table'),
+					$cbx = $table.find('td input:checkbox'),
+					$checkAll = $table.find('th input:checkbox'),
+					count = $cbx.length;
+
+				// 删除
+				$table.on('click', '.jdel', function() {
+					var url = _global.v.deleteUrl + $(this).attr('href');
+                    layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
+                        $.get(url, function (data) {
+                            if (data.status == "y") {
+                                window.location.reload();
+                            }
+                        }, "json");
+                        layer.close(index);
+                    });
+                    return false; // 阻止链接跳转
+				})
+
+				// 全选
+				$checkAll.on('click', function() {
+					var isChecked = this.checked;
+					$cbx.each(function() {
+						this.checked = isChecked;
+					})
+				})
+				// 单选
+				$cbx.on('click', function() {
+					var _count = 0;
+					$cbx.each(function() {
+						_count += this.checked ? 1 : 0;
+					})
+					$checkAll.prop('checked', _count === count);
+				})
+			}
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>

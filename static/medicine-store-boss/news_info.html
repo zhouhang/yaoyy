@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>新闻公告详情-药优优</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>资讯管理</li>
+                <li>网站公告</li>
+    		</ul>
+		</div>
+		
+		<form action="" id="myform">
+			<div class="box fa-form">
+				<div class="item">
+					<div class="txt"><i>*</i>标题：</div>
+					<div class="cnt">
+						<input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt">发布对象：</div>
+					<div class="cnt">
+						<input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
+					</div>
+				</div>
+                <div class="item">
+                    <div class="txt">
+                        公告内容：
+                    </div>
+                    <div class="cnt cnt-mul">
+                        <img width="700" height="400" src="uploads/editor.jpg" alt="">
+                    </div>
+                </div>
+				<div class="ft">
+					<button type="submit" class="ubtn ubtn-blue" id="jsubmit1">发布</button>
+					<button type="button" class="ubtn ubtn-red" id="jsubmit2">草稿</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script>
+	var _global = {
+		v: {
+			deleteUrl: ''
+		},
+		fn: {
+			init: function() {
+                this.validator();
+			},
+            validator: function() {
+            	// 表单验证
+                $("#myform").validator({
+                    fields: {
+                    	title: '标题: required'
+                    }
+                });
+            }
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>寄卖下单-药优优</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+				<li>订单管理</li>
+        		<li>寄卖下单</li>
+    		</ul>
+		</div>
+
+		<div class="box">
+			<div class="tools">
+				<div class="filter">
+					<form action="">
+						<input type="text" class="ipt" placeholder="供应商">
+						<input type="text" class="ipt" placeholder="手机号">
+						<input type="text" class="ipt" placeholder="商品名称">
+						<button class="ubtn ubtn-blue">搜索</button>
+					</form>
+				</div>
+				
+			</div>
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>商品名称</th>
+							<th>规格等级</th>
+							<th>供应商</th>
+							<th>供应商手机号</th>
+							<th>价格</th>
+							<th>寄卖库存</th>
+							<th width="230" class="tc">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>三棱</td>
+							<td>过20号筛，直径2cm以上</td>
+							<td>陈数理</td>
+							<td>1844474774</td>
+							<td>15元/公斤</td>
+							<td>0</td>
+							<td class="tc">
+								<a href="javascript:;" class="c-blue jadd">添加寄卖库存</a>
+							</td>
+						</tr>
+						<tr>
+							<td>三棱</td>
+							<td>统个、火燎或撞毛、长2cm-6cm、直径2cm-4cm</td>
+							<td>陈数理</td>
+							<td>1844474774</td>
+							<td>15元/公斤</td>
+							<td>0</td>
+							<td class="tc">
+								<a href="javascript:;" class="c-blue jadd">添加寄卖库存</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<div class="pages">
+					<a href="#" class="text">上页</a>
+					<span class="curr">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<i>...</i>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#" class="text">下页</a>
+				</div>
+				<div class="info">
+					显示第 1 至 10 项结果，共 <em id="pageSize">72</em> 项
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 管理员弹出框表单 -->
+<form id="myform" class="hide">
+	<div class="fa-form fa-form-layer">
+	    <div class="item">
+	        <div class="txt">商品名称：</div>
+	        <div class="val">三棱</div>
+	    </div>
+	    <div class="item">
+	        <div class="txt">规格等级：</div>
+	        <div class="val">过20号筛，直径2cm以上</div>
+	    </div>
+		<div class="item">
+	        <div class="txt"><i>*</i>添加数量：</div>
+        	<div class="cnt">
+        		<div class="ipt-wrap">
+        			<input type="text" class="ipt" name="number" value="">
+        			<span class="unit">公斤</span>
+        		</div>
+        	</div>
+		</div>
+		<div class="item">
+			<p>注：添加寄卖库存的商品在寄卖商品列表中显示</p>
+		</div>
+	    <div class="button">
+	        <button type="submit" class="ubtn ubtn-blue">保存</button>
+	        <button type="button" class="ubtn ubtn-gray">取消</button>
+	    </div>
+	</div>
+</form>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script>
+	var _global = {
+		v: {
+			deleteUrl: ''
+		},
+		fn: {
+			init: function() {
+                this.bindEvent();
+			},
+			bindEvent: function() {
+				var $table = $('.table'),
+					$myform = $('#myform');
+
+                $myform.validator({
+                    fields: {
+                        number: '数量: required'
+                    },
+                    valid: function (form) {}
+                });
+
+                // 关闭弹层
+                $myform.on('click', '.ubtn-gray', function () {
+                    layer.closeAll();
+                })
+
+                
+                // 数量
+                $myform.on('keyup', '.ipt', function () {
+                    var val = this.value;
+				    if (val) {
+				        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 0;
+				        this.value = val;
+				    }
+                })
+
+				// 添加库存
+				$table.on('click', '.jadd', function() {
+					$myform[0].reset();
+					layer.open({
+                        skin: 'layer-form',
+                        area: ['600px'],
+                        type: 1,
+                        content: $myform,
+                        title: '添加寄卖库存'
+                    });
+                    return false; // 阻止链接跳转
+				})
+			}
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>
