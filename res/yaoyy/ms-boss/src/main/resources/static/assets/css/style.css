@@ -533,6 +533,9 @@ a.ubtn{height:28px;}
 .login-box .cnt{height:60px;}
 .login-box .ipt{width:100%;padding-left:30px;}
 .login-box .ubtn{height:32px;line-height:32px;font-size:1.2rem;}
-
+.error-page{width:auto;}
+.error-page .i404{background-size:50% auto;}
+.error-page .cnt p{font-size:1.4rem;}
+.error-page .cnt .fa{vertical-align:middle;}
 body.no-scroll{overflow:hidden;}
 }
