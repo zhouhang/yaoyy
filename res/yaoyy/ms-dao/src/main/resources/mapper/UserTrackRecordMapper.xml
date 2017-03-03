@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.UserTrackRecordDao">
+    <resultMap id="UserTrackRecordResultMap" type="com.ms.dao.model.UserTrackRecord">
+            <id column="id"  property="id" />
+            <result column="user_id"  property="userId" />
+            <result column="content"  property="content" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="UserTrackRecordResultMapVo" type="com.ms.dao.vo.UserTrackRecordVo">
+            <id column="id"  property="id" />
+            <result column="user_id"  property="userId" />
+            <result column="content"  property="content" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,content,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="UserTrackRecordResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_track_record
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="UserTrackRecordResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_track_record
+    </select>
+
+    <select id="findByParams" resultMap="UserTrackRecordResultMapVo" parameterType="com.ms.dao.vo.UserTrackRecordVo">
+        select
+        <include refid="Base_Column_List" />
+        from user_track_record
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from user_track_record
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.UserTrackRecord">
+        insert into
+        user_track_record (user_id,content,create_time)
+        values
+        (#{userId},#{content},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.UserTrackRecord">
+        update user_track_record
+        <set>
+                                                        
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+                                            
+            <if test="content != null">
+                content = #{content},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
