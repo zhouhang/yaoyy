@@ -94,7 +94,7 @@
 
 <!-- 管理员弹出框表单 -->
 <form id="myform" class="hide">
-	<div class="fa-form fa-form-layer">
+	<div class="fa-form fa-form-info fa-form-layer">
 	    <div class="item">
 	        <div class="txt">商品名称：</div>
 	        <div class="val">三棱</div>
@@ -103,24 +103,65 @@
 	        <div class="txt">规格等级：</div>
 	        <div class="val">过20号筛，直径2cm以上</div>
 	    </div>
-		<div class="item">
-	        <div class="txt"><i>*</i>添加数量：</div>
-        	<div class="cnt">
-        		<div class="ipt-wrap">
-        			<input type="text" class="ipt" name="number" value="">
-        			<span class="unit">公斤</span>
-        		</div>
-        	</div>
-		</div>
-		<div class="item">
-			<p>注：添加寄卖库存的商品在寄卖商品列表中显示</p>
-		</div>
+	    <div class="item">
+	        <div class="txt">当前价格：</div>
+	        <div class="val">15元/公斤</div>
+	    </div>
+	    <div class="row-list">
+		    <div class="row">
+				<div class="item">
+			        <div class="txt"><i>*</i>购买数量：</div>
+		        	<div class="cnt">
+		        		<div class="ipt-wrap">
+		        			<input type="text" class="ipt number" data-rule="required; range(1~99999)" name="number1" value="" autocomplete="off">
+		        			<span class="unit">公斤</span>
+		        		</div>
+		        	</div>
+				</div>
+				<div class="item">
+			        <div class="txt"><i>*</i>对应批次号：</div>
+		        	<div class="cnt">
+		        		<div class="ipt-wrap">
+		        			<input type="text" class="ipt" data-rule="required" name="id1" value="" autocomplete="off">
+		        		</div>
+		        	</div>
+				</div>
+				<div class="op"><button type="button" class="ubtn ubtn-blue" id="jaddrow">添加</button></div>
+		    </div>
+	    </div>
+	    <div class="row-calc">
+	    	总计：<em>0</em> 元
+	    </div>
+
 	    <div class="button">
 	        <button type="submit" class="ubtn ubtn-blue">保存</button>
 	        <button type="button" class="ubtn ubtn-gray">取消</button>
 	    </div>
 	</div>
 </form>
+
+<script type="temp" id="temp">
+	<div class="row">
+		<div class="item">
+	        <div class="txt"><i>*</i>购买数量：</div>
+        	<div class="cnt">
+        		<div class="ipt-wrap">
+        			<input type="text" class="ipt number" data-rule="required; range(1~99999)" name="number{{idx}}" value="" autocomplete="off">
+        			<span class="unit">公斤</span>
+        		</div>
+        	</div>
+		</div>
+		<div class="item">
+	        <div class="txt"><i>*</i>对应批次号：</div>
+        	<div class="cnt">
+        		<div class="ipt-wrap">
+        			<input type="text" class="ipt" data-rule="required" name="id{{idx}}" value="" autocomplete="off">
+        		</div>
+        	</div>
+		</div>
+		<div class="op"><button type="button" class="ubtn ubtn-red jdel">删除</button></div>
+    </div>
+</script>
 
 <script src="assets/js/jquery191.js"></script>
 <script src="assets/js/common.js"></script>
@@ -136,19 +177,62 @@
                 this.bindEvent();
 			},
 			bindEvent: function() {
-				var $table = $('.table');
+				var $table = $('.table'),
+					$myform = $('#myform'),
+					$rowList = $('.row-list'),
+					$count = $('.row-calc').find('em'),
+					model = $('#temp').html(),
+					idx = 1,
+					count = 0,
+					price = 0;
+
+                $myform.validator({
+                    valid: function (form) {}
+                });
+
+                // 关闭弹层
+                $myform.on('click', '.ubtn-gray', function () {
+                    layer.closeAll();
+                    $rowList.find('.row:gt(0)').remove();
+                })
+
 
 				// 下单
 				$table.on('click', '.jcreate', function() {
-                    layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == "y") {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
+					var data = ['三棱2', '过20号筛，直径2cm以上2', '215元/公斤'];
+					price = 15;
+					$myform.find('.val').each(function(i) {
+						$(this).html(data[i])
+					})
+					$myform[0].reset();
+					layer.open({
+                        skin: 'layer-form',
+                        area: ['600px'],
+                        type: 1,
+                        content: $myform,
+                        title: '锁价下单'
                     });
-                    return false; // 阻止链接跳转
+                    count = 0;
+				})
+
+				// calc
+				$rowList.on('blur', '.number', function() {
+					if (isNaN(this.value)) {
+						count += 0;
+					} else {
+						count += parseInt(this.value, 10);
+					}
+					$count.html(count * price);
+				})
+
+				// 添加行
+				$('#jaddrow').on('click', function() {
+					idx++;
+					$rowList.append(model.replace(/{{idx}}/g, idx));
+				})
+				// 删除行
+				$rowList.on('click', '.jdel', function() {
+					$(this).closest('.row').remove();
 				})
 
 			}

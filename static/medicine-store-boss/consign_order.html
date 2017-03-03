@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>寄卖订单-药优优</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+				<li>订单管理</li>
+        		<li>寄卖订单</li>
+    		</ul>
+		</div>
+
+		<div class="box">
+			<div class="tools">
+				<div class="filter">
+					<form action="">
+						<input type="text" class="ipt" placeholder="供应商">
+						<input type="text" class="ipt" placeholder="手机号">
+						<input type="text" class="ipt" placeholder="商品名称">
+						<button class="ubtn ubtn-blue">搜索</button>
+					</form>
+				</div>
+				
+			</div>
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>订单号</th>
+							<th>商品名称</th>
+							<th>供应商</th>
+							<th>价格</th>
+							<th>购买数量</th>
+							<th>总价</th>
+							<th>订单状态</th>
+							<th width="120" class="tc">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>221441144</td>
+							<td>三棱</td>
+							<td>陈数理</td>
+							<td>15元/公斤</td>
+							<td>100公斤</td>
+							<td>1500元</td>
+							<td>已发货</td>
+							<td class="tc">
+								<a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="1">查看详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td>221441144</td>
+							<td>三棱</td>
+							<td>陈数理</td>
+							<td>15元/公斤</td>
+							<td>100公斤</td>
+							<td>1500元</td>
+							<td>订单已完成</td>
+							<td class="tc">
+								<a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="2">查看详情</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<div class="pages">
+					<a href="#" class="text">上页</a>
+					<span class="curr">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<i>...</i>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#" class="text">下页</a>
+				</div>
+				<div class="info">
+					显示第 1 至 10 项结果，共 <em id="pageSize">72</em> 项
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 管理员弹出框表单 -->
+<form id="myform" class="hide">
+	<div class="fa-form fa-form-info fa-form-layer">
+	    <div class="item">
+	        <div class="txt">商品名称：</div>
+	        <div class="val">三棱</div>
+	    </div>
+	    <div class="item">
+	        <div class="txt">规格等级：</div>
+	        <div class="val">过20号筛，直径2cm以上</div>
+	    </div>
+	    <div class="item">
+	        <div class="txt">当前价格：</div>
+	        <div class="val">15元/公斤</div>
+	    </div>
+	    <div class="row-list">
+		    <div class="row">
+				<div class="item">
+			        <div class="txt"><i>*</i>购买数量：</div>
+		        	<div class="cnt">
+		        		<div class="ipt-wrap">
+		        			<input type="text" class="ipt price" data-rule="required; range(1~99999)" name="number1" value="" autocomplete="off">
+		        			<span class="unit">公斤</span>
+		        		</div>
+		        	</div>
+				</div>
+				<div class="item">
+			        <div class="txt"><i>*</i>对应批次号：</div>
+		        	<div class="cnt">
+		        		<div class="ipt-wrap">
+		        			<input type="text" class="ipt" data-rule="required" name="id1" value="" autocomplete="off">
+		        		</div>
+		        	</div>
+				</div>
+				<div class="op"><button type="button" class="ubtn ubtn-blue" id="jaddrow">添加</button></div>
+		    </div>
+	    </div>
+	    <div class="row-calc">
+	    	总计：<em>0</em> 元
+	    </div>
+
+	    <div class="button">
+	        <button type="submit" class="ubtn ubtn-blue">保存</button>
+	        <button type="button" class="ubtn ubtn-gray">取消</button>
+	    </div>
+	</div>
+</form>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script>
+	var _global = {
+		v: {
+			deleteUrl: '',
+			flag: false
+		},
+		fn: {
+			init: function() {
+                this.bindEvent();
+			},
+			bindEvent: function() {
+				var $table = $('.table'),
+					self = this;
+
+				// 查看详情
+				$table.on('click', '.jedit', function() {
+					if (_global.v.flag) {
+						return false;
+					}
+					_global.v.flag = true;
+					self.showUserinfo($(this).data('id'));
+					return false;
+				})
+
+                // 关闭弹层
+                $('body').on('click', '.fa-form-info .ubtn-gray', function () {
+                    layer.closeAll();
+                })
+			},
+			showUserinfo: function(id) {
+				var showBox = function(data) {
+					var html = [];
+					html.push('<div class="fa-form fa-form-info fa-form-layer">');
+					html.push('<div class="item"> \n <div class="txt">订单号：</div> \n <div class="val">', data.id, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">商品名称：</div> \n <div class="val">', data.name, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">规格等级：</div> \n <div class="val">', data.level, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">供应商：</div> \n <div class="val">', data.company, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">供应商手机号：</div> \n <div class="val">', data.mobile, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">价格：</div> \n <div class="val">', data.price, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">购买数量：</div> \n <div class="val">', data.number, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">总价：</div> \n <div class="val">', data.cost, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">订单状态：</div> \n <div class="val">', data.status, '</div> \n </div>');
+					html.push('<div class="item"> \n <div class="txt">批次号：</div> \n <div class="val">', data.ids, '</div> \n </div>');
+					html.push('<div class="note">注：订单状态已完成没有结算订单和退货按钮</div>');
+					html.push('<div class="button">');
+					if (data.status !== '已完成') {
+						html.push('<button type="button" class="ubtn ubtn-blue">结算订单</button>');
+						html.push('<button type="button" class="ubtn ubtn-red">退货</button>');
+					}
+					html.push('<button type="button" class="ubtn ubtn-gray">取消</button>');
+					html.push('</div>');
+					html.push('</div>');
+					layer.closeAll();
+					layer.open({
+						skin: 'layer-form',
+						area: ['600px'],
+	                    type: 1,
+	                    content: html.join(''),
+	                    title: '订单详情'
+					});
+
+	                // 退货
+	                $('.fa-form-info').on('click', '.ubtn-red', function () {
+	                    alert('退货')
+	                })
+
+	                // 结算
+	                $('.fa-form-info').on('click', '.ubtn-blue', function () {
+	                    alert('结算')
+	                })
+				}
+
+				// 加载数据
+				var k = $.ajax({
+					url: 'json/consign_order.php',
+					data: {id: id},
+					dataType: 'json',
+					success: function(data) {
+						showBox(data);
+					},
+					complete: function() {
+						_global.v.flag = false;
+					}
+				})
+
+				// loading
+				layer.open({
+					area: ['200px'],
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="layer-loading">加载中...</div>',
+                    title: '订单详情',
+                    cancel: function() {
+						k.abort();
+                    }
+				});
+				
+			}
+		}
+	}
+
+	$(function() {
+		_global.fn.init();
+	})
+</script>
+</body>
+</html>
