@@ -57,8 +57,7 @@
     <appender name="log" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>/Software/JAVAEE/logs/yaoyy_boss_handle.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/Software/JAVAEE/logs/yaoyy_boss_handle-%d{yyyy-MM-dd}.%i.log
-            </FileNamePattern>
+            <FileNamePattern>/Software/JAVAEE/logs/yaoyy_boss_handle-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
             <TimeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <MaxFileSize>5MB</MaxFileSize>
