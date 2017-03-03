@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>报价单详情-boss</title>
-    <#include "./common/meta.ftl"/>
+<#include "./common/meta.ftl"/>
+<title>报价单详情-药优优</title>
 </head>
-<body class='wrapper'>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>报价单管理</li>
+                <li>报价单详情</li>
+            </ul>
+        </div>
 
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>报价单管理</li>
-            <li>报价单详情</li>
-        </ul>
+        <div class="box fa-form">
+            <form id="myform">
+                <input type="hidden" name="id" id="qid" value="${(quotation.id)!}">
+                <div class="item">
+                    <div class="txt"><i>*</i>标题：</div>
+                    <div class="cnt">
+                        <input type="text" name="title" value="${(quotation.title)!}" class="ipt" placeholder="请输入标题" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">品种：</div>
+                    <div class="cnt">
+                        <div class="ipt-wrap">
+                            <input type="text" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
+                        </div>
+                        <button type="button" class="ubtn ubtn-blue">添加到报价清单</button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>报价清单：</div>
+                    <div class="cnt">
+                        <div class="group-list" id="quoteList"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">报价单描述：</div>
+                    <div class="cnt cnt-mul">
+                        <script id="description" name="description" type="text/plain">
+                       ${(quotation.description)!}
+                        </script>
+                        <span id="describeError"></span>
+                    </div>
+                </div>
+
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue" id="jsubmit">保存草稿</button>
+                    <button type="button" class="ubtn ubtn-red" id="jpublish">直接发布</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div class="box fa-form">
-        <form id="myform">
-            <input type="hidden" name="id" id="qid" value="${(quotation.id)!}">
-            <div class="item">
-                <div class="txt"><i>*</i>标题：</div>
-                <div class="cnt">
-                    <input type="text" name="title" value="${(quotation.title)!}" class="ipt" placeholder="请输入标题" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">品种：</div>
-                <div class="cnt">
-                    <input type="text" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
-                    <button type="button" class="ubtn ubtn-blue">添加到报价清单</button>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>报价清单：</div>
-                <div class="cnt">
-                    <div class="group-list" id="quoteList"></div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">报价单描述：</div>
-                <div class="cnt cnt-mul">
-                    <script id="description" name="description" type="text/plain">
-                   ${(quotation.description)!}
-                    </script>
-                    <span id="describeError"></span>
-                </div>
-            </div>
+    <#include "./common/footer.ftl"/>
 
-            <div class="ft">
-                <button type="button" class="ubtn ubtn-blue" id="jsubmit">保存草稿</button>
-                <button type="button" class="ubtn ubtn-red" id="jpublish">直接发布</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<#include "./common/footer.ftl"/>
-
+<script src="assets/js/jquery.autocomplete.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <link href="assets/plugins/umeditor/themes/default/css/umeditor.css" rel="stylesheet">
 <script src="assets/plugins/umeditor/umeditor.config.js"></script>
 <script src="assets/plugins/umeditor/umeditor.min.js"></script>
 <script src="assets/plugins/umeditor/lang/zh-cn/zh-cn.js"></script>
-
-<script src="assets/js/jquery.autocomplete.js"></script>
-<script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var  status=1;//直接发布
 
@@ -79,15 +80,21 @@
                 this.bindEvent();
             },
             checkForm: function() {
+                var _enable = true,
+                    $myform = $('#myform');
+
                 // 表单验证
-                $("#myform").validator({
+                $myform.validator({
                     fields: {
                         title: '标题: required',
                     },
                     valid: function(form) {
                         // 验证成功
-
-                        var data = $("#myform").serializeObject();
+                        if (!_enable) {
+                            return;
+                        }
+                        _enable = false;
+                        var data = $myform.serializeObject();
                         data.status=status;
                         if($("#qid").val()==""){
                             delete data["id"];
@@ -146,34 +153,29 @@
                             data: JSON.stringify(data),
                             success: function(result) {
                                 if (result.status == "200") {
-                                    // 成功提示
                                     $.notify({
                                         type: 'success',
-                                        title: '操作成功',
-                                        delay: 1e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                                location.href = '/quotation/list';
-                                            }, 1e3);
-                                        }
+                                        title: '操作成功'
                                     });
+                                    setTimeout(function() {
+                                        location.href = '/quotation/list';
+                                    }, 1e3);
                                 }
+                                _enable = true;
                             }
                         })
-
-
                     }
                 });
                 //实例化编辑器
                 <#if quotation?exists>
                 var um = UM.getEditor('description', {
-                            initialFrameWidth: 700,
-                            initialFrameHeight: 400
-                        });
+                        initialFrameWidth: isMobile ? '100%' : 700,
+                        initialFrameHeight: 320
+                    });
                 <#else>
                     var um = UM.getEditor('description', {
-                        initialFrameWidth: 700,
-                        initialFrameHeight: 400
+                        initialFrameWidth: isMobile ? '100%' : 700,
+                        initialFrameHeight: 320
                     }).setContent("");
                 </#if>
 
@@ -181,7 +183,7 @@
                    var $quoteList = $('#quoteList');
                    var model = [];
                    $.each(${quotation.content}, function (index,contentItem) {
-                       model.push('<table id="table' , contentItem.categoryId , '">');
+                       model.push('<div class="table"><table id="table' , contentItem.categoryId , '">');
                        model.push('<thead>');
                        model.push('<tr><th colspan="4" class="cat" cid="',contentItem.categoryId ,'">' , contentItem.categoryName , '</th></tr>');
                        model.push('<tr class="attrName"> ');
@@ -203,17 +205,10 @@
                        model.push('<tfoot>');
                        model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , contentItem.categoryId , '">+添加一个规格</a></td></tr>');
                        model.push('</tfoot>');
-                       model.push('</table>');
-
-                  })
+                       model.push('</table></div>');
+                    })
                    $quoteList.append(model.join(''));
                 </#if>
-
-
-
-
-
-
             },
             bindEvent:function(){
                 $("#jsubmit").click(function () {
@@ -226,10 +221,6 @@
                     $("#myform").submit();
                 });
             },
-
-
-
-
             // 查询品种
             searchBreeds: function() {
                 var self = this;
@@ -264,10 +255,10 @@
                 });
 
                 // 添加到报价单
-                $breed.next().on('click', function() {
+                $breed.parent().next().on('click', function() {
                     if ($('#table' + breedId).length === 1) {
                         $.notify({
-                            type: 'error',
+                            type: 'error', 
                             title: '添加失败',
                             text: '此品种已在报价清单中'
                         });
@@ -276,7 +267,7 @@
                     $.ajax({
                         url: '/commodity/getByCategory',
                         data: {categoryId: breedId},
-                        type:"POST",
+                        type: 'POST',
                         success: function(response) {
                             $breed.val('');
                             self.toHtml(response.data);
@@ -320,7 +311,7 @@
                     categoryOrigin=commodity.origin;
                 }
                 var model = [];
-                model.push('<table id="table' , categoryId , '">');
+                model.push('<div class="table"><table id="table' , categoryId , '">');
                 model.push('<thead>');
                 model.push('<tr><th colspan="4" class="cat" cid="',categoryId ,'">' , categoryOrigin+"  "+categoryName , '</th></tr>');
                 model.push('<tr class="attrName"><th><div class="inner"><input class="ipt" placeholder="自定义" value="规格" type="text"></div></th>' +
@@ -338,7 +329,7 @@
                 model.push('<tfoot class="hide">');
                 model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , categoryId , '">+添加一个规格</a></td></tr>');
                 model.push('</tfoot>');
-                model.push('</table>');
+                model.push('</table></div>');
                 $quoteList.append(model.join(''));
             },
             showinfo: function(id) {
@@ -361,7 +352,7 @@
                     layer.closeAll();
                     if (model.length === 0) {
                         $.notify({
-                            type: 'error',
+                            type: 'error', 
                             title: '添加失败',
                             text: '所有商品已添加'
                         });
@@ -370,6 +361,7 @@
                     model.unshift('<div class="group-choose"><ul>');
                     model.push('</ul></div>');
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,
@@ -405,16 +397,16 @@
                 
                 // 体验不好
                 // loading
-                // layer.open({
-                //     area: ['200px'],
-                //     type: 1,
-                //     moveType: 1,
-                //     content: '<div class="layer-loading">加载中...</div>',
-                //     title: '添加规格',
-                //     cancel: function() {
-                //         k.abort();
-                //     }
-                // });
+                layer.open({
+                    area: ['200px'],
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="layer-loading">加载中...</div>',
+                    title: '添加规格',
+                    cancel: function() {
+                        k.abort();
+                    }
+                });
             },
             /**
              * [inArray 查询数组元素]

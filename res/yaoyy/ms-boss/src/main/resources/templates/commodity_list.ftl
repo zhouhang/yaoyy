@@ -1,98 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>药优优-商品列表</title>
 <#include "./common/meta.ftl"/>
+<title>商品列表-药优优</title>
 </head>
-<body class="wrapper">
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>商品管理</li>
-            <li>商品列表</li>
-        </ul>
-    </div>
-
-    <div class="box">
-        <div class="tools">
-            <div class="filter" id="filterForm">
-                 <form>
-                    <input name="name" type="text" class="ipt" placeholder="商品名称">
-                    <input type="text" name="categoryName" class="ipt" placeholder="品种">
-                    <select name="status" class="slt">
-                        <option value="">上/下架</option>
-                        <option value="1">上架</option>
-                        <option value="0">下架</option>
-                    </select>
-                    <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
-                 </form>
-            </div>
-            <div class="action-add">
-                <button class="ubtn ubtn-blue" id="jaddNewCat">新建商品</button>
-            </div>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>商品管理</li>
+                <li>商品列表</li>
+            </ul>
         </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th>商品名称</th>
-                    <th>品种</th>
-                    <th width="320">标题</th>
-                    <th>规格等级</th>
-                    <th>价格</th>
-                    <th>排序</th>
-                    <th>更新时间</th>
-                    <th width="250" class="tc">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list pageInfo.list as commodity>
-                <tr <#if commodity.status==0>class="gray"</#if>>
-                    <td><input type="checkbox" value="${commodity.id}"></td>
-                    <td>${commodity.name}<#if commodity.mark == 1 ><em class="c-red">【量大价优】</em></#if></td>
-                    <td>${commodity.categoryName!}</td>
-                    <td>${commodity.title!}</td>
-                    <td>${commodity.spec}</td>
-                    <td>${commodity.price}/${commodity.unitName}</td>
-                    <td>${commodity.sort}</td>
-                    <td><#if commodity.updateTime??> ${commodity.updateTime?datetime} <#else>${commodity.createTime?datetime} </#if></td>
-                    <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-red jprice" data-id="${commodity.id}">调价</a>
-                        <a href="/commodity/detail/${commodity.id}" class="ubtn ubtn-blue jedit">编辑</a>
-                        <a href="${commodity.id}" class="ubtn ubtn-gray jdel">删除</a>
-                        <#if commodity.status==0>
-                            <a href="javascript:;" class="ubtn ubtn-red jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">上架</a>
-                        </#if>
-                        <#if commodity.status==1>
-                            <a href="javascript:;" class="ubtn ubtn-gray jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">下架</a>
-                        </#if>
-                    </td>
-                </tr>
-                </#list>
-                </tbody>
-            </table>
+        <div class="box">
+            <div class="tools">
+                <div class="filter" id="filterForm">
+                     <form>
+                        <input name="name" type="text" class="ipt" placeholder="商品名称">
+                        <input type="text" name="categoryName" class="ipt" placeholder="品种">
+                        <select name="status" class="slt">
+                            <option value="">上/下架</option>
+                            <option value="1">上架</option>
+                            <option value="0">下架</option>
+                        </select>
+                        <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                     </form>
+                </div>
+                <div class="action-add">
+                    <button class="ubtn ubtn-blue" id="jaddNewCat">新建商品</button>
+                </div>
+            </div>
+
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>商品名称</th>
+                        <th>品种</th>
+                        <th width="320">标题</th>
+                        <th>规格等级</th>
+                        <th>价格</th>
+                        <th>排序</th>
+                        <th>更新时间</th>
+                        <th width="250" class="tc">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list pageInfo.list as commodity>
+                    <tr <#if commodity.status==0>class="gray"</#if>>
+                        <td><input type="checkbox" value="${commodity.id}"></td>
+                        <td>${commodity.name}<#if commodity.mark == 1 ><em class="c-red">【量大价优】</em></#if></td>
+                        <td>${commodity.categoryName!}</td>
+                        <td>${commodity.title!}</td>
+                        <td>${commodity.spec}</td>
+                        <td>${commodity.price}/${commodity.unitName}</td>
+                        <td>${commodity.sort}</td>
+                        <td><#if commodity.updateTime??> ${commodity.updateTime?datetime} <#else>${commodity.createTime?datetime} </#if></td>
+                        <td class="tc">
+                            <a href="javascript:;" class="ubtn ubtn-red jprice" data-id="${commodity.id}">调价</a>
+                            <a href="/commodity/detail/${commodity.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                            <a href="${commodity.id}" class="ubtn ubtn-gray jdel">删除</a>
+                            <#if commodity.status==0>
+                                <a href="javascript:;" class="ubtn ubtn-red jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">上架</a>
+                            </#if>
+                            <#if commodity.status==1>
+                                <a href="javascript:;" class="ubtn ubtn-gray jputaway" commodityId="${commodity.id?c}" status="${commodity.status}">下架</a>
+                            </#if>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=pageInfo url="commodity/list" params="" />
         </div>
-    <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=pageInfo url="commodity/list" params="" />
     </div>
-</div>
+    <#include "./common/footer.ftl"/>
 
 <!-- 商品新增&编辑弹出框 -->
 <form id="myform" class="hide">
     <div class="fa-form fa-form-layer">
-        <div class="item" style="max-height:300px;overflow:hidden;overflow-y:auto;">
-        </div>
+        <div class="item"></div>
         <div class="button">
             <button type="submit" class="ubtn ubtn-blue">保存</button>
             <button type="button" class="ubtn ubtn-gray">取消</button>
         </div>
     </div>
 </form>
-<#include "./common/footer.ftl"/>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var _global = {
@@ -253,6 +253,7 @@
 
                     layer.closeAll();
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,

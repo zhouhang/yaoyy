@@ -1,81 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>广告管理-药优优</title>
+<#include "./common/meta.ftl"/>
+<title>广告管理-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>专场广告</li>
-            <li>广告列表</li>
-        </ul>
-    </div>
-
-    <div class="box">
-        <div class="tools">
-            <div class="filter">
-                <form id="filterForm" action="">
-                    <select name="typeId" class="slt">
-                        <option value="">选择类型</option>
-                        <#list types as type>
-                            <option value="${type.id}">${type.name}</option>
-                        </#list>
-                    </select>
-                    <button class="ubtn ubtn-blue" id="search_btn">搜索</button>
-                </form>
-            </div>
-
-            <div class="action-add">
-                <button class="ubtn ubtn-blue" id="jaddNew">新建广告</button>
-            </div>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>专场广告</li>
+                <li>广告列表</li>
+            </ul>
         </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th>类型</th>
-                    <th>名称</th>
-                    <th>链接</th>
-                    <th>排序</th>
-                    <th width="150">创建时间</th>
-                    <th width="230" class="tc">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list pageInfo.list as ad>
-                <tr <#if ad.status==0>class="gray"</#if>>
-                    <td><input type="checkbox"></td>
-                    <td>${ad.adTypeName!}</td>
-                    <td>${ad.name!}</td>
-                    <td>${ad.href!}</td>
-                    <td>${ad.sort!}</td>
-                    <td>${(ad.createTime?datetime)!}</td>
-                    <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${ad.id}">编辑</a>
-                        <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${ad.id}">删除</a>
-                        <#if ad.status == 0>
-                            <a href="javascript:;" data-id="${ad.id}"  class="ubtn ubtn-gray jputup">启用</a>
-                            <#else>
-                            <a href="javascript:;" data-id="${ad.id}"  class="ubtn ubtn-gray jputdown">禁用</a>
-                        </#if>
+        <div class="box">
+            <div class="tools">
+                <div class="filter">
+                    <form id="filterForm" action="">
+                        <select name="typeId" class="slt">
+                            <option value="">选择类型</option>
+                            <#list types as type>
+                                <option value="${type.id}">${type.name}</option>
+                            </#list>
+                        </select>
+                        <button class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                    </form>
+                </div>
 
-                    </td>
-                </tr>
-                </#list>
-                </tbody>
-            </table>
+                <div class="action-add">
+                    <button class="ubtn ubtn-blue" id="jaddNew">新建广告</button>
+                </div>
+            </div>
+
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>类型</th>
+                        <th>名称</th>
+                        <th>链接</th>
+                        <th>排序</th>
+                        <th width="150">创建时间</th>
+                        <th width="230" class="tc">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list pageInfo.list as ad>
+                    <tr <#if ad.status==0>class="gray"</#if>>
+                        <td><input type="checkbox"></td>
+                        <td>${ad.adTypeName!}</td>
+                        <td>${ad.name!}</td>
+                        <td>${ad.href!}</td>
+                        <td>${ad.sort!}</td>
+                        <td>${(ad.createTime?datetime)!}</td>
+                        <td class="tc">
+                            <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${ad.id}">编辑</a>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${ad.id}">删除</a>
+                            <#if ad.status == 0>
+                                <a href="javascript:;" data-id="${ad.id}"  class="ubtn ubtn-gray jputup">启用</a>
+                                <#else>
+                                <a href="javascript:;" data-id="${ad.id}"  class="ubtn ubtn-gray jputdown">禁用</a>
+                            </#if>
+
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=pageInfo url="ad/list" params="" />
         </div>
-    <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=pageInfo url="ad/list" params="" />
     </div>
-</div>
-<#include "./common/footer.ftl"/>
+    <#include "./common/footer.ftl"/>
+
 <!-- 广告新增&编辑弹出框 -->
 <form id="myform" class="hide">
     <div class="fa-form fa-form-layer">
@@ -123,9 +125,6 @@
         </div>
     </div>
 </form>
-
-<!-- 上传图片文本域 -->
-<div id="imgCropWrap"></div>
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
@@ -267,6 +266,7 @@
                     $advForm[0].reset();
                     $advForm.find('.slt[name="typeId"]').trigger('change');
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,
@@ -306,6 +306,7 @@
                     $('#pictureUrl').val(data.pictureUrl);
                     layer.closeAll();
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,

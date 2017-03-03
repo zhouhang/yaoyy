@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>管理员列表-boss-上工好药</title>
+<#include "./common/meta.ftl"/>
+<title>管理员列表-药优优</title>
 </head>
-
-<body class="wrapper">
+<body>
+<div class="wrapper">
     <#include "./common/header.ftl">
     <#include "./common/aside.ftl"/>
-    <!-- fa-floor start -->
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -67,63 +66,65 @@
                     </tbody>
                 </table>
             </div>
-        <#import "./module/pager.ftl" as pager />
-        <@pager.pager info=memberPage url="member/index" params=memberParams />
-    </div>
-</div>
-    <!-- 管理员弹出框表单 -->
-    <form id="myform" class="hide">
-        <div class="fa-form fa-form-layer">
-            <input type="hidden" name="id" class="ipt">
-            <div class="item">
-                <div class="txt"><i>*</i>用户名：</div>
-                <div class="cnt">
-                    <input type="text" name="username" class="ipt" placeholder="用户名" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>角色：</div>
-                <div class="cnt">
-                    <select name="roleId" id="roleId" class="slt">
-                        <#list roleList as role>
-                            <option value="${role.id}">${role.name}</option>
-                        </#list>
-                    </select>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">密码：</div>
-                <div class="cnt">
-                    <input type="text" name="password" class="ipt" placeholder="密码(修改密码时为空即不修改)" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>姓名：</div>
-                <div class="cnt">
-                    <input type="text" name="name" class="ipt" placeholder="姓名" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>电话：</div>
-                <div class="cnt">
-                    <input type="text" name="mobile" class="ipt" placeholder="电话" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">邮箱：</div>
-                <div class="cnt">
-                    <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
-                </div>
-            </div>
-
-            <div class="button">
-                <button type="submit" class="ubtn ubtn-blue">保存</button>
-                <button type="button" class="ubtn ubtn-gray">取消</button>
-            </div>
+            <#import "./module/pager.ftl" as pager />
+            <@pager.pager info=memberPage url="member/index" params=memberParams />
         </div>
-    </form>
+    </div>
 
     <#include "./common/footer.ftl"/>
+
+<!-- 管理员弹出框表单 -->
+<form id="myform" class="hide">
+    <div class="fa-form fa-form-layer">
+        <input type="hidden" name="id" class="ipt">
+        <div class="item">
+            <div class="txt"><i>*</i>用户名：</div>
+            <div class="cnt">
+                <input type="text" name="username" class="ipt" placeholder="用户名" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>角色：</div>
+            <div class="cnt">
+                <select name="roleId" id="roleId" class="slt">
+                    <#list roleList as role>
+                        <option value="${role.id}">${role.name}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt">密码：</div>
+            <div class="cnt">
+                <input type="text" name="password" class="ipt" placeholder="密码(修改密码时为空即不修改)" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>姓名：</div>
+            <div class="cnt">
+                <input type="text" name="name" class="ipt" placeholder="姓名" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>电话：</div>
+            <div class="cnt">
+                <input type="text" name="mobile" class="ipt" placeholder="电话" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt">邮箱：</div>
+            <div class="cnt">
+                <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="button">
+            <button type="submit" class="ubtn ubtn-blue">保存</button>
+            <button type="button" class="ubtn ubtn-gray">取消</button>
+        </div>
+    </div>
+</form>
+
     <script src="assets/plugins/validator/jquery.validator.min.js"></script>
     <script src="assets/js/jquery.form.js"></script>
 
@@ -193,6 +194,7 @@
                     $('#jaddNewAdmin').on('click', function() {
                         $adminForm[0].reset();
                         layer.open({
+                            skin: 'layer-form',
                             area: ['600px'],
                             type: 1,
                             moveType: 1,
@@ -237,6 +239,7 @@
                         $adminForm.find('.ipt[name="email"]').val(data.member.email);
                         layer.closeAll();
                         layer.open({
+                            skin: 'layer-form',
                             area: ['600px'],
                             type: 1,
                             moveType: 1,

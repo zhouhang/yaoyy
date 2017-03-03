@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>登录-boss-药优优</title>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<title>登录-药优优</title>
+<meta name="renderer" content="webkit" >
+<base href="${baseUrl}"/>
+<link type="image/x-icon" rel="shortcut icon" href="assets/images/favicon.ico" />
+<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
 <body>
@@ -36,93 +43,80 @@
             </form>
         </div>
     </div>
+    <script src="assets/js/jquery191.js"></script>
     <script src="assets/js/jquery.form.js"></script>
-
-
     <script>
-        var loginPage = {
-            v: {
-                $username: $('#username'),
-                $password: $('#password'),
-                $submit: $('#submit'),
-                $msg: $('#msg')
-            },
-            fn: {
-                init: function() {
-                    this.bindEvent();
-                },
-                // 错误提示
-                showMsg: function(msg) {
-                    if (msg) {
-                        loginPage.v.$msg.html('<i class="fa fa-prompt"></i> ' + msg);
-                    } else {
-                        loginPage.v.$msg.html('');
-                    }
-                },
-                checkUsername: function() {
-                    var msg = loginPage.v.$username.val() ? '' : '请输入用户名';
-                    this.showMsg(msg);
-                    msg && loginPage.v.$username.focus();
-                    return msg;
-                },
-                checkPassword: function() {
-                    var msg = loginPage.v.$password.val() ? '' : '请输入密码';
-                    this.showMsg(msg);
-                    msg && loginPage.v.$password.focus();
-                    return msg;
-                },
-                checkForm: function() {
-                    var c2 = this.checkPassword();
-                    var c1 = this.checkUsername();
+        !(function() {
+        var 
+            $username = $('#username'),
+            $password = $('#password'),
+            $submit   = $('#submit'),
+            $msg      = $('#msg'),
+            abled     = true;
 
-                    if (c2 || c1) {
-                        this.showMsg(c1 && c2 ? '请输入用户名和密码' : c1 + c2);
-                        return false;
-                    }
-                    this.showMsg('');
-                    return true;
-                },
-                bindEvent: function() {
-                    var self = this;
-                    loginPage.v.$username.on('blur', function() {
-                        self.checkUsername();
-                        $(this).closest('.group').removeClass('on');
-                    }).on('focus', function() {
-                        $(this).closest('.group').addClass('on');
-                    });
-
-                    loginPage.v.$password.on('blur', function() {
-                        self.checkPassword();
-                        $(this).closest('.group').removeClass('on');
-                    }).on('focus', function() {
-                        $(this).closest('.group').addClass('on');
-                    });
-
-                    loginPage.v.$submit.on('click', function() {
-                        self.checkForm() && self.submit(); // 验证通过后提交表单
-                        return false; // 阻止表单默认提交事件
-                    });
-
-                },
-                submit: function() {
-                    var self = this;
-                    $("#loginForm").ajaxSubmit({
-                        dataType: "json",
-                        success: function (result) {
-                            if(result.status=="200"){
-                                location.href="/index"
-                            }else{
-                                self.showMsg(result.msg)
-                            }
-                        }
-                    });
-                }
-            }
+        var showMsg = function(text) {
+            if (text) {
+                $msg.html('<i class="fa fa-exclamation-circle"></i> ' + text);
+            } else {
+                $msg.empty();
+            }   
         }
 
-        $(function() {
-            loginPage.fn.init();
-        })
+        var checkUsername = function() {
+            var msg = $username.val() ? '' : '请输入用户名';
+            showMsg(msg);
+            msg && $username.focus();
+            return msg;
+        }
+        var checkPassword = function() {
+            var msg = $password.val() ? '' : '请输入密码';
+            showMsg(msg);
+            msg && $password.focus();
+            return msg;
+        }
+
+        var checkForm = function() {
+            var c2 = checkPassword();
+            var c1 = checkUsername();
+
+            if (c2 || c1) {
+                showMsg(c1 && c2 ? '请输入用户名和密码' : c1 + c2);
+            } else {
+                showMsg('');
+            }
+            return !c1 && !c2;
+        }
+
+        $('.ipt').on('blur', function() {
+            $(this).parent('.group').removeClass('on');
+        }).on('focus', function() {
+            $(this).parent('.group').addClass('on');
+        });
+
+
+        $submit.on('click', function() {
+            if (checkForm() && abled) {
+                $submit.prop('disabled', true);
+                abled = false;
+                $("#loginForm").ajaxSubmit({
+                    dataType: "json",
+                    success: function (result) {
+                        if(result.status=="200"){
+                            location.href="/index"
+                        }else{
+                            self.showMsg(result.msg)
+                        }
+                        abled = true;
+                    },
+                    error: function() {
+                        $submit.prop('disabled', false);
+                        abled = true;  
+                    }
+                });
+            }
+            return false;
+        });
+    })(jQuery, window);
 
     </script>
 </body>

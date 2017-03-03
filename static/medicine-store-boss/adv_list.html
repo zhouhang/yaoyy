@@ -2,43 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>广告列表-boss</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body class='wrapper'>
+<body>
 
-	<div class="header">
-		<div class="logo">
-			<a href="index.html">药优优</a>
-		</div>
-		<div class="menu">
-			<ul>
-				<li>
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
-				</li>
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="hidden-xs">王彬</span>
-					</a>
-				</li>
-				<li>
-					<a href="/logout">
-						<i class="fa fa-power-off"></i>
-						退出
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- 侧栏菜单 -->
-	<div class="aside" id="jaside"></div>
-
+<div class="wrapper">
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
@@ -159,68 +133,61 @@
 			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="footer">
-		<div class="inner">
-			&copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有. 
+<!-- 广告新增&编辑弹出框 -->
+<form id="myform" class="hide">
+	<div class="fa-form fa-form-layer">
+		<div class="item">
+			<div class="txt">类型：</div>
+			<div class="cnt">
+				<select name="typeId" id="typeId" class="slt">
+					<option value="1" data-tips="图片尺寸：750 X 350">首页banner</option>
+					<option value="2" data-tips="图片尺寸：750 X 400">专场广告</option>
+				</select>
+			</div>
 		</div>
+		<div class="item">
+			<div class="txt"><i>*</i>名称：</div>
+			<div class="cnt">
+				<input type="text" name="title" class="ipt" placeholder="名称" autocomplete="off">
+			</div>
+		</div>
+		<div class="item">
+			<div class="txt">链接：</div>
+			<div class="cnt">
+				<input type="text" name="url" class="ipt" placeholder="链接" autocomplete="off">
+			</div>
+		</div>
+		<div class="item">
+			<div class="txt"><i>*</i>排序：</div>
+			<div class="cnt">
+				<input type="text" name="sort" class="ipt" placeholder="只能输入数字" autocomplete="off" data-msg-integer="只能输入数字">
+			</div>
+		</div>
+		<div class="item">
+			<div class="txt"><i>*</i>图片：</div>
+			<div class="cnt cnt-mul">
+				<span class="thumb up-img x1" id="imgCrop"></span>
+                <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
+                <span class="tips">图片尺寸：750 X 350</span>
+			</div>
+		</div>
+
+	    <div class="button">
+	        <button type="submit" class="ubtn ubtn-blue">保存</button>
+	        <button type="button" class="ubtn ubtn-gray">取消</button>
+	    </div>
 	</div>
-	
+</form>
 
-	<!-- 广告新增&编辑弹出框 -->
-	<form id="myform" class="hide">
-		<div class="fa-form fa-form-layer">
-			<div class="item">
-				<div class="txt">类型：</div>
-				<div class="cnt">
-					<select name="typeId" id="typeId" class="slt">
-						<option value="1" data-tips="图片尺寸：750 X 350">首页banner</option>
-						<option value="2" data-tips="图片尺寸：750 X 400">专场广告</option>
-					</select>
-				</div>
-			</div>
-			<div class="item">
-				<div class="txt"><i>*</i>名称：</div>
-				<div class="cnt">
-					<input type="text" name="title" class="ipt" placeholder="名称" autocomplete="off">
-				</div>
-			</div>
-			<div class="item">
-				<div class="txt">链接：</div>
-				<div class="cnt">
-					<input type="text" name="url" class="ipt" placeholder="链接" autocomplete="off">
-				</div>
-			</div>
-			<div class="item">
-				<div class="txt"><i>*</i>排序：</div>
-				<div class="cnt">
-					<input type="text" name="sort" class="ipt" placeholder="只能输入数字" autocomplete="off" data-msg-integer="只能输入数字">
-				</div>
-			</div>
-			<div class="item">
-				<div class="txt"><i>*</i>图片：</div>
-				<div class="cnt cnt-mul">
-					<span class="thumb up-img x1" id="imgCrop"></span>
-                    <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
-                    <span class="tips">图片尺寸：750 X 350</span>
-				</div>
-			</div>
-
-		    <div class="button">
-		        <button type="submit" class="ubtn ubtn-blue">保存</button>
-		        <button type="button" class="ubtn ubtn-gray">取消</button>
-		    </div>
-		</div>
-	</form>
-	
-	<!-- 上传图片文本域 -->
-	<div id="imgCropWrap"></div>
 
 <script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script src="assets/js/common.js"></script>
+
 <script>
 	var _global = {
 		v: {
@@ -300,6 +267,7 @@
 					$advForm[0].reset();
                     $advForm.find('.slt[name="typeId"]').trigger('change');
 					layer.open({
+						skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,

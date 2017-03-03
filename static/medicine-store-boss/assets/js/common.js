@@ -57,6 +57,7 @@
      * @returns {{}}
      */
     $.fn.initByUrlParams=function() {
+        var $this = $(this);
         var url = window.location.search; //获取url中"?"符后的字串
         var params = {};
         if (url.indexOf("?") != -1) {
@@ -65,7 +66,7 @@
             for(var i = 0; i < strs.length; i ++) {
                 var name = strs[i].split("=")[0];
                 var value = decodeURI(strs[i].split("=")[1]);
-                $("[name="+name+"]").val(value);
+                $this.find("[name="+name+"]").val(value);
             }
         }
         return params;
@@ -94,6 +95,17 @@
     }
 })(jQuery);
 
+var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+layer.config({
+    success : function() {
+        isMobile && $('body').addClass('no-scroll');
+    },
+    end: function() {
+        isMobile && $('body').removeClass('no-scroll');
+    }
+});
+
 !(function($){
     var defaults = {
         clickToHide: true   // 点击关闭
@@ -114,6 +126,11 @@
     $.notify = function(options) {
         var settings = $.extend({}, defaults, options);
         var modal = [];
+        if (isMobile) {
+            layer.msg(options.title + (options.text ? options.text : ''), {offset: '80%', success: function() {$('body').removeClass('no-scroll');}});
+            return false;
+        }
+
         modal.push('<div class="message ', settings.type, settings.clickToHide ? ' hidable' : '', '">');
         modal.push(    '<div class="inner">');
         modal.push(        '<div class="icon">');
@@ -283,8 +300,8 @@
                 self.$lightbox.animate({
                     width: imageWidth,
                     height: imageHeight,
-                    marginLeft: -(imageWidth)/2,
-                    marginTop: -(imageHeight)/2
+                    marginLeft: -(imageWidth + 8)/2,
+                    marginTop: -(imageHeight + 8)/2
                 }, self.options.fadeDuration, 'swing', function() {
                     self.$image.attr({
                         'src': self.album[current].url,
@@ -331,7 +348,7 @@
 
 // 页面布局
 function _fix() {
-    $window = $(window);
+    var $window = $(window);
     var sidebar_height =  $('.aside').height();
 
     var fix = function() {
@@ -343,13 +360,13 @@ function _fix() {
 }
 
 // 侧栏导航
-function _aside() {
-    var $aside = $('#jaside'),
+function _sidebar() {
+    var $sidebar = $('.sidebar'),
         URL = document.URL.split('#')[0].split('?')[0].toLowerCase(),
         urlBefore = URL.split('/')[3];
 
     // 导航高亮
-    $aside.find('a').each(function() {
+    $sidebar.find('a').each(function() {
         var url = this.href.toLowerCase(),
             hrefBefore = url.split('/')[3];
 
@@ -359,43 +376,43 @@ function _aside() {
         }
     }) 
 
-    $aside.on('click', 'dt', function() {
+    $sidebar.on('click', 'dt', function() {
         $(this).next().slideToggle()
         .parent().toggleClass('expand').siblings().removeClass('expand')
         .find('dd').slideUp();
     })
 
-    // 以下代码本地专用
-    $aside.html() === '' && $.ajax({
-        url: 'inc/aside.html',
-        success: function(innerHtml) {
-            $aside.off().html(innerHtml);
-            _aside();
-        }
-    })
-}
-// 相册弹层
-function _showImg(url) {
-    url && layer.open({
-        type: 1,
-        shade: .5,
-        title: false, //不显示标题
-        content: '<img src="' + url + '" alt="" />'
-    });
+    if (isMobile) {
+        $('.filter').after('<div class="fa fa-filter filter-toggle"></div>');
+
+        $('.sidebar-toggle').on('click', function(){
+            $('.wrapper').toggleClass('wrapper-open');
+        })
+
+        $('.filter-toggle').on('click', function(){
+            $('.tools').toggleClass('tools-open');
+            return false;
+        })
+
+        $('.content').on('click', function() {
+            $('.wrapper').removeClass('wrapper-open');
+        })        
+    }
 }
 
 // 修改密码
-function modifyPwd() {
+function _modifyPwd() {
     var $trigger = $('#jmodifyPwd');
     if ($trigger.length === 0) {
         return;
     }
     $trigger.on('click', function() {
         layer.open({
+            skin: 'layer-form',
             type: 2,
             area: ['470px', '250px'],
             title: '修改密码',
-            content: 'modify_password.html'
+            content: 'modify_password.html?' + (new Date).getTime()
         })
     })
 }
@@ -417,7 +434,7 @@ function _newMsg(notification) {
             $('#msgList').html(model.join(''));
             if (count) {
                 $('#newsNum').html(count).show();
-                notification && showNotification({
+                !isMobile && notification && showNotification({
                     title: '药优优消息',
                     body: temp.join('，')
                 });
@@ -460,16 +477,31 @@ function showNotification(options) {
 
 $(function() {
     _fix();
-    _aside();
-    // _newMsg();
-    modifyPwd();
 
+    // 以下代码本地专用
+    $.ajax({
+        url: 'inc/aside.html',
+        success: function(innerHtml) {
+            $('.wrapper').prepend(innerHtml);
+            _sidebar();
+            _modifyPwd();
+        }
+    })
+    $.ajax({
+        url: 'inc/footer.html',
+        success: function(innerHtml) {
+            $('.wrapper').append(innerHtml);
+        }
+    })
+
+    // _sidebar();
+    // _newMsg();
+    // _modifyPwd();
     $(document).ajaxError(function(event,request, settings){
         $.notify({
             type: 'error',
-            title: "错误",   // 不允许的文件类型
-            text: "系统内部错误",     //'支持 jpg、jepg、png、gif等格式图片文件',
-            delay: 3e3
+            title: '错误',
+            text: '网络错误'
         });
     });
 })

@@ -1,81 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>品种列表-boss-药优优</title>
 <#include "./common/meta.ftl"/>
+<title>品种列表-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>商品管理</li>
-            <li>品种列表</li>
-        </ul>
-    </div>
-
-    <div class="box">
-        <div class="tools">
-            <div class="filter">
-                <form action="" id="serarchForm">
-                    <input type="text" name="variety" class="ipt" placeholder="品种" id="searchName" value="${categoryVo.variety?default('')}">
-                    <select class="ipt"  name="status" id="searchStatus" class="slt">
-                        <option <#if (categoryVo.status??)> selected</#if>  value="">上/下架</option>
-                        <option <#if categoryVo.status?exists && categoryVo.status==1> selected</#if> value="1">上架</option>
-                        <option <#if categoryVo.status?exists && categoryVo.status==0> selected</#if>value="0">下架</option>
-                    </select>
-                    <button type="button" class="ubtn ubtn-blue" id="search">搜索</button>
-                </form>
-            </div>
-
-            <div class="action-add">
-                <button class="ubtn ubtn-blue" id="jaddNewCat">新建品种</button>
-            </div>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>商品管理</li>
+                <li>品种列表</li>
+            </ul>
         </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th>品种</th>
-                    <th>标题</th>
-                    <th>排序</th>
-                    <th>父类</th>
-                    <th width="150">创建时间</th>
-                    <th width="230" class="tc">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list categoryPage.list as category>
-                <tr <#if category.status==0>class="gray"</#if>>
-                    <td><input type="checkbox"></td>
-                    <td>${category.variety}</td>
-                    <td>${category.title}</td>
-                    <td>${category.sort}</td>
-                    <td>${category.parentName}</td>
-                    <td>${(category.createTime?datetime)!}  </td>
-                    <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-blue jedit" categoryId="${category.id?c}">编辑</a>
-                        <a href="javascript:;" class="ubtn ubtn-gray jdel"  categoryId="${category.id?c}">删除</a>
-                        <#if category.status==0>
-                            <a href="javascript:;" class="ubtn ubtn-red jputaway" categoryId="${category.id?c}" status="${category.status}">上架</a>
-                        </#if>
-                        <#if category.status==1>
-                            <a href="javascript:;" class="ubtn ubtn-gray jputaway" categoryId="${category.id?c}" status="${category.status}">下架</a>
-                        </#if>
-                    </td>
-                </tr>
-                </#list>
-                </tbody>
-            </table>
-        </div>
+        <div class="box">
+            <div class="tools">
+                <div class="filter">
+                    <form action="" id="serarchForm">
+                        <input type="text" name="variety" class="ipt" placeholder="品种" id="searchName" value="${categoryVo.variety?default('')}">
+                        <select class="ipt"  name="status" id="searchStatus" class="slt">
+                            <option <#if (categoryVo.status??)> selected</#if>  value="">上/下架</option>
+                            <option <#if categoryVo.status?exists && categoryVo.status==1> selected</#if> value="1">上架</option>
+                            <option <#if categoryVo.status?exists && categoryVo.status==0> selected</#if>value="0">下架</option>
+                        </select>
+                        <button type="button" class="ubtn ubtn-blue" id="search">搜索</button>
+                    </form>
+                </div>
 
-    <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=categoryPage url="category/list" params=categoryParams/>
+                <div class="action-add">
+                    <button class="ubtn ubtn-blue" id="jaddNewCat">新建品种</button>
+                </div>
+            </div>
+
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>品种</th>
+                        <th>标题</th>
+                        <th>排序</th>
+                        <th>父类</th>
+                        <th width="150">创建时间</th>
+                        <th width="230" class="tc">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list categoryPage.list as category>
+                    <tr <#if category.status==0>class="gray"</#if>>
+                        <td><input type="checkbox"></td>
+                        <td>${category.variety}</td>
+                        <td>${category.title}</td>
+                        <td>${category.sort}</td>
+                        <td>${category.parentName}</td>
+                        <td>${(category.createTime?datetime)!}  </td>
+                        <td class="tc">
+                            <a href="javascript:;" class="ubtn ubtn-blue jedit" categoryId="${category.id?c}">编辑</a>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel"  categoryId="${category.id?c}">删除</a>
+                            <#if category.status==0>
+                                <a href="javascript:;" class="ubtn ubtn-red jputaway" categoryId="${category.id?c}" status="${category.status}">上架</a>
+                            </#if>
+                            <#if category.status==1>
+                                <a href="javascript:;" class="ubtn ubtn-gray jputaway" categoryId="${category.id?c}" status="${category.status}">下架</a>
+                            </#if>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+
+        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=categoryPage url="category/list" params=categoryParams/>
+        </div>
     </div>
-</div>
+    <#include "./common/footer.ftl"/>
 
 <!-- 品种新增&编辑弹出框 -->
 <form id="myform" class="hide" method = 'post'  action = ''>
@@ -125,9 +127,6 @@
     </div>
 </form>
 
-<!-- 上传图片文本域 -->
-<div id="imgCropWrap"></div>
-<#include "./common/footer.ftl"/>
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
@@ -261,6 +260,7 @@
                     $carForm[0].reset();
                     $carForm.attr("action",_global.v.saveUrl);
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,
@@ -301,6 +301,7 @@
                     $('#pictureUrl').val(data.pictureUrl);
                     layer.closeAll();
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,

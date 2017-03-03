@@ -1,87 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>用户列表-药优优</title>
+<#include "./common/meta.ftl"/>
+<title>用户列表-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>用户管理</li>
-            <li>用户列表列表</li>
-        </ul>
-    </div>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>用户管理</li>
+                <li>用户列表列表</li>
+            </ul>
+        </div>
 
-    <div class="box">
-        <div class="tools">
-            <div class="filter" id="filterForm">
-                <form action="">
-                    <input name="phone" type="text" class="ipt" placeholder="手机">
-                    <input name="name" type="text" class="ipt" placeholder="姓名/单位">
-                    <select name="identityType" class="slt">
-                        <option value="">身份类型</option>
-                        <option value="1">饮片厂</option>
-                        <option value="2">药厂</option>
-                        <option value="3">药材经营公司</option>
-                        <option value="4">个体经营户</option>
-                        <option value="5">合作社</option>
-                        <option value="6">种植基地</option>
-                        <option value="8">个人经营</option>
-                        <option value="9">采购经理</option>
-                        <option value="10">销售经理</option>
-                        <option value="7">其他</option>
-                    </select>
-                    <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
-                </form>
+        <div class="box">
+            <div class="tools">
+                <div class="filter" id="filterForm">
+                    <form action="">
+                        <input name="phone" type="text" class="ipt" placeholder="手机">
+                        <input name="name" type="text" class="ipt" placeholder="姓名/单位">
+                        <select name="identityType" class="slt">
+                            <option value="">身份类型</option>
+                            <option value="1">饮片厂</option>
+                            <option value="2">药厂</option>
+                            <option value="3">药材经营公司</option>
+                            <option value="4">个体经营户</option>
+                            <option value="5">合作社</option>
+                            <option value="6">种植基地</option>
+                            <option value="8">个人经营</option>
+                            <option value="9">采购经理</option>
+                            <option value="10">销售经理</option>
+                            <option value="7">其他</option>
+                        </select>
+                        <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th>手机</th>
-                    <th>称呼</th>
-                    <th>身份类型</th>
-                    <th>姓名/单位</th>
-                    <th>状态</th>
-                    <th width="150">创建时间</th>
-                    <th width="230" class="tc">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list pageInfo.list as user>
-                <tr <#if user.type==-1>class="gray"</#if>>
-                    <td><input type="checkbox"></td>
-                    <td>${user.phone}</td>
-                    <td>${user.nickname?default("")}</td>
-                    <td>${user.identityTypeName?default("")}</td>
-                    <td>${user.name?default("")}</td>
-                    <td>${user.typeName?default("")}</td>
-                    <td>${user.createTime?datetime}</td>
-                    <td class="tc">
-                        <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看</a>
-                        <#if user.type==1 || user.type==0>
-                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用</a>
-                        <#else>
-                            <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${user.id}">启用</a>
-                        </#if>
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>手机</th>
+                        <th>称呼</th>
+                        <th>身份类型</th>
+                        <th>姓名/单位</th>
+                        <th>状态</th>
+                        <th width="150">创建时间</th>
+                        <th width="230" class="tc">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list pageInfo.list as user>
+                    <tr <#if user.type==-1>class="gray"</#if>>
+                        <td><input type="checkbox"></td>
+                        <td>${user.phone}</td>
+                        <td>${user.nickname?default("")}</td>
+                        <td>${user.identityTypeName?default("")}</td>
+                        <td>${user.name?default("")}</td>
+                        <td>${user.typeName?default("")}</td>
+                        <td>${user.createTime?datetime}</td>
+                        <td class="tc">
+                            <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看</a>
+                            <#if user.type==1 || user.type==0>
+                                <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用</a>
+                            <#else>
+                                <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${user.id}">启用</a>
+                            </#if>
 
-                    </td>
-                </tr>
-                </#list>
-                </tbody>
-            </table>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=pageInfo url="user/list" params="" />
         </div>
-    <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=pageInfo url="user/list" params="" />
     </div>
-</div>
-<#include "./common/footer.ftl"/>
+    <#include "./common/footer.ftl"/>
+
 <script>
     var _global = {
         v: {
@@ -187,6 +189,7 @@
                     html.push('</div>');
                     layer.closeAll();
                     layer.open({
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,
