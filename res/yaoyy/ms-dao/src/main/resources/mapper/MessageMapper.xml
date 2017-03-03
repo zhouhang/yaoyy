@@ -9,6 +9,7 @@
             <result column="status"  property="status" />
             <result column="event_id"  property="eventId" />
             <result column="create_time"  property="createTime" />
+            <result column="is_member"  property="is_member" />
     </resultMap>
 
     <resultMap id="MessageResultMapVo" type="com.ms.dao.vo.MessageVo" extends="MessageResultMap">
@@ -16,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,content,type,status,event_id,create_time
+        id,user_id,content,type,status,event_id,create_time,is_member
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="MessageResultMap">
@@ -54,9 +55,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Message">
         insert into
-        message (user_id,content,type,status,event_id,create_time)
+        message (user_id,content,type,status,event_id,create_time,is_member)
         values
-        (#{userId},#{content},#{type},#{status},#{eventId},#{createTime})
+        (#{userId},#{content},#{type},#{status},#{eventId},#{createTime},#{isMember})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Message">

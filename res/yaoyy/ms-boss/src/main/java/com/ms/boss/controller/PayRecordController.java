@@ -2,10 +2,7 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
-import com.ms.dao.enums.PickEnum;
-import com.ms.dao.enums.PickTrackingTypeEnum;
-import com.ms.dao.enums.SettleTypeEnum;
-import com.ms.dao.enums.TrackingTypeEnum;
+import com.ms.dao.enums.*;
 import com.ms.dao.model.AccountBill;
 import com.ms.dao.model.Member;
 import com.ms.dao.model.PayRecord;
@@ -142,7 +139,7 @@ public class PayRecordController extends BaseController{
         }
         pickTrackingService.save(pickTrackingVo);
 
-        MsgProducerEvent msgProducerEvent=new MsgProducerEvent(pick.getUserId(),orderId, MessageEnum.PAY_SUCCESS, null);
+        MsgProducerEvent msgProducerEvent=new MsgProducerEvent(pick.getUserId(),orderId, MessageEnum.PAY_SUCCESS, null, MsgIsMemberEnum.IS_MEMBER.getKey());
         applicationContext.publishEvent(msgProducerEvent);
 
         return Result.success().data("确认收款");

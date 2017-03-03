@@ -219,10 +219,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		 *
 		 */
 		String content=pick.getNickname()+"提交选货单";
-		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK,content);
+		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK,content, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(msgProducerEvent);
 		// 选货登记通知用户
-		MsgProducerEvent msgProducerEventC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_C,content);
+		MsgProducerEvent msgProducerEventC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_C,content, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(msgProducerEventC);
 
 	}
@@ -301,7 +301,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		// 客服确认订单 通知用户
 		Pick pick = pickDao.findById(pickVo.getId());
-		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_CONFIRM,null);
+		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_CONFIRM, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
 
 	}
@@ -375,7 +375,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		//通知用户待收货
 		pick = findById(pick.getId());
-		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_DELIVERY,null);
+		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_DELIVERY, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
 	}
 
@@ -440,9 +440,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTrackingService.save(pickTrackingVo);
 
 				// 支付成功 通知客服查看
-				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_ONLINE,null);
+				MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),payRecordVo.getId(), MessageEnum.PAY_ONLINE, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 				applicationContext.publishEvent(mp);
-				MsgProducerEvent mpC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_SUCCESS,null);
+				MsgProducerEvent mpC =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PAY_SUCCESS, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 				applicationContext.publishEvent(mpC);
 
 			}

@@ -25,7 +25,10 @@ public class Message  implements Serializable {
 	private Integer eventId;
 	
 	private Date createTime;
-	
+
+	//isMember为0表示user_id是前台用户id，值为1表示user_id后台用户id
+	private Integer isMember;
+
 	public Message(){}
 	
 	public Integer getId() {
@@ -82,6 +85,12 @@ public class Message  implements Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Integer getIsMember() { return isMember; }
+
+	public void setIsMember(Integer isMember) {
+		this.isMember = isMember;
 	}
 	
 }

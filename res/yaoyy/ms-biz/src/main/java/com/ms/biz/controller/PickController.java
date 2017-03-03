@@ -361,7 +361,7 @@ public class PickController extends BaseController{
 
 
         // 保存转账信息时通知客服
-        MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),record.getId(), MessageEnum.PAY_BANK,null);
+        MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),record.getId(), MessageEnum.PAY_BANK, null, MsgIsMemberEnum.IS_MEMBER.getKey());
         applicationContext.publishEvent(mp);
 
         return "redirect:/pick/bankTransferSuccess?orderId="+ record.getOrderId();

@@ -6,6 +6,7 @@ import com.ms.dao.ICommonDao;
 import com.ms.dao.SampleTrackingDao;
 import com.ms.dao.SendSampleDao;
 import com.ms.dao.TrackingDetailDao;
+import com.ms.dao.enums.MsgIsMemberEnum;
 import com.ms.dao.enums.SampleEnum;
 import com.ms.dao.enums.TrackingDetailEnum;
 import com.ms.dao.enums.TrackingEnum;
@@ -82,7 +83,7 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 				MsgConsumeEvent msgConsumeEvent=new MsgConsumeEvent(sendSample.getId(),MessageEnum.SAMPLE);
 				applicationContext.publishEvent(msgConsumeEvent);
 				//同意寄样通知客户
-				MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_CONFIRM,null);
+				MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_CONFIRM,null, MsgIsMemberEnum.IS_MEMBER.getKey());
 				applicationContext.publishEvent(msgSample);
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_REFUSE.getValue()){

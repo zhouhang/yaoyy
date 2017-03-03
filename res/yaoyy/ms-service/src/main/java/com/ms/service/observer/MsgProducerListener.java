@@ -65,6 +65,7 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
         message.setEventId(event.getEventId());
         message.setContent(event.getContent());
         message.setUserId(event.getUserId());
+        message.setIsMember(event.getIsMember());
         // 1. 判断消息处理类型 客服,用户
         // 2. 客服 存入数据库中待消费
         // 3. 用户发送微信或者短信消息

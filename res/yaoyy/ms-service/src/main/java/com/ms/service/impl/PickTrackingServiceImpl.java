@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.PickDao;
 import com.ms.dao.PickTrackingDao;
+import com.ms.dao.enums.MsgIsMemberEnum;
 import com.ms.dao.enums.PickEnum;
 import com.ms.dao.enums.PickTrackingTypeEnum;
 import com.ms.dao.enums.TrackingTypeEnum;
@@ -87,7 +88,7 @@ public class PickTrackingServiceImpl  extends AbsCommonService<PickTracking> imp
 
 				// 通知用户客服受理订单
 				Pick pickVo = pickDao.findById(pick.getId());
-				MsgProducerEvent mp =new MsgProducerEvent(pickVo.getUserId(),pickVo.getId(), MessageEnum.PICK_ACCEPT,null);
+				MsgProducerEvent mp =new MsgProducerEvent(pickVo.getUserId(),pickVo.getId(), MessageEnum.PICK_ACCEPT,null, MsgIsMemberEnum.IS_MEMBER.getKey());
 				applicationContext.publishEvent(mp);
 			}
 			else if(pickTrackingVo.getRecordType()==PickTrackingTypeEnum.PICK_REFUSE.getValue()){

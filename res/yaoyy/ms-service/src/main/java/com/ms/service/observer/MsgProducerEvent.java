@@ -19,19 +19,24 @@ public class MsgProducerEvent extends ApplicationEvent{
 
     private Integer userId;
 
-    public MsgProducerEvent(Integer eventId, MessageEnum type, String content) {
+    //isMember为0表示user_id是前台用户id，值为1表示user_id后台用户id
+    private Integer isMember;
+
+    public MsgProducerEvent(Integer eventId, MessageEnum type, String content, Integer isMember) {
         super(eventId);
         this.eventId = eventId;
         this.type = type;
         this.content = content;
+        this.isMember = isMember;
     }
 
-    public MsgProducerEvent(Integer userId, Integer eventId, MessageEnum type, String content) {
+    public MsgProducerEvent(Integer userId, Integer eventId, MessageEnum type, String content, Integer isMember) {
         super(eventId);
         this.eventId = eventId;
         this.type = type;
         this.content = content;
         this.userId = userId;
+        this.isMember = isMember;
     }
 
     public Integer getEventId() {
@@ -49,4 +54,6 @@ public class MsgProducerEvent extends ApplicationEvent{
     public Integer getUserId() {
         return userId;
     }
+
+    public Integer getIsMember() { return isMember; }
 }

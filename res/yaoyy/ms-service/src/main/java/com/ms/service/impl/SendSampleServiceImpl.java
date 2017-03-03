@@ -3,10 +3,7 @@ package com.ms.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.*;
-import com.ms.dao.enums.SampleEnum;
-import com.ms.dao.enums.TrackingEnum;
-import com.ms.dao.enums.TrackingTypeEnum;
-import com.ms.dao.enums.UserEnum;
+import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.HistoryCommodityVo;
@@ -197,13 +194,13 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		 *
 		 */
 		String content=sendSample.getNickname()+"寄样申请";
-		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE,content);
+		MsgProducerEvent msgProducerEvent =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE,content, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(msgProducerEvent);
 
 		// 通知客户寄样申请成功.
 		// 获取寄样的商品
 		String text = commodityList.get(0).getName() +" " + commodityList.get(0).getOrigin()+" " + commodityList.get(0).getSpec();
-		MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_C,text);
+		MsgProducerEvent msgSample =new MsgProducerEvent(sendSample.getUserId(),sendSample.getId(), MessageEnum.SAMPLE_C,text, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(msgSample);
 
 
