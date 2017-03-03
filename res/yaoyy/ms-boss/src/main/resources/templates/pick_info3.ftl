@@ -72,15 +72,15 @@
                         </thead>
                         <tbody>
                         <#list pickVo.pickCommodityVoList as pickCommodityVo >
-                        <tr>
-                            <td><a href="#">${pickCommodityVo.name}</a></td>
-                            <td>${pickCommodityVo.origin}</td>
-                            <td><p>${pickCommodityVo.spec}</p></td>
-                            <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
-                            <td>${pickCommodityVo.unit}</td>
-                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
-                            <td><span>${pickCommodityVo.total}</span>元</td>
-                        </tr>
+                            <tr>
+                                <td><a href="#">${pickCommodityVo.name}</a></td>
+                                <td>${pickCommodityVo.origin}</td>
+                                <td><p>${pickCommodityVo.spec}</p></td>
+                                <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
+                                <td>${pickCommodityVo.unit}</td>
+                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                <td><span>${pickCommodityVo.total}</span>元</td>
+                            </tr>
                         </#list>
                         </tbody>
                         <tfoot>
