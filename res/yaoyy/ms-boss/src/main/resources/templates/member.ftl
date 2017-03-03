@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>管理员列表-boss-上工好药</title>
+<#include "./common/meta.ftl"/>
+<title>管理员列表-药优优</title>
 </head>
-
-<body class="wrapper">
+<body>
+<div class="wrapper">
     <#include "./common/header.ftl">
     <#include "./common/aside.ftl"/>
-    <!-- fa-floor start -->
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -67,63 +66,65 @@
                     </tbody>
                 </table>
             </div>
-        <#import "./module/pager.ftl" as pager />
-        <@pager.pager info=memberPage url="member/index" params=memberParams />
-    </div>
-</div>
-    <!-- 管理员弹出框表单 -->
-    <form id="myform" class="hide">
-        <div class="fa-form fa-form-layer">
-            <input type="hidden" name="id" class="ipt">
-            <div class="item">
-                <div class="txt"><i>*</i>用户名：</div>
-                <div class="cnt">
-                    <input type="text" name="username" class="ipt" placeholder="用户名" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>角色：</div>
-                <div class="cnt">
-                    <select name="roleId" id="roleId" class="slt">
-                        <#list roleList as role>
-                            <option value="${role.id}">${role.name}</option>
-                        </#list>
-                    </select>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">密码：</div>
-                <div class="cnt">
-                    <input type="text" name="password" class="ipt" placeholder="密码(修改密码时为空即不修改)" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>姓名：</div>
-                <div class="cnt">
-                    <input type="text" name="name" class="ipt" placeholder="姓名" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>电话：</div>
-                <div class="cnt">
-                    <input type="text" name="mobile" class="ipt" placeholder="电话" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">邮箱：</div>
-                <div class="cnt">
-                    <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
-                </div>
-            </div>
-
-            <div class="button">
-                <button type="submit" class="ubtn ubtn-blue">保存</button>
-                <button type="button" class="ubtn ubtn-gray">取消</button>
-            </div>
+            <#import "./module/pager.ftl" as pager />
+            <@pager.pager info=memberPage url="member/index" params=memberParams />
         </div>
-    </form>
+    </div>
 
     <#include "./common/footer.ftl"/>
+
+<!-- 管理员弹出框表单 -->
+<form id="myform" class="hide">
+    <div class="fa-form fa-form-layer">
+        <input type="hidden" name="id" class="ipt">
+        <div class="item">
+            <div class="txt"><i>*</i>用户名：</div>
+            <div class="cnt">
+                <input type="text" name="username" class="ipt" placeholder="用户名" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>角色：</div>
+            <div class="cnt">
+                <select name="roleId" id="roleId" class="slt">
+                    <#list roleList as role>
+                        <option value="${role.id}">${role.name}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt">密码：</div>
+            <div class="cnt">
+                <input type="text" name="password" class="ipt" placeholder="密码(修改密码时为空即不修改)" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>姓名：</div>
+            <div class="cnt">
+                <input type="text" name="name" class="ipt" placeholder="姓名" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>电话：</div>
+            <div class="cnt">
+                <input type="text" name="mobile" class="ipt" placeholder="电话" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt">邮箱：</div>
+            <div class="cnt">
+                <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="button">
+            <button type="submit" class="ubtn ubtn-blue">保存</button>
+            <button type="button" class="ubtn ubtn-gray">取消</button>
+        </div>
+    </div>
+</form>
+
     <script src="assets/plugins/validator/jquery.validator.min.js"></script>
     <script src="assets/js/jquery.form.js"></script>
 
@@ -147,56 +148,48 @@
                 },
                 // 管理员新建 or 编辑
                 addNewAdmin: function() {
-                    var $adminForm = $('#myform'),
-                            self = this;
+                    var self = this,
+                        _enable = true,
+                        $myform = $('#myform');
 
-                    $adminForm.validator({
+                    $myform.validator({
                         fields: {
                             username: '用户名: required',
                             name: '姓名: required',
                             mobile: '电话: required; mobile'
                         },
                         valid: function (form) {
-                            if ( $adminForm.isValid() ) {
-                                $.ajax({
-                                    url: "/member/save",
-                                    data: $adminForm.formSerialize(),
-                                    type: "POST",
-                                    success: function(result){
-                                        layer.closeAll();
-                                        if (result.status == "200") {
-                                            $.notify({
-                                                type: 'success',
-                                                title: '保存成功',
-                                                text: result.msg,
-                                                delay: 3e3,
-                                                call: function() {
-                                                    setTimeout(function() {
-                                                        location.href = "/member/index";
-                                                    }, 3e3);
-                                                }
-                                            });
-                                            return false;
+                            _enable && $.post('/member/save', $myform.serialize()).done(function(d){
+                                if (d.status == 200) {
+                                    layer.closeAll();
+                                    $.notify({
+                                        type: 'success',
+                                        title: '保存成功',
+                                        text: d.msg,
+                                        callback: function() {
+                                            location.href = '/member/index';
                                         }
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                _enable = true;
+                            });
+                            _enable = false;
                         }
                     });
 
                     // 关闭弹层
-                    $adminForm.on('click', '.ubtn-gray', function () {
+                    $myform.on('click', '.ubtn-gray', function () {
                         layer.closeAll();
                     })
 
                     // 新建
                     $('#jaddNewAdmin').on('click', function() {
-                        $adminForm[0].reset();
+                        $myform[0].reset();
                         layer.open({
+                            skin: isMobile ? 'layer-form' : '',
                             area: ['600px'],
                             type: 1,
-                            moveType: 1,
-                            content: $adminForm,
+                            content: $myform,
                             title: '新建管理员'
                         });
                     })
@@ -219,7 +212,7 @@
                             return false;
                         }
                         _global.v.flag = true;
-                        $adminForm[0].reset();
+                        $myform[0].reset();
                         self.showinfo($(this).data('id'));
                         return false; // 阻止链接跳转
                     })
@@ -237,9 +230,9 @@
                         $adminForm.find('.ipt[name="email"]').val(data.member.email);
                         layer.closeAll();
                         layer.open({
+                            skin: isMobile ? 'layer-form' : '',
                             area: ['600px'],
                             type: 1,
-                            moveType: 1,
                             content: $adminForm,
                             title: '编辑管理员'
                         });
@@ -260,7 +253,6 @@
                     layer.open({
                         area: ['200px'],
                         type: 1,
-                        moveType: 1,
                         content: '<div class="layer-loading">加载中...</div>',
                         title: '编辑管理员',
                         cancel: function() {

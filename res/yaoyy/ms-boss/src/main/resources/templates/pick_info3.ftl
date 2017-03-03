@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>订单详情-boss</title>
 <#include "./common/meta.ftl"/>
+<title>订单详情-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
 <div class="content">
     <div class="breadcrumb">
@@ -55,7 +56,7 @@
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr">
+                <div class="attr table">
                     <div class="op"></div>
                     <table>
                         <thead>
@@ -104,13 +105,15 @@
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="${pickVo.shippingCosts!}"><span class="unit">元</span></div></div>
                 </div>
                 <div class="item">
-                    <div class="txt">包装费：</div>
+                    <div class="txt">包装加工费：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="${pickVo.bagging!}"><span class="unit">元</span></div></div>
                 </div>
+                    <#--
                 <div class="item">
                     <div class="txt">检测费：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="${pickVo.checking!}"><span class="unit">元</span></div></div>
                 </div>
+                   -->
                 <div class="item">
                     <div class="txt">税款：</div>
                     <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="${pickVo.taxation!}"><span class="unit">元</span></div></div>
@@ -348,24 +351,14 @@
                             if(parseInt(billTime)<7){
                                 $.notify({
                                     type: 'error',
-                                    title: '账期不得少于七天',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '账期不得少于七天'
                                 });
                                 return;
                             }
                             if(settleType=='1'&&parseFloat(deposit)<=0){
                                 $.notify({
                                     type: 'error',
-                                    title: '保证金不能为0',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '保证金不能为0'
                                 });
                                 return;
                             }
@@ -403,12 +396,7 @@
                                 if (data.status == "200") {
                                     $.notify({
                                         type: 'success',
-                                        title: '保存成功',
-                                        delay: 3e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                            }, 3e3);
-                                        }
+                                        title: '保存成功'
                                     });
                                 }
 

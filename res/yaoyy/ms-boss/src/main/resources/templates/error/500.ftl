@@ -3,10 +3,10 @@
 <head>
 <#include "../common/meta.ftl"/>
 </head>
-<body class='wrapper'>
-<#include "../common/header.ftl"/>
-<#include "../common/aside.ftl"/>
-
+<body>
+<div class="wrapper">
+	<#include "../common/header.ftl"/>
+	<#include "../common/aside.ftl"/>
 	<div class="content">
 		<div class="error-page">
 			<h2 class="headline i500">404</h2>
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 	</div>
-
-<#include "../common/footer.ftl"/>
+	<#include "../common/footer.ftl"/>
+	
 </body>
 </html>

@@ -26,12 +26,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("pickCommodity/")
 public class PickCommodityController extends BaseController{
+
     @Autowired
     private PickService pickService;
-
     @Autowired
     private HttpSession httpSession;
-
     @Autowired
     private UserService userService;
 
@@ -70,9 +69,6 @@ public class PickCommodityController extends BaseController{
         pickService.save(pickVo);
 
         UserVo userInfo=userService.findByPhone(pickVo.getPhone());
-
-
-
         return Result.success().data(userInfo.getId());
     }
 

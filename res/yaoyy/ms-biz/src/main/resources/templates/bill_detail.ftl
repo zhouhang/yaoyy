@@ -25,10 +25,10 @@
             <p><span>商品总价：</span><b>&yen;${pick.sum}</b>元</p>
 
             <p><span>运费：</span><b>&yen;${pick.shippingCosts}</b>元</p>
-            <p><span>包装费：</span><b>&yen;${pick.bagging?default(0)}</b>元<#if !(pick.bagging?exists) || pick.bagging ==0>（免包装费）</#if></p>
-
+            <p><span>包装加工费：</span><b>&yen;${pick.bagging?default(0)}</b>元<#if !(pick.bagging?exists) || pick.bagging ==0>（免包装加工费）</#if></p>
+            <#--
             <p><span>检测费：</span><b>&yen;${pick.checking?default(0)}</b>元<#if !(pick.checking?exists) || pick.checking ==0>（免检测费）</#if></p>
-
+            -->
             <p><span>税款：</span><b>&yen;${pick.taxation}</b>元</p>
 
             <p class="f18"><span>总计：</span><b>&yen;${pick.amountsPayable}</b>元</p>

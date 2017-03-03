@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>订单详情-boss</title>
-    <#include "./common/meta.ftl"/>
+<#include "./common/meta.ftl"/>
+<title>订单详情-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
 <div class="content">
     <div class="breadcrumb">
@@ -55,7 +56,7 @@
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr">
+                <div class="attr table">
                     <div class="op">修改</div>
                     <table>
                         <thead>
@@ -72,7 +73,7 @@
                         <tbody>
                        <#list pickVo.pickCommodityVoList as pickCommodityVo >
                         <tr>
-                            <td><a href="#">${pickCommodityVo.name}</a></td>
+                            <td><a href="/commodity/detail/${pickCommodityVo.id??}">${pickCommodityVo.name}</a></td>
                             <td>${pickCommodityVo.origin}</td>
                             <td><p>${pickCommodityVo.spec}</p></td>
                             <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
@@ -185,13 +186,15 @@
         <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="0"><span class="unit">元</span></div></div>
     </div>
     <div class="item">
-        <div class="txt">包装费：</div>
+        <div class="txt">包装加工费：</div>
         <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="0"><span class="unit">元</span></div></div>
     </div>
+    <!--
     <div class="item">
         <div class="txt">检测费：</div>
         <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="0"><span class="unit">元</span></div></div>
     </div>
+    -->
     <div class="item">
         <div class="txt">税款：</div>
         <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="0"><span class="unit">元</span></div></div>
@@ -396,24 +399,14 @@
                         if(parseInt(billTime)<7){
                             $.notify({
                                 type: 'error',
-                                title: '账期不得少于七天',
-                                delay: 3e3,
-                                call: function() {
-                                    setTimeout(function() {
-                                    }, 3e3);
-                                }
+                                title: '账期不得少于七天'
                             });
                             return;
                         }
                         if(settleType=='1'&&parseFloat(deposit)<=0){
                             $.notify({
                                 type: 'error',
-                                title: '保证金不能为0',
-                                delay: 3e3,
-                                call: function() {
-                                    setTimeout(function() {
-                                    }, 3e3);
-                                }
+                                title: '保证金不能为0'
                             });
                             return;
                         }
@@ -442,12 +435,7 @@
                                 if (data.status == "200") {
                                     $.notify({
                                         type: 'success',
-                                        title: '保存成功',
-                                        delay: 3e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                            }, 3e3);
-                                        }
+                                        title: '保存成功'
                                     });
                                 }
 
@@ -518,15 +506,6 @@
                             data: {pickId: ${pickVo.id},recordType:1},
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    operator: 'frank',
-                                    date: '2016年10月20日 15:20'
-                                }
-                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意受理该采购单</span></li>');
-                                $('.submit2').parent().remove();
-                                $('#traceForm').show();
-                                */
                                 window.location.reload();
 
                             }
@@ -537,7 +516,6 @@
                 // 拒绝受理
                 submit2: function() {
                     layer.prompt({
-                        moveType: 1,
                         formType: 2,
                         title: '拒绝原因',
                         btn: ['拒绝', '关闭']
@@ -547,15 +525,6 @@
                             data: {pickId: ${pickVo.id},recordType:2,extra:"理由："+text},
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    operator: 'frank',
-                                    date: '2016年10月20日 15:20',
-                                    msg: text
-                                }
-                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>拒绝受理该采购单</span></li><li><span>拒绝理由：' + data.msg + '</span></li>');
-                                $('#trace').nextAll().remove();
-                                */
                                 window.location.reload();
                             }
                         })
@@ -567,9 +536,9 @@
                     var self = this;
                     layer.open({
                         id: 'calc',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: model,
                         title: '报价清单'
                     });
@@ -580,7 +549,6 @@
                 // 交易未完成
                 submit5: function() {
                     layer.prompt({
-                        moveType: 1,
                         formType: 2,
                         title: '取消原因',
                         btn: ['确认', '关闭']
@@ -590,15 +558,6 @@
                             data: {pickId: ${pickVo.id},recordType:4,extra:"原因："+text},
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    operator: 'frank',
-                                    date: '2016年10月20日 15:20',
-                                    msg: text
-                                }
-                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>交易未完成</span></li><li><span>原因：' + data.msg + '</span></li>');
-                                $('#trace').nextAll().remove();
-                                */
                                 window.location.reload();
                             }
                         })

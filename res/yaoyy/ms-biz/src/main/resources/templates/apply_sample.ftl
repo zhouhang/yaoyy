@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <#include "./common/meta.ftl"/>
-    <title>申请免费寄样-药优优</title>
+    <title>申请寄样-药优优</title>
 </head>
 <body class="ui-body-nofoot">
 <header class="ui-header">
-    <div class="title">申请免费寄样</div>
+    <div class="title">申请寄样</div>
     <div class="abs-l mid">
         <a href="javascript:history.back();" class="fa fa-back"></a>
     </div>
@@ -35,6 +35,11 @@
             <div class="item">
                 <button type="button" class="ubtn ubtn-primary" id="submit">提交</button>
             </div>
+            <div class="hd">
+                <p><em>注：单价20元以下的样品免费，单价20元以上的样品要收取您50%的费用。寄出根茎、种子、矿石类等样品量100g 全草、花类等蓬松、质轻的样品量50g，如果您需要超过寄样标准的数量，可以联系客服为您更改样品量，多出的部分需要自己承担运费。</em></p>
+                <p><em>邮递发圆通快递，邮费按照圆通全国收费标准代收。</em></p>
+            </div>
+
         </form>
     </div>
 </section><!-- /ui-content -->
@@ -78,7 +83,7 @@
                                 if(result.status=="200"){
                                     layer.open({
                                         className: 'layer-custom',
-                                        content: '<div class="box"><div class="hd">您的寄样申请已提交成功！</div><div class="bd">我们会在60分钟之内与您取得联系。登录可以跟踪您的所有寄样申请。</div></div>'
+                                        content: '<div class="box"><div class="hd">您的寄样申请已提交成功！</div><div class="bd">我们会在5分钟之内与您取得联系。登录可以跟踪您的所有寄样申请。</div></div>'
                                         ,btn: ['历史寄样单', '返回']
                                         ,yes: function(index){
                                             location.href = '/sample/list' + (_YYY.is_winxin ? '?source=WECHAT' : '');

@@ -1,218 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>寄样单详情-boss-药优优</title>
 <#include "./common/meta.ftl"/>
+<title>寄样单详情-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>寄样服务</li>
-            <li>寄样详情</li>
-        </ul>
-    </div>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>寄样服务</li>
+                <li>寄样详情</li>
+            </ul>
+        </div>
 
-    <div class="box fa-form fa-form-info">
-        <div class="hd">寄样信息</div>
-        <div class="item">
-            <div class="txt">用户姓名：</div>
-            <div class="val">${sendSampleVo.nickname}</div>
-        </div>
-        <div class="item">
-            <div class="txt">寄样单编号：</div>
-            <div class="val">${sendSampleVo.code}</div>
-        </div>
-        <div class="item">
-            <div class="txt">手机号：</div>
-            <div class="val">${sendSampleVo.phone}</div>
-        </div>
-        <div class="item">
-            <div class="txt">地区：</div>
-            <div class="val">${sendSampleVo.area}</div>
-        </div>
-        <div class="item">
-            <div class="txt">申请时间：</div>
-            <div class="val">${(sendSampleVo.createTime?datetime)!}</div>
-        </div>
-        <div class="item">
-            <div class="txt">申请商品：</div>
-            <div class="val">${sendSampleVo.intentionText}</div>
-        </div>
-        <div class="item">
-            <div class="txt">状态：</div>
-            <div class="val status-${sendSampleVo.status+1}">${sendSampleVo.statusText}</div>
-        </div>
-        <div class="item">
-            <div class="txt">历史寄样信息：</div>
-            <div class="cnt cnt-table">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>寄样单编号</th>
-                        <th>申请商品</th>
-                        <th>申请时间</th>
-                        <th>状态</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#list historySend.list as sendSample>
-                    <tr>
-                        <td>${sendSample.code}</td>
-                        <td><a href="sample/detail/${sendSample.id?c}">${sendSample.intentionText}</a></td>
-                        <td>${(sendSample.createTime?datetime)!}</td>
-                        <td><span class="status-${sendSample.status+1}">${sendSample.statusText}</span></td>
-                    </tr>
-                    </#list>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="box fa-form">
-        <div class="hd">信息补全</div>
-        <form id="userForm">
-            <input type="hidden"  class="ipt" value="${userDetail.id?default('')}" name="id">
+        <div class="box fa-form fa-form-info">
+            <div class="hd">寄样信息</div>
             <div class="item">
-                <div class="txt">个人称呼：</div>
-                <div class="cnt">
-                    <input type="text" value="${userDetail.nickname?default('')}" name="nickname" class="ipt" placeholder="" autocomplete="off">
-                </div>
+                <div class="txt">用户姓名：</div>
+                <div class="val">${sendSampleVo.nickname}</div>
             </div>
             <div class="item">
-                <div class="txt">联系电话：</div>
-                <div class="cnt">
-
-                    <input type="text" value="${userDetail.phone?default('')}" name="phone" class="ipt" placeholder="" autocomplete="off" <#if userDetail.userType!=1>disabled</#if>>
-                </div>
+                <div class="txt">寄样单编号：</div>
+                <div class="val">${sendSampleVo.code}</div>
             </div>
             <div class="item">
-                <div class="txt">经营类型：</div>
-                <div class="cnt cbxs">
-                    <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
-                    <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
-                    <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
-                    <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
-                    <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
-                    <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
-                    <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
-                    <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
-                    <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
-                    <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
-                </div>
+                <div class="txt">手机号：</div>
+                <div class="val">${sendSampleVo.phone}</div>
             </div>
             <div class="item">
-                <div class="txt">姓名/单位：</div>
-                <div class="cnt">
-                    <input type="text" value="${userDetail.name?default('')}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
-                </div>
+                <div class="txt">地区：</div>
+                <div class="val">${sendSampleVo.area}</div>
             </div>
             <div class="item">
-                <div class="txt">用户备注：</div>
-                <div class="cnt">
-                    <textarea   id="userRemark" class="ipt ipt-mul">${userDetail.remark?default('')}</textarea>
-                </div>
+                <div class="txt">申请时间：</div>
+                <div class="val">${(sendSampleVo.createTime?datetime)!}</div>
             </div>
-            <div class="ft">
-                <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
+            <div class="item">
+                <div class="txt">申请商品：</div>
+                <div class="val">${sendSampleVo.intentionText}</div>
             </div>
-        </form>
-    </div>
-
-    <div class="box fa-form">
-        <div class="hd">地址信息</div>
-        <form action="" id="addressForm">
-            <input type="hidden"  class="ipt" value="${sendSampleVo.id}" name="sendId">
-            <input type="hidden"  class="ipt" value="${sampleAdderss.id?default('')}" name="id">
-            <div class="item" id="jgoosList">
-                <div class="txt">寄样商品：</div>
-                <div class="cnt">
-                    <div id="chooseGoods">
-                        <#list sendSampleVo.commodityList  as commodity>
-                            <span>${commodity.name} ${commodity.origin} ${commodity.spec}<i data-id="${commodity.commodityId}"></i></span>
-                        </#list>
-                    </div>
-                    <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
-                    <input type="hidden" name="intention" id="goodsName" value="${sendSampleVo.intentCommodityIds?default('')}">
-                    <div class="cnt-table hide" id="goodsSuggestions">
+            <div class="item">
+                <div class="txt">状态：</div>
+                <div class="val status-${sendSampleVo.status+1}">${sendSampleVo.statusText}</div>
+            </div>
+            <div class="item">
+                <div class="txt">历史寄样信息：</div>
+                <div class="cnt cnt-table">
+                    <div class="table">
                         <table>
                             <thead>
                             <tr>
-                                <th>名称</th>
-                                <th>产地</th>
-                                <th>规格</th>
+                                <th>寄样单编号</th>
+                                <th>申请商品</th>
+                                <th>申请时间</th>
+                                <th>状态</th>
                             </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                            <#list historySend.list as sendSample>
+                            <tr>
+                                <td>${sendSample.code}</td>
+                                <td><a href="sample/detail/${sendSample.id?c}">${sendSample.intentionText}</a></td>
+                                <td>${(sendSample.createTime?datetime)!}</td>
+                                <td><span class="status-${sendSample.status+1}">${sendSample.statusText}</span></td>
+                            </tr>
+                            </#list>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="item">
-                <div class="txt">收货地址：</div>
-                <div class="cnt">
-                    <input type="text" value="${sampleAdderss.address?default('')}" name="address" class="ipt" placeholder="" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">收货人：</div>
-                <div class="cnt">
-                    <input type="text" value="${sampleAdderss.receiver?default('')}" name="receiver" class="ipt" placeholder="" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">收货人电话：</div>
-                <div class="cnt">
-                    <input type="text" value="${sampleAdderss.receiverPhone?default('')}" name="receiverPhone" class="ipt" placeholder="" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">备注信息：</div>
-                <div class="cnt">
-                    <textarea  id="addressRemark" class="ipt ipt-mul">${sampleAdderss.remark?default('')}</textarea>
-                </div>
-            </div>
-            <div class="ft">
-                <button type="button" id="saveAddress"  class="ubtn ubtn-blue">保存收货信息</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="box fa-form">
-        <div class="hd">寄样追踪</div>
-        <ol class="trace" id="trace">
-            <li class="fore">状态：<em class="status-${sendSampleVo.status+1}">${sendSampleVo.statusText}</em></li>
-            <#list trackingList as tracking >
-            <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
-            </#list>
-        </ol>
-
-        <div class="ft<#if sendSampleVo.status!=0> hide</#if>">
-            <button type="button" class="ubtn ubtn-blue submit1">同意寄样</button>
-            <button type="button" class="ubtn ubtn-gray ml submit2">拒绝寄样</button>
         </div>
-        <div class="ft <#if sendSampleVo.status!=1> hide</#if>">
-            <button type="button" class="ubtn ubtn-blue submit3">寄送样品</button>
-            <button type="button" class="ubtn ubtn-gray ml submit4">客户来访查看</button>
-        </div>
-        <form action="" <#if sendSampleVo.status==0||sendSampleVo.status==1 ||sendSampleVo.status==5 ||sendSampleVo.status==2> class="hide"</#if> id="traceForm">
-            <div class="item">
-                <div class="txt">跟踪记录：</div>
-                <div class="cnt">
-                    <textarea name="consigneeNote" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
+
+        <div class="box fa-form">
+            <div class="hd">信息补全</div>
+            <form id="userForm">
+                <input type="hidden"  class="ipt" value="${userDetail.id?default('')}" name="id">
+                <div class="item">
+                    <div class="txt">个人称呼：</div>
+                    <div class="cnt">
+                        <input type="text" value="${userDetail.nickname?default('')}" name="nickname" class="ipt" placeholder="" autocomplete="off">
+                    </div>
                 </div>
+                <div class="item">
+                    <div class="txt">联系电话：</div>
+                    <div class="cnt">
+
+                        <input type="text" value="${userDetail.phone?default('')}" name="phone" class="ipt" placeholder="" autocomplete="off" <#if userDetail.userType!=1>disabled</#if>>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">经营类型：</div>
+                    <div class="cnt cbxs">
+                        <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
+                        <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
+                        <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
+                        <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
+                        <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
+                        <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
+                        <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
+                        <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
+                        <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
+                        <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">姓名/单位：</div>
+                    <div class="cnt">
+                        <input type="text" value="${userDetail.name?default('')}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">用户备注：</div>
+                    <div class="cnt">
+                        <textarea   id="userRemark" class="ipt ipt-mul">${userDetail.remark?default('')}</textarea>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">地址信息</div>
+            <form action="" id="addressForm">
+                <input type="hidden"  class="ipt" value="${sendSampleVo.id}" name="sendId">
+                <input type="hidden"  class="ipt" value="${sampleAdderss.id?default('')}" name="id">
+                <div class="item" id="jgoosList">
+                    <div class="txt">寄样商品：</div>
+                    <div class="cnt">
+                        <div id="chooseGoods">
+                            <#list sendSampleVo.commodityList  as commodity>
+                                <span>${commodity.name} ${commodity.origin} ${commodity.spec}<i data-id="${commodity.commodityId}"></i></span>
+                            </#list>
+                        </div>
+                        <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
+                        <input type="hidden" name="intention" id="goodsName" value="${sendSampleVo.intentCommodityIds?default('')}">
+                        <div class="cnt-table hide" id="goodsSuggestions">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>产地</th>
+                                    <th>规格</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">收货地址：</div>
+                    <div class="cnt">
+                        <input type="text" value="${sampleAdderss.address?default('')}" name="address" class="ipt" placeholder="" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">收货人：</div>
+                    <div class="cnt">
+                        <input type="text" value="${sampleAdderss.receiver?default('')}" name="receiver" class="ipt" placeholder="" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">收货人电话：</div>
+                    <div class="cnt">
+                        <input type="text" value="${sampleAdderss.receiverPhone?default('')}" name="receiverPhone" class="ipt" placeholder="" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">备注信息：</div>
+                    <div class="cnt">
+                        <textarea  id="addressRemark" class="ipt ipt-mul">${sampleAdderss.remark?default('')}</textarea>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" id="saveAddress"  class="ubtn ubtn-blue">保存收货信息</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">寄样追踪</div>
+            <ol class="trace" id="trace">
+                <li class="fore">状态：<em class="status-${sendSampleVo.status+1}">${sendSampleVo.statusText}</em></li>
+                <#list trackingList as tracking >
+                <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
+                </#list>
+            </ol>
+
+            <div class="ft<#if sendSampleVo.status!=0> hide</#if>">
+                <button type="button" class="ubtn ubtn-blue submit1">同意寄样</button>
+                <button type="button" class="ubtn ubtn-gray ml submit2">拒绝寄样</button>
             </div>
-            <div class="ft">
-                <button type="button" class="ubtn ubtn-gray ml submit5">提交记录</button>
-                <button type="button" class="ubtn ubtn-blue submit6">寄样完成</button>
+            <div class="ft <#if sendSampleVo.status!=1> hide</#if>">
+                <button type="button" class="ubtn ubtn-blue submit3">寄送样品</button>
+                <button type="button" class="ubtn ubtn-gray ml submit4">客户来访查看</button>
             </div>
-        </form>
+            <form action="" <#if sendSampleVo.status==0||sendSampleVo.status==1 ||sendSampleVo.status==5 ||sendSampleVo.status==2> class="hide"</#if> id="traceForm">
+                <div class="item">
+                    <div class="txt">跟踪记录：</div>
+                    <div class="cnt">
+                        <textarea name="consigneeNote" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-gray ml submit5">提交记录</button>
+                    <button type="button" class="ubtn ubtn-blue submit6">寄样完成</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+    <#include "./common/footer.ftl"/>
 
 <!-- 来访人弹出框 -->
 <form id="visitorForm" class="hide">
@@ -264,7 +268,6 @@
     </div>
 </form>
 
-<#include "./common/footer.ftl"/>
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
@@ -280,6 +283,7 @@
             init: function() {
                 this.myform();
                 this.submitEvent();
+                this.saveInfo();
             },
             // 查询品种
             myform: function() {
@@ -338,8 +342,7 @@
                         $.notify({
                             type: 'error',
                             title: '商品添加失败',
-                            text: '此商品已在添加列表',
-                            delay: 3e3
+                            text: '此商品已在添加列表'
                         });
                     } else {
                         vals.push(id);
@@ -424,15 +427,6 @@
                         data: {sendId: ${sendSampleVo.id},recordType:6,extra:text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                date: '2016年10月20日 15:20',
-                                operator: 'frank',
-                                msg: text
-                            }
-                            $('#traceForm').find('.ipt').val('');
-                            self.addNewRevord(data);
-                            */
                             window.location.reload();
                         }
                     })
@@ -448,21 +442,9 @@
                             data: {sendId: ${sendSampleVo.id},recordType:8},
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    operator: 'frank',
-                                    date: '2016年10月20日 15:20',
-                                    msg: text
-                                }
-                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意寄样</span></li><li><span>同意理由：' + data.msg + '</span></li>');
-                                $('.submit2').parent().remove();
-                                $('.submit3').parent().show();
-                                */
                                 window.location.reload();
                             }
                         })
-                        //$('#traceForm').remove();
-                        //layer.close(index);
                     });
                 })
 
@@ -478,18 +460,6 @@
                             data:  $.param({sendId: ${sendSampleVo.id},recordType:3}) + '&' +$expressForm.serialize(),
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    date: '2016年10月20日 15:20',
-                                    operator: 'frank',
-                                    express: '顺丰快递',
-                                    expressNum: '11454114141'
-                                }
-                                self.addNewRevord(data);
-                                $('.submit3').parent().remove();
-                                $('#traceForm').show();
-                                layer.closeAll();
-                                */
                                 window.location.reload();
                             }
                         })
@@ -499,9 +469,9 @@
                 // 来访信息验证
                 $visitorForm.validator({
                     fields: {
-                        visitor: '来访人: required',
-                        visitorMobile: '来访人电话: required; mobile',
-                        visitorDate: '日期: required'
+                        vistor: '来访人: required',
+                        vistorPhone: '来访人电话: required; mobile',
+                        vistorTime: '日期: required'
                     },
                     valid: function (form) {
                         $.ajax({
@@ -509,19 +479,6 @@
                             data: $.param({sendId: ${sendSampleVo.id},recordType:5}) + '&' +$visitorForm.serialize(),
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    date: '2016年10月20日 15:20',
-                                    operator: 'frank',
-                                    visitorDate: '2016年10月22日 10:20',
-                                    visitor: '王彬',
-                                    visitorMobile: '18801285391'
-                                }
-                                self.addNewRevord(data);
-                                $('.submit3').parent().remove();
-                                $('#traceForm').show();
-                                layer.closeAll();
-                                */
                                 window.location.reload();
                             }
                         })
@@ -542,7 +499,6 @@
             // 同意寄样
             submit1: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '同意原因',
                     btn: ['同意', '关闭']
@@ -552,16 +508,6 @@
                         data: {sendId: ${sendSampleVo.id},recordType:1,extra:"同意理由："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意寄样</span></li><li><span>同意理由：' + data.msg + '</span></li>');
-                            $('.submit2').parent().remove();
-                            $('.submit3').parent().show();
-                            */
                             window.location.reload();
                         }
                     })
@@ -571,7 +517,6 @@
             // 拒绝寄样
             submit2: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '拒绝原因',
                     btn: ['拒绝', '关闭']
@@ -581,15 +526,6 @@
                         data: {sendId: ${sendSampleVo.id},recordType:2,extra:"不同意理由："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>拒绝寄样</span></li><li><span>拒绝理由：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                            */
                             window.location.reload();
                         }
                     })
@@ -599,9 +535,9 @@
             // 表单
             layerForm: function(modal, title) {
                 layer.open({
+                    skin: isMobile ? 'layer-form' : '',
                     area: ['600px'],
                     type: 1,
-                    moveType: 1,
                     content: modal,
                     title: title
                 });
@@ -613,6 +549,59 @@
                     html.push('<span>' + item + '</span>');
                 })
                 html.length > 1 && $('#trace').append('<li>' + html.join('') + '</li>');
+            },
+            saveInfo: function() {
+                var $saveUser = $('#saveUser'),
+                    $saveAddress = $('#saveAddress');
+
+                $saveUser.on('click', function() {
+                    $saveUser.prop('disabled', true);
+                    $.ajax({
+                        url: _global.v.userUpdateUrl,
+                        data: $('#userForm').serialize()+'&remark='+$('#userRemark').val(),
+                        type: 'POST',
+                        success: function(data){
+                            if (data.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '保存成功'
+                                });
+                            }
+                        },
+                        complete: function() {
+                            $saveUser.prop('disabled', false);
+                        }
+                    });
+                });
+
+                $saveAddress.on('click', function() {
+                    var intention=$('#goodsName').val();
+                    if(intention==''){
+                        $.notify({
+                            type: 'error',
+                            title: '保存失败',
+                            text: '意向商品不能为空'
+                        });
+                        return;
+                    }
+                    $saveAddress.prop('disabled', true);
+                    $.ajax({
+                        url: _global.v.addressSaveUrl,
+                        data: $('#addressForm').serialize()+'&remark='+$('#addressRemark').val(),
+                        type: 'POST',
+                        success: function(data){
+                            if (data.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '保存成功'
+                                });
+                            }
+                        },
+                        complete: function() {
+                            $saveAddress.prop('disabled', false);
+                        }
+                    });
+                });
             }
         }
 
@@ -620,66 +609,7 @@
     }
 
     $(function() {
-        _global.fn.init();
-        $("#saveUser").on('click', function() {
-            var url = _global.v.userUpdateUrl;
-            $.ajax({
-                url: url,
-                data: $("#userForm").serialize()+"&remark="+$("#userRemark").val(),
-                type: "POST",
-                success: function(data){
-                    if (data.status == "200") {
-                        $.notify({
-                            type: 'success',
-                            title: '保存成功',
-                            delay: 3e3,
-                            call: function() {
-                                setTimeout(function() {
-
-                                }, 3e3);
-                            }
-                        });
-                    }
-
-                }
-            });
-        });
-        $("#saveAddress").on('click', function() {
-            var url = _global.v.addressSaveUrl;
-            var intention=$("#goodsName").val();
-            if(intention==""){
-                $.notify({
-                    type: 'error',
-                    title: '保存失败',
-                    text: '意向商品不能为空',
-                    delay: 3e3,
-                    call: function() {
-                    }
-                });
-                return;
-            }
-
-            $.ajax({
-                url: url,
-                data: $("#addressForm").serialize()+"&remark="+$("#addressRemark").val(),
-                type: "POST",
-                success: function(data){
-                    if (data.status == "200") {
-                        $.notify({
-                            type: 'success',
-                            title: '保存成功',
-                            delay: 3e3,
-                            call: function() {
-                                setTimeout(function() {
-
-                                }, 3e3);
-                            }
-                        });
-                    }
-
-                }
-            });
-        });
+        _global.fn.init();        
     })
 </script>
 </body>

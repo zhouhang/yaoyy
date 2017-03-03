@@ -1,233 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>药优优-商品详情</title>
 <#include "./common/meta.ftl"/>
+<title>添加商品-药优优</title>
 </head>
-<body class="wrapper">
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>商品管理</li>
-            <li>商品新增</li>
-        </ul>
-    </div>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>商品管理</li>
+                <li>商品新增</li>
+            </ul>
+        </div>
 
-    <form id="myform">
-        <div class="box fa-form">
-            <div class="hd">基本信息</div>
-            <div class="item">
-                <div class="txt"><i>*</i>品种：</div>
-                <div class="cnt">
-                    <input type="text" name="categoryName" id="jcatname" class="ipt" placeholder="品种" autocomplete="off">
-                    <input type="hidden" name="categoryId">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>商品名称：</div>
-                <div class="cnt">
-                    <input type="text" name="name" class="ipt" placeholder="商品名称" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>标题：</div>
-                <div class="cnt">
-                    <input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
-                </div>
-            </div>
-            <div class="item" id="junitPrice">
-                <div class="txt"><i>*</i>价格：</div>
-                <div class="cnt">
-                    <div class="ipt-wrap">
-                        <input type="text" name="price" class="ipt" id="jprice" placeholder="价格" autocomplete="off">
-                        <span class="unit">元</span>
+        <form id="myform">
+            <div class="box fa-form">
+                <div class="hd">基本信息</div>
+                <div class="item">
+                    <div class="txt"><i>*</i>品种：</div>
+                    <div class="cnt">
+                        <input type="text" name="categoryName" id="jcatname" class="ipt" placeholder="品种" autocomplete="off">
+                        <input type="hidden" name="categoryId">
                     </div>
-                    <#--<label class="ml"><input type="checkbox" name="mark" class="cbx" id="jsales">量大价优</label>-->
                 </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>单位：</div>
-                <div class="cnt">
-                    <select id="unit" name="unit" class="slt">
-                        <option value="1">吨</option>
-                    </select>
-                </div>
-            </div>
-            <div class="item hide" id="jsalesPrice">
-                <div class="txt"><i>*</i>公斤/价格：</div>
-                <div class="cnt">
-                    <div class="ipt-wrap">
-                        <input type="text" name="minKg1" class="ipt ipt-short" placeholder="1-99999"
-                               data-rule="required; range(1~99999)" autocomplete="off">
+                <div class="item">
+                    <div class="txt"><i>*</i>商品名称：</div>
+                    <div class="cnt">
+                        <input type="text" name="name" class="ipt" placeholder="商品名称" autocomplete="off">
                     </div>
-                    <em>-</em>
-                    <div class="ipt-wrap">
-                        <input type="text" name="maxKg1" class="ipt ipt-short" placeholder="1-99999"
-                               data-rule="required; range(1~99999)" autocomplete="off">
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>标题：</div>
+                    <div class="cnt">
+                        <input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
                     </div>
-                    <em name="unitD"></em>
-                    <div class="ipt-wrap ml">
-                        <input type="text" name="price1" class="ipt ipt-short" placeholder="1-9999"
-                               data-rule="required; range(1~9999)" autocomplete="off">
-                        <span class="unit">元</span>
+                </div>
+                <div class="item" id="junitPrice">
+                    <div class="txt"><i>*</i>价格：</div>
+                    <div class="cnt">
+                        <div class="ipt-wrap">
+                            <input type="text" name="price" class="ipt" id="jprice" placeholder="价格" autocomplete="off">
+                            <span class="unit">元</span>
+                        </div>
+                        <#--<label class="ml"><input type="checkbox" name="mark" class="cbx" id="jsales">量大价优</label>-->
                     </div>
-                    <button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>单位：</div>
+                    <div class="cnt">
+                        <select id="unit" name="unit" class="slt">
+                            <option value="1">吨</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item hide" id="jsalesPrice">
+                    <div class="txt"><i>*</i>公斤/价格：</div>
+                    <div class="cnt">
+                        <div class="ipt-wrap">
+                            <input type="text" name="minKg1" class="ipt ipt-short" placeholder="1-99999"
+                                   data-rule="required; range(1~99999)" autocomplete="off">
+                        </div>
+                        <em>-</em>
+                        <div class="ipt-wrap">
+                            <input type="text" name="maxKg1" class="ipt ipt-short" placeholder="1-99999"
+                                   data-rule="required; range(1~99999)" autocomplete="off">
+                        </div>
+                        <em name="unitD"></em>
+                        <div class="ipt-wrap ml">
+                            <input type="text" name="price1" class="ipt ipt-short" placeholder="1-9999"
+                                   data-rule="required; range(1~9999)" autocomplete="off">
+                            <span class="unit">元</span>
+                        </div>
+                        <button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>规格等级：</div>
+                    <div class="cnt">
+                        <input type="text" name="spec" class="ipt" placeholder="规格等级" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>产地：</div>
+                    <div class="cnt">
+                        <input type="text" name="origin" class="ipt" placeholder="产地" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>采收时间：</div>
+                    <div class="cnt">
+                        <input type="text" name="harYear" class="ipt" placeholder="采收时间" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>加工方式：</div>
+                    <div class="cnt">
+                        <input type="text" name="process" class="ipt"  placeholder="加工方式" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>性状特征：</div>
+                    <div class="cnt">
+                        <input type="text" name="exterior" class="ipt"  placeholder="性状特征" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>执行标准：</div>
+                    <div class="cnt">
+                        <input type="text" name="executiveStandard" class="ipt"  placeholder="执行标准" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">起购数量：</div>
+                    <div class="cnt">
+                        <input type="text" name="minimumQuantity" value="1" class="ipt" placeholder="起购数量" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">商品标语：</div>
+                    <div class="cnt">
+                        <input type="text" name="slogan" class="ipt" placeholder="商品标语" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">绑定供应商：</div>
+                    <div class="cnt">
+                        <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
+                        <input type="hidden" name="supplierId">
+                        <div class="cnt-table hide" id="supplierSuggestions">
+                            <table class="suggestions">
+                                <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>手机</th>
+                                    <th>地区</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="item">
-                <div class="txt"><i>*</i>规格等级：</div>
-                <div class="cnt">
-                    <input type="text" name="spec" class="ipt" placeholder="规格等级" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>产地：</div>
-                <div class="cnt">
-                    <input type="text" name="origin" class="ipt" placeholder="产地" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>采收时间：</div>
-                <div class="cnt">
-                    <input type="text" name="harYear" class="ipt" placeholder="采收时间" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>加工方式：</div>
-                <div class="cnt">
-                    <input type="text" name="process" class="ipt"  placeholder="加工方式" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>性状特征：</div>
-                <div class="cnt">
-                    <input type="text" name="exterior" class="ipt"  placeholder="性状特征" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>执行标准：</div>
-                <div class="cnt">
-                    <input type="text" name="executiveStandard" class="ipt"  placeholder="执行标准" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">起购数量：</div>
-                <div class="cnt">
-                    <input type="text" name="minimumQuantity" value="1" class="ipt" placeholder="起购数量" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">商品标语：</div>
-                <div class="cnt">
-                    <input type="text" name="slogan" class="ipt" placeholder="商品标语" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">绑定供应商：</div>
-                <div class="cnt">
-                    <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
-                    <input type="hidden" name="supplierId">
-                    <div class="cnt-table hide" id="supplierSuggestions">
-                        <table class="suggestions">
-                            <thead>
+
+            <div class="box fa-form">
+                <div class="hd">商品属性</div>
+                <div class="table">
+                    <table id="attribute">
+                        <thead>
                             <tr>
-                                <th>姓名</th>
-                                <th>手机</th>
-                                <th>地区</th>
+                                <th width="180">属性名</th>
+                                <th>属性值</th>
+                                <th width="80">操作</th>
                             </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"><a href="javascript:;" class="c-blue" id="addAttribute">+增加新属性</a></td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="含硫情况"
+                                                                 autocomplete="off"></div>
+                                </td>
+                                <td>
+                                    <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="无硫"
+                                                                 autocomplete="off"></div>
+                                </td>
+                                <td>
+                                    <button class="ubtn ubtn-red">删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="box fa-form">
+                <div class="hd">商品图片与详情</div>
+                <div class="item">
+                    <div class="txt"><i>*</i>商品缩略图：</div>
+                    <div class="cnt cnt-mul">
+                        <span class="thumb up-img x4" id="jpic1"></span>
+                        <input type="hidden" value="" name="thumbnailUrl" id="thumbnailUrl">
+                        <span class="tips">图片尺寸：220 X 180</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="box fa-form">
-            <div class="hd">商品属性</div>
-            <table id="attribute">
-                <thead>
-                <tr>
-                    <th width="180">属性名</th>
-                    <th>属性值</th>
-                    <th width="80">操作</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <td colspan="3"><a href="javascript:;" class="c-blue" id="addAttribute">+增加新属性</a></td>
-                </tr>
-                </tfoot>
-                <tbody>
-                <tr>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="含硫情况"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="无硫"
-                                                     autocomplete="off"></div>
-                    </td>
-                    <td>
-                        <button class="ubtn ubtn-red">删除</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="box fa-form">
-            <div class="hd">商品图片与详情</div>
-            <div class="item">
-                <div class="txt"><i>*</i>商品缩略图：</div>
-                <div class="cnt cnt-mul">
-                    <span class="thumb up-img x4" id="jpic1"></span>
-                    <input type="hidden" value="" name="thumbnailUrl" id="thumbnailUrl">
-                    <span class="tips">图片尺寸：220 X 180</span>
+                <div class="item">
+                    <div class="txt"><i>*</i>商品图片：</div>
+                    <div class="cnt cnt-mul">
+                        <span class="thumb up-img x3" id="jpic2"></span>
+                        <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
+                        <span class="tips">图片尺寸：750 X 400</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">
+                        <i>*</i>详细信息：
+                    </div>
+                    <div class="cnt cnt-mul">
+                        <script id="detail" name="detail" type="text/plain"></script>
+                        <span id="detailsError"></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">排序：</div>
+                    <div class="cnt">
+                        <input type="text" name="sort" class="ipt" value="0" placeholder="数字越大越靠前" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">上/下架：</div>
+                    <div class="cnt">
+                        <select name="status" id="status" class="slt">
+                            <option value="1">上架</option>
+                            <option value="0">下架</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存</button>
                 </div>
             </div>
-            <div class="item">
-                <div class="txt"><i>*</i>商品图片：</div>
-                <div class="cnt cnt-mul">
-                    <span class="thumb up-img x3" id="jpic2"></span>
-                    <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
-                    <span class="tips">图片尺寸：750 X 400</span>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">
-                    <i>*</i>详细信息：
-                </div>
-                <div class="cnt cnt-mul">
-                    <script id="detail" name="detail" type="text/plain"></script>
-                    <span id="detailsError"></span>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">排序：</div>
-                <div class="cnt">
-                    <input type="text" name="sort" class="ipt" value="0" placeholder="数字越大越靠前" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">上/下架：</div>
-                <div class="cnt">
-                    <select name="status" id="status" class="slt">
-                        <option value="1">上架</option>
-                        <option value="0">下架</option>
-                    </select>
-                </div>
-            </div>
-            <div class="ft">
-                <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存</button>
-            </div>
-        </div>
-
-    </form>
-</div>
-<#include "./common/footer.ftl"/>
+        </form>
+    </div>
+    <#include "./common/footer.ftl"/>
 
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
@@ -244,11 +246,19 @@
         v: {},
         fn: {
             init: function () {
+                this.umeditor();
                 this.catname();
                 this.myform();
                 this.cropImg();
                 this.parameter();
                 this.supplier();
+            },
+            umeditor: function() {
+                //初始化详细信息
+                var um = UM.getEditor('detail', {
+                    initialFrameWidth: isMobile ? '100%' : 700,
+                    initialFrameHeight: 320
+                }).setContent('');
             },
             // 查询品种
             catname: function () {
@@ -303,12 +313,6 @@
                     $('em[name=unitD]').html(_unit);
                 })
 
-                //实例化编辑器
-                var um = UM.getEditor('detail', {
-                    initialFrameWidth: 700,
-                    initialFrameHeight: 400
-                }).setContent('');
-
                 // 删除价格
                 $jsalesPrice.on('click', '.ubtn-red', function () {
                     $(this).parent().remove();
@@ -338,16 +342,13 @@
                     },
                     valid: function () {
                         self.submitForm();
-                    },
-                    invalid: function () {
-                        console.log('error')
                     }
                 });
 
                 // 量大价优
                 $('#jsales').on('click', function () {
                     $jsalesPrice[this.checked ? 'show' : 'hide']()
-                            .find('.ipt').removeClass('n-invalid').val('').trigger("hidemsg");
+                            .find('.ipt').removeClass('n-invalid').trigger("hidemsg");
                     $jprice.attr('class', 'ipt').prop('disabled', this.checked).val('').trigger("hidemsg");
                     $('#myform').data('validator').options.ignore = this.checked ? $('#jprice, .edui-image-searchTxt') : $('#jsalesPrice .ipt, .edui-image-searchTxt');
                     $("em[name=unitD]").html(_unit);
@@ -357,15 +358,12 @@
             submitForm: function () {
                 // 序列化属性值
                 var attr = {};
-                var trs = $("#attribute>tbody tr");
-                $.each(trs, function (k, v) {
-                    attr[$($(v).find("input")[0]).val()] = $($(v).find("input")[1]).val();
+                $('#attribute').find('tbody tr').each(function(i) {
+                    attr[$(this).find('.ipt').eq(0)] = $(this).find('.ipt').eq(1);
                 })
-                var data = $("#myform").serializeObject();
+                var data = $('#myform').serializeObject();
                 $.each(data, function (k, v) {
-                    if (k.match("attr")) {
-                        delete data[k];
-                    }
+                    k.match('attr') && delete data[k];
                 })
                 data.attribute = JSON.stringify(attr);
 
@@ -386,7 +384,7 @@
                     data.mark = 0;
                 }
 
-                $("#jsubmit").attr("disabled", "disabled");
+                $("#jsubmit").prop("disabled", true);
                 $.ajaxSetup({
                     contentType: 'application/json'
                 });
@@ -394,16 +392,13 @@
                     if (data.status == 200) {
                         $.notify({
                             type: 'success',
-                            title: '保存成功',
-                            text: '3秒后自动跳转到商品列表页',
-                            delay: 3e3,
-                            call: function () {
-                                setTimeout(function () {
-                                    location.href = '/commodity/list';
-                                }, 3e3);
+                            title: '添加成功',
+                            callback: function() {
+                                location.href = '/commodity/list';
                             }
                         });
                     }
+                    $("#jsubmit").prop("disabled", false);
                 })
             },
             // 商品图片
@@ -422,12 +417,15 @@
 
                 // 缩略图
                 $('#jpic1').on('click', function () {
+                    if (isMobile) {
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                        return;
+                    }
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['500px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x4" id="imgCrop"></div></div>',
                         title: '上传商品缩略图片',
                         cancel: function() {
@@ -439,12 +437,15 @@
 
                 // 商品图
                 $('#jpic2').on('click', function () {
+                    if (isMobile) {
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                        return;
+                    }
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['810px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传商品图片',
                         cancel: function() {

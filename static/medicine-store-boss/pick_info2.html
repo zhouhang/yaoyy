@@ -2,43 +2,17 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>订单详情-boss</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body class='wrapper'>
+<body>
 
-	<div class="header">
-		<div class="logo">
-			<a href="index.html">药优优</a>
-		</div>
-		<div class="menu">
-			<ul>
-				<li>
-					<a href="#" class="dropdown-toggle"> <i class="fa fa-question-circle"></i> 帮助 </a>
-				</li>
-				<li class="dropdown user user-menu">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i>
-						<span class="hidden-xs">王彬</span>
-					</a>
-				</li>
-				<li>
-					<a href="/logout">
-						<i class="fa fa-power-off"></i>
-						退出
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- 侧栏菜单 -->
-	<div class="aside" id="jaside"></div>
-
+<div class="wrapper">
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
@@ -120,7 +94,7 @@
 
                 <div class="box fa-form">
                     <div class="hd">商品详情</div>
-                    <div class="attr">
+                    <div class="attr table">
                         <table>
                             <thead>
                                 <tr>
@@ -297,42 +271,34 @@
             </div>
         </div>
 	</div>
+</div>
 
-	<div class="footer">
-		<div class="inner">
-			&copy; <a href="#!">亳州市东方康元中药材信息咨询有限公司</a> 版权所有. 
-		</div>
-	</div>
-	
 
-    <form id="temp" class="hide">
-        <div class="fa-form fa-form-layer">
-            <div class="item">
-                <div class="txt"><i>*</i>发货信息：</div>
-                <div class="cnt cnt-mul"><textarea name="note" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
-            </div>
+<form id="temp" class="hide">
+    <div class="fa-form fa-form-layer">
+        <div class="item">
+            <div class="txt"><i>*</i>发货信息：</div>
+            <div class="cnt cnt-mul"><textarea name="note" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
+        </div>
 
-            <div class="item">
-                <div class="txt"><i>*</i>发货日期：</div>
-                <div class="cnt"><div class="ipt-wrap"><input type="text" name="date" class="ipt" value="" onclick="laydate()"></div></div>
-            </div>
-            <div class="item">
-                <div class="txt">发货单据：</div>
-                <div class="cnt cnt-mul">
-                    <span class="thumb up-img x1" id="imgCrop"></span>
-                    <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
-                </div>
-            </div>
-
-            <div class="button">
-                <button type="submit" class="ubtn ubtn-blue">确认</button>
-                <button type="button" class="ubtn ubtn-gray">关闭</button>
+        <div class="item">
+            <div class="txt"><i>*</i>发货日期：</div>
+            <div class="cnt"><div class="ipt-wrap"><input type="text" name="date" class="ipt" value="" onclick="laydate()"></div></div>
+        </div>
+        <div class="item">
+            <div class="txt">发货单据：</div>
+            <div class="cnt cnt-mul">
+                <span class="thumb up-img x1" id="imgCrop"></span>
+                <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
             </div>
         </div>
-    </form>
 
-<!-- 上传图片文本域 -->
-<div id="imgCropWrap"></div>
+        <div class="button">
+            <button type="submit" class="ubtn ubtn-blue">确认</button>
+            <button type="button" class="ubtn ubtn-gray">关闭</button>
+        </div>
+    </div>
+</form>
 
 <script src="assets/js/jquery191.js"></script>
 <script src="assets/js/common.js"></script>

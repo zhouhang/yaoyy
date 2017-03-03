@@ -1,93 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>专场详情-boss</title>
-    <#include "./common/meta.ftl"/>
+<#include "./common/meta.ftl"/>
+<title>专场详情-药优优</title>
 </head>
-<body class='wrapper'>
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
 
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>专场广告</li>
-            <li>专场详情</li>
-        </ul>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>专场广告</li>
+                <li>专场详情</li>
+            </ul>
+        </div>
+
+        <form action="special/save" id="myform" method="post">
+            <input type="hidden"  class="ipt" value="${special.id?default('')}" name="id" id="cId">
+            <div class="box fa-form">
+                <div class="item">
+                    <div class="txt"><i>*</i>标题：</div>
+                    <div class="cnt">
+                        <input type="text" name="title" value="${special.title?default('')}" class="ipt" placeholder="标题" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>专场图片：</div>
+                    <div class="cnt cnt-mul">
+                        <div class="thumb up-img x3">
+                            <#if special.pictuerUrl??>
+                                <img src="${special.pictuerUrl?default('')}" /><i class="del"></i>
+                            </#if>
+                            <!-- <img src="images/blank.gif"><i class="del"></i> -->
+                        </div>
+                        <input type="hidden" value="${special.pictuerUrl?default('')}" name="pictuerUrl" id="pictuerUrl">
+                        <span class="tips">图片尺寸：750 X 400</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>添加商品：</div>
+                    <div class="cnt">
+                        <div class="choose" id="chooseGoods">
+                          <#if commodities??>
+                            <#list commodities as commodity>
+                                <span>${commodity.name}  ${commodity.spec}<i data-id="${commodity.id}"></i></span>
+                            </#list>
+                          </#if>
+                        </div>
+                        <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
+                        <input type="hidden" name="commodities" id="goodsName" value="${ids?default('')}">
+                        <div class="cnt-table table hide" id="goodsSuggestions">
+                            <table class="suggestions">
+                                <thead>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>规格</th>
+                                        <th>价格</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">排序：</div>
+                    <div class="cnt">
+                        <input type="text" value="${special.sort?default('')}" name="sort" class="ipt" placeholder="数字越大越靠前" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">上/下架：</div>
+                    <div class="cnt">
+                        <select name="status" id="status" class="slt">
+                            <option value="1"<#if special.status??&&special.status==1 >selected</#if>>上架</option>
+                            <option value="0" <#if special.status??&&special.status==0 >selected</#if>>下架</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存</button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <form action="special/save" id="myform" method="post">
-        <input type="hidden"  class="ipt" value="${special.id?default('')}" name="id" id="cId">
-        <div class="box fa-form">
-            <div class="item">
-                <div class="txt"><i>*</i>标题：</div>
-                <div class="cnt">
-                    <input type="text" name="title" value="${special.title?default('')}" class="ipt" placeholder="标题" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>专场图片：</div>
-                <div class="cnt cnt-mul">
-                    <div class="thumb up-img x3">
-                        <#if special.pictuerUrl??>
-                            <img src="${special.pictuerUrl?default('')}" /><i class="del"></i>
-                        </#if>
-                        <!-- <img src="images/blank.gif"><i class="del"></i> -->
-                    </div>
-                    <input type="hidden" value="${special.pictuerUrl?default('')}" name="pictuerUrl" id="pictuerUrl">
-                    <span class="tips">图片尺寸：750 X 400</span>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt"><i>*</i>添加商品：</div>
-                <div class="cnt">
-                    <div class="choose" id="chooseGoods">
-                      <#if commodities??>
-                        <#list commodities as commodity>
-                            <span>${commodity.name}  ${commodity.spec}<i data-id="${commodity.id}"></i></span>
-                        </#list>
-                      </#if>
-                    </div>
-                    <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
-                    <input type="hidden" name="commodities" id="goodsName" value="${ids?default('')}">
-                    <div class="cnt-table hide" id="goodsSuggestions">
-                        <table class="suggestions">
-                            <thead>
-                                <tr>
-                                    <th>名称</th>
-                                    <th>规格</th>
-                                    <th>价格</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">排序：</div>
-                <div class="cnt">
-                    <input type="text" value="${special.sort?default('')}" name="sort" class="ipt" placeholder="数字越大越靠前" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">上/下架：</div>
-                <div class="cnt">
-                    <select name="status" id="status" class="slt">
-                        <option value="1"<#if special.status??&&special.status==1 >selected</#if>>上架</option>
-                        <option value="0" <#if special.status??&&special.status==0 >selected</#if>>下架</option>
-                    </select>
-                </div>
-            </div>
-            <div class="ft">
-                <button type="button" class="ubtn ubtn-blue" id="jsubmit">保存</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<#include "./common/footer.ftl"/>
+    <#include "./common/footer.ftl"/>
 
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/js/croppic.min.js"></script>
@@ -119,12 +120,15 @@
 
                 // 图片裁剪弹层框
                 $('.up-img').on('click', function() {
+                    if (isMobile) {
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                        return;
+                    }
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['810px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传专场图片',
                         cancel: function() {
@@ -211,17 +215,22 @@
                     $goodsSuggestions.hide();
                 })
 
+                var _enable = true;
                 $("#jsubmit").on('click',function(){
-                    $.ajax({
-                        url: _global.v.saveUrl,
-                        type: "POST",
-                        data: $("#myform").serialize(),
-                        success: function(data) {
-                            if (data.status == "200") {
-                                location.href="special/list"
+                    if (_enable) {
+                        $.ajax({
+                            url: _global.v.saveUrl,
+                            type: "POST",
+                            data: $("#myform").serialize(),
+                            success: function(data) {
+                                if (data.status == "200") {
+                                    location.href="special/list"
+                                }
+                                _enable = true;
                             }
-                        }
-                    })
+                        })
+                    }
+                    _enable = false;
                 })
 
                 // 添加商品
@@ -233,8 +242,7 @@
                         $.notify({
                             type: 'error',
                             title: '商品添加失败',
-                            text: '此商品已在添加列表',
-                            delay: 3e3
+                            text: '此商品已在添加列表'
                         });
                     } else {
                         vals.push(id);

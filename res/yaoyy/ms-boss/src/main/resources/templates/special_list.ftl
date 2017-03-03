@@ -1,82 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>专场列表-boss</title>
-    <#include "./common/meta.ftl"/>
+<#include "./common/meta.ftl"/>
+<title>专场列表-药优优</title>
 </head>
-<body class='wrapper'>
+<body>
+<div class="wrapper">
 
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>专场广告</li>
-            <li>专场列表</li>
-        </ul>
-    </div>
-
-    <div class="box">
-        <div class="tools">
-            <div class="filter">
-                <form action="" id="searchForm">
-                    <input type="text" class="ipt"  name="title" value="${specialVo.title?default('')}" placeholder="标题">
-                    <button type="button" id="search" class="ubtn ubtn-blue">搜索</button>
-                </form>
-            </div>
-
-            <div class="action-add">
-                <a href="special/create" class="ubtn ubtn-blue">新建专场</a>
-            </div>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>专场广告</li>
+                <li>专场列表</li>
+            </ul>
         </div>
 
-        <div class="table">
-            <table>
-                <thead>
-                <tr>
-                    <th><input type="checkbox"></th>
-                    <th>标题</th>
-                    <th>链接</th>
-                    <th>排序</th>
-                    <th width="150">创建时间</th>
-                    <th width="150">修改时间</th>
-                    <th width="230" class="tc">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list  specialVoPageInfo.list as special>
-                <tr <#if special.status==0>class="gray"</#if>>
-                    <td><input type="checkbox"></td>
-                    <td>${special.title}</td>
-                    <td>${bizBaseUrl}special/${special.id}</td>
-                    <td>${special.sort!}</td>
-                    <td>${(special.createTime?datetime)!}</td>
-                    <td>${(special.updateTime?datetime)!}</td>
-                    <td class="tc">
-                        <a href="special/edit/${special.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
-                        <a href="#" class="ubtn ubtn-gray jdel" sid="${special.id?c}">删除</a>
-                        <a href="#" class="ubtn ubtn-gray jputaway" sid="${special.id?c}" status="${special.status}">
-                            <#if special.status==0>
-                                上架
-                            <#else>
-                                下架
-                            </#if>
+        <div class="box">
+            <div class="tools">
+                <div class="filter">
+                    <form action="" id="searchForm">
+                        <input type="text" class="ipt"  name="title" value="${specialVo.title?default('')}" placeholder="标题">
+                        <button type="button" id="search" class="ubtn ubtn-blue">搜索</button>
+                    </form>
+                </div>
 
-                        </a>
-                    </td>
-                </tr>
-                </#list>
-                </tbody>
-            </table>
+                <div class="action-add">
+                    <a href="special/create" class="ubtn ubtn-blue">新建专场</a>
+                </div>
+            </div>
+
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>标题</th>
+                        <th>链接</th>
+                        <th>排序</th>
+                        <th width="150">创建时间</th>
+                        <th width="150">修改时间</th>
+                        <th width="230" class="tc">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list  specialVoPageInfo.list as special>
+                    <tr <#if special.status==0>class="gray"</#if>>
+                        <td><input type="checkbox"></td>
+                        <td>${special.title}</td>
+                        <td>${bizBaseUrl}special/${special.id}</td>
+                        <td>${special.sort!}</td>
+                        <td>${(special.createTime?datetime)!}</td>
+                        <td>${(special.updateTime?datetime)!}</td>
+                        <td class="tc">
+                            <a href="special/edit/${special.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
+                            <a href="#" class="ubtn ubtn-gray jdel" sid="${special.id?c}">删除</a>
+                            <a href="#" class="ubtn ubtn-gray jputaway" sid="${special.id?c}" status="${special.status}">
+                                <#if special.status==0>
+                                    上架
+                                <#else>
+                                    下架
+                                </#if>
+
+                            </a>
+                        </td>
+                    </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+
+        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=specialVoPageInfo url="special/list" params=specialVoParams />
         </div>
-
-    <#import "./module/pager.ftl" as pager />
-    <@pager.pager info=specialVoPageInfo url="special/list" params=specialVoParams />
     </div>
-</div>
 
-<#include "./common/footer.ftl"/>
+    <#include "./common/footer.ftl"/>
 
 <script>
     var _global = {

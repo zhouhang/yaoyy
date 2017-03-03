@@ -1,39 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <base href="${baseUrl}"/>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>修改密码-boss</title>
-    <meta name="renderer" content="webkit" />
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-    <style>
-        body,form{margin:0;padding:0;}
-        body,button,input{background:#fff;font:14px/1.5 arial,tahoma,'Microsoft Yahei','\5b8b\4f53';color:#333}
-        body{background:#fff;}
-        ::-ms-clear,::-ms-reveal{display:none;}
-        .fa-form{width:470px;padding-top:30px;font-size:12px;}
-        .fa-form .item{position:relative;margin-bottom:20px;padding-left:140px;}
-        .fa-form .txt{position:absolute;top:0;left:0;width:130px;line-height:32px;color:#999;text-align:right;}
-        .fa-form .txt i{margin-right:6px;color:#d74141;vertical-align:middle;font:700 14px tahoma;}
-        .fa-form .cnt{position:relative;min-height:32px;line-height:32px;margin-bottom:10px;}
-        .fa-form .cnt em{margin:0 4px;}
-        .fa-form .cnt .ipt{width:220px;height:30px;line-height:30px;padding:0 10px;font-size:12px;border:1px solid #ccc;}
-        .fa-form .msg-box{position:absolute;top:33px;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;}
-        .fa-form .msg-box:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
-        .fa-form .msg-box .error{color:#fff;}
-        .fa-form .button{padding:10px 30px 0 0;text-align:center;}
-        .fa-form .button .ubtn{display:inline-block;min-width:80px;height:34px;margin-left:10px;font-size:12px;cursor:pointer;border:1px solid #ccc;border-radius:2px;}
-        .fa-form .button .ubtn:hover{text-decoration:none;opacity:.9;}
-        .fa-form .button .ubtn-blue{color:#fff;background:#23c0fa;border-color:#23c0fa;}
-        .fa-form .button .ubtn-gray{color:#333;background:#e7e7e7;}
-    </style>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<title>修改密码-药优优</title>
+<meta name="renderer" content="webkit" >
+<base href="${baseUrl}"/>
+<link type="image/x-icon" rel="shortcut icon" href="assets/images/favicon.ico" />
+<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/style.css" />
+<style>
+body,form{margin:0;padding:0;}
+body,button,input{background:#fff;font:14px/1.5 arial,tahoma,'Microsoft Yahei','\5b8b\4f53';color:#333}
+body{background:#fff;}
+::-ms-clear,::-ms-reveal{display:none;}
+.fa-form{width:470px;padding-top:30px;font-size:12px;}
+.fa-form .item{position:relative;margin-bottom:20px;padding-left:140px;}
+.fa-form .txt{position:absolute;top:0;left:0;width:130px;line-height:32px;color:#999;text-align:right;}
+.fa-form .txt i{margin-right:6px;color:#d74141;vertical-align:middle;font:700 14px tahoma;}
+.fa-form .cnt{position:relative;min-height:32px;line-height:32px;margin-bottom:10px;}
+.fa-form .cnt em{margin:0 4px;}
+.fa-form .cnt .ipt{width:220px;height:30px;line-height:30px;padding:0 10px;font-size:12px;border:1px solid #ccc;}
+.fa-form .msg-box{position:absolute;top:33px;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;}
+.fa-form .msg-box:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
+.fa-form .msg-box .error{color:#fff;}
+.fa-form .button{padding:10px 30px 0 0;text-align:center;}
+.fa-form .button .ubtn{display:inline-block;min-width:80px;height:34px;margin-left:10px;font-size:12px;cursor:pointer;border:1px solid #ccc;border-radius:2px;}
+.fa-form .button .ubtn:hover{text-decoration:none;opacity:.9;}
+.fa-form .button .ubtn-blue{color:#fff;background:#23c0fa;border-color:#23c0fa;}
+.fa-form .button .ubtn-gray{color:#333;background:#e7e7e7;}
+@media (max-width:767px){
+.fa-form{width:auto;padding:0 15px;}
+.fa-form .txt{position:static;text-align:left;}
+.fa-form .item{margin:0;padding:0;}
+.fa-form .cnt .ipt{width:100%;-webkit-box-sizing:border-box;box-sizing:border-box;}
+}
+</style>
 </head>
 
 <body>
 <form id="myform">
-    <div class="fa-form">
+    <div class="fa-form fa-form-layer">
         <div class="item">
             <div class="txt"><i>*</i>原密码：</div>
             <div class="cnt">

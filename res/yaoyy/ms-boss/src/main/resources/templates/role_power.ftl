@@ -1,53 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>角色详情-boss</title>
 <#include "./common/meta.ftl"/>
+<link rel="stylesheet" href="assets/plugins/zTreeStyle/jquery.ztree.css" />
+<title>角色详情-药优优</title>
 </head>
-<body class='wrapper'>
+<body>
+<div class="wrapper">
+    <#include "./common/header.ftl"/>
+    <#include "./common/aside.ftl"/>
 
-<#include "./common/header.ftl"/>
-<#include "./common/aside.ftl"/>
-
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>账号权限</li>
-            <li>角色详情</li>
-        </ul>
-    </div>
-
-    <form id="myform">
-        <div class="box fa-form">
-            <div class="hd">基本信息</div>
-            <div class="item">
-                <input type="hidden" name="roleId" id="roleId" value="<#if role??>${role.id}</#if>">
-                <div class="txt"><i>*</i>角色名称：</div>
-                <div class="cnt">
-                    <input type="text" value="<#if role??>${role.name!}</#if>" name="rolename" id="jrolename" class="ipt" placeholder="角色名称" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">角色描述：</div>
-                <div class="cnt">
-                    <input type="text" value="<#if role??>${role.description!}</#if>" name="roledescription" id="jroledescription" class="ipt" placeholder="角色描述" autocomplete="off">
-                </div>
-            </div>
-            <div class="item">
-                <div class="txt">资源：</div>
-                <div class="cnt">
-                    <ul id="powerTree" class="ztree"></ul>
-                </div>
-            </div>
-            <div class="ft">
-                <button type="button" class="ubtn ubtn-blue" id="jsubmit">保存</button>
-            </div>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>账号权限</li>
+                <li>角色详情</li>
+            </ul>
         </div>
 
-    </form>
-</div>
+        <form id="myform">
+            <div class="box fa-form">
+                <div class="hd">基本信息</div>
+                <div class="item">
+                    <input type="hidden" name="roleId" id="roleId" value="<#if role??>${role.id}</#if>">
+                    <div class="txt"><i>*</i>角色名称：</div>
+                    <div class="cnt">
+                        <input type="text" value="<#if role??>${role.name!}</#if>" name="rolename" id="jrolename" class="ipt" placeholder="角色名称" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">角色描述：</div>
+                    <div class="cnt">
+                        <input type="text" value="<#if role??>${role.description!}</#if>" name="roledescription" id="jroledescription" class="ipt" placeholder="角色描述" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">资源：</div>
+                    <div class="cnt">
+                        <ul id="powerTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue" id="jsubmit">保存</button>
+                </div>
+            </div>
 
-<#include "./common/footer.ftl"/>
+        </form>
+    </div>
+
+    <#include "./common/footer.ftl"/>
 
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script src="assets/plugins/zTreeStyle/jquery.ztree.min.js"></script>
@@ -135,23 +136,15 @@
                                         type: 'success',
                                         title: '保存成功',
                                         text: '权限保存成功!',
-                                        delay: 3e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                                location.href = '/role/index';
-                                            }, 3e3);
+                                        callback: function() {
+                                            location.href = '/role/index';
                                         }
                                     });
                                     return false;
                                 }
                             }
-
                         });
-
-
                     }})
-
-
             }, // 表单
             myform: function() {
                 // 表单验证
@@ -160,10 +153,7 @@
                         rolename: '角色名称: required'
                     }
                 });
-
             }
-
-
         }
     }
 
