@@ -98,6 +98,7 @@
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 layer.config({
+    moveType: 1,
     success : function() {
         isMobile && $('body').addClass('no-scroll');
     },
@@ -156,7 +157,11 @@ layer.config({
                 $modal.remove();            
             });
         }
-        typeof options.call === 'function' && options.call();
+        if (typeof settings.callback === 'function') {
+            setTimeout(function() {
+                settings.callback();
+            }, settings.delay)
+        }
     };
 
     // 点击关闭

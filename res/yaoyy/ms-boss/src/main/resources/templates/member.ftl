@@ -148,57 +148,48 @@
                 },
                 // 管理员新建 or 编辑
                 addNewAdmin: function() {
-                    var $adminForm = $('#myform'),
-                            self = this;
+                    var self = this,
+                        _enable = true,
+                        $myform = $('#myform');
 
-                    $adminForm.validator({
+                    $myform.validator({
                         fields: {
                             username: '用户名: required',
                             name: '姓名: required',
                             mobile: '电话: required; mobile'
                         },
                         valid: function (form) {
-                            if ( $adminForm.isValid() ) {
-                                $.ajax({
-                                    url: "/member/save",
-                                    data: $adminForm.formSerialize(),
-                                    type: "POST",
-                                    success: function(result){
-                                        layer.closeAll();
-                                        if (result.status == "200") {
-                                            $.notify({
-                                                type: 'success',
-                                                title: '保存成功',
-                                                text: result.msg,
-                                                delay: 3e3,
-                                                call: function() {
-                                                    setTimeout(function() {
-                                                        location.href = "/member/index";
-                                                    }, 3e3);
-                                                }
-                                            });
-                                            return false;
+                            _enable && $.post('/member/save', $myform.serialize()).done(function(d){
+                                if (d.status == 200) {
+                                    layer.closeAll();
+                                    $.notify({
+                                        type: 'success',
+                                        title: '保存成功',
+                                        text: d.msg,
+                                        callback: function() {
+                                            location.href = '/member/index';
                                         }
-                                    }
-                                });
-                            }
+                                    });
+                                }
+                                _enable = true;
+                            });
+                            _enable = false;
                         }
                     });
 
                     // 关闭弹层
-                    $adminForm.on('click', '.ubtn-gray', function () {
+                    $myform.on('click', '.ubtn-gray', function () {
                         layer.closeAll();
                     })
 
                     // 新建
                     $('#jaddNewAdmin').on('click', function() {
-                        $adminForm[0].reset();
+                        $myform[0].reset();
                         layer.open({
-                            skin: 'layer-form',
+                            skin: isMobile ? 'layer-form' : '',
                             area: ['600px'],
                             type: 1,
-                            moveType: 1,
-                            content: $adminForm,
+                            content: $myform,
                             title: '新建管理员'
                         });
                     })
@@ -221,7 +212,7 @@
                             return false;
                         }
                         _global.v.flag = true;
-                        $adminForm[0].reset();
+                        $myform[0].reset();
                         self.showinfo($(this).data('id'));
                         return false; // 阻止链接跳转
                     })
@@ -239,10 +230,9 @@
                         $adminForm.find('.ipt[name="email"]').val(data.member.email);
                         layer.closeAll();
                         layer.open({
-                            skin: 'layer-form',
+                            skin: isMobile ? 'layer-form' : '',
                             area: ['600px'],
                             type: 1,
-                            moveType: 1,
                             content: $adminForm,
                             title: '编辑管理员'
                         });
@@ -263,7 +253,6 @@
                     layer.open({
                         area: ['200px'],
                         type: 1,
-                        moveType: 1,
                         content: '<div class="layer-loading">加载中...</div>',
                         title: '编辑管理员',
                         cancel: function() {

@@ -390,12 +390,7 @@
                             if (data.status == "200") {
                                 $.notify({
                                     type: 'success',
-                                    title: '保存成功',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '保存成功'
                                 });
                             }
 
@@ -410,11 +405,10 @@
                     $temp = $('#temp');
 
             $('#submit2').on('click', function() {
-                layer.open({                    
-                    skin: 'layer-form',
+                layer.open({      
+                    skin: isMobile ? 'layer-form' : '',        
                     area: ['600px'],
                     type: 1,
-                    moveType: 1,
                     content: $temp,
                     title: '物流清单'
                 });

@@ -240,13 +240,6 @@
                         var data = $(form).serializeObject();
                         $.post(_global.v.saveUrl,data, function (data) {
                             if(data.status == 200) {
-//                                $.notify({
-//                                    type: 'success',
-//                                    title: '保存成功',
-//                                    text: data.msg,
-//                                    delay: 3e3
-//                                });
-                                layer.closeAll();
                                 window.location.reload(true);
                             }
                         })
@@ -266,10 +259,9 @@
                     $advForm[0].reset();
                     $advForm.find('.slt[name="typeId"]').trigger('change');
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: $advForm,
                         title: '新建广告'
                     });
@@ -306,10 +298,9 @@
                     $('#pictureUrl').val(data.pictureUrl);
                     layer.closeAll();
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: $advForm,
                         title: '编辑广告'
                     });
@@ -332,7 +323,6 @@
                 layer.open({
                     area: ['200px'],
                     type: 1,
-                    moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
                     title: '编辑广告',
                     cancel: function() {

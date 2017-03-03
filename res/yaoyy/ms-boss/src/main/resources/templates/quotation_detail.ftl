@@ -155,11 +155,11 @@
                                 if (result.status == "200") {
                                     $.notify({
                                         type: 'success',
-                                        title: '操作成功'
+                                        title: '操作成功',
+                                        callback: function() {
+                                            location.href = '/quotation/list';
+                                        }
                                     });
-                                    setTimeout(function() {
-                                        location.href = '/quotation/list';
-                                    }, 1e3);
                                 }
                                 _enable = true;
                             }
@@ -361,10 +361,9 @@
                     model.unshift('<div class="group-choose"><ul>');
                     model.push('</ul></div>');
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: model.join(''),
                         title: '添加规格'
                     });
@@ -400,7 +399,6 @@
                 layer.open({
                     area: ['200px'],
                     type: 1,
-                    moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
                     title: '添加规格',
                     cancel: function() {

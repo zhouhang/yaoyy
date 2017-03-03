@@ -83,11 +83,11 @@
                             if (d.status == 200) {
                                 $.notify({
                                     type: 'success',
-                                    title: '保存成功'
+                                    title: '修改成功',
+                                    callback: function() {
+                                        location.href = '/cms/list';
+                                    }
                                 });
-                                setTimeout(function() {
-                                    location.href = '/cms/list';
-                                }, 1e3);
                             }
                             _enable = true;
                         });

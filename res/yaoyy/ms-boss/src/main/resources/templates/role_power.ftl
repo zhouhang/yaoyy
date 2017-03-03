@@ -136,11 +136,8 @@
                                         type: 'success',
                                         title: '保存成功',
                                         text: '权限保存成功!',
-                                        delay: 3e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                                location.href = '/role/index';
-                                            }, 3e3);
+                                        callback: function() {
+                                            location.href = '/role/index';
                                         }
                                     });
                                     return false;

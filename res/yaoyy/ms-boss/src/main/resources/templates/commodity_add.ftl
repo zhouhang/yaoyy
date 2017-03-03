@@ -392,11 +392,11 @@
                     if (data.status == 200) {
                         $.notify({
                             type: 'success',
-                            title: '保存成功'
+                            title: '添加成功',
+                            callback: function() {
+                                location.href = '/commodity/list';
+                            }
                         });
-                        setTimeout(function () {
-                            location.href = '/commodity/list';
-                        }, 1e3);
                     }
                     $("#jsubmit").prop("disabled", false);
                 })
@@ -417,12 +417,15 @@
 
                 // 缩略图
                 $('#jpic1').on('click', function () {
+                    if (isMobile) {
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                        return;
+                    }
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['500px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x4" id="imgCrop"></div></div>',
                         title: '上传商品缩略图片',
                         cancel: function() {
@@ -434,12 +437,15 @@
 
                 // 商品图
                 $('#jpic2').on('click', function () {
+                    if (isMobile) {
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                        return;
+                    }
                     layer.open({
                         skin: 'layui-layer-molv',
                         area: ['810px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传商品图片',
                         cancel: function() {

@@ -234,21 +234,9 @@
                             data: {pickId: ${pickVo.id},recordType:5},
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    operator: 'frank',
-                                    date: '2016年10月20日 15:20',
-                                    msg: text
-                                }
-                                $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意寄样</span></li><li><span>同意理由：' + data.msg + '</span></li>');
-                                $('.submit2').parent().remove();
-                                $('.submit3').parent().show();
-                                */
                                 window.location.reload();
                             }
                         })
-                        //$('#traceForm').remove();
-                        //layer.close(index);
                     });
                 })
                 // 交易未完成
@@ -281,7 +269,6 @@
             // 拒绝受理
             submit2: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '拒绝原因',
                     btn: ['拒绝', '关闭']
@@ -291,15 +278,6 @@
                         data: {pickId: ${pickVo.id},recordType:2,extra:"不同意理由："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>拒绝受理该采购单</span></li><li><span>拒绝理由：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                            */
                             window.location.reload();
                         }
                     })
@@ -309,7 +287,6 @@
             // 交易未完成
             submit5: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '取消原因',
                     btn: ['确认', '关闭']
@@ -319,15 +296,6 @@
                         data: {pickId: ${pickVo.id},recordType:4,extra:"原因："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>交易未完成</span></li><li><span>原因：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                            */
                             window.location.reload();
                         }
                     })
@@ -337,10 +305,9 @@
             // 表单
             layerForm: function(modal, title) {
                 layer.open({
-                    skin: 'layer-form',
+                    skin: isMobile ? 'layer-form' : '',
                     area: ['600px'],
                     type: 1,
-                    moveType: 1,
                     content: modal,
                     title: title
                 });
@@ -368,12 +335,7 @@
                     if (data.status == "200") {
                         $.notify({
                             type: 'success',
-                            title: '保存成功',
-                            delay: 3e3,
-                            call: function() {
-                                setTimeout(function() {
-                                }, 3e3);
-                            }
+                            title: '保存成功'
                         });
                     }
 

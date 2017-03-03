@@ -189,10 +189,9 @@
                     html.push('</div>');
                     layer.closeAll();
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
-                        type: 1,
-                        moveType: 1,
+                        type: 1,                        
                         content: html.join(''),
                         title: '用户详情'
                     });
@@ -217,7 +216,6 @@
                 layer.open({
                     area: ['200px'],
                     type: 1,
-                    moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
                     title: '用户详情',
                     cancel: function() {

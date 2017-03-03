@@ -351,24 +351,14 @@
                             if(parseInt(billTime)<7){
                                 $.notify({
                                     type: 'error',
-                                    title: '账期不得少于七天',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '账期不得少于七天'
                                 });
                                 return;
                             }
                             if(settleType=='1'&&parseFloat(deposit)<=0){
                                 $.notify({
                                     type: 'error',
-                                    title: '保证金不能为0',
-                                    delay: 3e3,
-                                    call: function() {
-                                        setTimeout(function() {
-                                        }, 3e3);
-                                    }
+                                    title: '保证金不能为0'
                                 });
                                 return;
                             }
@@ -406,12 +396,7 @@
                                 if (data.status == "200") {
                                     $.notify({
                                         type: 'success',
-                                        title: '保存成功',
-                                        delay: 3e3,
-                                        call: function() {
-                                            setTimeout(function() {
-                                            }, 3e3);
-                                        }
+                                        title: '保存成功'
                                     });
                                 }
 

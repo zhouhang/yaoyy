@@ -342,8 +342,7 @@
                         $.notify({
                             type: 'error',
                             title: '商品添加失败',
-                            text: '此商品已在添加列表',
-                            delay: 3e3
+                            text: '此商品已在添加列表'
                         });
                     } else {
                         vals.push(id);
@@ -461,18 +460,6 @@
                             data:  $.param({sendId: ${sendSampleVo.id},recordType:3}) + '&' +$expressForm.serialize(),
                             type: "POST",
                             success: function(data) {
-                                /*
-                                data = {
-                                    date: '2016年10月20日 15:20',
-                                    operator: 'frank',
-                                    express: '顺丰快递',
-                                    expressNum: '11454114141'
-                                }
-                                self.addNewRevord(data);
-                                $('.submit3').parent().remove();
-                                $('#traceForm').show();
-                                layer.closeAll();
-                                */
                                 window.location.reload();
                             }
                         })
@@ -512,7 +499,6 @@
             // 同意寄样
             submit1: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '同意原因',
                     btn: ['同意', '关闭']
@@ -522,16 +508,6 @@
                         data: {sendId: ${sendSampleVo.id},recordType:1,extra:"同意理由："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>同意寄样</span></li><li><span>同意理由：' + data.msg + '</span></li>');
-                            $('.submit2').parent().remove();
-                            $('.submit3').parent().show();
-                            */
                             window.location.reload();
                         }
                     })
@@ -541,7 +517,6 @@
             // 拒绝寄样
             submit2: function() {
                 layer.prompt({
-                    moveType: 1,
                     formType: 2,
                     title: '拒绝原因',
                     btn: ['拒绝', '关闭']
@@ -551,15 +526,6 @@
                         data: {sendId: ${sendSampleVo.id},recordType:2,extra:"不同意理由："+text},
                         type: "POST",
                         success: function(data) {
-                            /*
-                            data = {
-                                operator: 'frank',
-                                date: '2016年10月20日 15:20',
-                                msg: text
-                            }
-                            $('#trace').append('<li><span>' + data.date + '</span><span>操作人：' + data.operator + '</span><span>拒绝寄样</span></li><li><span>拒绝理由：' + data.msg + '</span></li>');
-                            $('#trace').nextAll().remove();
-                            */
                             window.location.reload();
                         }
                     })
@@ -569,10 +535,9 @@
             // 表单
             layerForm: function(modal, title) {
                 layer.open({
-                    skin: 'layer-form',
+                    skin: isMobile ? 'layer-form' : '',
                     area: ['600px'],
                     type: 1,
-                    moveType: 1,
                     content: modal,
                     title: title
                 });

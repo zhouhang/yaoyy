@@ -76,15 +76,15 @@
                         }
                     },
                     valid: function() {
-                         _enable &&$.post('/cms/save', $myform.serialize()).done(function(d){
+                         _enable && $.post('/cms/save', $myform.serialize()).done(function(d){
                             if (d.status == 200) {
                                 $.notify({
                                     type: 'success',
-                                    title: '保存成功'
+                                    title: '添加成功',
+                                    callback: function() {
+                                        location.href = '/cms/list';
+                                    }
                                 });
-                                setTimeout(function() {
-                                    location.href = '/cms/list';
-                                }, 1e3);
                             }
                             _enable = true;
                         });

@@ -155,11 +155,11 @@
                             if (d.status == 200) {
                                 $.notify({
                                     type: 'success',
-                                    title: '操作成功'
+                                    title: '操作成功',
+                                    callback: function() {
+                                        location.href = '/supplier/list';
+                                    }
                                 });
-                                setTimeout(function() {
-                                    location.href = '/supplier/list';
-                                }, 1e3);
                             }
                             _enable = true;
                         });
@@ -204,8 +204,7 @@
                             $.notify({
                                 type: 'error',
                                 title: '商品添加失败',
-                                text: '此商品已在添加列表',
-                                delay: 3e3
+                                text: '此商品已在添加列表'
                             });
                         } else {
                             vals.push(id);

@@ -98,6 +98,7 @@
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 layer.config({
+    moveType: 1,
     success : function() {
         isMobile && $('body').addClass('no-scroll');
     },
@@ -109,7 +110,7 @@ layer.config({
 !(function($){
     var defaults = {
         clickToHide: true   // 点击关闭
-        ,delay: 3e3         // 3秒后自动关闭，为0时不关闭
+        ,delay: 1e3         // 1秒后自动关闭，为0时不关闭
         ,title: '提示消息'  // 文字
         ,text: ''           // 说明
         ,type: 'warn'       // 类型：错误(error)，正确(success)，警告(warn)
@@ -156,7 +157,11 @@ layer.config({
                 $modal.remove();            
             });
         }
-        typeof options.call === 'function' && options.call();
+        if (typeof settings.callback === 'function') {
+            setTimeout(function() {
+                settings.callback();
+            }, settings.delay)
+        }
     };
 
     // 点击关闭

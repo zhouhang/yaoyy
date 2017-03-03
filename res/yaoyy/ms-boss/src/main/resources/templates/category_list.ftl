@@ -260,10 +260,9 @@
                     $carForm[0].reset();
                     $carForm.attr("action",_global.v.saveUrl);
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: $carForm,
                         title: '新建品种'
                     });
@@ -301,10 +300,9 @@
                     $('#pictureUrl').val(data.pictureUrl);
                     layer.closeAll();
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: $carForm,
                         title: '编辑品种'
                     });
@@ -328,7 +326,6 @@
                 layer.open({
                     area: ['200px'],
                     type: 1,
-                    moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
                     title: '编辑品种',
                     cancel: function() {

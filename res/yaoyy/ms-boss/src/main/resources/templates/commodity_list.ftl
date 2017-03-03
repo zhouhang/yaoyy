@@ -189,33 +189,29 @@
                 })
 
                 // 关闭弹层
-                $('#myform').on('click', '.ubtn-gray', function () {
-                            layer.closeAll();
-                        }).validator({
-                            fields: {
-                                price: '价格: required; range(1~9999)'
-                            },
-                            valid: function (form) {
-                                var data = $(form).serializeObject();
-                                $.post(_global.v.updatePriceUrl,data, function(data){
-                                    if (data.status == 200) {
-                                        $.notify({
-                                            type: 'success',
-                                            title: '成功',
-                                            text: '商品调价成功',
-                                            delay: 2e3,
-                                            call: function() {
-                                                // 关闭弹层
-                                                layer.closeAll();
-                                                setTimeout(function() {
-                                                    location.reload();
-                                                }, 2e3);
-                                            }
-                                        });
+                $('#myform').on('click', '.ubtn-gray', function() {
+                    layer.closeAll();
+                }).validator({
+                    fields: {
+                        price: '价格: required; range(1~9999)'
+                    },
+                    valid: function (form) {
+                        var data = $(form).serializeObject();
+                        $.post(_global.v.updatePriceUrl,data, function(data){
+                            if (data.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '成功',
+                                    text: '商品调价成功',
+                                    callback: function() {
+                                        window.location.reload(true);
                                     }
-                                })
+                                });
+                                layer.closeAll();
                             }
-                        });
+                        })
+                    }
+                });
                 _global.fn.filter();
             },
             // 筛选
@@ -253,10 +249,9 @@
 
                     layer.closeAll();
                     layer.open({
-                        skin: 'layer-form',
+                        skin: isMobile ? 'layer-form' : '',
                         area: ['600px'],
                         type: 1,
-                        moveType: 1,
                         content: $('#myform'),
                         title: '快速调价'
                     });
@@ -280,7 +275,6 @@
                 layer.open({
                     area: ['200px'],
                     type: 1,
-                    moveType: 1,
                     content: '<div class="layer-loading">加载中...</div>',
                     title: '快速调价',
                     cancel: function() {

@@ -129,7 +129,6 @@
                         area: ['810px'],
                         closeBtn: 1,
                         type: 1,
-                        moveType: 1,
                         content: '<div class="img-upload-main"><div class="clip clip-x3" id="imgCrop"></div></div>',
                         title: '上传专场图片',
                         cancel: function() {
@@ -243,8 +242,7 @@
                         $.notify({
                             type: 'error',
                             title: '商品添加失败',
-                            text: '此商品已在添加列表',
-                            delay: 3e3
+                            text: '此商品已在添加列表'
                         });
                     } else {
                         vals.push(id);
