@@ -8,14 +8,14 @@ import java.util.Map;
  * 10/24/16.
  * 用户状态
  */
-public enum  UserEnum {
-    disable(0,"禁用"),
-    enable(1,"启用");
+public enum UserTypeEnum {
+    purchase(1,"采购商"),
+    supplier(2,"供应商");
 
     private Integer type;
     private String value;
 
-    UserEnum(Integer type, String value){
+    UserTypeEnum(Integer type, String value){
         this.type = type;
         this.value = value;
     }
@@ -24,7 +24,7 @@ public enum  UserEnum {
 
     static {
         map = new HashMap<>();
-        for (UserEnum type : UserEnum.values()) {
+        for (UserTypeEnum type : UserTypeEnum.values()) {
             map.put(type.getType(),type.getValue());
         }
     }

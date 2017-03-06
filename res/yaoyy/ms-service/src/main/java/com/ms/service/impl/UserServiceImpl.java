@@ -6,6 +6,8 @@ import com.google.common.base.Strings;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.UserDao;
 import com.ms.dao.enums.UserEnum;
+import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserVo;
@@ -77,7 +79,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	public void disable(Integer id) {
 		User user =new User();
 		user.setId(id);
-		user.setType(UserEnum.disable.getType());
+		user.setStatus(UserEnum.disable.getType());
 		userDao.update(user);
 	}
 
@@ -86,7 +88,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	public void enable(Integer id) {
 		User user =new User();
 		user.setId(id);
-		user.setType(UserEnum.enable.getType());
+		user.setStatus(UserEnum.enable.getType());
 		userDao.update(user);
 	}
 
@@ -125,7 +127,9 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		if (user == null) {
 			user = new User();
 			user.setPhone(phone);
-			user.setType(UserEnum.auto.getType());
+			user.setType(UserTypeEnum.purchase.getType());
+			user.setSource(UserSourceEnum.auto.getType());
+			user.setStatus(UserEnum.enable.getType());
 			user.setCreateTime(new Date());
 			user.setUpdateTime(new Date());
 			create(user);
@@ -159,7 +163,9 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		} else {
 			User user = new User();
 			user.setPhone(phone);
-			user.setType(UserEnum.enable.getType());
+			user.setType(UserTypeEnum.purchase.getType());
+			user.setSource(UserSourceEnum.register.getType());
+			user.setStatus(UserEnum.enable.getType());
 			user.setCreateTime(new Date());
 			user.setUpdateTime(new Date());
 			Password pass = EncryptUtil.PiecesEncode(password);
@@ -181,7 +187,9 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			user = new User();
 			user.setPhone(phone);
 			user.setOpenid(openId);
-			user.setType(UserEnum.enable.getType());
+			user.setType(UserTypeEnum.purchase.getType());
+			user.setSource(UserSourceEnum.register.getType());
+			user.setStatus(UserEnum.enable.getType());
 			user.setCreateTime(new Date());
 			user.setUpdateTime(new Date());
 			create(user);

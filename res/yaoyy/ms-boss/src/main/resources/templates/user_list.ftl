@@ -66,7 +66,7 @@
                         <td>${user.createTime?datetime}</td>
                         <td class="tc">
                             <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看</a>
-                            <#if user.type==1 || user.type==0>
+                            <#if user.status==1>
                                 <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用</a>
                             <#else>
                                 <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${user.id}">启用</a>
