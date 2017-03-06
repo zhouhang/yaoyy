@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>供应商登录-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/supplier.css">
+</head>
+<body>
+    
+    <div class="ui-content">
+        <div class="ui-form2">
+            <div class="logo">药优优</div>
+            
+            <div class="form">
+                <form action="">
+                    <div class="item">
+                        <input type="tel" class="ipt" name="mobile" id="mobile" placeholder="手机号" autocomplete="off">
+                        <span class="error"></span>
+                    </div>
+                    <div class="item">
+                        <input type="password" class="ipt" name="password" id="password" placeholder="密码" autocomplete="off">
+                        <span class="error"></span>
+                    </div>
+                    <div class="ft">
+                        <button type="submit" class="ubtn ubtn-primary" id="submit">登录</button>
+                    </div>
+                </form>
+            </div>
+                
+            <div class="bar">
+                <a href="find_password.html" class="">忘记密码？</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/zepto.min.js"></script>
+    <script src="../assets/js/layer.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.validator();
+            },
+            validator: function() {
+                var self = this;
+                $('#submit').on('click', function() {
+                    layer.open({
+                        className: 'layer-custom2'
+                        ,content: '<div class="hd">登录失败</div><div class="bd">您的账号在药优优供应商系统未激活，请联系工作人员激活或修改。</div>'
+                        ,btn: ['确定']
+                    });
+
+                    return self.checkMobile() && self.checkPassword();
+                })
+            },
+            checkMobile: function() {
+                var $el = $('#mobile'),
+                    val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入手机号码！').show();
+
+                } else if (!_YYY.verify.isMobile(val)) {
+                    $el.next().html('请输入有效的手机号！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkPassword: function() {
+                var $el = $('#password'),
+                    val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入密码！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>

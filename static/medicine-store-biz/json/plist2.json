@@ -1,0 +1,12 @@
+{
+    "status" : "success",
+    "list" : [
+        {
+        	"id": "22",
+            "title" : "三七",
+            "summary" : "云南文山三七120/80/60头  上等货洗净   无硫  长期供应",
+            "pic" : "../uploads/p5.jpg"
+        }
+    ],
+    "nomore": false
+}

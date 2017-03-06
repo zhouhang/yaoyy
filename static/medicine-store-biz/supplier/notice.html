@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>网站公告-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/supplier.css">
+</head>
+<body class="body-gray">
+    <footer class="footer">
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="price.html">
+                        <i class="cart"></i>
+                        <span>商品调价</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="order.html">
+                        <i class="menu"></i>
+                        <span>订单记录</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="news.html">
+                        <i class="msg"></i>
+                        <span>消息</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+    <div class="ui-content">
+        <div class="news">
+            <ul>
+                <li>
+                    <h3 class="title">网站维护公告</h3>
+                    <time>2017-02-28</time>
+                    <div class="summary">
+                        <a href="notice_info.html">网站与2017年2月28日16：00-19：00进行系统维护，期间不能进行下单以及，调价操作。</a>
+                    </div>
+                </li>
+                <li>
+                    <h3 class="title">中药材大会即将盛大开启</h3>
+                    <time>2017-02-27</time>
+                    <div class="summary">
+                        <a href="notice_info.html">网站与2017年2月28日16：00-19：00进行系统维护，期间不能进行下单以及，调价操作。进行系统维护，期间不能进行下单以及...</a>
+                    </div>
+                </li>
+                <li>
+                    <h3 class="title">亳州药材市场</h3>
+                    <time>2017-02-26</time>
+                    <div class="summary">
+                        <a href="notice_info.html">网站与2017年2月28日16：00-19：00进行系统维护，期间不能进行下单以及，调价操作。</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../assets/js/zepto.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/dragloader.min.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.pagesize = 0;
+                this.loadmore();
+                this.loading();
+            },
+            loading: function() {
+                var self = this,
+                    $ul = $('.news').find('ul');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '../json/news.json',
+                    dataType: 'json',
+                    data: {pagesize: self.pagesize},
+                    success: function(data){
+                        if (!data.list) {
+                            return;
+                        }
+                        var result = self.toHtml(data.list);
+                        $ul.append(result);
+                        if (data.nomore) {
+                            $('body').append('<div class="nomore">没有更多了...</div>');
+                            self.dragger.options.disableDragUp = true;
+                        }
+                        self.pagesize ++;
+                    },
+                    error: function(xhr, type){
+                        popover('网络连接超时，请您稍后重试!');
+                    },
+                    complete: function() {
+                        self.dragger.reset();
+                    }
+                });
+            },
+            loadmore: function() {
+                var self = this;
+
+                self.dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpLoadFn: function() {
+                        self.loading();
+                    }
+                });
+            },
+            toHtml: function(data) {
+                var html = [];
+                $.each(data, function(i, item) {
+                    html.push('<li>\n');
+                    html.push(         '<div class="title">', data[i].title, '</div>\n');
+                    html.push(         '<time>', data[i].date, '</time>\n');
+                    html.push(         '<div class="summary"><a href="notice_info.html">', data[i].summary, '</a></div>\n');
+                    html.push('</li>');
+                })
+                return html.join('');
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>寄卖商品-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/supplier.css">
+</head>
+<body class="body-gray">
+    <footer class="footer">
+        <nav class="nav">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        <i class="home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="price.html">
+                        <i class="cart"></i>
+                        <span>商品调价</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="order.html">
+                        <i class="menu"></i>
+                        <span>订单记录</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="news.html">
+                        <i class="msg"></i>
+                        <span>消息</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
+
+    <div class="ui-content">
+        <div class="plist2">
+            <ul>
+                <li>
+                    <div class="cnt">
+                        <div class="title">三七</div>
+                        <div class="summary">
+                            云南文山三七120/80/60头  上等货洗净   无硫  长期供应
+                        </div>
+                        <div class="price">
+                            当前价格：<em>&yen;15</em> 元/公斤<br>
+                            当前库存：200 公斤
+                        </div>
+                    </div>
+                    <div class="pic">
+                        <img src="../uploads/p5.jpg" width="110" height="90" alt="">
+                    </div>
+                </li>
+                <li>
+                    <div class="cnt">
+                        <div class="title">三七</div>
+                        <div class="summary">
+                            云南文山三七120/80/60头  上等货洗净   无硫  长期供应
+                        </div>
+                        <div class="price">
+                            当前价格：<em>&yen;15</em> 元/公斤<br>
+                            当前库存：200 公斤
+                        </div>
+                    </div>
+                    <div class="pic">
+                        <img src="../uploads/p5.jpg" width="110" height="90" alt="">
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="floor">
+            <div class="hd ico-trace">货物跟踪</div>
+            <ul id="trace">
+                <li>
+                    <span>您的商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留的毛须）以15元/公斤价格交易完成100公斤，我们会在3天之内与您结算。</span>
+                    <time>四小时前</time>
+                </li>
+                <li>
+                    <span>您的商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留毛须）被下单100公斤。</span>
+                    <time>2017-02-28</time>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../assets/js/zepto.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/dragloader.min.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.pagesize = 0;
+                this.loadmore();
+                this.loading();
+            },
+            loading: function() {
+                var self = this,
+                    $ul = $('#trace');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '../json/trace.php',
+                    dataType: 'json',
+                    data: {pagesize: self.pagesize},
+                    success: function(data){
+                        if (!data.list) {
+                            return;
+                        }
+                        var result = self.toHtml(data.list);
+                        $ul.append(result);
+                        if (data.nomore) {
+                            $('body').append('<div class="nomore">没有更多了...</div>');
+                            self.dragger.options.disableDragUp = true;
+                        }
+                        self.pagesize ++;
+                    },
+                    error: function(xhr, type){
+                        popover('网络连接超时，请您稍后重试!');
+                    },
+                    complete: function() {
+                        self.dragger.reset();
+                    }
+                });
+            },
+            loadmore: function() {
+                var self = this;
+
+                self.dragger = new DragLoader(document.body, {
+                    disableDragDown: true,
+                    dragUpLoadFn: function() {
+                        self.loading();
+                    }
+                });
+            },
+            toHtml: function(data) {
+                var html = [];
+                $.each(data, function(i, item) {
+                    html.push('<li>\n');
+                    html.push(         '<span>', data[i].text, '</span>\n');
+                    html.push(         '<time>', _YYY.timeago.elapsedTime(data[i].date), '</time>\n');
+                    html.push('</li>');
+                })
+                return html.join('');
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>
