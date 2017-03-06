@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-  	
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>供应商列表-boss</title>
+    <title>新闻公告列表-药优优</title>
     <meta name="renderer" content="webkit" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
   	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
@@ -16,8 +15,8 @@
 	<div class="content">
 		<div class="breadcrumb">
 			<ul>
-				<li>供应商管理</li>
-        		<li>供应商列表</li>
+				<li>资讯管理</li>
+        		<li>网站公告</li>
     		</ul>
 		</div>
 
@@ -25,20 +24,14 @@
 			<div class="tools">
 				<div class="filter">
 					<form action="">
-						<input type="text" class="ipt" placeholder="姓名">
-						<input type="text" class="ipt" placeholder="手机号">
-						<input type="text" class="ipt" placeholder="品种">
-						<select class="slt">
-							<option value="">是否入驻</option>
-							<option value="">是</option>
-							<option value="">否</option>
-						</select>
+						<input type="text" class="ipt" placeholder="请输入标题">
 						<button class="ubtn ubtn-blue">搜索</button>
 					</form>
 				</div>
+				
+
 				<div class="action-add">
-					<a href="supplier_edit.html" class="ubtn ubtn-blue">新建供应商</a>
-					<a href="javascript:;" class="ubtn ubtn-red">Excle导入</a>
+					<a href="news_info.html" class="ubtn ubtn-blue">新建公告</a>
 				</div>
 			</div>
 
@@ -47,29 +40,22 @@
 					<thead>
 						<tr>
 							<th><input type="checkbox" class="cbx"></th>
-							<th>姓名</th>
-							<th>手机号</th>
-							<th>公司</th>
-							<th>经营品种</th>
-							<th>是否入驻</th>
-							<th>地区</th>
+							<th>标题</th>
+							<th>推送对象</th>
 							<th>创建时间</th>
-							<th width="170" class="tc">操作</th>
+							<th width="230" class="tc">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td><input type="checkbox" class="cbx"></td>
-							<td>王先生</td>
-							<td>18801285391</td>
-							<td>湖北天济</td>
-							<td>三棱</td>
-							<td>否</td>
-							<td>湖北武汉</td>
-							<td>2016-05-18 15:22</td>
+							<td>网站维护公告</td>
+							<td>全体成员</td>
+							<td>2016-10-11</td>
 							<td class="tc">
-								<a href="supplier_edit.html" class="ubtn ubtn-blue jedit">修改</a>
-								<a href="javascript:;" class="ubtn ubtn-gray jdel">废弃</a>
+								<a href="news_edit.html" class="ubtn ubtn-blue jedit">编辑</a>
+								<a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
+								<a href="javascript:;" class="ubtn ubtn-gray jputaway">草稿</a>
 							</td>
 						</tr>
 					</tbody>

@@ -97,15 +97,15 @@
 
 var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-layer.config({
-    moveType: 1,
-    success : function() {
-        isMobile && $('body').addClass('no-scroll');
-    },
-    end: function() {
-        isMobile && $('body').removeClass('no-scroll');
-    }
-});
+// layer.config({
+//     moveType: 1,
+//     success : function() {
+//         isMobile && $('body').addClass('no-scroll');
+//     },
+//     end: function() {
+//         isMobile && $('body').removeClass('no-scroll');
+//     }
+// });
 
 !(function($){
     var defaults = {
@@ -260,7 +260,7 @@ layer.config({
         start: function($img) {
             var self = this;
             self.album = [];
-            $img.parent().find('img').each(function() {
+            $img.closest(self.options.selector).find('img').each(function() {
                 self.album.push({
                     url: $(this).data('src') || this.src,
                     preloader: false
