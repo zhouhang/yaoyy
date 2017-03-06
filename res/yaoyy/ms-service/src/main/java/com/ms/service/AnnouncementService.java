@@ -7,4 +7,8 @@ import com.ms.dao.vo.AnnouncementVo;
 public interface AnnouncementService extends ICommonService<Announcement>{
 
     public PageInfo<AnnouncementVo> findByParams(AnnouncementVo announcementVo, Integer pageNum, Integer pageSize);
+
+    public AnnouncementVo findDetailById(int id);
+
+    public void save(AnnouncementVo announcementVo);
 }

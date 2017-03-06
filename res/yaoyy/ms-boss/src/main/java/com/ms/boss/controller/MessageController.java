@@ -1,5 +1,6 @@
 package com.ms.boss.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.ms.boss.properties.BossSystemProperties;
 import com.ms.dao.vo.MessageVo;
 import com.ms.service.MessageService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ public class MessageController extends BaseController{
     @RequestMapping(value = "/list")
     @ResponseBody
     public Result message() {
+
         List<MessageVo> list = messageService.findUnReadMsg();
         list.forEach(message -> {
             message.setUrl(bossSystemProperties.getBaseUrl() + MessageEnum.getUrl(message.getType()) + message.getEventId());
