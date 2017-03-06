@@ -84,7 +84,7 @@
 		start: function($img) {
 			var self = this;
 			self.album = [];
-			$img.parent().find('img').each(function() {
+			$img.closest(self.options.selector).find('img').each(function() {
 				self.album.push({
 					url: $(this).data('src') || this.src,
 					preloader: false
