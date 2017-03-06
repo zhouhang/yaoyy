@@ -10,4 +10,6 @@ public interface AnnouncementDao extends ICommonDao<Announcement>{
 
     public List<AnnouncementVo> findByParams(AnnouncementVo announcementVo);
 
+    public AnnouncementVo findDetailById(int id);
+
 }

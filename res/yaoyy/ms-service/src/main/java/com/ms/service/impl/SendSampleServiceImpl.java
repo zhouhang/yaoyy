@@ -127,7 +127,9 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 		if (userVo==null && nowLogin ==null){
 			User user=new User();
 			user.setPhone(sendSampleVo.getPhone());
-			user.setType(UserEnum.auto.getType());
+			user.setType(UserTypeEnum.purchase.getType());
+			user.setSource(UserSourceEnum.auto.getType());
+			user.setStatus(UserEnum.enable.getType());
 			user.setSalt("");
 			user.setPassword("");
 			//user.setOpenid("");

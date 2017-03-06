@@ -21,10 +21,14 @@ public enum  MessageEnum {
     PAY_BANK(6), //用户提交转账凭证 客服
     PAY_ONLINE(7), //客户微信支付宝付款(线上支付) 客服
     PAY_SUCCESS(9), // 支付宝支付成功回调,和客服后台确认转账信息有效
-    //以2开头的表示供应商消息状态
+    //以2开头的表示供应商非寄卖模式的消息状态
     SUPPLIER_SAMPLES(20), //寄样类 供应商的商品的样品被寄出
     SUPPLIER_COMMODITY(21), //商品类 供应商的商品增减库存，调整价格
-    SUPPLIER_ORDER(22) //订单类 供应商的商品被用户下单
+    SUPPLIER_ORDER(22), //订单类 供应商的商品被用户下单
+    //以3开头的表示供应商寄卖模式消息状态
+    SUPPLIER_SAMPLES_CONSIGNMENT(30), //寄样类 供应商的商品的样品被寄出
+    SUPPLIER_COMMODITY_CONSIGNMENT(31), //商品类 供应商的商品增减库存，调整价格
+    SUPPLIER_ORDER_CONSIGNMENT(32) //订单类 供应商的商品被用户下单
     ;
     private Integer value;
     MessageEnum(Integer value) {

@@ -5,17 +5,16 @@ import java.util.Map;
 
 /**
  * Author: koabs
- * 10/24/16.
- * 用户状态
+ * 3/6/17.
  */
-public enum  UserEnum {
-    disable(0,"禁用"),
-    enable(1,"启用");
+public enum UserSourceEnum {
+    register(0,"注册用户"),
+    auto(1,"自动生成");
 
     private Integer type;
     private String value;
 
-    UserEnum(Integer type, String value){
+    UserSourceEnum(Integer type, String value){
         this.type = type;
         this.value = value;
     }

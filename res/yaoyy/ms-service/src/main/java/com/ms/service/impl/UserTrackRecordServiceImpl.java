@@ -20,7 +20,7 @@ public class UserTrackRecordServiceImpl  extends AbsCommonService<UserTrackRecor
 
 	@Override
 	public PageInfo<UserTrackRecordVo> findByParams(UserTrackRecordVo userTrackRecordVo,Integer pageNum,Integer pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
+    	PageHelper.startPage(pageNum, pageSize);
     	List<UserTrackRecordVo>  list = userTrackRecordDao.findByParams(userTrackRecordVo);
         PageInfo page = new PageInfo(list);
         return page;

@@ -2,31 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ms.dao.UserDao">
     <resultMap id="UserResultMap" type="com.ms.dao.model.User">
-            <id column="id"  property="id" />
-            <result column="type"  property="type" />
-            <result column="phone"  property="phone" />
-            <result column="password"  property="password" />
-            <result column="salt"  property="salt" />
-            <result column="openid"  property="openid" />
-            <result column="update_time"  property="updateTime" />
-            <result column="create_time"  property="createTime" />
-        
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="openid" property="openid"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="source" property="source"/>
+        <result column="status" property="status"/>
+        <result column="verify" property="verify"/>
     </resultMap>
 
     <resultMap id="UserResultMapVo" type="com.ms.dao.vo.UserVo" extends="UserResultMap">
-            <result column="nickname"  property="nickname" />
-            <result column="area"  property="area" />
-            <result column="name"  property="name" />
-            <result column="remark"  property="remark" />
-            <result column="identityType"  property="identityType" />
+        <result column="nickname" property="nickname"/>
+        <result column="area" property="area"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="identityType" property="identityType"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,type,phone,password,salt,openid,update_time,create_time
+        id,type,phone,password,salt,openid,update_time,create_time,source,status,verify
     </sql>
     <sql id="Base_Column_List_Alisa">
         u.id as id,u.type as type,u.phone as phone,u.password as password,u.salt as salt,
-        u.openid as openid,u.update_time as update_time,u.create_time as create_time
+        u.openid as openid,u.update_time as update_time,u.create_time as create_time,
+        u.source as source,u.status as status,u.verify as verify
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="UserResultMap">
@@ -61,6 +64,15 @@
             <if test="identityType != null">
                 and ud.type = #{identityType}
             </if>
+            <if test="source != null">
+                and u.source = #{source}
+            </if>
+            <if test="status != null">
+                and u.status = #{status}
+            </if>
+            <if test="verify != null">
+                and u.verify = #{verify}
+            </if>
         </where>
     </select>
 
@@ -71,9 +83,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.User">
         insert into
-        user (type,phone,password,salt,openid,update_time,create_time)
+        user (type,phone,password,salt,openid,update_time,create_time,source,status,verify)
         values
-        (#{type},#{phone},#{password},#{salt},#{openid},#{updateTime},#{createTime})
+        (#{type},#{phone},#{password},#{salt},#{openid},#{updateTime},#{createTime},#{source},#{status},#{verify})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.User">
@@ -107,7 +119,18 @@
             <if test="createTime != null">
                 create_time = #{createTime},
             </if>
-                            
+
+            <if test="source != null">
+                source = #{source},
+            </if>
+
+            <if test="status != null">
+                status = #{status},
+            </if>
+
+            <if test="verify != null">
+                verify = #{verify},
+            </if>
         </set>
         where id = #{id}
     </update>

@@ -28,6 +28,8 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){
+        // 只查询采购商的用户
+        user.setType(1);
         PageInfo<UserVo> pageInfo = userService.findByParams(user, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         return "user_list";

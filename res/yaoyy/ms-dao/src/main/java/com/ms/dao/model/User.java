@@ -10,7 +10,8 @@ public class User  implements Serializable {
 	
 	private Integer id;
 	
-	//0：注册用户，1：申请寄样生成的用户 -1 禁用用户
+	//(0：注册用户，1：申请寄样生成的用户 -1 禁用用户) 已废弃
+	// 1 采购商 2 供应商
 	private Integer type;
 	
 	//手机号
@@ -27,6 +28,17 @@ public class User  implements Serializable {
 	private Date updateTime;
 	
 	private Date createTime;
+
+	//0：注册用户，1：申请寄样生成的用户(针对采购商)
+	//10: 后台导入 11: 微信注册 （针对采购商）
+	private Integer source;
+
+	// 0禁用 1启用
+	private Integer status;
+
+	// 0 未认证 1已认证(主要针对供应商)
+	private Integer verify;
+
 	
 	public User(){}
 	
@@ -93,5 +105,28 @@ public class User  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public Integer getSource() {
+		return source;
+	}
+
+	public void setSource(Integer source) {
+		this.source = source;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getVerify() {
+		return verify;
+	}
+
+	public void setVerify(Integer verify) {
+		this.verify = verify;
+	}
 }

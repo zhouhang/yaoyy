@@ -133,7 +133,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		if (userVo==null){
 			User user=new User();
 			user.setPhone(pickVo.getPhone());
-			user.setType(UserEnum.auto.getType());
+			user.setType(UserTypeEnum.purchase.getType());
+			user.setSource(UserSourceEnum.auto.getType());
+			user.setStatus(UserEnum.enable.getType());
 			user.setSalt("");
 			user.setPassword("");
 			//user.setOpenid("");

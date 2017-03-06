@@ -113,6 +113,7 @@ public class ShiroConfiguration {
                 "/user/**=bossAuthorization;" +
                 "/setting/**=bossAuthorization;" +
                 "/bill/**=bossAuthorization;" +
+                "/announcement/**=bossAuthorization;" +
                 "/commodity/**=bossAuthorization;");
         return shiroFilterFactoryBean;
     }

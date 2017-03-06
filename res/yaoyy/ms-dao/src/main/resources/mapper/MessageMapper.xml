@@ -9,7 +9,7 @@
             <result column="status"  property="status" />
             <result column="event_id"  property="eventId" />
             <result column="create_time"  property="createTime" />
-            <result column="is_member"  property="is_member" />
+            <result column="is_member"  property="isMember" />
     </resultMap>
 
     <resultMap id="MessageResultMapVo" type="com.ms.dao.vo.MessageVo" extends="MessageResultMap">
@@ -43,6 +43,15 @@
             </if>
             <if test="status != null">
                 status = #{status}
+            </if>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="types != null">
+            and type in
+            <foreach collection="types" item="type" index="index" open="(" close=")" separator=",">
+                #{type}
+            </foreach>
             </if>
         </where>
         ORDER BY create_time DESC

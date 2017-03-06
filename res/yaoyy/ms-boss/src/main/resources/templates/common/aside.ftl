@@ -156,6 +156,9 @@
                 <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
                </@shiro.hasPermission>
             </dd>
+            <dd>
+                <a href="/announcement/list"><i class="fa fa-circle-o"></i>网站公告</a>
+            </dd>
         </dl>
        </@shiro.hasPermission>
     <@shiro.hasPermission name="pay:index">
