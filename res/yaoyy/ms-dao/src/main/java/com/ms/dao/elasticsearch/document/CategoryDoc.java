@@ -15,8 +15,8 @@ public class CategoryDoc {
 
     @Id
     private Integer id;
-    //商品名称
-    private String variety;
+    //品种名称
+    private String name;
 
     private String title;
 
@@ -44,12 +44,12 @@ public class CategoryDoc {
         this.id = id;
     }
 
-    public String getVariety() {
-        return variety;
+    public String getName() {
+        return name;
     }
 
-    public void setVariety(String variety) {
-        this.variety = variety;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTitle() {

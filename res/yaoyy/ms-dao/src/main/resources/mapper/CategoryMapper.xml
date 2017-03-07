@@ -14,6 +14,9 @@
             <result column="status"  property="status" />
             <result column="level"  property="level" />
             <result column="update_time"  property="updateTime" />
+            <result column="spec"  property="spec" />
+            <result column="unit_desc"  property="unitDesc" />
+            <result column="alias"  property="alias" />
         
     </resultMap>
 
@@ -22,7 +25,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,pid,variety,title,price_desc,unit,sort,create_time,picture_url,status,level,update_time
+        id,pid,variety,title,price_desc,unit,sort,create_time,picture_url,status,level,update_time,spec,unit_desc,alias
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="CategoryResultMap">
@@ -63,9 +66,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Category">
         insert into
-        category (pid,variety,title,price_desc,unit,sort,create_time,picture_url,status,level,update_time)
+        category (pid,variety,title,price_desc,unit,sort,create_time,picture_url,status,level,update_time,spec,unit_desc,alias)
         values
-        (#{pid},#{variety},#{title},#{priceDesc},#{unit},#{sort},#{createTime},#{pictureUrl},#{status},#{level},#{updateTime})
+        (#{pid},#{variety},#{title},#{priceDesc},#{unit},#{sort},#{createTime},#{pictureUrl},#{status},#{level},#{updateTime},#{spec},#{unitDesc},#{alias})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Category">
@@ -114,6 +117,14 @@
                                             
             <if test="updateTime != null">
                 update_time = #{updateTime},
+            </if>
+
+            <if test="spec != null">
+                spec = #{spec},
+            </if>
+
+            <if test="unitDesc != null">
+                unit_desc = #{unitDesc},
             </if>
                             
         </set>

@@ -79,7 +79,7 @@ public class CategorySearchServiceImpl implements CategorySearchService {
     private CategoryDoc vo2doc(CategoryVo category){
         CategoryDoc categoryDoc = new CategoryDoc();
         categoryDoc.setId(category.getId());
-        categoryDoc.setVariety(category.getVariety());
+        categoryDoc.setName(category.getName());
         categoryDoc.setParentName(category.getParentName());
         categoryDoc.setPictureUrl(category.getPictureUrl());
         categoryDoc.setPriceDesc(category.getPriceDesc());

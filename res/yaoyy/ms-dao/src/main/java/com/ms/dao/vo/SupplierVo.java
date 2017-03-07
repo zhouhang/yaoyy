@@ -20,10 +20,10 @@ public class SupplierVo extends Supplier{
             for (int i=0;i<enterCategoryList.size();i++) {
                 Category category=enterCategoryList.get(i);
                 if(i==(enterCategoryList.size()-1)){
-                    enterCategoryText = enterCategoryText + category.getVariety();
+                    enterCategoryText = enterCategoryText + category.getName();
                 }
                 else{
-                    enterCategoryText = enterCategoryText + category.getVariety() + ',';
+                    enterCategoryText = enterCategoryText + category.getName() + ',';
                 }
 
             }

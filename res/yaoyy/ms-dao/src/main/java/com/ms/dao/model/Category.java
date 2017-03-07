@@ -14,7 +14,7 @@ public class Category  implements Serializable {
 	private Integer pid;
 	
 	//品种名
-	private String variety;
+	private String name;
 	
 	//标题
 	private String title;
@@ -37,9 +37,16 @@ public class Category  implements Serializable {
 	private Integer level;
 	
 	private Date updateTime;
+
+	//新添加字段 add by kevin
+	private String spec;
+
+	private String unitDesc;
+
+	private String alias;
 	
 	public Category(){}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -56,12 +63,12 @@ public class Category  implements Serializable {
 		this.pid = pid;
 	}
 	
-	public String getVariety() {
-		return variety;
+	public String getName() {
+		return name;
 	}
 
-	public void setVariety(String variety) {
-		this.variety = variety;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getTitle() {
@@ -134,6 +141,31 @@ public class Category  implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	//add by kevin
+	public void setSpec(String spec) {
+		this.spec = spec;
+	}
+
+	public void setUnitDesc(String unitDesc) {
+		this.unitDesc = unitDesc;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public String getSpec() {
+		return spec;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public String getUnitDesc() {
+		return unitDesc;
 	}
 	
 }
