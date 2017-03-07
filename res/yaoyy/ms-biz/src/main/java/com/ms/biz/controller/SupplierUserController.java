@@ -2,6 +2,7 @@ package com.ms.biz.controller;
 
 import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
+import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
@@ -140,11 +141,20 @@ public class SupplierUserController {
 
     /**
      * 供应商入驻
+     * 1. 供应商已经存在未验证通过,提示用户去查看验证进度
+     * 2. 供应商已经存在并且验证通过了提示供应商去登入
      * @return
      */
     @RequestMapping(value = "register", method = RequestMethod.GET)
-    public String register() {
+    public String register(Supplier supplier) {
+        // TODO:
         return "supplier/register";
+    }
+
+
+    @RequestMapping(value = "registerSuccess", method = RequestMethod.GET)
+    public String registerSuccess() {
+        return "supplier/register_success";
     }
 
 
