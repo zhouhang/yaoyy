@@ -1,0 +1,45 @@
+{
+	"status": 200,
+	"msg": "",
+	"data": [{
+		"id": "1",
+		"company": "供应商：王彬",
+		"commodity": [{
+			"id": 1021,
+			"name": "白芍",
+			"origin": "亳州",
+			"spec": "过6-8号筛，直径0.6-0.8cm",
+			"price": 1.0,
+			"unitName": "公斤",
+			"minimumQuantity": 20
+		}, {
+			"id": 1022,
+			"name": "当归",
+			"origin": "甘肃",
+			"spec": "甘肃当归  选货  10/12号筛  包加工",
+			"price": 1.0,
+			"unitName": "公斤",
+			"minimumQuantity": 20
+		}]
+	}, {
+		"id": "2",
+		"company": "个人：何欢",
+		"commodity": [{
+			"id": 1023,
+			"name": "三七",
+			"origin": "云南",
+			"spec": "云南文山三七120/80/60头  上等货洗净   无硫  长期供应",
+			"price": 1.0,
+			"unitName": "公斤",
+			"minimumQuantity": 20
+		}, {
+			"id": 1024,
+			"name": "天麻",
+			"origin": "安徽",
+			"spec": "安徽天麻  无硫  统货  2015版药典标准 长期供应",
+			"price": 1.0,
+			"unitName": "公斤",
+			"minimumQuantity": 20
+		}]
+	}]
+}
