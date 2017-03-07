@@ -65,9 +65,6 @@ public class Commodity  implements Serializable {
 	// 排序
 	private Integer sort;
 	
-	//标记是否量大价优 0 未标记 1标记量大价优
-	private Integer mark;
-	
 	private Date createTime;
 	
 	private Date updateTime;
@@ -198,14 +195,6 @@ public class Commodity  implements Serializable {
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
-	}
-	
-	public Integer getMark() {
-		return mark;
-	}
-
-	public void setMark(Integer mark) {
-		this.mark = mark;
 	}
 	
 	public Date getCreateTime() {

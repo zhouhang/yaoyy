@@ -30,9 +30,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     private CommodityDao commodityDao;
 
     @Autowired
-    private GradientService gradientService;
-
-    @Autowired
     private PathConvert pathConvert;
 
     @Autowired
@@ -67,16 +64,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         for(String id :ids.split(",")){
             list.add(Integer.parseInt(id));
         }
-        List<CommodityVo> commodities= commodityDao.findByIds(list);
-        commodities.forEach(c->{
-            c.setPictureUrl(pathConvert.getUrl(c.getPictureUrl()));
-            List<Gradient> gradients = gradientService.findByCommodityId(c.getId());
-            c.setGradient(gradients);
-            if(c.getMark()==1){
-                c.setPrice(c.getGradient().get(0).getPrice());
-            }
-        });
-        return commodities;
+        return commodityDao.findByIds(list);
     }
 
 
@@ -109,7 +97,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
                 gradient.setUpdateTime(new Date());
                 gradient.setCommodityId(commodity.getId());
             });
-            gradientService.update(commodity.getGradient());
         }
         //commoditySearchService.save(commodity);
     }
@@ -123,8 +110,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             return null;
         }
         vo = commodityVos.get(0);
-        List<Gradient> gradients = gradientService.findByCommodityId(id);
-        vo.setGradient(gradients);
         vo.setPictureUrl(pathConvert.getUrl(vo.getPictureUrl()));
         return vo;
     }
@@ -213,7 +198,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     @Override
     @Transactional
     public int deleteById(int id) {
-        gradientService.deleteByCommodityId(id);
         //commoditySearchService.deleteByCommodityId(id);
         return super.deleteById(id);
     }
