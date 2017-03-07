@@ -25,32 +25,99 @@
         </div> -->
         <div class="pick-form">
             <form action="" id="pick_commodity">
-                <!-- <div class="item">
-                    <div class="hd">                        
-                        <em>茯苓</em>
-                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                <div class="group">
+                    <!-- 
+                    <div class="company">
+                        <label><input type="checkbox" class="cbx" name="1">供应商：王彬</label>
                     </div>
-                    <div class="price">
-                        <i>&yen;</i> <b>200</b> 元
-                    </div>
+                    <div class="item">
+                        <div class="mid op">
+                            <input type="checkbox" name="1" class="cbx" />
+                        </div>
 
-                    <div class="ui-quantity cale">
-                        <button type="button" class="fa fa-reduce op"></button>
-                        <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
-                        <button type="button" class="fa fa-plus op"></button>
-                    </div>
-                    <div class="cale">公斤</div>
+                        <div class="hd">                        
+                            <em>茯苓</em>
+                            <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                        </div>
+                        <div class="price">
+                            <i>&yen;</i> <b>200</b> 元
+                        </div>
 
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                        <div class="ui-quantity cale">
+                            <button type="button" class="fa fa-reduce op"></button>
+                            <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
+                            <button type="button" class="fa fa-plus op"></button>
+                        </div>
+                        <div class="cale">公斤</div>
+
+                        <div class="del">
+                            <button type="button" class="fa fa-remove" cid="1021"></button>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="mid op">
+                            <input type="checkbox" name="', item.id, '" class="cbx" />
+                        </div>
+
+                        <div class="hd">                        
+                            <em>茯苓</em>
+                            <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                        </div>
+                        <div class="price">
+                            <i>&yen;</i> <b>200</b> 元
+                        </div>
+
+                        <div class="ui-quantity cale">
+                            <button type="button" class="fa fa-reduce op"></button>
+                            <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
+                            <button type="button" class="fa fa-plus op"></button>
+                        </div>
+                        <div class="cale">公斤</div>
+
+                        <div class="del">
+                            <button type="button" class="fa fa-remove" cid="1021"></button>
+                        </div>
                     </div>
                 </div>
+
+                <div class="group">
+                    <div class="company">
+                        <label><input type="checkbox" class="cbx">供应商：王彬</label>
+                    </div>
+                    <div class="item">
+                        <div class="mid op">
+                            <input type="checkbox" name="', item.id, '" class="cbx" />
+                        </div>
+
+                        <div class="hd">                        
+                            <em>茯苓</em>
+                            <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
+                        </div>
+                        <div class="price">
+                            <i>&yen;</i> <b>200</b> 元
+                        </div>
+
+                        <div class="ui-quantity cale">
+                            <button type="button" class="fa fa-reduce op"></button>
+                            <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
+                            <button type="button" class="fa fa-plus op"></button>
+                        </div>
+                        <div class="cale">公斤</div>
+
+                        <div class="del">
+                            <button type="button" class="fa fa-remove" cid="1021"></button>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="ft">
                     <input type="text" class="text" id="username" placeholder="姓名">
                     <input type="tel" class="text" id="mobile" placeholder="手机号">
                     <button type="button" class="ubtn ubtn-primary" id="submit">提交</button>
-                </div> -->
+                </div>  
+                -->
+               
             </form>
         </div>
     </section><!-- /ui-content -->
@@ -81,17 +148,19 @@
                     if(commodityIds.length != 0){                        
                         $('.ui-loading').show();
                         $.ajax({
-                            url: '',
+                            url: 'json/cart.json',
                             success: function(data) {
-                                data = {"status":200,"msg":"","data":[{"unitName":"公斤","gradient":[],"id":1021,"title":"亳白芍选片6-8号筛 趁鲜加工 芍药苷3.0% 5年生 无硫","name":"白芍","harYear":"09","origin":"亳州","spec":"过6-8号筛，直径0.6-0.8cm","categoryId":10,"pictureUrl":"E:\\\\uploadfiles\\\\yaobest\\\\commodity/2016/11/63f3269a-c93f-4b83-9533-08e6de8d2016Crop.jpg","thumbnailUrl":"http://static.yaobest.com/temp/2016/11/7dd7b975-784a-43d5-99a8-45ea5361d70fCrop.jpg","detail":"\u003cp\u003ea\u003cbr/\u003e\u003c/p\u003e","status":1,"attribute":"{\"加工方式\":\"趁鲜加工\",\"年限\":\"今年新货\"}","price":1.0,"unit":1,"minimumQuantity":20,"slogan":"","sort":9,"mark":0,"createTime":"2016-11-08 16:52:31","updateTime":"2016-11-09 14:51:01"}]};
                                 $('.ui-loading').hide();
                                 if (data.data.length !== 0) {
                                     self.empty(false);
                                     self.tohtml(data.data, arr);
                                 } else {
-                                    _YYY.localstorage.remove(_YYY.CARTNAME);
+                                    // _YYY.localstorage.remove(_YYY.CARTNAME);
                                     self.empty(true);
                                 }
+                            },
+                            complete: function() {
+                                $('.ui-loading').hide();
                             }
                         })
                     } else {
@@ -110,31 +179,52 @@
                 }
             },
             tohtml:function (data, arr) {
-                var html = [],
+                var self = this,
+                    html = [],
                     $wrap = $("#pick_commodity");
+                
+                self.cbx = {};
+
                 $.each(data, function(i, item) {
-                    html.push('<div class="item">');
+                    html.push('<div class="group">');
 
-                    html.push('<div class="hd">');
-                    html.push('<em>' , item.name , '</em>');
-                    html.push('<span>' , item.origin , ' ' , item.spec , '</span>');
+                    html.push('<div class="company">');
+                    html.push('<label><input type="checkbox" class="fa-cbx2 cbx" name="1" value="', item.id, '">', item.company, '</label>');
                     html.push('</div>');
 
-                    html.push('<div class="price">');
-                    html.push('<i>&yen;</i> <b>' , item.price , '</b> 元/', item.unitName);
+                    self.cbx['c' + item.id]  = [0, 0];
+                    $.each(item.commodity, function(j, attr) {
+                        self.cbx['c' + item.id][1]++;
+                        html.push('<div class="item">');
+
+                        html.push('<div class="mid op">');
+                        html.push('<input type="checkbox" name="" value="', item.id, '" class="fa-cbx2 cbx" />');
+                        html.push('</div>');
+
+                        html.push('<div class="hd">');
+                        html.push('<em>' , attr.name , '</em>');
+                        html.push('<span>' , attr.origin , ' ' , attr.spec , '</span>');
+                        html.push('</div>');
+
+                        html.push('<div class="price">');
+                        html.push('<i>&yen;</i> <b>' , attr.price , '</b> 元/', attr.unitName);
+                        html.push('</div>');
+
+                        html.push('<div class="ui-quantity cale">');
+                        html.push('<button type="button" class="fa fa-reduce op"></button>');
+                        html.push('<input type="tel" class="ipt num-input" value="' , attr.minimumQuantity , '" data-min="' , attr.minimumQuantity , '" cid="' , attr.id , '" autocomplete="off">');
+                        html.push('<button type="button" class="fa fa-plus op"></button>');
+                        html.push('</div>');
+
+                        html.push('<div class="del">');
+                        html.push('<button type="button" class="fa fa-remove" cid="' , attr.id , '""></button>');
+                        html.push('</div>');
+
+                        html.push('</div>');
+                    })
+
                     html.push('</div>');
 
-                    html.push('<div class="ui-quantity cale">');
-                    html.push('<button type="button" class="fa fa-reduce op"></button>');
-                    html.push('<input type="tel" class="ipt num-input" value="' , item.minimumQuantity , '" data-min="' , item.minimumQuantity , '" cid="' , item.id , '" autocomplete="off">');
-                    html.push('<button type="button" class="fa fa-plus op"></button>');
-                    html.push('</div>');
-
-                    html.push('<div class="del">');
-                    html.push('<button type="button" class="fa fa-remove" cid="' , item.id , '""></button>');
-                    html.push('</div>');
-
-                    html.push('</div>');
                 })
 
                 html.push('<div class="ft">');
@@ -147,12 +237,12 @@
                 // 商品数量
                 $.each(arr, function(i, item) {
                     var $ipt = $wrap.find('.ipt[cid="' + item.commodityId + '"]');
-                        if ($ipt.length === 1) {
-                            $ipt.val(Math.max(item.num, $ipt.data('min') || 1));
-                            updateCommodity(item.commodityId, $ipt.val());
-                        } else {
-                            deleteCommodity(item.commodityId);
-                        }
+                    if ($ipt.length === 1) {
+                        $ipt.val(Math.max(item.num, $ipt.data('min') || 1));
+                        updateCommodity(item.commodityId, $ipt.val());
+                    } else {
+                        deleteCommodity(item.commodityId);
+                    }
                 })
                 this.submit();
                 this.bindEvent();
@@ -271,6 +361,27 @@
                         this.value = min;
                     }
                     updateCommodity($(this).attr('cid'), this.value);
+                })
+
+                // 选择供应商
+                $wrap.on('click', '.company .cbx', function() {
+                    var $group = $(this).closest('.group'),
+                        key     = 'c' + this.value,
+                        cbx    = self.cbx;
+
+                    cbx[key][0] =  this.checked ? cbx[key][1] : 0;
+                    $group.find('.cbx').prop('checked', this.checked);
+                    $group.siblings().find('.cbx').prop('checked', false).prop('disabled', this.checked);
+                })
+                $wrap.on('click', '.item .cbx', function() {
+                    var $group = $(this).closest('.group'),
+                        key     = 'c' + this.value,
+                        cbx    = self.cbx;
+                        flag = false;
+
+                    cbx[key][0] +=  this.checked ? 1 : -1;
+                    $group.find('.company .cbx').prop('checked', cbx[key][0] == cbx[key][1]);
+                    $group.siblings().find('.cbx').prop('checked', false).prop('disabled', cbx[key][0] > 0);
                 })
             },
             checkName: function() {
