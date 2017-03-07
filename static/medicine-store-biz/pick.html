@@ -183,7 +183,7 @@
                     html = [],
                     $wrap = $("#pick_commodity");
                 
-                self.cbx = {};
+                self.cbx = {}; // 保存各供应商的单选框的选中数量和总数
 
                 $.each(data, function(i, item) {
                     html.push('<div class="group">');
@@ -363,25 +363,41 @@
                     updateCommodity($(this).attr('cid'), this.value);
                 })
 
-                // 选择供应商
+                var currId = 'empty',
+                    showWarning = function() {
+                        layer.open({
+                            className: 'layer-custom'
+                            ,content: '<div class="box">每次只能选择一个供应商的货物登记，如果您需要多个供应商的货物请分两次提交</div>'
+                            ,btn: ['确定']
+                        })
+                    };
+
+                // 全选 & 选择供应商
                 $wrap.on('click', '.company .cbx', function() {
                     var $group = $(this).closest('.group'),
                         key     = 'c' + this.value,
                         cbx    = self.cbx;
 
+                    if (currId !== this.value && currId !== 'empty') {
+                        showWarning();
+                        return false;
+                    }
+                    currId = this.checked ? this.value : 'empty';
                     cbx[key][0] =  this.checked ? cbx[key][1] : 0;
                     $group.find('.cbx').prop('checked', this.checked);
-                    $group.siblings().find('.cbx').prop('checked', false).prop('disabled', this.checked);
                 })
                 $wrap.on('click', '.item .cbx', function() {
                     var $group = $(this).closest('.group'),
                         key     = 'c' + this.value,
                         cbx    = self.cbx;
-                        flag = false;
 
+                    if (currId !== this.value && currId !== 'empty') {
+                        showWarning();
+                        return false;
+                    }
                     cbx[key][0] +=  this.checked ? 1 : -1;
-                    $group.find('.company .cbx').prop('checked', cbx[key][0] == cbx[key][1]);
-                    $group.siblings().find('.cbx').prop('checked', false).prop('disabled', cbx[key][0] > 0);
+                    currId = cbx[key][0] != 0 ? this.value : 'empty';
+                    $group.find('.company .cbx').prop('checked', cbx[key][0] != 0);
                 })
             },
             checkName: function() {
