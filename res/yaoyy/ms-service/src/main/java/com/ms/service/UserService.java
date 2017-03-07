@@ -30,7 +30,7 @@ public interface UserService extends ICommonService<User>{
 
     public void register(String phone, String code, String password);
 
-    public void sign(UserVo userVo, UserDetailVo userDetailVo);
+    public UserVo sign(UserVo userVo, UserDetailVo userDetailVo);
 
     public User registerWechat(String phone,String openId,String nickname,String headImgUrl);
 

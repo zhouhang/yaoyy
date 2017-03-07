@@ -2,23 +2,29 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
-import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
-import com.ms.service.utils.EncryptUtil;
+import com.ms.service.observer.SmsTemplateEvent;
+import com.ms.service.observer.WxTemplateEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +49,9 @@ public class SupplierController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * 供应商list
@@ -158,7 +167,6 @@ public class SupplierController {
      */
     @RequestMapping(value = "sign", method = RequestMethod.POST)
     @ResponseBody
-    @SecurityToken(validateToken=true)
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "签约供应商")
     public Result sign(SupplierVo supplierVo, String pwd){
         //supplier数据转存到user
@@ -175,18 +183,39 @@ public class SupplierController {
         userDetailVo.setEmail(supplierVo.getEmail());
         userDetailVo.setQq(supplierVo.getQq());
         userDetailVo.setRemark(supplierVo.getMark());
-        userService.sign(userVo, userDetailVo);
+        userVo = userService.sign(userVo, userDetailVo);
 
 
 
         //supplier的user_track_record添加user_id字段值
         UserTrackRecord userTrackRecord = new UserTrackRecord();
-        userTrackRecord.setUserId(123);
+        userTrackRecord.setUserId(userVo.getId());
         userTrackRecord.setSupplierId(supplierVo.getId());
         userTrackRecordService.update(userTrackRecord);
 
         //删除supplier的值
 //        supplierService.deleteById(supplierVo.getId());
+
+        //发短信（短信需要手机号，模板id及params）和微信（微信模板消息需要，模板id，openid及params map）
+        WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+        templateMessage.setToUser(userVo.getOpenid());
+        templateMessage.setTemplateId("w4qh_kBaLdv07G6fdRaeRFzNhTsMhNbDOn2-lkfct-s");
+        templateMessage.setUrl("");
+        templateMessage.getData().add(new WxMpTemplateData("first", "恭喜您，已成为药优优签约供应商", "#FF00FF"));
+        templateMessage.getData().add(new WxMpTemplateData("keyword1", "药优优供应商审核结果", "#FF00FF"));
+        templateMessage.getData().add(new WxMpTemplateData("keyword2", "审核通过", "#FF00FF"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        templateMessage.getData().add(new WxMpTemplateData("keyword3", dateFormat.format(new Date()), "#FF00FF"));
+        templateMessage.getData().add(new WxMpTemplateData("remark",
+                "您可以在药优优公众号左侧“供应商管理”菜单看到您的订单情况，以及对您的商品进行调价。" +
+                        "第一次使用请用您的账号：" + supplierVo.getPhone() + "和密码：" + pwd + " 进行登录。", "#FF00FF"));
+
+        WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
+        applicationContext.publishEvent(wt);
+
+        SmsTemplateEvent sms = new SmsTemplateEvent(supplierVo.getPhone(), pwd);
+        applicationContext.publishEvent(wt);
+        
         return Result.success("保存成功");
     }
 

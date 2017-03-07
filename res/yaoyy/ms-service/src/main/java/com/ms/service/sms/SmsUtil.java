@@ -208,5 +208,18 @@ public class SmsUtil {
         }
     }
 
+    /**
+     * 发送供应商签约成功短信
+     * @param mobile
+     * @throws Exception
+     */
+    public void sendSupplierSign(String mobile, String pwd) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", systemProperties.getApikey());
+        param.put("mobile", mobile);
+        param.put("text", TextTemplateEnum.SMS_BOSS_SUPPLIER_SIGN.getText("【药优优】", mobile, pwd));
+        HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
+
 
 }

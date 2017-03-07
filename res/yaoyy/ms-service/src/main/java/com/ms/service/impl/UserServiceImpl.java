@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.UserDao;
+import com.ms.dao.enums.IdentityTypeEnum;
 import com.ms.dao.enums.UserEnum;
 import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.enums.UserTypeEnum;
@@ -260,7 +261,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 
 	@Override
 	@Transactional
-	public void sign(UserVo userVo, UserDetailVo userDetailVo) {
+	public UserVo sign(UserVo userVo, UserDetailVo userDetailVo) {
 
 		User existUser = findByPhone(userVo.getPhone());
 		if ( existUser!= null) {
@@ -287,20 +288,23 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			user.setSalt(pass.getSalt());
 			create(user);
 
-			if (userDetailService.findByUserId(user.getId()).getId() != null ) {
-				UserDetail userDetail = new UserDetail();
-				userDetail.setUserId(user.getId());
-				userDetail.setName(userDetailVo.getName());
-				userDetail.setPhone(userDetailVo.getPhone());
-				userDetail.setCategoryIds(userDetailVo.getCategoryIds());
-				userDetail.setCompany(userDetailVo.getCompany());
-				userDetail.setArea(userDetailVo.getArea());
-				userDetail.setEmail(userDetailVo.getEmail());
-				userDetail.setQq(userDetailVo.getQq());
-				userDetail.setRemark(userDetailVo.getRemark());
-				userDetailService.create(userDetail);
-			}
+			userVo.setId(user.getId());
+			UserDetail userDetail = new UserDetail();
+			userDetail.setUserId(user.getId());
+			userDetail.setType(IdentityTypeEnum.t4.getId());
+			userDetail.setName(userDetailVo.getName());
+			userDetail.setPhone(userDetailVo.getPhone());
+			userDetail.setCategoryIds(userDetailVo.getCategoryIds());
+			userDetail.setCompany(userDetailVo.getCompany());
+			userDetail.setArea(userDetailVo.getArea());
+			userDetail.setEmail(userDetailVo.getEmail());
+			userDetail.setQq(userDetailVo.getQq());
+			userDetail.setRemark(userDetailVo.getRemark());
+			userDetail.setCreateTime(new Date());
+			userDetail.setUpdateTime(new Date());
+			userDetailService.create(userDetail);
 		}
+		return userVo;
 	}
 
 
