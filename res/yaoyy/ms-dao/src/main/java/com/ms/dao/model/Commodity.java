@@ -73,6 +73,12 @@ public class Commodity  implements Serializable {
 
 	// 价格更新时间
 	private Date priceUpdateTime;
+
+	// 寄卖库存
+	private Float warehouse;
+
+	// 供应商家里库存
+	private Float unwarehouse;
 	
 	public Commodity(){}
 
@@ -268,5 +274,21 @@ public class Commodity  implements Serializable {
 
 	public void setExecutiveStandard(String executiveStandard) {
 		this.executiveStandard = executiveStandard;
+	}
+
+	public Float getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(Float warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public Float getUnwarehouse() {
+		return unwarehouse;
+	}
+
+	public void setUnwarehouse(Float unwarehouse) {
+		this.unwarehouse = unwarehouse;
 	}
 }

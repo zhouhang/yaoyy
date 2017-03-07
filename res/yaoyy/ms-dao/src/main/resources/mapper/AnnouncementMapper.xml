@@ -18,7 +18,6 @@
             <result column="content"  property="content" />
             <result column="status"  property="status" />
             <result column="create_time"  property="createTime" />
-        
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -53,6 +52,7 @@
                 </foreach>
             </if>
         </where>
+        order BY  id DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

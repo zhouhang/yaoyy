@@ -26,10 +26,11 @@ public class TrackingDetailServiceImpl  extends AbsCommonService<TrackingDetail>
         return page;
 	}
 
-
 	@Override
 	public ICommonDao<TrackingDetail> getDao() {
 		return trackingDetailDao;
 	}
+
+
 
 }

@@ -19,6 +19,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.service.sms.SmsUtil;
 import com.ms.service.utils.EncryptUtil;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -304,11 +305,29 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 
 
 	@Override
+	public void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser) {
+		login(subject, token);
+		if (wxMpUser!= null) {
+			User user = findByPhone(token.getUsername());
+			user.setOpenid(wxMpUser.getOpenId());
+			update(user);
+			UserDetail userDetail = userDetailService.findByUserId(user.getId());
+			if (userDetail == null) {
+				userDetail = new UserDetail();
+				userDetail.setType(0);
+				userDetail.setUserId(user.getId());
+				userDetail.setPhone(user.getPhone());
+				userDetail.setNickname(wxMpUser.getNickname());
+				userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+			} else {
+				userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+			}
+			userDetailService.save(userDetail);
+		}
+	}
+
+	@Override
 	public ICommonDao<User> getDao() {
 		return userDao;
 	}
-
-
-
-
 }

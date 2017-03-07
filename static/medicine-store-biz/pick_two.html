@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>采购单选项-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="ui-body-nofoot body-gray">
+    <header class="ui-header">
+        <div class="title">采购单选项</div>
+        <div class="abs-l mid">
+            <a href="javascript:history.back();" class="fa fa-back"></a>
+        </div>
+    </header><!-- /ui-header -->
+
+    <section class="ui-content">
+        <div class="oinfo">
+            <div class="item hd">
+                <em>茯苓茯苓</em>
+                <span>浙江 统个、火燎或撞毛、长2cm-6cm、直径2cm-4cm<b>1000公斤</b> 20元/公斤</span>
+            </div>
+            <div class="item">
+                您是否要开发票<sub>（您购买的商品税点5%）</sub>
+                <input type="checkbox" class="fa-switch switch" />
+                <input type="text" class="ipt" placeholder="请输入公司抬头" />
+            </div>
+            <div class="item">
+                您是否需要特殊包装
+                <span class="tips">默认50公斤一包，如需要特殊包装需要另收取费用，客服会主动与你沟通。</span>
+                <input type="checkbox" class="fa-switch switch" />
+            </div>
+
+            <div class="item">
+                收货地址
+                <span class="tips">如果您在我们配送范围之内，我们将免费送货上门。<a href="javascript:;" class="blue freight">免费配送范围</a></span>
+                <a href="consignee.html" class="ar"><i class="fa fa-front mid"></i></a>
+            </div>
+
+            <div class="item">
+                王彬  18801285391 <em class="freight">免费配送</em>
+                <span class="tips">湖北省武汉市洪山区城区珞瑜路光谷银座15楼</span>
+                <a href="consignee.html" class="ar"><i class="fa fa-front mid"></i></a>
+            </div>
+
+            <div class="button">
+                <button type="button" class="ubtn ubtn-primary">提交</button>
+            </div>
+
+        </div>
+    </section><!-- /ui-content -->
+
+	
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/layer.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.freight();
+            },
+            freight: function() {
+                var model = [{
+                    "name": "三棱",
+                    "region": "安徽亳州"
+                },{
+                    "name": "白芍",
+                    "region": "安徽亳州"
+                },{
+                    "name": "天麻",
+                    "region": "湖北金寨"
+                }]
+
+                $('.oinfo').on('click', '.freight', function() {
+                    var temp = [];
+                    temp.push('<ul class="freight-free">');
+                    temp.push('<li class="fore"><span>免费配送地区</span>品种</li>');
+                    $.each(model, function(key, attr) {
+                        temp.push('<li><span>', attr.region, '</span>', attr.name, '</li>');
+                    })
+                    temp.push('</ul>');
+                    layer.open({
+                        className: 'layer-custom'
+                        ,content: temp.join('')
+                        ,btn: ['关闭']
+                    })
+                })
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+    });
+
+</script>
+</body>
+</html>
