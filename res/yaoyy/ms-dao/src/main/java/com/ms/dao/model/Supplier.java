@@ -27,14 +27,9 @@ public class Supplier  implements Serializable {
 	
 	//座机
 	private String telephone;
-	
-<<<<<<< HEAD
+
 	//地区
 	private Integer area;
-=======
-	//地区 地址ID
-	private String area;
->>>>>>> 845323b00e5617814f39e1c141c81fcfe1eae6b8
 	
 	//入驻品种,逗号隔开
 	private String enterCategory;
