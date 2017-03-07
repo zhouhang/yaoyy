@@ -3,6 +3,7 @@ package com.ms.service;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.User;
 import com.ms.dao.vo.UserVo;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
@@ -39,5 +40,11 @@ public interface UserService extends ICommonService<User>{
 
     public void resetPassword(String phone, String code, String password);
 
-
+    /**
+     * 供应商登入
+     * @param subject
+     * @param token
+     * @param wxMpUser
+     */
+    void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser);
 }
