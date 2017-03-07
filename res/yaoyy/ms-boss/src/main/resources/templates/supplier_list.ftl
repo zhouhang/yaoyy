@@ -51,7 +51,7 @@
                             <td>${supplier.name}</td>
                             <td>${supplier.enterCategoryText}</td>
                             <td>${supplier.phone}</td>
-                            <td>${supplier.area}</td>
+                            <td>${supplier.areaname}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc">
                                 <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>

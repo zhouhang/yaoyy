@@ -2,10 +2,12 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
-import com.ms.dao.vo.CommodityVo;
-import com.ms.dao.vo.SupplierVo;
-import com.ms.service.CommodityService;
-import com.ms.service.SupplierService;
+import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.model.Area;
+import com.ms.dao.model.UserTrackRecord;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
+import com.ms.service.utils.EncryptUtil;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
@@ -30,10 +32,17 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
-
+    @Autowired
+    private AreaService areaService;
 
     @Autowired
     private CommodityService commodityService;
+
+    @Autowired
+    private UserTrackRecordService userTrackRecordService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 供应商list
@@ -49,7 +58,7 @@ public class SupplierController {
     public String supplierList(SupplierVo supplierVo, Integer pageNum,
                                Integer pageSize, ModelMap model){
 
-        PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findByParams(supplierVo,pageNum,pageSize);
+        PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findVoByParams(supplierVo,pageNum,pageSize);
         model.put("supplierVoPageInfo",supplierVoPageInfo);
 
 
@@ -62,7 +71,11 @@ public class SupplierController {
      */
     @RequestMapping(value = "create", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    public String createSupplier(){
+    public String createSupplier(ModelMap model){
+        //查询全国所有省份，供一级区域菜单使用，故parentid为100000
+        Integer parentid = 100000;
+        List<Area> provinces = areaService.findByParent(parentid);
+        model.put("provinces", provinces);
         return  "supplier_detail";
     }
 
@@ -88,6 +101,26 @@ public class SupplierController {
         model.put("supplierVo",supplierVo);
         model.put("commodityVos",commodityVos);
 
+        //查出该供应商区域数据
+        AreaVo areaVo = areaService.findVoById(supplierVo.getArea());
+        //省份数据
+        Integer parentid = 100000;
+        List<Area> provinces = areaService.findByParent(parentid);
+        //城市数据
+        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+        //地区数据
+        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+
+        model.put("areaVo", areaVo);
+        model.put("provinces", provinces);
+        model.put("cities", cities);
+        model.put("areaVos", areaVos);
+
+        //读取跟踪记录数据
+        UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
+        userTrackRecordVo.setSupplierId(id);
+        List<UserTrackRecordVo> userTrackRecordVos = userTrackRecordService.findByParamsNoPage(userTrackRecordVo);
+        model.put("userTrackRecordVos", userTrackRecordVos);
 
         return "supplier_detail";
     }
@@ -116,6 +149,45 @@ public class SupplierController {
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
         return Result.success("供应商列表").data(supplierService.search(name));
+    }
+
+    /**
+     * 供应商签约入驻
+     * @param supplierVo
+     * @return
+     */
+    @RequestMapping(value = "sign", method = RequestMethod.POST)
+    @ResponseBody
+    @SecurityToken(validateToken=true)
+    @BizLog(type = LogTypeConstant.SUPPLIER, desc = "签约供应商")
+    public Result sign(SupplierVo supplierVo, String pwd){
+        //supplier数据转存到user
+        UserVo userVo = new UserVo();
+        userVo.setPhone(supplierVo.getPhone());
+        userVo.setPassword(pwd);
+
+        UserDetailVo userDetailVo = new UserDetailVo();
+        userDetailVo.setName(supplierVo.getName());
+        userDetailVo.setPhone(supplierVo.getPhone());
+        userDetailVo.setCategoryIds(supplierVo.getEnterCategoryText());
+        userDetailVo.setCompany(supplierVo.getCompany());
+        userDetailVo.setArea(supplierVo.getArea());
+        userDetailVo.setEmail(supplierVo.getEmail());
+        userDetailVo.setQq(supplierVo.getQq());
+        userDetailVo.setRemark(supplierVo.getMark());
+        userService.sign(userVo, userDetailVo);
+
+
+
+        //supplier的user_track_record添加user_id字段值
+        UserTrackRecord userTrackRecord = new UserTrackRecord();
+        userTrackRecord.setUserId(123);
+        userTrackRecord.setSupplierId(supplierVo.getId());
+        userTrackRecordService.update(userTrackRecord);
+
+        //删除supplier的值
+//        supplierService.deleteById(supplierVo.getId());
+        return Result.success("保存成功");
     }
 
 

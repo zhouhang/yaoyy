@@ -3,7 +3,9 @@ package com.ms.boss.controller;
 import com.ms.boss.config.LogTypeConstant;
 import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossToken;
+import com.ms.dao.model.Area;
 import com.ms.dao.model.Member;
+import com.ms.service.AreaService;
 import com.ms.service.MemberService;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * BOSS系统首页和登录
@@ -41,6 +44,9 @@ public class HomeController extends BaseController{
 
     @Autowired
     BossSystemProperties bossSystemProperties;
+
+    @Autowired
+    private AreaService areaService;
 
     @RequestMapping(value = "/")
     @SecurityToken(generateToken = true)
@@ -113,5 +119,16 @@ public class HomeController extends BaseController{
     public String index(ModelMap model) {
         model.put("bizUrl", bossSystemProperties.getBizBaseUrl());
         return "index";
+    }
+
+    /**
+     * 省市区接口
+     * @param parentId
+     */
+    @RequestMapping(value = "/area")
+    @ResponseBody
+    public Result area(Integer parentId) {
+        List<Area> list = areaService.findByParent(parentId);
+        return Result.success().data(list);
     }
 }

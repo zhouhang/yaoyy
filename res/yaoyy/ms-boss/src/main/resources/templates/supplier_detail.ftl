@@ -50,7 +50,7 @@
                         <div class="choose" id="chooseBreeds">
                         <#if supplierVo?exists>
                             <#list supplierVo.enterCategoryList as category>
-                                <span>${category.variety}<i data-id="${category.id}"></i></span>
+                                <span>${category.name}<i data-id="${category.id}"></i></span>
                             </#list>
                         </#if>
                         </div>
@@ -69,9 +69,25 @@
                     <div class="cnt">
                         <select class="slt" name="province" id="province">
                             <option value="">-省-</option>
+                            <#list provinces as province>
+                            <option value="${province.id}?c" <#if areaVo?? && province.id == areaVo.provinceId>selected</#if>>${province.areaname}</option>
+                            </#list>
                         </select>
                         <select class="slt" name="city" id="city">
                             <option value="">-市-</option>
+                            <#if cities??>
+                            <#list cities as city>
+                                <option value="${city.id?c}" <#if areaVo?? && city.id == areaVo.cityId>selected</#if>>${city.areaname}</option>
+                            </#list>
+                            </#if>
+                        </select>
+                        <select class="slt" name="area" id="area">
+                            <option value="">-区-</option>
+                            <#if areaVos??>
+                            <#list areaVos as area>
+                                <option value="${area.id?c}" <#if areaVo?? && area.id == areaVo.id>selected</#if>>${area.areaname}</option>
+                            </#list>
+                            </#if>
                         </select>
                     </div>
                 </div>
@@ -115,15 +131,15 @@
                 </div>
             </form>
 
-            <div class="ab">
+            <!--<div class="ab">
                 <div class="block"><span>微信绑定：</span><em class="c-red">未绑定</em></div>
                 <div class="block"><span>最后登录时间：</span><em class="c-red">未登录</em></div>
                 <div class="block"><span>微信绑定：</span>bin <img src="https://avatar.tower.im/6d941fe33b084e528ce3cda3bedd4fd0"> <a href="javascript:;" class="c-blue ml" id="jwechat">取消绑定</a></div>
                 <div class="block"><span>最后登录时间：</span>2017年3月2日  12：30</div>
-            </div>
+            </div>-->
         </div>
 
-        <#if commodityVos?exists>
+        <!--<#if commodityVos?exists>
         <div class="box fa-form">
             <div class="hd">入驻商品</div>
             <div class="list">
@@ -148,57 +164,67 @@
                 </ul>
             </div>
         </div>
-        </#if>
+        </#if>-->
 
+        <#if supplierVo?exists>
         <div class="box fa-form">
             <div class="hd">跟踪记录</div>
             <ol class="trace" id="trace">
+                <#list userTrackRecordVos as userTrackRecordVo>
                 <li>
-                    <span>李笑</span>
-                    <span>2017年3月1日 11：30</span>
-                    <span>到访该供应商加工厂地，达成初步合作意向。</span>
+                    <span>${userTrackRecordVo.member?default("")}</span>
+                    <span>${userTrackRecordVo.createTime?datetime}</span>
+                    <span>${userTrackRecordVo.content?default("")}</span>
                 </li>
+                </#list>
             </ol>
             <form action="" id="traceForm">
                 <div class="item">
                     <div class="txt">跟踪记录：</div>
                     <div class="cnt">
-                        <textarea name="consigneeNote" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
+                        <textarea name="content" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
                     </div>
                 </div>
                 <div class="ft">
-                    <button type="button" class="ubtn ubtn-blue submit">提交</button>
+                    <input type="hidden" name="memberId" value="${(member_session_boss.id)!}">
+                    <input type="hidden" name="supplierId" value="${(supplierVo.id)!}">
+                    <button type="submit" class="ubtn ubtn-blue submit">提交</button>
                 </div>
             </form>
         </div>
+        </#if>
 
+        <!--<#if supplierVo?exists>
         <div class="box fa-form">
             <div class="hd">供应商照片</div>
             <div class="pics thumb">
                 <div class="up-img" id="jpic"></div>
             </div>
         </div>
+        </#if>-->
 
+        <#if supplierVo?exists>
         <div class="box fa-form">
             <div class="hd">供应商入驻</div>
             <form id="myform3">
                 <div class="item">
                     <div class="txt">登录帐号：</div>
-                    <div class="val">18801285391</div>
+                    <div class="val">${(supplierVo.phone)!}</div>
                 </div>
                 <div class="item">
                     <div class="txt">密码：</div>
                     <div class="cnt">
-                        <input type="text" name="pwd" class="ipt ipt-short" autocomplete="off">
-                        <a href="javascript:;" class="c-blue ml">生成随机密码</a>
+                        <input type="text" name="pwd" id="pwd" class="ipt ipt-short" autocomplete="off">
+                        <a href="javascript:;" id="generate" class="c-blue ml">生成随机密码</a>
                     </div>
                 </div>
                 <div class="ft">
-                    <button type="button" class="ubtn ubtn-blue submit">同意入驻</button>
+                    <button type="submit" class="ubtn ubtn-blue submit">同意入驻</button>
                     <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
                 </div>
             </form>
         </div>
+        </#if>
 
     </div>
 
@@ -217,6 +243,8 @@
             init: function() {
                 this.validator();
                 this.searchBreeds();
+                this.traceForm();
+                this.myform3();
             },
             validator: function() {
                 var _enable = true,
@@ -228,7 +256,6 @@
                         name: '姓名: required',
                         phone: '手机号: required; mobile',
                         phone2: 'mobile',
-                        email: '邮箱: required; email',
                         telephone: 'tel',
                         area: '所在地区: required',
                         enterCategory: '入驻品种: required',
@@ -263,7 +290,7 @@
 
                 $breeds.autocomplete({
                     serviceUrl: 'category/search',
-                    paramName: 'variety',
+                    paramName: 'name',
                     deferRequestBy: 100,
                     showNoSuggestionNotice: true,
                     noSuggestionNotice: '没有该品种',
@@ -272,7 +299,7 @@
                         if (response.status == "200") {
                             return {
                                 suggestions: $.map(response.data, function (dataItem) {
-                                    return {value: dataItem.variety, data: dataItem.id};
+                                    return {value: dataItem.name, data: dataItem.id};
                                 })
                             };
                         } else {
@@ -325,12 +352,108 @@
                     }
                 }
                 return false;
+            },
+            traceForm: function() {
+                var _enable = true,
+                        $traceForm = $('#traceForm');
+
+                // 表单验证
+                $traceForm.validator({
+                    fields: {
+                        content: '内容: required'
+                    },
+                    valid: function(form) {
+                        _enable &&$.post('/usertrack/save', $traceForm.serialize()).done(function(d){
+                            if (d.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '操作成功',
+                                    callback: function() {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                            _enable = true;
+                        });
+                        _enable = false;
+                    }
+                });
+            },
+            myform3: function() {
+                var _enable = true,
+                        $myform3 = $('#myform3');
+
+                // 表单验证
+                $myform3.validator({
+                    fields: {
+                        pwd: '密码: required'
+                    },
+                    valid: function(form) {
+                        _enable &&$.post('/supplier/sign', $("#myform").serialize() + '&pwd='+$('#pwd').val()).done(function(d){
+                            if (d.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '操作成功',
+                                    callback: function() {
+                                        location.href = '/supplier/list';
+                                    }
+                                });
+                            }
+                            _enable = true;
+                        });
+                        _enable = false;
+                    }
+                });
             }
         }
     }
 
     $(function() {
         _global.fn.init();
+        $("#province").change(function(){
+            var provinceid = $("#province").val();
+            if(provinceid!=""){
+                $.ajax({
+                    url: '/area',
+                    data: {parentId: provinceid},
+                    success: function(result) {
+                        var $city = $("#city");
+                        var data = result.data;
+                        $city.empty();
+                        for(i in data){
+                            $city.append("<option value=\"" + data[i].id + "\">" + data[i].areaname + "</option>");
+                        }
+                        $city.change();
+                    }
+                })
+            }
+        });
+
+        $("#city").change(function(){
+            var cityid = $("#city").val();
+            if(cityid!=""){
+                $.ajax({
+                    url: '/area',
+                    data: {parentId: cityid},
+                    success: function(result) {
+                        var $area = $("#area");
+                        var data = result.data;
+                        $area.empty();
+                        for(i in data){
+                            $area.append("<option value=\"" + data[i].id + "\">" + data[i].areaname + "</option>");
+                        }
+                    }
+                })
+            }
+        });
+
+        $("#generate").click(function(){
+            var num="";
+            for(var i=0;i<6;i++) {
+                num+=Math.floor(Math.random()*10);
+            }
+            $("#pwd").val(num);
+        });
     })
 </script>
 </body>

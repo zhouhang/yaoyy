@@ -10,7 +10,7 @@ public class AreaVo extends Area{
 
     private String city;
 
-    private String cityId;
+    private Integer cityId;
 
     public String getProvince() {
         return province;
@@ -36,11 +36,11 @@ public class AreaVo extends Area{
         this.city = city;
     }
 
-    public String getCityId() {
+    public Integer getCityId() {
         return cityId;
     }
 
-    public void setCityId(String cityId) {
+    public void setCityId(Integer cityId) {
         this.cityId = cityId;
     }
 }

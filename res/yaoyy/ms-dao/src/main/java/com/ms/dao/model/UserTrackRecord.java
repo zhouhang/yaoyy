@@ -12,6 +12,10 @@ public class UserTrackRecord  implements Serializable {
 	
 	//user表id
 	private Integer userId;
+
+	private Integer supplierId;
+
+	private Integer memberId;
 	
 	private String content;
 	
@@ -34,7 +38,15 @@ public class UserTrackRecord  implements Serializable {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	
+
+	public Integer getSupplierId() {return supplierId;}
+
+	public void setSupplierId(Integer supplierId) {this.supplierId = supplierId;}
+
+	public Integer getMemberId() {return memberId;}
+
+	public void setMemberId(Integer memberId) {this.memberId = memberId;}
+
 	public String getContent() {
 		return content;
 	}

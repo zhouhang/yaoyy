@@ -153,7 +153,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			userDetail=new UserDetail();
 			userDetail.setPhone(pickVo.getPhone());
 			userDetail.setNickname(pickVo.getNickname());
-			userDetail.setArea("");
+			userDetail.setArea(0);
 			userDetail.setUserId(useId);
 			userDetail.setName("");
 			userDetail.setRemark("");

@@ -26,6 +26,11 @@ public class UserTrackRecordServiceImpl  extends AbsCommonService<UserTrackRecor
         return page;
 	}
 
+	@Override
+	public List<UserTrackRecordVo> findByParamsNoPage(UserTrackRecordVo userTrackRecordVo) {
+		return userTrackRecordDao.findVoByParams(userTrackRecordVo);
+	}
+
 
 	@Override
 	public ICommonDao<UserTrackRecord> getDao() {

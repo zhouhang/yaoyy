@@ -15,4 +15,6 @@ public interface SupplierService extends ICommonService<Supplier>{
     public void save(SupplierVo supplierVo);
 
     List<SupplierVo> search(String name);
+
+    public PageInfo<SupplierVo> findVoByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
 }

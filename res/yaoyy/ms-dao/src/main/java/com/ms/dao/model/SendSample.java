@@ -32,7 +32,7 @@ public class SendSample  implements Serializable {
 	private String phone;
 
 	//地区
-	private String area;
+	private Integer area;
 	
 	private Date updateTime;
 	
@@ -120,11 +120,11 @@ public class SendSample  implements Serializable {
 		this.phone = phone;
 	}
 
-	public String getArea() {
+	public Integer getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(Integer area) {
 		this.area = area;
 	}
 	

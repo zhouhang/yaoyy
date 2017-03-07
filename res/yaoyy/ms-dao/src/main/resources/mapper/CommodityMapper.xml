@@ -19,7 +19,6 @@
             <result column="price"  property="price" />
             <result column="unit"  property="unit" />
             <result column="sort"  property="sort" />
-            <result column="mark"  property="mark" />
             <result column="create_time"  property="createTime" />
             <result column="update_time"  property="updateTime" />
             <result column="minimum_quantity"  property="minimumQuantity" />
@@ -37,14 +36,14 @@
 
     <sql id="Base_Column_List">
         id,title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,
-        status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time
+        status,attribute,price,unit,sort,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time
     </sql>
 
     <sql id="Base_Column_List_Alisa">
         cm.id as id,cm.title as title,cm.name as name,cm.har_year as har_year,
         cm.origin as origin, cm.spec as spec,cm.process as process,cm.exterior as exterior,cm.executive_standard as executiveStandard,cm.category_id as category_id,cm.picture_url as picture_url,
         cm.detail as detail,cm.status as status,cm.attribute as attribute,cm.price as price,
-        cm.unit as unit,cm.sort as sort, cm.mark as mark,cm.create_time as create_time,cm.update_time as update_time,
+        cm.unit as unit,cm.sort as sort,cm.create_time as create_time,cm.update_time as update_time,
         cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url,cm.supplier_id as supplier_id,cm.price_update_time as price_update_time
     </sql>
 
@@ -64,7 +63,7 @@
     <select id="findByParams" resultMap="CommodityResultMapVo" parameterType="com.ms.dao.vo.CommodityVo">
         select
         <include refid="Base_Column_List_Alisa" />,
-        ca.variety as categoryName,
+        ca.name as categoryName,
         cd.name as unitName,sp.name as supplierName
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
@@ -75,7 +74,7 @@
                 cm.id = #{id}
             </if>
             <if test="categoryName != null">
-               and ca.variety like  "%"#{categoryName}"%"
+               and ca.name like  "%"#{categoryName}"%"
             </if>
             <if test="name != null">
                and cm.name = #{name}
@@ -94,10 +93,10 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Commodity">
         insert into
-        commodity (title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,status,attribute,price,unit,sort,mark,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time)
+        commodity (title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,status,attribute,price,unit,sort,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time)
         values
         (#{title},#{name},#{harYear},#{origin},#{spec},#{process},#{exterior},#{executiveStandard},#{categoryId},#{pictureUrl},
-        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{mark},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId},#{priceUpdateTime})
+        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId},#{priceUpdateTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Commodity">
@@ -166,10 +165,6 @@
                                             
             <if test="sort != null">
                 sort = #{sort},
-            </if>
-                                            
-            <if test="mark != null">
-                mark = #{mark},
             </if>
                                             
             <if test="createTime != null">
@@ -244,7 +239,7 @@
     <select id="findVoByPage" resultMap="CommodityResultMapVo" >
         select
         <include refid="Base_Column_List_Alisa" />,
-        ca.variety as categoryName
+        ca.name as categoryName
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
     </select>
@@ -253,7 +248,7 @@
     <select id="findByCategoryId" resultMap="CommodityResultMapVo" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List_Alisa" />,
-        ca.variety as categoryName,
+        ca.name as categoryName,
         cd.name as unitName
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
@@ -293,7 +288,7 @@
     <select id="findBySupplier" resultMap="CommodityResultMapVo" >
         select
         <include refid="Base_Column_List_Alisa" />,
-        ca.variety as categoryName,
+        ca.name as categoryName,
         cd.name as unitName
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id

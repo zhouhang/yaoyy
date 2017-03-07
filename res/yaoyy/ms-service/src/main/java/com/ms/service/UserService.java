@@ -2,6 +2,7 @@ package com.ms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.User;
+import com.ms.dao.vo.UserDetailVo;
 import com.ms.dao.vo.UserVo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -28,6 +29,7 @@ public interface UserService extends ICommonService<User>{
 
     public void register(String phone, String code, String password);
 
+    public void sign(UserVo userVo, UserDetailVo userDetailVo);
 
     public User registerWechat(String phone,String openId,String nickname,String headImgUrl);
 

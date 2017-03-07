@@ -10,4 +10,6 @@ public interface UserTrackRecordDao extends ICommonDao<UserTrackRecord>{
 
     public List<UserTrackRecordVo> findByParams(UserTrackRecordVo userTrackRecordVo);
 
+    public List<UserTrackRecordVo> findVoByParams(UserTrackRecordVo userTrackRecordVo);
+
 }

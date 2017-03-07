@@ -10,6 +10,7 @@ import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
+import com.ms.dao.vo.UserDetailVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
@@ -254,6 +255,51 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		user.setSalt(pass.getSalt());
 		user.setUpdateTime(new Date());
 		userDao.update(user);
+	}
+
+	@Override
+	@Transactional
+	public void sign(UserVo userVo, UserDetailVo userDetailVo) {
+
+		User existUser = findByPhone(userVo.getPhone());
+		if ( existUser!= null) {
+			// 判断用户是否通过微信
+			if (Strings.isNullOrEmpty(existUser.getPassword())){
+				// 微信openId 存在 密码不存在修改注册信息
+				Password pass = EncryptUtil.PiecesEncode(userVo.getPassword());
+				existUser.setPassword(pass.getPassword());
+				existUser.setSalt(pass.getSalt());
+				update(existUser);
+			} else {
+				throw new RuntimeException("电话号码已经存在");
+			}
+		} else {
+			User user = new User();
+			user.setPhone(userVo.getPhone());
+			user.setType(UserTypeEnum.supplier.getType());
+			user.setSource(UserSourceEnum.system.getType());
+			user.setStatus(UserEnum.enable.getType());
+			user.setCreateTime(new Date());
+			user.setUpdateTime(new Date());
+			Password pass = EncryptUtil.PiecesEncode(userVo.getPassword());
+			user.setPassword(pass.getPassword());
+			user.setSalt(pass.getSalt());
+			create(user);
+
+			if (userDetailService.findByUserId(user.getId()).getId() != null ) {
+				UserDetail userDetail = new UserDetail();
+				userDetail.setUserId(user.getId());
+				userDetail.setName(userDetailVo.getName());
+				userDetail.setPhone(userDetailVo.getPhone());
+				userDetail.setCategoryIds(userDetailVo.getCategoryIds());
+				userDetail.setCompany(userDetailVo.getCompany());
+				userDetail.setArea(userDetailVo.getArea());
+				userDetail.setEmail(userDetailVo.getEmail());
+				userDetail.setQq(userDetailVo.getQq());
+				userDetail.setRemark(userDetailVo.getRemark());
+				userDetailService.create(userDetail);
+			}
+		}
 	}
 
 

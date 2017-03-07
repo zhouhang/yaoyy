@@ -13,16 +13,16 @@ public class UserDetail  implements Serializable {
 	//补全信息类型(身份类型)
 	private Integer type;
 	
-	//联系人姓名
+	//微信名
 	private String nickname;
 	
 	//联系电话
 	private String phone;
 	
 	//地区
-	private String area;
+	private Integer area;
 	
-	//姓名/公司
+	//姓名
 	private String name;
 	
 	//用户备注
@@ -36,6 +36,18 @@ public class UserDetail  implements Serializable {
 	private Date createTime;
 	
 	private Date updateTime;
+
+	//经营品种
+	private String categoryIds;
+
+	//邮箱
+	private String email;
+
+	//qq
+	private String qq;
+
+	//公司名
+	private String company;
 	
 	public UserDetail(){}
 	
@@ -71,11 +83,11 @@ public class UserDetail  implements Serializable {
 		this.phone = phone;
 	}
 	
-	public String getArea() {
+	public Integer getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(Integer area) {
 		this.area = area;
 	}
 	
@@ -126,4 +138,20 @@ public class UserDetail  implements Serializable {
 	public void setHeadImgUrl(String headImgUrl) {
 		this.headImgUrl = headImgUrl;
 	}
+
+	public String getCompany() {return company;}
+
+	public void setCompany(String company) {this.company = company;}
+
+	public String getQq() {return qq;}
+
+	public void setQq(String qq) {this.qq = qq;}
+
+	public String getEmail() {return email;}
+
+	public void setEmail(String email) {this.email = email;}
+
+	public String getCategoryIds() {return categoryIds;}
+
+	public void setCategoryIds(String categoryIds) {this.categoryIds = categoryIds;}
 }

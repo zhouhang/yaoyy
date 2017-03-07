@@ -70,6 +70,20 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	}
 
 	@Override
+	public PageInfo<SupplierVo> findVoByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize){
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?10:pageSize;
+
+		PageHelper.startPage(pageNum, pageSize);
+		List<SupplierVo>  list = supplierDao.findVoByParams(supplierVo);
+		list.forEach(s->{
+			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
+		});
+		PageInfo page = new PageInfo(list);
+		return page;
+	}
+
+	@Override
 	public ICommonDao<Supplier> getDao() {
 		return supplierDao;
 	}

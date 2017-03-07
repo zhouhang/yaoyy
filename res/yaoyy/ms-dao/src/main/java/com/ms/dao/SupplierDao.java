@@ -12,5 +12,6 @@ public interface SupplierDao extends ICommonDao<Supplier>{
 
     public SupplierVo findVoById(Integer id);
 
+    public List<SupplierVo> findVoByParams(SupplierVo supplierVo);
 
 }

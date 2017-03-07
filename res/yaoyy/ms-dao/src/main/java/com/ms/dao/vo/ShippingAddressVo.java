@@ -7,7 +7,7 @@ public class ShippingAddressVo extends ShippingAddress{
     private Integer provinceId;
 
     // 区域ID
-    private String cityId;
+    private Integer cityId;
 
     //地址全称
     private String fullAdd;
@@ -20,11 +20,11 @@ public class ShippingAddressVo extends ShippingAddress{
         this.provinceId = provinceId;
     }
 
-    public String getCityId() {
+    public Integer getCityId() {
         return cityId;
     }
 
-    public void setCityId(String cityId) {
+    public void setCityId(Integer cityId) {
         this.cityId = cityId;
     }
 

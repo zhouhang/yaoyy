@@ -38,7 +38,6 @@ public class User  implements Serializable {
 
 	// 0 未认证 1已认证(主要针对供应商)
 	private Integer verify;
-
 	
 	public User(){}
 	
@@ -129,4 +128,5 @@ public class User  implements Serializable {
 	public void setVerify(Integer verify) {
 		this.verify = verify;
 	}
+
 }

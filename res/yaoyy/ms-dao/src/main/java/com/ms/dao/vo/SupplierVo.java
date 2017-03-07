@@ -42,4 +42,15 @@ public class SupplierVo extends Supplier{
     public void setEnterCategoryList(List<CategoryVo> enterCategoryList) {
         this.enterCategoryList = enterCategoryList;
     }
+
+    //区域中文
+    private String areaname;
+
+    public String getAreaname() {
+        return areaname;
+    }
+
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
+    }
 }

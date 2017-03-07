@@ -9,7 +9,8 @@ import java.util.Map;
  */
 public enum UserSourceEnum {
     register(0,"注册用户"),
-    auto(1,"自动生成");
+    auto(1,"自动生成"),
+    system(2,"系统录入");
 
     private Integer type;
     private String value;

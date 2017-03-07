@@ -12,6 +12,9 @@ public class Supplier  implements Serializable {
 	
 	//姓名
 	private String name;
+
+	//公司名
+	private String company;
 	
 	//手机号
 	private String phone;
@@ -26,7 +29,7 @@ public class Supplier  implements Serializable {
 	private String telephone;
 	
 	//地区
-	private String area;
+	private Integer area;
 	
 	//入驻品种,逗号隔开
 	private String enterCategory;
@@ -58,6 +61,11 @@ public class Supplier  implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public String getCompany() {return company;}
+
+	public void setCompany(String company) {this.company = company;}
 	
 	public String getPhone() {
 		return phone;
@@ -91,11 +99,11 @@ public class Supplier  implements Serializable {
 		this.telephone = telephone;
 	}
 	
-	public String getArea() {
+	public Integer getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(Integer area) {
 		this.area = area;
 	}
 	
