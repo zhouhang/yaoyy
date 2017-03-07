@@ -197,25 +197,27 @@ public class SupplierController {
 //        supplierService.deleteById(supplierVo.getId());
 
         //发短信（短信需要手机号，模板id及params）和微信（微信模板消息需要，模板id，openid及params map）
-        WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
-        templateMessage.setToUser(userVo.getOpenid());
-        templateMessage.setTemplateId("w4qh_kBaLdv07G6fdRaeRFzNhTsMhNbDOn2-lkfct-s");
-        templateMessage.setUrl("");
-        templateMessage.getData().add(new WxMpTemplateData("first", "恭喜您，已成为药优优签约供应商", "#FF00FF"));
-        templateMessage.getData().add(new WxMpTemplateData("keyword1", "药优优供应商审核结果", "#FF00FF"));
-        templateMessage.getData().add(new WxMpTemplateData("keyword2", "审核通过", "#FF00FF"));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        templateMessage.getData().add(new WxMpTemplateData("keyword3", dateFormat.format(new Date()), "#FF00FF"));
-        templateMessage.getData().add(new WxMpTemplateData("remark",
-                "您可以在药优优公众号左侧“供应商管理”菜单看到您的订单情况，以及对您的商品进行调价。" +
-                        "第一次使用请用您的账号：" + supplierVo.getPhone() + "和密码：" + pwd + " 进行登录。", "#FF00FF"));
+        if(userVo.getOpenid() != null) {
+            WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
+            templateMessage.setToUser(userVo.getOpenid());
+            templateMessage.setTemplateId("w4qh_kBaLdv07G6fdRaeRFzNhTsMhNbDOn2-lkfct-s");
+            templateMessage.setUrl("");
+            templateMessage.getData().add(new WxMpTemplateData("first", "恭喜您，已成为药优优签约供应商", "#FF00FF"));
+            templateMessage.getData().add(new WxMpTemplateData("keyword1", "药优优供应商审核结果", "#FF00FF"));
+            templateMessage.getData().add(new WxMpTemplateData("keyword2", "审核通过", "#FF00FF"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            templateMessage.getData().add(new WxMpTemplateData("keyword3", dateFormat.format(new Date()), "#FF00FF"));
+            templateMessage.getData().add(new WxMpTemplateData("remark",
+                    "您可以在药优优公众号左侧“供应商管理”菜单看到您的订单情况，以及对您的商品进行调价。" +
+                            "第一次使用请用您的账号：" + supplierVo.getPhone() + "和密码：" + pwd + " 进行登录。", "#FF00FF"));
 
-        WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
-        applicationContext.publishEvent(wt);
+            WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
+            applicationContext.publishEvent(wt);
+        }
 
         SmsTemplateEvent sms = new SmsTemplateEvent(supplierVo.getPhone(), pwd);
-        applicationContext.publishEvent(wt);
-        
+        applicationContext.publishEvent(sms);
+
         return Result.success("保存成功");
     }
 
