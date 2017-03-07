@@ -85,7 +85,7 @@ em,i{font-style:normal;}
 .fa-cbx:checked{border-color:#b9a060;}
 .fa-cbx:checked:before{content:'';display:block;width:10px;height:10px;margin:4px;background:#b9a060;-webkit-border-radius:50%;border-radius:50%;}
 .fa-cbx2{position:relative;display:inline-block;width:16px;height:16px;color:#b9a060;border:1px solid #acacac;-webkit-border-radius:2px;border-radius:2px;}
-.fa-cbx2:checked{background:#b9a060 url(../images/cbx.png) no-repeat 50% 50%;background-size:100%; auto;border-color:#b9a060;}
+.fa-cbx2:checked{background:url(../images/cbx.png) no-repeat 50% 50%;background-size:100%; auto;border-color:#b9a060;}
 .fa-switch{display:inline-block;width:60px;height:27px;background:#aaa;-webkit-border-radius:14px;border-radius:14px;}
 .fa-switch:before{content:'';display:block;width:25px;height:25px;margin:1px;background:#fff;-webkit-border-radius:14px;border-radius:14px;-webkit-transition:all .3s;transition:all .3s;}
 .fa-switch:checked{background:#b9a060;}
