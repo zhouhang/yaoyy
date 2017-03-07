@@ -137,8 +137,11 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="supplier:list">
-                <a href="/supplier/list"><i class="fa fa-circle-o"></i>供应商列表</a>
+                <a href="/supplier/list"><i class="fa fa-circle-o"></i>未签约供应商</a>
                 </@shiro.hasPermission>
+            </dd>
+            <dd>
+                <a href="/signsupplier/list"><i class="fa fa-circle-o"></i>签约供应商</a>
             </dd>
         </dl>
         </@shiro.hasPermission>

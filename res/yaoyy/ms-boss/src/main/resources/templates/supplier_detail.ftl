@@ -21,6 +21,10 @@
         <div class="box fa-form">
             <div class="hd">基本信息</div>
             <form id="myform" action="/supplier/save" method="post">
+                <div class="item">
+                    <div class="txt">供应商编号：</div>
+                    <div class="val">${(supplierVo.id)!}</div>
+                </div>
                 <input type="hidden" name="id" value="${(supplierVo.id)!}">
                 <div class="item">
                     <div class="txt"><i>*</i>姓名：</div>
@@ -34,19 +38,50 @@
                         <input type="text" name="phone" value="${(supplierVo.phone)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
                     </div>
                 </div>
-                <div class="item">
+                <!--<div class="item">
                     <div class="txt">手机号2：</div>
                     <div class="cnt">
                         <input type="text" name="phone2" value="${(supplierVo.phone2)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
                     </div>
+                </div>-->
+                <div class="item">
+                    <div class="txt"><i>*</i>品种：</div>
+                    <div class="cnt">
+                        <div class="choose" id="chooseBreeds">
+                        <#if supplierVo?exists>
+                            <#list supplierVo.enterCategoryList as category>
+                                <span>${category.variety}<i data-id="${category.id}"></i></span>
+                            </#list>
+                        </#if>
+                        </div>
+                        <input type="text" name="breeds" id="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
+                        <input type="hidden" value="${(supplierVo.enterCategory)!}" name="enterCategory" id="breedsId">
+                    </div>
                 </div>
                 <div class="item">
-                    <div class="txt"><i>*</i>邮箱：</div>
+                    <div class="txt">公司：</div>
+                    <div class="cnt">
+                        <input type="text" name="company" class="ipt" placeholder="请输入公司名" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">地区：</div>
+                    <div class="cnt">
+                        <select class="slt" name="province" id="province">
+                            <option value="">-省-</option>
+                        </select>
+                        <select class="slt" name="city" id="city">
+                            <option value="">-市-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">邮箱：</div>
                     <div class="cnt">
                         <input type="text" name="email" value="${(supplierVo.email)!}" class="ipt" placeholder="请输入邮箱" autocomplete="off">
                     </div>
                 </div>
-                <div class="item">
+                <!--<div class="item">
                     <div class="txt">座机：</div>
                     <div class="cnt">
                         <input type="text" name="telephone" value="${(supplierVo.telephone)!}" class="ipt" placeholder="请输入座机号" autocomplete="off">
@@ -57,20 +92,10 @@
                     <div class="cnt">
                         <input type="text" name="area" value="${(supplierVo.area)!}" class="ipt" placeholder="请输入所在地区" autocomplete="off">
                     </div>
-                </div>
+                </div>-->
                 <div class="item">
-                    <div class="txt"><i>*</i>入驻品种：</div>
-                    <div class="cnt">
-                        <div class="choose" id="chooseBreeds">
-                            <#if supplierVo?exists>
-                            <#list supplierVo.enterCategoryList as category>
-                            <span>${category.variety}<i data-id="${category.id}"></i></span>
-                            </#list>
-                            </#if>
-                        </div>
-                        <input type="text" name="breeds" id="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
-                        <input type="hidden" value="${(supplierVo.enterCategory)!}" name="enterCategory" id="breedsId">
-                    </div>
+                    <div class="txt">信息来源：</div>
+                    <div class="val">系统录入</div>
                 </div>
                 <div class="item">
                     <div class="txt">QQ：</div>
@@ -89,8 +114,16 @@
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存</button>
                 </div>
             </form>
+
+            <div class="ab">
+                <div class="block"><span>微信绑定：</span><em class="c-red">未绑定</em></div>
+                <div class="block"><span>最后登录时间：</span><em class="c-red">未登录</em></div>
+                <div class="block"><span>微信绑定：</span>bin <img src="https://avatar.tower.im/6d941fe33b084e528ce3cda3bedd4fd0"> <a href="javascript:;" class="c-blue ml" id="jwechat">取消绑定</a></div>
+                <div class="block"><span>最后登录时间：</span>2017年3月2日  12：30</div>
+            </div>
         </div>
-    <#if commodityVos?exists>
+
+        <#if commodityVos?exists>
         <div class="box fa-form">
             <div class="hd">入驻商品</div>
             <div class="list">
@@ -116,6 +149,57 @@
             </div>
         </div>
         </#if>
+
+        <div class="box fa-form">
+            <div class="hd">跟踪记录</div>
+            <ol class="trace" id="trace">
+                <li>
+                    <span>李笑</span>
+                    <span>2017年3月1日 11：30</span>
+                    <span>到访该供应商加工厂地，达成初步合作意向。</span>
+                </li>
+            </ol>
+            <form action="" id="traceForm">
+                <div class="item">
+                    <div class="txt">跟踪记录：</div>
+                    <div class="cnt">
+                        <textarea name="consigneeNote" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue submit">提交</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">供应商照片</div>
+            <div class="pics thumb">
+                <div class="up-img" id="jpic"></div>
+            </div>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">供应商入驻</div>
+            <form id="myform3">
+                <div class="item">
+                    <div class="txt">登录帐号：</div>
+                    <div class="val">18801285391</div>
+                </div>
+                <div class="item">
+                    <div class="txt">密码：</div>
+                    <div class="cnt">
+                        <input type="text" name="pwd" class="ipt ipt-short" autocomplete="off">
+                        <a href="javascript:;" class="c-blue ml">生成随机密码</a>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue submit">同意入驻</button>
+                    <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <#include "./common/footer.ftl"/>
