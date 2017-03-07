@@ -139,31 +139,13 @@
                 <@shiro.hasPermission name="supplier:list">
                 <a href="/supplier/list"><i class="fa fa-circle-o"></i>未签约供应商</a>
                 </@shiro.hasPermission>
-            </dd>
-            <dd>
                 <a href="/signsupplier/list"><i class="fa fa-circle-o"></i>签约供应商</a>
+
             </dd>
         </dl>
         </@shiro.hasPermission>
-       <@shiro.hasPermission name="quotation:index">
-        <dl>
-            <dt>
-                <a href="javascript:;">
-                    <i class="fa fa-flag"></i>
-                    <span>资讯管理</span>
-                    <i class="fa fa-angle-down arrow"></i>
-                </a>
-            </dt>
-            <dd>
-               <@shiro.hasPermission name="quotation:list">
-                <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
-               </@shiro.hasPermission>
-            </dd>
-            <dd>
-                <a href="/announcement/list"><i class="fa fa-circle-o"></i>网站公告</a>
-            </dd>
-        </dl>
-       </@shiro.hasPermission>
+
+
     <@shiro.hasPermission name="pay:index">
         <dl>
             <dt>
@@ -173,14 +155,14 @@
                     <i class="fa fa-angle-down arrow"></i>
                 </a>
             </dt>
-             <dd>
-            <@shiro.hasPermission name="payRecord:list">
+            <dd>
+                <@shiro.hasPermission name="payRecord:list">
                     <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
-            </@shiro.hasPermission>
-                 <@shiro.hasPermission name="bill:list">
-                     <a href="/bill/list"><i class="fa fa-circle-o"></i>账单列表</a>
-                 </@shiro.hasPermission>
-             </dd>
+                </@shiro.hasPermission>
+                <@shiro.hasPermission name="bill:list">
+                    <a href="/bill/list"><i class="fa fa-circle-o"></i>账单列表</a>
+                </@shiro.hasPermission>
+            </dd>
         </dl>
     </@shiro.hasPermission>
     <@shiro.hasPermission name="setting:all">
@@ -197,4 +179,22 @@
             </dd>
         </dl>
     </@shiro.hasPermission>
+       <@shiro.hasPermission name="quotation:index">
+        <dl>
+            <dt>
+                <a href="javascript:;">
+                    <i class="fa fa-flag"></i>
+                    <span>资讯管理</span>
+                    <i class="fa fa-angle-down arrow"></i>
+                </a>
+            </dt>
+            <dd>
+               <@shiro.hasPermission name="quotation:list">
+                <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
+               </@shiro.hasPermission>
+                <a href="/announcement/list"><i class="fa fa-circle-o"></i>网站公告</a>
+            </dd>
+        </dl>
+       </@shiro.hasPermission>
+
     </div>
