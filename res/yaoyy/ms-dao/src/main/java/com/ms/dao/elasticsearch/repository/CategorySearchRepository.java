@@ -11,11 +11,11 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  */
 public interface CategorySearchRepository extends ElasticsearchRepository<CategoryDoc, Integer> {
 
-    Page<CategoryDoc> findByVarietyOrParentName(String name, String parentName, Pageable page);
+    Page<CategoryDoc> findByNameOrParentName(String name, String parentName, Pageable page);
 
 
     @Query("{\"bool\" : {\"should\" : [{\"term\" : {\"name\" : \"?0\"}}, {\"term\" : {\"parentName\" : \"?0\"}}]}}}")
-    Page<CategoryDoc> cusFindByVarietyOrParentName(String field, Pageable page);
+    Page<CategoryDoc> cusFindByNameOrParentName(String field, Pageable page);
 
 
 

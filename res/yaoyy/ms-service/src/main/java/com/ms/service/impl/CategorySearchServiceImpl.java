@@ -46,7 +46,7 @@ public class CategorySearchServiceImpl implements CategorySearchService {
     @Override
     public List<CategoryDoc> findByCategoryName(String categoryName) {
         SearchQuery nameSearchQuery = new NativeSearchQueryBuilder()
-                .withQuery(matchQuery("variety",categoryName))
+                .withQuery(matchQuery("name",categoryName))
                 .withPageable(new PageRequest(0,10)).build();
         Page<CategoryDoc> categoryDocPage = esTemplate.queryForPage(nameSearchQuery,CategoryDoc.class);
         return categoryDocPage.getContent();
