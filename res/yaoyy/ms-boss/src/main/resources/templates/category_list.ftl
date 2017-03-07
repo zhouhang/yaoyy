@@ -20,7 +20,7 @@
             <div class="tools">
                 <div class="filter">
                     <form action="" id="serarchForm">
-                        <input type="text" name="variety" class="ipt" placeholder="品种" id="searchName" value="${categoryVo.variety?default('')}">
+                        <input type="text" name="name" class="ipt" placeholder="品种" id="searchName" value="${categoryVo.name?default('')}">
                         <select class="ipt"  name="status" id="searchStatus" class="slt">
                             <option <#if (categoryVo.status??)> selected</#if>  value="">上/下架</option>
                             <option <#if categoryVo.status?exists && categoryVo.status==1> selected</#if> value="1">上架</option>
@@ -52,7 +52,7 @@
                     <#list categoryPage.list as category>
                     <tr <#if category.status==0>class="gray"</#if>>
                         <td><input type="checkbox"></td>
-                        <td>${category.variety}</td>
+                        <td>${category.name}</td>
                         <td>${category.title}</td>
                         <td>${category.sort}</td>
                         <td>${category.parentName}</td>
@@ -86,9 +86,9 @@
         <div class="item">
             <div class="txt"><i>*</i>父类品种：</div>
             <div class="cnt">
-                <select name="pid" id="varieties" class="slt">
-                    <#list varieties as variety>
-                    <option value="${variety.id?c}">${variety.variety}</option>
+                <select name="pid" id="names" class="slt">
+                    <#list names as name>
+                    <option value="${name.id?c}">${name.name}</option>
                     </#list>
                 </select>
             </div>
@@ -96,7 +96,7 @@
         <div class="item">
             <div class="txt"><i>*</i>品种：</div>
             <div class="cnt">
-                <input type="text" name="variety" class="ipt" placeholder="品种" autocomplete="off">
+                <input type="text" name="name" class="ipt" placeholder="品种" autocomplete="off">
             </div>
         </div>
         <div class="item">
@@ -119,6 +119,18 @@
                 <span class="tips">图片尺寸：220 X 180</span>
             </div>
         </div>
+        <!--<div class="item">  品种新加属性，kevin继续完成开发
+            <div class="txt"><i>*</i>等级规格：</div>
+            <div class="cnt">
+                <input type="text" name="spec" class="ipt" placeholder="等级规格" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>单位：</div>
+            <div class="cnt">
+                <input type="text" name="unit" class="ipt" placeholder="单位" autocomplete="off">
+            </div>
+        </div>-->
 
         <div class="button">
             <button type="submit" class="ubtn ubtn-blue">保存</button>
@@ -225,7 +237,7 @@
 
                 $carForm.validator({
                     fields: {
-                        variety: '品种: required',
+                        name: '品种: required',
                         title: '标题: required',
                         sort: '排序: required; integer',
                         pictureUrl: '图片: required'
@@ -285,11 +297,11 @@
                     $carForm = $('#myform');
 
                 var showBox = function(data) {
-                    $carForm.find('.ipt[name="variety"]').val(data.variety);
+                    $carForm.find('.ipt[name="name"]').val(data.name);
                     $carForm.find('.ipt[name="title"]').val(data.title);
                     $carForm.find('.ipt[name="sort"]').val(data.sort);
                     $carForm.find('.ipt[name="id"]').val(data.id);
-                    $("#varieties").val(data.pid);
+                    $("#names").val(data.pid);
 
                     // 如果有图片，填充图片
                     if (data.pictureUrl) {

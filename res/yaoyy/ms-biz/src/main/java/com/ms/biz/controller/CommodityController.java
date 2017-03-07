@@ -73,9 +73,7 @@ public class CommodityController extends BaseController{
         if(commodityVo==null){
             throw new NotFoundException("找不到该商品");
         }
-        if(commodityVo.getMark()==1){
-            commodityVo.setPrice(commodityVo.getGradient().get(0).getPrice());
-        }
+
         Boolean login = false;
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         if (user != null) {

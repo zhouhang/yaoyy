@@ -59,15 +59,15 @@ public class CategoryController extends BaseController{
         categoryVo.setLevel(CategoryEnum.LEVEL_BREED.getValue());
         PageInfo<CategoryVo> categoryPage = categoryService.findByParams(categoryVo,pageNum,pageSize);
         //取出所有的一级父类
-        CategoryVo variety=new CategoryVo();
-        variety.setLevel(CategoryEnum.LEVEL_CATEGORY.getValue());
-        List<CategoryVo> varieties= categoryService.findAllCategory(variety);
+        CategoryVo name=new CategoryVo();
+        name.setLevel(CategoryEnum.LEVEL_CATEGORY.getValue());
+        List<CategoryVo> names= categoryService.findAllCategory(name);
         CodeVo codeVo=new CodeVo();
         //取出所有单位
         codeVo.setName(CodeEnum.CODE_UNIT.getValue());
         List<CodeVo> codeVos=codeService.findAllByParams(codeVo);
 
-        model.put("varieties",varieties);
+        model.put("names",names);
         model.put("categoryPage",categoryPage);
         model.put("categoryVo",categoryVo);
         model.put("codeVos",codeVos);
