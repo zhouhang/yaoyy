@@ -445,30 +445,44 @@
             },
             // 商品图片
             goodsImg: function() {
-                var self = this;
+                var self = this,
+                    $el = $('#jpic');
+
+                $('body').append('<div id="upload" style="position:fixed;bottom:0;left:0;width:0;height:0;visibility:hidden;"></div>');
 
                 // 删除图片
                 $('.thumb').on('click', '.del', function() {
                     var $self = $(this);
                     layer.confirm('确认删除图片？', function(index){
+                        $el.css('display','inline-block');
                         $self.parent().remove();
                         layer.close(index);
                     });
                     return false;
                 })
 
-                this.upImg();
-            },
-            upImg: function() {
-                var self = this;
+                // 上传图片
+                $el.on('click', function() {
+                    if ($(this).siblings().length > 9) {
+                        $.notify({
+                            type: 'error',
+                            title: '最多只能上传10张图片'
+                        });
+                    } else {
+                        $('#upload').find('.cropControlUpload').trigger('click');
+                    }
+                })
+
                 var options = {
                     uploadUrl:'img_save_to_file.php',
-                    customUploadButtonId: 'jpic',
+                    onBeforeImgUpload: function() {
+                        $el.html('<span class="loader">图片上传中...</span>');
+                    },
                     onAfterImgUpload: function(response){
-                        $('#jpic').before('<div class="up-img"><img src="' + response.url + '"/><i class="del"></i><input type="hidden" value="' + response.url + '" /></div>');
+                        $el.empty('').before('<div class="up-img"><img src="' + response.url + '"/><i class="del"></i><input type="hidden" value="' + response.url + '" /></div>');
+                        $el.siblings().length > 9 && $el.attr('style','display:none!important'); // 上传超过10张后隐藏
                     },
                     onError:function(msg){
-                        console.log(msg)
                         $.notify({
                             type: 'error', 
                             title: '上传图片失败',   // 不允许的文件类型
@@ -477,7 +491,7 @@
                         });
                     }
                 }
-                var cropModal = new Croppic('imgCropWrap', options);
+                var cropModal = new Croppic('upload', options);
             }
 		}
 	}

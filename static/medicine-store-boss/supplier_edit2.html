@@ -292,6 +292,25 @@
                     })
                 })
 
+                // 保存价格
+                $('.list').on('click', '.jsave', function() {
+                    var $pa = $(this).closest('li'),
+                        $number = $pa.find('.inventory'),
+                        $price = $pa.find('.inventory');
+                        
+                    $.ajax({
+                        url: '',
+                        data: {number: $number.val(), price: $price.val()},
+                        success: function() {
+                            $.notify({
+                                type: 'success', 
+                                title: '保存成功'
+                            })
+                        }
+                    })
+                })
+                
+
                 // 微信绑定
                 $('#jwechat').on('click', function() {
                     alert('取消成功')
