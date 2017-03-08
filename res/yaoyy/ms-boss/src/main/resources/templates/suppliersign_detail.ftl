@@ -142,8 +142,8 @@
                             <a href="javascript:;" class="ubtn ubtn-blue jprice" data-id="${commodityVo.id}">调价</a>
                         </div>
                         <div class="price">
-                            库存<input type="text" value="15" class="ipt inventory" value="${commodityVo.unwarehouse}">
-                            <input type="text" value="15" class="ipt unitprice" value="${commodityVo.price}">元/${commodityVo.unitName}
+                            库存<input type="text" name="unwarehouse" class="ipt inventory" value="${commodityVo.unwarehouse}">
+                            <input type="text" name="price" class="ipt unitprice" value="${commodityVo.price}">元/${commodityVo.unitName}
                         </div>
                     </li>
                     </#list>
@@ -181,6 +181,13 @@
         <div class="box fa-form">
             <div class="hd">供应商照片</div>
             <div class="pics thumb">
+                <#list userAnnexVos as userAnnexVo>
+                <div class="up-img">
+                    <img src="${userAnnexVo.url}">
+                    <i class="del"></i>
+                    <input type="hidden" value="${userAnnexVo.id}">
+                </div>
+                </#list>
                 <div class="up-img" id="jpic"></div>
             </div>
         </div>
@@ -216,6 +223,7 @@
 
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script src="assets/js/croppic.min.js"></script>
 <script>
     var _global = {
         v: {
@@ -227,6 +235,94 @@
                 this.searchBreeds();
                 this.traceForm();
                 this.myform3();
+                this.changePrice();
+                this.goodsImg();
+            },
+            changePrice: function() {
+                var self = this;
+                // 调价
+                $('.list').on('click', '.jprice', function() {
+                    if (_global.v.flag) {
+                        return false;
+                    }
+                    _global.v.flag = true;
+                    var unwarehouse = $(this).parents("li").find("input[name=unwarehouse]").val();
+                    var price = $(this).parents("li").find("input[name=price]").val();
+                    self.showinfo($(this).data('id'), unwarehouse, price);
+                    return false; // 阻止链接跳转
+                })
+
+
+                // 关闭弹层
+                $('#priceForm').on('click', '.ubtn-gray', function () {
+                    layer.closeAll();
+                })
+                        .validator({
+                            fields: {
+                                price: '价格: required; range(1~9999)'
+                            },
+                            valid: function(form) {
+                                alert('form passed');
+                                // layer.closeAll(); // 关闭弹层
+                                // location.reload(true);// 强制删除页面
+                            }
+                        });
+            },
+            showinfo: function(id, unwarehouse, price) {
+                var showBox = function(data) {
+                    var html = [];
+                    switch (typeof data.price) {
+                        case 'string':
+                            html.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <div class="ipt-wrap"> \n <input type="text" name="price" class="ipt" id="jprice" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n <label class="ml"><input type="checkbox" class="cbx" id="jsales">量大价优</label> \n </div>');
+                            break;
+                        case 'object':
+                            html.push('<div class="txt"><i>*</i>公斤/价格：</div>');
+                            $.each(data.price, function(i, item) {
+                                var idx = i + 1;
+                                html.push('<div class="cnt"> \n <div class="ipt-wrap"><input type="text" name="minKg' , idx , '" class="ipt ipt-short" value="' , item[0] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>-</em> \n <div class="ipt-wrap"><input type="text" name="maxKg' , idx , '" class="ipt ipt-short" value="' , item[1] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>公斤</em> \n <div class="ipt-wrap ml"> \n <input type="text" name="price' , idx , '" class="ipt ipt-short" value="' , item[2] , '" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n </div>');
+                            });
+                            break;
+                    }
+
+                    $('#priceForm').find('.item').html(html.join(''));
+
+                    layer.closeAll();
+                    layer.open({
+                        skin: 'layer-form',
+                        area: ['600px'],
+                        type: 1,
+                        moveType: 1,
+                        content: $('#priceForm'),
+                        title: '快速调价'
+                    });
+                }
+
+                // 加载数据
+                var k = $.ajax({
+                    url: 'commodity/save',
+                    type: "post",
+                    data: JSON.stringify({id: id, unwarehouse: unwarehouse, price: price}),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function(data) {
+                        showBox(data);
+                    },
+                    complete: function() {
+                        _global.v.flag = false;
+                    }
+                })
+
+                // loading
+                layer.open({
+                    area: ['200px'],
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="layer-loading">加载中...</div>',
+                    title: '快速调价',
+                    cancel: function() {
+                        k.abort();
+                    }
+                });
             },
             validator: function() {
                 var _enable = true,
@@ -386,6 +482,77 @@
                         _enable = false;
                     }
                 });
+            },
+            // 商品图片
+            goodsImg: function() {
+                var self = this,
+                        $el = $('#jpic');
+
+                $('body').append('<div id="upload" style="position:fixed;bottom:0;left:0;width:0;height:0;visibility:hidden;"></div>');
+
+                // 删除图片
+                $('.thumb').on('click', '.del', function() {
+                    var $self = $(this);
+                    var annexId = $self.parent().find("input").val();
+                    layer.confirm('确认删除图片？', function(index){
+                        $el.css('display','inline-block');
+                        $self.parent().remove();
+                        layer.close(index);
+                        //服务器删除
+                        $.ajax({
+                            url: '/user/annexdel',
+                            data: {annexId: annexId},
+                            success: function(result) {
+                                if (result.status == 200) {
+                                    //请求成功，似乎不需要做什么
+                                }
+                            }
+                        });
+                    });
+                    return false;
+                })
+
+                // 上传图片
+                $el.on('click', function() {
+                    if ($(this).siblings().length > 9) {
+                        $.notify({
+                            type: 'error',
+                            title: '最多只能上传10张图片'
+                        });
+                    } else {
+                        $('#upload').find('.cropControlUpload').trigger('click');
+                    }
+                })
+
+                var options = {
+                    uploadUrl:'/gen/upload',
+                    onBeforeImgUpload: function() {
+                        $el.html('<span class="loader">图片上传中...</span>');
+                    },
+                    onAfterImgUpload: function(response){
+                        $el.empty('').before('<div class="up-img"><img src="' + response.url + '"/><i class="del"></i><input type="hidden" value="' + response.url + '" /></div>');
+                        $el.siblings().length > 9 && $el.attr('style','display:none!important'); // 上传超过10张后隐藏
+                        //再次请求保存图片和数据库记录
+                        $.ajax({
+                            url: '/user/annex',
+                            data: {userId: $("input[name='userId']").val(), url: response.url},
+                            success: function(result) {
+                                if (result.status == 200) {
+                                    //请求成功，似乎不需要做什么
+                                }
+                            }
+                        });
+                    },
+                    onError:function(msg){
+                        $.notify({
+                            type: 'error',
+                            title: '上传图片失败',   // 不允许的文件类型
+                            text: msg,     //'支持 jpg、jepg、png、gif等格式图片文件',
+                            delay: 3e3
+                        });
+                    }
+                }
+                var cropModal = new Croppic('upload', options);
             }
         }
     }
