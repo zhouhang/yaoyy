@@ -12,15 +12,13 @@ import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.utils.SeqNoUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PickServiceImpl  extends AbsCommonService<Pick> implements PickService{
@@ -77,6 +75,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private AccountBillService accountBillService;
+
+	@Autowired
+	private CommodityBatchDao commodityBatchDao;
 
 
 
@@ -555,6 +556,121 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		update(pickVo);
 	}
+
+	@Override
+	@Transactional
+	public void supplierCreateOrder(List<CommodityBatch> list, Integer commodityId, Integer memId) {
+
+		// 寄卖下单时默认购买用户未 id 为1 的用户
+		// 创建订单后直接设置为已发货
+		/*
+		寄卖下单只有商品总价字段
+				* 其它 运费,包装费, 都为0
+				* 付款方式为现款
+				* 下单成功后默认状态为已发货
+				* 退货和结算订单 直接改状态,添加跟踪记录.
+				* 寄卖下单时默认购买用户为 id 为1 的用户
+				* */
+		// 1. 计算商品总价 2. 设置pick 默认值 保存订单3, 查询商品信息 保存商品信息到历史表 保存商品到订单商品表 保存订单商品批次信息
+		UserDetail userDetail = userDetailDao.findByUserId(1);
+		Pick pick = new Pick();
+		pick.setUserId(1); // 默认客户ID 为1
+		pick.setCode(SeqNoUtil.getOrderCode());
+		pick.setNickname(userDetail.getNickname());
+		pick.setPhone(userDetail.getPhone());
+		pick.setStatus(PickEnum.PICK_NOTHANDLE.getValue());
+		pick.setUpdateTime(new Date());
+		pick.setCreateTime(new Date());
+		pick.setAbandon(0);
+		pick.setDeliveryDate(new Date());
+		pick.setSettleType(SettleTypeEnum.SETTLE_ALL.getType());
+		pick.setShippingCosts(0F);
+		pick.setBagging(0F);
+		pick.setChecking(0F);
+		pick.setTaxation(0F);
+		pick.setMemberId(memId);
+		pick.setRemark("寄卖订单");
+		pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
+		create(pick);
+
+		Commodity commodity = commodityService.findById(commodityId);
+		//计算商品总价
+		pick.setSum(0F);
+
+		PickCommodityVo pickCommodity = new PickCommodityVo();
+		pickCommodity.setCommodityId(commodityId);
+		pickCommodity.setPickId(pick.getId());
+		pickCommodity.setNum(0);
+		list.forEach(batch -> {
+			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
+			pickCommodity.setNum(pickCommodity.getNum() + batch.getNum());
+		});
+		pick.setAmountsPayable(pick.getSum());
+		update(pick);
+
+		// 保存商品信息到历史记录表 并保存订单商品信息到订单商品表
+		List<PickCommodityVo> commoditylist = new ArrayList<>();
+		commoditylist.add(pickCommodity);
+		pickCommodityService.saveList(commoditylist);
+
+		list.forEach(batch -> {
+			batch.setPickCommodityId(pickCommodity.getId());
+		});
+
+		// 保存批次信息 同时添加供应商通知消息
+		commodityBatchDao.batchInsert(list);
+		// TODO: 发送通知消息
+
+	}
+
+	@Override
+	public PageInfo<SupplierOrderVo> queryForSupplier(SupplierOrderVo vo,Integer pageNum,Integer pageSize) {
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?10:pageSize;
+		PageHelper.startPage(pageNum, pageSize);
+		List<SupplierOrderVo> list = pickDao.queryForSupplier(vo);
+		PageInfo page = new PageInfo(list);
+		return page;
+	}
+
+	@Override
+	public SupplierOrderVo queryByIdForSupplier(Integer pickId) {
+		SupplierOrderVo vo = new SupplierOrderVo();
+		vo.setId(pickId);
+		List<SupplierOrderVo> list = pickDao.queryForSupplier(vo);
+		if (list != null && list.size()>0) {
+			CommodityBatchVo batchVo = new CommodityBatchVo();
+			batchVo.setPickCommodityId(list.get(0).getPickCommodityId());
+			List<String> batchs = new ArrayList();
+			commodityBatchDao.findByParams(batchVo).forEach(batch -> {
+				batchs.add(batch.getNo());
+			});
+			list.get(0).setBatchInfo(StringUtils.join(batchs.toArray(new String[batchs.size()]),","));
+			return  list.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public void supplierFinish(Integer pickId) {
+		// 添加跟踪记录
+		Pick pick = new Pick();
+		pick.setId(pickId);
+		pick.setStatus(PickEnum.PICK_FINISH.getValue());
+		update(pick);
+	}
+
+	@Override
+	@Transactional
+	public void supplierRefunds(Integer pickId) {
+		// 添加跟踪记录
+		Pick pick = new Pick();
+		pick.setId(pickId);
+		pick.setStatus(PickEnum.PICK_NOTFINISH.getValue());
+		update(pick);
+	}
+
 
 	@Override
 	public ICommonDao<Pick> getDao() {

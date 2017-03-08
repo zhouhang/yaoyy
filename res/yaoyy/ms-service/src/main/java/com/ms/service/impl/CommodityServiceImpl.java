@@ -202,5 +202,19 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         return super.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void addStock(Integer id, Integer num) {
+        Commodity commodity = commodityDao.findById(id);
 
+        if (commodity.getWarehouse() == null){
+            commodity.setWarehouse(Float.valueOf(num));
+        } else {
+            commodity.setWarehouse(commodity.getWarehouse() + num);
+        }
+        Commodity  commodity1 = new Commodity();
+        commodity1.setId(commodity.getId());
+        commodity1.setWarehouse(commodity.getWarehouse());
+        update(commodity1);
+    }
 }
