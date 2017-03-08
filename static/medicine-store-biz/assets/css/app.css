@@ -86,6 +86,7 @@ em,i{font-style:normal;}
 .fa-switch:before{content:'';display:block;width:25px;height:25px;margin:1px;background:#fff;-webkit-border-radius:14px;border-radius:14px;-webkit-transition:all .3s;transition:all .3s;}
 .fa-switch:checked{background:#b9a060;}
 .fa-switch:checked:before{-webkit-transform:translate3d(33px,0,0);transform:translate3d(33px,0,0);}
+.nomore{height:50px;line-height:50px;text-align:center;font-size:12px;color:#999;}
 
 /* status color */
 .status-1{color:#b9a060;}

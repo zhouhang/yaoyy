@@ -213,6 +213,7 @@
             },
             list: function() {
                 var self = this;
+                page = 1;
                 var dragger = new DragLoader(document.body, {
                     disableDragDown: true,
                     dragUpLoadFn: function() {
@@ -221,9 +222,13 @@
                             url: 'json/clist.json',
                             dataType: 'json',
                             success: function(data){
-                                if (!data.list) {
+                                console.log(page)
+                                if (!data.list || page > 0) {
+                                    dragger.options.disableDragUp = true;
+                                    $('body').append('<div class="nomore">没有更多了...</div>');
                                     return;
                                 }
+                                page ++;
                                 var result = self.toHtml(data.list);
                                 $('#clist').append(result);
                             },
