@@ -274,6 +274,7 @@
                         content: $advForm,
                         title: '新建广告'
                     });
+                    
 				})
 
 				// 编辑
@@ -303,6 +304,7 @@
 					$('#pictureUrl').val(data.pictureUrl);
 					layer.closeAll();
 					layer.open({
+						skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         moveType: 1,

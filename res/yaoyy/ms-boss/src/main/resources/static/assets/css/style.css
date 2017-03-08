@@ -525,6 +525,8 @@ a.ubtn{height:28px;}
 .fa-form .attr{width:100%;margin:0;}
 .fa-form .suggestions{width:auto;}
 .fa-form .ipt-wrap .unit{top:2px;padding:5px 9px;}
+.fa-form .msg-box .error{white-space:nowrap;}
+.fa-form .pics{margin-left:0;}
 .fa-form-info .item{padding-left:100px;}
 .fa-form-info .txt{position:absolute;}
 .group-list{width:auto;}
@@ -552,5 +554,6 @@ a.ubtn{height:28px;}
 .error-page .i404{background-size:50% auto;}
 .error-page .cnt p{font-size:1.4rem;}
 .error-page .cnt .fa{vertical-align:middle;}
+.row-list{height:auto;}
 body.no-scroll{overflow:hidden;}
 }
