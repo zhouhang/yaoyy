@@ -53,4 +53,11 @@ public class SupplierVo extends Supplier{
     public void setAreaname(String areaname) {
         this.areaname = areaname;
     }
+
+    //省市区的中文
+    private String position;
+
+    public String getPosition() {return position;}
+
+    public void setPosition(String position) {this.position = position;}
 }

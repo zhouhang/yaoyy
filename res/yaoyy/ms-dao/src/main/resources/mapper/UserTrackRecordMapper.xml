@@ -60,6 +60,9 @@
             <if test="supplierId != null">
                 u.supplier_id = #{supplierId}
             </if>
+            <if test="userId != null">
+                u.user_id = #{userId}
+            </if>
         </where>
     </select>
 
@@ -100,6 +103,6 @@
             </if>
                             
         </set>
-        where id = #{id}
+        where supplier_id = #{supplierId}
     </update>
 </mapper>

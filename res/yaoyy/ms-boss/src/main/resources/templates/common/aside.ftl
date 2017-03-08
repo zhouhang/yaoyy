@@ -139,7 +139,7 @@
                 <@shiro.hasPermission name="supplier:list">
                 <a href="/supplier/list"><i class="fa fa-circle-o"></i>未签约供应商</a>
                 </@shiro.hasPermission>
-                <a href="/signsupplier/list"><i class="fa fa-circle-o"></i>签约供应商</a>
+                <a href="/user/signlist"><i class="fa fa-circle-o"></i>签约供应商</a>
 
             </dd>
         </dl>

@@ -24,7 +24,7 @@ public enum UserSourceEnum {
 
     static {
         map = new HashMap<>();
-        for (UserEnum type : UserEnum.values()) {
+        for (UserSourceEnum type : UserSourceEnum.values()) {
             map.put(type.getType(),type.getValue());
         }
     }

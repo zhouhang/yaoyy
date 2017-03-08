@@ -62,7 +62,6 @@ public class Supplier  implements Serializable {
 		this.name = name;
 	}
 
-
 	public String getCompany() {return company;}
 
 	public void setCompany(String company) {this.company = company;}

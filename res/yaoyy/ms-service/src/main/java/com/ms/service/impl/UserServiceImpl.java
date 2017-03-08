@@ -13,6 +13,7 @@ import com.ms.dao.model.User;
 import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.UserDetailVo;
 import com.ms.dao.vo.UserVo;
+import com.ms.service.CategoryService;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.dto.Password;
@@ -40,13 +41,14 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	@Autowired
 	private UserDetailService userDetailService;
 
-
 	@Autowired
 	private SmsUtil smsUtil;
 
 	@Autowired
 	private RedisManager redisManager;
 
+	@Autowired
+	private CategoryService categoryService;
 
 	@Override
 	public PageInfo<UserVo> findByParams(UserVo userVo,Integer pageNum,Integer pageSize) {
@@ -74,6 +76,8 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	public UserVo findById(Integer id) {
 		UserVo vo = new UserVo();
 		vo.setId(id);
+		UserVo userVo = userDao.findByParams(vo).get(0);
+		userVo.setEnterCategoryList(categoryService.findByIds(userVo.getCategoryIds()));
 		return userDao.findByParams(vo).get(0);
 	}
 
@@ -272,8 +276,6 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 				existUser.setPassword(pass.getPassword());
 				existUser.setSalt(pass.getSalt());
 				update(existUser);
-			} else {
-				throw new RuntimeException("电话号码已经存在");
 			}
 		} else {
 			User user = new User();
@@ -328,6 +330,42 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			}
 			userDetailService.save(userDetail);
 		}
+	}
+
+	@Override
+	public PageInfo<UserVo> findVoByParams(UserVo userVo,Integer pageNum,Integer pageSize) {
+		if (pageNum == null || pageSize == null) {
+			pageNum = 1;
+			pageSize = 10;
+		}
+		PageHelper.startPage(pageNum, pageSize);
+		List<UserVo> list = userDao.findByParams(userVo);
+		list.forEach(u->{
+			u.setEnterCategoryList(categoryService.findByIds(u.getCategoryIds()));
+		});
+		PageInfo page = new PageInfo(list);
+		return page;
+	}
+
+	@Override
+	@Transactional
+	public void signSave(UserVo userVo) {
+		User user = new User();
+		user.setId(userVo.getId());
+		user.setPhone(userVo.getPhone());
+		update(user);
+
+		UserDetail userDetail = new UserDetail();
+		userDetail.setUserId(userVo.getId());
+		userDetail.setName(userVo.getName());
+		userDetail.setPhone(userVo.getPhone());
+		userDetail.setCategoryIds(userVo.getEnterCategory());
+		userDetail.setCompany(userVo.getCompany());
+		userDetail.setArea(userVo.getArea());
+		userDetail.setEmail(userVo.getEmail());
+		userDetail.setQq(userVo.getQq());
+		userDetail.setRemark(userVo.getMark());
+		userDetailService.update(userDetail);
 	}
 
 	@Override

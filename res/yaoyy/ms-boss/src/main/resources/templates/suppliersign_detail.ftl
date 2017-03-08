@@ -14,7 +14,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>供应商管理</li>
-                <li>供应商详情</li>
+                <li>签约供应商详情</li>
             </ul>
         </div>
 
@@ -23,45 +23,39 @@
             <form id="myform" action="/supplier/save" method="post">
                 <div class="item">
                     <div class="txt">供应商编号：</div>
-                    <div class="val">${(supplierVo.id)!}</div>
+                    <div class="val">${(userVo.id)!}</div>
                 </div>
-                <input type="hidden" name="id" value="${(supplierVo.id)!}">
+                <input type="hidden" name="id" value="${(userVo.id)!}">
                 <div class="item">
                     <div class="txt"><i>*</i>姓名：</div>
                     <div class="cnt">
-                        <input type="text" name="name" value="${(supplierVo.name)!}" class="ipt" placeholder="请输入姓名" autocomplete="off">
+                        <input type="text" name="name" value="${(userVo.name)!}" class="ipt" placeholder="请输入姓名" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>手机号：</div>
                     <div class="cnt">
-                        <input type="text" name="phone" value="${(supplierVo.phone)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
+                        <input type="text" name="phone" value="${(userVo.phone)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
                     </div>
                 </div>
-                <!--<div class="item">
-                    <div class="txt">手机号2：</div>
-                    <div class="cnt">
-                        <input type="text" name="phone2" value="${(supplierVo.phone2)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
-                    </div>
-                </div>-->
                 <div class="item">
                     <div class="txt"><i>*</i>品种：</div>
                     <div class="cnt">
                         <div class="choose" id="chooseBreeds">
-                        <#if supplierVo?exists>
-                            <#list supplierVo.enterCategoryList as category>
+                        <#if userVo?exists>
+                            <#list userVo.enterCategoryList as category>
                                 <span>${category.name}<i data-id="${category.id}"></i></span>
                             </#list>
                         </#if>
                         </div>
                         <input type="text" name="breeds" id="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
-                        <input type="hidden" value="${(supplierVo.enterCategory)!}" name="enterCategory" id="breedsId">
+                        <input type="hidden" value="${(userVo.categoryIds)!}" name="enterCategory" id="breedsId">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">公司：</div>
                     <div class="cnt">
-                        <input type="text" name="company" class="ipt" placeholder="请输入公司名" autocomplete="off" value="${(supplierVo.company)!}">
+                        <input type="text" name="company" class="ipt" placeholder="请输入公司名" autocomplete="off" value="${(userVo.company)!}">
                     </div>
                 </div>
                 <div class="item">
@@ -94,35 +88,23 @@
                 <div class="item">
                     <div class="txt">邮箱：</div>
                     <div class="cnt">
-                        <input type="text" name="email" value="${(supplierVo.email)!}" class="ipt" placeholder="请输入邮箱" autocomplete="off">
+                        <input type="text" name="email" value="${(userVo.email)!}" class="ipt" placeholder="请输入邮箱" autocomplete="off">
                     </div>
                 </div>
-                <!--<div class="item">
-                    <div class="txt">座机：</div>
-                    <div class="cnt">
-                        <input type="text" name="telephone" value="${(supplierVo.telephone)!}" class="ipt" placeholder="请输入座机号" autocomplete="off">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="txt"><i>*</i>所在地区：</div>
-                    <div class="cnt">
-                        <input type="text" name="area" value="${(supplierVo.area)!}" class="ipt" placeholder="请输入所在地区" autocomplete="off">
-                    </div>
-                </div>-->
                 <div class="item">
                     <div class="txt">信息来源：</div>
-                    <div class="val">系统录入</div>
+                    <div class="val">${(userVo.sourceName)!}</div>
                 </div>
                 <div class="item">
                     <div class="txt">QQ：</div>
                     <div class="cnt">
-                        <input type="text" name="qq" value="${(supplierVo.qq)!}" class="ipt" placeholder="请输入QQ" autocomplete="off">
+                        <input type="text" name="qq" value="${(userVo.qq)!}" class="ipt" placeholder="请输入QQ" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">备注：</div>
                     <div class="cnt">
-                        <textarea name="mark" id="remark"class="ipt ipt-mul" cols="30" rows="10">${(supplierVo.mark)!}</textarea>
+                        <textarea name="mark" id="remark"class="ipt ipt-mul" cols="30" rows="10">${(userVo.remark)!}</textarea>
                     </div>
                 </div>
 
@@ -131,17 +113,20 @@
                 </div>
             </form>
 
-            <!--<div class="ab">
+            <div class="ab">
+                <#if userVo.openid??>
+                <div class="block"><span>微信绑定：</span>${userVo.nickname} <#if userVo.openid??><img src="${(userVo.headImgUrl!)}"></#if> <!--<a href="javascript:;" class="c-blue ml" id="jwechat">取消绑定</a>--></div>
+                <div class="block"><span>最后登录时间：</span>${userVo.updateTime?datetime}</div>
+                <#else >
                 <div class="block"><span>微信绑定：</span><em class="c-red">未绑定</em></div>
                 <div class="block"><span>最后登录时间：</span><em class="c-red">未登录</em></div>
-                <div class="block"><span>微信绑定：</span>bin <img src="https://avatar.tower.im/6d941fe33b084e528ce3cda3bedd4fd0"> <a href="javascript:;" class="c-blue ml" id="jwechat">取消绑定</a></div>
-                <div class="block"><span>最后登录时间：</span>2017年3月2日  12：30</div>
-            </div>-->
+                </#if>
+            </div>
         </div>
 
-        <!--<#if commodityVos?exists>
+        <#if commodityVos?exists>
         <div class="box fa-form">
-            <div class="hd">入驻商品</div>
+            <div class="hd">商品调价</div>
             <div class="list">
                 <ul>
                     <#list commodityVos as commodityVo>
@@ -157,16 +142,16 @@
                             <a href="javascript:;" class="ubtn ubtn-blue jprice" data-id="${commodityVo.id}">调价</a>
                         </div>
                         <div class="price">
-                            <i>&yen;</i> ${commodityVo.price}元/${commodityVo.unitName}
+                            库存<input type="text" value="15" class="ipt inventory" value="${commodityVo.unwarehouse}">
+                            <input type="text" value="15" class="ipt unitprice" value="${commodityVo.price}">元/${commodityVo.unitName}
                         </div>
                     </li>
                     </#list>
                 </ul>
             </div>
         </div>
-        </#if>-->
+        </#if>
 
-        <#if supplierVo?exists>
         <div class="box fa-form">
             <div class="hd">跟踪记录</div>
             <ol class="trace" id="trace">
@@ -187,21 +172,18 @@
                 </div>
                 <div class="ft">
                     <input type="hidden" name="memberId" value="${(member_session_boss.id)!}">
-                    <input type="hidden" name="supplierId" value="${(supplierVo.id)!}">
+                    <input type="hidden" name="userId" value="${(userVo.id)!}">
                     <button type="submit" class="ubtn ubtn-blue submit">提交</button>
                 </div>
             </form>
         </div>
-        </#if>
 
-        <!--<#if supplierVo?exists>
         <div class="box fa-form">
             <div class="hd">供应商照片</div>
             <div class="pics thumb">
                 <div class="up-img" id="jpic"></div>
             </div>
         </div>
-        </#if>-->
 
         <#if supplierVo?exists>
         <div class="box fa-form">
@@ -262,13 +244,13 @@
                         qq: 'qq'
                     },
                     valid: function(form) {
-                        _enable &&$.post('/supplier/save', $myform.serialize() + '&remark='+$('#remark').val()).done(function(d){
+                        _enable &&$.post('/user/signsave', $myform.serialize() + '&remark='+$('#remark').val()).done(function(d){
                             if (d.status == 200) {
                                 $.notify({
                                     type: 'success',
                                     title: '操作成功',
                                     callback: function() {
-                                        location.href = '/supplier/list';
+                                        location.href = '/user/signlist';
                                     }
                                 });
                             }

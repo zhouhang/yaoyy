@@ -49,4 +49,8 @@ public interface UserService extends ICommonService<User>{
      * @param wxMpUser
      */
     void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser);
+
+    public PageInfo<UserVo> findVoByParams(UserVo userVo,Integer pageNum,Integer pageSize);
+
+    public void signSave(UserVo userVo);
 }

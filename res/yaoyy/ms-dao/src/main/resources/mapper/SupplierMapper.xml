@@ -20,6 +20,7 @@
 
     <resultMap id="SupplierResultMapVo" type="com.ms.dao.vo.SupplierVo" extends="SupplierResultMap">
         <result column="areaname"  property="areaname" />
+        <result column="position"  property="position" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -74,7 +75,7 @@
             </if>
 
             <if test="company != null">
-                name = #{company},
+                company = #{company},
             </if>
                                             
             <if test="phone != null">
@@ -130,14 +131,12 @@
 
     <select id="findVoByParams" resultMap="SupplierResultMapVo" parameterType="com.ms.dao.vo.SupplierVo">
         select
-        s.id,s.name,s.company,s.phone,s.phone2,s.email,s.telephone,s.area,s.enter_category,s.qq,s.mark,s.create_time,s.update_time,a.id as areaid,a.areaname
+        s.id,s.name,s.company,s.phone,s.phone2,s.email,s.telephone,s.area,s.enter_category,s.qq,s.mark,s.create_time,
+        s.update_time,a.id as areaid,a.areaname,a.position
         from supplier s left join area a on s.area = a.id
         <where>
             <if test="id != null">
                 id = #{id}
-            </if>
-            <if test="name != null">
-                name like CONCAT('%','${name}','%' )
             </if>
         </where>
     </select>
