@@ -76,6 +76,7 @@
                 // 清空搜索历史
                 $searchHistory.on('click', '.clear', function() {
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要清空吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {

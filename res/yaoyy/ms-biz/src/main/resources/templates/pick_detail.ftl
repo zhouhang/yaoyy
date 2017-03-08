@@ -294,6 +294,7 @@
                         return false;
                     }
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要取消订单吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {

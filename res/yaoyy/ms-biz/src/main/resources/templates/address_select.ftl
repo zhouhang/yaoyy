@@ -74,6 +74,7 @@
                 $wrap.on('click', '.add-del', function() {
                     var $this = $(this);
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要删除吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
