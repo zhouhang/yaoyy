@@ -28,35 +28,42 @@
 
     </resultMap>
 
-    <resultMap id="PickResultMapVo" type="com.ms.dao.vo.PickVo">
-        <id column="id"  property="id" />
-        <result column="user_id"  property="userId" />
-        <result column="nickname"  property="nickname" />
-        <result column="phone"  property="phone" />
-        <result column="code"  property="code" />
-        <result column="abandon"  property="abandon" />
-        <result column="status"  property="status" />
-        <result column="shipping_costs"  property="shippingCosts" />
-        <result column="bagging"  property="bagging" />
-        <result column="checking"  property="checking" />
-        <result column="taxation"  property="taxation" />
-        <result column="settle_type"  property="settleType" />
-        <result column="deposit"  property="deposit" />
-        <result column="bill_time"  property="billTime" />
-        <result column="addr_history_id"  property="addrHistoryId" />
-        <result column="remark"  property="remark" />
-        <result column="amounts_payable"  property="amountsPayable" />
-        <result column="member_id"  property="memberId" />
-        <result column="sum"  property="sum" />
-        <result column="delivery_date"  property="deliveryDate" />
-        <result column="expire_date"  property="expireDate" />
-        <result column="update_time"  property="updateTime" />
-        <result column="create_time"  property="createTime" />
+    <resultMap id="PickResultMapVo" type="com.ms.dao.vo.PickVo" extends="PickResultMap">
+        <collection property="pickCommodityVoList" ofType="com.ms.dao.vo.PickCommodityVo">
+            <id column="pc_id"  property="id" />
+            <result column="pc_pickId"  property="pickId" />
+            <result column="pc_num"  property="num" />
+            <result column="pc_unit"  property="unit" />
+            <result column="pc_total"  property="total" />
+            <result column="pc_price"  property="price" />
+            <result column="pc_createTime"  property="createTime" />
+            <result column="pc_name"  property="name" />
+            <result column="pc_origin"  property="origin" />
+            <result column="pc_spec"  property="spec" />
+            <result column="pc_priceUnit"  property="priceUnit" />
+            <result column="pc_realCommodityId"  property="realCommodityId" />
+        </collection>
+    </resultMap>
 
+    <resultMap id="SupplierResultMap" type="com.ms.dao.vo.SupplierOrderVo" extends="PickResultMap">
+        <result column="supplierName"  property="supplierName" />
+        <result column="supplierTel"  property="supplierTel" />
+        <result column="commodityName"  property="commodityName" />
+        <result column="price"  property="price" />
+        <result column="num"  property="num" />
+        <result column="unit"  property="unit" />
+        <result column="spec"  property="spec" />
+        <result column="pickCommodityId"  property="pickCommodityId" />
     </resultMap>
 
     <sql id="Base_Column_List">
         id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,delivery_date,expire_date,update_time,create_time
+    </sql>
+
+    <sql id="Base_Column_List_Alisa">
+        p.id as id,p.user_id as user_id,p.nickname as nickname,p.phone as phone,p.code as code,p.abandon as abandon,p.status as status,p.shipping_costs as shipping_costs,
+        p.bagging as bagging,p.checking as checking,p.taxation as taxation,p.settle_type as settle_type,p.deposit as deposit,p.bill_time as bill_time, p.addr_history_id as addr_history_id,
+        p.remark as remark,p.amounts_payable as amounts_payable,p.member_id as member_id,p.sum as sum,p.delivery_date as delivery_date,p.expire_date as expire_date,p.update_time as update_time, p.create_time as create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="PickResultMap">
@@ -74,8 +81,13 @@
 
     <select id="findByParams" resultMap="PickResultMapVo" parameterType="com.ms.dao.vo.PickVo">
         select
-        <include refid="Base_Column_List" />
-        from pick
+        <include refid="Base_Column_List_Alisa" />,
+        pc.id as pc_id,pc.pick_id as pc_pickId,pc.commodity_id as pc_commodityId,pc.num as pc_num,
+        pc.unit as pc_unit,pc.total as pc_total,pc.price as pc_price,pc.create_time as pc_createTime,
+        hc.name as pc_name, hc.origin as pc_origin, hc.spec as pc_spec, hc.unit as pc_priceUnit,hc.commodity_id as pc_realCommodityId
+        from pick p
+        LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
+        LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
         <where>
             <if test="code != null">
                code = #{code}
@@ -209,6 +221,36 @@
         <include refid="Base_Column_List" />
         from pick
         where id = #{id}
+    </select>
+
+    <select id="queryForSupplier" parameterType="com.ms.dao.vo.SupplierOrderVo" resultMap="SupplierResultMap">
+        select
+        <include refid="Base_Column_List_Alisa" />,
+        ud.name as supplierName,u.phone as supplierTel,hc.name as commodityName,pc.price as price,pc.num as num,pc.unit as unit,hc.spec as spec,pc.id as pickCommodityId
+        from pick p
+        LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
+        LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
+        LEFT JOIN commodity c on hc.commodity_id=c.id
+        LEFT JOIN user u on c.supplier_id = u.id
+        LEFT JOIN user_detail ud on c.supplier_id = ud.user_id
+        <where>
+            p.user_id= 1
+            <if test="code != null">
+                and p.code = #{code}
+            </if>
+            <if test="id != null">
+                and p.id = #{id}
+            </if>
+            <if test="supplierTel!= null">
+                and  status= #{status}
+            </if>
+            <if test="supplierName != null">
+                and ud.name like "%"#{supplierName}"%"
+            </if>
+            <if test="commodityName!= null">
+                and  hc.name like "%"#{commodityName}"%"
+            </if>
+        </where>
     </select>
 
 </mapper>
