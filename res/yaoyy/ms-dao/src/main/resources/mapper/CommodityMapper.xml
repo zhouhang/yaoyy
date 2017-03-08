@@ -34,6 +34,7 @@
         <result column="unitName"  property="unitName" />
         <result column="categoryName"  property="categoryName" />
         <result column="supplierName"  property="supplierName" />
+        <result column="supplierTel"  property="supplierTel" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -68,11 +69,12 @@
         select
         <include refid="Base_Column_List_Alisa" />,
         ca.name as categoryName,
-        cd.name as unitName,sp.name as supplierName
+        cd.name as unitName,spD.name as supplierName, sp.phone as supplierTel
         from commodity as cm
         LEFT JOIN category ca on cm.category_id=ca.id
         LEFT JOIN code cd on cm.unit = cd.id
-        LEFT JOIN supplier sp on cm.supplier_id = sp.id
+        LEFT JOIN user sp on cm.supplier_id = sp.id
+        LEFT JOIN user_detail spD on cm.supplier_id = spD.user_id
         <where>
             <if test="id != null">
                 cm.id = #{id}
@@ -85,6 +87,9 @@
             </if>
             <if test="status != null">
                and cm.status = #{status}
+            </if>
+            <if test="warehouse != null">
+                and cm.warehouse > #{warehouse}
             </if>
         </where>
         ORDER BY cm.category_id,sort DESC
