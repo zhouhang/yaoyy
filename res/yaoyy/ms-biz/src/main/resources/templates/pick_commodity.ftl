@@ -81,7 +81,7 @@
                 var html = [],
                     $wrap = $("#pick_commodity");
                 $.each(data, function(i, item) {
-                    html.push('<div class="item">');
+                    html.push('<div class="floor">');
 
                     html.push('<div class="hd">');
                     html.push('<em>' , item.name , '</em>');
@@ -98,8 +98,8 @@
                     html.push('<button type="button" class="fa fa-plus op"></button>');
                     html.push('</div>');
 
-                    html.push('<div class="del">');
-                    html.push('<button type="button" class="fa fa-remove" cid="' , item.id , '""></button>');
+                    html.push('<div class="del" cid="' , item.id , '">');
+                    html.push('<button type="button" class="fa fa-remove"></button>');
                     html.push('</div>');
 
                     html.push('</div>');
@@ -197,6 +197,7 @@
                 $wrap.on('click', '.fa-remove', function() {
                     var $this = $(this);
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要删除吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {

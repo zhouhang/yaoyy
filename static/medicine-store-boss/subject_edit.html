@@ -99,7 +99,7 @@
                 // 图片裁剪弹层框
                 $('.up-img').on('click', function() {
                     if (isMobile) {
-                        layer.msg('请在电脑上操作');
+                        layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
                         return;
                     }
                     layer.open({

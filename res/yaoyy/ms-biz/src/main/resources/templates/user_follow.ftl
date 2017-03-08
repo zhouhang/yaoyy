@@ -19,7 +19,7 @@
     <div class="pick-form">
         <form action="" id="attention_commodity">
         <#list list as follow>
-            <div class="item">
+            <div class="floor">
                 <div class="hd">
                     <a href="/commodity/detail/${follow.commodityId}">
                     <em>${follow.name}</em>
@@ -40,8 +40,8 @@
                         <i class="fa fa-down"></i>
                     </div>
                 </#if>
-                <div class="del">
-                    <button type="button" class="fa fa-remove" cid="${follow.id}"></button>
+                <div class="del" cid="${follow.id}">
+                    <button type="button" class="fa fa-remove"></button>
                 </div>
             </div>
         </#list>
@@ -63,7 +63,7 @@
             },
             bindEvent: function() {
                 var self = this,
-                        $wrap = $('#attention_commodity');
+                    $wrap = $('#attention_commodity');
 
                 if ($wrap.find('.item').length === 0) {
                     $wrap.empty();
@@ -71,18 +71,20 @@
                 }
 
                 //删除
-                $wrap.on('click', '.fa-remove', function() {
+                $wrap.on('click', '.del', function() {
                     var $this = $(this);
+                        id = this.getAttribute('cid');
+                        
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要删除吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
-                            var id = $this.attr("cid");
                             $.post("/follow/unwatch",{id:id}, function(result){
                                 if (result.status == 200){
-                                    $this.closest('.item').remove();
+                                    $this.closest('.floor').remove();
                                     layer.close(index);
-                                    if ($wrap.find('.item').length === 0) {
+                                    if ($wrap.find('.floor').length === 0) {
                                         $wrap.empty();
                                         self.empty(true);
                                     }

@@ -38,8 +38,10 @@ public interface CommodityService extends ICommonService<Commodity>{
      */
     public void updatePrice(Integer memId, CommodityVo commodityVo);
 
-
-
-
-
+    /**
+     * 添加寄卖库存
+     * @param id
+     * @param num
+     */
+    void addStock(Integer id, Integer num);
 }

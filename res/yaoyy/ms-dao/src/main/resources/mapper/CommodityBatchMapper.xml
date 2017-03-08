@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.CommodityBatchDao">
+    <resultMap id="CommodityBatchResultMap" type="com.ms.dao.model.CommodityBatch">
+            <id column="id"  property="id" />
+            <result column="num"  property="num" />
+            <result column="pick_commodity_id"  property="pickCommodityId" />
+            <result column="no"  property="no" />
+        
+    </resultMap>
+
+    <resultMap id="CommodityBatchResultMapVo" type="com.ms.dao.vo.CommodityBatchVo">
+            <id column="id"  property="id" />
+            <result column="num"  property="num" />
+            <result column="pick_commodity_id"  property="pickCommodityId" />
+            <result column="no"  property="no" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,num,pick_commodity_id,no
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="CommodityBatchResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from commodity_batch
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="CommodityBatchResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from commodity_batch
+    </select>
+
+    <select id="findByParams" resultMap="CommodityBatchResultMapVo" parameterType="com.ms.dao.vo.CommodityBatchVo">
+        select
+        <include refid="Base_Column_List" />
+        from commodity_batch
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="pickCommodityId != null">
+                pick_commodity_id = #{pickCommodityId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from commodity_batch
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.CommodityBatch">
+        insert into
+        commodity_batch (num,pick_commodity_id,no)
+        values
+        (#{num},#{pickCommodityId},#{no})
+    </insert>
+
+    <insert id="batchInsert" useGeneratedKeys="true"  parameterType="com.ms.dao.model.CommodityBatch">
+        insert into
+        commodity_batch (num,pick_commodity_id,no)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.num},#{item.pickCommodityId},#{item.no})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.CommodityBatch">
+        update commodity_batch
+        <set>
+                                                        
+            <if test="num != null">
+                num = #{num},
+            </if>
+                                            
+            <if test="pickCommodityId != null">
+                pick_commodity_id = #{pickCommodityId},
+            </if>
+                                            
+            <if test="no != null">
+                no = #{no},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

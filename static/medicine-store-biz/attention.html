@@ -25,7 +25,7 @@
         </div> -->
         <div class="pick-form">
             <form action="" id="attention_commodity">
-                <div class="item">
+                <div class="floor">
                     <div class="hd">                        
                         <em>茯苓</em>
                         <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
@@ -37,11 +37,11 @@
                         <span>比关注时涨价2元</span>
                         <i class="fa fa-up"></i>
                     </div>
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    <div class="del" cid="1021">
+                        <button type="button" class="fa fa-remove"></button>
                     </div>
                 </div>
-                <div class="item">
+                <div class="floor">
                     <div class="hd">                        
                         <em>三七</em>
                         <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
@@ -53,11 +53,11 @@
                         <span>比关注时降价2元</span>
                         <i class="fa fa-down"></i>
                     </div>
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    <div class="del" cid="1021">
+                        <button type="button" class="fa fa-remove"></button>
                     </div>
                 </div>
-                <div class="item">
+                <div class="floor">
                     <div class="hd">                        
                         <em>三七</em>
                         <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
@@ -65,8 +65,8 @@
                     <div class="price">
                         <i>&yen;</i> <b>200</b> 元
                     </div>
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
+                    <div class="del" cid="1021">
+                        <button type="button" class="fa fa-remove"></button>
                     </div>
                 </div>
             </form>
@@ -92,15 +92,18 @@
                     $wrap = $('#attention_commodity');
 
                 //删除
-                $wrap.on('click', '.fa-remove', function() {
-                    var $this = $(this);
+                $wrap.on('click', '.del', function() {
+                    var $this = $(this),
+                        id = this.getAttribute('cid');
+
                     layer.open({
+                        className: 'layer-custom',
                         content: '确定要删除吗？',
                         btn: ['确定', '取消'],
                         yes: function(index) {
-                            $this.closest('.item').remove();
+                            $this.closest('.floor').remove();
                             layer.close(index);
-                            if ($wrap.find('.item').length === 0) {
+                            if ($wrap.find('.floor').length === 0) {
                                 $wrap.empty();
                                 self.empty(true);
                             }

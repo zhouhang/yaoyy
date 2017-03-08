@@ -238,12 +238,12 @@ a.ubtn{height:28px;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}
 .fa-form .list{width:600px;margin-left:140px;border:1px solid #ccc;border-top:0;}
 .fa-form .list li{position:relative;border-top:1px solid #ccc;overflow:hidden;*zoom:1;}
-.fa-form .list li .pimg{float:left;width:120px;padding:10px;}
+.fa-form .list li .pimg{float:left;width:120px;min-height:70px;padding:10px;}
 .fa-form .list li .pimg img{width:100%;}
 .fa-form .list li .info{float:left;width:378px;height:42px;padding-top:10px;overflow:hidden;}
 .fa-form .list li .info strong{margin-right:10px;font-size:1.6rem;font-weight:700;}
 .fa-form .list li .edit{float:left;padding:10px;}
-.fa-form .list li .price{position:absolute;bottom:5px;left:140px;}
+.fa-form .list li .price{position:absolute;bottom:10px;left:140px;}
 .fa-form .list li .ipt{width:90px;height:24px;line-height:24px;margin:0 5px;padding:0 3px;font-size:1.2rem;}
 .fa-form .group{display:none;overflow:hidden;*zoom:1;}
 .fa-form .group .item{float:left;width:100px;}
@@ -525,6 +525,8 @@ a.ubtn{height:28px;}
 .fa-form .attr{width:100%;margin:0;}
 .fa-form .suggestions{width:auto;}
 .fa-form .ipt-wrap .unit{top:2px;padding:5px 9px;}
+.fa-form .msg-box .error{white-space:nowrap;}
+.fa-form .pics{margin-left:0;}
 .fa-form-info .item{padding-left:100px;}
 .fa-form-info .txt{position:absolute;}
 .group-list{width:auto;}
@@ -552,5 +554,6 @@ a.ubtn{height:28px;}
 .error-page .i404{background-size:50% auto;}
 .error-page .cnt p{font-size:1.4rem;}
 .error-page .cnt .fa{vertical-align:middle;}
+.row-list{height:auto;}
 body.no-scroll{overflow:hidden;}
 }

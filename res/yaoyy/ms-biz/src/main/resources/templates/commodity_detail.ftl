@@ -243,8 +243,7 @@
                 tel.unshift('<dl><dt>拨打电话：</dt>');
                 $quantity.next().on('click', '.fa-tel', function() {
                     layer.open({
-                        // shade: false,
-                        className: 'layer-tel',
+                        className: 'layer-custom',
                         content: tel.join('')
                     });
                 })

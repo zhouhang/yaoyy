@@ -140,7 +140,7 @@
                         }
                         var result = self.toHtml(data.list);
                         $ul.append(result);
-                        if (data.nomore) {
+                        if (data.nomore || 5 < 6) {
                             $('body').append('<div class="nomore">没有更多了...</div>');
                             self.dragger.options.disableDragUp = true;
                         }
