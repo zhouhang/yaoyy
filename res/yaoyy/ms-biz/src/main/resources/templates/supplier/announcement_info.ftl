@@ -11,10 +11,10 @@
         <div class="news">
             <ul>
                 <li style="border:0;">
-                    <h3 class="title">网站维护公告</h3>
-                    <time>2017-02-28</time>
+                    <h3 class="title">${announcement.title}</h3>
+                    <time>${announcement.createTime?datetime}</time>
                     <div class="summary">
-                        网站与2017年2月28日16：00-19：00进行系统维护，期间不能进行下单以及，调价操作。
+                    ${announcement.content}
                     </div>
                 </li>
             </ul>

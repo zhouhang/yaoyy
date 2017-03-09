@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public enum AnnouncementUserTypeEnum {
 
-    QUOTER(1, "供应商"),
-    PURCHASER(1, "用户"),
+    SUPPLIER(1, "供应商"),
+    PURCHASER(2, "用户"),
     ALL(0, "全部用户");
 
     private Integer key;

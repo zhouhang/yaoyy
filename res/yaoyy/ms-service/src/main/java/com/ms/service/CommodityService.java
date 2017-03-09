@@ -44,4 +44,6 @@ public interface CommodityService extends ICommonService<Commodity>{
      * @param num
      */
     void addStock(Integer id, Integer num);
+
+    public List<CommodityVo> findByParamsNoPage(CommodityVo commodityVo);
 }

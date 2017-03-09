@@ -1,8 +1,27 @@
 package com.ms.biz.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.ms.dao.enums.AnnouncementUserTypeEnum;
+import com.ms.dao.model.User;
+import com.ms.dao.vo.AnnouncementVo;
+import com.ms.dao.vo.CommodityVo;
+import com.ms.dao.vo.MessageVo;
+import com.ms.dao.vo.PickVo;
+import com.ms.service.AnnouncementService;
+import com.ms.service.CommodityService;
+import com.ms.service.MessageService;
+import com.ms.service.PickService;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.RedisEnum;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: koabs
@@ -12,8 +31,61 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/supplier")
 public class SupplierController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index() {
+    @Autowired
+    private CommodityService commodityService;
+
+    @Autowired
+    private AnnouncementService announcementService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @Autowired
+    private PickService pickService;
+
+    @Autowired
+    private HttpSession httpSession;
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index(ModelMap model) {
+        //获取登陆用户userId
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        //上架商品
+        CommodityVo commodityVo = new CommodityVo();
+        commodityVo.setSupplierId(user.getId());//supplier_id字段,如果是签约供应商则填的是userid,如果未签约则关联supplier表,与supplierid关联,感觉是巨坑啊
+        commodityVo.setStatus(1);//只取上架商品
+        List<CommodityVo> commodityVos = commodityService.findByParamsNoPage(commodityVo);
+        model.put("commodities", commodityVos.size());
+        //订单记录
+        PickVo pickVo = new PickVo();
+        pickVo.setUserId(user.getId());
+        List<PickVo> pickVos = pickService.findByParamsNoPage(pickVo);
+        model.put("picks", pickVos.size());
+        //寄卖数量
+        Float sale = 0f;
+        for (CommodityVo commodity:commodityVos){
+            sale += commodity.getWarehouse();
+        }
+        model.put("sale", sale);
+        //网站公告
+        AnnouncementVo announcementVo = new AnnouncementVo();
+        List<Integer> userTypes = new ArrayList<Integer>();
+        userTypes.add(AnnouncementUserTypeEnum.ALL.getKey());
+        userTypes.add(AnnouncementUserTypeEnum.SUPPLIER.getKey());
+        announcementVo.setUserTypes(userTypes);//0全体,1供应商
+        PageInfo<AnnouncementVo> announcementVos = announcementService.findByParams(announcementVo, 0, 3);
+        model.put("announcementVos", announcementVos.getList());
+        //"我的消息"
+        MessageVo messageVo = new MessageVo();
+        messageVo.setUserId(user.getId());
+        List<Integer> types = new ArrayList<Integer>();
+        types.add(MessageEnum.SUPPLIER_SAMPLES.get());
+        types.add(MessageEnum.SUPPLIER_COMMODITY.get());
+        types.add(MessageEnum.SUPPLIER_ORDER.get());
+        messageVo.setTypes(types);
+        PageInfo<MessageVo> messageVos = messageService.findByParams(messageVo, 0, 3);
+        model.put("messageVos", messageVos.getList());
+
         return "supplier/index";
     }
 

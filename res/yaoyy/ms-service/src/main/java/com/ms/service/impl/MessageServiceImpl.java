@@ -25,6 +25,9 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 	public PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize) {
     	PageHelper.startPage(pageNum, pageSize);
     	List<MessageVo>  list = messageDao.findByParams(messageVo);
+		list.forEach(c->{
+			c.setTypeName(MessageEnum.getTypeName(c.getType()));
+		});
         PageInfo page = new PageInfo(list);
         return page;
 	}
@@ -62,6 +65,15 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 		MessageVo vo = new MessageVo();
 		vo.setStatus(0);
 		return messageDao.findByParams(vo);
+	}
+
+	@Override
+	public List<MessageVo> findByParamsNoPage(MessageVo messageVo) {
+		List<MessageVo> messageVos = messageDao.findByParams(messageVo);
+		messageVos.forEach(c->{
+			c.setTypeName(MessageEnum.getTypeName(c.getType()));
+		});
+		return messageVos;
 	}
 
 	@Override

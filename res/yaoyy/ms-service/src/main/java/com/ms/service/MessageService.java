@@ -9,27 +9,29 @@ import java.util.List;
 
 public interface MessageService extends ICommonService<Message>{
 
-    public PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize);
+    PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize);
 
-    public List<MessageVo> findUnReadMsg();
+    List<MessageVo> findUnReadMsg();
 
     /**
      * 将消息设置为已读
      * @param eventId
      * @param type
      */
-    public void consumeMsg(Integer eventId, MessageEnum type);
+    void consumeMsg(Integer eventId, MessageEnum type);
 
     /**
      * 将消息设置为已读
      * @param msgId
      */
-    public void consumeMsg(Integer msgId);
+    void consumeMsg(Integer msgId);
 
     /**
      * 获取未读消息数量
      * @param type
      * @return
      */
-    public Integer count(MessageEnum type);
+    Integer count(MessageEnum type);
+
+    List<MessageVo> findByParamsNoPage(MessageVo messageVo);
 }

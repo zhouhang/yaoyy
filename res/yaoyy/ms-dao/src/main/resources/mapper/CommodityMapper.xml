@@ -91,6 +91,9 @@
             <if test="warehouse != null">
                 and cm.warehouse > #{warehouse}
             </if>
+            <if test="supplierId != null">
+                and cm.supplier_id > #{supplierId}
+            </if>
         </where>
         ORDER BY cm.category_id,sort DESC
     </select>
