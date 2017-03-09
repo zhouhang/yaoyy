@@ -139,7 +139,7 @@
                             <span>${commodityVo.spec}</span>
                         </div>
                         <div class="edit">
-                            <a href="javascript:;" class="ubtn ubtn-blue jprice" data-id="${commodityVo.id}">调价</a>
+                            <a href="javascript:;" class="ubtn ubtn-blue jsave" data-id="${commodityVo.id}">保存</a>
                         </div>
                         <div class="price">
                             库存<input type="text" name="unwarehouse" class="ipt inventory" value="${commodityVo.unwarehouse}">
@@ -239,90 +239,27 @@
                 this.goodsImg();
             },
             changePrice: function() {
-                var self = this;
-                // 调价
-                $('.list').on('click', '.jprice', function() {
-                    if (_global.v.flag) {
-                        return false;
-                    }
-                    _global.v.flag = true;
-                    var unwarehouse = $(this).parents("li").find("input[name=unwarehouse]").val();
-                    var price = $(this).parents("li").find("input[name=price]").val();
-                    self.showinfo($(this).data('id'), unwarehouse, price);
-                    return false; // 阻止链接跳转
+		// 保存价格
+                $('.list').on('click', '.jsave', function() {
+                    var $pa = $(this).closest('li'),
+                        $number = $pa.find('.inventory'),
+                        $price = $pa.find('.inventory'),
+			$id = $(this).data('id');
+                        
+                    $.ajax({
+			url: 'commodity/save',
+			type: "post",
+			data: JSON.stringify({id: $id, unwarehouse: $number.val(), price: $price.val()}),
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			success: function(data) {
+			    $.notify({
+                                type: 'success', 
+                                title: '保存成功'
+                            })
+			}
+                    })
                 })
-
-
-                // 关闭弹层
-                $('#priceForm').on('click', '.ubtn-gray', function () {
-                    layer.closeAll();
-                })
-                        .validator({
-                            fields: {
-                                price: '价格: required; range(1~9999)'
-                            },
-                            valid: function(form) {
-                                alert('form passed');
-                                // layer.closeAll(); // 关闭弹层
-                                // location.reload(true);// 强制删除页面
-                            }
-                        });
-            },
-            showinfo: function(id, unwarehouse, price) {
-                var showBox = function(data) {
-                    var html = [];
-                    switch (typeof data.price) {
-                        case 'string':
-                            html.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <div class="ipt-wrap"> \n <input type="text" name="price" class="ipt" id="jprice" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n <label class="ml"><input type="checkbox" class="cbx" id="jsales">量大价优</label> \n </div>');
-                            break;
-                        case 'object':
-                            html.push('<div class="txt"><i>*</i>公斤/价格：</div>');
-                            $.each(data.price, function(i, item) {
-                                var idx = i + 1;
-                                html.push('<div class="cnt"> \n <div class="ipt-wrap"><input type="text" name="minKg' , idx , '" class="ipt ipt-short" value="' , item[0] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>-</em> \n <div class="ipt-wrap"><input type="text" name="maxKg' , idx , '" class="ipt ipt-short" value="' , item[1] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>公斤</em> \n <div class="ipt-wrap ml"> \n <input type="text" name="price' , idx , '" class="ipt ipt-short" value="' , item[2] , '" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n </div>');
-                            });
-                            break;
-                    }
-
-                    $('#priceForm').find('.item').html(html.join(''));
-
-                    layer.closeAll();
-                    layer.open({
-                        skin: 'layer-form',
-                        area: ['600px'],
-                        type: 1,
-                        moveType: 1,
-                        content: $('#priceForm'),
-                        title: '快速调价'
-                    });
-                }
-
-                // 加载数据
-                var k = $.ajax({
-                    url: 'commodity/save',
-                    type: "post",
-                    data: JSON.stringify({id: id, unwarehouse: unwarehouse, price: price}),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    success: function(data) {
-                        showBox(data);
-                    },
-                    complete: function() {
-                        _global.v.flag = false;
-                    }
-                })
-
-                // loading
-                layer.open({
-                    area: ['200px'],
-                    type: 1,
-                    moveType: 1,
-                    content: '<div class="layer-loading">加载中...</div>',
-                    title: '快速调价',
-                    cancel: function() {
-                        k.abort();
-                    }
-                });
             },
             validator: function() {
                 var _enable = true,
@@ -340,13 +277,13 @@
                         qq: 'qq'
                     },
                     valid: function(form) {
-                        _enable &&$.post('/user/signsave', $myform.serialize() + '&remark='+$('#remark').val()).done(function(d){
+                        _enable &&$.post('/supplier/signsave', $myform.serialize() + '&remark='+$('#remark').val()).done(function(d){
                             if (d.status == 200) {
                                 $.notify({
                                     type: 'success',
                                     title: '操作成功',
                                     callback: function() {
-                                        location.href = '/user/signlist';
+                                        location.href = '/supplier/signlist';
                                     }
                                 });
                             }
@@ -500,7 +437,7 @@
                         layer.close(index);
                         //服务器删除
                         $.ajax({
-                            url: '/user/annexdel',
+                            url: '/supplier/annexdel',
                             data: {annexId: annexId},
                             success: function(result) {
                                 if (result.status == 200) {
@@ -534,7 +471,7 @@
                         $el.siblings().length > 9 && $el.attr('style','display:none!important'); // 上传超过10张后隐藏
                         //再次请求保存图片和数据库记录
                         $.ajax({
-                            url: '/user/annex',
+                            url: '/supplier/annex',
                             data: {userId: $("input[name='userId']").val(), url: response.url},
                             success: function(result) {
                                 if (result.status == 200) {

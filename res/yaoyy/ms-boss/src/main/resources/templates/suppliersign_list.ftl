@@ -53,7 +53,7 @@
                             <td>${user.position}</td>
                             <td>${(user.updateTime?datetime)!}</td>
                             <td class="tc">
-                                <a href="/user/signdetail/${user.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                                <a href="/supplier/signdetail/${user.id}" class="ubtn ubtn-blue jedit">编辑</a>
                             </td>
                         </tr>
                         </#list>
@@ -61,7 +61,7 @@
                 </table>
             </div>
             <#import "./module/pager.ftl" as pager />
-            <@pager.pager info=pageInfo url="/user/signlist" params="" />
+            <@pager.pager info=pageInfo url="/supplier/signlist" params="" />
         </div>
     </div>
 
@@ -70,7 +70,7 @@
 <script>
     var _global = {
         v: {
-            listUrl: '/user/signlist'
+            listUrl: '/supplier/signlist'
         },
         fn: {
             init: function() {

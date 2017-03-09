@@ -2,6 +2,7 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
+import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
@@ -14,6 +15,7 @@ import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,6 +55,9 @@ public class SupplierController {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private UserAnnexService userAnnexService;
 
     /**
      * 供应商list
@@ -223,6 +228,109 @@ public class SupplierController {
         applicationContext.publishEvent(sms);
 
         return Result.success("保存成功");
+    }
+
+	    /**
+     * 签约供应商列表
+     * @param user
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "signlist", method = RequestMethod.GET)
+    public String signlist(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){
+        // 只查询供应商商的用户
+        user.setType(2);
+        PageInfo<UserVo> pageInfo = userService.findVoByParams(user, pageNum, pageSize);
+        model.put("pageInfo", pageInfo);
+        return "suppliersign_list";
+    }
+
+    /**
+     * 签约供应商详情
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "signdetail/{id}", method = RequestMethod.GET)
+    public String supplierSignDetail(@PathVariable("id") Integer id,ModelMap model){
+        UserVo userVo = userService.findById(id);
+        userVo.setSourceName(UserSourceEnum.get(userVo.getSource()));
+        model.put("userVo",userVo);
+
+        List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
+        model.put("commodityVos", commodityVos);
+
+        //查出该供应商区域数据
+        AreaVo areaVo = areaService.findVoById(userVo.getArea());
+        //省份数据
+        Integer parentid = 100000;
+        List<Area> provinces = areaService.findByParent(parentid);
+        //城市数据
+        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+        //地区数据
+        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+
+        model.put("areaVo", areaVo);
+        model.put("provinces", provinces);
+        model.put("cities", cities);
+        model.put("areaVos", areaVos);
+
+        //获取跟踪记录
+        UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
+        userTrackRecordVo.setUserId(userVo.getId());
+        List<UserTrackRecordVo> userTrackRecordVos = userTrackRecordService.findByParamsNoPage(userTrackRecordVo);
+        model.put("userTrackRecordVos", userTrackRecordVos);
+
+        //读取图片信息
+        UserAnnexVo userAnnexVo = new UserAnnexVo();
+        userAnnexVo.setUserId(id);
+        List<UserAnnexVo> userAnnexVos = userAnnexService.findByParamsNoPage(userAnnexVo);
+        model.put("userAnnexVos", userAnnexVos);
+
+        return "suppliersign_detail";
+    }
+
+    /**
+     * 保存签约供应商信息
+     * @param userVo
+     * @return
+     */
+    @RequestMapping(value = "signsave", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveSupplier(UserVo userVo){
+        userService.signSave(userVo);
+        return Result.success("保存成功");
+    }
+
+    /**
+     * 保存供应商信息
+     * @param userId
+     * @param url
+     * @return
+     */
+    @RequestMapping(value = "annex", method = RequestMethod.GET)
+    @ResponseBody
+    public Result annex(Integer userId, String url){
+        UserAnnexVo userAnnexVo = new UserAnnexVo();
+        userAnnexVo.setUserId(userId);
+        userAnnexVo.setUrl(url);
+        userAnnexVo.setCreateTime(new Date());
+        userAnnexService.save(userAnnexVo);
+        return Result.success("保存成功");
+    }
+
+    /**
+     * 保存供应商信息
+     * @param annexId
+     * @return
+     */
+    @RequestMapping(value = "annexdel", method = RequestMethod.GET)
+    @ResponseBody
+    public Result annexdel(Integer annexId){
+        userAnnexService.deleteFileById(annexId);
+        return Result.success("删除成功");
     }
 
 
