@@ -1,8 +1,6 @@
 package com.ms.dao.vo;
 
-import com.ms.dao.enums.BizPickEnum;
-import com.ms.dao.enums.PickEnum;
-import com.ms.dao.enums.SettleTypeEnum;
+import com.ms.dao.enums.*;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.OrderInvoice;
 import com.ms.dao.model.Pick;
@@ -37,6 +35,49 @@ public class PickVo extends Pick{
     // 发票信息
     private OrderInvoice invoice;
 
+    private Integer supplierId;
+
+    // 订单客户名
+    private String userName;
+
+    // 订单客户经营行业
+    private Integer userBusinessType;
+
+    private String userBusinessTypeName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Integer getUserBusinessType() {
+        return userBusinessType;
+    }
+
+    public void setUserBusinessType(Integer userBusinessType) {
+        this.userBusinessType = userBusinessType;
+    }
+
+    public String getUserBusinessTypeName() {
+        userBusinessTypeName = IdentityTypeEnum.get(userBusinessType);
+        return userBusinessTypeName;
+    }
+
+    public void setUserBusinessTypeName(String userBusinessTypeName) {
+        this.userBusinessTypeName = userBusinessTypeName;
+    }
+
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
+    }
+
     public float getTotal() {
         return total;
     }
@@ -56,7 +97,8 @@ public class PickVo extends Pick{
     private String settleTypeName;
 
     public String getSettleTypeName() {
-        return SettleTypeEnum.get(getSettleType());
+        this.settleTypeName = SettleTypeEnum.get(getSettleType());
+        return settleTypeName;
     }
 
     public void setSettleTypeName(String settleTypeName) {
@@ -67,12 +109,13 @@ public class PickVo extends Pick{
         aotoComplete();
         setPickStatus();
         if(statusText==null){
-            return PickEnum.findByValue(getStatus());
+            statusText = PickEnum.findByValue(getStatus());
         }
         else{
-            return PickEnum.findByValue(getStatus())+statusText;
+            statusText= PickEnum.findByValue(getStatus())+statusText;
         }
 
+        return statusText;
     }
 
     public void setStatusText(String statusText) {

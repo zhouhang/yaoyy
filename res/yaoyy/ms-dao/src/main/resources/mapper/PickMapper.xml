@@ -29,6 +29,8 @@
     </resultMap>
 
     <resultMap id="PickResultMapVo" type="com.ms.dao.vo.PickVo" extends="PickResultMap">
+        <result column="userName"  property="userName" />
+        <result column="userBusinessType"  property="userBusinessType" />
         <collection property="pickCommodityVoList" ofType="com.ms.dao.vo.PickCommodityVo">
             <id column="pc_id"  property="id" />
             <result column="pc_pickId"  property="pickId" />
@@ -84,10 +86,13 @@
         <include refid="Base_Column_List_Alisa" />,
         pc.id as pc_id,pc.pick_id as pc_pickId,pc.commodity_id as pc_commodityId,pc.num as pc_num,
         pc.unit as pc_unit,pc.total as pc_total,pc.price as pc_price,pc.create_time as pc_createTime,
-        hc.name as pc_name, hc.origin as pc_origin, hc.spec as pc_spec, hc.unit as pc_priceUnit,hc.commodity_id as pc_realCommodityId
+        hc.name as pc_name, hc.origin as pc_origin, hc.spec as pc_spec, hc.unit as pc_priceUnit,hc.commodity_id as pc_realCommodityId,
+        ud.name as userName, ud.type as userBusinessType
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
+        LEFT JOIN commodity c ON c.id = hc.commodity_id
+        LEFT JOIN user_detail ud on ud.user_id = p.user_id
         <where>
             <if test="code != null">
                code = #{code}
@@ -103,6 +108,12 @@
             </if>
             <if test="userId!= null">
                 and  user_id= #{userId}
+            </if>
+            <if test="userId!= null">
+                and  user_id= #{userId}
+            </if>
+            <if test="supplierId!= null">
+                AND c.supplier_id = #{supplierId}
             </if>
         </where>
         order by create_time desc ,status ASC

@@ -58,10 +58,11 @@ public class ShiroConfiguration {
     public BizRealm getShiroRealm(CacheManager cacheManager, RetryLimitHashedCredentialsMatcher credentialsMatcher) {
         BizRealm realm =  new BizRealm();
         realm.setCredentialsMatcher(credentialsMatcher);
-        realm.setAuthenticationCachingEnabled(true);
-        realm.setAuthenticationCacheName("yaoyy_biz_authenticationCache");
-        realm.setAuthorizationCacheName("yaoyy_biz_authorizationCache");
-        realm.setCacheManager(cacheManager);
+//        realm.setAuthenticationCachingEnabled(true);
+//        realm.setAuthenticationCacheName("yaoyy_biz_authenticationCache");
+//        // realm.setAuthorizationCacheName("yaoyy_biz_authorizationCache");
+//        realm.setAuthorizationCachingEnabled(false);
+//        realm.setCacheManager(cacheManager);
         return realm;
     }
 

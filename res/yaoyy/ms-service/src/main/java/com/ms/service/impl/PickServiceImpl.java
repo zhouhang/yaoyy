@@ -89,15 +89,15 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
         PageHelper.startPage(pageNum, pageSize);
     	List<PickVo>  list = pickDao.findByParams(pickVo);
 		list.forEach(p->{
-			List<PickCommodityVo> pickCommodityVos=pickCommodityService.findByPickId(p.getId());
+			p.getSettleTypeName();
+			p.getStatusText();
+			p.getUserBusinessTypeName();
+//			List<PickCommodityVo> pickCommodityVos=pickCommodityService.findByPickId(p.getId());
 			float total=0;
-
-			for(PickCommodityVo vo :pickCommodityVos){
+			for(PickCommodityVo vo :p.getPickCommodityVoList()){
 				total+=vo.getTotal();
 			}
 			p.setTotal(total);
-
-			p.setPickCommodityVoList(pickCommodityVos);
 		});
         PageInfo page = new PageInfo(list);
         return page;

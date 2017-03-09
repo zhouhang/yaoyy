@@ -157,7 +157,11 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Override
     public List<CommodityVo> findBySupplier(Integer supplierId) {
-        return commodityDao.findBySupplier(supplierId);
+        List<CommodityVo> list = commodityDao.findBySupplier(supplierId);
+        list.forEach(c->{
+            c.setThumbnailUrl(pathConvert.getUrl(c.getThumbnailUrl()));
+        });
+        return list;
     }
 
     @Override
