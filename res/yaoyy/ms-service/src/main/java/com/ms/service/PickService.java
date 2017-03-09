@@ -110,4 +110,6 @@ public interface PickService extends ICommonService<Pick>{
      * @param pickId
      */
     void supplierRefunds(Integer pickId);
+
+    List<PickVo> findByParamsNoPage(PickVo pickVo);
 }

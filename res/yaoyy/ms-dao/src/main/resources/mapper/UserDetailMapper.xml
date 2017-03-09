@@ -14,7 +14,9 @@
             <result column="create_time"  property="createTime" />
             <result column="update_time"  property="updateTime" />
             <result column="company"  property="company" />
-        
+            <result column="category_ids"  property="categoryIds" />
+            <result column="email"  property="email" />
+            <result column="qq"  property="qq" />
     </resultMap>
 
     <resultMap id="UserDetailResultMapVo" type="com.ms.dao.vo.UserDetailVo">
@@ -30,6 +32,9 @@
             <result column="create_time"  property="createTime" />
             <result column="update_time"  property="updateTime" />
             <result column="company"  property="company" />
+            <result column="category_ids"  property="categoryIds" />
+            <result column="email"  property="email" />
+            <result column="qq"  property="qq" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -96,20 +101,12 @@
                 name = #{name},
             </if>
 
-            <if test="name != null">
-                name = #{name},
-            </if>
-
             <if test="remark != null">
                 remark = #{remark},
             </if>
 
             <if test="headImgUrl != null">
                 head_img_url = #{headImgUrl},
-            </if>
-                                            
-            <if test="userId != null">
-                user_id = #{userId},
             </if>
                                             
             <if test="createTime != null">
@@ -123,9 +120,21 @@
             <if test="company != null">
                 company = #{company},
             </if>
+
+            <if test="qq != null">
+                qq = #{qq},
+            </if>
+
+            <if test="email != null">
+                email = #{email},
+            </if>
+
+            <if test="categoryIds != null">
+                category_ids = #{categoryIds},
+            </if>
                             
         </set>
-        where id = #{id}
+        where user_id = #{userId}
     </update>
     <select id="findByUserId" parameterType="java.lang.Integer" resultMap="UserDetailResultMapVo">
         select

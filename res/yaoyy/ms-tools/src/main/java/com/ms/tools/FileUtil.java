@@ -47,5 +47,20 @@ public class FileUtil {
 //        inputStream.close();
         return file;
     }
+
+    /**
+     * 删除单个文件
+     * @param   fileName    被删除文件的文件名
+     * @return 单个文件删除成功返回true,否则返回false
+     */
+    public static boolean deleteFile(String fileName){
+        File file = new File(fileName);
+        if(file.isFile() && file.exists()){
+            file.delete();
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 

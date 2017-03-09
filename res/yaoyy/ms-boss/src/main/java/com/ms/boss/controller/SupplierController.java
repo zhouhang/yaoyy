@@ -2,10 +2,12 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
+import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
 import com.ms.tools.annotation.SecurityToken;
@@ -13,6 +15,7 @@ import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,6 +55,9 @@ public class SupplierController {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private UserAnnexService userAnnexService;
 
     /**
      * 供应商list
@@ -177,7 +183,7 @@ public class SupplierController {
         UserDetailVo userDetailVo = new UserDetailVo();
         userDetailVo.setName(supplierVo.getName());
         userDetailVo.setPhone(supplierVo.getPhone());
-        userDetailVo.setCategoryIds(supplierVo.getEnterCategoryText());
+        userDetailVo.setCategoryIds(supplierVo.getEnterCategory());
         userDetailVo.setCompany(supplierVo.getCompany());
         userDetailVo.setArea(supplierVo.getArea());
         userDetailVo.setEmail(supplierVo.getEmail());
@@ -194,22 +200,25 @@ public class SupplierController {
         userTrackRecordService.update(userTrackRecord);
 
         //删除supplier的值
-//        supplierService.deleteById(supplierVo.getId());
+        supplierService.deleteById(supplierVo.getId());
 
         //发短信（短信需要手机号，模板id及params）和微信（微信模板消息需要，模板id，openid及params map）
         if(userVo.getOpenid() != null) {
             WxMpTemplateMessage templateMessage = new WxMpTemplateMessage();
             templateMessage.setToUser(userVo.getOpenid());
-            templateMessage.setTemplateId("w4qh_kBaLdv07G6fdRaeRFzNhTsMhNbDOn2-lkfct-s");
-            templateMessage.setUrl("");
-            templateMessage.getData().add(new WxMpTemplateData("first", "恭喜您，已成为药优优签约供应商", "#FF00FF"));
-            templateMessage.getData().add(new WxMpTemplateData("keyword1", "药优优供应商审核结果", "#FF00FF"));
-            templateMessage.getData().add(new WxMpTemplateData("keyword2", "审核通过", "#FF00FF"));
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            templateMessage.getData().add(new WxMpTemplateData("keyword3", dateFormat.format(new Date()), "#FF00FF"));
-            templateMessage.getData().add(new WxMpTemplateData("remark",
-                    "您可以在药优优公众号左侧“供应商管理”菜单看到您的订单情况，以及对您的商品进行调价。" +
-                            "第一次使用请用您的账号：" + supplierVo.getPhone() + "和密码：" + pwd + " 进行登录。", "#FF00FF"));
+            templateMessage.setTemplateId(WxSupplierSignTemplateEnum.TEMPLATEID.get());
+            templateMessage.setUrl(WxSupplierSignTemplateEnum.URL.get());
+            templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM1_NAME.get(),
+                    WxSupplierSignTemplateEnum.PARAM1_VALUE.get(), WxSupplierSignTemplateEnum.PARAM1_COLOR.get()));
+            templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM2_NAME.get(),
+                    WxSupplierSignTemplateEnum.PARAM2_VALUE.get(), WxSupplierSignTemplateEnum.PARAM2_COLOR.get()));
+            templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM3_NAME.get(),
+                    WxSupplierSignTemplateEnum.PARAM3_VALUE.get(), WxSupplierSignTemplateEnum.PARAM3_COLOR.get()));
+            templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM4_NAME.get(),
+                    WxSupplierSignTemplateEnum.PARAM4_VALUE.get(), WxSupplierSignTemplateEnum.PARAM4_COLOR.get()));
+            templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM5_NAME.get(),
+                    WxSupplierSignTemplateEnum.PARAM5_VALUE.get().replace("{1}", supplierVo.getPhone()).replace("{2}", pwd),
+                    WxSupplierSignTemplateEnum.PARAM5_COLOR.get()));
 
             WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
             applicationContext.publishEvent(wt);
@@ -219,6 +228,109 @@ public class SupplierController {
         applicationContext.publishEvent(sms);
 
         return Result.success("保存成功");
+    }
+
+	    /**
+     * 签约供应商列表
+     * @param user
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "signlist", method = RequestMethod.GET)
+    public String signlist(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){
+        // 只查询供应商商的用户
+        user.setType(2);
+        PageInfo<UserVo> pageInfo = userService.findVoByParams(user, pageNum, pageSize);
+        model.put("pageInfo", pageInfo);
+        return "suppliersign_list";
+    }
+
+    /**
+     * 签约供应商详情
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "signdetail/{id}", method = RequestMethod.GET)
+    public String supplierSignDetail(@PathVariable("id") Integer id,ModelMap model){
+        UserVo userVo = userService.findById(id);
+        userVo.setSourceName(UserSourceEnum.get(userVo.getSource()));
+        model.put("userVo",userVo);
+
+        List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
+        model.put("commodityVos", commodityVos);
+
+        //查出该供应商区域数据
+        AreaVo areaVo = areaService.findVoById(userVo.getArea());
+        //省份数据
+        Integer parentid = 100000;
+        List<Area> provinces = areaService.findByParent(parentid);
+        //城市数据
+        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+        //地区数据
+        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+
+        model.put("areaVo", areaVo);
+        model.put("provinces", provinces);
+        model.put("cities", cities);
+        model.put("areaVos", areaVos);
+
+        //获取跟踪记录
+        UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
+        userTrackRecordVo.setUserId(userVo.getId());
+        List<UserTrackRecordVo> userTrackRecordVos = userTrackRecordService.findByParamsNoPage(userTrackRecordVo);
+        model.put("userTrackRecordVos", userTrackRecordVos);
+
+        //读取图片信息
+        UserAnnexVo userAnnexVo = new UserAnnexVo();
+        userAnnexVo.setUserId(id);
+        List<UserAnnexVo> userAnnexVos = userAnnexService.findByParamsNoPage(userAnnexVo);
+        model.put("userAnnexVos", userAnnexVos);
+
+        return "suppliersign_detail";
+    }
+
+    /**
+     * 保存签约供应商信息
+     * @param userVo
+     * @return
+     */
+    @RequestMapping(value = "signsave", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveSupplier(UserVo userVo){
+        userService.signSave(userVo);
+        return Result.success("保存成功");
+    }
+
+    /**
+     * 保存供应商信息
+     * @param userId
+     * @param url
+     * @return
+     */
+    @RequestMapping(value = "annex", method = RequestMethod.GET)
+    @ResponseBody
+    public Result annex(Integer userId, String url){
+        UserAnnexVo userAnnexVo = new UserAnnexVo();
+        userAnnexVo.setUserId(userId);
+        userAnnexVo.setUrl(url);
+        userAnnexVo.setCreateTime(new Date());
+        userAnnexService.save(userAnnexVo);
+        return Result.success("保存成功");
+    }
+
+    /**
+     * 保存供应商信息
+     * @param annexId
+     * @return
+     */
+    @RequestMapping(value = "annexdel", method = RequestMethod.GET)
+    @ResponseBody
+    public Result annexdel(Integer annexId){
+        userAnnexService.deleteFileById(annexId);
+        return Result.success("删除成功");
     }
 
 

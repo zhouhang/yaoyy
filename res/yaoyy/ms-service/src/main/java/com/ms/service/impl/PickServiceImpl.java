@@ -677,6 +677,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		return pickDao;
 	}
 
+	public List<PickVo> findByParamsNoPage(PickVo pickVo) {
+		return pickDao.findByParams(pickVo);
+	}
+
 
 
 }

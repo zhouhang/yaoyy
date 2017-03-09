@@ -221,4 +221,10 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         commodity1.setWarehouse(commodity.getWarehouse());
         update(commodity1);
     }
+
+    @Override
+    @Transactional
+    public List<CommodityVo> findByParamsNoPage(CommodityVo commodityVo){
+        return commodityDao.findByParams(commodityVo);
+    }
 }

@@ -52,4 +52,26 @@ public enum  MessageEnum {
         }
         return url;
     }
+
+    public static String getTypeName(Integer type) {
+        String typeName = "";
+        switch (type){
+            case 20: typeName = "寄养";
+                break;
+            case 21: typeName = "商品";
+                break;
+            case 22: typeName = "订单";
+                break;
+            case 31: typeName = "寄养";
+                break;
+            case 32: typeName = "商品";
+                break;
+            case 33: typeName = "订单";
+                break;
+            default:
+                typeName = "";
+                break;
+        }
+        return typeName;
+    }
 }

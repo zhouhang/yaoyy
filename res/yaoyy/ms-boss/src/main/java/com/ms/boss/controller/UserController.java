@@ -2,8 +2,14 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
-import com.ms.dao.vo.UserVo;
-import com.ms.service.UserService;
+import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.model.Area;
+import com.ms.dao.model.Commodity;
+import com.ms.dao.model.UserAnnex;
+import com.ms.dao.model.UserTrackRecord;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
+import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Author: koabs
@@ -25,6 +34,18 @@ public class UserController extends BaseController{
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AreaService areaService;
+
+    @Autowired
+    CommodityService commodityService;
+
+    @Autowired
+    UserTrackRecordService userTrackRecordService;
+
+    @Autowired
+    UserAnnexService userAnnexService;
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){

@@ -69,6 +69,7 @@ public class Commodity  implements Serializable {
 	
 	private Date updateTime;
 
+	//这个字段之前是与supplier的id关联，后来因为业务修改，与user表的id关联，及供应商变成我们注册用户可以添加商品 add by kevin 03/08/2017
 	private Integer supplierId;
 
 	// 价格更新时间

@@ -14,7 +14,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>供应商管理</li>
-                <li>未签约供应商</li>
+                <li>签约供应商</li>
             </ul>
         </div>
 
@@ -22,12 +22,9 @@
             <div class="tools">
                 <div class="filter">
                     <form action="" id="searchForm">
-                        <input type="text" name="name"class="ipt" value="${(supplierVo.name)!}" placeholder="姓名">
+                        <input type="text" name="name"class="ipt" value="${(userVo.name)!}" placeholder="姓名">
                         <button class="ubtn ubtn-blue" id="search">搜索</button>
                     </form>
-                </div>
-                <div class="action-add">
-                    <a href="/supplier/create" class="ubtn ubtn-blue">新建供应商</a>
                 </div>
             </div>
 
@@ -36,27 +33,27 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" class="cbx"></th>
+                            <th>供应商编号</th>
                             <th>姓名</th>
                             <th>手机号</th>
                             <th>经营品种</th>
-                            <th>公司</th>
                             <th>地区</th>
-                            <th>入驻时间</th>
+                            <th>最后登录时间</th>
                             <th width="170" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <#list supplierVoPageInfo.list as supplier>
+                        <#list pageInfo.list as user>
                         <tr>
                             <td><input type="checkbox" class="cbx"></td>
-                            <td>${supplier.name}</td>
-                            <td>${supplier.phone}</td>
-                            <td>${supplier.enterCategoryText}</td>
-                            <td>${supplier.company}</td>
-                            <td>${supplier.areaname}</td>
-                            <td>${(supplier.createTime?datetime)!}</td>
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.enterCategoryText}</td>
+                            <td>${user.position}</td>
+                            <td>${(user.updateTime?datetime)!}</td>
                             <td class="tc">
-                                <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                                <a href="/supplier/signdetail/${user.id}" class="ubtn ubtn-blue jedit">编辑</a>
                             </td>
                         </tr>
                         </#list>
@@ -64,7 +61,7 @@
                 </table>
             </div>
             <#import "./module/pager.ftl" as pager />
-            <@pager.pager info=supplierVoPageInfo url="/supplier/list" params="" />
+            <@pager.pager info=pageInfo url="/supplier/signlist" params="" />
         </div>
     </div>
 
@@ -73,7 +70,7 @@
 <script>
     var _global = {
         v: {
-            listUrl: '/supplier/list'
+            listUrl: '/supplier/signlist'
         },
         fn: {
             init: function() {
