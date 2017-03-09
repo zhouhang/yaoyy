@@ -71,8 +71,9 @@ body{padding-bottom:70px;}
 .floor li span{display:block;margin-bottom:8px;}
 .floor li time{font-size:1.2rem;color:#aaa;}
 .floor li em{margin-right:10px;padding:0 4px;font-size:1.2rem;border:1px solid #fff;-webkit-border-radius:3px;border-radius:3px;}
-.floor li .e1{border-color:#be1920;color:#be1920;}
-.floor li .e2{border-color:#08f;color:#08f;}
+.floor li .e21{border-color:#be1920;color:#be1920;}
+.floor li .e23{border-color:#be1920;color:#be1920;}
+.floor li .e22{border-color:#08f;color:#08f;}
 .floor .list{padding-top:10px;}
 .floor .list li{padding:5px 0;}
 .floor .list time{float:right;}

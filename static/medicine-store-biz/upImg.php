@@ -4,7 +4,7 @@ sleep(1);
 $base64_string = $_POST['img'];
 
 $savename = uniqid().'.jpg'; // 后缀名没有做自动匹配，直接写死了
-$savepath = 'img/'.$savename; 
+$savepath = 'uploads/'.$savename; 
 $image = base64_to_img( $base64_string, $savepath );
 if($image){
 	$response = array(
