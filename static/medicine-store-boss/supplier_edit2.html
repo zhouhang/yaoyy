@@ -292,11 +292,28 @@
                     })
                 })
 
+                // 库存输入框
+                $('.list').on('keyup', '.inventory', function() {
+                    var val = this.value;
+                    if (val) {
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : '';
+                        this.value = val;
+                    }
+                })
+                // 单价输入框
+                $('.list').on('keyup', '.unitprice', function() {
+                    var val = this.value;
+                    if (!/^\d+\.?\d*$/.test(val)) {
+                        val = Math.abs(parseFloat(val));
+                        this.value = isNaN(val) ? '' : val;
+                    }
+                })
+
                 // 保存价格
                 $('.list').on('click', '.jsave', function() {
                     var $pa = $(this).closest('li'),
                         $number = $pa.find('.inventory'),
-                        $price = $pa.find('.inventory');
+                        $price = $pa.find('.unitprice');
                         
                     $.ajax({
                         url: '',
