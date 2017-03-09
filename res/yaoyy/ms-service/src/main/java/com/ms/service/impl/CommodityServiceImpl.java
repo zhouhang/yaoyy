@@ -227,4 +227,20 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     public List<CommodityVo> findByParamsNoPage(CommodityVo commodityVo){
         return commodityDao.findByParams(commodityVo);
     }
+
+	@Override
+    @Transactional
+	public void modStockOrPrice(CommodityVo commodityVo) {
+        if (commodityVo.getUnWarehouse() != null){
+			Commodity  commodity = new Commodity();
+			commodity.setId(commodityVo.getId());
+            commodity.setUnWarehouse(commodityVo.getWarehouse());
+			update(commodity);
+        } else if (commodityVo.getPrice() != null){
+            commodity.setPrice(commodityVo.getPrice());
+			updatePrice(commodityVo.getSupplierId(), commodityVo);
+        }
+        
+    }
+
 }

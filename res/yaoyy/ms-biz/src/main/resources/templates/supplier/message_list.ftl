@@ -75,7 +75,7 @@
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
                     html.push(         '<span>', data[i].content, '</span>\n');
-                    html.push(         '<em class="e', data[i].class ,'">', data[i].typeName, '</em>\n');
+                    html.push(         '<em class="e', data[i].type ,'">', data[i].typeName, '</em>\n');
                     html.push(         '<time>', _YYY.timeago.elapsedTime(data[i].createTime), '</time>\n');
                     html.push('</li>');
                 })

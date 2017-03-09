@@ -107,10 +107,7 @@
                 and abandon=#{abandon}
             </if>
             <if test="userId!= null">
-                and  user_id= #{userId}
-            </if>
-            <if test="userId!= null">
-                and  user_id= #{userId}
+                and  p.user_id= #{userId}
             </if>
             <if test="supplierId!= null">
                 AND c.supplier_id = #{supplierId}

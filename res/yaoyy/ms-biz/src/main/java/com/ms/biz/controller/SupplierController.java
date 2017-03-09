@@ -144,5 +144,45 @@ public class SupplierController {
         return "/supplier/commodity_trace";
     }
 
+    /**
+     * 商品调价页面
+     * @return
+     */
+    @RequestMapping(value = "adjust", method = RequestMethod.GET)
+    public String adjustment() {
+        return "supplier/commodity_adjust";
+    }
+
+    /**
+     * 获取商品数据
+     * @return
+     */
+    @RequestMapping(value = "getCommodities", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getCommodities(Integer pageNum) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        CommodityVo commodityVo = new CommodityVo();
+        commodityVo.setSupplierId(user.getId());
+        PageInfo<CommodityVo> commodityVos = commodityService.findByParams(commodityVo, pageNum, 5);
+        return Result.success().data(commodityVos.getList());
+    }
+
+	/**
+     * 修改商品库存或价格
+     * @return
+     */
+    @RequestMapping(value = "modCommodity", method = RequestMethod.POST)
+    @ResponseBody
+    public Result modCommodity(CommodityVo commodityVo) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        CommodityVo commodityVo = new CommodityVo();
+		commodityVo.setUnwarehouse(cid);
+		commodityVo.setUnwarehouse(stock);
+        commodityVo.setSupplierId(user.getId());
+		commodityVo.setPrice(price);
+        commodityService.modStockOrPrice(commodityVo);
+        return Result.success("修改成功");
+    }
+
 
 }

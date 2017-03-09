@@ -6,36 +6,11 @@
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
 <body class="body-gray">
-    <#include "../common/navigation.ftl"/>
+    <#include "./common/navigation.ftl"/>
 
     <div class="ui-content">
         <div class="plist2 plist2-space">
             <ul>
-                <li>
-                    <div class="cnt">
-                        <div class="title">三七</div>
-                        <div class="summary">
-                            云南文山三七120/80/60头  上等货洗净   无硫  长期供应
-                        </div>
-                    </div>
-                    <div class="pic">
-                        <img src="../uploads/p5.jpg" width="110" height="90" alt="">
-                    </div>
-
-                    <div class="edit">
-                        <div class="item">
-                            价格：<input type="text" class="ipt price">元/公斤
-                            <input type="hidden" name="price" value="1">
-                            <button type="button" class="btn">修改</button>
-                        </div>
-                        <div class="item">
-                            库存：<input type="text" class="ipt stock">公斤
-                            <input type="hidden" name="stock" value="1">
-                            <button type="button" class="btn">修改</button>
-                        </div>
-                    </div>
-                    <div class="space"></div>
-                </li>
             </ul>
         </div>
     </div>
@@ -76,8 +51,8 @@
 
                     $(this).prop('disabled', true);
                     $.ajax({
-                        url: '',
-                        data: {id: input.value, type: input.name, val: ipt.value},
+                        url: '/supplier/modCommodity',
+                        data: {id: input.value, unwarehouse: input.name, price: ipt.value},
                         success: function() {
                             console.log('修改成功')
                         },
@@ -93,17 +68,17 @@
                     $ul = $('.plist2').find('ul');
 
                 $.ajax({
-                    type: 'GET',
-                    url: '../json/plist2.json',
+                    type: 'POST',
+                    url: 'supplier/getCommodities',
                     dataType: 'json',
-                    data: {pagesize: self.pagesize},
+                    data: {pageNum: self.pagesize},
                     success: function(data){
-                        if (!data.list) {
+                        if (!data.data) {
                             return;
                         }
-                        var result = self.toHtml(data.list);
+                        var result = self.toHtml(data.data);
                         $ul.append(result);
-                        if (data.nomore) {
+                        if (data.data.length == 0) {
                             $('body').append('<div class="nomore">没有更多了...</div>');
                             self.dragger.options.disableDragUp = true;
                         }
@@ -132,22 +107,22 @@
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
                     html.push('<div class="cnt">');
-                    html.push('<div class="title">', data[i].title, '</div>');
+                    html.push('<div class="title">', data[i].categoryName, '</div>');
                     html.push('<div class="summary">');
-                    html.push(data[i].summmary);
+                    html.push(data[i].spec);
                     html.push('</div>');
                     html.push('</div>');
                     html.push('<div class="pic">');
-                    html.push('<img src="', data[i].pic, '" width="110" height="90" alt="">');
+                    html.push('<img src="', data[i].thumbnailUrl, '" width="110" height="90" alt="">');
                     html.push('</div>');
                     html.push('<div class="edit">');
                     html.push('<div class="item">');
-                    html.push('价格：<input type="text" class="ipt price">元/公斤');
+                    html.push('价格：<input type="text" class="ipt price" value="' + data[i].price + '">元/' + data[i].unitName);
                     html.push('<input type="hidden" name="price" value="', data[i].id, '">');
                     html.push('<button type="button" class="btn">修改</button>');
                     html.push('</div>');
                     html.push('<div class="item">');
-                    html.push('库存：<input type="text" class="ipt stock">公斤');
+                    html.push('库存：<input type="text" class="ipt stock" value="' + data[i].unwarehouse + '">' + data[i].unitName);
                     html.push('<input type="hidden" name="stock" value="', data[i].id, '">');
                     html.push('<button type="button" class="btn">修改</button>');
                     html.push('</div>');
