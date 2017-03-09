@@ -13,11 +13,13 @@ import com.ms.service.MessageService;
 import com.ms.service.PickService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
+import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
