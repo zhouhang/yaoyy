@@ -51,7 +51,7 @@
                             <td><input type="checkbox" class="cbx"></td>
                             <td>${supplier.name}</td>
                             <td>${supplier.phone}</td>
-                            <td>${supplier.enterCategoryText}</td>
+                            <td>${supplier.enterCategoryStr}</td>
                             <td>${supplier.company}</td>
                             <td>${supplier.areaname}</td>
                             <td>${(supplier.createTime?datetime)!}</td>

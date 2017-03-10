@@ -45,6 +45,10 @@
                     </div>
                 </div>-->
                 <div class="item">
+                    <div class="txt">用户输入的品种：</div>
+                    <div class="val">${(supplierVo.enterCategoryStr)!}</div>
+                </div>
+                <div class="item">
                     <div class="txt"><i>*</i>品种：</div>
                     <div class="cnt">
                         <div class="choose" id="chooseBreeds">

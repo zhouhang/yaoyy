@@ -33,6 +33,9 @@ public class Supplier  implements Serializable {
 	
 	//入驻品种,逗号隔开
 	private String enterCategory;
+
+	//入驻品种,逗号隔开
+	private String enterCategoryStr;
 	
 	//qq号
 	private String qq;
@@ -145,5 +148,9 @@ public class Supplier  implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public String getEnterCategoryStr() {return enterCategoryStr;}
+
+	public void setEnterCategoryStr(String enterCategoryText) {this.enterCategoryStr = enterCategoryStr;}
 	
 }
