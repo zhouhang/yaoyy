@@ -52,8 +52,10 @@
                             type: 'POST',
                             success: function (result) {
                                 if (result.status === 200) {
+                                    popover('密码找回成功!');
                                     window.location.href =  result.data;
                                 } else {
+                                    popover('密码找回失败!');
                                 }
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -61,6 +63,7 @@
                             }
                         });
                     }
+                    return false;
                 })
                 self.SMSCodeEvent();
             },

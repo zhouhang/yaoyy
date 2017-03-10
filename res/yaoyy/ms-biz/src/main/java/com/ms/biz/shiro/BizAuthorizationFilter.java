@@ -78,8 +78,6 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				return false;
 			}
 		}
-
-
 		return true;
 	}
 

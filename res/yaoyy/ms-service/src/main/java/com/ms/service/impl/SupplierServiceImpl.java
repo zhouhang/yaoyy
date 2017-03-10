@@ -84,6 +84,19 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	}
 
 	@Override
+	@Transactional
+	public Boolean register(SupplierVo supplierVo) {
+		SupplierVo param = new SupplierVo();
+		param.setPhone(supplierVo.getPhone());
+		List<SupplierVo> list = supplierDao.findByParams(param);
+		if (list.size() == 0) {
+			save(supplierVo);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public ICommonDao<Supplier> getDao() {
 		return supplierDao;
 	}
