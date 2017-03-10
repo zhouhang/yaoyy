@@ -281,44 +281,14 @@
                     }
                     saveAppyinfo(pickVo);   // 保存联系人信息
                     isSubmit = true;        // 阻止重复提交
-                    $("#pick_commodity").find('.ipt').each(function(){
+                    $("#pick_commodity").find('.floor .ipt').each(function(){
                         list.push({
                             commodityId: $(this).attr('cid'),
                             num: this.value
                         });
                     })
                     pickVo.pickCommodityVoList = list;
-
-                    $.ajax({
-                        url: _global.v.saveUrl,
-                        data: JSON.stringify(pickVo),
-                        type: "POST",
-                        contentType : 'application/json',
-                        success: function(result) {
-                            if(result.status=="200"){
-                                //清空订单
-                                _YYY.localstorage.remove(_YYY.CARTNAME);
-                                layer.open({
-                                    className: 'layer-custom',
-                                    content: '<div class="hd">您的订单已提交成功！</div><div class="bd">我们会在30分钟之内与您取得联系。登录可以跟踪您的所有订单申请。</div>'
-                                    ,btn: ['历史订单', '返回']
-                                    ,yes: function(index){
-                                        location.href = '/pick/list' + (_YYY.is_winxin ? '?source=WECHAT' : '');
-                                    },no: function(index) {
-                                        window.history.back(); // 返回按钮事件
-                                    },shadeClose: false
-                                });
-                            } else {
-                                isSubmit = false;
-                            }
-                        },
-                        error: function() {
-                            popover('网络错误，请刷新页面重试');
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 1e3);
-                        }
-                    })
+                    console.log(pickVo)
                 })
             },
             bindEvent: function() {
