@@ -101,8 +101,8 @@
                 </div>
                 <div class="item">
                     <div class="txt">地区：</div>
-                    <div class="cnt">
-                        <input type="text"  value="${userDetail.area?default('')}"  name="area" class="ipt" placeholder="" autocomplete="off">
+                    <div class="cnt" id="pickArea">
+                        <input type="text" style="display: none"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
@@ -174,6 +174,7 @@
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script src="assets/js/area.js"></script>
 <script>
     var _global = {
         v: {
@@ -183,6 +184,7 @@
         fn: {
             init: function() {
                 this.submitEvent();
+                $('#pickArea').citys({areaId:'area'});
             },
             // 提交事件
             submitEvent: function() {

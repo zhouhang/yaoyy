@@ -284,8 +284,8 @@
                     </div>
                     <div class="item">
                         <div class="txt">地区：</div>
-                        <div class="cnt">
-                            <input type="text" value="${userDetail.area?default('')}"  name="area" class="ipt" placeholder="" autocomplete="off">
+                        <div class="cnt" id="pickArea">
+                            <input type="text" style="display: none"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
@@ -325,6 +325,7 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+<script src="assets/js/area.js"></script>
 <form id="temp" class="hide">
     <input type="hidden"  class="ipt" value="${pickVo.id}" name="orderId">
     <div class="fa-form fa-form-layer">
@@ -368,6 +369,7 @@
                 this.bindEvent();
                 this.goodsImg();
                 this.upImg();
+                $('#pickArea').citys({areaId:'area'});
             },
             tab: function() {
                 var $items = $('.fa-tab-cont').find('.items'),

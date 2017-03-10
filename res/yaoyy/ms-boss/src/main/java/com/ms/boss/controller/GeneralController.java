@@ -1,18 +1,28 @@
 package com.ms.boss.controller;
 
+import com.ms.dao.model.Area;
 import com.ms.dao.model.Code;
 import com.ms.dao.vo.CodeVo;
+import com.ms.service.AreaService;
 import com.ms.service.CodeService;
 import com.ms.tools.entity.Result;
 import com.ms.tools.ueditor.CropInfo;
 import com.ms.tools.ueditor.CropResult;
 import com.ms.tools.ueditor.UEditorResult;
 import com.ms.tools.upload.UploadService;
+import com.ms.tools.utils.GsonUtil;
+import com.ms.tools.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
+import static com.ms.tools.utils.GsonUtil.*;
 
 /**
  * 公共URL访问
@@ -27,6 +37,9 @@ public class GeneralController extends BaseController{
 
     @Autowired
     CodeService codeService;
+
+    @Autowired
+    AreaService areaService;
 
     /**
      * 上传商品图片信息
@@ -75,5 +88,22 @@ public class GeneralController extends BaseController{
         vo.setCode(code);
 
         return Result.success("code").data(codeService.findAllByParams(vo));
+    }
+
+    @RequestMapping(value = "/area")
+    @ResponseBody
+    public void area(HttpServletRequest request,
+                     HttpServletResponse response,
+                     @RequestParam(required = false) Integer parentId) {
+        List<Area> areaList = null;
+        //父类ID为空，查询全部省
+        if (parentId == null) {
+//            areaList = areaService.findByLevel(1);
+        } else {
+            areaList = areaService.findByParent(parentId);
+        }
+
+        String result = toJsonInclude(areaList, "id", "areaname");
+        WebUtil.printJson(response, result);
     }
 }

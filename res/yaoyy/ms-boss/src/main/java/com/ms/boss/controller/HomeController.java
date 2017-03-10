@@ -5,6 +5,7 @@ import com.ms.boss.properties.BossSystemProperties;
 import com.ms.boss.shiro.BossToken;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.Member;
+import com.ms.dao.vo.AreaVo;
 import com.ms.service.AreaService;
 import com.ms.service.MemberService;
 import com.ms.tools.annotation.SecurityToken;
@@ -131,4 +132,18 @@ public class HomeController extends BaseController{
         List<Area> list = areaService.findByParent(parentId);
         return Result.success().data(list);
     }
+
+    /**
+     * 根据区域获取 省份,城市ID
+     * @param areaId
+     * @return
+     */
+    @RequestMapping(value = "/areaId")
+    @ResponseBody
+    public Result areaId(Integer areaId) {
+        AreaVo areaVo = areaService.findVoById(areaId);
+        return Result.success().data(areaVo);
+    }
+
+
 }
