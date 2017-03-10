@@ -72,6 +72,7 @@
         fn: {
             init: function() {
                 this.timeago();
+                navLight(0);
             },
             timeago: function() {
                 $('#news').find('time').each(function() {

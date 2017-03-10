@@ -14,7 +14,7 @@
                 </a>
             </li>
             <li>
-                <a href="/supplier/order" class="current">
+                <a href="/supplier/order">
                     <i class="menu"></i>
                     <span>订单记录</span>
                 </a>

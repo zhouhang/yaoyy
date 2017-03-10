@@ -26,6 +26,7 @@
                 this.bindEvent();
                 this.loadmore();
                 this.loading();
+                navLight(1);
             },
             bindEvent: function() {
                 // 数量
