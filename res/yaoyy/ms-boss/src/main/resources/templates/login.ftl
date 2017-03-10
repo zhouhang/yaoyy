@@ -95,6 +95,7 @@
 
 
         $submit.on('click', function() {
+            var self = this;
             if (checkForm() && abled) {
                 $submit.prop('disabled', true);
                 abled = false;
