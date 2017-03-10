@@ -107,18 +107,19 @@
                 })
 
                 $('.plist2').on('click', '.btn', function() {
-                    var input = $(this).prev()[0],
+                    var $el = $(this),
+                        input = $(this).prev()[0],
                         ipt = $(this).parent().find('.ipt')[0];
 
-                    $(this).prop('disabled', true);
+                    $el.prop('disabled', true);
                     $.ajax({
                         url: '',
                         data: {id: input.value, type: input.name, val: ipt.value},
                         success: function() {
-                            console.log('修改成功')
+                            popover('修改成功!');
                         },
                         complete: function() {
-                            $(this).prop('disabled', false);
+                            $el.prop('disabled', false);
                         }
                     })
 

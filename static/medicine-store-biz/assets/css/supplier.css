@@ -70,15 +70,14 @@ body{padding-bottom:70px;}
 .floor li{padding:15px 0;line-height:22px;}
 .floor li span{display:block;margin-bottom:8px;}
 .floor li time{font-size:1.2rem;color:#aaa;}
-.floor li em{margin-right:10px;padding:0 4px;font-size:1.2rem;border:1px solid #fff;-webkit-border-radius:3px;border-radius:3px;}
-.floor li .e21{border-color:#be1920;color:#be1920;}
-.floor li .e23{border-color:#be1920;color:#be1920;}
-.floor li .e22{border-color:#08f;color:#08f;}
+.floor li em{margin-right:10px;padding:0 4px;font-size:1.2rem;-webkit-border-radius:3px;border-radius:3px;}
 .floor .list{padding-top:10px;}
 .floor .list li{padding:5px 0;}
 .floor .list time{float:right;}
 .floor .more{padding:15px 0 7px;text-align:right;}
 .floor .more .ico-arrow-r{padding-right:10px;color:#08f;background:url(../images/ico-arrow-r-b.png) no-repeat 100% 50%;background-size:auto 10px;}
+.e20,.e22,.e30,.e32{border:1px solid #be1920;color:#be1920;}
+.e21,.e31{border:1px solid #08f;color:#08f;}
 
 .umenu2{background:#08f;overflow:hidden;}
 .umenu2 li{float:left;width:33%;height:124px;line-height:24px;padding:40px 0 30px;text-align:center;border-left:1px solid #4dacff;overflow:hidden;}
