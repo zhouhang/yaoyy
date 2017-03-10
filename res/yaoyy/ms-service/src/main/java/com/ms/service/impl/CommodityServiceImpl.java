@@ -231,10 +231,10 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 	@Override
     @Transactional
 	public void modStockOrPrice(CommodityVo commodityVo) {
-        if (commodityVo.getUnWarehouse() != null){
-			Commodity  commodity = new Commodity();
-			commodity.setId(commodityVo.getId());
-            commodity.setUnWarehouse(commodityVo.getWarehouse());
+        Commodity  commodity = new Commodity();
+        if (commodityVo.getUnwarehouse() != null){
+            commodity.setId(commodityVo.getId());
+            commodity.setUnwarehouse(commodityVo.getUnwarehouse());
 			update(commodity);
         } else if (commodityVo.getPrice() != null){
             commodity.setPrice(commodityVo.getPrice());

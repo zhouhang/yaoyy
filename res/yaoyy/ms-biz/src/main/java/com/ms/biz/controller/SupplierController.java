@@ -175,11 +175,7 @@ public class SupplierController {
     @ResponseBody
     public Result modCommodity(CommodityVo commodityVo) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        CommodityVo commodityVo = new CommodityVo();
-		commodityVo.setUnwarehouse(cid);
-		commodityVo.setUnwarehouse(stock);
         commodityVo.setSupplierId(user.getId());
-		commodityVo.setPrice(price);
         commodityService.modStockOrPrice(commodityVo);
         return Result.success("修改成功");
     }

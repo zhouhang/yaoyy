@@ -46,18 +46,22 @@
                 })
 
                 $('.plist2').on('click', '.btn', function() {
-                    var input = $(this).prev()[0],
+                    var $el = $(this),
+                        input = $(this).prev()[0],
                         ipt = $(this).parent().find('.ipt')[0];
 
                     $(this).prop('disabled', true);
                     $.ajax({
+                        type: 'post',
                         url: '/supplier/modCommodity',
-                        data: {id: input.value, unwarehouse: input.name, price: ipt.value},
-                        success: function() {
-                            console.log('修改成功')
+                        data: {id: input.value, unwarehouse: (ipt.name=="unwarehouse"?ipt.value:null), price: (ipt.name=="price"?ipt.value:null)},
+                        success: function(data) {
+                            if(data.status == 200) {
+                                popover('修改成功');
+                            }
                         },
                         complete: function() {
-                            $(this).prop('disabled', false);
+                            $el.prop('disabled', false);
                         }
                     })
 
@@ -117,13 +121,13 @@
                     html.push('</div>');
                     html.push('<div class="edit">');
                     html.push('<div class="item">');
-                    html.push('价格：<input type="text" class="ipt price" value="' + data[i].price + '">元/' + data[i].unitName);
-                    html.push('<input type="hidden" name="price" value="', data[i].id, '">');
+                    html.push('价格：<input type="text" name="price" class="ipt price" value="' + data[i].price + '">元/' + data[i].unitName);
+                    html.push('<input type="hidden" value="', data[i].id, '">');
                     html.push('<button type="button" class="btn">修改</button>');
                     html.push('</div>');
                     html.push('<div class="item">');
-                    html.push('库存：<input type="text" class="ipt stock" value="' + data[i].unwarehouse + '">' + data[i].unitName);
-                    html.push('<input type="hidden" name="stock" value="', data[i].id, '">');
+                    html.push('库存：<input type="text" name="unwarehouse" class="ipt stock" value="' + data[i].unwarehouse + '">' + data[i].unitName);
+                    html.push('<input type="hidden" value="', data[i].id, '">');
                     html.push('<button type="button" class="btn">修改</button>');
                     html.push('</div>');
                     html.push('</div>');
