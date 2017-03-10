@@ -129,20 +129,20 @@ CREATE TABLE `user_annex` (
 
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';
 
-CREATE TABLE `user_annex` (
+CREATE TABLE `user_track_record` (
 
   `id` int(11) NOT NULL AUTO_INCREMENT,
 
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL COMMENT 'user表id',
 
-  `url` mediumtext DEFAULT NULL,
+  `supplier_id` int(11) DEFAULT NULL COMMENT 'supplier表id',
 
-  `status` int(11) DEFAULT 0,
+  `member_id` int(11) NOT NULL COMMENT 'member表id',
 
-  `create_time` datetime DEFAULT NULL,
+  `content` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 
-  PRIMARY KEY (`id`),
+  `create_time` datetime NOT NULL,
 
-  CONSTRAINT `user_annex_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='供应商跟踪记录表';
