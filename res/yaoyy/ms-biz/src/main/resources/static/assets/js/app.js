@@ -365,6 +365,10 @@ function navigationActive(){
         $('#center').attr('href', $('#center').attr('href') + "?source=WECHAT");
     }
 }
+// 导航高亮
+function navLight(idx) {
+    $('.footer').find('li').eq(idx).find('a').addClass('current');
+}
 
 $(function() {
     navigationActive();

@@ -30,6 +30,7 @@
                 this.pagesize = 0;
                 this.loadmore();
                 this.loading();
+                navLight(3);
             },
             loading: function() {
                 var self = this,

@@ -23,6 +23,7 @@
                 this.pageNum = 1;
                 this.loadmore();
                 this.loading();
+                navLight(2);
             },
             loading: function() {
                 var self = this,

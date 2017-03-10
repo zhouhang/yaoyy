@@ -16,7 +16,7 @@
         <nav class="nav">
             <ul>
                 <li>
-                    <a href="index.html" class="current">
+                    <a href="index.html">
                         <i class="home"></i>
                         <span>首页</span>
                     </a>
@@ -119,6 +119,7 @@
         fn: {
             init: function() {
                 this.timeago();
+                navLight(0);
             },
             timeago: function() {
                 $('#news').find('time').each(function() {
@@ -126,7 +127,6 @@
                     date && $(this).html(_YYY.timeago.elapsedTime(date));
                 })
             }
-
         }
     }
 

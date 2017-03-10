@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="order.html" class="current">
+                    <a href="order.html">
                         <i class="menu"></i>
                         <span>订单记录</span>
                     </a>
@@ -121,6 +121,7 @@
     var _global = {
         fn: {
             init: function() {
+                navLight(2);
                 this.pagesize = 0;
                 this.loadmore();
                 this.loading();
