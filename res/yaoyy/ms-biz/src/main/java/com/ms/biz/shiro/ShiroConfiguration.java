@@ -120,6 +120,8 @@ public class ShiroConfiguration {
                 "/pick/**=bizAuthorization;" +
                 "/follow/**=bizAuthorization;" +
                 "/bill/**=bizAuthorization;" +
+                "/supplier/**=bizAuthorization;" +
+                "/message/**=bizAuthorization;" +
                 "/**=anon;");
         return shiroFilterFactoryBean;
     }

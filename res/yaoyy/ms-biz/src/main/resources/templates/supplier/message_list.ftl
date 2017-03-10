@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
 <body class="body-gray">
-    <#include "../common/navigation.ftl"/>
+    <#include "./common/navigation.ftl"/>
 
     <div class="ui-content">
 

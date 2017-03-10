@@ -53,7 +53,7 @@
                     <#list messageVos as messageVo>
                     <li>
                         <span>${messageVo.content}</span>
-                        <em class="e1">${messageVo.typeName}</em>
+                        <em class="e${messageVo.type}">${messageVo.typeName}</em>
                         <time data-time="${messageVo.createTime?datetime}"></time>
                     </li>
                     </#list>
