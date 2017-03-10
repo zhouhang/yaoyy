@@ -41,9 +41,9 @@ CHANGE COLUMN `price` `price` DECIMAL(10,2) NOT NULL ;
 --user和user_detail：
 
 
-alter table user add COLUMN status INT(8) DEFAULT 1;--1启用 0禁用
+--alter table user add COLUMN status INT(8) DEFAULT 1;--1启用 0禁用
 
-alter table user add COLUMN source INT(8) DEFAULT NULL;--1：注册用户，0：申请寄样生成的用户',
+--alter table user add COLUMN source INT(8) DEFAULT NULL;--1：注册用户，0：申请寄样生成的用户',
 
 alter table user_detail add COLUMN category_ids VARCHAR(20) DEFAULT NULL;
 
@@ -74,7 +74,7 @@ alter table supplier add COLUMN enter_category_str VARCHAR(191) DEFAULT NULL;
 
 --message:
 
-alter table message add COLUMN isMemeber int(8) DEFAULT 0;
+alter table message add COLUMN is_member int(8) DEFAULT 0;
 
 alter table message DROP COLUMN url;
 
@@ -110,6 +110,24 @@ CREATE TABLE `announcement` (
 
 ) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';
 
+
+CREATE TABLE `user_annex` (
+
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+
+  `user_id` int(11) NOT NULL,
+
+  `url` mediumtext DEFAULT NULL,
+
+  `status` int(11) DEFAULT 0,
+
+  `create_time` datetime DEFAULT NULL,
+
+  PRIMARY KEY (`id`),
+
+  CONSTRAINT `user_annex_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';
 
 CREATE TABLE `user_annex` (
 
