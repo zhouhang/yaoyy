@@ -72,9 +72,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.UserDetail">
         insert into
-        user_detail (type,nickname,phone,area,name,head_img_url,remark,user_id,create_time,update_time,company)
+        user_detail (type,nickname,phone,area,name,head_img_url,remark,user_id,create_time,update_time,company,category_ids,email,qq)
         values
-        (#{type},#{nickname},#{phone},#{area},#{name},#{headImgUrl},#{remark},#{userId},#{createTime},#{updateTime},#{company})
+        (#{type},#{nickname},#{phone},#{area},#{name},#{headImgUrl},#{remark},#{userId},#{createTime},#{updateTime},#{company},#{categoryIds},#{email},#{qq})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.UserDetail">

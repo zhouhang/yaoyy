@@ -95,7 +95,6 @@
 
 
         $submit.on('click', function() {
-            var self = this;
             if (checkForm() && abled) {
                 $submit.prop('disabled', true);
                 abled = false;
@@ -105,13 +104,12 @@
                         if(result.status=="200"){
                             location.href="/index"
                         }else{
-                            self.showMsg(result.msg)
+                            showMsg(result.msg)
                         }
-                        abled = true;
                     },
-                    error: function() {
+                    complete: function() {
                         $submit.prop('disabled', false);
-                        abled = true;  
+                        abled = true;
                     }
                 });
             }

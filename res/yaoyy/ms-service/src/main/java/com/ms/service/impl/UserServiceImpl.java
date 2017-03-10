@@ -356,8 +356,10 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		user.setPhone(userVo.getPhone());
 		update(user);
 
+
 		UserDetail userDetail = new UserDetail();
 		userDetail.setUserId(userVo.getId());
+		userDetail.setType(IdentityTypeEnum.t4.getId());
 		userDetail.setName(userVo.getName());
 		userDetail.setPhone(userVo.getPhone());
 		userDetail.setCategoryIds(userVo.getEnterCategory());
@@ -366,7 +368,14 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		userDetail.setEmail(userVo.getEmail());
 		userDetail.setQq(userVo.getQq());
 		userDetail.setRemark(userVo.getMark());
-		userDetailService.update(userDetail);
+		if(userDetailService.findByUserId(userVo.getId())!=null) {
+			userDetail.setUpdateTime(new Date());
+			userDetailService.update(userDetail);
+		}else{
+			userDetail.setCreateTime(new Date());
+			userDetail.setUpdateTime(new Date());
+			userDetailService.create(userDetail);
+		}
 	}
 
 	@Override

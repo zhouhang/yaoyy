@@ -22,7 +22,7 @@ public class MessageVo extends Message{
         return types;
     }
 
-    public void setTypes(List<Integer> Types) {
+    public void setTypes(List<Integer> types) {
         this.types = types;
     }
 

@@ -49,11 +49,11 @@
                         <#list supplierVoPageInfo.list as supplier>
                         <tr>
                             <td><input type="checkbox" class="cbx"></td>
-                            <td>${supplier.name}</td>
-                            <td>${supplier.phone}</td>
-                            <td>${supplier.enterCategoryStr}</td>
-                            <td>${supplier.company}</td>
-                            <td>${supplier.areaname}</td>
+                            <td>${supplier.name!}</td>
+                            <td>${supplier.phone!}</td>
+                            <td>${supplier.enterCategoryStr!}</td>
+                            <td>${supplier.company!}</td>
+                            <td>${supplier.areaname!}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc">
                                 <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>

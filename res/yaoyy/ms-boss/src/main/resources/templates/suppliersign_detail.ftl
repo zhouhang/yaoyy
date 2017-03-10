@@ -42,7 +42,7 @@
                     <div class="txt"><i>*</i>品种：</div>
                     <div class="cnt">
                         <div class="choose" id="chooseBreeds">
-                        <#if userVo?exists>
+                        <#if userVo?exists && userVo.enterCategoryList??>
                             <#list userVo.enterCategoryList as category>
                                 <span>${category.name}<i data-id="${category.id}"></i></span>
                             </#list>
@@ -296,7 +296,7 @@
             // 查询品种
             searchBreeds: function() {
                 var self = this;
-                vals = [${(supplierVo.enterCategory)!}],
+                vals = [${(userVo.categoryIds)!}],
                         timer = 0,
                         $breeds = $('#breeds'),
                         $breedsId = $('#breedsId'),
