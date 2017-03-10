@@ -134,7 +134,15 @@
             </if>
                             
         </set>
-        where user_id = #{userId}
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="userId != null">
+               AND user_id = #{userId}
+            </if>
+        </where>
+
     </update>
     <select id="findByUserId" parameterType="java.lang.Integer" resultMap="UserDetailResultMapVo">
         select

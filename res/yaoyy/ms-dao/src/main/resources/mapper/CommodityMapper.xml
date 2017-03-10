@@ -94,6 +94,12 @@
             <if test="supplierId != null">
                 and cm.supplier_id = #{supplierId}
             </if>
+            <if test="supplierName != null">
+                and spD.name = #{supplierName}
+            </if>
+            <if test="supplierTel != null">
+                and sp.phone = #{supplierTel}
+            </if>
         </where>
         ORDER BY cm.category_id,sort DESC
     </select>

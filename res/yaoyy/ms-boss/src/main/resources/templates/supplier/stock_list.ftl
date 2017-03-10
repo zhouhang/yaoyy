@@ -19,11 +19,11 @@
             <div class="box">
                 <div class="tools">
                     <div class="filter">
-                        <form action="">
-                            <input type="text" class="ipt" placeholder="供应商">
-                            <input type="text" class="ipt" placeholder="手机号">
-                            <input type="text" class="ipt" placeholder="商品名称">
-                            <button class="ubtn ubtn-blue">搜索</button>
+                        <form id="filterForm" action="">
+                            <input type="text" name="supplierName" class="ipt" placeholder="供应商">
+                            <input type="text" name="supplierTel" class="ipt" placeholder="手机号">
+                            <input type="text" name="name" class="ipt" placeholder="商品名称">
+                            <button id="search_btn" type="button" class="ubtn ubtn-blue">搜索</button>
                         </form>
                     </div>
 
@@ -102,6 +102,22 @@
                 fn: {
                     init: function () {
                         this.bindEvent();
+                        this.filter();
+                    },
+                    // 筛选
+                    filter: function() {
+                        $("#filterForm").initByUrlParams();
+                        var $ipts = $('.filter .ipt, .filter select');
+                        var url="/supplier/commodity?";
+
+                        $('#search_btn').on('click', function() {
+                            var params = [];
+                            $ipts.each(function() {
+                                var val = $.trim(this.value);
+                                val && params.push($(this).attr('name') + '=' + val);
+                            })
+                            location.href = url + params.join('&');
+                        })
                     },
                     bindEvent: function () {
                         var $table = $('.table'),

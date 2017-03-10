@@ -85,9 +85,6 @@
                 <@shiro.hasPermission name="pick:list">
                 <a href="/pick/list"><i class="fa fa-circle-o"></i>订单列表</a>
                 </@shiro.hasPermission>
-                <a href="/supplier/stock"><i class="fa fa-circle-o"></i>寄卖库存管理</a>
-                <a href="/supplier/commodity"><i class="fa fa-circle-o"></i>寄卖商品列表</a>
-                <a href="/supplier/order"><i class="fa fa-circle-o"></i>寄卖订单列表</a>
             </dd>
         </dl>
         </@shiro.hasPermission>
@@ -143,7 +140,9 @@
                 <a href="/supplier/list"><i class="fa fa-circle-o"></i>未签约供应商</a>
                 </@shiro.hasPermission>
                 <a href="/supplier/signlist"><i class="fa fa-circle-o"></i>签约供应商</a>
-
+                <a href="/supplier/stock"><i class="fa fa-circle-o"></i>寄卖库存管理</a>
+                <a href="/supplier/commodity"><i class="fa fa-circle-o"></i>寄卖商品列表</a>
+                <a href="/supplier/order"><i class="fa fa-circle-o"></i>寄卖订单列表</a>
             </dd>
         </dl>
         </@shiro.hasPermission>

@@ -89,7 +89,7 @@
                                 dataType: 'json',
                                 // name company phone enterCategory area
                                 data: {name:$("#name").val(),company:$("#company").val(),
-                                       phone:$("#mobile").val(),enterCategory:$("#category").val(),
+                                       phone:$("#mobile").val(),enterCategoryStr:$("#category").val(),
                                        area:$("#areaId").val()},
                                 type: "POST",
                                 success: function (result) {

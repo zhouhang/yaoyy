@@ -112,6 +112,9 @@
                         html.push('<div class="tf">');
                         html.push('<strong>订单金额：<i>¥', item.amountsPayable, '</i> 元</strong>');
                         html.push('<span>付款方式：', item.settleTypeName, '</span>');
+                        if (item.settleType == 2) {
+                            html.push('<span>账期时间：', item.billTime, '剩余:',item.billTimeLeft,'</span>');
+                        }
                         html.push('</div>');
                     }
 

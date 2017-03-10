@@ -45,6 +45,9 @@ public class PickVo extends Pick{
 
     private String userBusinessTypeName;
 
+    // 账期剩余时间
+    private String billTimeLeft;
+
     public String getUserName() {
         return userName;
     }
@@ -128,6 +131,14 @@ public class PickVo extends Pick{
 
     public void setInvoice(OrderInvoice invoice) {
         this.invoice = invoice;
+    }
+
+    public String getBillTimeLeft() {
+        return billTimeLeft;
+    }
+
+    public void setBillTimeLeft(String billTimeLeft) {
+        this.billTimeLeft = billTimeLeft;
     }
 
     /**
