@@ -20,7 +20,7 @@
                     ${commodity.spec!}
                     </div>
                     <div class="price">
-                        当前价格：<em>&yen;${commodity.price!}</em> 元/${commodity.unit!}<br>
+                        当前价格：<em>&yen;${commodity.price!}</em> 元/${commodity.unitName!}<br>
                         当前库存：${commodity.warehouse!} 公斤
                     </div>
                 </div>

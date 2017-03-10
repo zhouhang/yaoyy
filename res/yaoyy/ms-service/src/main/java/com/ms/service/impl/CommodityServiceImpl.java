@@ -216,7 +216,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     @Override
     @Transactional
     public void addStock(Integer id, Integer num) {
-        Commodity commodity = commodityDao.findById(id);
+        CommodityVo commodity = findById(id);
 
         if (commodity.getWarehouse() == null){
             commodity.setWarehouse(Float.valueOf(num));
@@ -228,7 +228,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         commodity1.setWarehouse(commodity.getWarehouse());
         update(commodity1);
 
-        String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")寄卖入库"+num+commodity.getUnit();
+        String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")寄卖入库"+num+commodity.getUnitName();
 
         //添加库存消息
         MsgProducerEvent mp =new MsgProducerEvent(commodity.getSupplierId(),commodity.getId(), MessageEnum.SUPPLIER_COMMODITY_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());

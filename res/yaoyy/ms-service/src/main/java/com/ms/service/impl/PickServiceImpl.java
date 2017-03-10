@@ -580,7 +580,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setSum(0F);
 		PickCommodityVo pickCommodity = new PickCommodityVo();
 		// 先查询商品库存 检查商品库存信息 在下单
-		Commodity commodity = commodityService.findById(commodityId);
+		CommodityVo commodity = commodityService.findById(commodityId);
 		pickCommodity.setNum(0);
 		list.forEach(batch -> {
 			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
@@ -637,7 +637,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		commodityBatchDao.batchInsert(list);
 
 		// 寄卖下单
-		String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")以"+pickCommodity.getPrice()+"/"+commodity.getUnit()+"被下单"+pickCommodity.getNum()+commodity.getUnit();
+		String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")以"+pickCommodity.getPrice()+"/"+commodity.getUnit()+"被下单"+pickCommodity.getNum()+commodity.getUnitName();
 		MsgProducerEvent mp =new MsgProducerEvent(commodity.getSupplierId(),commodity.getId(), MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
 
