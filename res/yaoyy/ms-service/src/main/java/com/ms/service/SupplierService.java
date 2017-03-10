@@ -17,4 +17,10 @@ public interface SupplierService extends ICommonService<Supplier>{
     List<SupplierVo> search(String name);
 
     public PageInfo<SupplierVo> findVoByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
+
+    /**
+     * 前台供应商入驻
+     * @param supplierVo
+     */
+    Boolean register(SupplierVo supplierVo);
 }

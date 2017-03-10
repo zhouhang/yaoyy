@@ -37,6 +37,7 @@
                         <input type="text" class="ipt" name="region" id="region" placeholder="-省-市-区/县-" readonly="" autocomplete="off">
                         <span class="error"></span>
                         <em class="mid ico-arrow-r"></em>
+                        <input id="areaId" type="text" style="display: none">
                     </div>
                     <div class="ft">
                         <button type="submit" class="ubtn ubtn-primary" id="submit">申请入驻</button>
@@ -82,8 +83,28 @@
                 validator: function() {
                     var self = this;
                     $('#submit').on('click', function() {
-                        return self.checkName() && self.checkMobile() && self.checkRegion();
-
+                        if (self.checkName() && self.checkMobile() && self.checkRegion()){
+                            $.ajax({
+                                url: "/user/supplier/register",
+                                dataType: 'json',
+                                // name company phone enterCategory area
+                                data: {name:$("#name").val(),company:$("#company").val(),
+                                       phone:$("#mobile").val(),enterCategory:$("#category").val(),
+                                       area:$("#areaId").val()},
+                                type: "POST",
+                                success: function (result) {
+                                    if (result.status === 200) {
+                                        window.location.href =  result.data;
+                                    } else {
+                                        popover(result.msg);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    popover('网络连接超时，请您稍后重试!');
+                                }
+                            });
+                        }
+                        return false;
                     })
                 },
                 checkName: function() {

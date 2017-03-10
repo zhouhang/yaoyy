@@ -2,8 +2,9 @@ package com.ms.biz.controller;
 
 import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
-import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
+import com.ms.dao.vo.SupplierVo;
+import com.ms.service.SupplierService;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -38,6 +39,9 @@ public class SupplierUserController {
 
     @Autowired
     HttpSession httpSession;
+
+    @Autowired
+    SupplierService supplierService;
 
     /**
      * 登入
@@ -119,7 +123,7 @@ public class SupplierUserController {
     public Result resetPassword(String phone, String password,String code) {
         //TODO: 安全性待验证
         userService.resetPassword(phone, code, password);
-        return Result.success("密码重置成功");
+        return Result.success("密码重置成功").data("user/supplier/login");
     }
 
     /**
@@ -138,14 +142,31 @@ public class SupplierUserController {
 
     /**
      * 供应商入驻
-     * 1. 供应商已经存在未验证通过,提示用户去查看验证进度
-     * 2. 供应商已经存在并且验证通过了提示供应商去登入
+
      * @return
      */
     @RequestMapping(value = "register", method = RequestMethod.GET)
-    public String register(Supplier supplier) {
-        // TODO:
+    public String register() {
         return "supplier/register";
+    }
+
+    /**
+     * 1.供应商表已经存在提示审核中
+     * 2.不存在直接保存
+     * @param supplier
+     * @return
+     */
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveRegister(SupplierVo supplier) {
+        Result result = Result.success().data("/user/supplier/registerSuccess");
+        // 1. 先去User里面查询手机号如果存在叫用户去登入
+        // 2. 查询Supplier 表.存在告诉用户正在审核中请稍后
+        // 3. 把数据插入到Supplier 表中,入驻完成跳转到二维码页面
+        if (!supplierService.register(supplier)){
+            result = result.error().msg("正在审核中.");
+        }
+        return result;
     }
 
 
