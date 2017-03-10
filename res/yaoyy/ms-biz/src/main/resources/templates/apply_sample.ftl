@@ -56,6 +56,7 @@
             init: function() {
                 this.validator();
                 this.loadInfo();
+                this.region();
             },
             loadInfo:function(){
                 var userinfo = getAppyInfo();
@@ -96,6 +97,11 @@
                         });
                     }
                 })
+                
+                // 输入框获取焦点隐藏错误提示
+                $('.ui-form').on('focus blur', '.ipt', function() {
+                    $(this).next().hide();
+                })
             },
             checkName: function() {
                 var $el = $('#name'),
@@ -131,6 +137,78 @@
                     return true;
                 }
                 return false;
+            },
+            region: function() {
+
+                var self = this,
+                    $tab = $('.tab'),
+                    $tabcont = $('.tabcont'),
+                    $item = $tabcont.find('ul'),
+                    $cont = $('.cont'),
+                    choose = [];
+
+                var tab = function(idx) {
+                    var distance = idx * $tabcont.width();
+                    $item.css('position','absolute').eq(idx).css('position','relative');
+                    $cont.css({
+                        '-webkit-transition':'all .3s ease',
+                        'transition':'all .3s ease',
+                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+                        'transform':'translate3d(-' + distance + 'px,0,0)'
+                    });
+                }
+
+                // 选择地区
+                $('#region').on('click', function() {
+                    $('.pick-region').show();
+                    $('.ui-form').hide();
+                })
+
+                // 返回
+                $('#back').on('click', function() {
+                    $('.pick-region').hide();
+                    $('.ui-form').show();
+                })
+
+                // tab
+                $tab.on('click', 'span', function() {
+                    var idx = $(this).index();
+
+                    $(this).html('请选择');
+                    $tab.find('span').each(function(i) {
+                        i > idx && $(this).empty();
+                    })
+                    tab(idx);
+                })
+
+                // 城市级联
+                $tabcont.on('click', 'li', function() {
+                    var idx = $(this).parent().index(),
+                        name = this.innerHTML,
+                        cid = $(this).data('id');
+                    $.ajax({
+                        url: '',
+                        data: {cid: cid},
+                        success: function(result) {
+                            result = {
+                                data: [
+                                    {id: '1', text: '武汉'},
+                                    {id: '2', text: '杭州'}
+                                ]
+                            }
+                            $tab.find('span').eq(idx).html(name).next().html('请选择');
+                            self.toHtml(result.data, $item.eq(++idx));
+                            tab(idx);
+                        }
+                    })
+                })
+            },
+            toHtml: function(data, $wrap) {
+                var model = [];
+                $.each(data, function(i, item) {
+                    model.push('<li data-id="' , item.id ,'">', item.text, '</li>');
+                })
+                $wrap.html(model.join(''));
             }
         }
     }
