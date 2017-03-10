@@ -105,11 +105,25 @@
                     html.push('</div>');
                 })
 
-                html.push('<div class="ft">');
-                html.push('<input type="text" class="text" id="username" placeholder="姓名">');
-                html.push('<input type="tel" class="text" id="mobile" placeholder="手机号">');
-                html.push('<button type="button" class="ubtn ubtn-primary" id="submit">选货登记</button>');
+                html.push('<div class="ft ui-form">');
+                html.push('<div class="item">');
+                html.push('<input type="text" class="ipt" id="username" placeholder="姓名"><em class="error"></em>');
                 html.push('</div>');
+                html.push('<div class="item">');
+                html.push('    <input type="tel" class="ipt" name="mobile" id="mobile" placeholder="手机号" autocomplete="off">');
+                html.push('    <em class="error"></em>');
+                /*html.push('    <i class="mid"></i>');
+                html.push('    <button type="button" class="send" id="send">发送验证码</button>');
+                html.push('</div>');
+                html.push('<div class="item">');
+                html.push('    <input type="text" class="ipt" name="SMSCode" id="SMSCode" placeholder="验证码" autocomplete="off">');
+                html.push('    <em class="error"></em>');*/
+                html.push('</div>')
+                html.push('<div class="item">');
+                html.push('    <button type="button" class="ubtn ubtn-primary" id="submit">登录</button>');
+                html.push('</div>');
+                html.push('</div>');
+
                 $wrap.html(html.join(''));
 
                 // 商品数量

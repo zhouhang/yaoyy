@@ -60,9 +60,6 @@
                 <i>&yen;</i>
                 <em>${commodityVo.price}</em>
                 <b>元/${commodityVo.unitName!}</b>
-                <#if commodityVo.mark!=0>
-                    <span>量大价优</span>
-                </#if>
                 <div class="ui-quantity" id="quantity">
                     <button type="button" class="fa fa-reduce op"></button>
                     <input id="num"type="tel" class="ipt" value="${commodityVo.minimumQuantity?default(1)}" data-min="${commodityVo.minimumQuantity?default(1)}" autocomplete="off">
@@ -87,14 +84,6 @@
                 <span>价格更新时间：${commodityVo.priceUpdateTime?date}</span>
             </div>
 
-            <div class="sales">
-                <#list commodityVo.gradient as gradient>
-                <dl>
-                    <dt>${gradient.start}-${gradient.end}${commodityVo.unitName!}</dt>
-                    <dd>${gradient.price}元/${commodityVo.unitName!}</dd>
-                </dl>
-                </#list>
-            </div>
         </div>
 
         <div class="pdetail">
