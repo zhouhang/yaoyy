@@ -106,11 +106,10 @@
                         }else{
                             showMsg(result.msg)
                         }
-                        abled = true;
                     },
-                    error: function() {
+                    complete: function() {
                         $submit.prop('disabled', false);
-                        abled = false;
+                        abled = true;
                     }
                 });
             }

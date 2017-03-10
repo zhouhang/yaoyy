@@ -11,36 +11,36 @@ import org.apache.shiro.subject.Subject;
 public interface UserService extends ICommonService<User>{
 
 
-    public PageInfo<UserVo> findByParams(UserVo userVo,Integer pageNum,Integer pageSize);
+    PageInfo<UserVo> findByParams(UserVo userVo,Integer pageNum,Integer pageSize);
 
-    public UserVo findByPhone(String phone);
-    public UserVo findByOpenId(String openId);
+    UserVo findByPhone(String phone);
+    UserVo findByOpenId(String openId);
 
-    public UserVo findById(Integer id);
+    UserVo findById(Integer id);
 
-    public void disable(Integer id);
+    void disable(Integer id);
 
-    public void enable(Integer id);
+    void enable(Integer id);
 
-    public void login(Subject subject, UsernamePasswordToken token);
+    void login(Subject subject, UsernamePasswordToken token);
 
-    public void logout();
+    void logout();
 
-    public User loginSms(String phone, String code);
+    User loginSms(String phone, String code);
 
-    public void register(String phone, String code, String password);
+    void register(String phone, String code, String password);
 
-    public UserVo sign(UserVo userVo, UserDetailVo userDetailVo);
+    UserVo sign(UserVo userVo, UserDetailVo userDetailVo);
 
-    public User registerWechat(String phone,String openId,String nickname,String headImgUrl);
+    User registerWechat(String phone,String openId,String nickname,String headImgUrl);
 
-    public void sendRegistSms(String phone);
+    void sendRegistSms(String phone);
 
-    public void sendLoginSms(String phone);
+    void sendLoginSms(String phone);
 
-    public void sendResetPasswordSms(String phone);
+    void sendResetPasswordSms(String phone);
 
-    public void resetPassword(String phone, String code, String password);
+    void resetPassword(String phone, String code, String password);
 
     /**
      * 供应商登入
@@ -50,7 +50,7 @@ public interface UserService extends ICommonService<User>{
      */
     void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser);
 
-    public PageInfo<UserVo> findVoByParams(UserVo userVo,Integer pageNum,Integer pageSize);
+    PageInfo<UserVo> findVoByParams(UserVo userVo,Integer pageNum,Integer pageSize);
 
-    public void signSave(UserVo userVo);
+    void signSave(UserVo userVo);
 }

@@ -37,3 +37,94 @@ INSERT INTO `yaoyy`.`user_detail` (`type`, `nickname`, `user_id`, `create_time`,
 
 ALTER TABLE `yaoyy`.`history_commodity`
 CHANGE COLUMN `price` `price` DECIMAL(10,2) NOT NULL ;
+
+--user和user_detail：
+
+
+alter table user add COLUMN status INT(8) DEFAULT 1;--1启用 0禁用
+
+alter table user add COLUMN source INT(8) DEFAULT NULL;--1：注册用户，0：申请寄样生成的用户',
+
+alter table user_detail add COLUMN category_ids VARCHAR(20) DEFAULT NULL;
+
+alter table user_detail MODIFY area VARCHAR(10);
+
+alter table user_detail add COLUMN email VARCHAR(50) DEFAULT NULL;
+
+alter table user_detail add COLUMN qq VARCHAR(20) DEFAULT NULL;
+
+alter table user_detail add COLUMN company VARCHAR(191) DEFAULT NULL;
+
+
+
+--commodity：
+
+alter table commodity add COLUMN warehouse float(10) DETAULT 0;
+
+alter table commodity add COLUMN unwarehouse float(10) DEFAULT 0;
+
+alter table commodity drop column mark;
+
+--supplier:
+
+alter table supplier add COLUMN company VARCHAR(191) DEFAULT NULL;
+
+alter table supplier add COLUMN enter_category_str VARCHAR(191) DEFAULT NULL;
+
+
+--message:
+
+alter table message add COLUMN isMemeber int(8) DEFAULT 0;
+
+alter table message DROP COLUMN url;
+
+
+--category:
+
+alter table category add COLUMN spec VARCHAR(191) NOT NULL;
+
+alter table category MODIFY unit VARCHAR(191);
+
+alter table category add COLUMN unit_desc VARCHAR(191) NOT NULL;
+
+alter table category CHANGE variety name  VARCHAR(191);
+
+alter table category add COLUMN alias VARCHAR(191) DEFAULT NULL;
+
+
+CREATE TABLE `announcement` (
+
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+
+  `title` varchar(191) DEFAULT NULL,
+
+  `user_type` int(11) DEFAULT NULL,
+
+  `content` text DEFAULT NULL,
+
+  `status` int(11) DEFAULT 0,
+
+  `create_time` datetime DEFAULT NULL,
+
+  PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';
+
+
+CREATE TABLE `user_annex` (
+
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+
+  `user_id` int(11) NOT NULL,
+
+  `url` mediumtext DEFAULT NULL,
+
+  `status` int(11) DEFAULT 0,
+
+  `create_time` datetime DEFAULT NULL,
+
+  PRIMARY KEY (`id`),
+
+  CONSTRAINT `user_annex_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='新闻公告表';

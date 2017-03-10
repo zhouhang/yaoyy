@@ -47,10 +47,10 @@
                         <tr>
                             <td><input type="checkbox" class="cbx"></td>
                             <td>${user.id}</td>
-                            <td>${user.name}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.enterCategoryText}</td>
-                            <td>${user.position}</td>
+                            <td>${user.name!}</td>
+                            <td>${user.phone!}</td>
+                            <td>${user.enterCategoryText!}</td>
+                            <td>${user.position!}</td>
                             <td>${(user.updateTime?datetime)!}</td>
                             <td class="tc">
                                 <a href="/supplier/signdetail/${user.id}" class="ubtn ubtn-blue jedit">编辑</a>
