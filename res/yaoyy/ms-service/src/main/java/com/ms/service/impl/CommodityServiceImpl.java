@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.HistoryPriceDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CommodityDao;
+import com.ms.dao.enums.MsgIsMemberEnum;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.FollowCommodity;
 import com.ms.dao.model.Gradient;
@@ -12,9 +13,12 @@ import com.ms.dao.model.HistoryPrice;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.*;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.ClazzUtil;
 import com.ms.tools.upload.PathConvert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +41,9 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Autowired
     private FollowCommodityService followCommodityService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     //@Autowired
     //private CommoditySearchService commoditySearchService;
@@ -220,6 +227,12 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         commodity1.setId(commodity.getId());
         commodity1.setWarehouse(commodity.getWarehouse());
         update(commodity1);
+
+        String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")寄卖入库"+num+commodity.getUnit();
+
+        //添加库存消息
+        MsgProducerEvent mp =new MsgProducerEvent(commodity.getSupplierId(),commodity.getId(), MessageEnum.SUPPLIER_COMMODITY_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+        applicationContext.publishEvent(mp);
     }
 
     @Override

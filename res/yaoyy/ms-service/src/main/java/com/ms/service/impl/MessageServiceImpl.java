@@ -8,9 +8,12 @@ import com.ms.dao.model.Message;
 import com.ms.dao.vo.MessageVo;
 import com.ms.service.MessageService;
 import com.ms.service.enums.MessageEnum;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +26,11 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 
 	@Override
 	public PageInfo<MessageVo> findByParams(MessageVo messageVo,Integer pageNum,Integer pageSize) {
+		if (pageNum == null || pageSize == null) {
+			pageNum = 1;
+			pageSize = 10;
+		}
+
     	PageHelper.startPage(pageNum, pageSize);
     	List<MessageVo>  list = messageDao.findByParams(messageVo);
 		list.forEach(c->{
@@ -74,6 +82,17 @@ public class MessageServiceImpl  extends AbsCommonService<Message> implements Me
 			c.setTypeName(MessageEnum.getTypeName(c.getType()));
 		});
 		return messageVos;
+	}
+
+	@Override
+	public PageInfo<MessageVo> findSupplierCommodityTraceMsg(Integer supplierId,Integer pageNum,Integer pageSize) {
+		MessageVo vo = new MessageVo();
+		vo.setUserId(supplierId);
+		Integer[] types = {MessageEnum.SUPPLIER_SAMPLES_CONSIGNMENT.get(),
+				MessageEnum.SUPPLIER_COMMODITY_CONSIGNMENT.get(),
+				MessageEnum.SUPPLIER_ORDER_CONSIGNMENT.get()};
+		vo.setTypes(Arrays.asList(types));
+		return findByParams(vo,pageNum,pageSize);
 	}
 
 	@Override

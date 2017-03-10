@@ -34,4 +34,11 @@ public interface MessageService extends ICommonService<Message>{
     Integer count(MessageEnum type);
 
     List<MessageVo> findByParamsNoPage(MessageVo messageVo);
+
+    /**
+     * 查询供应商的寄卖货物跟踪消息
+     * @param supplierId
+     * @return
+     */
+    PageInfo<MessageVo> findSupplierCommodityTraceMsg(Integer supplierId, Integer pageNum,Integer pageSize);
 }

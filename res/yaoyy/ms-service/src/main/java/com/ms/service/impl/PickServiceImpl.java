@@ -619,7 +619,11 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		// 保存批次信息 同时添加供应商通知消息
 		commodityBatchDao.batchInsert(list);
-		// TODO: 发送通知消息
+
+		// 寄卖下单
+		String content = "您的商品(" + commodity.getName() + commodity.getSpec()+")以"+pickCommodity.getPrice()+"/"+commodity.getUnit()+"被下单"+pickCommodity.getNum()+commodity.getUnit();
+		MsgProducerEvent mp =new MsgProducerEvent(commodity.getSupplierId(),commodity.getId(), MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+		applicationContext.publishEvent(mp);
 
 	}
 
@@ -659,6 +663,11 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setId(pickId);
 		pick.setStatus(PickEnum.PICK_FINISH.getValue());
 		update(pick);
+		SupplierOrderVo orderVo = queryByIdForSupplier(pickId);
+		// 结算
+		String content = "您的商品(" + orderVo.getCommodityName() + orderVo.getSpec()+")以"+orderVo.getPrice()+"/"+orderVo.getUnit()+"价格交易完成"+orderVo.getNum()+orderVo.getUnit()+"我们会在3天内与您结算";
+		MsgProducerEvent mp =new MsgProducerEvent(orderVo.getSupplierId(),orderVo.getCommodityId(), MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+		applicationContext.publishEvent(mp);
 	}
 
 	@Override
@@ -669,6 +678,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setId(pickId);
 		pick.setStatus(PickEnum.PICK_NOTFINISH.getValue());
 		update(pick);
+
+		SupplierOrderVo orderVo = queryByIdForSupplier(pickId);
+		// 退货
+		String content = "您的商品(" + orderVo.getCommodityName() + orderVo.getSpec()+")"+orderVo.getNum()+orderVo.getUnit()+"被买家退货.";
+		MsgProducerEvent mp =new MsgProducerEvent(orderVo.getSupplierId(),orderVo.getCommodityId(), MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+		applicationContext.publishEvent(mp);
 	}
 
 

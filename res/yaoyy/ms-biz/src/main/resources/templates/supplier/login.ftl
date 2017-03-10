@@ -46,9 +46,9 @@
                     if (self.checkMobile() && self.checkPassword()) {
                         $.ajax({
                             url: "/user/supplier/login",
-                            dataType: 'json',
+//                            dataType: 'json',
                             data: {phone:$("#phone").val(),password:$("#password").val()},
-                            type: 'POST',
+                            type: "POST",
                             success: function (result) {
                                 if (result.status === 200) {
                                     window.location.href =  result.data;
@@ -67,6 +67,7 @@
                             }
                         });
                     }
+                    return false;
                 })
             },
             checkMobile: function() {

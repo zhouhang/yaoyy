@@ -35,14 +35,6 @@
     <div class="floor">
         <div class="hd ico-trace">货物跟踪</div>
         <ul id="trace">
-            <li>
-                <span>您的商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留的毛须）以15元/公斤价格交易完成100公斤，我们会在3天之内与您结算。</span>
-                <time>四小时前</time>
-            </li>
-            <li>
-                <span>您的商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留毛须）被下单100公斤。</span>
-                <time>2017-02-28</time>
-            </li>
         </ul>
     </div>
 </div>
@@ -54,7 +46,7 @@
     var _global = {
         fn: {
             init: function() {
-                this.pagesize = 0;
+                this.pageNum = 1;
                 this.loadmore();
                 this.loading();
             },
@@ -63,17 +55,18 @@
                         $ul = $('#trace');
 
                 $.ajax({
-                    type: 'GET',
-                    url: '../json/trace.php',
+                    type: 'POST',
+                    url: '/supplier/commodityTrace',
                     dataType: 'json',
-                    data: {pagesize: self.pagesize},
-                    success: function(data){
+                    data: {pageSize:5, pageNum:self.pageNum},
+                    success: function(result){
+                        var data = result.data;
                         if (!data.list) {
                             return;
                         }
                         var result = self.toHtml(data.list);
                         $ul.append(result);
-                        if (data.nomore) {
+                        if (data.isLastPage) {
                             $('body').append('<div class="nomore">没有更多了...</div>');
                             self.dragger.options.disableDragUp = true;
                         }
@@ -101,8 +94,8 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
-                    html.push(         '<span>', data[i].text, '</span>\n');
-                    html.push(         '<time>', _YYY.timeago.elapsedTime(data[i].date), '</time>\n');
+                    html.push(         '<span>', data[i].content, '</span>\n');
+                    html.push(         '<time>', _YYY.timeago.elapsedTime(data[i].createTime), '</time>\n');
                     html.push('</li>');
                 })
                 return html.join('');

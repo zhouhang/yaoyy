@@ -15,11 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpSession;
 
 /**
@@ -49,7 +47,7 @@ public class SupplierUserController {
      * @return
      */
     @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage(String call, String code, ModelMap model) {
+    public String loginPage(String call, String code) {
         if (!Strings.isNullOrEmpty(code)) {
             try {
                 WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
@@ -72,7 +70,6 @@ public class SupplierUserController {
 
                 //保存微信信息到Session 里面
                 httpSession.setAttribute("wxMpUser",wxMpUser);
-
             } catch (Exception e) {
                 logger.error(e.getMessage());
             }
@@ -90,15 +87,15 @@ public class SupplierUserController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @ResponseBody
-    public Result login(String phone, String password) {
-        WxMpUser wxMpUser = (WxMpUser)httpSession.getAttribute("wxMpUser");
+    public Result login(String phone, String password,String openId, String nikeName, String headImgUrl ) {
         // 获取用户登入的微信信息 存在的话就把微信信息保存到用户表中
         // 登陆验证
+        WxMpUser wxMpUser = (WxMpUser)httpSession.getAttribute("wxMpUser");
         Subject subject = SecurityUtils.getSubject();
         BizToken token = new BizToken(phone, password, false, null, null);
         userService.login(subject, token, wxMpUser);
         httpSession.removeAttribute("wxMpUser");
-        return Result.success().data("/supplier");
+        return Result.success().data("/supplier/index");
     }
 
     /**

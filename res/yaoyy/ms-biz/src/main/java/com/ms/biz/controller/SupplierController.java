@@ -2,6 +2,7 @@ package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.AnnouncementUserTypeEnum;
+import com.ms.dao.model.Message;
 import com.ms.dao.model.User;
 import com.ms.dao.vo.AnnouncementVo;
 import com.ms.dao.vo.CommodityVo;
@@ -60,7 +61,8 @@ public class SupplierController {
         model.put("commodities", commodityVos.size());
         //订单记录
         PickVo pickVo = new PickVo();
-        pickVo.setUserId(user.getId());
+//        pickVo.setUserId(user.getId()); // 这里是去所有与供应商关联的订单所以应该填 SupplierId
+        pickVo.setSupplierId(user.getId());
         List<PickVo> pickVos = pickService.findByParamsNoPage(pickVo);
         model.put("picks", pickVos.size());
         //寄卖数量
@@ -132,16 +134,15 @@ public class SupplierController {
     }
 
     /**
-     * 获取货物跟踪
-     * @param model
+     * 获取货物跟踪消息
      * @return
      */
     @RequestMapping(value = "commodityTrace", method = RequestMethod.POST)
-    public String commodityTraceData(ModelMap model) {
+    @ResponseBody
+    public Result commodityTraceData(Integer pageNum,Integer pageSize) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        List<CommodityVo> list = commodityService.findBySupplier(user.getId());
-        model.put("list",list);
-        return "/supplier/commodity_trace";
+        PageInfo<MessageVo> pageInfo = messageService.findSupplierCommodityTraceMsg(user.getId(),pageNum,pageSize);
+        return Result.success().data(pageInfo);
     }
 
     /**

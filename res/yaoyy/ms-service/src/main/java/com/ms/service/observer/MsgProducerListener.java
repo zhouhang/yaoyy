@@ -66,6 +66,15 @@ public class MsgProducerListener implements ApplicationListener<MsgProducerEvent
         message.setContent(event.getContent());
         message.setUserId(event.getUserId());
         message.setIsMember(event.getIsMember());
+
+        //供应商商品消息 直接保存
+        Integer[] supplierM = {30,31,32};
+        List<Integer> supplierMS = Arrays.asList(supplierM);
+        if (supplierMS.contains(event.getType().get())){
+            messageService.create(message);
+            return;
+        }
+
         // 1. 判断消息处理类型 客服,用户
         // 2. 客服 存入数据库中待消费
         // 3. 用户发送微信或者短信消息

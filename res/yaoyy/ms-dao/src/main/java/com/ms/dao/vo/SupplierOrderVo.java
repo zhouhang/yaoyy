@@ -16,6 +16,12 @@ public class SupplierOrderVo extends Pick {
 
     private String commodityName;
 
+    // 商品ID
+    private Integer commodityId;
+
+    // 供应商ID
+    private Integer supplierId;
+
     private Integer pickCommodityId;
 
     // 商品价格
@@ -109,5 +115,21 @@ public class SupplierOrderVo extends Pick {
 
     public void setBatchInfo(String batchInfo) {
         this.batchInfo = batchInfo;
+    }
+
+    public Integer getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(Integer commodityId) {
+        this.commodityId = commodityId;
+    }
+
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
     }
 }

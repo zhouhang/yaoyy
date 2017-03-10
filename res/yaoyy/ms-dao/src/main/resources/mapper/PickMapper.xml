@@ -56,6 +56,8 @@
         <result column="unit"  property="unit" />
         <result column="spec"  property="spec" />
         <result column="pickCommodityId"  property="pickCommodityId" />
+        <result column="commodityId"  property="commodityId" />
+        <result column="supplierId"  property="supplierId" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -95,16 +97,16 @@
         LEFT JOIN user_detail ud on ud.user_id = p.user_id
         <where>
             <if test="code != null">
-               code = #{code}
+                p.code = #{code}
             </if>
             <if test="phone!= null">
-               and  phone = #{phone}
+               and  p.phone = #{phone}
             </if>
             <if test="status!= null">
-                and  status= #{status}
+                and  p.status= #{status}
             </if>
             <if test="abandon != null">
-                and abandon=#{abandon}
+                and p.abandon=#{abandon}
             </if>
             <if test="userId!= null">
                 and  p.user_id= #{userId}
