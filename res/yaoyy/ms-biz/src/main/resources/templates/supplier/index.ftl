@@ -18,13 +18,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/supplier/order">
                         <em>${(picks?c)!}</em>
                         <span>订单记录</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/supplier/commodityTrace">
                         <em>${(sale?c)!}</em>
                         <span>寄卖数量<i>（公斤）</i></span>
                     </a>

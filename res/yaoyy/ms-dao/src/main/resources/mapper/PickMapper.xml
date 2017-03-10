@@ -236,7 +236,8 @@
     <select id="queryForSupplier" parameterType="com.ms.dao.vo.SupplierOrderVo" resultMap="SupplierResultMap">
         select
         <include refid="Base_Column_List_Alisa" />,
-        ud.name as supplierName,u.phone as supplierTel,hc.name as commodityName,pc.price as price,pc.num as num,pc.unit as unit,hc.spec as spec,pc.id as pickCommodityId
+        ud.name as supplierName,u.phone as supplierTel,hc.name as commodityName,pc.price as price,pc.num as num,
+        pc.unit as unit,hc.spec as spec,pc.id as pickCommodityId,c.supplier_id as supplierId,c.id as commodityId
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id

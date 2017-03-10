@@ -70,7 +70,11 @@
                     html.push('<li>\n');
                     html.push('<div class="tr">');
                     html.push('<div class="row">');
-                    html.push('<b class="fr">',item.userBusinessTypeName,":", item.userName,'</b>');
+                    var jimai = "";
+                    if (item.userId == 1) {
+                        jimai = "寄卖下单";
+                    }
+                    html.push('<b class="fr">',item.userBusinessTypeName,":", item.userName,jimai,'</b>');
                     html.push('<b>订单号：', item.code, '</b>');
                     html.push('</div>');
                     html.push('<div class="row">');

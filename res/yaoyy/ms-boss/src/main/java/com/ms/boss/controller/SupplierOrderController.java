@@ -8,6 +8,7 @@ import com.ms.dao.vo.SupplierOrderVo;
 import com.ms.service.PickService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
+import com.ms.tools.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -74,7 +75,11 @@ public class SupplierOrderController {
     public Result create(@RequestBody List<CommodityBatch> list, Integer commodityId) {
         // 寄卖下单时默认购买用户未 id 为1 的用户
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-        pickService.supplierCreateOrder(list, commodityId,mem.getId());
+        try {
+            pickService.supplierCreateOrder(list, commodityId,mem.getId());
+        } catch (ValidationException e) {
+            return Result.error().msg("库存不足!");
+        }
         return Result.success();
     }
 

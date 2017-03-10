@@ -175,6 +175,11 @@
                             if (result.status == 200) {
                                 layer.closeAll();
                                 window.location.reload();
+                            } else {
+                                $.notify({
+                                    type: 'warn',
+                                    title: '库存不足'
+                                });
                             }
                         }, "json");
                     }

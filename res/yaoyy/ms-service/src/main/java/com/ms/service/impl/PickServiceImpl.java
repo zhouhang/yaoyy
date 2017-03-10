@@ -11,6 +11,7 @@ import com.ms.service.enums.MessageEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
+import com.ms.tools.exception.ValidationException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -571,9 +572,34 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				* 退货和结算订单 直接改状态,添加跟踪记录.
 				* 寄卖下单时默认购买用户为 id 为1 的用户
 				* */
+
+
+
+		Pick pick = new Pick();
+		//计算商品总价
+		pick.setSum(0F);
+		PickCommodityVo pickCommodity = new PickCommodityVo();
+		// 先查询商品库存 检查商品库存信息 在下单
+		Commodity commodity = commodityService.findById(commodityId);
+		pickCommodity.setNum(0);
+		list.forEach(batch -> {
+			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
+			pickCommodity.setNum(pickCommodity.getNum() + batch.getNum());
+		});
+		pick.setAmountsPayable(pick.getSum());
+
+		if (pickCommodity.getNum() > commodity.getWarehouse()) {
+			throw new ValidationException("寄卖商品库存不足.");
+		} else {
+			// 更新商品库存
+			Commodity updateCommodity = new Commodity();
+			updateCommodity.setId(commodityId);
+			updateCommodity.setWarehouse(commodity.getWarehouse() - pickCommodity.getNum());
+			commodityService.update(updateCommodity);
+		}
+
 		// 1. 计算商品总价 2. 设置pick 默认值 保存订单3, 查询商品信息 保存商品信息到历史表 保存商品到订单商品表 保存订单商品批次信息
 		UserDetail userDetail = userDetailDao.findByUserId(1);
-		Pick pick = new Pick();
 		pick.setUserId(1); // 默认客户ID 为1
 		pick.setCode(SeqNoUtil.getOrderCode());
 		pick.setNickname(userDetail.getNickname());
@@ -593,20 +619,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
 		create(pick);
 
-		Commodity commodity = commodityService.findById(commodityId);
-		//计算商品总价
-		pick.setSum(0F);
-
-		PickCommodityVo pickCommodity = new PickCommodityVo();
 		pickCommodity.setCommodityId(commodityId);
 		pickCommodity.setPickId(pick.getId());
-		pickCommodity.setNum(0);
-		list.forEach(batch -> {
-			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
-			pickCommodity.setNum(pickCommodity.getNum() + batch.getNum());
-		});
-		pick.setAmountsPayable(pick.getSum());
-		update(pick);
+
+//		update(pick);
 
 		// 保存商品信息到历史记录表 并保存订单商品信息到订单商品表
 		List<PickCommodityVo> commoditylist = new ArrayList<>();
