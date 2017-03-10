@@ -3,6 +3,7 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.SampleEnum;
+import com.ms.dao.enums.TrackingEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
@@ -57,6 +58,9 @@ public class SendSampleController extends BaseController{
     HistoryCommodityService historyCommodityService;
 
     @Autowired
+    AreaService areaService;
+
+    @Autowired
     private ApplicationContext applicationContext;
 
 
@@ -77,6 +81,10 @@ public class SendSampleController extends BaseController{
             sendSampleVo.setAbandon(0);
         }
         PageInfo<SendSampleVo> sendSampleVoPageInfo = sendSampleService.findByParams(sendSampleVo,pageNum,pageSize);
+        sendSampleVoPageInfo.getList().forEach(s->{
+            Area area = areaService.findById(s.getArea());
+            s.setPosition(area.getPosition());
+        });
 
         model.put("sendSampleVoPageInfo",sendSampleVoPageInfo);
         model.put("sendSampleVo",sendSampleVo);
@@ -96,6 +104,8 @@ public class SendSampleController extends BaseController{
     {
         //寄样单信息
         SendSampleVo sendSampleVo=sendSampleService.findDetailById(id);
+        Area area = areaService.findById(sendSampleVo.getArea());
+        sendSampleVo.setPosition(area.getPosition());
 
 
         //历史寄样单信息(需指定最多多少条，显示问题)

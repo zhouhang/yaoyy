@@ -37,7 +37,7 @@
             <div class="bd">
                 <ul class="list">
                     <#list announcementVos as announcementVo>
-                    <li><time>${announcementVo.createTime?datetime}</time><a href="#">${announcementVo.title}</a></li>
+                    <li><time>${announcementVo.createTime?datetime}</time><a href="/announcement/detail/${announcementVo.id}">${announcementVo.title}</a></li>
                     </#list>
                 </ul>
             </div>
