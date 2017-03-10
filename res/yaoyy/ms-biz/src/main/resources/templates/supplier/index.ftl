@@ -12,7 +12,7 @@
        <div class="umenu2">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="/supplier/adjust">
                         <em>${(commodities?c)!}</em>
                         <span>上架商品</span>
                     </a>

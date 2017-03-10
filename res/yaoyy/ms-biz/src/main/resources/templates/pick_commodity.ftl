@@ -163,7 +163,7 @@
                     }
                     saveAppyinfo(pickVo);   // 保存联系人信息
                     isSubmit = true;        // 阻止重复提交
-                    $("#pick_commodity").find('.ipt').each(function(){
+                    $("#pick_commodity").find('.floor .ipt').each(function(){
                         list.push({
                             commodityId: $(this).attr('cid'),
                             num: this.value
