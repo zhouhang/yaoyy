@@ -100,4 +100,10 @@ public class SendSampleVo extends SendSample{
     public void setCommodityInfo(String commodityInfo) {
         this.commodityInfo = commodityInfo;
     }
+
+    private String position;
+
+    public String getPosition() {return position;}
+
+    public void setPosition(String position) {this.position = position;}
 }

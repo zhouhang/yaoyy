@@ -62,7 +62,7 @@
                             <td><a href="/sample/detail/${sendSample.id?c}" class="c-blue">${sendSample.code}</a></td>
                             <td>${sendSample.nickname}</td>
                             <td>${sendSample.phone}</td>
-                            <td>${sendSample.area}</td>
+                            <td>${sendSample.position}</td>
                             <td>${sendSample.intentionText}</td>
                             <td><em class="status-${sendSample.status+1}">${sendSample.statusText}</em></td>
                             <td>${(sendSample.createTime?datetime)!}</td>

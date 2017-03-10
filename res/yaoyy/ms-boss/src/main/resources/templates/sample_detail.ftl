@@ -33,7 +33,7 @@
             </div>
             <div class="item">
                 <div class="txt">地区：</div>
-                <div class="val">${sendSampleVo.area}</div>
+                <div class="val">${sendSampleVo.position}</div>
             </div>
             <div class="item">
                 <div class="txt">申请时间：</div>

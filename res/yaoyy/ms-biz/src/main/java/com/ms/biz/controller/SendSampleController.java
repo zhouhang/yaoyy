@@ -2,6 +2,7 @@ package com.ms.biz.controller;
 
 import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
+import com.ms.dao.vo.AreaVo;
 import com.ms.dao.vo.SampleTrackingVo;
 import com.ms.dao.vo.SendSampleVo;
 import com.ms.dao.vo.UserVo;
@@ -54,6 +55,9 @@ public class SendSampleController extends BaseController{
     @Autowired
     private HistoryCommodityService historyCommodityService;
 
+    @Autowired
+    private AreaService areaService;
+
 
     /**
      * 申请寄样list
@@ -90,6 +94,8 @@ public class SendSampleController extends BaseController{
             }else{
                 s.setGetSample(0);
             }
+            Area area = areaService.findById(s.getArea());
+            s.setPosition(area.getPosition());
         });
         model.put("sampleList",sampleList);
         model.put("name",name);
@@ -108,6 +114,8 @@ public class SendSampleController extends BaseController{
     public String detail(@PathVariable("id") Integer id, ModelMap model) {
 
         SendSampleVo sendSampleVo=sendSampleService.findDetailById(id);
+        Area area = areaService.findById(sendSampleVo.getArea());
+        sendSampleVo.setPosition(area.getPosition());
         if(id==null|| sendSampleVo==null){
             throw new NotFoundException("找不到该寄样单");
         }
