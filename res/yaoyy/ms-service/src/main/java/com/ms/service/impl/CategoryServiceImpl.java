@@ -2,6 +2,7 @@ package com.ms.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.ms.dao.CommodityDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CategoryDao;
@@ -164,7 +165,7 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 
 	@Override
 	public List<CategoryVo> findByIds(String ids) {
-		if(ids == null)
+		if(Strings.isNullOrEmpty(ids))
 			return null;
 		List<Integer> list = new ArrayList<>();
 		for(String id :ids.split(",")){
