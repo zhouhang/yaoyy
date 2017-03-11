@@ -36,7 +36,7 @@ public class MsgBuild {
                 msg.title = "新订货登记通知";
                 break;
             case PICK_C:
-                msg.content =" 您提交了一张采购单，客服会在半个小时之内与您联系" +
+                msg.content =" 您提交了一张采购单，客服会在5分钟之内与您联系" +
                         "\n采购商品：" + StringUtils.join(names, ",") +
                         "\n姓名：" + vo.getNickname() +
                         "\n手机号：" + vo.getPhone();
