@@ -12,6 +12,7 @@ import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.MessageTemplateEnum;
+import com.ms.service.enums.RedisEnum;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.ClazzUtil;
 import com.ms.tools.upload.PathConvert;
@@ -20,6 +21,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +53,9 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    HttpSession httpSession;
 
     /**
      * 商品图片保存路径
@@ -97,9 +102,35 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             commodity.setPriceUpdateTime(new Date());
             commodityDao.create(commodity);
         } else {
+            //发消息
+            Message message = new Message();
+            message.setType(MessageEnum.SUPPLIER_COMMODITY.get());
+            message.setCreateTime(new Date());
+            //取出现在该商品数据
+            CommodityVo com = commodityService.findById(commodity.getId());
+            Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+
+            message.setUserId(com.getSupplierId());
+            //改库存数据
+            if(!com.getUnwarehouse().equals(commodity.getUnwarehouse())){
+                message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
+                        .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_stock}",com.getUnwarehouse().toString())
+                        .replace("{stock}",commodity.getUnwarehouse().toString()));
+
+            }
+            //改价格数据
+            if(!com.getPrice().equals(commodity.getPrice())){
+                message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_PRICE_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
+                        .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_price}",com.getUnwarehouse().toString())
+                        .replace("{price}",commodity.getUnwarehouse().toString()));
+
+            }
+            messageService.create(message);
+
             commodity.setUpdateTime(new Date());
             updatePrice(commodity,memId);
             commodityDao.update(commodity);
+
         }
 
         if (commodity.getGradient() != null) {
@@ -264,8 +295,8 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
             //发消息
             message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}","你")
-            .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("pre_stock",com.getUnwarehouse().toString())
-                    .replace("stock",commodityVo.getUnwarehouse().toString()));
+            .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_stock}",com.getUnwarehouse().toString())
+                    .replace("{stock}",commodityVo.getUnwarehouse().toString()));
             message.setCreateTime(new Date());
             messageService.create(message);
 
@@ -276,8 +307,8 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
             //发消息
             message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_PRICE_TEMPLATE.get().replace("{name}","你")
-                    .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("pre_price",com.getPrice().toString())
-                    .replace("price",commodityVo.getPrice().toString()));
+                    .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_price}",com.getPrice().toString())
+                    .replace("{price}",commodityVo.getPrice().toString()));
             message.setCreateTime(new Date());
             messageService.create(message);
         }
