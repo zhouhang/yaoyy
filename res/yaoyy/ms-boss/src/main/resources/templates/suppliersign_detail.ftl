@@ -35,7 +35,7 @@
                 <div class="item">
                     <div class="txt"><i>*</i>手机号：</div>
                     <div class="cnt">
-                        <input type="text" name="phone" value="${(userVo.phone)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off">
+                        <input type="text" name="phone" value="${(userVo.phone)!}"  class="ipt" placeholder="请输入手机号" autocomplete="off" disabled>
                     </div>
                 </div>
                 <div class="item">

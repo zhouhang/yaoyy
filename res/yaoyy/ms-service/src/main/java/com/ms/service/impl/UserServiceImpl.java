@@ -278,6 +278,10 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 				existUser.setSalt(pass.getSalt());
 				update(existUser);
 			}
+			User user = new User();
+			user.setId(existUser.getId());
+			user.setType(UserTypeEnum.supplier.getType());
+			update(user);
 		} else {
 			User user = new User();
 			user.setPhone(userVo.getPhone());
@@ -347,6 +351,11 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		});
 		PageInfo page = new PageInfo(list);
 		return page;
+	}
+
+	@Override
+	public List<UserVo> findByParamsNoPage(UserVo userVo) {
+		return userDao.findByParams(userVo);
 	}
 
 	@Override

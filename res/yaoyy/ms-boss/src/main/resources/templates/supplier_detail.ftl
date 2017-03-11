@@ -52,7 +52,7 @@
                     <div class="txt"><i>*</i>品种：</div>
                     <div class="cnt">
                         <div class="choose" id="chooseBreeds">
-                        <#if supplierVo?exists>
+                        <#if supplierVo?exists && supplierVo.enterCategoryList??>
                             <#list supplierVo.enterCategoryList as category>
                                 <span>${category.name}<i data-id="${category.id}"></i></span>
                             </#list>

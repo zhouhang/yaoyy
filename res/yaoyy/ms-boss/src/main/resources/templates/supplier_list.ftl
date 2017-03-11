@@ -57,6 +57,7 @@
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc">
                                 <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                                <a href="/supplier/del/${supplier.id}" class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>
                         </#list>
@@ -88,10 +89,10 @@
 
                 // 删除
                 $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl + $(this).attr('href');
+                    var url = $(this).attr('href');
                     layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
                         $.get(url, function (data) {
-                            if (data.status == "y") {
+                            if (data.status == "200") {
                                 window.location.reload();
                             }
                         }, "json");

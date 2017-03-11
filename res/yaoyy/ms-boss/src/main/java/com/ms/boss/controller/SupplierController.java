@@ -3,6 +3,7 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
@@ -78,6 +79,18 @@ public class SupplierController {
 
 
         return "supplier_list";
+    }
+
+    /**
+     * 删除非签约供应商信息
+     * @param supplierId
+     * @return
+     */
+    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result del(@PathVariable("id") Integer supplierId){
+        supplierService.deleteById(supplierId);
+        return Result.success("删除成功");
     }
 
     /**
@@ -163,7 +176,11 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
-        return Result.success("供应商列表").data(supplierService.search(name));
+        UserVo userVo = new UserVo();
+        userVo.setName(name);
+        return Result.success("供应商列表").data(userService.findByParamsNoPage(userVo));
+        //以前是商品表跟supplier表关联,现在是商品表跟user表关联,故修改如上 add by kevin 20170311
+        //return Result.success("供应商列表").data(supplierService.search(name));
     }
 
     /**
@@ -241,7 +258,7 @@ public class SupplierController {
     @RequestMapping(value = "signlist", method = RequestMethod.GET)
     public String signlist(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){
         // 只查询供应商商的用户
-        user.setType(2);
+        user.setType(UserTypeEnum.supplier.getType());
         PageInfo<UserVo> pageInfo = userService.findVoByParams(user, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         return "suppliersign_list";
@@ -325,7 +342,7 @@ public class SupplierController {
     }
 
     /**
-     * 保存供应商信息
+     * 删除供应商信息
      * @param annexId
      * @return
      */

@@ -52,7 +52,7 @@
         select
         <include refid="Base_Column_List_Alisa" />,
         ud.nickname as nickname, ud.area as area,ud.name as name,ud.remark as remark, ud.type as identityType,
-        ud.category_ids as categoryIds,ud.company as company,ud.email as email,ud.qq as qq,ud.remark as remark,
+        ud.category_ids as categoryIds,ud.company as company,ud.email as email,ud.qq as qq,
         ud.head_img_url as headImgUrl,a.position as position
         from user u
         LEFT JOIN user_detail ud on u.id = ud.user_id
@@ -83,6 +83,7 @@
                 and u.type = #{type}
             </if>
         </where>
+        order by u.id desc
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

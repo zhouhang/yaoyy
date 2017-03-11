@@ -8,6 +8,8 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
+import java.util.List;
+
 public interface UserService extends ICommonService<User>{
 
 
@@ -53,4 +55,6 @@ public interface UserService extends ICommonService<User>{
     PageInfo<UserVo> findVoByParams(UserVo userVo,Integer pageNum,Integer pageSize);
 
     void signSave(UserVo userVo);
+
+    List<UserVo> findByParamsNoPage(UserVo userVo);
 }
