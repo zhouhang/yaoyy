@@ -29,13 +29,13 @@ public class CategoryController extends BaseController{
 
     /**
      * 商品列表页面
-     * @param variety
+     * @param name
      * @param model
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String listPage(String variety,ModelMap model) {
-        model.put("variety",variety);
+    public String listPage(String name,ModelMap model) {
+        model.put("name",name);
         return "category_list";
     }
 

@@ -133,12 +133,12 @@
                         $.ajax({
                             url: _global.v.searchCategoryUrl,
                             type:"POST",
-                            data:{variety:$('#keyword').val()},
+                            data:{name:$('#keyword').val()},
                             success: function(data) {
                                 if(data.data.length!=0){
                                     var model = [];
                                     $.each(data.data, function(i, item) {
-                                        model.push('<a href="category/list/?variety=' ,item.variety ,'">', item.variety, '</a>');
+                                        model.push('<a href="category/list/?name=' ,item.name ,'">', item.name, '</a>');
                                     })
                                     if (model.length === 0) {
                                         model.push('<span>暂无此商品</span>');

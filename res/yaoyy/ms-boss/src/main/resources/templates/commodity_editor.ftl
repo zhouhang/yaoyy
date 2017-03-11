@@ -337,7 +337,7 @@
                         if (response.status == 200) {
                             return {
                                 suggestions: $.map(response.data, function (dataItem) {
-                                    return {value: dataItem.variety, data: dataItem.id};
+                                    return {value: dataItem.name, data: dataItem.id};
                                 })
                             };
                         } else {

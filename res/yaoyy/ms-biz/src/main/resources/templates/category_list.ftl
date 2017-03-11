@@ -43,7 +43,7 @@
                         $.ajax({
                             type: 'POST',
                             url: _global.v.dataUrl, 
-                            data: {pageNum:pageNum, variety:'${variety?default('')}'},
+                            data: {pageNum:pageNum, name:'${name?default('')}'},
                             dataType: 'json',
                             success: function(result){
                                 if (result.data.list.length !== 0) {
@@ -100,13 +100,13 @@
                     html.push('<li>\n');
                     html.push( '<a href="/commodity/detail/' + data[i].defaultCommodityId + '">\n');
                     html.push(     '<div class="cnt">\n');
-                    html.push(         '<div class="title">', data[i].variety, '</div>\n');
+                    html.push(         '<div class="title">', data[i].name, '</div>\n');
                     html.push(         '<div class="summary">', data[i].title, '</div>\n');
                     html.push(         '<div class="price"><i>¥</i>\n<em>');
                     html.push(              data[i].defaultCommodityPrice,'</em>元/', data[i].defaultCommodityUnitName);
                     html.push(          '</div>\n');
                     html.push(     '</div>');
-                    html.push(     '<div class="pic"><img src="', data[i].pictureUrl, '" width="110" height="90" alt="', data[i].variety, '"></div>\n');
+                    html.push(     '<div class="pic"><img src="', data[i].pictureUrl, '" width="110" height="90" alt="', data[i].name, '"></div>\n');
                     html.push( '</a>\n');
                     html.push('</li>');
                 })
