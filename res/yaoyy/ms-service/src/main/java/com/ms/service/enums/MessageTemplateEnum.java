@@ -11,10 +11,10 @@ public enum MessageTemplateEnum {
     SUPPLIER_COMMODITY_STOCK_TEMPLATE("{name}修改了 商品（{commodity} {spec}） 库存 {pre_stock}公斤更改为{stock}公斤"),
 
     //寄养类
-    SUPPLIER_SAMPLE_TEMPLATE("客服 {name}  为你发出了 商品（{commodity} {spec}） 的样品"),
+    SUPPLIER_SAMPLE_TEMPLATE("客服 {name}  为你发出了 商品（{commodity}） 的样品"),
 
     //订单
-    SUPPLIER_ORDER_TEMPLATE("商品（{name}，{spec}）产生了一笔订单")
+    SUPPLIER_ORDER_TEMPLATE("商品（{commodity}）产生了一笔订单")
     ;
     private String value;
     MessageTemplateEnum(String value) {

@@ -14,6 +14,8 @@ public class PickCommodityVo extends PickCommodity{
 
     private Integer realCommodityId;//商品表中的Id
 
+    private Integer supplierId;
+
     public Integer getRealCommodityId() {
         return realCommodityId;
     }
@@ -52,5 +54,13 @@ public class PickCommodityVo extends PickCommodity{
 
     public void setSpec(String spec) {
         this.spec = spec;
+    }
+
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
     }
 }

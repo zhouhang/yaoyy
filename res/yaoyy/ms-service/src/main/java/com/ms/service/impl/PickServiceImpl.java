@@ -8,6 +8,7 @@ import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.MessageTemplateEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.exception.ControllerException;
@@ -79,6 +80,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private CommodityBatchDao commodityBatchDao;
+
+	@Autowired
+	private MessageService messageService;
 
 
 
@@ -313,6 +317,39 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		Pick pick = pickDao.findById(pickVo.getId());
 		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_CONFIRM, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
+
+		//确认订单时 通知供应商关于商品的订单消息
+		// 1.根据订单把订单商品查出来 根据订单ID 查询 包含供应商ID
+		// 2.循环供应商ID 去重 把供应商对应的商品分开存储
+		// 3.遍历发送消息
+		List<PickCommodityVo> pickCommodityVos = pickCommodityService.findByPickId(pickVo.getId());
+		Map<Integer, List<PickCommodityVo>> supplierMap = new HashMap<>();
+		pickCommodityVos.forEach(pc -> {
+			if (pc.getSupplierId() != null) {
+				if (supplierMap.containsKey(pc.getSupplierId())) {
+					supplierMap.get(pc.getSupplierId()).add(pc);
+				} else {
+					List<PickCommodityVo> pcl = new ArrayList<>();
+					pcl.add(pc);
+					supplierMap.put(pc.getSupplierId(), pcl);
+				}
+			}
+		});
+		// 遍历供应商Map
+		supplierMap.forEach((k,v)->{
+			String commodity = "";
+			for (PickCommodityVo c : v) {
+				commodity = commodity + c.getName() +" " + c.getSpec() + "  ";
+			}
+			Message message = new Message();
+			message.setContent(MessageTemplateEnum.SUPPLIER_ORDER_TEMPLATE.get().replace("{commodity}",commodity));
+			message.setCreateTime(new Date());
+			message.setType(MessageEnum.SUPPLIER_ORDER.get());
+			message.setUserId(k);
+			message.setIsMember(0);
+			message.setEventId(pickVo.getId());
+			messageService.create(message);
+		});
 
 	}
 

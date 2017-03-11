@@ -26,8 +26,8 @@
             <result column="origin"  property="origin" />
             <result column="spec"  property="spec" />
             <result column="price"  property="price" />
-             <result column="price_unit"  property="priceUnit" />
-        
+            <result column="price_unit"  property="priceUnit" />
+            <result column="supplierId"  property="supplierId" />
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -57,9 +57,11 @@
 
     <select id="findByParams" resultMap="PickCommodityResultMapVo" parameterType="com.ms.dao.vo.PickCommodityVo">
         select
-        <include refid="Join_Commodity_Column_List" />
+        <include refid="Join_Commodity_Column_List" />,
+        cd.supplier_id as supplierId
         from pick_commodity pc
         LEFT JOIN history_commodity c on pc.commodity_id=c.id
+        LEFT JOIN commodity cd on c.commodity_id = cd.id
         <where>
             <if test="id != null">
                 pc.id = #{id}
