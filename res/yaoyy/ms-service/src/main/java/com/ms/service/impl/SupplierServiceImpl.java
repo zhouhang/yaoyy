@@ -76,9 +76,9 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 		PageHelper.startPage(pageNum, pageSize);
 		List<SupplierVo>  list = supplierDao.findVoByParams(supplierVo);
-//		list.forEach(s->{
-//			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
-//		});
+		list.forEach(s->{
+			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
+		});
 		PageInfo page = new PageInfo(list);
 		return page;
 	}

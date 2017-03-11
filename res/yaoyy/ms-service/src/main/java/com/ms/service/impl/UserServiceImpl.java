@@ -349,6 +349,11 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	}
 
 	@Override
+	public List<UserVo> findByParamsNoPage(UserVo userVo) {
+		return userDao.findByParams(userVo);
+	}
+
+	@Override
 	@Transactional
 	public void signSave(UserVo userVo) {
 		User user = new User();

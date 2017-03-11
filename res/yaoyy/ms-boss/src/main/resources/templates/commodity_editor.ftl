@@ -173,10 +173,10 @@
                     </div>
                 </div>
                 <div class="item">
-                    <div class="txt">绑定供应商：</div>
+                    <div class="txt"><i>*</i>绑定供应商：</div>
                     <div class="cnt">
                         <input type="text" name="supplier" id="supplier" class="ipt" value="${commodity.supplierName!}" placeholder="绑定供应商" autocomplete="off">
-                        <input type="hidden" name="supplierId" value="${commodity.supplierId!}">
+                        <input type="hidden" name="supplierId" id="supplierId" value="${commodity.supplierId!}">
                         <div class="cnt-table hide" id="supplierSuggestions">
                             <table class="suggestions">
                                 <thead>
@@ -406,7 +406,8 @@
                         detail: {
                             rule: '商品详情: required',
                             target: '#detailsError'
-                        }
+                        },
+                        supplier: '绑定供应商: required',
                     },
                     valid: function() {
                         self.submitForm();
@@ -422,11 +423,6 @@
                     $("em[name=unitD]").html(_unit);
                 }).prop('checked', false);
 
-                <#if commodity.mark == 1 >
-                    setTimeout(function() {
-                        $('#jsales').trigger('click');
-                    }, 100)
-                </#if>
             },
             // 提交事件
             submitForm: function () {
@@ -584,7 +580,7 @@
                         $supplierSuggestions = $('#supplierSuggestions');
 
                 var ajaxSearch = function (val) {
-                    timer && clearTimeout(timer);
+                    /*timer && clearTimeout(timer);
                     timer = setTimeout(function () {
                         $.ajax({
                             url: 'supplier/search',
@@ -605,7 +601,32 @@
                                 $supplierSuggestions.show().find('tbody').html('<tr><td colspan="3">网络错误</td></tr>');
                             }
                         })
-                    }, 300);
+                    }, 300);*/
+                    var $supplier = $('#supplier');
+                    $supplier.autocomplete({
+                        serviceUrl: '/supplier/search',
+                        type: 'post',
+                        paramName: 'name',
+                        deferRequestBy: 300,
+                        showNoSuggestionNotice: true,
+                        noSuggestionNotice: '没有该供应商',
+                        transformResult: function (response) {
+                            var html = [''];
+                            response = JSON.parse(response);
+                            if (response.status == 200) {
+                                var data = response.data;
+                                for(var i in data){
+                                    html.push('<tr class="items" data-name="' + data[i].name + '"data-id="' + data[i].id + '"><td>' + data[i].name + '</td><td>' + data[i].phone + '</td><td>' + data[i].position + '</td></tr>');
+                                }
+                            } else {
+                                html.push('<tr><td colspan="3">未查询到供应商，请重新输入</td></tr>');
+                            }
+                            $supplierSuggestions.show().find('tbody').html(html.join(''));
+                        },
+                        onSelect: function (suggestion) {
+                            $supplier.next().val(suggestion.data).trigger('hidemsg'); // 保存供应商id到隐藏文本域
+                        }
+                    });
                 }
 
                 $supplier.on('input', function () {
@@ -625,7 +646,8 @@
                 $supplierSuggestions.on('click', '.items', function () {
                     var name = $(this).data('name'),
                             id = $(this).data('id');
-                    $supplier.val(name).next().val(id);
+                    $supplier.val(name);
+                    $("#supplierId").val(id);
                     $supplierSuggestions.hide();
                 }).on('click', 'table', function () {
                     return false;

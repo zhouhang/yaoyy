@@ -151,6 +151,6 @@ public class Supplier  implements Serializable {
 
 	public String getEnterCategoryStr() {return enterCategoryStr;}
 
-	public void setEnterCategoryStr(String enterCategoryText) {this.enterCategoryStr = enterCategoryStr;}
+	public void setEnterCategoryStr(String enterCategoryStr) {this.enterCategoryStr = enterCategoryStr;}
 	
 }

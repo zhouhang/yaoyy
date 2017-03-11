@@ -81,6 +81,18 @@ public class SupplierController {
     }
 
     /**
+     * 删除非签约供应商信息
+     * @param supplierId
+     * @return
+     */
+    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Result del(@PathVariable("id") Integer supplierId){
+        supplierService.deleteById(supplierId);
+        return Result.success("删除成功");
+    }
+
+    /**
      *
      * @return
      */
@@ -163,7 +175,11 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
-        return Result.success("供应商列表").data(supplierService.search(name));
+        UserVo userVo = new UserVo();
+        userVo.setName(name);
+        return Result.success("供应商列表").data(userService.findByParamsNoPage(userVo));
+        //以前是商品表跟supplier表关联,现在是商品表跟user表关联,故修改如上 add by kevin 20170311
+        //return Result.success("供应商列表").data(supplierService.search(name));
     }
 
     /**
@@ -325,7 +341,7 @@ public class SupplierController {
     }
 
     /**
-     * 保存供应商信息
+     * 删除供应商信息
      * @param annexId
      * @return
      */
