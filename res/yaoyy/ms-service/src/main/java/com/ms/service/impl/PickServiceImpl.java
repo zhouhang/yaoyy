@@ -106,8 +106,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			// 查询账期剩余时间
 			if (SettleTypeEnum.SETTLE_BILL.getType() == p.getSettleType()) {
 				AccountBillVo billVo = accountBillService.findVoByOrderId(p.getId());
-				p.setBillTimeLeft(billVo.getTimeLeft());
-				p.setBillTime(billVo.getBillTime());
+				if(billVo != null){
+					p.setBillTimeLeft(billVo.getTimeLeft());
+					p.setBillTime(billVo.getBillTime());
+				}
 			}
 		});
         PageInfo page = new PageInfo(list);
