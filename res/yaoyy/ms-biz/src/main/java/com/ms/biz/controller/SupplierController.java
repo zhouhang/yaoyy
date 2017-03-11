@@ -89,6 +89,7 @@ public class SupplierController {
         messageVo.setTypes(types);
         PageInfo<MessageVo> messageVos = messageService.findByParams(messageVo, 0, 3);
         model.put("messageVos", messageVos.getList());
+        model.put("mynews", messageService.findByParamsNoPage(messageVo).size());
 
         return "supplier/index";
     }

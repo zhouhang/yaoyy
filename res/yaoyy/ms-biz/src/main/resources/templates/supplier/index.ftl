@@ -24,9 +24,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/supplier/commodityTrace">
-                        <em>${(sale?c)!}</em>
-                        <span>寄卖数量<i>（公斤）</i></span>
+                    <a href="/message/list">
+                        <em>${(mynews?c)!}</em>
+                        <span>我的消息</span>
                     </a>
                 </li>
             </ul>
