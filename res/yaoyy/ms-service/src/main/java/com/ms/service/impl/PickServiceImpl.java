@@ -82,7 +82,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	private CommodityBatchDao commodityBatchDao;
 
 	@Autowired
-	private MessageService messageService;
+	private MessageDao messageDao;
 
 
 
@@ -347,8 +347,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			message.setType(MessageEnum.SUPPLIER_ORDER.get());
 			message.setUserId(k);
 			message.setIsMember(0);
+			message.setStatus(1);
 			message.setEventId(pickVo.getId());
-			messageService.create(message);
+			messageDao.create(message);
 		});
 
 	}
