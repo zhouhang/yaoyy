@@ -33,16 +33,9 @@
                         </div>
                         <div class="price">
                             <i>&yen;</i>
-                            <#if commodity.mark == 1 >
-                                <em>${commodity.detail!}</em>
-                                <#else>
-                                <em>${commodity.price!}</em>
-                            </#if>
-
+                            <em>${commodity.price!}</em>
                             <b>元/${commodity.unitName!}</b>
-                            <#if commodity.mark == 1 >
-                                <span>量大价优</span>
-                            </#if>
+
                         </div>
                     </div>
                     <div class="pic">

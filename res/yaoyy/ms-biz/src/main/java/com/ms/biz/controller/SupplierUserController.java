@@ -2,6 +2,7 @@ package com.ms.biz.controller;
 
 import com.google.common.base.Strings;
 import com.ms.biz.shiro.BizToken;
+import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.User;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.service.SupplierService;
@@ -58,7 +59,7 @@ public class SupplierUserController {
                 WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
 
                 User user = userService.findByOpenId(wxMpUser.getOpenId());
-                if (user != null) {
+                if (user != null && user.getType() == UserTypeEnum.supplier.getType()) {
                     // 登入
                     Subject subject = SecurityUtils.getSubject();
                     BizToken token = new BizToken(user.getPhone(), user.getPassword(), false, null, "");
