@@ -278,6 +278,10 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 				existUser.setSalt(pass.getSalt());
 				update(existUser);
 			}
+			User user = new User();
+			user.setId(existUser.getId());
+			user.setType(UserTypeEnum.supplier.getType());
+			update(user);
 		} else {
 			User user = new User();
 			user.setPhone(userVo.getPhone());

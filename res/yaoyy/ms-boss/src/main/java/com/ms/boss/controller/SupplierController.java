@@ -3,6 +3,7 @@ package com.ms.boss.controller;
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
@@ -257,7 +258,7 @@ public class SupplierController {
     @RequestMapping(value = "signlist", method = RequestMethod.GET)
     public String signlist(UserVo user, Integer pageNum, Integer pageSize, ModelMap model){
         // 只查询供应商商的用户
-        user.setType(2);
+        user.setType(UserTypeEnum.supplier.getType());
         PageInfo<UserVo> pageInfo = userService.findVoByParams(user, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         return "suppliersign_list";
