@@ -85,7 +85,6 @@ public class CommodityController extends BaseController{
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
-    @SecurityToken(validateToken=true)
     @BizLog(type = LogTypeConstant.COMMODITY, desc = "保存商品信息")
     public Result save(@RequestBody CommodityVo commodity) {
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());

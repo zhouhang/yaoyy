@@ -68,7 +68,7 @@ public class SupplierController {
         //寄卖数量
         Float sale = 0f;
         for (CommodityVo commodity:commodityVos){
-            sale += commodity.getWarehouse();
+            sale += commodity.getWarehouse()!=null?commodity.getWarehouse():0;
         }
         model.put("sale", sale);
         //网站公告

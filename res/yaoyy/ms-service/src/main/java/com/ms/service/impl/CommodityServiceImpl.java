@@ -6,14 +6,12 @@ import com.ms.dao.HistoryPriceDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.CommodityDao;
 import com.ms.dao.enums.MsgIsMemberEnum;
-import com.ms.dao.model.Commodity;
-import com.ms.dao.model.FollowCommodity;
-import com.ms.dao.model.Gradient;
-import com.ms.dao.model.HistoryPrice;
+import com.ms.dao.model.*;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.dao.vo.HistoryPriceVo;
 import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.MessageTemplateEnum;
 import com.ms.service.observer.MsgProducerEvent;
 import com.ms.tools.ClazzUtil;
 import com.ms.tools.upload.PathConvert;
@@ -47,6 +45,12 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 
     //@Autowired
     //private CommoditySearchService commoditySearchService;
+
+    @Autowired
+    private CommodityService commodityService;
+
+    @Autowired
+    private MessageService messageService;
 
     /**
      * 商品图片保存路径
@@ -244,14 +248,38 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
 	@Override
     @Transactional
 	public void modStockOrPrice(CommodityVo commodityVo) {
+        Message message = new Message();
+        message.setUserId(commodityVo.getSupplierId());
+        message.setType(MessageEnum.SUPPLIER_COMMODITY.get());
+
         Commodity  commodity = new Commodity();
+
+        //取出现在该商品数据
+        CommodityVo com = commodityService.findById(commodityVo.getId());
         if (commodityVo.getUnwarehouse() != null){
+            if (com.getUnwarehouse().equals(commodityVo.getUnwarehouse()))return;
             commodity.setId(commodityVo.getId());
             commodity.setUnwarehouse(commodityVo.getUnwarehouse());
 			update(commodity);
+
+            //发消息
+            message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}","你")
+            .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("pre_stock",com.getUnwarehouse().toString())
+                    .replace("stock",commodityVo.getUnwarehouse().toString()));
+            message.setCreateTime(new Date());
+            messageService.create(message);
+
         } else if (commodityVo.getPrice() != null){
+            if (com.getPrice().equals(commodityVo.getPrice()))return;
             commodity.setPrice(commodityVo.getPrice());
 			updatePrice(commodityVo.getSupplierId(), commodityVo);
+
+            //发消息
+            message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_PRICE_TEMPLATE.get().replace("{name}","你")
+                    .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("pre_price",com.getPrice().toString())
+                    .replace("price",commodityVo.getPrice().toString()));
+            message.setCreateTime(new Date());
+            messageService.create(message);
         }
         
     }

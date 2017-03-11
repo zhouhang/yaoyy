@@ -142,7 +142,7 @@
                             <a href="javascript:;" class="ubtn ubtn-blue jsave" data-id="${commodityVo.id}">保存</a>
                         </div>
                         <div class="price">
-                            库存<input type="text" name="unwarehouse" class="ipt inventory" value="${commodityVo.unwarehouse}">
+                            库存<input type="text" name="unwarehouse" class="ipt inventory" value="${commodityVo.unwarehouse?default(0)}">
                             <input type="text" name="price" class="ipt unitprice" value="${commodityVo.price}">元/${commodityVo.unitName}
                         </div>
                     </li>
@@ -243,7 +243,7 @@
                 $('.list').on('click', '.jsave', function() {
                     var $pa = $(this).closest('li'),
                         $number = $pa.find('.inventory'),
-                        $price = $pa.find('.inventory'),
+                        $price = $pa.find('.unitprice'),
 			$id = $(this).data('id');
                         
                     $.ajax({

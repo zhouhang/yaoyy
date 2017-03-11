@@ -108,9 +108,9 @@
         </div>
     </section><!-- /ui-content -->
 
-    <section class="fixedbar">
+    <!--<section class="fixedbar">
         <a href="mqqwpa://im/chat?chat_type=wpa&amp;uin=1340296820" class="fa fa-qq qq"></a>
-    </section>
+    </section>-->
 
     <#include "./common/footer.ftl"/>
     <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>

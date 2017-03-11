@@ -361,10 +361,10 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	@Override
 	@Transactional
 	public void signSave(UserVo userVo) {
-		User user = new User();
-		user.setId(userVo.getId());
-		user.setPhone(userVo.getPhone());
-		update(user);
+//		User user = new User();
+//		user.setId(userVo.getId());
+//		user.setPhone(userVo.getPhone());
+//		update(user);
 
 
 		UserDetail userDetail = new UserDetail();
