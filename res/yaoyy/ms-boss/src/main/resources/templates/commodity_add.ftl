@@ -126,10 +126,10 @@
                     </div>
                 </div>
                 <div class="item">
-                    <div class="txt">绑定供应商：</div>
+                    <div class="txt"><i>*</i>绑定供应商：</div>
                     <div class="cnt">
                         <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
-                        <input type="hidden" name="supplierId">
+                        <input type="hidden" name="supplierId" id="supplierId">
                         <div class="cnt-table hide" id="supplierSuggestions">
                             <table class="suggestions">
                                 <thead>
@@ -338,7 +338,9 @@
                         detail: {
                             rule: '商品详情: required',
                             target: '#detailsError'
-                        }
+                        },
+                        supplierId: '绑定供应商: required',
+                        supplier: '绑定供应商: required'
                     },
                     valid: function () {
                         self.submitForm();
@@ -359,7 +361,7 @@
                 // 序列化属性值
                 var attr = {};
                 $('#attribute').find('tbody tr').each(function(i) {
-                    attr[$(this).find('.ipt').eq(0)] = $(this).find('.ipt').eq(1);
+                    attr[$(this).find('.ipt').eq(0).val()] = $(this).find('.ipt').eq(1).val();
                 })
                 var data = $('#myform').serializeObject();
                 $.each(data, function (k, v) {
@@ -542,7 +544,8 @@
                 $supplierSuggestions.on('click', '.items', function () {
                     var name = $(this).data('name'),
                             id = $(this).data('id');
-                    $supplier.val(name).next().val(id);
+                    $supplier.val(name);
+                    $("#supplierId").val(id);
                     $supplierSuggestions.hide();
                 }).on('click', 'table', function () {
                     return false;

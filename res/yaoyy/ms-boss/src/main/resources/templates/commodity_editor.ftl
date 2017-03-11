@@ -429,7 +429,7 @@
                 // 序列化属性值
                 var attr = {};
                 $('#attribute').find('tbody tr').each(function(i) {
-                    attr[$(this).find('.ipt').eq(0)] = $(this).find('.ipt').eq(1);
+                    attr[$(this).find('.ipt').eq(0).val()] = $(this).find('.ipt').eq(1).val();
                 })
                 var data = $('#myform').serializeObject();
                 $.each(data, function (k, v) {
