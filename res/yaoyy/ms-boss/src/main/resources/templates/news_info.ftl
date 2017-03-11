@@ -50,7 +50,7 @@
 			</div>
 		</form>
 	</div>
-</div>
+
 
 <#include "./common/footer.ftl"/>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
