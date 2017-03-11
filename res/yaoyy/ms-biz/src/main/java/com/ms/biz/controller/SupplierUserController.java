@@ -8,6 +8,7 @@ import com.ms.dao.vo.SupplierVo;
 import com.ms.service.SupplierService;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -135,6 +136,12 @@ public class SupplierUserController {
     @RequestMapping(value = "sendFindPasswordSms", method = RequestMethod.POST)
     @ResponseBody
     public Result sendResetPasswordSms(String phone) {
+        // 发送短信前 得先确认手机号在数据库中存在且用户type 为供应商
+
+        User user = userService.findByPhone(phone);
+        if (user == null || user.getType() != UserTypeEnum.supplier.getType()) {
+            return Result.error().msg("用户不存在");
+        }
         userService.sendResetPasswordSms(phone);
         return Result.success("验证码发送成功");
     }

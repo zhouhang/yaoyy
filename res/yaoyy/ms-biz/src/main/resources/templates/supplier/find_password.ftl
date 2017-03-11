@@ -46,7 +46,7 @@
                 $('#submit').on('click', function() {
                     if (self.checkMobile() &&self.checkSMSCode() && self.checkPassword()){
                         $.ajax({
-                            url: "/user/supplier/login",
+                            url: "/user/supplier/findPassword",
                             dataType: 'json',
                             data: {phone:$("#phone").val(),password:$("#password").val(),code:$("#code").val()},
                             type: 'POST',
@@ -134,12 +134,14 @@
                         data: {phone:$("#phone").val()},
                         type: 'POST',
                         success: function(data) {
-                            if (data.status === 'y') {
+                            if (data.status === 200) {
                                 $send.text(second + txt).prop('disabled', true);
                                 lock();
-                                popover(data.info);
+                                popover(data.msg);
                             } else {
-                                popover(data.info);
+                                $send.prop('disabled', false);
+                                second = 0;
+                                popover(data.msg);
                             }
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown) {
