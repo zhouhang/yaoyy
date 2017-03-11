@@ -312,6 +312,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 
 
 	@Override
+	@Transactional
 	public void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser) {
 		login(subject, token);
 		if (wxMpUser!= null) {

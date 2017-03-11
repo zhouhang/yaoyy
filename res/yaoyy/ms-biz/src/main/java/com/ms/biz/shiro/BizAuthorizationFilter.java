@@ -57,7 +57,16 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 			// 供应商用户登入
 			if (user == null || user.getType() == UserTypeEnum.purchase.getType()) {
 				saveRequest(request);
-				WebUtils.issueRedirect(request, response, "/user/supplier/login");
+				String source = request.getParameter("source");
+				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
+					String relUrl = HttpUtil.getRelUrl(httpRequest);
+					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login";
+					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+//					httpResponse.sendRedirect(OAUTH_URL);
+					WebUtils.issueRedirect(request, response, OAUTH_URL);
+				} else {
+					WebUtils.issueRedirect(request, response, "/user/supplier/login");
+				}
 				return false;
 			}
 

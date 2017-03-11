@@ -19,7 +19,7 @@ spring:
 
 doc:
    base:
-       url: http://127.0.0.1:8188
+       url: http://192.168.10.92:8188
 
 upload:
     path: /Software/JAVAEE/apache-tomcat-8.0.23/webapps/ms-files/
