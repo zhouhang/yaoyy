@@ -10,12 +10,16 @@ import com.ms.dao.enums.MsgIsMemberEnum;
 import com.ms.dao.enums.SampleEnum;
 import com.ms.dao.enums.TrackingDetailEnum;
 import com.ms.dao.enums.TrackingEnum;
+import com.ms.dao.model.Message;
 import com.ms.dao.model.SampleTracking;
 import com.ms.dao.model.SendSample;
 import com.ms.dao.model.TrackingDetail;
 import com.ms.dao.vo.SampleTrackingVo;
+import com.ms.dao.vo.SendSampleVo;
 import com.ms.service.SampleTrackingService;
+import com.ms.service.SendSampleService;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.MessageTemplateEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +49,8 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 	@Autowired
 	private ApplicationContext applicationContext;
 
-
+	@Autowired
+	private SendSampleService sendSampleService;
 
 	@Override
 	public PageInfo<SampleTrackingVo> findByParams(SampleTrackingVo sampleTrackingVo,Integer pageNum,Integer pageSize) {
@@ -98,6 +105,18 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 				tackingDetailDao.create(trackingDetail);
 				sendSample.setStatus(SampleEnum.SAMPLE_SEND.getValue());
 				sampleTracking.setExtra("快递公司："+trackingDetail.getCompany()+" "+"快递单号："+trackingDetail.getTrackingNo());
+
+				// 寄送样品时发送通知给供应商告诉寄送了样品
+				SendSampleVo sendSampleVo = sendSampleService.findDetailById(sampleTracking.getSendId());
+				Message message = new Message();
+				message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}",sampleTracking.getName())
+						.replace("{commodity}", sendSampleVo.getIntentionText()));
+				message.setCreateTime(new Date());
+				message.setType(MessageEnum.SUPPLIER_SAMPLES.get());
+//				message.setUserId();
+				message.setIsMember(0);
+				message.setEventId(sampleTracking.getSendId());
+//				messageService.create(message);
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_ORDER.getValue()){
 				trackingDetail.setType(TrackingDetailEnum.TYPE_ORDER.getValue());
