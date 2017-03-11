@@ -131,13 +131,15 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 
 				Map<Integer, StringBuilder> map = new HashMap<>();
 				for(CommodityVo commodityVo:commodityVos){
-					StringBuilder sb = new StringBuilder("[" + commodityVo.getName() + " " + commodityVo.getSpec() + "]");
-					map.put(commodityVo.getSupplierId(),map.get(
-							sb.append(commodityVo.getSupplierId()) != null?map.get(commodityVo.getSupplierId()):""));
+					if (commodityVo.getSupplierId() != null) {
+						StringBuilder sb = new StringBuilder("[" + commodityVo.getName() + " " + commodityVo.getSpec() + "]");
+						map.put(commodityVo.getSupplierId(),
+								sb.append(map.get(commodityVo.getSupplierId()) != null ? map.get(commodityVo.getSupplierId()) : ""));
+					}
 				}
 				for(Map.Entry<Integer, StringBuilder> entry : map.entrySet()){
 					message.setContent(MessageTemplateEnum.SUPPLIER_SAMPLE_TEMPLATE.get().replace("{name}",sampleTracking.getName())
-							.replace("{commodity} {spec}", entry.getValue()));
+							.replace("{commodity}", entry.getValue()));
 					message.setUserId(entry.getKey());
 					messageService.create(message);
 				}
