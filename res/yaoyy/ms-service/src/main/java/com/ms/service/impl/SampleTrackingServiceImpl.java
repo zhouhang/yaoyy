@@ -14,8 +14,12 @@ import com.ms.dao.model.Message;
 import com.ms.dao.model.SampleTracking;
 import com.ms.dao.model.SendSample;
 import com.ms.dao.model.TrackingDetail;
+import com.ms.dao.vo.CommodityVo;
+import com.ms.dao.vo.HistoryCommodityVo;
 import com.ms.dao.vo.SampleTrackingVo;
 import com.ms.dao.vo.SendSampleVo;
+import com.ms.service.CommodityService;
+import com.ms.service.MessageService;
 import com.ms.service.SampleTrackingService;
 import com.ms.service.SendSampleService;
 import com.ms.service.enums.MessageEnum;
@@ -30,9 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking> implements SampleTrackingService{
@@ -51,6 +53,12 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 
 	@Autowired
 	private SendSampleService sendSampleService;
+
+	@Autowired
+	private MessageService messageService;
+
+	@Autowired
+	private CommodityService commodityService;
 
 	@Override
 	public PageInfo<SampleTrackingVo> findByParams(SampleTrackingVo sampleTrackingVo,Integer pageNum,Integer pageSize) {
@@ -108,15 +116,31 @@ public class SampleTrackingServiceImpl  extends AbsCommonService<SampleTracking>
 
 				// 寄送样品时发送通知给供应商告诉寄送了样品
 				SendSampleVo sendSampleVo = sendSampleService.findDetailById(sampleTracking.getSendId());
+				//
+				List<HistoryCommodityVo> historyCommodityVos = sendSampleVo.getCommodityList();
+				List<Integer> cidList = new ArrayList<>();
+				for (HistoryCommodityVo historyCommodityVo:historyCommodityVos){
+					cidList.add(historyCommodityVo.getCommodityId());
+				}
+				List<CommodityVo> commodityVos = commodityService.findByIds(cidList);
 				Message message = new Message();
-				message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}",sampleTracking.getName())
-						.replace("{commodity}", sendSampleVo.getIntentionText()));
 				message.setCreateTime(new Date());
 				message.setType(MessageEnum.SUPPLIER_SAMPLES.get());
-//				message.setUserId();
 				message.setIsMember(0);
 				message.setEventId(sampleTracking.getSendId());
-//				messageService.create(message);
+
+				Map<Integer, StringBuilder> map = new HashMap<>();
+				for(CommodityVo commodityVo:commodityVos){
+					StringBuilder sb = new StringBuilder("[" + commodityVo.getName() + " " + commodityVo.getSpec() + "]");
+					map.put(commodityVo.getSupplierId(),map.get(
+							sb.append(commodityVo.getSupplierId()) != null?map.get(commodityVo.getSupplierId()):""));
+				}
+				for(Map.Entry<Integer, StringBuilder> entry : map.entrySet()){
+					message.setContent(MessageTemplateEnum.SUPPLIER_SAMPLE_TEMPLATE.get().replace("{name}",sampleTracking.getName())
+							.replace("{commodity} {spec}", entry.getValue()));
+					message.setUserId(entry.getKey());
+					messageService.create(message);
+				}
 			}
 			else if(recordType.intValue()==TrackingEnum.TRACKING_ORDER.getValue()){
 				trackingDetail.setType(TrackingDetailEnum.TYPE_ORDER.getValue());

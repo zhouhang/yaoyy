@@ -83,7 +83,10 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         return commodityDao.findByIds(list);
     }
 
-
+    @Override
+    public List<CommodityVo> findByIds(List<Integer> list) {
+        return commodityDao.findByIds(list);
+    }
 
 
     @Override
