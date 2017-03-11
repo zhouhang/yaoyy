@@ -8,7 +8,6 @@ import com.ms.dao.vo.SupplierVo;
 import com.ms.service.SupplierService;
 import com.ms.service.UserService;
 import com.ms.tools.entity.Result;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
