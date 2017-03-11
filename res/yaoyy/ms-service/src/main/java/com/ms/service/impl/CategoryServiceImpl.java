@@ -164,7 +164,7 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 
 	@Override
 	public List<CategoryVo> findByIds(String ids) {
-		if(ids == null)
+		if(ids == null && ids == "")
 			return null;
 		List<Integer> list = new ArrayList<>();
 		for(String id :ids.split(",")){
