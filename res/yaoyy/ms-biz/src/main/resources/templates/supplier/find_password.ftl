@@ -129,9 +129,10 @@
                 var sendMSM = function() {
                     popover('验证码发送中，请稍后...!');
                     $.ajax({
-                        url: '../json/getsmscode.php',
+                        url: '/user/supplier/sendFindPasswordSms',
                         dataType: 'json',
-                        data: 'phone=13026584785',
+                        data: {phone:$("#phone").val()},
+                        type: 'POST',
                         success: function(data) {
                             if (data.status === 'y') {
                                 $send.text(second + txt).prop('disabled', true);

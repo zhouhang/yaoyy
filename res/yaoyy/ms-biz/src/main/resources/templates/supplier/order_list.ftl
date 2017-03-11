@@ -97,9 +97,8 @@
                     html.push('<div class="row">');
                     html.push('<span>商品总价：<i>¥', item.sum, '</i> 元</span>');
 
-                    if (item.samountsPayable != 0) {
+                    if (item.samountsPayable != 0 && item.samountsPayable) {
                         html.push('<span>运费：<i>¥', item.shippingCosts, '</i> 元</span>');
-                        html.push('<span>检测费：<i>¥', item.checking, '</i> 元</span>');
                         html.push('</div>');
                         html.push('<div class="row">');
                         html.push('<span>包装人工费：<i>¥', item.bagging, '</i> 元</span>');
@@ -109,7 +108,7 @@
                     html.push('</div>');
                     html.push('</div>');
 
-                    if (item.samountsPayable != 0) {
+                    if (item.samountsPayable != 0 && item.samountsPayable) {
                         html.push('<div class="tf">');
                         html.push('<strong>订单金额：<i>¥', item.amountsPayable, '</i> 元</strong>');
                         html.push('<span>付款方式：', item.settleTypeName, '</span>');
