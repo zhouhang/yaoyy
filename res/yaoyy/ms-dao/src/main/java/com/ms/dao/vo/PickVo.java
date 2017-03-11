@@ -114,10 +114,6 @@ public class PickVo extends Pick{
         if(statusText==null){
             statusText = PickEnum.findByValue(getStatus());
         }
-        else{
-            statusText= PickEnum.findByValue(getStatus())+statusText;
-        }
-
         return statusText;
     }
 
