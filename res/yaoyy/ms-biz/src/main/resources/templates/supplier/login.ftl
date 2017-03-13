@@ -56,7 +56,7 @@
                                     layer.open({
                                         className: 'layer-custom2'
                                         ,
-                                        content: '<div class="hd">登录失败</div><div class="bd">您的账号在药优优供应商系统未激活，请联系工作人员激活或修改。</div>'
+                                        content: '<div class="hd">登录失败</div><div class="bd">'+result.data+'</div>'
                                         ,
                                         btn: ['确定']
                                     });

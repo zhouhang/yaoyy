@@ -95,25 +95,25 @@
                     html.push('</div>');
                     html.push('<div class="tr">');
                     html.push('<div class="row">');
-                    html.push('<span>商品总价：<i>¥', item.sum, '</i> 元</span>');
+                    html.push('<span>商品总价：<i>¥', item.sum?item.sum:0, '</i> 元</span>');
 
-                    if (item.samountsPayable != 0 && item.samountsPayable) {
-                        html.push('<span>运费：<i>¥', item.shippingCosts, '</i> 元</span>');
+                    if (item.amountsPayable != 0 && item.amountsPayable) {
+                        html.push('<span>运费：<i>¥', item.shippingCosts?item.shippingCosts:0, '</i> 元</span>');
                         html.push('</div>');
                         html.push('<div class="row">');
-                        html.push('<span>包装人工费：<i>¥', item.bagging, '</i> 元</span>');
-                        html.push('<span>税费：<i>¥', item.taxation, '</i> 元</span>');
+                        html.push('<span>包装人工费：<i>¥', item.bagging?item.bagging:0, '</i> 元</span>');
+                        html.push('<span>税费：<i>¥', item.taxation?item.taxation:0, '</i> 元</span>');
                     }
 
                     html.push('</div>');
                     html.push('</div>');
 
-                    if (item.samountsPayable != 0 && item.samountsPayable) {
+                    if (item.amountsPayable != 0 && item.amountsPayable) {
                         html.push('<div class="tf">');
-                        html.push('<strong>订单金额：<i>¥', item.amountsPayable, '</i> 元</strong>');
+                        html.push('<strong>订单金额：<i>¥', item.amountsPayable?item.amountsPayable:0, '</i> 元</strong>');
                         html.push('<span>付款方式：', item.settleTypeName, '</span>');
-                        if (item.settleType == 2) {
-                            html.push('<span>账期时间：', item.billTime, '剩余:',item.billTimeLeft,'</span>');
+                        if (item.settleType == 2 && item.billTimeLeft) {
+                            html.push('<span>账期时间：', item.billTime, '天 剩余:',item.billTimeLeft,'</span>');
                         }
                         html.push('</div>');
                     }
