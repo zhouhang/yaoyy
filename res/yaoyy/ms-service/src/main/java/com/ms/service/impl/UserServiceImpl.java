@@ -309,6 +309,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			userDetail.setEmail(userDetailVo.getEmail());
 			userDetail.setQq(userDetailVo.getQq());
 			userDetail.setRemark(userDetailVo.getRemark());
+			userDetail.setContract(userDetailVo.getContract());
 			userDetail.setCreateTime(new Date());
 			userDetail.setUpdateTime(new Date());
 			userDetailService.create(userDetail);
