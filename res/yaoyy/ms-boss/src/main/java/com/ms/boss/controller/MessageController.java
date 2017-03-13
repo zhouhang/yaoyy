@@ -6,6 +6,8 @@ import com.ms.dao.vo.MessageVo;
 import com.ms.service.MessageService;
 import com.ms.service.enums.MessageEnum;
 import com.ms.tools.entity.Result;
+import com.ms.tools.httpclient.common.util.StringUtil;
+import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +42,12 @@ public class MessageController extends BaseController{
 
         List<MessageVo> list = messageService.findUnReadMsg();
         list.forEach(message -> {
-            message.setUrl(bossSystemProperties.getBaseUrl() + MessageEnum.getUrl(message.getType()) + message.getEventId());
+            String url = MessageEnum.getUrl(message.getType());
+            if(!StringUtils.isNullOrEmpty(url)) {
+                message.setUrl(bossSystemProperties.getBaseUrl() + url + message.getEventId());
+            }else{
+                message.setUrl("javascript:");
+            }
         });
         Map<String,Object> map = new HashMap<>();
         map.put("count", list.size());

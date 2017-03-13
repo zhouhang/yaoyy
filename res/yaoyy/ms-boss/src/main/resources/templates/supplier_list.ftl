@@ -22,8 +22,8 @@
             <div class="tools">
                 <div class="filter">
                     <form action="" id="searchForm">
-                        <input type="text" name="name"class="ipt" value="${(supplierVo.name)!}" placeholder="姓名">
-                        <button class="ubtn ubtn-blue" id="search">搜索</button>
+                        <input type="text" name="name"class="ipt" phone="phone" value="${(supplierVo.name)!}" placeholder="姓名">
+                        <button class="ubtn ubtn-blue" type="button" id="search">搜索</button>
                     </form>
                 </div>
                 <div class="action-add">
@@ -105,7 +105,13 @@
                     var params = [];
                     $("#searchForm .ipt").each(function() {
                         var val = $.trim(this.value);
-                        val && params.push($(this).attr('name') + '=' + val);
+                        var pattern = /^1[34578]\d{9}$/;
+                        if(pattern.test(val)) {
+                            params.push($(this).attr('phone') + '=' + val);
+                        }else{
+                            params.push($(this).attr('name') + '=' + val);
+                        }
+
                     })
                     location.href=_global.v.listUrl+'?'+params.join('&');
                 })

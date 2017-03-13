@@ -50,13 +50,15 @@
             <div class="hd ico-news">我的消息</div>
             <div class="bd">
                 <ul id="news">
+                    <#if messageVos??>
                     <#list messageVos as messageVo>
                     <li>
-                        <span>${messageVo.content}</span>
-                        <em class="e${messageVo.type}">${messageVo.typeName}</em>
+                        <span>${messageVo.content!}</span>
+                        <em class="e${messageVo.type!}">${messageVo.typeName!}</em>
                         <time data-time="${messageVo.createTime?datetime}"></time>
                     </li>
                     </#list>
+                    </#if>
                 </ul>
             </div>
             <div class="more">

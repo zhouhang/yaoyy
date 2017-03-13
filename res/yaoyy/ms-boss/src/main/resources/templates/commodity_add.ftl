@@ -513,7 +513,7 @@
                                 var html = [''];
                                 if (response && response.status === 200) {
                                     $.each(response.data, function (i, item) {
-                                        html.push('<tr class="items" data-name="' + item.name + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.phone + '</td><td>' + item.area + '</td></tr>');
+                                        html.push('<tr class="items" data-name="' + item.name + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.phone + '</td><td>' + item.position + '</td></tr>');
                                     })
                                 } else {
                                     html.push('<tr><td colspan="3">未查询到供应商，请重新输入</td></tr>');

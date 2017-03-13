@@ -11,10 +11,10 @@
         <div class="news">
             <ul>
                 <li style="border:0;">
-                    <h3 class="title">${announcement.title}</h3>
+                    <h3 class="title">${announcement.title!}</h3>
                     <time>${announcement.createTime?datetime}</time>
                     <div class="summary">
-                    ${announcement.content}
+                    ${announcement.content!}
                     </div>
                 </li>
             </ul>
