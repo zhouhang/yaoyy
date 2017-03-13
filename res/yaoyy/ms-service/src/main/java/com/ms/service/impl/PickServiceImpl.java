@@ -97,7 +97,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			p.getSettleTypeName();
 			p.getStatusText();
 			p.getUserBusinessTypeName();
-//			List<PickCommodityVo> pickCommodityVos=pickCommodityService.findByPickId(p.getId());
+			List<PickCommodityVo> pickCommodityVos=pickCommodityService.findByPickId(p.getId());
+			p.setPickCommodityVoList(pickCommodityVos);
 			float total=0;
 			for(PickCommodityVo vo :p.getPickCommodityVoList()){
 				total+=vo.getTotal();

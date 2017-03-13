@@ -31,20 +31,6 @@
     <resultMap id="PickResultMapVo" type="com.ms.dao.vo.PickVo" extends="PickResultMap">
         <result column="userName"  property="userName" />
         <result column="userBusinessType"  property="userBusinessType" />
-        <collection property="pickCommodityVoList" ofType="com.ms.dao.vo.PickCommodityVo">
-            <id column="pc_id"  property="id" />
-            <result column="pc_pickId"  property="pickId" />
-            <result column="pc_num"  property="num" />
-            <result column="pc_unit"  property="unit" />
-            <result column="pc_total"  property="total" />
-            <result column="pc_price"  property="price" />
-            <result column="pc_createTime"  property="createTime" />
-            <result column="pc_name"  property="name" />
-            <result column="pc_origin"  property="origin" />
-            <result column="pc_spec"  property="spec" />
-            <result column="pc_priceUnit"  property="priceUnit" />
-            <result column="pc_realCommodityId"  property="realCommodityId" />
-        </collection>
     </resultMap>
 
     <resultMap id="SupplierResultMap" type="com.ms.dao.vo.SupplierOrderVo" extends="PickResultMap">
@@ -83,18 +69,9 @@
         from pick
     </select>
 
-    <!--<select id="findPCommodityByPickId"  resultMap="PickResultMap">-->
-                <!--LEFT JOIN pick_commodity pc ON p.id = pc.pick_id-->
-        <!--LEFT JOIN history_commodity hc on pc.commodity_id=hc.id-->
-        <!--LEFT JOIN commodity c ON hc.commodity_id = c.id-->
-    <!--</select>-->
-
     <select id="findByParams" resultMap="PickResultMapVo" parameterType="com.ms.dao.vo.PickVo">
-        select
-        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType,
-        pc.id as pc_id,pc.pick_id as pc_pickId,pc.commodity_id as pc_commodityId,pc.num as pc_num,
-        pc.unit as pc_unit,pc.total as pc_total,pc.price as pc_price,pc.create_time as pc_createTime,
-        hc.name as pc_name, hc.origin as pc_origin, hc.spec as pc_spec, hc.unit as pc_priceUnit,hc.commodity_id as pc_realCommodityId
+        select DISTINCT
+        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
