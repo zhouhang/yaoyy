@@ -52,10 +52,10 @@
                     <#list categoryPage.list as category>
                     <tr <#if category.status==0>class="gray"</#if>>
                         <td><input type="checkbox"></td>
-                        <td>${category.name}</td>
-                        <td>${category.title}</td>
-                        <td>${category.sort}</td>
-                        <td>${category.parentName}</td>
+                        <td>${category.name!}</td>
+                        <td>${category.title!}</td>
+                        <td>${category.sort!}</td>
+                        <td>${category.parentName!}</td>
                         <td>${(category.createTime?datetime)!}  </td>
                         <td class="tc">
                             <a href="javascript:;" class="ubtn ubtn-blue jedit" categoryId="${category.id?c}">编辑</a>

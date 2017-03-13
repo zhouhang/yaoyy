@@ -169,3 +169,61 @@ INSERT INTO `yaoyy`.`resources` (`id`) VALUES (NULL);
 DELETE FROM `yaoyy`.`resources` WHERE `id`='28';
 DELETE FROM `yaoyy`.`resources` WHERE `id`='29';
 UPDATE `yaoyy`.`resources` SET `name`='资讯管理' WHERE `id`='33';
+
+-- 品种导入
+ALTER TABLE `yaoyy`.`category`
+CHANGE COLUMN `title` `title` VARCHAR(255) NULL COMMENT '标题' ,
+CHANGE COLUMN `picture_url` `picture_url` VARCHAR(512) NULL ,
+ADD COLUMN `pinyin` VARCHAR(64) NULL AFTER `alias`;
+
+-- 根茎类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 1,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 64;
+
+-- 果实籽仁类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 2,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 65;
+
+-- 花叶全草类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 3,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 68;
+
+-- 藤皮类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 4,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 1077;
+
+-- 树脂菌藻类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 5,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 1192;
+
+-- 矿石动物类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 6,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 1238;
+
+-- 其他类
+insert into category(pid,name,sort,create_time,update_time,level,status,pinyin)
+select 7,name,20,now(),now(),2,1,pinyin from category_pieces where parent_id = 1680;
+
+-- 删除之前系统输入的品种
+delete from category where name = '三棱' and id >=41;
+delete from category where name = '半夏' and id >=41;
+delete from category where name = '白芍' and id >=41;
+delete from category where name = '补骨脂' and id >=41;
+delete from category where name = '白附子' and id >=41;
+delete from category where name = '天麻' and id >=41;
+delete from category where name = '茯苓' and id >=41;
+delete from category where name = '稻芽' and id >=41;
+delete from category where name = '皂角刺' and id >=41;
+delete from category where name = '白及' and id >=41;
+delete from category where name = '砂仁' and id >=41;
+delete from category where name = '厚朴' and id >=41;
+delete from category where name = '苍耳子' and id >=41;
+delete from category where name = '百合' and id >=41;
+delete from category where name = '旋覆花' and id >=41;
+delete from category where name = '柴胡' and id >=41;
+delete from category where name = '当归' and id >=41;
+delete from category where name = '党参' and id >=41;
+delete from category where name = '红花' and id >=41;
+delete from category where name = '黄芪' and id >=41;
+delete from category where name = '乌药' and id >=41;
+delete from category where name = '鸡内金' and id >=41;
