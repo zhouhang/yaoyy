@@ -228,3 +228,5 @@ delete from category where name = '红花' and id >=41;
 delete from category where name = '黄芪' and id >=41;
 delete from category where name = '乌药' and id >=41;
 delete from category where name = '鸡内金' and id >=41;
+
+update category set title = name where id >=41;
