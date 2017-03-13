@@ -149,6 +149,7 @@ CREATE TABLE `user_track_record` (
 
 alter table message change content content text;
 
+alter table user_detail add contract int(8) not Null DEFAULT 0;
 
 -- 2017-03-13
 DELETE FROM `yaoyy`.`role_resources` WHERE `id`='1754';

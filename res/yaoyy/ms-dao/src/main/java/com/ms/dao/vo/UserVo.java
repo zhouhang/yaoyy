@@ -59,6 +59,8 @@ public class UserVo extends User{
 
     private String mark;
 
+    private String isContract;
+
     public String getEnterCategoryText() {
         enterCategoryText="";
         if (enterCategoryList!=null) {
@@ -177,4 +179,8 @@ public class UserVo extends User{
     public String getHeadImgUrl() {return headImgUrl;}
 
     public void setHeadImgUrl(String headImgUrl) {this.headImgUrl = headImgUrl;}
+
+    public String getIsContract() {return isContract;}
+
+    public void setIsContract(String isContract) {this.isContract = isContract;}
 }

@@ -8,6 +8,7 @@ import com.ms.dao.model.Area;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.enums.ContractEnum;
 import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
@@ -207,6 +208,7 @@ public class SupplierController {
         userDetailVo.setEmail(supplierVo.getEmail());
         userDetailVo.setQq(supplierVo.getQq());
         userDetailVo.setRemark(supplierVo.getMark());
+        userDetailVo.setContract(ContractEnum.IS_NOT_CONTRACT.getKey());
         userVo = userService.sign(userVo, userDetailVo);
 
 

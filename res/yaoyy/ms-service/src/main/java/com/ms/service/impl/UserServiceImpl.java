@@ -17,6 +17,7 @@ import com.ms.service.CategoryService;
 import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.dto.Password;
+import com.ms.service.enums.ContractEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.service.sms.SmsUtil;
@@ -308,6 +309,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			userDetail.setEmail(userDetailVo.getEmail());
 			userDetail.setQq(userDetailVo.getQq());
 			userDetail.setRemark(userDetailVo.getRemark());
+			userDetail.setContract(userDetailVo.getContract());
 			userDetail.setCreateTime(new Date());
 			userDetail.setUpdateTime(new Date());
 			userDetailService.create(userDetail);
@@ -360,6 +362,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		List<UserVo> list = userDao.findByParams(userVo);
 		list.forEach(u->{
 			u.setEnterCategoryList(categoryService.findByIds(u.getCategoryIds()));
+			u.setIsContract(ContractEnum.get(u.getContract()));
 		});
 		PageInfo page = new PageInfo(list);
 		return page;
@@ -389,6 +392,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 		userDetail.setArea(userVo.getArea());
 		userDetail.setEmail(userVo.getEmail());
 		userDetail.setQq(userVo.getQq());
+		userDetail.setContract(userVo.getContract());
 		userDetail.setRemark(userVo.getMark());
 		if(userDetailService.findByUserId(userVo.getId())!=null) {
 			userDetail.setUpdateTime(new Date());

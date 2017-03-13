@@ -48,6 +48,9 @@ public class UserDetail  implements Serializable {
 
 	//公司名
 	private String company;
+
+	//供应商是否已签合同 0未签 1已签
+	private Integer contract;
 	
 	public UserDetail(){}
 	
@@ -154,4 +157,8 @@ public class UserDetail  implements Serializable {
 	public String getCategoryIds() {return categoryIds;}
 
 	public void setCategoryIds(String categoryIds) {this.categoryIds = categoryIds;}
+
+	public Integer getContract() {return contract;}
+
+	public void setContract(Integer contract) {this.contract = contract;}
 }
