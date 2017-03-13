@@ -15,5 +15,12 @@ public interface CategoryDao extends ICommonDao<Category>{
     public List<CategoryVo> findVoByPage();
     public List<CategoryVo>  findByIds(Collection<Integer> collection);
 
+    /**
+     * 查询有商品的品种
+     * @param categoryVo
+     * @return
+     */
+    List<CategoryVo> findHasCommodity(CategoryVo categoryVo);
+
 
 }

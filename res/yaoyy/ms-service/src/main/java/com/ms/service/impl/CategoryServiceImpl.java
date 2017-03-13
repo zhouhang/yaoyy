@@ -145,22 +145,21 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 
 	@Override
 	public PageInfo<CategoryVo> findByParamsBiz(CategoryVo categoryVo, Integer pageNum, Integer pageSize) {
-		PageInfo<CategoryVo> pageInfo = findByParams(categoryVo,pageNum,pageSize);
-		List<CategoryVo>  list = pageInfo.getList();
-		Iterator<CategoryVo> iter = list.iterator();
-		while(iter.hasNext()){
-			CategoryVo vo = iter.next();
-			CommodityVo commodity = minimumCommodity(vo.getId());
+		pageNum = pageNum==null?1:pageNum;
+		pageSize = pageSize==null?5:pageSize;
+		PageHelper.startPage(pageNum, pageSize);
+		List<CategoryVo>  list  = categoryDao.findHasCommodity(categoryVo);
+		PageInfo page = new PageInfo(list);
+		list.forEach(category->{
+			category.setPictureUrl(pathConvert.getUrl(category.getPictureUrl()));
+			CommodityVo commodity = minimumCommodity(category.getId());
 			if (commodity!= null ){
-				vo.setDefaultCommodityId(commodity.getId());
-				vo.setDefaultCommodityPrice(commodity.getPrice());
-				vo.setDefaultCommodityUnitName(commodity.getUnitName());
-			} else {
-				iter.remove();
+				category.setDefaultCommodityId(commodity.getId());
+				category.setDefaultCommodityPrice(commodity.getPrice());
+				category.setDefaultCommodityUnitName(commodity.getUnitName());
 			}
-		}
-		pageInfo.setList(list);
-		return pageInfo;
+		});
+		return page;
 	}
 
 	@Override

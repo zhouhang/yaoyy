@@ -28,6 +28,11 @@
         id,pid,name,title,price_desc,unit,sort,create_time,picture_url,status,level,update_time,spec,unit_desc,alias
     </sql>
 
+    <sql id="Base_Column_List_Alisa">
+        c1.id as id,c1.pid as pid,c1.name as name,c1.title as title,c1.price_desc as price_desc,c1.unit as unit,c1.sort as sort,c1.create_time as create_time,
+        c1.picture_url as picture_url,c1.status as status, c1.level as level, c1.update_time as update_time, c1.spec as spec,c1.unit_desc as unit_desc, c1.alias as alias
+    </sql>
+
     <select id="findById" parameterType="java.lang.Integer" resultMap="CategoryResultMap">
         select
         <include refid="Base_Column_List" />
@@ -58,6 +63,27 @@
         </if>
         </where>
     </select>
+
+    <select id="findHasCommodity" resultMap="CategoryResultMapVo" parameterType="com.ms.dao.vo.CategoryVo">
+        select
+        <include refid="Base_Column_List_Alisa" />,c2.name parent_name
+        from category c1
+        LEFT JOIN  category c2  on c1.pid=c2.id
+        left join commodity co on c1.id = co.category_id
+        <where>
+            <if test="name!= null">
+                c1.name like CONCAT('%','${name}','%' )
+            </if>
+            <if test="level!= null">
+                and c1.level = #{level}
+            </if>
+            <if test="status!= null">
+                and c1.status = #{status}
+            </if>
+            AND  co.id is not null group by c1.id
+        </where>
+    </select>
+
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from category
