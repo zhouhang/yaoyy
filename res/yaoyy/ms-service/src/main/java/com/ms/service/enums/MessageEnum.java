@@ -41,7 +41,7 @@ public enum  MessageEnum {
 
     public static String getUrl(Integer type) {
         String url = "";
-        if(type==null)return"";
+        if(type == null)return "";
         switch (type){
             case 0: url = "/pick/detail/";
                 break;

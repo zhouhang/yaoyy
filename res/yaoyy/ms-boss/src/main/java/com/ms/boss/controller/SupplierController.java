@@ -194,6 +194,7 @@ public class SupplierController {
     public Result sign(SupplierVo supplierVo, String pwd){
         //supplier数据转存到user
         UserVo userVo = new UserVo();
+        userVo.setType(UserTypeEnum.supplier.getType());
         userVo.setPhone(supplierVo.getPhone());
         userVo.setPassword(pwd);
 

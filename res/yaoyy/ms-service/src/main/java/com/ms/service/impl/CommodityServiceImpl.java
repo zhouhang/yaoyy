@@ -97,22 +97,24 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     @Override
     @Transactional
     public void save(CommodityVo commodity,Integer memId) {
-
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         commodity.setPictureUrl(pathConvert.saveFileFromTemp(commodity.getPictureUrl(),folderName));
+        Message message = new Message();
         if (commodity.getId() == null) {
             commodity.setCreateTime(new Date());
             commodity.setUpdateTime(new Date());
             commodity.setPriceUpdateTime(new Date());
+            commodity.setWarehouse(0f);
+            commodity.setUnwarehouse(0f);
             commodityDao.create(commodity);
+
+            message.setUserId(commodity.getSupplierId());
+            message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_ADD_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
+                    .replace("{commodity}", commodity.getName()).replace("{spec}",commodity.getSpec()));
         } else {
-            //发消息
-            Message message = new Message();
-            message.setType(MessageEnum.SUPPLIER_COMMODITY.get());
-            message.setCreateTime(new Date());
+
             //取出现在该商品数据
             CommodityVo com = commodityService.findById(commodity.getId());
-            Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
-
             message.setUserId(com.getSupplierId());
             //改库存数据
             if(!com.getUnwarehouse().equals(commodity.getUnwarehouse()) && commodity.getUnwarehouse() != null){
@@ -128,13 +130,17 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
                         .replace("{price}",commodity.getUnwarehouse().toString()));
 
             }
-            messageService.create(message);
 
             commodity.setUpdateTime(new Date());
             updatePrice(commodity,memId);
             commodityDao.update(commodity);
 
         }
+
+        //发消息
+        message.setType(MessageEnum.SUPPLIER_COMMODITY.get());
+        message.setCreateTime(new Date());
+        messageService.create(message);
 
         if (commodity.getGradient() != null) {
             commodity.getGradient().forEach(gradient -> {
