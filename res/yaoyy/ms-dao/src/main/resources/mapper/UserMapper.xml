@@ -53,7 +53,7 @@
         <include refid="Base_Column_List_Alisa" />,
         ud.nickname as nickname, ud.area as area,ud.name as name,ud.remark as remark, ud.type as identityType,
         ud.category_ids as categoryIds,ud.company as company,ud.email as email,ud.qq as qq,
-        ud.head_img_url as headImgUrl,a.position as position
+        ud.head_img_url as headImgUrl,a.position as position,ud.contract as contract
         from user u
         LEFT JOIN user_detail ud on u.id = ud.user_id
         LEFT JOIN area a on a.id = ud.area

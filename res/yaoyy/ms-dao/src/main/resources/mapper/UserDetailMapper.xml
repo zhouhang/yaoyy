@@ -17,6 +17,7 @@
             <result column="category_ids"  property="categoryIds" />
             <result column="email"  property="email" />
             <result column="qq"  property="qq" />
+            <result column="contract"  property="contract" />
     </resultMap>
 
     <resultMap id="UserDetailResultMapVo" type="com.ms.dao.vo.UserDetailVo">
@@ -35,10 +36,11 @@
             <result column="category_ids"  property="categoryIds" />
             <result column="email"  property="email" />
             <result column="qq"  property="qq" />
+            <result column="contract"  property="contract" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,type,nickname,phone,area,name,head_img_url,remark,user_id,create_time,update_time,company
+        id,type,nickname,phone,area,name,head_img_url,remark,user_id,create_time,update_time,company,category_ids,email,qq,contract
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="UserDetailResultMap">
@@ -131,6 +133,10 @@
 
             <if test="categoryIds != null">
                 category_ids = #{categoryIds},
+            </if>
+
+            <if test="contract != null">
+                contract = #{contract},
             </if>
                             
         </set>

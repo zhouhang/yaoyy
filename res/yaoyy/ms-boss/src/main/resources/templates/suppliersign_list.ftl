@@ -38,6 +38,7 @@
                             <th>手机号</th>
                             <th>经营品种</th>
                             <th>地区</th>
+                            <th>是否签订合同</th>
                             <th>最后登录时间</th>
                             <th width="170" class="tc">操作</th>
                         </tr>
@@ -51,6 +52,7 @@
                             <td>${user.phone!}</td>
                             <td>${user.enterCategoryText!}</td>
                             <td>${user.position!}</td>
+                            <td>${user.isContract!}</td>
                             <td>${(user.updateTime?datetime)!}</td>
                             <td class="tc">
                                 <a href="/supplier/signdetail/${user.id}" class="ubtn ubtn-blue jedit">编辑</a>

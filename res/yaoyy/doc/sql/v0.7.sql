@@ -148,3 +148,5 @@ CREATE TABLE `user_track_record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='供应商跟踪记录表';
 
 alter table message change content content text;
+
+alter table user_detail add contract int(8) not Null DEFAULT 0;

@@ -59,6 +59,13 @@
                     </div>
                 </div>
                 <div class="item">
+                    <div class="txt">是否已签合同：</div>
+                    <div class="cnt cbxs">
+                        <label><input type="radio" name="contract" class="cbx" value="0" <#if userVo.contract?exists && userVo.contract==0> checked</#if> >未签</label>
+                        <label><input type="radio" name="contract" class="cbx" value="1" <#if userVo.contract?exists && userVo.contract==1> checked</#if>>已签</label>
+                    </div>
+                </div>
+                <div class="item">
                     <div class="txt">地区：</div>
                     <div class="cnt">
                         <select class="slt" name="province" id="province">

@@ -38,6 +38,9 @@ public class User  implements Serializable {
 
 	// 0 未认证 1已认证(主要针对供应商)
 	private Integer verify;
+
+	//供应商用户使用字段，0 未签合同，1已签合同
+	private Integer contract;
 	
 	public User(){}
 	
@@ -128,5 +131,9 @@ public class User  implements Serializable {
 	public void setVerify(Integer verify) {
 		this.verify = verify;
 	}
+
+	public Integer getContract() {return contract;}
+
+	public void setContract(Integer contract) {this.contract = contract;}
 
 }
