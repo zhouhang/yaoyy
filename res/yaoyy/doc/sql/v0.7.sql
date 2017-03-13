@@ -148,3 +148,24 @@ CREATE TABLE `user_track_record` (
 ) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='供应商跟踪记录表';
 
 alter table message change content content text;
+
+
+-- 2017-03-13
+DELETE FROM `yaoyy`.`role_resources` WHERE `id`='1754';
+DELETE FROM `yaoyy`.`role_resources` WHERE `id`='1755';
+DELETE FROM `yaoyy`.`role_resources` WHERE `id`='1753';
+
+UPDATE `yaoyy`.`resources` SET `name`='寄样服务' WHERE `id`='12';
+UPDATE `yaoyy`.`resources` SET `name`='订单管理' WHERE `id`='15';
+UPDATE `yaoyy`.`resources` SET `name`='订单列表' WHERE `id`='16';
+UPDATE `yaoyy`.`resources` SET `name`='订单审核' WHERE `id`='17';
+DELETE FROM `yaoyy`.`resources` WHERE `id`='32';
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('40', '供应商管理', 'button', '0', 'supplier:index', '2017-03-13 13:27:58');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('41', '未签约供应商列表', 'button', '40', 'supplier:unsign', '2017-03-13 13:27:58');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('42', '未签约供应商详情', 'button', '40', 'supplier:unsignDetail', '2017-03-13 13:27:58');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('43', '签约供应商列表', 'button', '40', 'supplier:sign', '2017-03-13 13:27:58');
+INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('44', '签约供应商详情', 'button', '40', 'supplier:signDetail', '2017-03-13 13:27:58');
+INSERT INTO `yaoyy`.`resources` (`id`) VALUES (NULL);
+DELETE FROM `yaoyy`.`resources` WHERE `id`='28';
+DELETE FROM `yaoyy`.`resources` WHERE `id`='29';
+UPDATE `yaoyy`.`resources` SET `name`='资讯管理' WHERE `id`='33';
