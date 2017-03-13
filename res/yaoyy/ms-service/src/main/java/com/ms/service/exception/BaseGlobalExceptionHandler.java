@@ -2,6 +2,7 @@ package com.ms.service.exception;
 
 import com.google.common.base.Throwables;
 import com.ms.tools.entity.Result;
+import com.ms.tools.exception.ValidationException;
 import com.ms.tools.utils.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +76,8 @@ public class BaseGlobalExceptionHandler {
         Result result;
         if (isValidAndBindException(e)) {
             result = Result.failVerification().data(formatVaildAndBindError(e));
+        } else if (e instanceof ValidationException) {
+            result = Result.failVerification().data(e.getMessage());
         } else {
             result = Result.error().msg(debug?e.getMessage():DEFAULT_ERROR_MESSAGE);
         }

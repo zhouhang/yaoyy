@@ -1,6 +1,8 @@
 package com.ms.biz.exception;
 
 import com.ms.service.exception.BaseGlobalExceptionHandler;
+import com.ms.tools.entity.Result;
+import com.ms.tools.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +38,4 @@ public class GlobalExceptionHandler  extends BaseGlobalExceptionHandler {
         }
         return modelAndView;
     }
-
-
-
-
 }

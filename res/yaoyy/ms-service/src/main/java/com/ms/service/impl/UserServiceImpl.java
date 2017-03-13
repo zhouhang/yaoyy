@@ -21,6 +21,7 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.service.sms.SmsUtil;
 import com.ms.service.utils.EncryptUtil;
+import com.ms.tools.exception.ValidationException;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -318,9 +319,20 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	@Override
 	@Transactional
 	public void login(Subject subject, UsernamePasswordToken token, WxMpUser wxMpUser) {
-		login(subject, token);
+		User user = findByPhone(token.getUsername());
+		if (user == null || user.getType() == UserTypeEnum.purchase.getType()) {
+			// 用户不存在或者用户类型为采购商时提醒用户账号未激活或者签约
+			throw new ValidationException("您的账号在药优优供应商系统未激活，请联系工作人员激活或修改。");
+		}
+
+		try {
+			login(subject, token);
+		} catch (Exception e) {
+			throw new ValidationException("密码错误。");
+		}
+
 		if (wxMpUser!= null) {
-			User user = findByPhone(token.getUsername());
+//			User user = findByPhone(token.getUsername());
 			user.setOpenid(wxMpUser.getOpenId());
 			update(user);
 			UserDetail userDetail = userDetailService.findByUserId(user.getId());
