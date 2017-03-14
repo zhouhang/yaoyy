@@ -49,9 +49,6 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
     //private CommoditySearchService commoditySearchService;
 
     @Autowired
-    private CommodityService commodityService;
-
-    @Autowired
     private MessageService messageService;
 
     @Autowired
@@ -117,17 +114,17 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         } else {
 
             //取出现在该商品数据
-            CommodityVo com = commodityService.findById(commodity.getId());
+            CommodityVo com = findById(commodity.getId());
             message.setUserId(com.getSupplierId());
             //改库存数据
-            if(!com.getUnwarehouse().equals(commodity.getUnwarehouse()) && commodity.getUnwarehouse() != null){
+            if( commodity.getUnwarehouse() != null && !com.getUnwarehouse().equals(commodity.getUnwarehouse())){
                 message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
                         .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_stock}",com.getUnwarehouse().toString())
                         .replace("{stock}",commodity.getUnwarehouse().toString()));
 
             }
             //改价格数据
-            if(!com.getPrice().equals(commodity.getPrice()) && commodity.getPrice() != null){
+            if( commodity.getPrice() != null && !com.getPrice().equals(commodity.getPrice())){
                 message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_PRICE_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
                         .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_price}",com.getUnwarehouse().toString())
                         .replace("{price}",commodity.getUnwarehouse().toString()));
@@ -298,7 +295,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         Commodity  commodity = new Commodity();
 
         //取出现在该商品数据
-        CommodityVo com = commodityService.findById(commodityVo.getId());
+        CommodityVo com = findById(commodityVo.getId());
         if (commodityVo.getUnwarehouse() != null){
             if (com.getUnwarehouse().equals(commodityVo.getUnwarehouse()))return;
             commodity.setId(commodityVo.getId());
