@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li>
-                <a href="/category/list">
+                <a href="/commodity/list">
                     <i class="fa fa-list"></i>
                     <span>品种列表</span>
                 </a>

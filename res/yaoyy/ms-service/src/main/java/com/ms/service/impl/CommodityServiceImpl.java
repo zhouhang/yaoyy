@@ -70,6 +70,9 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
         }
         PageHelper.startPage(pageNum, pageSize);
         List<CommodityVo> list = commodityDao.findByParams(commodityVo);
+        list.forEach(c->{
+            c.setThumbnailUrl(pathConvert.getUrl(c.getThumbnailUrl()));
+        });
         PageInfo page = new PageInfo(list);
         return page;
     }

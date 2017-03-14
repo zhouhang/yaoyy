@@ -37,4 +37,12 @@ public interface CategoryService extends ICommonService<Category>{
 
     public List<CategoryVo> findByIds(String ids);
 
+    /**
+     * 前台查询有商品的品种方法
+     * 1.只显示有商品的品种
+     * @param categoryVo
+     * @return
+     */
+    public List<CategoryVo> findHasCommodity(CategoryVo categoryVo);
+
 }

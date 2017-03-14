@@ -4,11 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Article;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.User;
+import com.ms.dao.vo.CategoryVo;
 import com.ms.dao.vo.CommodityVo;
-import com.ms.service.ArticleService;
-import com.ms.service.CommodityService;
-import com.ms.service.FollowCommodityService;
-import com.ms.service.HistoryPriceService;
+import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
 import com.ms.tools.exception.NotFoundException;
@@ -55,6 +53,9 @@ public class CommodityController extends BaseController{
 
     @Autowired
     private HistoryPriceService historyPriceService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 商品详情页面
@@ -144,6 +145,42 @@ public class CommodityController extends BaseController{
         model.put("commodityVo",commodityVo);
         model.put("commodityVoList",commodityVoList);
         return "commodity_price";
+    }
+
+    /**
+     * 全局商品列表
+     * @params categoryId
+     * @return
+     */
+    @RequestMapping(value="/list",method=RequestMethod.GET)
+    public String list(Integer categoryId, ModelMap model){
+        CategoryVo categoryVo = new CategoryVo();
+        categoryVo.setLevel(2);//查询二级分类
+        categoryVo.setStatus(1);//查询上架的品种
+        List<CategoryVo> categoryVos = categoryService.findHasCommodity(categoryVo);
+        model.put("categoryVos",categoryVos);
+        model.put("categoryId", categoryId);
+
+        return "commodity_list";
+    }
+
+    /**
+     * 某分类下的商品分页列表
+     * @param categoryId
+     * @param keyword
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value="/list",method=RequestMethod.POST)
+    @ResponseBody
+    public Result list(Integer categoryId, String keyword, Integer pageNum){
+        CommodityVo commodityVo = new CommodityVo();
+        commodityVo.setCategoryId(categoryId);
+        commodityVo.setKeyword(keyword);
+        commodityVo.setStatus(1);//查询已上架的商品
+        PageInfo<CommodityVo> commodityVos = commodityService.findByParams(commodityVo, pageNum, 5);
+
+        return Result.success().data(commodityVos.getList());
     }
 
 }

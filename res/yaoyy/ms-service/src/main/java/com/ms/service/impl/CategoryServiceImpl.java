@@ -189,8 +189,9 @@ public class CategoryServiceImpl  extends AbsCommonService<Category> implements 
 		return commodities.get(0);
 	}
 
-
-
-
+	@Override
+	public List<CategoryVo> findHasCommodity(CategoryVo categoryVo){
+		return categoryDao.findHasCommodity(categoryVo);
+	}
 
 }

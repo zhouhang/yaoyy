@@ -100,6 +100,15 @@
             <if test="supplierTel != null">
                 and sp.phone = #{supplierTel}
             </if>
+            <if test="categoryId != null">
+                and cm.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and cm.status = #{status}
+            </if>
+            <if test="keyword != null">
+                and cm.name like  "%"#{keyword}"%"
+            </if>
         </where>
         ORDER BY cm.category_id,sort DESC
     </select>
