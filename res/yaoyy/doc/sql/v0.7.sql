@@ -166,7 +166,6 @@ INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `cre
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('42', '未签约供应商详情', 'button', '40', 'supplier:unsignDetail', '2017-03-13 13:27:58');
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('43', '签约供应商列表', 'button', '40', 'supplier:sign', '2017-03-13 13:27:58');
 INSERT INTO `yaoyy`.`resources` (`id`, `name`, `type`, `pid`, `permission`, `create_date`) VALUES ('44', '签约供应商详情', 'button', '40', 'supplier:signDetail', '2017-03-13 13:27:58');
-INSERT INTO `yaoyy`.`resources` (`id`) VALUES (NULL);
 DELETE FROM `yaoyy`.`resources` WHERE `id`='28';
 DELETE FROM `yaoyy`.`resources` WHERE `id`='29';
 UPDATE `yaoyy`.`resources` SET `name`='资讯管理' WHERE `id`='33';
