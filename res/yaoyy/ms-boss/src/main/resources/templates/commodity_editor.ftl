@@ -328,7 +328,7 @@
                 var $jcatname = $('#jcatname');
                 $jcatname.autocomplete({
                     serviceUrl: '/category/search',
-                    paramName: 'variety',
+                    paramName: 'name',
                     deferRequestBy: 100,
                     showNoSuggestionNotice: true,
                     noSuggestionNotice: '没有该品种',

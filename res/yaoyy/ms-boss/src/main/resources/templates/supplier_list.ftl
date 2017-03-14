@@ -22,7 +22,7 @@
             <div class="tools">
                 <div class="filter">
                     <form action="" id="searchForm">
-                        <input type="text" name="name"class="ipt" phone="phone" value="${(supplierVo.name)!}" placeholder="姓名">
+                        <input type="text" name="name"class="ipt" phone="phone" value="<#if supplierVo.name??>${(supplierVo.name)!}<#elseif supplierVo.phone??>${(supplierVo.phone)!}</#if>" placeholder="姓名或手机号">
                         <button class="ubtn ubtn-blue" type="button" id="search">搜索</button>
                     </form>
                 </div>
