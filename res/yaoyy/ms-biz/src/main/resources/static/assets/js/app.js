@@ -370,8 +370,20 @@ function navLight(idx) {
     $('.footer').find('li').eq(idx).find('a').addClass('current');
 }
 
+// 搜索
+function searchForm() {
+    var $myform = $('#searchForm');
+    if ($myform.length === 1) {
+        $myform.on('click', '.submit', function() {
+            var keywords = $(this).prev().val();
+            alert(keywords)
+        })
+    }
+}
+
 $(function() {
     navigationActive();
     showCommodityCount();
-    quoteShowRed();
+    quoteShowRed();    
+    searchForm();
 })
