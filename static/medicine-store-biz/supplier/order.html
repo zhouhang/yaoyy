@@ -47,7 +47,7 @@
         <div class="plist2 plist2-space">
             <ul>
                 <li>
-                    <div class="tr">
+                    <div class="hd">
                         <div class="row">
                             <b class="fr">饮片厂：沪谯饮片厂</b>
                             <b>订单号：20171477414</b>
@@ -57,58 +57,24 @@
                             <b>状    态：<em>未受理</em></b>
                         </div>
                     </div>
-                    <div class="tb">
+                    <div class="bd">
                         <div class="row">
+                            <strong>三棱</strong>
                             <i>50公斤</i>
-                            <span><strong>三棱</strong>统个、火燎或撞毛、长2cm-6cm、直...  </span>
+                            <span>2统个、火燎或撞毛、长2cm-6cm、直径2cm-4cm</span>
                         </div>
                         <div class="row">
+                            <strong>三棱</strong>
                             <i>50公斤</i>
-                            <span><strong>三棱</strong>统个、火燎或撞毛、长2cm-6cm、直...  </span>
+                            <span>2统个、火燎或撞毛、长2cm-6cm、直径2cm-4cm</span>
                         </div>
                     </div>
-                    <div class="tr">
+                    <div class="hd">
                         <div class="row">
                             <span>商品总价：<i>¥2000.00</i> 元</span>
                         </div>
                     </div>
-                </li>  
-                <li>
-                    <div class="tr">
-                        <div class="row">
-                            <b class="fr">饮片厂：沪谯饮片厂</b>
-                            <b>订单号：20171477414</b>
-                        </div>
-                        <div class="row">
-                            <time class="fr">2017-02-23 13:35:00</time>
-                            <b>状    态：<em>订单已完成</em></b>
-                        </div>
-                    </div>
-                    <div class="tb">
-                        <div class="row">
-                            <i>50公斤</i>
-                            <span><strong>三棱</strong>统个、火燎或撞毛、长2cm-6cm、直...  </span>
-                        </div>
-                        <div class="row">
-                            <i>50公斤</i>
-                            <span><strong>三棱</strong>统个、火燎或撞毛、长2cm-6cm、直...  </span>
-                        </div>
-                    </div>
-                    <div class="tr">
-                        <div class="row">
-                            <span>商品总价：<i>¥2000.00</i> 元</span>
-                            <span>运费：<i>¥100.00</i> 元</span>
-                        </div>
-                        <div class="row">
-                            <span>包装人工费：<i>¥300.00</i> 元</span>
-                            <span>税费：<i>¥200.00</i> 元</span>
-                        </div>
-                    </div>
-                    <div class="tf">
-                        <strong>订单金额：<i>¥2600.00</i> 元</strong>
-                        <span>付款方式：现款</span>
-                    </div>
-                </li>                
+                </li>                 
             </ul>
         </div>
     </div>
@@ -176,7 +142,7 @@
                     html.push('<li>\n');
 
 
-                    html.push('<div class="tr">');  
+                    html.push('<div class="hd">');  
                     html.push('<div class="row">'); 
                     html.push('<b class="fr">', item.company, '</b>');   
                     html.push('<b>订单号：', item.id, '</b>');    
@@ -186,17 +152,17 @@
                     html.push('<b>状    态：<em>', status[item.status], '</em></b>');
                     html.push('</div>');    
                     html.push('</div>');    
-                    html.push('<div class="tb">');  
+                    html.push('<div class="bd">');  
 
                     $.each(item.list, function(j, commodity) {
                         html.push('<div class="row">'); 
                         html.push('<i>', commodity.number, '</i>');   
-                        html.push('<span><strong>', commodity.name, '</strong>', commodity.level, '</span>');  
+                        html.push('<strong>', commodity.name, '</strong><span>', commodity.level, '</span>');  
                         html.push('</div>');   
                     }) 
 
                     html.push('</div>');    
-                    html.push('<div class="tr">');  
+                    html.push('<div class="hd">');  
                     html.push('<div class="row">'); 
                     html.push('<span>商品总价：<i>¥', item.price, '</i> 元</span>');
 

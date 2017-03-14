@@ -69,7 +69,7 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
-                    html.push('<div class="tr">');
+                    html.push('<div class="hd">');
                     html.push('<div class="row">');
                     var jimai = "";
                     if (item.userId == 1) {
@@ -83,17 +83,17 @@
                     html.push('<b>状    态：<em>',item.statusText, '</em></b>');
                     html.push('</div>');
                     html.push('</div>');
-                    html.push('<div class="tb">');
+                    html.push('<div class="bd">');
 
                     $.each(item.pickCommodityVoList, function(j, commodity) {
                         html.push('<div class="row">');
                         html.push('<i>', commodity.num ,commodity.unit, '</i>');
-                        html.push('<span><strong>', commodity.name, '</strong>', commodity.spec, '</span>');
+                        html.push('<strong>', commodity.name, '</strong><span>', commodity.spec, '</span>');
                         html.push('</div>');
                     })
 
                     html.push('</div>');
-                    html.push('<div class="tr">');
+                    html.push('<div class="hd">');
                     html.push('<div class="row">');
                     html.push('<span>商品总价：<i>¥', item.sum?item.sum:0, '</i> 元</span>');
 
