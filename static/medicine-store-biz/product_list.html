@@ -17,7 +17,7 @@
             <a href="javascript:history.back();" class="fa fa-back"></a>
         </div>
         <div class="abs-r mid search">
-            <form>
+            <form id="searchForm">
                 <input type="text" value="" class="ipt" />
                 <button submit="submit" class="fa fa-search mid submit"></button>
             </form>
@@ -183,42 +183,58 @@
     var _global = {
         fn: {
             init: function() {
+                this.bindEvent();
                 this.loadPlist();
             },
+            bindEvent: function() {
+                var self = this;
+
+                $side = $('.side').on('click', 'a', function() {
+                    var parameter = {};
+                    self.getData(parameter);
+                    return false;
+                })
+
+            },
             loadPlist: function() {
-                var self = this,
-                    pageNum = 1; // 当前页
+                var self = this;
+
+                self.pageNum = 1;
 
                 $('.ui-content').dropload({
                     scrollArea : window,
                     threshold : 50,
                     loadDownFn : function(me){
-                        $.ajax({
-                            type: 'GET',
-                            url: 'json/plist.json',
-                            dataType: 'json',
-                            success: function(data){
-                                if (!data.list) {
-                                    return false;
-                                }
-                                self.toHtml(data.list);
-
-                                if(data.status === 'nomore'){
-                                    me.lock();
-                                    me.noData();
-                                    me.resetload();
-                                    return;
-                                }
-                                setTimeout(function(){
-                                    pageNum ++;
-                                    me.resetload();
-                                }, 1e3);
-                            },
-                            error: function(xhr, type){
-                                popover('网络连接超时，请您稍后重试!');
-                                me.resetload();
-                            }
-                        });
+                        self.getData({pageNum:self.pageNum, name: 'b'}, me);                        
+                    }
+                });
+            },
+            getData: function(parameter, me) {
+                var self = this;
+                $.ajax({
+                    type: 'GET',
+                    url: 'json/plist.json',
+                    dataType: 'json',
+                    data: parameter,
+                    success: function(data){
+                        if (!data.list) {
+                            return false;
+                        }
+                        self.toHtml(data.list);
+                        if(data.status === 'nomore'){
+                            me && me.lock();
+                            me && me.noData();
+                            me && me.resetload();
+                            return;
+                        }
+                        setTimeout(function(){
+                            self.pageNum ++;
+                            me && me.resetload();
+                        }, 1e3);
+                    },
+                    error: function(xhr, type){
+                        popover('网络连接超时，请您稍后重试!');
+                        me && me.resetload();
                     }
                 });
             },
