@@ -29,13 +29,26 @@
                 <div class="item">
                     <div class="txt"><i>*</i>商品名称：</div>
                     <div class="cnt">
-                        <input type="text" name="name" class="ipt" placeholder="商品名称" autocomplete="off">
+                        <input type="text" name="name" id="name" class="ipt" placeholder="商品名称" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>规格等级：</div>
+                    <div class="cnt">
+                        <input type="text" name="spec" id="spec" class="ipt" placeholder="规格等级" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>产地：</div>
+                    <div class="cnt">
+                        <input type="text" name="origin" id="origin" class="ipt" placeholder="产地" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>标题：</div>
                     <div class="cnt">
-                        <input type="text" name="title" class="ipt" placeholder="标题" autocomplete="off">
+                        <input type="text" name="title" id="title" class="ipt" placeholder="标题" autocomplete="off">
+                        <button type="button" class="ubtn ubtn-blue" id="createTitle">生成标题</button>
                     </div>
                 </div>
                 <div class="item" id="junitPrice">
@@ -75,18 +88,6 @@
                             <span class="unit">元</span>
                         </div>
                         <button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="txt"><i>*</i>规格等级：</div>
-                    <div class="cnt">
-                        <input type="text" name="spec" class="ipt" placeholder="规格等级" autocomplete="off">
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="txt"><i>*</i>产地：</div>
-                    <div class="cnt">
-                        <input type="text" name="origin" class="ipt" placeholder="产地" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
@@ -246,12 +247,24 @@
         v: {},
         fn: {
             init: function () {
+                this.createTitle();
                 this.umeditor();
                 this.catname();
                 this.myform();
                 this.cropImg();
                 this.parameter();
                 this.supplier();
+            },
+            // 自动生成标题
+            createTitle: function() {
+                var $name = $('#name'),
+                    $spec = $('#spec'),
+                    $origin = $('#origin'),
+                    $title = $('#title');
+                
+                $('#createTitle').on('click', function() {
+                    $title.val($name.val() + ' ' + $spec.val() + ' ' + $origin.val());  
+                })
             },
             umeditor: function() {
                 //初始化详细信息
