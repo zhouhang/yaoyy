@@ -171,7 +171,7 @@ public class SupplierUserController {
         // 2. 查询Supplier 表.存在告诉用户正在审核中请稍后
         // 3. 把数据插入到Supplier 表中,入驻完成跳转到二维码页面
         if (!supplierService.register(supplier)){
-            result = result.error().msg("正在审核中.");
+            result = result.error().msg("您的信息已登记，正在审核中，无需重复登记.");
         }
         return result;
     }
