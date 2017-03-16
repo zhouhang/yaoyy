@@ -59,6 +59,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
@@ -75,6 +76,7 @@
         },
         fn: {
             init: function() {
+                navLight('11-1');
                 this.checkForm();
                 this.searchBreeds();
                 this.bindEvent();
@@ -361,7 +363,7 @@
                     model.unshift('<div class="group-choose"><ul>');
                     model.push('</ul></div>');
                     layer.open({
-                        skin: isMobile ? 'layer-form' : '',
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         content: model.join(''),

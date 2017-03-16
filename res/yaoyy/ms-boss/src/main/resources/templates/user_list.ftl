@@ -18,8 +18,8 @@
 
         <div class="box">
             <div class="tools">
-                <div class="filter" id="filterForm">
-                    <form action="">
+                <div class="filter">
+                    <form id="filterForm" method="get" action="/user/list">
                         <input name="phone" type="text" class="ipt" placeholder="手机">
                         <input name="name" type="text" class="ipt" placeholder="姓名/单位">
                         <select name="identityType" class="slt">
@@ -35,7 +35,7 @@
                             <option value="10">销售经理</option>
                             <option value="7">其他</option>
                         </select>
-                        <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
             </div>
@@ -44,32 +44,32 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" class="cbx"></th>
                         <th>手机</th>
                         <th>称呼</th>
                         <th>身份类型</th>
                         <th>姓名/单位</th>
                         <th>状态</th>
                         <th width="150">创建时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#list pageInfo.list as user>
-                    <tr <#if user.type==-1>class="gray"</#if>>
-                        <td><input type="checkbox"></td>
+                    <tr <#if user.status==0>class="gray"</#if>>
+                        <td><input type="checkbox" class="cbx"></td>
                         <td>${user.phone}</td>
                         <td>${user.nickname?default("")}</td>
                         <td>${user.identityTypeName?default("")}</td>
                         <td>${user.name?default("")}</td>
                         <td>${user.typeName?default("")}</td>
                         <td>${user.createTime?datetime}</td>
-                        <td class="tc">
-                            <a href="javascript:;" class="ubtn ubtn-blue jedit" data-id="${user.id}">查看</a>
+                        <td class="tc" data-id="${user.id}">
+                            <a href="javascript:;" class="ubtn ubtn-blue jedit">查看</a>
                             <#if user.status==1>
-                                <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${user.id}">禁用</a>
+                                <a href="javascript:;" class="ubtn ubtn-black jdel">禁用</a>
                             <#else>
-                                <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${user.id}">启用</a>
+                                <a href="javascript:;" class="ubtn ubtn-red jenable">启用</a>
                             </#if>
 
                         </td>
@@ -82,154 +82,123 @@
         <@pager.pager info=pageInfo url="user/list" params="" />
         </div>
     </div>
+
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            disableUrl: '/user/disable/',
-            enableUrl: '/user/enable/',
-            listUrl:'/user/list',
-            flag: false
+        detailUrl: '/user/detail/',
+        disableUrl: '/user/disable/',
+        enableUrl: '/user/enable/',
+        init: function() {
+            navLight('3-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-                $("#filterForm").initByUrlParams();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length,
-                        self = this;
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                // 启用
-                $table.on('click', '.jenable', function() {
-                    var url = _global.v.enableUrl + $(this).attr('data-id');
-                    layer.confirm('确认启用此账户？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == 200) {
-                                layer.close(index);
-                                window.location.reload();
-                            }
-                        }, "json");
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 禁用
-                $table.on('click', '.jdel', function() {
-                    var url = _global.v.disableUrl + $(this).attr('data-id');
-                    layer.confirm('确认禁用此账户？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == 200) {
-                                layer.close(index);
-                                window.location.reload();
-                            }
-                        }, "json");
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 查看详情
-                $table.on('click', '.jedit', function() {
-                    if (_global.v.flag) {
-                        return false;
-                    }
-                    _global.v.flag = true;
-                    self.showUserinfo($(this).data('id'));
-                    return false;
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-
-                _global.fn.filter();
-            },
-            // 筛选
-            filter: function() {
-                var $ipts = $('.filter .ipt, .filter select');
-                var url=_global.v.listUrl+"?";
-
-                $('#search_btn').on('click', function() {
-                    var params = [];
-                    $ipts.each(function() {
-                        var val = $.trim(this.value);
-                        if(val!= null && val != "") {
-                            params.push($(this).attr('name') + '=' + val);
-                        }
-                    })
-                    location.href=url+params.join('&');
-                })
-            },
-            showUserinfo: function(id) {
-                var showBox = function(data) {
-                    var html = [];
-                    html.push('<div class="fa-form fa-form-info fa-form-layer">');
-                    html.push('<div class="item"> \n <div class="txt">手机：</div> \n <div class="val">', data.phone, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">称呼：</div> \n <div class="val">', data.nickname, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">身份类型：</div> \n <div class="val">', data.identityTypeName, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">姓名/单位：</div> \n <div class="val">', data.name, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">用户备注：</div> \n <div class="val">', data.remark, '</div> \n </div>');
-                    html.push('<div class="item"> \n <div class="txt">注册时间：</div> \n <div class="val">', data.createTime, '</div> \n </div>');
-                    html.push('</div>');
-                    layer.closeAll();
-                    layer.open({
-                        skin: isMobile ? 'layer-form' : '',
-                        area: ['600px'],
-                        type: 1,                        
-                        content: html.join(''),
-                        title: '用户详情'
-                    });
-                }
-
-                // 加载数据
-                var k = $.ajax({
-                    url: 'user/detail/' + id,
-//                    data: {id: id},
+            that.enable = true; // 防止重复提交
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'GET',
+                    url: url,
                     dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
                     success: function(data) {
-                        if (data.status == 200) {
-                            showBox(data.data);
-                        }
+                        data.status == 200 && window.location.reload();
                     },
                     complete: function() {
-                        _global.v.flag = false;
+                        that.enable = true;
                     }
                 })
-
-                // loading
-                layer.open({
-                    area: ['200px'],
-                    type: 1,
-                    content: '<div class="layer-loading">加载中...</div>',
-                    title: '用户详情',
-                    cancel: function() {
-                        k.abort();
-                    }
-                });
-
             }
+
+            // 启用
+            $table.on('click', '.jenable', function() {
+                var url = that.enableUrl + $(this).parent().data('id');
+
+                layer.confirm('确认启用此账户？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
+
+            // 禁用
+            $table.on('click', '.jdel', function() {
+                var url = that.disableUrl + $(this).parent().data('id');
+
+                layer.confirm('确认禁用此账户？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
+
+            // 查看详情
+            $table.on('click', '.jedit', function() {
+                if (that.enable) {
+                    that.enable = false;
+                    that.showinfo($(this).parent().data('id'));
+                }
+                return false;
+            })
+        },
+        showinfo: function(id) {
+            var that = this;
+            
+            var showBox = function(data) {
+                var html = [];
+                html.push('<div class="fa-form fa-form-info fa-form-layer">');
+                html.push('<div class="item"> \n <div class="txt">手机：</div> \n <div class="val">', data.phone, '</div> \n </div>');
+                html.push('<div class="item"> \n <div class="txt">称呼：</div> \n <div class="val">', data.nickname, '</div> \n </div>');
+                html.push('<div class="item"> \n <div class="txt">身份类型：</div> \n <div class="val">', data.identityTypeName, '</div> \n </div>');
+                html.push('<div class="item"> \n <div class="txt">姓名/单位：</div> \n <div class="val">', data.name, '</div> \n </div>');
+                html.push('<div class="item"> \n <div class="txt">用户备注：</div> \n <div class="val">', data.remark, '</div> \n </div>');
+                html.push('<div class="item"> \n <div class="txt">注册时间：</div> \n <div class="val">', data.createTime, '</div> \n </div>');
+                html.push('</div>');
+                layer.closeAll();
+                layer.open({
+                    skin: 'layer-form',
+                    area: ['600px'],
+                    type: 1,                        
+                    content: html.join(''),
+                    btn: ['关闭'],
+                    title: '用户详情'
+                });
+            }
+
+            // 加载数据
+            var k = $.ajax({
+                url: that.detailUrl + id,
+                data: {id: id},
+                dataType: 'json',
+                success: function(data) {
+                    data.status == 200 && showBox(data.data);
+                },
+                complete: function() {
+                    that.enable = true;
+                }
+            })
+
+            // loading
+            layer.open({
+                area: ['200px'],
+                type: 1,
+                content: '<div class="layer-loading">加载中...</div>',
+                title: '用户详情',
+                cancel: function() {
+                    k.abort();
+                }
+            });
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

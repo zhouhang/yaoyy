@@ -89,6 +89,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/js/croppic.min.js"></script>
@@ -101,6 +102,7 @@
         },
         fn: {
             init: function() {
+                navLight('1-1');
                 this.cropImg();
                 this.validator();
                 this.searchGoods();
@@ -231,6 +233,7 @@
                         })
                     }
                     _enable = false;
+                    return false;
                 })
 
                 // 添加商品

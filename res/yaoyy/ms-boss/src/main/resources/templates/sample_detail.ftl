@@ -217,6 +217,7 @@
         </div>
     </div>
     <#include "./common/footer.ftl"/>
+</div>
 
 <!-- 来访人弹出框 -->
 <form id="visitorForm" class="hide">
@@ -281,6 +282,7 @@
         },
         fn: {
             init: function() {
+                navLight('4-1');
                 this.myform();
                 this.submitEvent();
                 this.saveInfo();
@@ -535,7 +537,7 @@
             // 表单
             layerForm: function(modal, title) {
                 layer.open({
-                    skin: isMobile ? 'layer-form' : '',
+                    skin: 'layer-form',
                     area: ['600px'],
                     type: 1,
                     content: modal,

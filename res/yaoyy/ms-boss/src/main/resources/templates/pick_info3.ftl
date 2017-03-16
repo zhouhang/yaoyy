@@ -206,6 +206,7 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script src="assets/js/area.js"></script>
@@ -222,6 +223,7 @@
             },
             fn: {
                 init: function() {
+                    navLight('5-1');
                     this.tab();
                     this.modify();
                     this.bindEvent();

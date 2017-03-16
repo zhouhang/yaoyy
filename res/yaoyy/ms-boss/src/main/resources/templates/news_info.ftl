@@ -51,8 +51,9 @@
 		</form>
 	</div>
 
+    <#include "./common/footer.ftl"/>
+</div>
 
-<#include "./common/footer.ftl"/>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <!-- 编辑器相关 -->
 <link href="assets/plugins/umeditor/themes/default/css/umeditor.css" rel="stylesheet">
@@ -66,6 +67,7 @@
 		},
 		fn: {
 			init: function() {
+                navLight('11-2');
                 this.umeditor();
                 this.validator();
 			},

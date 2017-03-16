@@ -225,7 +225,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
-
+</div>
 
 
 <script src="assets/js/jquery.autocomplete.js"></script>
@@ -238,6 +238,7 @@
         },
         fn: {
             init: function() {
+                navLight('8-2');
                 this.validator();
                 this.searchBreeds();
                 this.traceForm();

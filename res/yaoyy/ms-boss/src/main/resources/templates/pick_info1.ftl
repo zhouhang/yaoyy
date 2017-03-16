@@ -9,169 +9,170 @@
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
 
-<div class="content">
-    <div class="breadcrumb">
-        <ul>
-            <li>订单模块</li>
-            <li>订单列表</li>
-        </ul>
-    </div>
-
-    <div class="fa-tab">
-        <span class="on">订单信息</span>
-        <span>客户信息</span>
-    </div>
-
-    <div class="fa-tab-cont">
-        <div class="items">
-            <div class="box fa-form fa-form-info">
-                <div class="hd">基本信息</div>
-                <div class="item">
-                    <div class="txt">订单编号：</div>
-                    <div class="val">${pickVo.code}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">状态：</div>
-                    <div class="val c-red">${pickVo.statusText}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">客户姓名：</div>
-                    <div class="val">${pickVo.nickname}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">手机号：</div>
-                    <div class="val">${pickVo.phone}</div>
-                </div>
-                <!--
-                <div class="item">
-                    <div class="txt">地区：</div>
-                    <div class="val">安徽亳州</div>
-                </div>
-                -->
-                <div class="item">
-                    <div class="txt">申请时间：</div>
-                    <div class="val">${(pickVo.createTime?datetime)!}</div>
-                </div>
-            </div>
-
-            <div class="box fa-form">
-                <div class="hd">商品详情</div>
-                <div class="attr table">
-                    <div class="op">修改</div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>商品名称</th>
-                            <th>产地</th>
-                            <th width="200">规格等级</th>
-                            <th width="80">数量</th>
-                            <th>单位</th>
-                            <th>价格</th>
-                            <th>合计</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                       <#list pickVo.pickCommodityVoList as pickCommodityVo >
-                        <tr>
-                            <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
-                            <td>${pickCommodityVo.origin}</td>
-                            <td><p>${pickCommodityVo.spec}</p></td>
-                            <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
-                            <td>${pickCommodityVo.unit}</td>
-                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
-                            <td><span>${pickCommodityVo.total?c}</span>元</td>
-                        </tr>
-                        </#list>
-                        <tfoot>
-                        <tr>
-                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <div class="box fa-form">
-                <div class="hd">采购单追踪</div>
-                <ol class="trace" id="trace">
-                    <li class="fore">状态：<em class="status-${pickVo.status+1}">${pickVo.statusText}</em></li>
-                <#list pickTrackingVos as tracking>
-                    <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
-                </#list>
-                </ol>
-                <div class="ft <#if pickVo.status!=0>hide</#if>">
-                    <button type="button" class="ubtn ubtn-blue submit1">同意受理</button>
-                    <button type="button" class="ubtn ubtn-gray ml submit2">拒绝受理</button>
-                </div>
-                <form action=""  <#if pickVo.status==0||pickVo.status==2||pickVo.status=3||pickVo.status=3||pickVo.status=4> class="hide"</#if> id="traceForm">
-                        <div class="ft">
-                            <button type="button" class="ubtn ubtn-blue submit4">确认订单</button>
-                            <button type="button" class="ubtn ubtn-gray ml submit5">取消订单</button>
-                        </div>
-                </form>
-
-            </div>
+    <div class="content">
+        <div class="breadcrumb">
+            <ul>
+                <li>订单模块</li>
+                <li>订单列表</li>
+            </ul>
         </div>
-        <div class="items">
-            <div class="box fa-form">
-                <div class="hd">客户信息</div>
-                <form id="userForm">
-                    <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
+
+        <div class="fa-tab">
+            <span class="on">订单信息</span>
+            <span>客户信息</span>
+        </div>
+
+        <div class="fa-tab-cont">
+            <div class="items">
+                <div class="box fa-form fa-form-info">
+                    <div class="hd">基本信息</div>
                     <div class="item">
-                        <div class="txt">个人称呼：</div>
-                        <div class="cnt">
-                            <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
-                        </div>
+                        <div class="txt">订单编号：</div>
+                        <div class="val">${pickVo.code}</div>
                     </div>
                     <div class="item">
-                        <div class="txt">联系电话：</div>
-                        <div class="cnt">
-                            <input type="text"value="${userDetail.phone!}" name="phone"  class="ipt" placeholder="" autocomplete="off">
-                        </div>
+                        <div class="txt">状态：</div>
+                        <div class="val c-red">${pickVo.statusText}</div>
                     </div>
+                    <div class="item">
+                        <div class="txt">客户姓名：</div>
+                        <div class="val">${pickVo.nickname}</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">手机号：</div>
+                        <div class="val">${pickVo.phone}</div>
+                    </div>
+                    <!--
                     <div class="item">
                         <div class="txt">地区：</div>
-                        <div class="cnt" id="pickArea">
-                            <input type="text" style="display: none"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
-                        </div>
+                        <div class="val">安徽亳州</div>
                     </div>
+                    -->
                     <div class="item">
-                        <div class="txt">身份类型：</div>
-                        <div class="cnt cbxs">
-                            <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
-                            <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
-                            <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
-                            <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
-                            <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
-                            <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
-                            <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
-                            <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
-                            <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
-                            <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
+                        <div class="txt">申请时间：</div>
+                        <div class="val">${(pickVo.createTime?datetime)!}</div>
+                    </div>
+                </div>
+
+                <div class="box fa-form">
+                    <div class="hd">商品详情</div>
+                    <div class="attr table">
+                        <div class="op">修改</div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>产地</th>
+                                <th width="200">规格等级</th>
+                                <th width="80">数量</th>
+                                <th>单位</th>
+                                <th>价格</th>
+                                <th>合计</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                           <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                            <tr>
+                                <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
+                                <td>${pickCommodityVo.origin}</td>
+                                <td><p>${pickCommodityVo.spec}</p></td>
+                                <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
+                                <td>${pickCommodityVo.unit}</td>
+                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                <td><span>${pickCommodityVo.total?c}</span>元</td>
+                            </tr>
+                            </#list>
+                            <tfoot>
+                            <tr>
+                                <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box fa-form">
+                    <div class="hd">采购单追踪</div>
+                    <ol class="trace" id="trace">
+                        <li class="fore">状态：<em class="status-${pickVo.status+1}">${pickVo.statusText}</em></li>
+                    <#list pickTrackingVos as tracking>
+                        <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
+                    </#list>
+                    </ol>
+                    <div class="ft <#if pickVo.status!=0>hide</#if>">
+                        <button type="button" class="ubtn ubtn-blue submit1">同意受理</button>
+                        <button type="button" class="ubtn ubtn-gray ml submit2">拒绝受理</button>
+                    </div>
+                    <form action=""  <#if pickVo.status==0||pickVo.status==2||pickVo.status=3||pickVo.status=3||pickVo.status=4> class="hide"</#if> id="traceForm">
+                            <div class="ft">
+                                <button type="button" class="ubtn ubtn-blue submit4">确认订单</button>
+                                <button type="button" class="ubtn ubtn-gray ml submit5">取消订单</button>
+                            </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="items">
+                <div class="box fa-form">
+                    <div class="hd">客户信息</div>
+                    <form id="userForm">
+                        <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
+                        <div class="item">
+                            <div class="txt">个人称呼：</div>
+                            <div class="cnt">
+                                <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="txt">姓名/单位：</div>
-                        <div class="cnt">
-                            <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                        <div class="item">
+                            <div class="txt">联系电话：</div>
+                            <div class="cnt">
+                                <input type="text"value="${userDetail.phone!}" name="phone"  class="ipt" placeholder="" autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="txt">用户备注：</div>
-                        <div class="cnt">
-                            <textarea name="" id="userRemark" class="ipt ipt-mul">${userDetail.remark!}</textarea>
+                        <div class="item">
+                            <div class="txt">地区：</div>
+                            <div class="cnt" id="pickArea">
+                                <input type="text" style="display: none"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
+                            </div>
                         </div>
-                    </div>
-                    <div class="ft">
-                        <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
-                    </div>
-                </form>
+                        <div class="item">
+                            <div class="txt">身份类型：</div>
+                            <div class="cnt cbxs">
+                                <label><input type="radio" name="type" class="cbx" value="1" <#if userDetail.type?exists && userDetail.type==1> checked</#if> >饮片厂</label>
+                                <label><input type="radio" name="type" class="cbx" value="2" <#if userDetail.type?exists && userDetail.type==2> checked</#if>>药厂</label>
+                                <label><input type="radio" name="type" class="cbx" value="3" <#if userDetail.type?exists && userDetail.type==3> checked</#if>>药材经营公司</label>
+                                <label><input type="radio" name="type" class="cbx" value="4" <#if userDetail.type?exists && userDetail.type==4> checked</#if>>个体经营户</label>
+                                <label><input type="radio" name="type" class="cbx" value="5" <#if userDetail.type?exists && userDetail.type==5> checked</#if>>合作社</label>
+                                <label><input type="radio" name="type" class="cbx" value="6" <#if userDetail.type?exists && userDetail.type==6> checked</#if>>种植基地</label>
+                                <label><input type="radio" name="type" class="cbx" value="7" <#if userDetail.type?exists && userDetail.type==7> checked</#if>>其他</label>
+                                <label><input type="radio" name="type" class="cbx" value="8" <#if userDetail.type?exists && userDetail.type==8> checked</#if>>个人经营</label>
+                                <label><input type="radio" name="type" class="cbx" value="9" <#if userDetail.type?exists && userDetail.type==9> checked</#if>>采购经理</label>
+                                <label><input type="radio" name="type" class="cbx" value="10" <#if userDetail.type?exists && userDetail.type==10> checked</#if>>销售经理</label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">姓名/单位：</div>
+                            <div class="cnt">
+                                <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">用户备注：</div>
+                            <div class="cnt">
+                                <textarea name="" id="userRemark" class="ipt ipt-mul">${userDetail.remark!}</textarea>
+                            </div>
+                        </div>
+                        <div class="ft">
+                            <button type="button" id="saveUser" class="ubtn ubtn-blue">保存客户信息</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<#include "./common/footer.ftl"/>
+    <#include "./common/footer.ftl"/>
+</div>
 
 <script type="temp" id="temp">
 <div class="fa-form fa-form-info fa-form-layer">
@@ -246,6 +247,7 @@
             },
             fn: {
                 init: function() {
+                    navLight('5-1');
                     this.tab();
                     this.modify();
                     this.bindEvent();
@@ -538,7 +540,7 @@
                     var self = this;
                     layer.open({
                         id: 'calc',
-                        skin: isMobile ? 'layer-form' : '',
+                        skin: 'layer-form',
                         area: ['600px'],
                         type: 1,
                         content: model,

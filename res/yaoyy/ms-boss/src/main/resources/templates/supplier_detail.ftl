@@ -233,6 +233,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 
 
@@ -245,6 +246,7 @@
         },
         fn: {
             init: function() {
+                navLight('8-1');
                 this.validator();
                 this.searchBreeds();
                 this.traceForm();

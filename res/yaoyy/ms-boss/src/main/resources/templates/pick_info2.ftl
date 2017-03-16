@@ -325,6 +325,8 @@
 </div>
 
 <#include "./common/footer.ftl"/>
+</div>
+
 <script src="assets/js/area.js"></script>
 <form id="temp" class="hide">
     <input type="hidden"  class="ipt" value="${pickVo.id}" name="orderId">
@@ -365,6 +367,7 @@
         },
         fn: {
             init: function() {
+                navLight('5-1');
                 this.tab();
                 this.bindEvent();
                 this.goodsImg();
@@ -408,7 +411,7 @@
 
             $('#submit2').on('click', function() {
                 layer.open({      
-                    skin: isMobile ? 'layer-form' : '',        
+                    skin: 'layer-form',        
                     area: ['600px'],
                     type: 1,
                     content: $temp,

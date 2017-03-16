@@ -16,6 +16,6 @@
 		</div>
 	</div>
 	<#include "../common/footer.ftl"/>
-	
+</div>
 </body>
 </html>

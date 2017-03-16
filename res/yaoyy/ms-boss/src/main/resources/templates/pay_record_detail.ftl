@@ -145,6 +145,17 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
+<script>
+!(function($, window) {
+    var _global = {
+        init: function() {
+            navLight('9-1');
+        }
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
 </body>
 </html>

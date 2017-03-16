@@ -237,8 +237,8 @@ a.ubtn{height:28px;}
 .fa-form .suggestions .checked td{background:#c0c0c0;color:#777;}
 .fa-form .choose span{position:relative;display:inline-block;margin:0 15px 15px 0;padding:0 10px;border:1px solid #ccc;background:#fff;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}
-.fa-form .list{width:600px;margin-left:140px;border:1px solid #ccc;border-top:0;}
-.fa-form .list li{position:relative;border-top:1px solid #ccc;overflow:hidden;*zoom:1;}
+.fa-form .list{width:600px;margin-left:140px;}
+.fa-form .list li{position:relative;;margin-top:-1px;border:1px solid #ccc;overflow:hidden;*zoom:1;}
 .fa-form .list li .pimg{float:left;width:120px;min-height:70px;padding:10px;}
 .fa-form .list li .pimg img{width:100%;}
 .fa-form .list li .info{float:left;width:378px;height:42px;padding-top:10px;overflow:hidden;}
