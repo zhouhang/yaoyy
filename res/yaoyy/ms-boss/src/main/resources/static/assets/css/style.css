@@ -100,11 +100,12 @@ a.ubtn{height:28px;}
 .header .menu a:hover{background:#c64333;color:#f6f6f6;}
 .header .menu sup{position:absolute;top:5px;left:50%;z-index:2;margin-left:24px;padding:2px 5px 3px;font:1.2rem/1 tahoma;background:#fff;color:#f00;-webkit-border-radius:10px;border-radius:10px;display:none;}
 
-.header .menu .dropdown{position:absolute;top:100%;left:0;min-width:100px;line-height:30px;background:#dd4b39;font-size:1.2rem;box-shadow:2px 2px 9px -2px rgba(0,0,0,.5);display:none;}
-.header .menu .dropdown:before{position:absolute;top:-12px;left:30px;border:6px dashed transparent;border-bottom:6px solid #dd4b39 ;content:"";}
-.header .menu .dropdown a{white-space:nowrap;}
+.header .menu .dropdown{position:absolute;top:100%;right:0;min-width:100%;max-width:300px;line-height:30px;background:#dd4b39;font-size:1.2rem;box-shadow:2px 2px 9px -2px rgba(0,0,0,.5);display:none;}
+.header .menu .dropdown:before{position:absolute;top:-12px;right:30px;border:6px dashed transparent;border-bottom:6px solid #dd4b39 ;content:"";}
+.header .menu .dropdown a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .header .menu li:hover{background:#c64333;}
 .header .menu li:hover .dropdown{display:block;}
+#msgList .menu li{text-align:left;}
 
 /* footer */
 .footer{position:absolute;right:0;bottom:0;left:230px;line-height:30px;padding:10px 15px;font-size:1.2rem;background:#fff;border-top:1px solid #d2d6de;}
