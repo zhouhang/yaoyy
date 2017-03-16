@@ -19,7 +19,7 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form id="searchForm" action="">
+                    <form id="filterForm" method="get" action="/member/index">
                         <input type="text" name="name" class="ipt" placeholder="姓名">
                         <select name="roleId" id="roleId" class="slt">
                             <option value="">全部角色</option>
@@ -27,7 +27,7 @@
                                 <option value="${role.id}">${role.name}</option>
                             </#list>
                         </select>
-                        <button id="search" class="ubtn ubtn-blue">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
                 <div class="action-add">
@@ -39,27 +39,27 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" class="cbx"></th>
                         <th>姓名</th>
                         <th>用户名</th>
                         <th>电话</th>
                         <th>角色</th>
                         <th width="150">创建时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#list memberPage.list as member>
                         <tr>
-                            <td><input type="checkbox" value="${member.id}"></td>
+                            <td><input type="checkbox" class="cbx" value="${member.id}"></td>
                             <td>${member.name}</td>
                             <td>${member.username}</td>
                             <td>${member.mobile!""}</td>
                             <td>${member.roleName!""}</td>
                             <td>${member.createDate?datetime}</td>
-                            <td class="tc">
-                                    <a class="ubtn ubtn-blue jedit" data-id="${member.id}">编辑</a>
-                                    <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${member.id}">删除</a>
+                            <td class="tc" data-id="${member.id}">
+                                <a href="javascript:;" class="ubtn ubtn-blue jedit">编辑</a>
+                                <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>
                     </#list>
@@ -72,6 +72,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <!-- 管理员弹出框表单 -->
 <form id="myform" class="hide">
@@ -117,192 +118,142 @@
                 <input type="text" name="email" class="ipt" placeholder="邮箱" autocomplete="off">
             </div>
         </div>
-
-        <div class="button">
-            <button type="submit" class="ubtn ubtn-blue">保存</button>
-            <button type="button" class="ubtn ubtn-gray">取消</button>
-        </div>
     </div>
+    <button type="submit" class="hide"></button>
 </form>
 
-    <script src="assets/plugins/validator/jquery.validator.min.js"></script>
-    <script src="assets/js/jquery.form.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script>
+!(function($, window) {
+    var _global = {
+        deleteUrl: '/member/delete/',
+        init: function() {
+            navLight('7-1');
+            this.bindEvent();
+        },
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table'),
+                $myform = $('#myform');
 
-    <script>
-    //定义根变量
-        var _global = {
-            //定义全局变量区
-            v: {
-                id: "page",
-                pageNum:${memberPage.pageNum},
-                pageSize:${memberPage.pageSize},
-                deleteUrl: '',
-                flag: false
-            },
-            //定义方法区
-            fn: {
-                //初始化方法区
-                init: function () {
-                    this.addNewAdmin();
-                    this.bindEvent();
-                },
-                // 管理员新建 or 编辑
-                addNewAdmin: function() {
-                    var self = this,
-                        _enable = true,
-                        $myform = $('#myform');
-
-                    $myform.validator({
-                        fields: {
-                            username: '用户名: required',
-                            name: '姓名: required',
-                            mobile: '电话: required; mobile'
-                        },
-                        valid: function (form) {
-                            _enable && $.post('/member/save', $myform.serialize()).done(function(d){
-                                if (d.status == 200) {
-                                    layer.closeAll();
-                                    $.notify({
-                                        type: 'success',
-                                        title: '保存成功',
-                                        text: d.msg,
-                                        callback: function() {
-                                            location.href = '/member/index';
-                                        }
-                                    });
-                                }
-                                _enable = true;
-                            });
-                            _enable = false;
-                        }
-                    });
-
-                    // 关闭弹层
-                    $myform.on('click', '.ubtn-gray', function () {
-                        layer.closeAll();
-                    })
-
-                    // 新建
-                    $('#jaddNewAdmin').on('click', function() {
-                        $myform[0].reset();
-                        layer.open({
-                            skin: isMobile ? 'layer-form' : '',
-                            area: ['600px'],
-                            type: 1,
-                            content: $myform,
-                            title: '新建管理员'
-                        });
-                    })
-
-                    // 查询
-                    $('#search').on('click', function() {
-                        $.ajax({
-                            url: "/member/index",
-                            data: $('#searchForm').formSerialize(),
-                            type: "POST",
-                            success: function(data){
-                                window.location.reload();
-                            }
-                        });
-                    })
-
-                    // 编辑
-                    $('.table').on('click', '.jedit', function() {
-                        if (_global.v.flag) {
-                            return false;
-                        }
-                        _global.v.flag = true;
-                        $myform[0].reset();
-                        self.showinfo($(this).data('id'));
-                        return false; // 阻止链接跳转
-                    })
-                },
-                showinfo: function(id) {
-                    var $adminForm = $('#myform');
-
-                    var showBox = function(data) {
-                        $adminForm.find('.ipt[name="id"]').val(data.member.id);
-                        $adminForm.find('.ipt[name="username"]').val(data.member.username);
-                        $adminForm.find('.slt[name="roleId"]').val(data.member.roleId);
-                        //$adminForm.find('.ipt[name="password"]').val(data.member.password);
-                        $adminForm.find('.ipt[name="name"]').val(data.member.name);
-                        $adminForm.find('.ipt[name="mobile"]').val(data.member.mobile);
-                        $adminForm.find('.ipt[name="email"]').val(data.member.email);
-                        layer.closeAll();
-                        layer.open({
-                            skin: isMobile ? 'layer-form' : '',
-                            area: ['600px'],
-                            type: 1,
-                            content: $adminForm,
-                            title: '编辑管理员'
-                        });
+            that.enable = true; // 防止重复提交
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
                     }
-
-                    // 加载数据
-                    var k = $.ajax({
-                        url: '/member/edit/'+id,
-                        success: function(data) {
-                            showBox(data);
-                        },
-                        complete: function() {
-                            _global.v.flag = false;
-                        }
-                    })
-
-                    // loading
-                    layer.open({
-                        area: ['200px'],
-                        type: 1,
-                        content: '<div class="layer-loading">加载中...</div>',
-                        title: '编辑管理员',
-                        cancel: function() {
-                            k.abort();
-                        }
-                    });
-                },
-                bindEvent: function() {
-                    var $table = $('.table'),
-                            $cbx = $table.find('td input:checkbox'),
-                            $checkAll = $table.find('th input:checkbox'),
-                            count = $cbx.length;
-                    // 删除
-                    $table.on('click', '.jdel', function() {
-                        var id = $(this).data('id');
-                        layer.confirm('确认删除此账户？', {icon: 3, title: '提示'}, function (index) {
-                            $.get('/member/delete/'+id, function (data) {
-                                if (data.status == "200") {
-                                    layer.close(index);
-                                    window.location.reload();
-                                }
-                            }, "json");
-                        });
-                        return false; // 阻止链接跳转
-                    })
-
-                    // 全选
-                    $checkAll.on('click', function() {
-                        var isChecked = this.checked;
-                        $cbx.each(function() {
-                            this.checked = isChecked;
-                        })
-                    })
-                    // 单选
-                    $cbx.on('click', function() {
-                        var _count = 0;
-                        $cbx.each(function() {
-                            _count += this.checked ? 1 : 0;
-                        })
-                        $checkAll.prop('checked', _count === count);
-                    })
-                }
+                })
             }
+
+            $myform.validator({
+                fields: {
+                    username: '用户名: required',
+                    name: '姓名: required',
+                    mobile: '电话: required; mobile'
+                },
+                valid: function (form) {
+                    that.enable && response('/member/save', $(form).serializeObject());
+                    return false;
+                }
+            });
+
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
+
+                layer.confirm('确认删除？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
+
+            // 编辑
+            $table.on('click', '.jedit', function() {
+                if (that.enable) {
+                    that.enable = true;
+                    $myform[0].reset();
+                    that.showinfo($(this).parent().data('id'));
+                }
+                return false;
+            })
+
+            // 新建
+            $('#jaddNewAdmin').on('click', function() {
+                $myform[0].reset();
+                layer.open({
+                    skin: 'layer-form',
+                    area: ['600px'],
+                    type: 1,
+                    content: $myform,
+                    btn: ['确定', '取消'],
+                    btn1: function() {
+                        $myform.submit();
+                    },
+                    title: '新建管理员'
+                });
+            })
+        },
+        showinfo: function(id) {
+            var that = this,
+                $myform = $('#myform');
+
+            var showBox = function(data) {
+                $myform.find('.ipt[name="id"]').val(data.member.id);
+                $myform.find('.ipt[name="username"]').val(data.member.username);
+                $myform.find('.slt[name="roleId"]').val(data.member.roleId);
+                //$myform.find('.ipt[name="password"]').val(data.member.password);
+                $myform.find('.ipt[name="name"]').val(data.member.name);
+                $myform.find('.ipt[name="mobile"]').val(data.member.mobile);
+                $myform.find('.ipt[name="email"]').val(data.member.email);
+                layer.closeAll();
+                layer.open({
+                    skin: 'layer-form',
+                    area: ['600px'],
+                    type: 1,
+                    content: $myform,
+                    btn: ['确定', '取消'],
+                    btn1: function() {
+                        $myform.submit();
+                    },
+                    title: '编辑管理员'
+                });
+            }
+
+            // 加载数据
+            var k = $.ajax({
+                url: '/member/edit/' + id,
+                success: function(data) {
+                    showBox(data);
+                },
+                complete: function() {
+                    that.enable = true;
+                }
+            })
+
+            // loading
+            layer.open({
+                area: ['200px'],
+                type: 1,
+                content: '<div class="layer-loading">加载中...</div>',
+                title: '编辑管理员',
+                cancel: function() {
+                    k.abort();
+                }
+            });
         }
-        //加载页面js
-        $(function() {
-            _global.fn.init();
-        });
-
-
-    </script>
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
 </body>
 </html>

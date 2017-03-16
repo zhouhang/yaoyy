@@ -41,6 +41,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="/assets/plugins/validator/jquery.validator.min.js"></script>
 <!-- 编辑器相关 -->
@@ -49,55 +50,69 @@
 <script type="text/javascript" charset="utf-8" src="/assets/plugins/umeditor/umeditor.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/umeditor/lang/zh-cn/zh-cn.js"></script>
 <script>
+!(function($, window) {
     var _global = {
-        fn: {
-            init: function() {
-                this.umeditor();
-                this.validator();
-            },
-            umeditor: function() {
-                //实例化编辑器
-                var um = UM.getEditor('content', {
-                    initialFrameWidth: isMobile ? '100%' : 700,
-                    initialFrameHeight: 320
-                }).setContent('');
-            },
-            validator: function() {
-                var _enable = true,
-                    $myform = $('#myform');
+        init: function() {
+            navLight('2-1');
+            this.umeditor();
+            this.validator();
+        },
+        umeditor: function() {
+            //实例化编辑器
+            UM.getEditor('content', {
+                initialFrameWidth: isMobile ? '100%' : 700,
+                initialFrameHeight: 320
+            })
+        },
+        validator: function() {
+            var that = this,
+                $myform = $('#myform');
 
-                // 表单验证
-                $myform.validator({
-                    fields: {
-                        title: '标题: required',
-                        content: {
-                            rule: '详细信息: required',
-                            target: '#detailsError'
+            that.enable = true; // 防止重复提交
+
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            $.notify({
+                                type: 'success',
+                                title: '添加成功',
+                                callback: function() {
+                                    window.location.href = '/cms/list';
+                                }
+                            });
                         }
                     },
-                    valid: function() {
-                         _enable && $.post('/cms/save', $myform.serialize()).done(function(d){
-                            if (d.status == 200) {
-                                $.notify({
-                                    type: 'success',
-                                    title: '添加成功',
-                                    callback: function() {
-                                        location.href = '/cms/list';
-                                    }
-                                });
-                            }
-                            _enable = true;
-                        });
-                        _enable = false;
+                    error: function() {
+                        that.enable = true;
                     }
                 })
             }
+
+            // 表单验证
+            $myform.validator({
+                fields: {
+                    title: '标题: required',
+                    content: {
+                        rule: '详细信息: required',
+                        target: '#detailsError'
+                    }
+                },
+                valid: function(form) {
+                    that.enable && response('/cms/save', $(form).serializeObject());
+                }
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
 <#include "./common/meta.ftl"/>
-<title>供应商列表-药优优</title>
+<title>未签约供应商列表-药优优</title>
 </head>
 <body>
 <div class="wrapper">
-
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -21,11 +19,12 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form action="" id="searchForm">
-                        <input type="text" name="name"class="ipt" phone="phone" value="<#if supplierVo.name??>${(supplierVo.name)!}<#elseif supplierVo.phone??>${(supplierVo.phone)!}</#if>" placeholder="姓名或手机号">
-                        <button class="ubtn ubtn-blue" type="button" id="search">搜索</button>
+                    <form id="filterForm" method="get" action="/supplier/list">
+                        <input type="text" name="name" class="ipt" value="" placeholder="姓名或手机号">
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
+
                 <div class="action-add">
                     <a href="/supplier/create" class="ubtn ubtn-blue">新建供应商</a>
                 </div>
@@ -42,7 +41,7 @@
                             <th>公司</th>
                             <th>地区</th>
                             <th>入驻时间</th>
-                            <th width="170" class="tc">操作</th>
+                            <th width="180" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,9 +54,9 @@
                             <td>${supplier.company!}</td>
                             <td>${supplier.areaname!}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
-                            <td class="tc">
+                            <td class="tc" data-id="${supplier.id}">
                                 <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
-                                <a href="/supplier/del/${supplier.id}" class="ubtn ubtn-gray jdel">删除</a>
+                                <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>
                         </#list>
@@ -70,74 +69,37 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            listUrl: '/supplier/list'
+        deleteUrl: '/supplier/del/',
+        init: function() {
+            navLight('8-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search=$("#search");
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var url = $(this).attr('href');
-                    layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == "200") {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
-                    });
-                    return false; // 阻止链接跳转
-                })
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
 
-                $search.on('click',function () {
-                    var params = [];
-                    $("#searchForm .ipt").each(function() {
-                        var val = $.trim(this.value);
-                        var pattern = /^1[34578]\d{9}$/;
-                        if(pattern.test(val)) {
-                            params.push($(this).attr('phone') + '=' + val);
-                        }else{
-                            params.push($(this).attr('name') + '=' + val);
+                layer.confirm('确认删除？', {icon: 3}, function (index) {
+                    $.get(url, function (data) {
+                        if (data.status == '200') {
+                            window.location.reload();
                         }
-
-                    })
-                    location.href=_global.v.listUrl+'?'+params.join('&');
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-            }
+                    }, 'json');
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

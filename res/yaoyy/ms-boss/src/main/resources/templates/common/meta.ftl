@@ -7,3 +7,5 @@
 <link rel="stylesheet" href="/assets/awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/assets/css/style.css" />
 <script src="/assets/js/jquery191.js"></script>
+<script src="/assets/plugins/layer/layer.js"></script>
+<script src="/assets/js/common.js"></script>

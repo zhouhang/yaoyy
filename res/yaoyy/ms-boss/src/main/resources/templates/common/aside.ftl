@@ -16,10 +16,10 @@
             </dt>
             <dd>
             <@shiro.hasPermission name="special:list">
-                <a href="special/list"><i class="fa fa-circle-o"></i>专场列表</a>
+                <a href="special/list" id="navItem1-1"><i class="fa fa-circle-o"></i>专场列表</a>
             </@shiro.hasPermission>
             <@shiro.hasPermission name="ad:list">
-                <a href="ad/list"><i class="fa fa-circle-o"></i>广告列表</a>
+                <a href="ad/list" id="navItem1-2"><i class="fa fa-circle-o"></i>广告列表</a>
             </@shiro.hasPermission>
             </dd>
         </dl>
@@ -35,7 +35,7 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="cms:list">
-                <a href="cms/list"><i class="fa fa-circle-o"></i>CMS列表</a>
+                <a href="cms/list" id="navItem2-1"><i class="fa fa-circle-o"></i>CMS列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -51,7 +51,7 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="user:list">
-                <a href="/user/list"><i class="fa fa-circle-o"></i>用户列表</a>
+                <a href="/user/list" id="navItem3-1"><i class="fa fa-circle-o"></i>用户列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -67,7 +67,7 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="sample:list">
-                    <a href="/sample/list"><i class="fa fa-circle-o"></i>寄样列表</a>
+                    <a href="/sample/list" id="navItem4-1"><i class="fa fa-circle-o"></i>寄样列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -83,7 +83,7 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="pick:list">
-                <a href="/pick/list"><i class="fa fa-circle-o"></i>订单列表</a>
+                <a href="/pick/list" id="navItem5-1"><i class="fa fa-circle-o"></i>订单列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -99,10 +99,10 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="category:list">
-                    <a href="/category/list"><i class="fa fa-circle-o"></i>品种列表</a>
+                    <a href="/category/list" id="navItem6-1"><i class="fa fa-circle-o"></i>品种列表</a>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="commodity:list">
-                    <a href="/commodity/list"><i class="fa fa-circle-o"></i>商品列表</a>
+                    <a href="/commodity/list" id="navItem6-2"><i class="fa fa-circle-o"></i>商品列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -118,10 +118,10 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="member:list">
-                    <a href="/member/index"><i class="fa fa-circle-o"></i>管理员列表</a>
+                    <a href="/member/index" id="navItem7-1"><i class="fa fa-circle-o"></i>管理员列表</a>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="role:list">
-                    <a href="/role/index"><i class="fa fa-circle-o"></i>角色列表</a>
+                    <a href="/role/index" id="navItem7-2"><i class="fa fa-circle-o"></i>角色列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -137,14 +137,14 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="supplier:unsign">
-                <a href="/supplier/list"><i class="fa fa-circle-o"></i>未签约供应商</a>
+                <a href="/supplier/list" id="navItem8-1"><i class="fa fa-circle-o"></i>未签约供应商</a>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="supplier:sign">
-                <a href="/supplier/signlist"><i class="fa fa-circle-o"></i>签约供应商</a>
+                <a href="/supplier/signlist" id="navItem8-2"><i class="fa fa-circle-o"></i>签约供应商</a>
                 </@shiro.hasPermission>
-                <#--<a href="/supplier/stock"><i class="fa fa-circle-o"></i>寄卖库存管理</a>-->
-                <#--<a href="/supplier/commodity"><i class="fa fa-circle-o"></i>寄卖商品列表</a>-->
-                <#--<a href="/supplier/order"><i class="fa fa-circle-o"></i>寄卖订单列表</a>-->
+                <#--<a href="/supplier/stock" id="navItem8-3"><i class="fa fa-circle-o"></i>寄卖库存管理</a>-->
+                <#--<a href="/supplier/commodity" id="navItem8-4"><i class="fa fa-circle-o"></i>寄卖商品列表</a>-->
+                <#--<a href="/supplier/order" id="navItem8-5"><i class="fa fa-circle-o"></i>寄卖订单列表</a>-->
             </dd>
         </dl>
         </@shiro.hasPermission>
@@ -161,10 +161,10 @@
             </dt>
             <dd>
                 <@shiro.hasPermission name="payRecord:list">
-                    <a href="/payRecord/list"><i class="fa fa-circle-o"></i>交易流水列表</a>
+                    <a href="/payRecord/list" id="navItem9-1"><i class="fa fa-circle-o"></i>交易流水列表</a>
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="bill:list">
-                    <a href="/bill/list"><i class="fa fa-circle-o"></i>账单列表</a>
+                    <a href="/bill/list" id="navItem9-2"><i class="fa fa-circle-o"></i>账单列表</a>
                 </@shiro.hasPermission>
             </dd>
         </dl>
@@ -179,7 +179,7 @@
                 </a>
             </dt>
             <dd>
-                <a href="/setting"><i class="fa fa-circle-o"></i>系统设置</a>
+                <a href="/setting" id="navItem10-1"><i class="fa fa-circle-o"></i>系统设置</a>
             </dd>
         </dl>
     </@shiro.hasPermission>
@@ -194,9 +194,9 @@
             </dt>
             <dd>
                <@shiro.hasPermission name="quotation:list">
-                <a href="/quotation/list"><i class="fa fa-circle-o"></i>报价单列表</a>
+                <a href="/quotation/list" id="navItem11-1"><i class="fa fa-circle-o"></i>报价单列表</a>
                </@shiro.hasPermission>
-                <a href="/announcement/list"><i class="fa fa-circle-o"></i>网站公告</a>
+                <a href="/announcement/list" id="navItem11-2"><i class="fa fa-circle-o"></i>网站公告</a>
             </dd>
         </dl>
        </@shiro.hasPermission>

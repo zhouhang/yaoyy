@@ -170,6 +170,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/laydate/laydate.js"></script>
@@ -183,6 +184,7 @@
         },
         fn: {
             init: function() {
+                navLight('5-1');
                 this.submitEvent();
                 $('#pickArea').citys({areaId:'area'});
             },
@@ -307,7 +309,7 @@
             // 表单
             layerForm: function(modal, title) {
                 layer.open({
-                    skin: isMobile ? 'layer-form' : '',
+                    skin: 'layer-form',
                     area: ['600px'],
                     type: 1,
                     content: modal,

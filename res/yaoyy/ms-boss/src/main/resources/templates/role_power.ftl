@@ -49,6 +49,7 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script src="assets/plugins/zTreeStyle/jquery.ztree.min.js"></script>
@@ -59,6 +60,7 @@
         },
         fn: {
             init: function() {
+                navLight('7-2');
                 this.power();
                 this.myform();
                 //全选

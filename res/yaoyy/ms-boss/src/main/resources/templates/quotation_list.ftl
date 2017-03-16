@@ -6,9 +6,8 @@
 </head>
 <body>
 <div class="wrapper">
-    <<#include "./common/header.ftl"/>
+    <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -20,14 +19,14 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form action="" id="filterForm">
+                    <form id="filterForm" method="get" action="/quotation/list">
                         <input type="text" name="title" class="ipt" placeholder="标题">
                         <select name="status" id="" class="slt">
                             <option value="">全部</option>
                             <option value="0">草稿</option>
                             <option value="1">发布</option>
                         </select>
-                        <button type="button" class="ubtn ubtn-blue" id="search">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
                 <div class="action-add">
@@ -43,7 +42,7 @@
                         <th>标题</th>
                         <th>状态</th>
                         <th>创建时间</th>
-                        <th width="170" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,13 +56,13 @@
                             <td>发布</td>
                         </#if>
                         <td>${(quotation.createTime?datetime)!}</td>
-                        <td class="tc">
+                        <td class="tc" data-id="${quotation.id}">
                             <a href="/quotation/detail/${quotation.id}" class="ubtn ubtn-blue jedit">编辑</a>
-                            <a href="javascript:;" qid="${quotation.id}" class="ubtn ubtn-gray jdel">删除</a>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             <#if quotation.status==0>
-                                <a href="javascript:;" data-id="${quotation.id}" class="ubtn ubtn-red jpublish">发布</a>
+                                <a href="javascript:;" class="ubtn ubtn-red jpublish">发布</a>
                             <#else>
-                                <a href="javascript:;" data-id="${quotation.id}" class="ubtn ubtn-red draft">草稿</a>
+                                <a href="javascript:;" class="ubtn ubtn-black draft">草稿</a>
                             </#if>
                         </td>
                     </tr>
@@ -78,111 +77,73 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: '/quotation/delete/',
-            listUrl:'/quotation/list',
-            updateUrl:'/quotation/updateStatus'
+        deleteUrl: '/quotation/delete/',
+        updateUrl:'/quotation/updateStatus',
+        init: function() {
+            navLight('11-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-                $("#filterForm").initByUrlParams();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search=$("#search");
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl + $(this).attr('qid');
-                    layer.confirm('确认删除此报价单？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == "200") {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
-                    });
-                    return false; // 阻止链接跳转
-                })
-                //发布
-                $table.on('click', '.jpublish', function() {
-                    var qId = $(this).data('id');
-                    layer.confirm('确认发布？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v. updateUrl,
-                            data: {"id": qId, "status": 1},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-                    });
-                    return false; // 阻止链接跳转
-                });
-                //草稿
-                $table.on('click', '.draft', function() {
-                    var qId = $(this).data('id');
-                    layer.confirm('确认转为草稿？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v. updateUrl,
-                            data: {"id": qId, "status":0},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-                    });
-                    return false; // 阻止链接跳转
-                });
-
-
-
-                $search.on('click',function () {
-                    var params = [];
-                    $(".filter .ipt, .filter select").each(function() {
-                        var val = $.trim(this.value);
-                        val && params.push($(this).attr('name') + '=' + val);
-                    })
-                    location.href=_global.v.listUrl+'?'+params.join('&');
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
+            that.enable = true; // 防止重复提交
+            var response = function(url, data, method) {
+                $.ajax({
+                    type: method || 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
+                    }
                 })
             }
 
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
 
+                layer.confirm('确认删除此报价单？', {icon: 3}, function (index) {
+                    response(url, {}, 'GET');
+                });
+                return false;
+            })
+
+            //发布
+            $table.on('click', '.jpublish', function() {
+                var id = $(this).parent().data('id');
+
+                layer.confirm('确认发布？', {icon: 3}, function (index) {
+                    response(that.updateUrl, {'id': id, 'status': '1'});
+                });
+                return false;
+            });
+
+            //草稿
+            $table.on('click', '.draft', function() {
+                var id = $(this).parent().data('id');
+
+                layer.confirm('确认转为草稿？', {icon: 3}, function (index) {
+                    response(that.updateUrl, {'id': id, 'status': '0'});
+                });
+                return false;
+            });
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

@@ -8,7 +8,6 @@
 <div class="wrapper">
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -20,7 +19,7 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form action="" id="searchForm">
+                    <form id="filterForm" method="get" action="/sample/list">
                         <input name="code" type="text" class="ipt" placeholder="寄样编号" value="">
                         <input name="nickname" type="text" class="ipt" placeholder="联系人" value="">
                         <input name="phone" type="text" class="ipt" placeholder="手机号" value="">
@@ -37,7 +36,7 @@
                             <option value="0">正常</option>
                             <option value="1">废弃</option>
                         </select>
-                        <button type="button" class="ubtn ubtn-blue" id="search">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
             </div>
@@ -53,25 +52,25 @@
                             <th>意向商品</th>
                             <th>状态</th>
                             <th width="150">创建时间</th>
-                            <th width="230" class="tc">操作</th>
+                            <th width="180" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                     <#list sendSampleVoPageInfo.list as sendSample>
                         <tr >
-                            <td><a href="/sample/detail/${sendSample.id?c}" class="c-blue">${sendSample.code}</a></td>
+                            <td><a href="/sample/detail/${sendSample.id?c}" class="link">${sendSample.code}</a></td>
                             <td>${sendSample.nickname}</td>
                             <td>${sendSample.phone}</td>
                             <td>${sendSample.position}</td>
                             <td>${sendSample.intentionText}</td>
                             <td><em class="status-${sendSample.status+1}">${sendSample.statusText}</em></td>
                             <td>${(sendSample.createTime?datetime)!}</td>
-                            <td class="tc">
+                            <td class="tc" data-id="${sendSample.id?c}">
                                 <a href="/sample/detail/${sendSample.id?c}" class="ubtn ubtn-blue jedit">查看</a>
                                 <#if sendSample.abandon==0>
-                                    <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${sendSample.id?c}">废弃</a>
+                                    <a href="javascript:;" class="ubtn ubtn-black jputdown">废弃</a>
                                 <#else>
-                                    <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${sendSample.id?c}">恢复</a>
+                                    <a href="javascript:;" class="ubtn ubtn-red jputup">恢复</a>
                                 </#if>
                             </td>
                         </tr>
@@ -86,126 +85,65 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/plugins/validator/jquery.validator.js"></script>
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: '/sample/delete/',
+        deleteUrl: '/sample/delete/',
+        init: function() {
+            navLight('4-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-                $("#searchForm").initByUrlParams();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search =$("#search");
-                var $pageSize=$("#pageSize");
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                // 启用
-                $table.on('click', '.jenable', function() {
-                    var sendId = $(this).data('id');
-                    layer.confirm('确认恢复此寄样单？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v.deleteUrl,
-                            data: {"id": sendId, "abandon": 0},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var sendId = $(this).data('id');
-                    layer.confirm('确认废弃此寄样单？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v.deleteUrl,
-                            data: {"id": sendId, "abandon": 1},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-
-                $search.on("click",function(){
-                    var condition=$("#searchForm").serializeArray();
-                    var conditionText="";
-                    $.each(condition, function(i, field){
-                        if(field.value!=""){
-                            if(conditionText!=""){
-                                conditionText=conditionText+"&"+field.name+"="+field.value;
-                            }else{
-                                conditionText=conditionText+field.name+"="+field.value;
-                            }
-                        }
-                    });
-                    if (condition!=""){
-                       window.location.href="/sample/list?"+conditionText;
+            that.enable = true; // 防止重复提交
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
                     }
-
-                })
-
-                $pageSize.on("change",function(){
-                    var pageSize=$(this).val();
-                    var condition=$("#searchForm").serializeArray();
-                    var conditionText="";
-                    $.each(condition, function(i, field){
-                        if(field.value!=""){
-                            if(conditionText!=""){
-                                conditionText=conditionText+"&"+field.name+"="+field.value;
-                            }else{
-                                conditionText=conditionText+field.name+"="+field.value;
-                            }
-                        }
-                    });
-                    var url="/sample/list?pageSize="+pageSize;
-                    if (conditionText!=""){
-                        url=url+"&"+conditionText;
-                    }
-                    window.location.href=url;
-
                 })
             }
+
+            // 恢复
+            $table.on('click', '.jputup', function() {
+                var url = that.deleteUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认恢复？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'abandon': '0'});
+                });
+                return false;
+            })
+
+            // 废弃
+            $table.on('click', '.jputdown', function() {
+                var url = that.deleteUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认废弃？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'abandon': '1'});
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

@@ -18,9 +18,11 @@
 
         <div class="box">
             <div class="tools">
-                <div class="filter" id="filterForm">
-                    <input type="text" name="title" class="ipt" placeholder="标题">
-                    <button id="search_btn" class="ubtn ubtn-blue">搜索</button>
+                <div class="filter">
+                    <form id="filterForm" method="get" action="/cms/list">
+                        <input type="text" name="title" class="ipt" placeholder="标题">
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                    </form>
                 </div>
 
                 <div class="action-add">
@@ -37,7 +39,7 @@
                         <th>链接</th>
                         <th width="150">创建时间</th>
                         <th width="150">修改时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,13 +50,13 @@
                         <td>${bizBaseUrl}/article/${article.id}</td>
                         <td>${(article.createTime?datetime)!}</td>
                         <td>${(article.updateTime?datetime)!}</td>
-                        <td class="tc">
-                            <a href="/cms/editor/${article.id};" class="ubtn ubtn-blue jedit">编辑</a>
-                            <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${article.id}">删除</a>
+                        <td class="tc" data-id="${article.id}">
+                            <a href="/cms/editor/${article.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                            <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             <#if article.status == 0>
-                                <a href="javascript:;" data-id="${article.id}"  class="ubtn ubtn-red jputup">启用</a>
+                                <a href="javascript:;" class="ubtn ubtn-red jputup">启用</a>
                             <#else>
-                                <a href="javascript:;" data-id="${article.id}"  class="ubtn ubtn-gray jputdown">禁用</a>
+                                <a href="javascript:;" class="ubtn ubtn-black jputdown">禁用</a>
                             </#if>
                         </td>
                     </tr>
@@ -66,107 +68,79 @@
             <@pager.pager info=pageInfo url="article/list" params="" />
         </div>
     </div>
+    
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: '/cms/delete/',
-            detailUrl:'/cms/detail/',
-            enableUrl:'/cms/enable/',
-            disableUrl:'/cms/disable/',
-            listUrl: '/cms/list'
+        deleteUrl  : '/cms/delete/',
+        detailUrl  : '/cms/detail/',
+        enableUrl  : '/cms/enable/',
+        disableUrl : '/cms/disable/',
+        listUrl    : '/cms/list',
+        init: function() {
+            navLight('2-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                $("#filterForm").initByUrlParams();
-                this.bindEvent();
-                this.filter();
-            },
-            // 筛选
-            filter: function() {
-                var $ipts = $('.filter .ipt, .filter select');
-                var url=_global.v.listUrl+"?";
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                $('#search_btn').on('click', function() {
-                    var params = [];
-                    $ipts.each(function() {
-                        var val = $.trim(this.value);
-                        val && params.push($(this).attr('name') + '=' + val);
-                    })
-                    location.href=url+params.join('&');
-                })
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
+            that.enable = true; // 防止重复提交
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl + $(this).data('id');
-                    layer.confirm('确认删除此文章？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == 200) {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 上架
-                $table.on('click', '.jputup', function() {
-                    var url = _global.v.enableUrl + $(this).attr('data-id');
-                    layer.confirm('确认启用此文章？', {icon: 3, title: '提示'}, function (index) {
-                        $.post(url, function (data) {
-                            if (data.status == 200) {
-                                layer.close(index);
-                                window.location.reload();
-                            }
-                        }, "json");
-                    });
-                    return false;
-                })
-
-                // 下架
-                $table.on('click', '.jputdown', function() {
-                    var url = _global.v.disableUrl + $(this).attr('data-id');
-                    layer.confirm('确认禁用此文章？', {icon: 3, title: '提示'}, function (index) {
-                        $.post(url, function (data) {
-                            if (data.status == 200) {
-                                layer.close(index);
-                                window.location.reload();
-                            }
-                        }, "json");
-                    });
-                    return false;
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
+            var response = function(url, data, type) {
+                $.ajax({
+                    type: type || 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
+                    }
                 })
             }
+
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
+
+                layer.confirm('确认删除此文章？', {icon: 3}, function (index) {
+                    response(url, {}, 'GET');
+                });
+                return false;
+            })
+
+            // 上架
+            $table.on('click', '.jputup', function() {
+                var url = that.enableUrl + $(this).parent().data('id');
+
+                layer.confirm('确认启用此文章？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
+
+            // 下架
+            $table.on('click', '.jputdown', function() {
+                var url = that.disableUrl + $(this).parent().data('id');
+
+                layer.confirm('确认禁用此文章？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

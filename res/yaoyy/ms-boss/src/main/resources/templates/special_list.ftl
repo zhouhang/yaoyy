@@ -6,10 +6,8 @@
 </head>
 <body>
 <div class="wrapper">
-
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -21,9 +19,9 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form action="" id="searchForm">
+                    <form id="filterForm" method="get" action="/special/list">
                         <input type="text" class="ipt"  name="title" value="${specialVo.title?default('')}" placeholder="标题">
-                        <button type="button" id="search" class="ubtn ubtn-blue">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
 
@@ -36,35 +34,32 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" class="cbx"></th>
                         <th>标题</th>
                         <th>链接</th>
                         <th>排序</th>
                         <th width="150">创建时间</th>
                         <th width="150">修改时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <#list  specialVoPageInfo.list as special>
                     <tr <#if special.status==0>class="gray"</#if>>
-                        <td><input type="checkbox"></td>
+                        <td><input type="checkbox" class="cbx"></td>
                         <td>${special.title}</td>
                         <td>${bizBaseUrl}special/${special.id}</td>
                         <td>${special.sort!}</td>
                         <td>${(special.createTime?datetime)!}</td>
                         <td>${(special.updateTime?datetime)!}</td>
-                        <td class="tc">
+                        <td class="tc" data-id="${special.id?c}">
                             <a href="special/edit/${special.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
-                            <a href="#" class="ubtn ubtn-gray jdel" sid="${special.id?c}">删除</a>
-                            <a href="#" class="ubtn ubtn-gray jputaway" sid="${special.id?c}" status="${special.status}">
-                                <#if special.status==0>
-                                    上架
-                                <#else>
-                                    下架
-                                </#if>
-
-                            </a>
+                            <a href="#" class="ubtn ubtn-gray jdel">删除</a>
+                            <#if special.status==0>
+                                <a href="javascript:;" class="ubtn ubtn-red jputup">上架</a>
+                            <#else>
+                                <a href="javascript:;" class="ubtn ubtn-black jputdown">下架</a>
+                            </#if>
                         </td>
                     </tr>
                     </#list>
@@ -78,90 +73,74 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: 'special/delete/',
-            listUrl:'special/list',
-            updateUrl:'special/updateStatus'
+        deleteUrl : '/special/delete/',
+        updateUrl : '/special/updateStatus',
+        init: function() {
+            navLight('1-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
-                var $search=$("#search");
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
+                
+            that.enable = true; // 防止重复提交
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl+$(this).attr("sid");
-                    layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
-                        $.post(url, function (data) {
-                            if (data.status == "200") {
-                                layer.close(index);
-                                window.location.reload();
-                            }
-                    });
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 上架&下架
-                $table.on('click', '.jputaway', function() {
-                    var sid=$(this).attr("sid");
-                    var status = $(this).attr("status");
-                    var setStatus = 1;
-                    if (status == 1) {
-                        setStatus = 0;
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
                     }
-                    $.ajax({
-                        url: _global.v.updateUrl,
-                        data: {"id": sid, "status": setStatus},
-                        type: "POST",
-                        success: function (data) {
-                            if (data.status == "200") {
-                                window.location.reload();
-                            }
-                        }
-                    });
-                    return false; // 阻止链接跳转
-                })
-                $search.on('click',function () {
-                    var params = [];
-                    $("#searchForm .ipt").each(function() {
-                        var val = $.trim(this.value);
-                        val && params.push($(this).attr('name') + '=' + val);
-                    })
-                    location.href=_global.v.listUrl+'?'+params.join('&');
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
                 })
             }
+
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
+
+                layer.confirm('确认删除？', {icon: 3}, function (index) {
+                    response(url);
+                });
+                return false;
+            })
+            // 上架
+            $table.on('click', '.jputup', function() {
+                var url = that.updateUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认上架？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'status': '1'});
+                });
+                return false;
+            })
+            // 下架
+            $table.on('click', '.jputdown', function() {
+                var url = that.updateUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认下架？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'status': '0'});
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

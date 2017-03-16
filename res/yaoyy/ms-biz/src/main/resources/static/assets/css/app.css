@@ -82,7 +82,7 @@ em,i{font-style:normal;}
 .fa-cbx:checked{border-color:#b9a060;}
 .fa-cbx:checked:before{content:'';display:block;width:10px;height:10px;margin:4px;background:#b9a060;-webkit-border-radius:50%;border-radius:50%;}
 .fa-cbx2{position:relative;display:inline-block;width:16px;height:16px;color:#b9a060;border:1px solid #acacac;-webkit-border-radius:2px;border-radius:2px;}
-.fa-cbx2:checked{background:url(../images/cbx.png) no-repeat 50% 50%;background-size:100%; auto;border-color:#b9a060;}
+.fa-cbx2:checked{background:url(../images/cbx.png) no-repeat 50% 50%;background-size:100% auto;border-color:#b9a060;}
 .fa-switch{display:inline-block;width:60px;height:27px;background:#aaa;-webkit-border-radius:14px;border-radius:14px;}
 .fa-switch:before{content:'';display:block;width:25px;height:25px;margin:1px;background:#fff;-webkit-border-radius:14px;border-radius:14px;-webkit-transition:all .3s;transition:all .3s;}
 .fa-switch:checked{background:#b9a060;}
@@ -108,7 +108,7 @@ em,i{font-style:normal;}
 .ui-header .abs-r{right:25px;}
 .ui-header .abs-r .fa-search{color:#b9a060;}
 .ui-header .logo{height:100%;line-height:99em;background:url(../images/logo.png) no-repeat 50% 50%;background-size:75px auto;overflow:hidden;}
-.ui-header .title{line-height:44px;font-size:1.8rem;text-align:center;overflow:hidden;}
+.ui-header .title{line-height:44px;font-size:1.8rem;text-align:center;overflow:hidden;visibility:hidden;}
 .ui-header-hide{-webkit-animation:slideOutUp .3s linear both;animation:slideOutUp .3s linear both;}
 @-webkit-keyframes slideOutUp{
 	from{-webkit-transform:translate3d(0, 0, 0);}
@@ -212,6 +212,9 @@ em,i{font-style:normal;}
 .ui-search .suggest a:active{background:#eef3fe;}
 .ui-search .suggest span{display:block;height:44px;line-height:44px;padding:0 5px;white-space:nowrap;overflow:hidden;border-bottom:1px solid #e7e7e7;}
 .ui-search .suggest-close{position:absolute;bottom:0;right:0;width:80px;line-height:36px;text-align:center;color:#666;border-left:1px solid #e7e7e7;}
+.search{width:73%;right:12px!important;}
+.search .ipt{width:100%;height:30px;padding:0 40px 0 5px;color:#333;font-size:1.4rem;background:#fff;border:1px solid #e7e7e7;-webkit-border-radius:3px;border-radius:3px;}
+.search .submit{right:8px;background:#fff;border:0;}
 
 /* extra */
 .ui-extra{text-align:center;color:#5c92cf;font-size:1.2rem;}
@@ -245,17 +248,22 @@ em,i{font-style:normal;}
 .search-his .clear{color:#b9a060;text-align:center;}
 
 /* page product */
-.plist{background:#fff;position:relative;z-index:2;}
-.plist a{position:relative;display:block;padding:20px 12px;font-size:1.2rem;border-bottom:1px solid #e7e7e7;}
-.plist .cnt{display:block;padding-right:150px;}
+.plist{position:relative;z-index:2;}
+.plist li a{position:relative;display:block;padding:20px 12px;font-size:1.2rem;background:#fff;}
+.plist .cnt{padding-right:134px;}
 .plist .cnt .title{height:26px;font-size:1.8rem;overflow:hidden;}
-.plist .cnt .summary{height:38px;line-height:18px;overflow:hidden;color:#666;}
+.plist .cnt .summary{height:38px;line-height:18px;color:#666;word-wrap:break-word;word-break:break-all;overflow:hidden;}
 .plist .cnt .price{padding-top:4px;color:#666;}
 .plist .cnt .price em{font-size:2rem;color:#b9a060;}
 .plist .cnt .price i{color:#b9a060;}
 .plist .cnt .price b{font-weight:400;}
-.plist .cnt .price span{padding:0 2px;color:#b9a060;border:1px solid #b9a060;white-space:nowrap;vertical-align:2px;-webkit-border-radius:3px;border-radius:3px;}
 .plist .pic{position:absolute;top:20px;right:12px;width:110px;height:90px;overflow:hidden;}
+.plist ul{padding-left:90px;overflow:hidden;}
+.plist li{margin-top:10px;border:1px solid #e7e7e7;border-right:0;}
+.plist dl{position:fixed;left:0;top:55px;bottom:0;width:80px;line-height:55px;text-align:center;border-top:1px solid #e7e7e7;overflow:hidden;overflow-y:auto;}
+.plist dd{height:55px;background:#fff;border-right:1px solid #e7e7e7;border-bottom:1px solid #e7e7e7;overflow:hidden;}
+.plist .curr{color:#b9a060;background:none;border-right:0;}
+.plist .curr a{color:#b9a060;}
 
 /* page product_detail */
 .pinfo{background:#fff;border-bottom:1px solid #e7e7e7;}

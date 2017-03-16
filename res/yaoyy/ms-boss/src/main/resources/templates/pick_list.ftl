@@ -18,8 +18,8 @@
 
         <div class="box">
             <div class="tools">
-                <div class="filter" id="filterForm">
-                    <form action="">
+                <div class="filter">
+                    <form id="filterForm" method="get" action="/pick/list">
                         <input type="text" name="code"class="ipt" placeholder="选货单编号">
                         <input type="text" name="phone" class="ipt" placeholder="客户电话">
                         <select name="status" class="slt">
@@ -39,7 +39,7 @@
                             <option value="0">正常</option>
                             <option value="1">废弃</option>
                         </select>
-                        <button type="button" id="search" class="ubtn ubtn-blue">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
 
@@ -62,17 +62,17 @@
                     <#list pickVoPageInfo.list as pick>
                     <tr>
                         <td><input type="checkbox" class="cbx"></td>
-                        <td>${pick.code}</td>
+                        <td><a href="pick/detail/${pick.id}" class="link">${pick.code}</a></td>
                         <td>${pick.nickname}</td>
                         <td>${pick.phone}</td>
                         <td><em class="status-${pick.status+1}">${pick.statusText}</em></td>
                         <td>${(pick.createTime?datetime)!}</td>
-                        <td class="tc">
+                        <td class="tc" data-id="${pick.id}">
                             <a href="pick/detail/${pick.id}" class="ubtn ubtn-blue jedit">查看</a>
                             <#if pick.abandon==0>
-                                <a href="javascript:;" class="ubtn ubtn-gray jdel" data-id="${pick.id}">废弃</a>
+                                <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
                             <#else>
-                                <a href="javascript:;" class="ubtn ubtn-red jenable" data-id="${pick.id}">恢复</a>
+                                <a href="javascript:;" class="ubtn ubtn-red jputup">恢复</a>
                             </#if>
                         </td>
                     </tr>
@@ -85,96 +85,65 @@
             <@pager.pager info=pickVoPageInfo url="pick/list" params="" />
         </div>
     </div>
-
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: 'pick/delete/',
-            listUrl:'pick/list'
+        deleteUrl: '/pick/delete/',
+        init: function() {
+            navLight('5-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-                $("#filterForm").initByUrlParams();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
+        bindEvent: function() {
+            var that = this,
+                $table = $('.table');
 
-                // 启用
-                $table.on('click', '.jenable', function() {
-                    var pId = $(this).data('id');
-                    layer.confirm('确认恢复此选货单？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v.deleteUrl,
-                            data: {"id": pId, "abandon": 0},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var pId = $(this).data('id');
-                    layer.confirm('确认废弃此选货单？', {icon: 3, title: '提示'}, function (index) {
-                        $.ajax({
-                            url: _global.v.deleteUrl,
-                            data: {"id": pId, "abandon": 1},
-                            type: "POST",
-                            success: function (data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                                layer.close(index);
-                            }
-                        });
-                    });
-                    return false; // 阻止链接跳转
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-                $("#search").on('click',function () {
-                    var $ipts = $('.filter .ipt, .filter select');
-                    var url=_global.v.listUrl+"?";
-                    var params = [];
-                    $ipts.each(function() {
-                        var val = $.trim(this.value);
-                        val && params.push($(this).attr('name') + '=' + val);
-                    })
-                    location.href=url+params.join('&');
+            that.enable = true; // 防止重复提交
+            var response = function(url, data) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
+                    }
                 })
             }
+
+            // 恢复
+            $table.on('click', '.jputup', function() {
+                var url = that.deleteUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认恢复？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'abandon': '0'});
+                });
+                return false;
+            })
+
+            // 废弃
+            $table.on('click', '.jputdown', function() {
+                var url = that.deleteUrl,
+                    id = $(this).parent().data('id');
+
+                layer.confirm('确认废弃？', {icon: 3}, function (index) {
+                    response(url, {'id': id, 'abandon': '1'});
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

@@ -8,7 +8,6 @@
 <div class="wrapper">
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -20,12 +19,12 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form  id="filterForm" >
+                    <form  id="filterForm" method="get" action="/payRecord/list">
                         <input type="text" class="ipt" name="phone" placeholder="用户手机号">
                         <input type="text" class="ipt" name="code" placeholder="单号">
                         <input type="text" class="ipt" id="startDate" name="startDate" placeholder="起始日期">
                         <input type="text" class="ipt" id="endDate" name="endDate" placeholder="结束日期">
-                        <button class="ubtn ubtn-blue" type="button" id="search">搜索</button>
+                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
             </div>
@@ -41,7 +40,7 @@
                         <th>支付金额</th>
                         <th>支付渠道</th>
                         <th>状态</th>
-                        <th width="100" class="tc">操作</th>
+                        <th width="90" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -83,80 +82,43 @@
             <@pager.pager info=pageInfo url="/payRecord/list" params="" />
         </div>
     </div>
-
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            listUrl:'/payRecord/list'
+        listUrl: '/payRecord/list',
+        init: function() {
+            navLight('9-1');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-                $("#filterForm").initByUrlParams();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
+        bindEvent: function() {
+            var that = this;
 
+            // 开始日期
+            laydate({
+                elem: '#startDate',
+                format: 'YYYY-MM-DD',
+                istime: true,
+                choose: function(date){
+                    $('#startDate').trigger('validate');
+                }
+            })
 
-                // 开始日期
-                laydate({
-                    elem: '#startDate',
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    istime: true,
-                    choose: function(date){
-                        $('#startDate').trigger('validate');
-                    }
-                })
-
-                laydate({
-                    elem: '#endDate',
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    istime: true,
-                    choose: function(date){
-                        $('#endDate').trigger('validate');
-                    }
-                })
-
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-
-                $("#search").on('click',function () {
-                    var $ipts = $('.filter .ipt, .filter select');
-                    var url=_global.v.listUrl+"?";
-                    var params = [];
-                    $ipts.each(function() {
-                        var val = $.trim(this.value);
-                        console.log(val);
-                        val && params.push($(this).attr('name') + '=' + val);
-                    })
-                    location.href=url+params.join('&');
-                })
-            }
+            laydate({
+                elem: '#endDate',
+                format: 'YYYY-MM-DD',
+                istime: true,
+                choose: function(date){
+                    $('#endDate').trigger('validate');
+                }
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

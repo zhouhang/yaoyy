@@ -44,8 +44,8 @@ public class AnnouncementServiceImpl  extends AbsCommonService<Announcement> imp
 	@Override
 	@Transactional
 	public void save(AnnouncementVo announcementVo) {
-		announcementVo.setCreateTime(new Date());
 		if (announcementVo.getId() == 0) {
+			announcementVo.setCreateTime(new Date());
 			announcementDao.create(announcementVo);
 		}else{
 			announcementDao.update(announcementVo);

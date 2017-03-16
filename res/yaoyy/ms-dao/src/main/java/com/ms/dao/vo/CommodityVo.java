@@ -25,6 +25,9 @@ public class CommodityVo extends Commodity{
     // 供应商电话
     private String supplierTel;
 
+    //根据关键字搜索商品名称
+    private String keyword;
+
     public String getCategoryName() {
         return categoryName;
     }
@@ -72,4 +75,8 @@ public class CommodityVo extends Commodity{
     public void setSupplierTel(String supplierTel) {
         this.supplierTel = supplierTel;
     }
+
+    public String getKeyword() {return keyword;}
+
+    public void setKeyword(String keyword) {this.keyword = keyword;}
 }
