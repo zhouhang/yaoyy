@@ -51,6 +51,7 @@
                 $side = $('.side').on('click', 'a', function() {
                     var categoryId = $(this).attr("data-id");
                     var parameter = {categoryId: categoryId};
+                    $(this).parent().addClass('curr').siblings().removeClass('curr');
                     $("#categoryList").empty();
                     $("input[name=keyword]").val("");
                     $("input[name=categoryId]").val(categoryId);
@@ -70,6 +71,7 @@
                         self.getData({pageNum:self.pageNum, categoryId: $("input[name=categoryId]").val(), keyword:$("input[name=keyword]").val()}, me);
                     }
                 });
+                //self.getData({pageNum:self.pageNum, categoryId: $("input[name=categoryId]").val(), keyword:$("input[name=keyword]").val()});
             },
             getData: function(parameter, me) {
                 var self = this;
