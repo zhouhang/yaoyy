@@ -48,7 +48,6 @@
                     <div class="txt"><i>*</i>标题：</div>
                     <div class="cnt">
                         <input type="text" name="title" id="title" class="ipt" placeholder="标题" autocomplete="off">
-                        <button type="button" class="ubtn ubtn-blue" id="createTitle">生成标题</button>
                     </div>
                 </div>
                 <div class="item" id="junitPrice">
@@ -250,6 +249,7 @@
         fn: {
             init: function () {
                 navLight('6-2');
+                this.createTitle();
                 this.umeditor();
                 this.catname();
                 this.myform();
@@ -264,8 +264,8 @@
                     $origin = $('#origin'),
                     $title = $('#title');
                 
-                $('#createTitle').on('click', function() {
-                    $title.val($name.val() + ' ' + $spec.val() + ' ' + $origin.val());  
+                $origin.on('blur', function() {
+                    $title.val($origin.val() + ' ' + $name.val() + ' ' + $spec.val());  
                 })
             },
             umeditor: function() {
