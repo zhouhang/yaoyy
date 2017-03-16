@@ -60,12 +60,11 @@
         var $this = $(this);
         var url = window.location.search; //获取url中"?"符后的字串
         var params = {};
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for(var i = 0; i < strs.length; i ++) {
-                var name = strs[i].split("=")[0];
-                var value = decodeURI(strs[i].split("=")[1]);
+        if (url.indexOf('?') != -1) {
+            var str = url.substr(1).split('&');
+            for(var i = 0; i < str.length; i ++) {
+                var name = str[i].split("=")[0];
+                var value = decodeURI(str[i].split("=")[1]);
                 $this.find("[name="+name+"]").val(value);
             }
         }
