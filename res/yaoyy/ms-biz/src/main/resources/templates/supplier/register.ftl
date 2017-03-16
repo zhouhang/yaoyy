@@ -18,7 +18,7 @@
             <div class="form">
                 <form action="">
                     <div class="item">
-                        <input type="tel" class="ipt" name="name" id="name" placeholder="姓名" autocomplete="off">
+                        <input type="text" class="ipt" name="name" id="name" placeholder="姓名" autocomplete="off">
                         <span class="error"></span>
                     </div>
                     <div class="item">
