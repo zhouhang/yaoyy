@@ -82,7 +82,7 @@ em,i{font-style:normal;}
 .fa-cbx:checked{border-color:#b9a060;}
 .fa-cbx:checked:before{content:'';display:block;width:10px;height:10px;margin:4px;background:#b9a060;-webkit-border-radius:50%;border-radius:50%;}
 .fa-cbx2{position:relative;display:inline-block;width:16px;height:16px;color:#b9a060;border:1px solid #acacac;-webkit-border-radius:2px;border-radius:2px;}
-.fa-cbx2:checked{background:url(../images/cbx.png) no-repeat 50% 50%;background-size:100%; auto;border-color:#b9a060;}
+.fa-cbx2:checked{background:url(../images/cbx.png) no-repeat 50% 50%;background-size:100% auto;border-color:#b9a060;}
 .fa-switch{display:inline-block;width:60px;height:27px;background:#aaa;-webkit-border-radius:14px;border-radius:14px;}
 .fa-switch:before{content:'';display:block;width:25px;height:25px;margin:1px;background:#fff;-webkit-border-radius:14px;border-radius:14px;-webkit-transition:all .3s;transition:all .3s;}
 .fa-switch:checked{background:#b9a060;}
@@ -248,7 +248,7 @@ em,i{font-style:normal;}
 .search-his .clear{color:#b9a060;text-align:center;}
 
 /* page product */
-.plist{position:relative;z-index:2;overflow:hidden;}
+.plist{position:relative;z-index:2;}
 .plist li a{position:relative;display:block;padding:20px 12px;font-size:1.2rem;background:#fff;}
 .plist .cnt{padding-right:134px;}
 .plist .cnt .title{height:26px;font-size:1.8rem;overflow:hidden;}
@@ -258,9 +258,9 @@ em,i{font-style:normal;}
 .plist .cnt .price i{color:#b9a060;}
 .plist .cnt .price b{font-weight:400;}
 .plist .pic{position:absolute;top:20px;right:12px;width:110px;height:90px;overflow:hidden;}
-.plist ul{margin-left:90px;}
+.plist ul{padding-left:90px;overflow:hidden;}
 .plist li{margin-top:10px;border:1px solid #e7e7e7;border-right:0;}
-.plist dl{float:left;width:80px;line-height:55px;text-align:center;}
+.plist dl{position:fixed;left:0;top:55px;bottom:0;width:80px;line-height:55px;text-align:center;border-top:1px solid #e7e7e7;overflow:hidden;overflow-y:auto;}
 .plist dd{height:55px;background:#fff;border-right:1px solid #e7e7e7;border-bottom:1px solid #e7e7e7;overflow:hidden;}
 .plist .curr{color:#b9a060;background:none;border-right:0;}
 .plist .curr a{color:#b9a060;}

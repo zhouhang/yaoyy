@@ -120,7 +120,7 @@ var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.
     var icons = {
         error: '<i class="fa fa-times-circle"></i>'
         ,success: '<i class="fa fa-check-circle"></i>'
-        ,warn: '<i class="fa fa-prompt"></i>'
+        ,warn: '<i class="fa fa-exclamation-circle"></i>'
     }
     var $wrapper;
 
@@ -364,6 +364,11 @@ function _fix() {
     fix();
 }
 
+function navLight(idx) {
+    $('#navItem' + idx).addClass('current').closest('dl').addClass('active expand').siblings().removeClass('active expand');
+}
+
+
 // 侧栏导航
 function _sidebar() {
     var $sidebar = $('.sidebar'),
@@ -454,7 +459,7 @@ function _newMsg(notification) {
     }, 3e5);
 }
 
-
+// 桌面提醒
 function showNotification(options) {
     if (!window.Notification || !options) {
         return;
@@ -478,6 +483,51 @@ function showNotification(options) {
         $('#notification-audio').remove();
         t.close();
     }, options.delay || 5e3);
+}
+
+// 全选
+function _checkbox() {
+    var $table = $('.table'),
+        $cbx = $table.find('td input:checkbox'),
+        $checkAll = $table.find('th input:checkbox'),
+        count = $cbx.length;
+
+    // 全选
+    $checkAll.on('click', function() {
+        var isChecked = this.checked;
+        $cbx.each(function() {
+            this.checked = isChecked;
+        })
+    })
+    // 单选
+    $cbx.on('click', function() {
+        var _count = 0;
+        $cbx.each(function() {
+            _count += this.checked ? 1 : 0;
+        })
+        $checkAll.prop('checked', _count === count);
+    })
+}
+
+// 搜索
+function _filter() {
+    var $form = $('#filterForm');
+
+    if ($form.length === 1) {
+        var $ipts = $form.find('.ipt, .slt');
+
+        $form.initByUrlParams(); // 回填表单value
+
+        $form.on('submit', function() {
+            var params = [];
+            $ipts.each(function() {
+                var val = $.trim(this.value);
+                val && params.push(this.name + '=' + val);
+            })
+            window.location.href = $form.attr('action') + (params.length ? '?' + params.join('&') : '');
+            return false;
+        })
+    }
 }
 
 $(function() {

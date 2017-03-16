@@ -59,12 +59,14 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
     var _global = {
         fn: {
             init: function() {
+                navLight('10-1');
                 this.validator();
             },
             validator: function() {

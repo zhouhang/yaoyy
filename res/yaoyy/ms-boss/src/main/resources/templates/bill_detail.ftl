@@ -8,7 +8,6 @@
 <div class="wrapper">
     <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -21,11 +20,11 @@
             <div class="hd">基本信息</div>
             <div class="item">
                 <div class="txt">账单编号：</div>
-                <div class="val c-blue">${billVo.code!}</div>
+                <div class="val">${billVo.code!}</div>
             </div>
             <div class="item">
                 <div class="txt">订单编号：</div>
-                <div class="val"><a href="/pick/detail/${billVo.orderId}"class="c-blue">${billVo.orderCode!}</a></div>
+                <div class="val"><a href="/pick/detail/${billVo.orderId}" class="link">${billVo.orderCode!}</a></div>
             </div>
             <div class="item">
                 <div class="txt">客户姓名：</div>
@@ -100,7 +99,7 @@
                 <div class="txt">状态：</div>
                 <div class="val">
                 <#if billVo.status==0>
-                    未结清
+                    <span class="c-red">未结清</span>
                 <#else>
                     已结清
                 </#if>
@@ -185,7 +184,7 @@
             </div>
             <#if payRecord.status==0>
             <div class="ft">
-                <button class="ubtn ubtn-blue" id="configPay"payId="${payRecord.id}">确认收款</button>
+                <button type="button" class="ubtn ubtn-blue" id="configPay" data-payId="${payRecord.id}">确认收款</button>
             </div>
             </#if>
         </div>
@@ -194,43 +193,48 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            configUrl:'/bill/configPay'
+        configUrl: '/bill/configPay',
+        init: function() {
+            navLight('9-2');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-            },
-            bindEvent: function() {
-                $("#configPay").on('click',function () {
-                    var self=$(this);
-                    layer.confirm('确认收款？', {
-                        btn: ['确认','取消'] //按钮
-                    }, function(index){
-                        layer.close(index);
-                        $.ajax({
-                            url: _global.v.configUrl,
-                            data: {"payRecordId":self.attr("payId")},
-                            type: "POST",
-                            success: function(data) {
-                                if (data.status == "200") {
-                                    window.location.reload();
-                                }
-                            }
-                        })
-                    });
-                })
+        bindEvent: function() {
+            var that = this,
+                $configPay = $('#configPay'),
+                payId = $configPay.data('payId');
 
-            }
+            $configPay.on('click',function () {
+                layer.confirm('确认收款？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: that.configUrl,
+                        data: {'payRecordId': payId},
+                        type: 'POST',
+                        success: function(data) {
+                            if (data.status == 200) {
+                                $.notify({
+                                    type: 'success',
+                                    title: '操作成功',
+                                    callback: function() {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        }
+                    })
+                });
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

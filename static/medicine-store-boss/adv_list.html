@@ -208,7 +208,7 @@
 				// 删除
 				$table.on('click', '.jdel', function() {
 					var url = _global.v.deleteUrl + $(this).attr('href');
-                    layer.confirm('确认删除此广告？', {icon: 3, title: '提示'}, function (index) {
+                    layer.confirm('确认删除此广告？', function (index) {
                         $.get(url, function (data) {
                             if (data.status == "y") {
                         		layer.close(index);
@@ -251,14 +251,8 @@
                         sort: '排序: required; integer',
                         pictureUrl: '图片: required'
                     },
-                    valid: function (form) {
-                    }
+                    valid: function (form) {}
                 });
-
-                // 关闭弹层
-                $advForm.on('click', '.ubtn-gray', function () {
-                    layer.closeAll();
-                })
 
 				// 新建
 				$('#jaddNew').on('click', function() {
@@ -272,6 +266,10 @@
                         type: 1,
                         moveType: 1,
                         content: $advForm,
+                        btn: ['确定', '取消'],
+                        btn1: function() {
+                        	$advForm.submit();
+                        },
                         title: '新建广告'
                     });
                     

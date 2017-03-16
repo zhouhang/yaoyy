@@ -67,7 +67,9 @@
             <div class="qrcode"></div>
         </div>
     </div>
+    
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="/assets/js/jquery.qrcode.min.js"></script>
 <script>

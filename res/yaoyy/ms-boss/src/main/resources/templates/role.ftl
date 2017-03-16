@@ -6,10 +6,8 @@
 </head>
 <body>
 <div class="wrapper">
-
-    <#include "./common/header.ftl">
+    <#include "./common/header.ftl"/>
     <#include "./common/aside.ftl"/>
-
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -31,25 +29,25 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox"></th>
+                            <th><input type="checkbox" class="cbx"></th>
                             <th>编号</th>
                             <th>角色名称</th>
                             <th width="150">角色描述</th>
                             <th width="150">创建时间</th>
-                            <th class="tc" width="230">操作</th>
+                            <th class="tc" width="180">操作</th>
                         </tr>
                     </thead>
                     <tbody>
                     <#list rolePage.list as role>
                         <tr>
-                            <td><input type="checkbox" value="${role.id}"></td>
+                            <td><input type="checkbox" class="cbx" value="${role.id}"></td>
                             <td>${role.id}</td>
                             <td>${role.name!}</td>
                             <td>${role.description!}</td>
                             <td>${(role.createDate?datetime)!}</td>
-                            <td class="tc">
+                            <td class="tc" data-id="${role.id}">
                                 <a href="role/power/${role.id}" class="ubtn ubtn-blue jedit">配置</a>
-                                <a href="javascript:;"  class="ubtn ubtn-gray jdel" roleId="${role.id}">删除</a>
+                                <a href="javascript:;"  class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>
                     </#list>
@@ -62,58 +60,37 @@
     </div>
 
     <#include "./common/footer.ftl"/>
+</div>
 
 <script>
+!(function($, window) {
     var _global = {
-        v: {
-            deleteUrl: '/role/delete/',
+        deleteUrl: '/role/delete/',
+        init: function() {
+            navLight('7-2');
+            this.bindEvent();
         },
-        fn: {
-            init: function() {
-                this.bindEvent();
-            },
-            bindEvent: function() {
-                var $table = $('.table'),
-                        $cbx = $table.find('td input:checkbox'),
-                        $checkAll = $table.find('th input:checkbox'),
-                        count = $cbx.length;
+        bindEvent: function() {
+            var that = this
+                $table = $('.table');
 
-                // 删除
-                $table.on('click', '.jdel', function() {
-                    var url = _global.v.deleteUrl + $(this).attr('roleId');
-                    layer.confirm('确认删除此账户？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == 200) {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
-                    });
-                    return false; // 阻止链接跳转
-                })
+            // 删除
+            $table.on('click', '.jdel', function() {
+                var url = that.deleteUrl + $(this).parent().data('id');
 
-                // 全选
-                $checkAll.on('click', function() {
-                    var isChecked = this.checked;
-                    $cbx.each(function() {
-                        this.checked = isChecked;
-                    })
-                })
-                // 单选
-                $cbx.on('click', function() {
-                    var _count = 0;
-                    $cbx.each(function() {
-                        _count += this.checked ? 1 : 0;
-                    })
-                    $checkAll.prop('checked', _count === count);
-                })
-            }
+                layer.confirm('确认删除？', {icon: 3}, function (index) {
+                    $.get(url, function (data) {
+                        if (data.status == '200') {
+                            window.location.reload();
+                        }
+                    }, 'json');
+                });
+                return false;
+            })
         }
     }
-
-    $(function() {
-        _global.fn.init();
-    })
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

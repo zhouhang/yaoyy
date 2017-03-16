@@ -183,7 +183,6 @@
 					$count = $('.row-calc').find('em'),
 					model = $('#temp').html(),
 					idx = 1,
-					count = 0,
 					price = 0;
 
                 $myform.validator({
@@ -217,12 +216,17 @@
 
 				// calc
 				$rowList.on('blur', '.number', function() {
-					if (isNaN(this.value)) {
-						count += 0;
-					} else {
-						count += parseInt(this.value, 10);
-					}
-					$count.html(count * price);
+					var count = 0;
+	                $rowList.find('.number').each(function() {
+	                	if (this.value == '' || isNaN(this.value)) {
+	                		count += 0;
+	                	} else {
+	                    	count += parseInt(this.value, 10);
+	                	}
+	                })
+	                console.log(count, price)
+	                $count.html(count * price);
+
 				})
 
 				// 添加行

@@ -230,7 +230,9 @@
             </div>
         </form>
     </div>
+    
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
@@ -247,7 +249,7 @@
         v: {},
         fn: {
             init: function () {
-                this.createTitle();
+                navLight('6-2');
                 this.umeditor();
                 this.catname();
                 this.myform();
@@ -271,7 +273,7 @@
                 var um = UM.getEditor('detail', {
                     initialFrameWidth: isMobile ? '100%' : 700,
                     initialFrameHeight: 320
-                }).setContent('');
+                })
             },
             // 查询品种
             catname: function () {
@@ -344,7 +346,7 @@
                         exterior: '性状特征: required',
                         executiveStandard: '执行标准: required',
                         origin: '产地: required',
-                        harYear: '采收年份: required',
+                        harYear: '采收时间: required',
                         thumbnailUrl: '商品缩略图: required',
                         pictureUrl: '商品图片: required',
                         minimumQuantity: '起购数量: range(0~9999)',

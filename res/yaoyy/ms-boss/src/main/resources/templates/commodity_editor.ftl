@@ -138,9 +138,9 @@
 
                 </div>
                 <div class="item">
-                    <div class="txt"><i>*</i>采收年份：</div>
+                    <div class="txt"><i>*</i>采收时间：</div>
                     <div class="cnt">
-                        <input type="text" name="harYear" class="ipt" value="${commodity.harYear}" placeholder="采收年份" autocomplete="off">
+                        <input type="text" name="harYear" class="ipt" value="${commodity.harYear}" placeholder="采收时间" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
@@ -293,7 +293,9 @@
             </div>
         </form>
     </div>
+    
     <#include "./common/footer.ftl"/>
+</div>
 
 <script src="assets/js/croppic.min.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
@@ -310,7 +312,7 @@
         v: {},
         fn: {
             init: function () {
-                this.createTitle();
+                navLight('6-2');
                 this.umeditor();
                 this.catname();
                 this.myform();
@@ -412,7 +414,7 @@
                         exterior: '性状特征: required',
                         executiveStandard: '执行标准: required',
                         origin: '产地: required',
-                        harYear: '采收年份: required',
+                        harYear: '采收时间: required',
                         thumbnailUrl: '商品缩略图: required',
                         pictureUrl: '商品图片: required',
                         minimumQuantity:'起购数量: range(0~9999)',
