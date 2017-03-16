@@ -31,7 +31,7 @@
                 </#if>
             </dl>
             <input type="hidden" name="categoryId" value="${categoryId!}"/>
-            <ul id="categroyList">
+            <ul id="categoryList">
             </ul>
         </div>
     </section><!-- /ui-content -->
@@ -51,7 +51,8 @@
                 $side = $('.side').on('click', 'a', function() {
                     var categoryId = $(this).attr("data-id");
                     var parameter = {categoryId: categoryId};
-                    $("#categroyList").empty();
+                    $("#categoryList").empty();
+                    $("input[name=keyword]").val("");
                     $("input[name=categoryId]").val(categoryId);
                     self.getData(parameter);
                     return false;
@@ -117,7 +118,7 @@
                     html.push( '</a>\n');
                     html.push('</li>');
                 })
-                $('#categroyList').append(html.join(''));
+                $('#categoryList').append(html.join(''));
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
@@ -132,11 +133,16 @@
 
         $("#search").click(function(){
             var keyword = $("input[name=keyword]").val();
-            $("#categroyList").empty();
+            $("#categoryList").empty();
             $("input[name=categoryId]").attr("value","");
             _global.fn.getData({keyword: keyword});
             return false;
-        })
+        });
+
+        $("form").submit(function(e){
+            $('#search').trigger("click");
+            return false;
+        });
 
     });
 
