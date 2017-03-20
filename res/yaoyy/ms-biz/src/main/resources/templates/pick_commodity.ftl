@@ -122,7 +122,7 @@
                 html.push('    <em class="error"></em>');*/
                 html.push('</div>')
                 html.push('<div class="item">');
-                html.push('    <button type="button" class="ubtn ubtn-primary" id="submit">登录</button>');
+                html.push('    <button type="button" class="ubtn ubtn-primary" id="submit">选货登记</button>');
                 html.push('</div>');
                 html.push('</div>');
 
@@ -221,7 +221,7 @@
                         btn: ['确定', '取消'],
                         yes: function(index) {
                             deleteCommodity(id);
-                            $this.closest('.floor').remove();
+                            $el.closest('.floor').remove();
                             layer.close(index);
                             if ($wrap.find('.floor').length === 0) {
                                 $wrap.empty();
