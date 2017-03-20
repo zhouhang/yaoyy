@@ -230,8 +230,8 @@
                             } else {
                                 $el.remove();
                             }
-                            $el.find('.cbx:checked').length === 1 && self.cbx[key][0]--;
-                            self.cbx[key][1]--;
+                            // $el.find('.cbx:checked').length === 1 && self.cbx[key][0]--;
+                            // self.cbx[key][1]--;
                             layer.close(index);
                         }
                     });
