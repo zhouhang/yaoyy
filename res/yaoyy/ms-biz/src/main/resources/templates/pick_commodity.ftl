@@ -221,20 +221,12 @@
                         btn: ['确定', '取消'],
                         yes: function(index) {
                             deleteCommodity(id);
-                            if ($el.siblings().length === 1) {
-                                currId = 'empty';
-                                if ($el.parent().siblings().length === 1) {
-                                    $wrap.empty();
-                                    self.empty(true);
-                                } else {
-                                    $el.parent().remove();
-                                }
-                            } else {
-                                $el.remove();
-                            }
-                            // $el.find('.cbx:checked').length === 1 && self.cbx[key][0]--;
-                            // self.cbx[key][1]--;
+                            $this.closest('.floor').remove();
                             layer.close(index);
+                            if ($wrap.find('.floor').length === 0) {
+                                $wrap.empty();
+                                self.empty(true);
+                            }
                         }
                     });
                 })
