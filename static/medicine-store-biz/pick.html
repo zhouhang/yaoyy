@@ -150,7 +150,6 @@
                         $.ajax({
                             url: 'json/cart.json',
                             success: function(data) {
-                                $('.ui-loading').hide();
                                 if (data.data.length !== 0) {
                                     self.empty(false);
                                     self.tohtml(data.data, arr);
@@ -288,7 +287,6 @@
                         });
                     })
                     pickVo.pickCommodityVoList = list;
-                    console.log(pickVo)
                 })
             },
             bindEvent: function() {

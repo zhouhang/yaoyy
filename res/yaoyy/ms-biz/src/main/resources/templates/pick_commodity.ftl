@@ -52,7 +52,6 @@
                             type: "POST",
                             contentType : 'application/json',
                             success: function(data) {
-                                $('.ui-loading').hide();
                                 if (data.data.length !== 0) {
                                     self.empty(false);
                                     self.tohtml(data.data, arr);
@@ -60,6 +59,9 @@
                                     _YYY.localstorage.remove(_YYY.CARTNAME);
                                     self.empty(true);
                                 }
+                            },
+                            complete: function() {
+                                $('.ui-loading').hide();
                             }
                         })
                     } else {
