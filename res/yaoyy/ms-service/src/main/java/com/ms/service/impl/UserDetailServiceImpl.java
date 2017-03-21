@@ -51,6 +51,9 @@ public class UserDetailServiceImpl  extends AbsCommonService<UserDetail> impleme
 	public void save(UserDetail userDetail) {
 		userDetail.setNickname(userDetail.getNickname());
 		Date now=new Date();
+		if(null==userDetail.getContract()){
+			userDetail.setContract(0);
+		}
 		if(userDetail.getId()==null){
 			userDetail.setCreateTime(now);
 			userDetail.setUpdateTime(now);

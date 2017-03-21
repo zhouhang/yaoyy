@@ -153,6 +153,7 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 			userDetail.setName("");
 			userDetail.setRemark("");
 			userDetail.setType(0);
+			userDetail.setContract(0);
 			userDetail.setUpdateTime(now);
 			userDetail.setCreateTime(now);
 			userDetailDao.create(userDetail);
