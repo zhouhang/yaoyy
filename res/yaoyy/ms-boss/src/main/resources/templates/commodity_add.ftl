@@ -250,6 +250,7 @@
         fn: {
             init: function () {
                 navLight('6-2');
+                this.createTitle();
                 this.umeditor();
                 this.catname();
                 this.myform();
