@@ -197,13 +197,12 @@ a.ubtn{height:28px;}
 .fa-form .ipt-wrap .unit{position:absolute;top:1px;right:1px;line-height:1.5;padding:6px 9px;background:#ebebeb;color:#999;}
 .fa-form .inner{position:relative;padding:0 5px;}
 .fa-form .inner .ipt{width:100%;}
-.fa-form .msg-box{position:absolute;top:33px;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;}
+.fa-form .msg-box{position:absolute;top:100%;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;}
 .fa-form .msg-box:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
 .fa-form .msg-box .error{color:#fff;}
 .fa-form .tips{margin-left:10px;color:#999;}
 .fa-form .cnt-mul{margin-bottom:15px;}
 .fa-form .cnt-mul .up-img{vertical-align:top;}
-.fa-form .cnt-mul .msg-box{top:auto;bottom:-23px;}
 .fa-form .pics{margin-left:30px;}
 .fa-form .pics .up-img{margin:0 10px 10px 0;}
 .fa-form .agreement .cnt{height:46px;}
