@@ -48,7 +48,6 @@
                     <div class="txt"><i>*</i>标题：</div>
                     <div class="cnt">
                         <input type="text" name="title" id="title" class="ipt" placeholder="标题" autocomplete="off">
-                        <button type="button" class="ubtn ubtn-blue" id="createTitle">生成标题</button>
                     </div>
                 </div>
                 <div class="item" id="junitPrice">
@@ -265,8 +264,22 @@
                     $origin = $('#origin'),
                     $title = $('#title');
                 
-                $('#createTitle').on('click', function() {
-                    $title.val($name.val() + ' ' + $spec.val() + ' ' + $origin.val());  
+                var setTitle = function() {
+                    var name = $name.val(),
+                        spec = $spec.val(),
+                        origin = $origin.val();
+
+                    name && spec && origin && $title.val(name + ' ' + spec + ' ' + origin);
+                }
+                
+                $name.on('blur', function() {
+                    setTitle();
+                })
+                $spec.on('blur', function() {
+                    setTitle();
+                })
+                $origin.on('blur', function() {
+                    setTitle();
                 })
             },
             umeditor: function() {
