@@ -214,21 +214,13 @@
     var _global = {
         init: function() {
             navLight('8-1');
-            this.bindEvent();
+            this.commodity();
             this.checkForm();
             this.searchBreeds();
             this.submitEvent();
         },
-        bindEvent: function() {
-            var that = this,
-                $commodity = $('#commodity');
-
-            that.plist();
-
-
-        },
         // 经营商品
-        plist: function() {
+        commodity: function() {
             var that = this,
                 $body = $('body');
                 $table = $('#commodity').find('tbody'),

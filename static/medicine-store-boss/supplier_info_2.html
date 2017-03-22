@@ -306,27 +306,15 @@
                     financeNote: '资金实力描述: required',
                 },
                 valid: function(form) {
-                    // 验证成功
-                    // 成功提示
+                    // 验证通过
                     $.notify({
                         type: 'success', 
                         title: '操作成功'
                     });
+                    return false;
                 }
             });
 
-            // 提交
-            $('#jsubmit1').on('click', function() {
-                return that.checkForm();
-            })
-        },
-        checkForm: function() {
-            $('.cbxs2').each(function() {
-                if ($(this).find('.cbx:checked') === 0) {
-
-                }
-            })
-            
         },
         // 商品图片
         goodsImg: function() {
