@@ -46,7 +46,49 @@ public class Supplier  implements Serializable {
 	private Date createTime;
 	
 	private Date updateTime;
-	
+
+	//记录5个状态  未核实 已核实 核实不正确   已实地考察  已签约(签约才添加商品)
+	private Integer status;
+
+	//详细地址
+	private String address;
+
+	//组织类型
+	private Integer org;
+
+	//年业务量
+	private String bizYear;
+
+	//业务类型
+	private Integer bizType;
+
+	//经营地
+	private Integer bizPlace;
+
+	//客户群体类型，因为多选，所以String，将群体类型id用逗号分隔
+	private String bizCustomerType;
+
+	//知名客户
+	private String bizPartner;
+
+	//员工规模
+	private Integer scaleStaff;
+
+	//仓库情况
+	private Integer scaleStore;
+
+	//仓库情况备注
+	private String scaleStoreMark;
+
+	//加工条件
+	private Integer scaleProcess;
+
+	//加工能力匹配性
+	private Integer scaleProcessAble;
+
+	//加工条件备注
+	private String scaleProcessMark;
+
 	public Supplier(){}
 	
 	public Integer getId() {

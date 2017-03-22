@@ -41,6 +41,9 @@ public class User  implements Serializable {
 
 	//供应商用户使用字段，0 未签合同，1已签合同
 	private Integer contract;
+
+	//绑定供应商id
+	private Integer supplierId;
 	
 	public User(){}
 	
@@ -135,5 +138,9 @@ public class User  implements Serializable {
 	public Integer getContract() {return contract;}
 
 	public void setContract(Integer contract) {this.contract = contract;}
+
+	public Integer getSupplierId() {return supplierId;}
+
+	public void setSupplierId(Integer supplierId) {this.supplierId = supplierId;}
 
 }

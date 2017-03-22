@@ -16,6 +16,20 @@
             <result column="create_time"  property="createTime" />
             <result column="update_time"  property="updateTime" />
             <result column="enter_category_str"  property="enterCategoryStr" />
+            <result column="status"  property="status" />
+            <result column="address"  property="address" />
+            <result column="org"  property="org" />
+            <result column="biz_year"  property="bizYear" />
+            <result column="biz_type"  property="bizType" />
+            <result column="biz_place"  property="bizPlace" />
+            <result column="biz_customer_type"  property="bizCustomerType" />
+            <result column="biz_partner"  property="bizPartner" />
+            <result column="scale_staff"  property="scaleStaff" />
+            <result column="scale_store"  property="scaleStore" />
+            <result column="scale_store_mark"  property="scaleStoreMark" />
+            <result column="scale_process"  property="scaleProcess" />
+            <result column="scale_process_able"  property="scaleProcessAble" />
+            <result column="scale_process_mark"  property="scaleProcessMark" />
         
     </resultMap>
 
@@ -25,7 +39,9 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,company,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,enter_category_str
+        id,name,company,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,enter_category_str,
+        status,address,org,biz_year,biz_type,biz_place,biz_customer_type,biz_partner,scale_staff,scale_store,scale_store_mark,
+        scale_process,scale_process_able,scale_process_mark
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierResultMap">
@@ -122,6 +138,62 @@
             <if test="updateTime != null">
                 update_time = #{updateTime},
             </if>
+
+            <if test="status != null">
+                status = #{status},
+            </if>
+
+            <if test="address != null">
+                address = #{address},
+            </if>
+
+            <if test="org != null">
+                org = #{org},
+            </if>
+
+            <if test="bizYear != null">
+                biz_year = #{bizYear},
+            </if>
+
+            <if test="bizType != null">
+                biz_type = #{bizType},
+            </if>
+
+            <if test="bizPlace != null">
+                biz_place = #{bizPlace},
+            </if>
+
+            <if test="bizCustomerType != null">
+                biz_customer_type = #{bizCustomerType},
+            </if>
+
+            <if test="bizPartner != null">
+                biz_partner = #{bizPartner},
+            </if>
+
+            <if test="scaleStaff != null">
+                scale_staff = #{scaleStaff},
+            </if>
+
+            <if test="scaleStore != null">
+                scale_store = #{scaleStore},
+            </if>
+
+            <if test="scaleStoreMark != null">
+                scale_store_mark = #{scaleStoreMark},
+            </if>
+
+            <if test="scaleProcess != null">
+                scale_process = #{scaleProcess},
+            </if>
+
+            <if test="scaleProcessAble != null">
+                scale_process_able = #{scaleProcessAble},
+            </if>
+
+            <if test="scaleProcessMark != null">
+                scale_process_mark = #{scaleProcessMark},
+            </if>
                             
         </set>
         where id = #{id}
@@ -137,7 +209,9 @@
     <select id="findVoByParams" resultMap="SupplierResultMapVo" parameterType="com.ms.dao.vo.SupplierVo">
         select
         s.id,s.name,s.company,s.phone,s.phone2,s.email,s.telephone,s.area,s.enter_category,s.qq,s.mark,s.create_time,
-        s.update_time,s.enter_category_str,a.id as areaid,a.areaname,a.position
+        s.update_time,s.enter_category_str,s.status,s.address,s.org,s.biz_year,s.biz_type,s.biz_place,s.biz_customer_type,
+        s.biz_partner,s.scale_staff,s.scale_store,s.scale_store_mark,s.scale_process,s.scale_process_able,s.scale_process_mark,
+        a.id as areaid,a.areaname,a.position
         from supplier s left join area a on s.area = a.id
         <where>
             <if test="id != null">

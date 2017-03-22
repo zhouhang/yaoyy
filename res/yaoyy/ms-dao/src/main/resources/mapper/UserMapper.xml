@@ -13,6 +13,7 @@
         <result column="source" property="source"/>
         <result column="status" property="status"/>
         <result column="verify" property="verify"/>
+        <result column="supplier_id" property="supplierId"/>
     </resultMap>
 
     <resultMap id="UserResultMapVo" type="com.ms.dao.vo.UserVo" extends="UserResultMap">
@@ -27,12 +28,12 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,type,phone,password,salt,openid,update_time,create_time,source,status,verify
+        id,type,phone,password,salt,openid,update_time,create_time,source,status,verify,supplier_id
     </sql>
     <sql id="Base_Column_List_Alisa">
         u.id as id,u.type as type,u.phone as phone,u.password as password,u.salt as salt,
         u.openid as openid,u.update_time as update_time,u.create_time as create_time,
-        u.source as source,u.status as status,u.verify as verify
+        u.source as source,u.status as status,u.verify as verify,u.supplier_id as supplier_id
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="UserResultMap">
@@ -82,6 +83,9 @@
             <if test="type != null">
                 and u.type = #{type}
             </if>
+            <if test="supplierId != null">
+                and u.supplier_id = #{supplierId}
+            </if>
         </where>
         order by u.id desc
     </select>
@@ -93,9 +97,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.User">
         insert into
-        user (type,phone,password,salt,openid,update_time,create_time,source,status,verify)
+        user (type,phone,password,salt,openid,update_time,create_time,source,status,verify,supplier_id)
         values
-        (#{type},#{phone},#{password},#{salt},#{openid},#{updateTime},#{createTime},#{source},#{status},#{verify})
+        (#{type},#{phone},#{password},#{salt},#{openid},#{updateTime},#{createTime},#{source},#{status},#{verify},#{supplierId})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.User">
@@ -140,6 +144,10 @@
 
             <if test="verify != null">
                 verify = #{verify},
+            </if>
+
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
             </if>
         </set>
         where id = #{id}
