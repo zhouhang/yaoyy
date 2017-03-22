@@ -204,7 +204,7 @@
 
                        })
                        model.push('</tbody>');
-                       model.push('<tfoot>');
+                       model.push('<tfoot class="tc">');
                        model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , contentItem.categoryId , '">+添加一个规格</a></td></tr>');
                        model.push('</tfoot>');
                        model.push('</table></div>');
@@ -328,7 +328,7 @@
                             '<td><button type="button" class="ubtn ubtn-blue del">删除</button></td></tr>');
                 })
                 model.push('</tbody>');
-                model.push('<tfoot class="hide">');
+                model.push('<tfoot class="hide tc">');
                 model.push('<tr><td colspan="4"><a href="javascript:;" class="c-blue add" data-id="' , categoryId , '">+添加一个规格</a></td></tr>');
                 model.push('</tfoot>');
                 model.push('</table></div>');

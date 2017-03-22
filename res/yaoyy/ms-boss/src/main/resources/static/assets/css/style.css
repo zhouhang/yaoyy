@@ -56,6 +56,8 @@ address,cite,dfn,em,i{font-style:normal;}
 .ubtn-gray:disabled{color:#999;}
 .ubtn-gray:disabled:hover{opacity:1;}
 a.ubtn{height:28px;}
+.ubtn-file{position:relative;border:1px solid #ccc;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden;}
+.ubtn-file input{position:absolute;width:10000px;height:1000px;right:-20px;top:-20px;font-size:1000px;opacity:0;filter:alpha(opacity=0);z-index:1;cursor:pointer;}
 
 /* link */
 .c-blue{color:#1869ff;}
@@ -141,7 +143,7 @@ a.ubtn{height:28px;}
 .tools .filter .group:nth-child(n+2){margin-top:10px;}
 .tools .filter .group label{display:inline-block;width:100px;text-align:right;}
 .tools .filter .group .ubtn{margin-left:40px;}
-.tools .ubtn{height:32px;line-height:32px;min-width:80px;vertical-align:top;}
+.tools .ubtn{min-width:80px;height:32px;line-height:32px;margin-right:6px;vertical-align:top;}
 .tools .action-add{float:left;}
 
 /* table */
@@ -172,13 +174,17 @@ a.ubtn{height:28px;}
 
 /* fa-tab */
 .fa-tab{margin-bottom:-15px;}
-.fa-tab span{display:inline-block;line-height:40px;padding:0 20px;cursor:pointer;}
+.fa-tab span,
+.fa-tab a{display:inline-block;line-height:40px;padding:0 20px;cursor:pointer;}
 .fa-tab .on{color:#23c0fa;font-weight:700;background:#fff;border-radius:5px 5px 0 0;}
 .fa-tab-cont .items:nth-child(n+2){display:none;}
 
 /* fa-form */
 .fa-form{position:relative;font-size:1.2rem;}
 .fa-form .hd{margin:0 0 15px 30px;font-size:1.8rem;font-weight:700;}
+.fa-form .caption{margin:30px 0 10px 75px;}
+.fa-form .caption em{margin-right:6px;font-size:1.4rem;font-weight:700;}
+.fa-form .caption i{margin-right:6px;color:#d74141;vertical-align:middle;font:700 14px tahoma;}
 .fa-form .item{position:relative;margin-bottom:20px;padding-left:140px;}
 .fa-form .f16{font-size:1.6rem;}
 .fa-form .hr{margin-top:20px;height:10px;border-top:1px solid #ccc;}
@@ -197,14 +203,16 @@ a.ubtn{height:28px;}
 .fa-form .ipt-wrap .unit{position:absolute;top:1px;right:1px;line-height:1.5;padding:6px 9px;background:#ebebeb;color:#999;}
 .fa-form .inner{position:relative;padding:0 5px;}
 .fa-form .inner .ipt{width:100%;}
-.fa-form .msg-box{position:absolute;top:100%;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;}
+.fa-form .msg-box{position:absolute;top:100%;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;white-space:nowrap;}
 .fa-form .msg-box:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
 .fa-form .msg-box .error{color:#fff;}
 .fa-form .tips{margin-left:10px;color:#999;}
 .fa-form .cnt-mul{margin-bottom:15px;}
 .fa-form .cnt-mul .up-img{vertical-align:top;}
-.fa-form .pics{margin-left:30px;}
 .fa-form .pics .up-img{margin:0 10px 10px 0;}
+.fa-form .cards{padding:10px 0 0 140px;}
+.fa-form .cards .li{display:inline-block;width:100px;margin:0 10px 10px 0;text-align:center;}
+.fa-form .cards .li img{display:inline-block;width:100px;height:100px;margin-bottom:10px;border:1px solid #ccc;}
 .fa-form .agreement .cnt{height:46px;}
 .fa-form .agreement a{color:#1769ff;}
 .fa-form .ft{margin:30px 0 30px 140px;}
@@ -221,6 +229,11 @@ a.ubtn{height:28px;}
 .fa-form .total{padding:8px 10px;text-align:right;}
 .fa-form .total em{color:#e33737;}
 .fa-form .note{padding-right:30px;text-align:right;color:#999;}
+.fa-form .row{}
+.fa-form .row .item{display:inline-block;margin-bottom:10px;padding-left:70px;vertical-align:top;}
+.fa-form .row .item .txt{width:70px;}
+.fa-form .row .item .ipt{width:100px;}
+.fa-form .row .op{display:inline-block;margin-left:20px;line-height:32px;vertical-align:top;}
 .fa-form-info .item{margin-bottom:0;}
 .Validform_checktip{position:absolute;top:30px;left:5px;z-index:2;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;display:none;}
 .Validform_checktip:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
@@ -238,14 +251,21 @@ a.ubtn{height:28px;}
 .fa-form .choose span{position:relative;display:inline-block;margin:0 15px 15px 0;padding:0 10px;border:1px solid #ccc;background:#fff;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}
 .fa-form .list{width:600px;margin-left:140px;}
-.fa-form .list li{position:relative;;margin-top:-1px;border:1px solid #ccc;overflow:hidden;*zoom:1;}
+.fa-form .list li{position:relative;margin-top:-1px;border:1px solid #ccc;overflow:hidden;*zoom:1;}
 .fa-form .list li .pimg{float:left;width:120px;min-height:70px;padding:10px;}
 .fa-form .list li .pimg img{width:100%;}
-.fa-form .list li .info{float:left;width:378px;height:42px;padding-top:10px;overflow:hidden;}
+.fa-form .list li .info{float:left;width:370px;height:42px;padding-top:10px;overflow:hidden;}
 .fa-form .list li .info strong{margin-right:10px;font-size:1.6rem;font-weight:700;}
-.fa-form .list li .edit{float:left;padding:10px;}
+.fa-form .list li .edit{float:right;padding:10px;}
 .fa-form .list li .price{position:absolute;bottom:10px;left:140px;}
 .fa-form .list li .ipt{width:90px;height:24px;line-height:24px;margin:0 5px;padding:0 3px;font-size:1.2rem;}
+.fa-form .plist{margin-left:30px;}
+.fa-form .plist li{padding:7px 0;overflow:hidden;}
+.fa-form .plist li .info{float:left;width:370px;height:24px;overflow:hidden;}
+.fa-form .plist li .info strong{margin-right:10px;font-size:1.6rem;font-weight:700;}
+.fa-form .plist li .op{margin-left:380px;}
+.fa-form .plist li .ipt{width:90px;height:24px;line-height:24px;padding:0 3px;font-size:1.2rem;}
+.fa-form .plist li em{margin:0 30px 0 5px;}
 .fa-form .group{display:none;overflow:hidden;*zoom:1;}
 .fa-form .group .item{float:left;width:100px;}
 .fa-form .ab{position:absolute;top:61px;left:615px;}
@@ -269,6 +289,7 @@ a.ubtn{height:28px;}
 .fa-form-layer{padding:30px 40px;max-height:100%;}
 .fa-form-layer .item{padding-left:100px;}
 .fa-form-layer .txt{left:-20px;width:110px;}
+.fa-form-layer .cnt .slt{min-width:auto;width:122px;}
 .fa-form-layer .button{padding:10px 30px 0 0;text-align:right;}
 .fa-form-layer .button .ubtn{min-width:80px;height:34px;margin-left:10px;}
 .layui-layer-btn .layui-layer-btn0{background:#23c0fa!important;border-color:#23c0fa!important;}
@@ -279,6 +300,31 @@ a.ubtn{height:28px;}
 #attribute th{text-align:center;}
 #attribute td{padding:0;line-height:36px;}
 #attribute .ipt{min-width:150px;}
+
+#commodity{width:372px;text-align:center;}
+#commodity table{width:100%;}
+#commodity tr:hover{background:#fff;}
+#commodity th{padding:0;text-align:center;}
+#commodity td{padding:0;line-height:36px;}
+#commodity .ipt{width:80px;}
+#commodity .op{border:1px solid #ccc;border-top:0;}
+#commodity .ipt-wrap{display:block;}
+
+
+#commodity .suggestions{position:absolute;top:100%;left:-1px;z-index:9;width:370px;color:#999;border:1px solid #ccc;background:#fff;box-shadow:0 2px 5px -2px rgba(0,0,0,.5);display:none;overflow:hidden;overflow-y:auto;}
+#commodity .suggestions .group{line-height:30px;text-align:left;display:block;}
+#commodity .suggestions .group:hover{color:#333;background:#f5f5f5;}
+#commodity .suggestions em{display:inline-block;width:106px;margin:0;padding-left:10px;cursor:default;}
+
+/* jquery.pagination */
+.jq-page{line-height:28px;padding:6px 10px 0;color:#333;overflow:hidden;*zoom:1;}
+.jq-page .p-size{float:left;}
+.jq-page .p-num{float:right;}
+.jq-page .p-num a,
+.jq-page .p-num span{margin:0 4px;padding:0;text-decoration:none;}
+.jq-page .p-num .current{color:#c3272b;}
+.jq-page .p-num .current.prev,
+.jq-page .p-num .current.next{color:#c3272b;}
 
 /*报价单管理*/
 .group-list{width:700px;}
@@ -514,9 +560,7 @@ a.ubtn{height:28px;}
 .fa-form .ft{margin:30px 0;text-align:center;}
 .fa-form .ft .ubtn{height:32px;line-height:32px;min-width:100px;margin:0 10px;}
 .fa-form table{width:100%;margin:0;}
-.fa-form .cbxs{width:100%;margin-bottom:15px;}
-.fa-form .cbxs label{display:inline-block;min-width:100px;}
-.fa-form .cbxs2 label{margin-right:15px;}
+.fa-form .cbxs{width:100%;}
 .fa-form .cnt-table{margin:0 0 0 -100px;padding-top:32px;}
 .fa-form .cnt-table.table{margin:0;padding-top:1px;}
 .fa-form .ml{min-width:60px;}
@@ -527,7 +571,6 @@ a.ubtn{height:28px;}
 .fa-form .suggestions{width:auto;}
 .fa-form .ipt-wrap .unit{top:2px;padding:5px 9px;}
 .fa-form .msg-box .error{white-space:nowrap;}
-.fa-form .pics{margin-left:0;}
 .fa-form-info .item{padding-left:100px;}
 .fa-form-info .txt{position:absolute;}
 .group-list{width:auto;}
