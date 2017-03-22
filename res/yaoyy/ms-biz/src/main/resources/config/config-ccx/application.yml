@@ -22,7 +22,7 @@ doc:
        url: http://376161552.tunnel.2bdata.com
 
 upload:
-    path: E:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ms-files/
+    path: D:/apache-tomcat-8.5.11/webapps/ms-files/
     url: http://127.0.0.1:8188/ms-files/
 
 #logging:
