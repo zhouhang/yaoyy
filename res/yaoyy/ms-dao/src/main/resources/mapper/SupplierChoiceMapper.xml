@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.SupplierChoiceDao">
+    <resultMap id="SupplierChoiceResultMap" type="com.ms.dao.model.SupplierChoice">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="survey_id"  property="surveyId" />
+            <result column="choose"  property="choose" />
+            <result column="desc"  property="desc" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="SupplierChoiceResultMapVo" type="com.ms.dao.vo.SupplierChoiceVo">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="survey_id"  property="surveyId" />
+            <result column="choose"  property="choose" />
+            <result column="desc"  property="desc" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,supplier_id,survey_id,choose,desc,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierChoiceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_choice
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="SupplierChoiceResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_choice
+    </select>
+
+    <select id="findByParams" resultMap="SupplierChoiceResultMapVo" parameterType="com.ms.dao.vo.SupplierChoiceVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_choice
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from supplier_choice
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.SupplierChoice">
+        insert into
+        supplier_choice (supplier_id,survey_id,choose,desc,create_time)
+        values
+        (#{supplierId},#{surveyId},#{choose},#{desc},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.SupplierChoice">
+        update supplier_choice
+        <set>
+                                                        
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
+            </if>
+                                            
+            <if test="surveyId != null">
+                survey_id = #{surveyId},
+            </if>
+                                            
+            <if test="choose != null">
+                choose = #{choose},
+            </if>
+                                            
+            <if test="desc != null">
+                desc = #{desc},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
