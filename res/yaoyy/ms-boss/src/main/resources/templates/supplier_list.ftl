@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <#include "./common/meta.ftl"/>
-<title>未签约供应商列表-药优优</title>
+<title>供应商列表-药优优</title>
 </head>
 <body>
 <div class="wrapper">
@@ -12,7 +12,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>供应商管理</li>
-                <li>未签约供应商</li>
+                <li>供应商列表</li>
             </ul>
         </div>
 
@@ -20,7 +20,21 @@
             <div class="tools">
                 <div class="filter">
                     <form id="filterForm" method="get" action="/supplier/list">
-                        <input type="text" name="name" class="ipt" value="" placeholder="姓名或手机号">
+                        <select class="ipt" name="status">
+                            <option value="">信息核实</option>
+                            <option value="0">未核实</option>
+                            <option value="1">已核实</option>
+                            <option value="2">核实不正确</option>
+                            <option value="3">已实地考察</option>
+                            <option value="4">已签约</option>
+                        </select>
+                        <!--<select class="ipt" name="binding">
+                            <option value="">绑定用户</option>
+                            <option value="">已绑定</option>
+                            <option value="">未绑定</option>
+                        </select>-->
+                        <input type="text" name="name" class="ipt" value="" placeholder="姓名/手机号">
+                        <input type="text" name="enterCategoryStr" class="ipt" value="" placeholder="品种">
                         <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
@@ -35,12 +49,15 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" class="cbx"></th>
-                            <th>姓名</th>
+                            <th>供应商编号</th>
+                            <th>供应商姓名</th>
                             <th>手机号</th>
                             <th>经营品种</th>
-                            <th>公司</th>
-                            <th>地区</th>
-                            <th>入驻时间</th>
+                            <th>信息核实</th>
+                            <th>绑定用户</th>
+                            <th>报价次数</th>
+                            <th>信息来源</th>
+                            <th>创建时间</th>
                             <th width="180" class="tc">操作</th>
                         </tr>
                     </thead>
@@ -48,11 +65,14 @@
                         <#list supplierVoPageInfo.list as supplier>
                         <tr>
                             <td><input type="checkbox" class="cbx"></td>
+                            <td>${supplier.id!}</td>
                             <td>${supplier.name!}</td>
                             <td>${supplier.phone!}</td>
                             <td>${supplier.enterCategoryStr!}</td>
-                            <td>${supplier.company!}</td>
-                            <td>${supplier.areaname!}</td>
+                            <td>${supplier.statusText!}</td>
+                            <td>${supplier.binding!}</td>
+                            <td>0</td>
+                            <td>${supplier.sourceText!}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc" data-id="${supplier.id}">
                                 <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>

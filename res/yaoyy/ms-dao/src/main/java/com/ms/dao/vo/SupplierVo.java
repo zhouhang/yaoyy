@@ -60,4 +60,26 @@ public class SupplierVo extends Supplier{
     public String getPosition() {return position;}
 
     public void setPosition(String position) {this.position = position;}
+
+    //供应商状态描述
+    private String statusText;
+
+    public String getStatusText() {return statusText;}
+
+    public void setStatusText(String statusText) {this.statusText = statusText;}
+
+    //是否绑定用户
+    private String binding;
+
+    //是否绑定用户
+    private String sourceText;
+
+    public String getSourceText() {return sourceText;}
+
+    public void setSourceText(String sourceText) {this.sourceText = sourceText;}
+
+    public String getBinding() {return binding;}
+
+    public void setBinding(String binding) {this.binding = binding;}
+
 }

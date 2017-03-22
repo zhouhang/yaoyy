@@ -220,7 +220,7 @@ public class SupplierController {
         userTrackRecordService.update(userTrackRecord);
 
         //删除supplier的值
-        supplierService.deleteById(supplierVo.getId());
+//        supplierService.deleteById(supplierVo.getId());
 
         //发短信（短信需要手机号，模板id及params）和微信（微信模板消息需要，模板id，openid及params map）
         if(userVo.getOpenid() != null) {

@@ -136,11 +136,12 @@
                 </a>
             </dt>
             <dd>
+                <a href="/supplier/list" id="navItem8-1"><i class="fa fa-circle-o"></i>供应商列表</a>
                 <@shiro.hasPermission name="supplier:unsign">
-                <a href="/supplier/list" id="navItem8-1"><i class="fa fa-circle-o"></i>未签约供应商</a>
+                <!--<a href="/supplier/list" id="navItem8-1"><i class="fa fa-circle-o"></i>未签约供应商</a>-->
                 </@shiro.hasPermission>
                 <@shiro.hasPermission name="supplier:sign">
-                <a href="/supplier/signlist" id="navItem8-2"><i class="fa fa-circle-o"></i>签约供应商</a>
+                <!--<a href="/supplier/signlist" id="navItem8-2"><i class="fa fa-circle-o"></i>签约供应商</a>-->
                 </@shiro.hasPermission>
                 <#--<a href="/supplier/stock" id="navItem8-3"><i class="fa fa-circle-o"></i>寄卖库存管理</a>-->
                 <#--<a href="/supplier/commodity" id="navItem8-4"><i class="fa fa-circle-o"></i>寄卖商品列表</a>-->

@@ -4,10 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.SupplierDao;
+import com.ms.dao.enums.SupplierSourceEnum;
+import com.ms.dao.enums.SupplierStatusEnum;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.vo.SupplierVo;
+import com.ms.dao.vo.UserVo;
 import com.ms.service.CategoryService;
 import com.ms.service.SupplierService;
+import com.ms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,8 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
@@ -78,6 +84,9 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		List<SupplierVo>  list = supplierDao.findVoByParams(supplierVo);
 		list.forEach(s->{
 			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
+			s.setStatusText(SupplierStatusEnum.get(s.getStatus()));
+			s.setBinding(userService.findByPhone(s.getPhone())==null?"未绑定":"已绑定");
+			s.setSourceText(SupplierSourceEnum.get(s.getSource()));
 		});
 		PageInfo page = new PageInfo(list);
 		return page;
