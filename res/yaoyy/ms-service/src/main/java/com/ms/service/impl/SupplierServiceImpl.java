@@ -96,7 +96,10 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		list.forEach(s->{
 			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
 			s.setStatusText(SupplierStatusEnum.get(s.getStatus()));
-			s.setBinding(userService.findByPhone(s.getPhone())==null?"未绑定":"已绑定");
+			UserVo uv = new UserVo();
+			uv.setSupplierId(s.getId());
+			List<UserVo> userVos = userService.findByParamsNoPage(uv);
+			s.setBinding(userVos.size()==0?"未绑定":"已绑定");
 			s.setSourceText(SupplierSourceEnum.get(s.getSource()));
 		});
 		PageInfo page = new PageInfo(list);
