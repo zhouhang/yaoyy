@@ -23,4 +23,14 @@ public interface SupplierService extends ICommonService<Supplier>{
      * @param supplierVo
      */
     Boolean register(SupplierVo supplierVo);
+
+
+    /**
+     * 前台供应商注册
+     * @param supplierVo
+     * @return
+     */
+    Boolean join(SupplierVo supplierVo);
+
+
 }

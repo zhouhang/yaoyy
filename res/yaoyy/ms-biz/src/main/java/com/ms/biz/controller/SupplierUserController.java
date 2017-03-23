@@ -7,6 +7,8 @@ import com.ms.dao.model.User;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.service.SupplierService;
 import com.ms.service.UserService;
+import com.ms.service.enums.RedisEnum;
+import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -43,6 +45,9 @@ public class SupplierUserController {
 
     @Autowired
     SupplierService supplierService;
+
+    @Autowired
+    private RedisManager redisManager;
 
     /**
      * 登入
@@ -180,6 +185,41 @@ public class SupplierUserController {
     @RequestMapping(value = "registerSuccess", method = RequestMethod.GET)
     public String registerSuccess() {
         return "supplier/register_success";
+    }
+
+    /**
+     * 供应商注册
+
+     * @return
+     */
+    @RequestMapping(value = "join", method = RequestMethod.GET)
+    public String join() {
+        return "supplier/join";
+    }
+
+    @RequestMapping(value = "join", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveJoin(SupplierVo supplier,String code) {
+
+
+        String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue()+supplier.getPhone());
+
+        Result result = Result.success().data("/user/supplier/registerSuccess");
+
+        if (!code.equalsIgnoreCase(rcode)) {
+            result = result.error().msg("验证码错误");
+        }
+        else{
+            // 1. 先去user里面插入
+            // 2. 再去supplier表插入
+            // 3. 入驻完成跳转到二维码页面
+            if (!supplierService.register(supplier)){
+                result = result.error().msg("您的信息已登记，正在审核中，无需重复登记.");
+            }
+        }
+
+        return result;
+
     }
 
 

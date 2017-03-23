@@ -4,14 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.SupplierDao;
-import com.ms.dao.enums.SupplierSourceEnum;
-import com.ms.dao.enums.SupplierStatusEnum;
+import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
+import com.ms.dao.model.User;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.CategoryService;
 import com.ms.service.SupplierService;
 import com.ms.service.UserService;
+import com.ms.service.dto.Password;
+import com.ms.service.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -106,8 +108,39 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	}
 
 	@Override
+	@Transactional
+	public Boolean join(SupplierVo supplierVo) {
+
+		SupplierVo param = new SupplierVo();
+		param.setPhone(supplierVo.getPhone());
+		List<SupplierVo> list = supplierDao.findByParams(param);
+		if (list.size() == 0) {
+			//首先user里面插入一条数据，然后supplier插入数据
+			if(userService.findByPhone(supplierVo.getPhone())==null){
+				User user = new User();
+				user.setPhone(supplierVo.getPhone());
+				user.setType(UserTypeEnum.supplier.getType());
+				user.setSource(UserSourceEnum.auto.getType());
+				user.setStatus(UserEnum.enable.getType());
+				user.setCreateTime(new Date());
+				user.setUpdateTime(new Date());
+				userService.create(user);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public ICommonDao<Supplier> getDao() {
 		return supplierDao;
 	}
+
+
+
+
+
 
 }
