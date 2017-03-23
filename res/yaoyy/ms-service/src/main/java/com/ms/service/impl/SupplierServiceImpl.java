@@ -7,9 +7,12 @@ import com.ms.dao.SupplierDao;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
+import com.ms.dao.vo.SupplierCertifyVo;
+import com.ms.dao.vo.SupplierCommodityVo;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.CategoryService;
+import com.ms.service.SupplierCommodityService;
 import com.ms.service.SupplierService;
 import com.ms.service.UserService;
 import com.ms.service.dto.Password;
@@ -32,6 +35,10 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private SupplierCommodityService supplierCommodityService;
+
 
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
@@ -131,6 +138,16 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		}
 
 		return false;
+	}
+
+	@Override
+	@Transactional
+	public void certify(SupplierCertifyVo supplierCertifyVo) {
+		save(supplierCertifyVo.getSupplier());
+		for(SupplierCommodityVo commodityVo:supplierCertifyVo.getSupplierCommodityVos()){
+			commodityVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+			supplierCommodityService.save(commodityVo);
+		}
 	}
 
 	@Override

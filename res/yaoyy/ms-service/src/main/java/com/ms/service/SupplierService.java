@@ -2,6 +2,7 @@ package com.ms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Supplier;
+import com.ms.dao.vo.SupplierCertifyVo;
 import com.ms.dao.vo.SupplierVo;
 
 import java.util.List;
@@ -31,6 +32,9 @@ public interface SupplierService extends ICommonService<Supplier>{
      * @return
      */
     Boolean join(SupplierVo supplierVo);
+
+
+    void certify(SupplierCertifyVo supplierCertifyVo);
 
 
 }

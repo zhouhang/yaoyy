@@ -1,5 +1,7 @@
 package com.ms.dao.vo;
 
+import com.ms.dao.enums.SupplierSourceEnum;
+import com.ms.dao.enums.SupplierStatusEnum;
 import com.ms.dao.model.Category;
 import com.ms.dao.model.Supplier;
 
@@ -64,7 +66,7 @@ public class SupplierVo extends Supplier{
     //供应商状态描述
     private String statusText;
 
-    public String getStatusText() {return statusText;}
+    public String getStatusText() {return SupplierStatusEnum.get(this.getStatus());}
 
     public void setStatusText(String statusText) {this.statusText = statusText;}
 
@@ -74,7 +76,7 @@ public class SupplierVo extends Supplier{
     //是否绑定用户
     private String sourceText;
 
-    public String getSourceText() {return sourceText;}
+    public String getSourceText() {return SupplierSourceEnum.get(this.getStatus());}
 
     public void setSourceText(String sourceText) {this.sourceText = sourceText;}
 
