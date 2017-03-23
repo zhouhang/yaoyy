@@ -122,41 +122,6 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		if (list.size() == 0) {
 			//首先user里面插入一条数据，然后supplier插入数据
 			if(userService.findByPhone(supplierVo.getPhone())==null){
-				UserVo userVo = new UserVo();
-				userVo.setType(UserTypeEnum.supplier.getType());
-				userVo.setPhone(supplierVo.getPhone());
-
-				UserDetailVo userDetailVo = new UserDetailVo();
-				userDetailVo.setName(supplierVo.getName());
-				userDetailVo.setPhone(supplierVo.getPhone());
-				userDetailVo.setCategoryIds(supplierVo.getEnterCategory());
-				userDetailVo.setCompany(supplierVo.getCompany());
-				userDetailVo.setArea(supplierVo.getArea());
-				userDetailVo.setEmail(supplierVo.getEmail());
-				userDetailVo.setQq(supplierVo.getQq());
-				userDetailVo.setRemark(supplierVo.getMark());
-				userDetailVo.setContract(ContractEnum.IS_NOT_CONTRACT.getKey());
-				userVo = userService.sign(userVo, userDetailVo);
-
-
-				User user = new User();
-				if(wxMpUser!=null){
-					user.setOpenid(wxMpUser.getOpenId());
-				}
-				user.setPhone(supplierVo.getPhone());
-				user.setType(UserTypeEnum.supplier.getType());
-				user.setSource(UserSourceEnum.auto.getType());
-				user.setStatus(UserEnum.enable.getType());
-				user.setCreateTime(new Date());
-				user.setUpdateTime(new Date());
-				userService.create(user);
-
-				if(wxMpUser!=null){
-					UserDetail userDetail = new UserDetail();
-
-
-					userDetailService.save(userDetail);
-				}
 
 			}
 			return true;
