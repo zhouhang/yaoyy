@@ -7,13 +7,18 @@ import com.ms.dao.SupplierDao;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
+import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.SupplierVo;
+import com.ms.dao.vo.UserDetailVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.CategoryService;
 import com.ms.service.SupplierService;
+import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.dto.Password;
+import com.ms.service.enums.ContractEnum;
 import com.ms.service.utils.EncryptUtil;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,12 +31,12 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Autowired
 	private SupplierDao supplierDao;
-
 	@Autowired
 	private CategoryService categoryService;
-
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserDetailService userDetailService;
 
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
@@ -109,7 +114,7 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Override
 	@Transactional
-	public Boolean join(SupplierVo supplierVo) {
+	public Boolean join(SupplierVo supplierVo,WxMpUser wxMpUser) {
 
 		SupplierVo param = new SupplierVo();
 		param.setPhone(supplierVo.getPhone());
@@ -117,7 +122,27 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		if (list.size() == 0) {
 			//首先user里面插入一条数据，然后supplier插入数据
 			if(userService.findByPhone(supplierVo.getPhone())==null){
+				UserVo userVo = new UserVo();
+				userVo.setType(UserTypeEnum.supplier.getType());
+				userVo.setPhone(supplierVo.getPhone());
+
+				UserDetailVo userDetailVo = new UserDetailVo();
+				userDetailVo.setName(supplierVo.getName());
+				userDetailVo.setPhone(supplierVo.getPhone());
+				userDetailVo.setCategoryIds(supplierVo.getEnterCategory());
+				userDetailVo.setCompany(supplierVo.getCompany());
+				userDetailVo.setArea(supplierVo.getArea());
+				userDetailVo.setEmail(supplierVo.getEmail());
+				userDetailVo.setQq(supplierVo.getQq());
+				userDetailVo.setRemark(supplierVo.getMark());
+				userDetailVo.setContract(ContractEnum.IS_NOT_CONTRACT.getKey());
+				userVo = userService.sign(userVo, userDetailVo);
+
+
 				User user = new User();
+				if(wxMpUser!=null){
+					user.setOpenid(wxMpUser.getOpenId());
+				}
 				user.setPhone(supplierVo.getPhone());
 				user.setType(UserTypeEnum.supplier.getType());
 				user.setSource(UserSourceEnum.auto.getType());
@@ -125,8 +150,15 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 				user.setCreateTime(new Date());
 				user.setUpdateTime(new Date());
 				userService.create(user);
-			}
 
+				if(wxMpUser!=null){
+					UserDetail userDetail = new UserDetail();
+
+
+					userDetailService.save(userDetail);
+				}
+
+			}
 			return true;
 		}
 
