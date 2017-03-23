@@ -15,10 +15,10 @@ public class SupplierChoice  implements Serializable {
 	
 	//survey表id
 	private Integer surveyId;
-	//答案序号
+	
 	private Integer choose;
-	//描述
-	private String desc;
+	
+	private String surveyDesc;
 	
 	private Date createTime;
 	
@@ -56,12 +56,12 @@ public class SupplierChoice  implements Serializable {
 		this.choose = choose;
 	}
 	
-	public String getDesc() {
-		return desc;
+	public String getSurveyDesc() {
+		return surveyDesc;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setSurveyDesc(String surveyDesc) {
+		this.surveyDesc = surveyDesc;
 	}
 	
 	public Date getCreateTime() {

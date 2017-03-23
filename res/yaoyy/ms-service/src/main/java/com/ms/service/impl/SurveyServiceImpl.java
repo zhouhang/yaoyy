@@ -26,6 +26,13 @@ public class SurveyServiceImpl  extends AbsCommonService<Survey> implements Surv
         return page;
 	}
 
+	@Override
+	public List<SurveyVo> allQuestions() {
+		SurveyVo surveyVo=new SurveyVo();
+		List<SurveyVo>  list = surveyDao.findByParams(surveyVo);
+		return list;
+	}
+
 
 	@Override
 	public ICommonDao<Survey> getDao() {

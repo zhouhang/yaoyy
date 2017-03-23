@@ -6,7 +6,7 @@
             <result column="supplier_id"  property="supplierId" />
             <result column="survey_id"  property="surveyId" />
             <result column="choose"  property="choose" />
-            <result column="desc"  property="desc" />
+            <result column="survey_desc"  property="surveyDesc" />
             <result column="create_time"  property="createTime" />
         
     </resultMap>
@@ -16,13 +16,13 @@
             <result column="supplier_id"  property="supplierId" />
             <result column="survey_id"  property="surveyId" />
             <result column="choose"  property="choose" />
-            <result column="desc"  property="desc" />
+            <result column="survey_desc"  property="surveyDesc" />
             <result column="create_time"  property="createTime" />
         
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,supplier_id,survey_id,choose,desc,create_time
+        id,supplier_id,survey_id,choose,survey_desc,create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierChoiceResultMap">
@@ -46,6 +46,9 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId}
+            </if>
         </where>
     </select>
 
@@ -56,9 +59,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.SupplierChoice">
         insert into
-        supplier_choice (supplier_id,survey_id,choose,desc,create_time)
+        supplier_choice (supplier_id,survey_id,choose,survey_desc,create_time)
         values
-        (#{supplierId},#{surveyId},#{choose},#{desc},#{createTime})
+        (#{supplierId},#{surveyId},#{choose},#{surveyDesc},#{createTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.SupplierChoice">
@@ -77,8 +80,8 @@
                 choose = #{choose},
             </if>
                                             
-            <if test="desc != null">
-                desc = #{desc},
+            <if test="surveyDesc != null">
+                survey_desc = #{surveyDesc},
             </if>
                                             
             <if test="createTime != null">
@@ -88,4 +91,8 @@
         </set>
         where id = #{id}
     </update>
+    <delete id="deleteBySupplierId" parameterType="java.lang.Integer">
+        delete from supplier_choice
+        where supplier_id = #{supplierId}
+    </delete>
 </mapper>

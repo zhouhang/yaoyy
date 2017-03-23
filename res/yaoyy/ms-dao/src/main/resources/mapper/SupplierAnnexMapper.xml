@@ -44,6 +44,9 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId}
+            </if>
         </where>
     </select>
 
@@ -82,4 +85,8 @@
         </set>
         where id = #{id}
     </update>
+    <delete id="deleteBySupplierId" parameterType="java.lang.Integer">
+        delete from supplier_annex
+        where supplier_id = #{supplierId}
+    </delete>
 </mapper>

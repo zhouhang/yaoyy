@@ -7,14 +7,8 @@ import com.ms.dao.SupplierDao;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
-import com.ms.dao.vo.SupplierCertifyVo;
-import com.ms.dao.vo.SupplierCommodityVo;
-import com.ms.dao.vo.SupplierVo;
-import com.ms.dao.vo.UserVo;
-import com.ms.service.CategoryService;
-import com.ms.service.SupplierCommodityService;
-import com.ms.service.SupplierService;
-import com.ms.service.UserService;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
 import com.ms.service.dto.Password;
 import com.ms.service.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +32,19 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Autowired
 	private SupplierCommodityService supplierCommodityService;
+
+
+	@Autowired
+	private SupplierChoiceService supplierChoiceService;
+
+	@Autowired
+	private SupplierContactService supplierContactService;
+
+	@Autowired
+	private SupplierAnnexService supplierAnnexService;
+
+	@Autowired
+	private UserTrackRecordService userTrackRecordService;
 
 
 	@Override
@@ -143,11 +150,83 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	@Override
 	@Transactional
 	public void certify(SupplierCertifyVo supplierCertifyVo) {
-		save(supplierCertifyVo.getSupplier());
-		for(SupplierCommodityVo commodityVo:supplierCertifyVo.getSupplierCommodityVos()){
-			commodityVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
-			supplierCommodityService.save(commodityVo);
+		SupplierVo old=supplierDao.findVoById(supplierCertifyVo.getSupplier().getId());
+		SupplierVo  supplier=supplierCertifyVo.getSupplier();
+		if(old!=null){
+			//如果已经审核过，不改变状态
+			if(!old.getStatus().equals(SupplierStatusEnum.UNVERIFY.getType())){
+				supplier.setStatus(old.getStatus());
+			}
+			save(supplier);
+			if(supplierCertifyVo.getSupplierCommodityVos()!=null) {
+				for (SupplierCommodityVo commodityVo : supplierCertifyVo.getSupplierCommodityVos()) {
+					commodityVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+					supplierCommodityService.save(commodityVo);
+				}
+			}
+			//只有首次审核记跟踪记录
+			if(old.getStatus().equals(SupplierStatusEnum.UNVERIFY.getType())){
+				UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+				userTrackRecordVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+				userTrackRecordVo.setMemberId(supplierCertifyVo.getMemberId());
+				if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
+					userTrackRecordVo.setContent("信息审核正确");
+				}
+				else if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
+					userTrackRecordVo.setContent("信息审核不正确");
+				}
+
+				userTrackRecordVo.setCreateTime(new Date());
+				userTrackRecordService.create(userTrackRecordVo);
+			}
 		}
+		else{
+			save(supplier);
+			if(supplierCertifyVo.getSupplierCommodityVos()!=null){
+				for(SupplierCommodityVo commodityVo:supplierCertifyVo.getSupplierCommodityVos()){
+					commodityVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+					supplierCommodityService.save(commodityVo);
+				}
+			}
+
+		}
+
+	}
+
+	@Override
+	@Transactional
+	public void judge(SupplierJudgeVo supplierJudgeVo) {
+		SupplierVo old=supplierDao.findVoById(supplierJudgeVo.getSupplierVo().getId());
+		SupplierVo  supplier=supplierJudgeVo.getSupplierVo();
+		//必须是已经审核才修改状态
+		if(!old.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
+			supplier.setStatus(old.getStatus());
+		}
+		save(supplierJudgeVo.getSupplierVo());
+
+		supplierJudgeVo.getContacts().forEach(supplierContactVo -> {
+			supplierContactService.save(supplierContactVo);
+		});
+		supplierAnnexService.deleteBySupplierId(supplier.getId());
+		supplierJudgeVo.getAnnexVos().forEach(supplierAnnexVo -> {
+			supplierAnnexService.save(supplierAnnexVo);
+		});
+		supplierChoiceService.deleteBySupplierId(supplierJudgeVo.getSupplierVo().getId());
+		supplierJudgeVo.getChoiceVos().forEach(supplierChoiceVo -> {
+			supplierChoiceService.save(supplierChoiceVo);
+		});
+
+		if(old.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
+			UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+			userTrackRecordVo.setSupplierId(supplier.getId());
+			userTrackRecordVo.setMemberId(supplierJudgeVo.getMemberId());
+			userTrackRecordVo.setContent("实地考察认证");
+			userTrackRecordVo.setCreateTime(new Date());
+			userTrackRecordService.create(userTrackRecordVo);
+		}
+
+
+
 	}
 
 	@Override

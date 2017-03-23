@@ -18,9 +18,9 @@
 		</div>
 
         <div class="fa-tab">
-            <a href="supplier_info_1.html">基本信息</a>
-            <a href="supplier_info_2.html">评价信息</a>
-            <a href="supplier_info_3.html">身份信息</a>
+            <a href="#">基本信息</a>
+            <a href="#">评价信息</a>
+            <!--<a href="#">身份信息</a>-->
             <span class="on">商品调价</span>
         </div>
 
