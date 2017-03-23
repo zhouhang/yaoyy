@@ -5,6 +5,8 @@ import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.Area;
+import com.ms.dao.model.Supplier;
+import com.ms.dao.model.SupplierCommodity;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
@@ -21,11 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 
@@ -65,6 +65,8 @@ public class SupplierController {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private SupplierCommodityService supplierCommodityService;
 
     /**
      * 供应商list
@@ -130,7 +132,7 @@ public class SupplierController {
         SupplierVo supplierVo=supplierService.findVoById(id);
 
 
-        List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
+        List<SupplierCommodityVo> commodityVos=supplierCommodityService.findBySupplierId(id);
 
         model.put("supplierVo",supplierVo);
         model.put("commodityVos",commodityVos);
@@ -156,7 +158,7 @@ public class SupplierController {
         List<UserTrackRecordVo> userTrackRecordVos = userTrackRecordService.findByParamsNoPage(userTrackRecordVo);
         model.put("userTrackRecordVos", userTrackRecordVos);
 
-        return "supplier_detail";
+        return "supplier/supplier_detail";
     }
 
     /**
@@ -396,6 +398,16 @@ public class SupplierController {
 
         return "supplier/supplier_commodity";
     }
+  /**
+     * 核实供应商(包括正确和不正确)
+     * @param supplierCertifyVo
+     * @return
+     */
 
-
+    @RequestMapping(value = "verify", method = RequestMethod.POST)
+    @ResponseBody
+    public Result verify(@RequestBody SupplierCertifyVo supplierCertifyVo){
+        supplierService.certify(supplierCertifyVo);
+        return Result.success("核实成功");
+    }
 }

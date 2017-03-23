@@ -7,18 +7,16 @@ import com.ms.dao.SupplierDao;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
-import com.ms.dao.model.UserDetail;
+import com.ms.dao.vo.SupplierCertifyVo;
+import com.ms.dao.vo.SupplierCommodityVo;
 import com.ms.dao.vo.SupplierVo;
-import com.ms.dao.vo.UserDetailVo;
 import com.ms.dao.vo.UserVo;
 import com.ms.service.CategoryService;
+import com.ms.service.SupplierCommodityService;
 import com.ms.service.SupplierService;
-import com.ms.service.UserDetailService;
 import com.ms.service.UserService;
 import com.ms.service.dto.Password;
-import com.ms.service.enums.ContractEnum;
 import com.ms.service.utils.EncryptUtil;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,12 +29,18 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Autowired
 	private SupplierDao supplierDao;
+
 	@Autowired
 	private CategoryService categoryService;
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private UserDetailService userDetailService;
+
+	@Autowired
+	private SupplierCommodityService supplierCommodityService;
+
 
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
@@ -128,6 +132,16 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		}
 
 		return false;
+	}
+
+	@Override
+	@Transactional
+	public void certify(SupplierCertifyVo supplierCertifyVo) {
+		save(supplierCertifyVo.getSupplier());
+		for(SupplierCommodityVo commodityVo:supplierCertifyVo.getSupplierCommodityVos()){
+			commodityVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+			supplierCommodityService.save(commodityVo);
+		}
 	}
 
 	@Override

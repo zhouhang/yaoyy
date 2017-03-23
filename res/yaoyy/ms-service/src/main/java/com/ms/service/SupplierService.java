@@ -2,6 +2,7 @@ package com.ms.service;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Supplier;
+import com.ms.dao.vo.SupplierCertifyVo;
 import com.ms.dao.vo.SupplierVo;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
@@ -32,6 +33,9 @@ public interface SupplierService extends ICommonService<Supplier>{
      * @return
      */
     Boolean join(SupplierVo supplierVo,WxMpUser wxMpUser);
+
+
+    void certify(SupplierCertifyVo supplierCertifyVo);
 
 
 }
