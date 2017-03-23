@@ -5,6 +5,7 @@ import com.ms.dao.model.Supplier;
 import com.ms.dao.vo.SupplierCertifyVo;
 import com.ms.dao.vo.SupplierJudgeVo;
 import com.ms.dao.vo.SupplierVo;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface SupplierService extends ICommonService<Supplier>{
      * @param supplierVo
      * @return
      */
-    Boolean join(SupplierVo supplierVo);
+    Boolean join(SupplierVo supplierVo,WxMpUser wxMpUser);
 
 
     /**

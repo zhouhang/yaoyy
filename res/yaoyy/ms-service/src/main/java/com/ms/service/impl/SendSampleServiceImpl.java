@@ -62,7 +62,6 @@ public class SendSampleServiceImpl  extends AbsCommonService<SendSample> impleme
 
 
 
-
 	@Override
 	public PageInfo<SendSampleVo> findByParams(SendSampleVo sendSampleVo,Integer pageNum,Integer pageSize) {
 		pageNum = pageNum==null?1:pageNum;

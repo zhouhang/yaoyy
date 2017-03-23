@@ -1,6 +1,7 @@
 package com.ms.biz.controller;
 
 import com.google.common.base.Strings;
+import com.ms.biz.properties.BizSystemProperties;
 import com.ms.biz.shiro.BizToken;
 import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.User;
@@ -10,11 +11,14 @@ import com.ms.service.UserService;
 import com.ms.service.enums.RedisEnum;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.entity.Result;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -38,16 +45,19 @@ public class SupplierUserController {
     private WxMpService wxService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    HttpSession httpSession;
+    private HttpSession httpSession;
 
     @Autowired
-    SupplierService supplierService;
+    private SupplierService supplierService;
 
     @Autowired
     private RedisManager redisManager;
+
+    @Autowired
+    private BizSystemProperties systemProperties;
 
     /**
      * 登入
@@ -132,6 +142,9 @@ public class SupplierUserController {
         return Result.success("密码重置成功").data("user/supplier/login");
     }
 
+
+
+
     /**
      * 发送重置密码短信
      * @param phone
@@ -162,6 +175,8 @@ public class SupplierUserController {
         return "supplier/register";
     }
 
+
+
     /**
      * 1.供应商表已经存在提示审核中
      * 2.不存在直接保存
@@ -189,38 +204,49 @@ public class SupplierUserController {
 
     /**
      * 供应商注册
-
      * @return
      */
     @RequestMapping(value = "join", method = RequestMethod.GET)
-    public String join() {
+    public String join(String code,
+                       HttpServletRequest request,
+                       HttpServletResponse response) {
+        try {
+            String ua = request.getHeader("user-agent").toLowerCase();
+            if(ua.indexOf("micromessenger") > 0&& StringUtils.isBlank(code)){
+                String wechatSupplierJoinUrl = systemProperties.getBaseUrl() + "/user/supplier/join";
+                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatSupplierJoinUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+                WebUtils.issueRedirect(request, response, OAUTH_URL);
+            }else {
+                WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
+                WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+                httpSession.setAttribute("wxMpUser",wxMpUser);
+            }
+        }catch (Exception e){
+            logger.error("供应商注册",e);
+        }
         return "supplier/join";
     }
+
+
 
     @RequestMapping(value = "join", method = RequestMethod.POST)
     @ResponseBody
     public Result saveJoin(SupplierVo supplier,String code) {
-
-
         String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue()+supplier.getPhone());
-
         Result result = Result.success().data("/user/supplier/registerSuccess");
-
         if (!code.equalsIgnoreCase(rcode)) {
             result = result.error().msg("验证码错误");
         }
         else{
-            // 1. 先去user里面插入
-            // 2. 再去supplier表插入
-            // 3. 入驻完成跳转到二维码页面
-            if (!supplierService.register(supplier)){
-                result = result.error().msg("您的信息已登记，正在审核中，无需重复登记.");
+            WxMpUser wxMpUser = (WxMpUser)httpSession.getAttribute("wxMpUser");
+            if (!supplierService.join(supplier,wxMpUser)){
+
             }
         }
-
         return result;
-
     }
+
+
 
 
 }

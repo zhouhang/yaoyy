@@ -29,6 +29,8 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserDetailService userDetailService;
 
 	@Autowired
 	private SupplierCommodityService supplierCommodityService;
@@ -101,7 +103,10 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		list.forEach(s->{
 			s.setEnterCategoryList(categoryService.findByIds(s.getEnterCategory()));
 			s.setStatusText(SupplierStatusEnum.get(s.getStatus()));
-			s.setBinding(userService.findByPhone(s.getPhone())==null?"未绑定":"已绑定");
+			UserVo uv = new UserVo();
+			uv.setSupplierId(s.getId());
+			List<UserVo> userVos = userService.findByParamsNoPage(uv);
+			s.setBinding(userVos.size()==0?"未绑定":"已绑定");
 			s.setSourceText(SupplierSourceEnum.get(s.getSource()));
 		});
 		PageInfo page = new PageInfo(list);
@@ -123,7 +128,7 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 	@Override
 	@Transactional
-	public Boolean join(SupplierVo supplierVo) {
+	public Boolean join(SupplierVo supplierVo,WxMpUser wxMpUser) {
 
 		SupplierVo param = new SupplierVo();
 		param.setPhone(supplierVo.getPhone());
@@ -131,16 +136,8 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		if (list.size() == 0) {
 			//首先user里面插入一条数据，然后supplier插入数据
 			if(userService.findByPhone(supplierVo.getPhone())==null){
-				User user = new User();
-				user.setPhone(supplierVo.getPhone());
-				user.setType(UserTypeEnum.supplier.getType());
-				user.setSource(UserSourceEnum.auto.getType());
-				user.setStatus(UserEnum.enable.getType());
-				user.setCreateTime(new Date());
-				user.setUpdateTime(new Date());
-				userService.create(user);
-			}
 
+			}
 			return true;
 		}
 
