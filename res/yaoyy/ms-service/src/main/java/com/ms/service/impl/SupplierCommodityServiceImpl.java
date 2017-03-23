@@ -9,6 +9,9 @@ import com.ms.dao.vo.SupplierCommodityVo;
 import com.ms.service.SupplierCommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,6 +27,28 @@ public class SupplierCommodityServiceImpl  extends AbsCommonService<SupplierComm
     	List<SupplierCommodityVo>  list = supplierCommodityDao.findByParams(supplierCommodityVo);
         PageInfo page = new PageInfo(list);
         return page;
+	}
+
+	@Override
+	public List<SupplierCommodityVo> findBySupplierId(Integer supplierId) {
+
+		SupplierCommodityVo param=new SupplierCommodityVo();
+		param.setSupplierId(supplierId);
+		List<SupplierCommodityVo>  list = supplierCommodityDao.findByParams(param);
+
+		return list;
+	}
+
+	@Override
+	@Transactional
+	public void save(SupplierCommodityVo supplierCommodityVo) {
+		Date now =new Date();
+		if(supplierCommodityVo.getId()==null){
+			supplierCommodityVo.setCreateTime(now);
+			supplierCommodityDao.create(supplierCommodityVo);
+		}else{
+			supplierCommodityDao.update(supplierCommodityVo);
+		}
 	}
 
 

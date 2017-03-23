@@ -46,6 +46,10 @@
             <if test="id != null">
                 id = #{id}
             </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId}
+            </if>
+
         </where>
     </select>
 
