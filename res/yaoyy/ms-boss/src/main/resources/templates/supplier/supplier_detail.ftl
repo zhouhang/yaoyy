@@ -25,7 +25,7 @@
             <span class="on">基本信息</span>
             <a href="#">评价信息</a>
             <a href="#">身份信息</a>
-            <a href="#">商品调价</a>
+            <a href="supplier/${(supplierVo.id)!}/commodity">商品调价</a>
         </div>
 
 		<div class="box fa-form">
