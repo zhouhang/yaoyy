@@ -11,6 +11,7 @@ import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.ContractEnum;
+import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
@@ -29,6 +30,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,8 +64,9 @@ public class SupplierController {
     private UserAnnexService userAnnexService;
 
     @Autowired
+    private MessageService messageService;
+    @Autowired
     private SupplierCommodityService supplierCommodityService;
-
 
     /**
      * 供应商list
@@ -361,6 +364,41 @@ public class SupplierController {
     }
 
     /**
+     * 供应商商品改价页面
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "{id}/commodity", method = RequestMethod.GET)
+    public String commodity(@PathVariable("id") Integer id, ModelMap model){
+        UserVo uv = new UserVo();
+        uv.setSupplierId(id);
+        //判断该供应商有没有绑定用户
+        List<UserVo> userVos = userService.findByParamsNoPage(uv);
+        model.put("isbinding", userVos.size());
+        if(userVos.size() == 0){
+            return "supplier/supplier_commodity";
+        }
+        uv = userVos.get(0);
+
+        //取出绑定用户的商品
+        List<CommodityVo> commodityVos=commodityService.findBySupplier(uv.getId());
+        model.put("commodityVos", commodityVos);
+
+        //获取跟踪记录
+        //"我的消息"
+        MessageVo messageVo = new MessageVo();
+        messageVo.setUserId(uv.getId());
+        List<Integer> types = new ArrayList<Integer>();
+        types.add(MessageEnum.SUPPLIER_SAMPLES.get());
+        types.add(MessageEnum.SUPPLIER_COMMODITY.get());
+        types.add(MessageEnum.SUPPLIER_ORDER.get());
+        messageVo.setTypes(types);
+        List<MessageVo> messageVos = messageService.findByParamsNoPage(messageVo);
+        model.put("messageVos", messageVos);
+
+        return "supplier/supplier_commodity";
+    }
+  /**
      * 核实供应商(包括正确和不正确)
      * @param supplierCertifyVo
      * @return
@@ -372,8 +410,4 @@ public class SupplierController {
         supplierService.certify(supplierCertifyVo);
         return Result.success("核实成功");
     }
-
-
-
-
 }
