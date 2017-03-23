@@ -126,8 +126,8 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             //改价格数据
             if( commodity.getPrice() != null && !com.getPrice().equals(commodity.getPrice())){
                 message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_PRICE_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
-                        .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_price}",com.getUnwarehouse().toString())
-                        .replace("{price}",commodity.getUnwarehouse().toString()));
+                        .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_price}",com.getPrice().toString())
+                        .replace("{price}",commodity.getPrice().toString()));
 
             }
 
