@@ -26,44 +26,27 @@
 
 		<div class="box fa-form">
             <form id="myform">
-                <input type="hidden" name="id" value="${(supplierVo.id)!}">
                 <div class="hd">基本信息</div>
-                <div class="item">
-                    <div class="txt">当前状态：</div>
-                    <div class="val"><span class="c-red">${(supplierVo.statusText)!}</span></div>
-                </div>
-                <div class="item">
-                    <div class="txt">供应商编号：</div>
-                    <div class="val">${(supplierVo.id)!}</div>
-                </div>
+
 				<div class="item">
 					<div class="txt"><i>*</i>姓名：</div>
 					<div class="cnt">
-						<input type="text" name="name" value="${(supplierVo.name)!}" class="ipt" placeholder="请输入姓名" autocomplete="off">
+						<input type="text" name="name" value="" class="ipt" placeholder="请输入姓名" autocomplete="off">
 					</div>
 				</div>
 				<div class="item">
 					<div class="txt"><i>*</i>手机号：</div>
 					<div class="cnt">
-						<input type="text" name="phone" value="${(supplierVo.phone)!}" class="ipt" placeholder="请输入手机号" autocomplete="off">
+						<input type="text" name="phone" value="" class="ipt" placeholder="请输入手机号" autocomplete="off">
 					</div>
 				</div>
-                <div class="item">
-                    <div class="txt">用户输入的品种：</div>
-                    <div class="val">${(supplierVo.enterCategoryStr)!}</div>
-                </div>
                 <div class="item">
                     <div class="txt"><i>*</i>主营品种：</div>
                     <div class="cnt">
                         <div class="choose" id="chooseBreeds">
-                        <#if supplierVo?exists && supplierVo.enterCategoryList??>
-                            <#list supplierVo.enterCategoryList as category>
-                                <span>${category.name}<i data-id="${category.id}"></i></span>
-                            </#list>
-                        </#if>
                         </div>
                         <input type="text"  id="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
-                        <input type="hidden" name="enterCategory" value="${supplierVo.enterCategory!}" id="breedsId">
+                        <input type="hidden" name="enterCategory" value="" id="breedsId">
                     </div>
                 </div>
                 <div class="item">
@@ -79,18 +62,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <#if commodityVos??>
-                                <#list commodityVos as commodity>
-                                <tr>
-                                    <input type="hidden" value="${commodity.id!}" attr="supplierCommodtiyId">
-                                    <td><div class="ipt-wrap"><input type="text" class="ipt jname" attr="name" value="${commodity.name!}" autocomplete="off"></div></td>
-                                    <td><div class="ipt-wrap"><input type="text" class="ipt" attr="spec" value="${commodity.spec!}" autocomplete="off"></div></td>
-                                    <td><div class="ipt-wrap"><input type="text" class="ipt" attr="origin" value="${commodity.origin!}" autocomplete="off"></div></td>
-                                    <td><button class="ubtn ubtn-red">删除</button></td>
-                                </tr>
-                                </#list>
-                                </#if>
-
                             </tbody>
                         </table>
                         <div class="op">
@@ -129,24 +100,24 @@
                     <div class="txt">来源：</div>
                     <div class="cnt">
                         <select class="slt" name="source" id="source">
-                            <option value="1" <#if supplierVo.source??><#if supplierVo.source==1>selected</#if></#if>>系统录入</option>
-                            <option value="2" <#if supplierVo.source??><#if supplierVo.source==2>selected</#if></#if>>沪樵导入</option>
-                            <option value="3" <#if supplierVo.source??><#if supplierVo.source==3>selected</#if></#if>>天济导入</option>
-                            <option value="4" <#if supplierVo.source??><#if supplierVo.source==4>selected</#if></#if> >微信登记</option>
+                            <option value="1" >系统录入</option>
+                            <option value="2" >沪樵导入</option>
+                            <option value="3" >天济导入</option>
+                            <option value="4" >微信登记</option>
                         </select>
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">详细地址：</div>
                     <div class="cnt">
-                        <input type="text" name="address" value="${(supplierVo.address)!}" class="ipt" placeholder="请输入详细地址" autocomplete="off">
+                        <input type="text" name="address" value="" class="ipt" placeholder="请输入详细地址" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">组织类型：</div>
                     <div class="cnt cbxs">
-                        <label><input type="radio" name="org" class="cbx" value="1"<#if supplierVo.org??><#if supplierVo.org==1>checked</#if></#if>>个人主体</label>
-                        <label><input type="radio" name="org" class="cbx" value="2" <#if supplierVo.org??><#if supplierVo.org==2>checked</#if></#if>>公司或者合作社</label>
+                        <label><input type="radio" name="org" class="cbx" value="1">个人主体</label>
+                        <label><input type="radio" name="org" class="cbx" value="2">公司或者合作社</label>
                     </div>
                 </div>
 
@@ -154,96 +125,44 @@
                 <div class="item">
                     <div class="txt">年业务量：</div>
                     <div class="cnt">
-                        <input type="text" name="bizYear" value="${(supplierVo.bizYear)!}" class="ipt" placeholder="请输入年业务量" autocomplete="off">
+                        <input type="text" name="bizYear" value="" class="ipt" placeholder="请输入年业务量" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">业务类型：</div>
                     <div class="cnt cbxs">
-                        <label><input type="radio" name="bizType" value="1" class="cbx" <#if supplierVo.bizType??><#if supplierVo.bizType==1>checked</#if></#if>>大货</label>
-                        <label><input type="radio" name="bizType" value="2" class="cbx" <#if supplierVo.bizType??><#if supplierVo.bizType==2>checked</#if></#if>>加工</label>
-                        <label><input type="radio" name="bizType" value="3" class="cbx" <#if supplierVo.bizType??><#if supplierVo.bizType==3>checked</#if></#if>>大货+加工</label>
+                        <label><input type="radio" name="bizType" value="1" class="cbx" >大货</label>
+                        <label><input type="radio" name="bizType" value="2" class="cbx" >加工</label>
+                        <label><input type="radio" name="bizType" value="3" class="cbx" >大货+加工</label>
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">主要经营地：</div>
                     <div class="cnt cbxs">
-                        <label><input type="radio" name="bizPlace" value="1" <#if supplierVo.bizPlace??><#if supplierVo.bizPlace==1>checked</#if></#if> class="cbx">产地</label>
-                        <label><input type="radio" name="bizPlace" value="2" <#if supplierVo.bizPlace??><#if supplierVo.bizPlace==2>checked</#if></#if> class="cbx">市场</label>
+                        <label><input type="radio" name="bizPlace" value="1"  class="cbx">产地</label>
+                        <label><input type="radio" name="bizPlace" value="2"  class="cbx">市场</label>
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">主要客户群体：</div>
                     <div class="cnt cbxs">
-                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("1")>checked</#if></#if>>饮片长</label>
-                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="2" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("2")>checked</#if></#if>>制药厂</label>
-                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="3" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("3")>checked</#if></#if>>经营户</label>
+                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" >饮片长</label>
+                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="2" >制药厂</label>
+                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="3" >经营户</label>
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt">知名客户：</div>
                     <div class="cnt">
-                        <input type="text" name="bizPartner" value="${(supplierVo.bizPartner)!}" class="ipt" placeholder="" autocomplete="off">
+                        <input type="text" name="bizPartner" value="" class="ipt" placeholder="" autocomplete="off">
                     </div>
                 </div>
 				<div class="ft">
-                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
-                    <#if supplierVo.status==1>
-                        <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
-                    </#if>
-
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">        保存</button>
 				</div>
             </form>
 		</div>
 
-         <#if supplierVo?exists>
-        <div class="box fa-form">
-            <div class="hd">跟踪记录</div>
-            <ol class="trace" id="trace">
-                <#list userTrackRecordVos as userTrackRecordVo>
-                    <li>
-                        <span>${userTrackRecordVo.member?default("")}</span>
-                        <span>${userTrackRecordVo.createTime?datetime}</span>
-                        <span>${userTrackRecordVo.content?default("")}</span>
-                    </li>
-                </#list>
-            </ol>
-            <form action="" id="traceForm">
-                <div class="item">
-                    <div class="txt">跟踪记录：</div>
-                    <div class="cnt">
-                        <textarea name="content" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
-                    </div>
-                </div>
-                <div class="ft">
-                    <input type="hidden" name="memberId" value="${(member_session_boss.id)!}">
-                    <input type="hidden" name="supplierId" value="${(supplierVo.id)!}">
-                    <button type="submit" class="ubtn ubtn-blue submit">提交</button>
-                </div>
-            </form>
-        </div>
-        </#if>
-        
-        <div class="box fa-form">
-            <div class="hd">供应商签约</div>
-            <form id="myform3">
-                <div class="item">
-                    <div class="txt">登录帐号：</div>
-                    <div class="val">${(supplierVo.phone)!} <span class="c-red">已绑定</span></div>
-                </div>
-                <div class="item">
-                    <div class="txt">密码：</div>
-                    <div class="cnt">
-                        <input type="text" name="pwd" id="pwd" class="ipt ipt-short" autocomplete="off">
-                        <a href="javascript:;" id="generate" class="c-blue ml">生成随机密码</a>
-                    </div>
-                </div>
-                <div class="ft">
-                    <button type="button" class="ubtn ubtn-blue submit">供应商签约</button>
-                    <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
-                </div>
-            </form>
-        </div>
 	</div>
 <#include "../common/footer.ftl"/>
 </div>
@@ -432,6 +351,11 @@
                     // 显示查询结果
                     if (res.status === 200) {
                         location.reload();
+                    }else{
+                        $.notify({
+                            type: 'error',
+                            title: res.msg
+                        });
                     }
                 }
             })
@@ -537,6 +461,12 @@
                                     callback: function() {
                                         location.href = '/supplier/list';
                                     }
+                                });
+                            }
+                            else{
+                                $.notify({
+                                    type: 'error',
+                                    title: d.msg
                                 });
                             }
                         });

@@ -9,5 +9,6 @@ import java.util.List;
 public interface SupplierChoiceDao extends ICommonDao<SupplierChoice>{
 
     public List<SupplierChoiceVo> findByParams(SupplierChoiceVo supplierChoiceVo);
+    public void deleteBySupplierId(Integer supplierId);
 
 }

@@ -2,16 +2,15 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
+import com.ms.dao.enums.SupplierStatusEnum;
 import com.ms.dao.enums.UserSourceEnum;
 import com.ms.dao.enums.UserTypeEnum;
-import com.ms.dao.model.Area;
-import com.ms.dao.model.Supplier;
-import com.ms.dao.model.SupplierCommodity;
-import com.ms.dao.model.UserTrackRecord;
+import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.ContractEnum;
 import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.RedisEnum;
 import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +67,23 @@ public class SupplierController {
     private MessageService messageService;
     @Autowired
     private SupplierCommodityService supplierCommodityService;
+
+    @Autowired
+    private SurveyService surveyService;
+
+    @Autowired
+    private SupplierChoiceService supplierChoiceService;
+
+    @Autowired
+    private SupplierContactService supplierContactService;
+
+    @Autowired
+    private SupplierAnnexService supplierAnnexService;
+
+    @Autowired
+    private HttpSession httpSession;
+
+
 
     /**
      * 供应商list
@@ -112,7 +129,7 @@ public class SupplierController {
         Integer parentid = 100000;
         List<Area> provinces = areaService.findByParent(parentid);
         model.put("provinces", provinces);
-        return  "supplier_detail";
+        return "supplier/supplier_add";
     }
 
 
@@ -200,6 +217,14 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "签约供应商")
     public Result sign(SupplierVo supplierVo, String pwd){
+
+        SupplierVo old=supplierService.findVoById(supplierVo.getId());
+        if(old.getStatus()!=SupplierStatusEnum.INVEST.getType()){
+            Result result = Result.error().msg("必须实地考察才能签约");
+
+            return result;
+        }
+
         //supplier数据转存到user
         UserVo userVo = new UserVo();
         userVo.setType(UserTypeEnum.supplier.getType());
@@ -398,7 +423,7 @@ public class SupplierController {
 
         return "supplier/supplier_commodity";
     }
-  /**
+    /**
      * 核实供应商(包括正确和不正确)
      * @param supplierCertifyVo
      * @return
@@ -407,7 +432,57 @@ public class SupplierController {
     @RequestMapping(value = "verify", method = RequestMethod.POST)
     @ResponseBody
     public Result verify(@RequestBody SupplierCertifyVo supplierCertifyVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        supplierCertifyVo.setMemberId(mem.getId());
         supplierService.certify(supplierCertifyVo);
         return Result.success("核实成功");
     }
+
+    @RequestMapping(value = "judge/{id}", method = RequestMethod.GET)
+    public String judge(@PathVariable("id") Integer id,ModelMap model){
+        SupplierVo supplierVo=supplierService.findVoById(id);
+
+        //所有问题
+        List<SurveyVo> questions=surveyService.allQuestions();
+
+        List<SupplierChoiceVo> supplierChoices=supplierChoiceService.findBySupplierId(id);
+
+        List<SupplierContactVo> contactVos=supplierContactService.findBySupplierId(id);
+
+        List<SupplierAnnexVo> supplierAnnexVos=supplierAnnexService.findBySupplierId(id);
+
+
+
+        model.put("supplierVo",supplierVo);
+        model.put("questions",questions);
+        model.put("supplierChoices",supplierChoices);
+        model.put("contactVos",contactVos);
+        model.put("supplierAnnexVos",supplierAnnexVos);
+
+        return "supplier/supplier_judge";
+    }
+
+    @RequestMapping(value = "/saveJudge", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
+        if(old.getStatus()== SupplierStatusEnum.VERIFY.getType()){
+            supplierJudgeVo.setMemberId(mem.getId());
+            supplierService.judge(supplierJudgeVo);
+            return Result.success("评价成功");
+
+        }
+        else{
+            Result result = Result.error().msg("必须核实才能登记");
+
+            return result;
+        }
+
+
+    }
+
+
+
+
 }

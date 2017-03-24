@@ -12,6 +12,8 @@ public class SupplierCertifyVo {
 
     private List<SupplierCommodityVo>  supplierCommodityVos;
 
+    private Integer memberId;
+
     public SupplierVo getSupplier() {
         return supplier;
     }
@@ -26,5 +28,13 @@ public class SupplierCertifyVo {
 
     public void setSupplierCommodityVos(List<SupplierCommodityVo> supplierCommodityVos) {
         this.supplierCommodityVos = supplierCommodityVos;
+    }
+
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
     }
 }
