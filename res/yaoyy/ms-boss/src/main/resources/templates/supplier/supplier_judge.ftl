@@ -256,7 +256,7 @@
                         contact.name=$(this).find("input[attr='name']").val();
                         contact.phone=$(this).find("input[attr='phone']").val();
                         contact.position=$(this).find("input[attr='position']").val();
-                        if($("#contact"+(index+1).toString()).attr("checked")){
+                        if($("#contact"+(index+1).toString()).is(':checked')){
                             contact.kp=1;
                         }
                         else{
@@ -306,7 +306,7 @@
                                     type: 'success',
                                     title: '操作成功'
                                 });
-                                location.reload();
+                                //location.reload();
                             }
                             else{
                                 $.notify({
