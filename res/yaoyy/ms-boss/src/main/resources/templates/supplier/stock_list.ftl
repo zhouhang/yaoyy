@@ -93,7 +93,6 @@
     <button type="submit" class="hide"></button>
 </form>
 
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
 !(function($, window) {

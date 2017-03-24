@@ -83,22 +83,18 @@
             <div class="val">15元/公斤</div>
         </div>
         <div class="row-list">
-            <div class="row">
+            <div class="row-li">
                 <div class="item">
                     <div class="txt"><i>*</i>购买数量：</div>
                     <div class="cnt">
-                        <div class="ipt-wrap">
-                            <input type="text" class="ipt number" data-rule="required; range(1~99999)" name="number1" value="" autocomplete="off">
-                            <span class="unit">公斤</span>
-                        </div>
+                        <input type="text" class="ipt number" data-rule="required; range(1~99999)" name="number1" value="" autocomplete="off">
+                        <span class="unit">公斤</span>
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>对应批次号：</div>
                     <div class="cnt">
-                        <div class="ipt-wrap">
-                            <input type="text" class="ipt" data-rule="required" name="id1" value="" autocomplete="off">
-                        </div>
+                        <input type="text" class="ipt" data-rule="required" name="id1" value="" autocomplete="off">
                     </div>
                 </div>
                 <div class="op"><button type="button" class="ubtn ubtn-blue" id="jaddrow">添加</button></div>
@@ -112,29 +108,24 @@
 </form>
 
 <script type="temp" id="temp">
-	<div class="row">
+	<div class="row-li">
 		<div class="item">
 	        <div class="txt"><i>*</i>购买数量：</div>
         	<div class="cnt">
-        		<div class="ipt-wrap">
-        			<input type="text" class="ipt number" data-rule="required; range(1~99999)" value="" autocomplete="off">
-        			<span class="unit">{{unit}}</span>
-        		</div>
+    			<input type="text" class="ipt number" data-rule="required; range(1~99999)" value="" autocomplete="off">
+    			<span class="unit">{{unit}}</span>
         	</div>
 		</div>
 		<div class="item">
 	        <div class="txt"><i>*</i>对应批次号：</div>
         	<div class="cnt">
-        		<div class="ipt-wrap">
-        			<input type="text" class="ipt" data-rule="required" value="" autocomplete="off">
-        		</div>
+        		<input type="text" class="ipt" data-rule="required" value="" autocomplete="off">
         	</div>
 		</div>
 		<div class="op"><button type="button" class="ubtn ubtn-red jdel">删除</button></div>
     </div>
 </script>
 
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
 !(function($, window) {
@@ -207,7 +198,7 @@
                 $myform[0].reset();
                 layer.open({
                     skin: 'layer-form',
-                    area: ['600px'],
+                    area: ['600px', '100%'],
                     type: 1,
                     content: $myform,
                     title: '锁价下单',
@@ -240,7 +231,7 @@
             })
             // 删除行
             $rowList.on('click', '.jdel', function() {
-                $(this).closest('.row').remove();
+                $(this).closest('.row-li').remove();
             })
 
         }

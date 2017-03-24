@@ -54,11 +54,8 @@
                 <div class="item" id="junitPrice">
                     <div class="txt"><i>*</i>价格：</div>
                     <div class="cnt">
-                        <div class="ipt-wrap">
-                            <input type="text" name="price" class="ipt" id="jprice" value="${commodity.price!}" placeholder="价格" autocomplete="off">
-                            <span class="unit">元</span>
-                        </div>
-                        <#--<label class="ml"><input type="checkbox"  name="mark" class="cbx" id="jsales">量大价优</label>-->
+                        <input type="text" name="price" class="ipt" id="jprice" value="${commodity.price?c}" placeholder="价格" autocomplete="off">
+                        <span class="unit">元</span>
                     </div>
                 </div>
                 <div class="item">
@@ -69,77 +66,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="item hide" id="jsalesPrice">
-                    <div class="txt"><i>*</i>公斤/价格</div>
-                <#if commodity.gradient?exists && (commodity.gradient?size > 0)>
-                    <#list commodity.gradient as gradient>
-                        <#if gradient_index == 0>
-                            <div class="cnt">
-                                <div class="ipt-wrap">
-                                    <input type="text" name="minKg1" class="ipt ipt-short" placeholder="1-99999"
-                                           data-rule="required; range(1~99999)" autocomplete="off" value="${gradient.start}">
-                                </div>
-                                <em>-</em>
-                                <div class="ipt-wrap">
-                                    <input type="text" name="maxKg1" class="ipt ipt-short" placeholder="1-99999"
-                                           data-rule="required; range(1~99999)" autocomplete="off" value="${gradient.end}">
-                                </div>
-                                <em name="unitD"></em>
-                                <div class="ipt-wrap ml">
-                                    <input type="text" name="price1" class="ipt ipt-short" placeholder="1-9999"
-                                           data-rule="required; range(1~9999)" autocomplete="off" value="${gradient.price}">
-                                    <span class="unit">元</span>
-                                </div>
-                                <button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
-                            </div>
-                            <#else>
-                                <div class="cnt">
-                                    <div class="ipt-wrap">
-                                        <input type="text" name="minKg${gradient_index+2}" class="ipt ipt-short"
-                                               data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off" value="${gradient.start}">
-                                    </div>
-                                    <em>-</em>
-                                    <div class="ipt-wrap">
-                                        <input type="text" name="maxKg${gradient_index+2}" class="ipt ipt-short"
-                                               data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off" value="${gradient.end}">
-                                    </div>
-                                    <em name="unitD"></em>
-                                    <div class="ipt-wrap ml">
-                                        <input type="text" name="price${gradient_index+2}" class="ipt ipt-short" placeholder="1-9999"
-                                               data-rule="required; range(1~9999)" autocomplete="off" value="${gradient.price}">
-                                        <span class="unit">元</span>
-                                    </div>
-                                    <button type="button" class="ubtn ubtn-red ml">删除</button>
-                                </div>
-
-                        </#if>
-                    </#list>
-                    <#else>
-                        <div class="cnt">
-                            <div class="ipt-wrap">
-                                <input type="text" name="minKg1" class="ipt ipt-short" placeholder="1-99999"
-                                       data-rule="required; range(1~99999)" autocomplete="off">
-                            </div>
-                            <em>-</em>
-                            <div class="ipt-wrap">
-                                <input type="text" name="maxKg1" class="ipt ipt-short" placeholder="1-99999"
-                                       data-rule="required; range(1~99999)" autocomplete="off">
-                            </div>
-                            <em name="unitD"></em>
-                            <div class="ipt-wrap ml">
-                                <input type="text" name="price1" class="ipt ipt-short" placeholder="1-9999"
-                                       data-rule="required; range(1~9999)" autocomplete="off">
-                                <span class="unit">元</span>
-                            </div>
-                            <button type="button" class="ubtn ubtn-blue ml" id="jaddNewPrice">添加一行</button>
-                        </div>
-                </#if>
-
-                </div>
                 <div class="item">
                     <div class="txt"><i>*</i>采收时间：</div>
                     <div class="cnt">
-                        <input type="text" name="harYear" class="ipt" value="${commodity.harYear}" placeholder="采收时间" autocomplete="off">
+                        <input type="text" name="harYear" id="harYear" class="ipt" value="${commodity.harYear}" placeholder="采收时间(201703)" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
@@ -174,70 +104,33 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>绑定供应商：</div>
-                    <div class="cnt">
+                    <div class="cnt table">
                         <input type="text" name="supplier" id="supplier" class="ipt" value="${commodity.supplierName!}" placeholder="绑定供应商" autocomplete="off">
                         <input type="hidden" name="supplierId" id="supplierId" value="${commodity.supplierId!}">
-                        <div class="cnt-table hide" id="supplierSuggestions">
-                            <table class="suggestions">
-                                <thead>
-                                <tr>
-                                    <th>姓名</th>
-                                    <th>手机</th>
-                                    <th>地区</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="box fa-form">
                 <div class="hd">商品属性</div>
-                <div class="table">
-                    <table id="attribute">
-                        <thead>
-                            <tr>
-                                <th width="180">属性名</th>
-                                <th>属性值</th>
-                                <th width="80">操作</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3"><a href="javascript:;" class="c-blue" id="addAttribute">+增加新属性</a></td>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="ipt-wrap"><input type="text" name="attrN_1" class="ipt" value="加工方式"
-                                                                 autocomplete="off"></div>
-                                </td>
-                                <td>
-                                    <div class="ipt-wrap"><input type="text" name="attrV_1" class="ipt" value="趁鲜加工"
-                                                                 autocomplete="off"></div>
-                                </td>
-                                <td>
-                                    <button class="ubtn ubtn-red">删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="ipt-wrap"><input type="text" name="attrN_2" class="ipt" value="年限"
-                                                                 autocomplete="off"></div>
-                                </td>
-                                <td>
-                                    <div class="ipt-wrap"><input type="text" name="attrV_2" class="ipt" value="今年新货"
-                                                                 autocomplete="off"></div>
-                                </td>
-                                <td>
-                                    <button class="ubtn ubtn-red">删除</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="item">
+                    <div class="cnt table tc">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="180">属性名</th>
+                                    <th>属性值</th>
+                                    <th width="80">操作</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"><a href="javascript:;" class="c-blue" id="addAttribute">+增加新属性</a></td>
+                                </tr>
+                            </tfoot>
+                            <tbody id="attribute"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -245,7 +138,7 @@
                 <div class="hd">商品图片与详情</div>
                 <div class="item">
                     <div class="txt"><i>*</i>商品缩略图：</div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <span class="thumb up-img x4" id="jpic1"><img src="${commodity.thumbnailUrl!}"><i class="del"></i></span>
                         <input type="hidden" value="${commodity.thumbnailUrl!}" name="thumbnailUrl" id="thumbnailUrl">
                         <span class="tips">图片尺寸：220 X 180</span>
@@ -253,7 +146,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>商品图片：</div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <span class="thumb up-img x3" id="jpic2"><img src="${commodity.pictureUrl!}"><i class="del"></i></span>
                         <input type="hidden" value="${commodity.pictureUrl!}" name="pictureUrl" id="pictureUrl" >
                         <span class="tips">图片尺寸：750 X 400</span>
@@ -264,7 +157,7 @@
                     <div class="txt">
                         <i>*</i>详细信息：
                     </div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <script id="detail" name="detail" type="text/plain">
                         ${commodity.detail}
                         </script>
@@ -325,7 +218,8 @@
                 var $name = $('#name'),
                     $spec = $('#spec'),
                     $origin = $('#origin'),
-                    $title = $('#title');
+                    $title = $('#title'),
+                    $harYear = $('#harYear');
 
                 var setTitle = function() {
                     var name = $name.val(),
@@ -344,28 +238,36 @@
                 $origin.on('blur', function() {
                     setTitle();
                 })
+
+                // 采收时间
+                $harYear.on('keyup', function() {
+                    if (/^\d{6}$/.test(this.value)) {
+                        this.value = this.value.substr(0, 4) + '年' + this.value.substr(4, 2) + '月'
+                    }
+                })
             },
             umeditor: function() {
                 //初始化详细信息
                 var um = UM.getEditor('detail', {
-                    initialFrameWidth: isMobile ? '100%' : 700,
+                    initialFrameWidth: isMobile ? '100%' : 750,
                     initialFrameHeight: 320
                 })
             },
             // 查询品种
             catname: function () {
                 var $jcatname = $('#jcatname');
+
                 $jcatname.autocomplete({
                     serviceUrl: '/category/search',
                     paramName: 'name',
                     deferRequestBy: 100,
                     showNoSuggestionNotice: true,
                     noSuggestionNotice: '没有该品种',
-                    transformResult: function (response) {
-                        response = JSON.parse(response);
-                        if (response.status == 200) {
+                    transformResult: function (res) {
+                        res = JSON.parse(res);
+                        if (res.status == 200) {
                             return {
-                                suggestions: $.map(response.data, function (dataItem) {
+                                suggestions: $.map(res.data, function (dataItem) {
                                     return {value: dataItem.name, data: dataItem.id};
                                 })
                             };
@@ -381,43 +283,18 @@
                 });
             },
             myform: function () {
-                var self = this,
-                    $jsalesPrice = $('#jsalesPrice'),
-                    $jprice = $('#jprice'),
-                    idx = $jsalesPrice.find('.cnt').length,
-                    _unit = $('#unit').find('option:selected').text();
+                var that = this;
 
-
-                // 添加价格
-                $('#jaddNewPrice').on('click', function () {
-                    $jsalesPrice.append('<div class="cnt"> \n <div class="ipt-wrap">' +
-                            '<input type="text" name="minKg' + (++idx) + '" class="ipt ipt-short" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off">' +
-                            '</div> \n <em>-</em> \n <div class="ipt-wrap"><input type="text" name="maxKg' + idx + '" class="ipt ipt-short" data-rule="required; range(1~99999)" ' +
-                            'placeholder="1-99999" autocomplete="off"></div> \n <em name="unitD">' + _unit + '</em> \n <div class="ipt-wrap ml"> \n ' +
-                            '<input type="text" name="price' + idx + '" class="ipt ipt-short" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n' +
-                            ' <span class="unit">元</span> \n </div> \n <button type="button" class="ubtn ubtn-red ml">删除</button> \n </div>');
-                })
-                
+                that.enable = true; // 防止重复提交
                 // 单位
-                $('#unit').code('UNIT', ${commodity.unit}, function() {
-                    $('#unit').trigger('change')
-                });
-                $('#unit').on('change', function () {
-                    _unit = $(this).find('option:selected').text();
-                    $('em[name=unitD]').html(_unit);
-                })
+                $('#unit').code('UNIT', ${commodity.unit});
 
                 // 上/下架
                 $('#status').val(${commodity.status});
 
-                // 删除价格
-                $jsalesPrice.on('click', '.ubtn-red', function () {
-                    $(this).parent().remove();
-                })
-
                 // 表单验证
                 $("#myform").validator({
-                    ignore: $('#jsalesPrice .ipt, .edui-image-searchTxt'),
+                    ignore: $('.edui-image-searchTxt'),
                     fields: {
                         categoryId: '品种: required',
                         name: '商品名称: required; length(1~20)',
@@ -436,68 +313,45 @@
                             rule: '商品详情: required',
                             target: '#detailsError'
                         },
-                        supplier: '绑定供应商: required',
+                        supplierId: '绑定供应商: required'
                     },
                     valid: function() {
-                        self.submitForm();
+                        that.enable && that.submitForm();
                     }
                 });
 
-                // 量大价优
-                $('#jsales').on('click', function () {
-                    $jsalesPrice[this.checked ? 'show' : 'hide']()
-                            .find('.ipt').removeClass('n-invalid').trigger("hidemsg");
-                    $jprice.attr('class', 'ipt').prop('disabled', this.checked).val('').trigger("hidemsg");
-                    $('#myform').data('validator').options.ignore = this.checked ? $('#jprice, .edui-image-searchTxt') : $('#jsalesPrice .ipt, .edui-image-searchTxt');
-                    $("em[name=unitD]").html(_unit);
-                }).prop('checked', false);
 
             },
             // 提交事件
             submitForm: function () {
-                // 序列化属性值
+                var that = this;
+                var data = $('#myform').serializeObject();
                 var attr = {};
-                $('#attribute').find('tbody tr').each(function(i) {
+                $('#attribute').find('tr').each(function(i) {
                     attr[$(this).find('.ipt').eq(0).val()] = $(this).find('.ipt').eq(1).val();
                 })
-                var data = $('#myform').serializeObject();
-                $.each(data, function (k, v) {
-                    k.match('attr') && delete data[k];
-                })
                 data.attribute = JSON.stringify(attr);
-
-                if ($("input[name='mark']").is(':checked')){
-                    var gradient = new Array();
-                    // 量大价优按钮被选中
-                    var divs = $("#jsalesPrice > .cnt ");
-                    $.each(divs, function (k, v) {
-                        gradient.push({
-                            start: $($(v).find("input")[0]).val(),
-                            end: $($(v).find("input")[1]).val(),
-                            price: $($(v).find("input")[2]).val()
-                        });
-                    })
-                    data.gradient = gradient;
-                    data.mark = 1;
-                } else {
-                    data.mark = 0;
-                }
-
-                $("#jsubmit").prop("disabled", true);
-                $.ajaxSetup({
-                    contentType : 'application/json'
-                });
-                $.post("/commodity/save", JSON.stringify(data), function (data) {
-                    if (data.status == 200) {
-                        $.notify({
+                data.mark = 0;
+                $.ajax({
+                    type: 'POST',
+                    url: '/commodity/save',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(res) {
+                        res.status == 200 && $.notify({
                             type: 'success',
                             title: '修改成功',
                             callback: function() {
-                                location.href = '/commodity/list';
+                                // location.href = '/commodity/list';
                             }
                         });
+                    },
+                    complete: function() {
+                        that.enable = true;
                     }
-                    $("#jsubmit").prop("disabled", false);
                 })
             },
             // 商品图片
@@ -579,14 +433,14 @@
             },
             // 商品自定义参数
             parameter: function () {
-                var $table = $('#attribute').find('tbody'),
-                    idx = $table.find('tr').length,
-                    html = [];
+                var $table = $('#attribute'),
+                    idx = 0,
+                    model = [],
+                    temp = '<tr> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="{{key}}" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="{{val}}" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><button class="ubtn ubtn-red">删除</button></td> \n </tr>';
 
                 // 新增
                 $('#addAttribute').on('click', function () {
-                    var tr = '<tr> \n <td><div class="ipt-wrap"><input type="text" name="attrN_' + (++idx) + '" class="ipt" value="" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><div class="ipt-wrap"><input type="text" name="attrV_' + idx + '" class="ipt" value="" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><button class="ubtn ubtn-red">删除</button></td> \n </tr>';
-                    $table.append(tr);
+                    $table.append(temp.replace(/\{{key}}/g, '').replace(/\{{val}}/g, ''));
                 })
 
                 // 删除
@@ -595,92 +449,35 @@
                 })
 
                 <#if commodity.attribute?exists && commodity.attribute != "">
-                    $.each(${commodity.attribute}, function (k, v) {
-                        html.push('<tr> \n <td><div class="ipt-wrap"><input type="text" name="attrN_' + (++idx) + '" class="ipt" value="', k, '" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><div class="ipt-wrap"><input type="text" name="attrV_' + idx + '" class="ipt" value="', v, '" autocomplete="off" data-rule="required;length[1~100]"></div></td> \n <td><button class="ubtn ubtn-red">删除</button></td> \n </tr>');
+                    $.each(${commodity.attribute}, function (key, val) {
+                        model.push(temp.replace(/\{{key}}/g, key).replace(/\{{val}}/g, val));
                     })
-                    $table.html(html.join(''));
+                    $table.html(model.join(''));
                 </#if>
             },
             supplier: function () {
-                var self = this;
-                vals = [],
-                        timer = 0,
-                        $supplier = $('#supplier'),
-                        $supplierSuggestions = $('#supplierSuggestions');
-
-                var ajaxSearch = function (val) {
-                    /*timer && clearTimeout(timer);
-                    timer = setTimeout(function () {
-                        $.ajax({
-                            url: 'supplier/search',
-                            data: {name: val},
-                            method:"POST",
-                            success: function (response) {
-                                var html = [''];
-                                if (response && response.status === 200) {
-                                    $.each(response.data, function (i, item) {
-                                        html.push('<tr class="items" data-name="' + item.name + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.phone + '</td><td>' + item.area + '</td></tr>');
-                                    })
-                                } else {
-                                    html.push('<tr><td colspan="3">未查询到供应商，请重新输入</td></tr>');
-                                }
-                                $supplierSuggestions.show().find('tbody').html(html.join(''));
-                            },
-                            error: function () {
-                                $supplierSuggestions.show().find('tbody').html('<tr><td colspan="3">网络错误</td></tr>');
-                            }
+                var $supplier = $('#supplier');
+                $supplier.autocomplete({
+                    serviceUrl: '/supplier/search',
+                    type: 'POST',
+                    paramName: 'name',
+                    deferRequestBy: 300,
+                    dataType: 'json',
+                    showNoSuggestionNotice: true,
+                    noSuggestionNotice: '未查询到供应商，请重新输入',
+                    transformResult: function (res) {
+                        var data = [];
+                        res.data && $.each(res.data, function(key, item) {
+                            data.push({value: item.name + ' ' + item.phone + ' ' + item.position, id: item.id, name: item.name});
                         })
-                    }, 300);*/
-                    var $supplier = $('#supplier');
-                    $supplier.autocomplete({
-                        serviceUrl: '/supplier/search',
-                        type: 'post',
-                        paramName: 'name',
-                        deferRequestBy: 300,
-                        showNoSuggestionNotice: true,
-                        noSuggestionNotice: '没有该供应商',
-                        transformResult: function (response) {
-                            var html = [''];
-                            response = JSON.parse(response);
-                            if (response.status == 200) {
-                                var data = response.data;
-                                for(var i in data){
-                                    html.push('<tr class="items" data-name="' + data[i].name + '"data-id="' + data[i].id + '"><td>' + data[i].name + '</td><td>' + data[i].phone + '</td><td>' + data[i].position + '</td></tr>');
-                                }
-                            } else {
-                                html.push('<tr><td colspan="3">未查询到供应商，请重新输入</td></tr>');
-                            }
-                            $supplierSuggestions.show().find('tbody').html(html.join(''));
-                        },
-                        onSelect: function (suggestion) {
-                            $supplier.next().val(suggestion.data).trigger('hidemsg'); // 保存供应商id到隐藏文本域
+                        return {
+                            suggestions: data
                         }
-                    });
-                }
-
-                $supplier.on('input', function () {
-                    var val = this.value;
-                    if (val) {
-                        ajaxSearch(val);
-                    } else {
-                        $supplierSuggestions.hide();
+                    },
+                    onSelect: function (suggestion) {
+                        $supplier.val(suggestion.name).next().val(suggestion.id).trigger('hidemsg'); // 保存供应商id到隐藏文本域
                     }
-                })
-
-                $('body').on('click', function () {
-                    $supplierSuggestions.hide();
-                })
-
-                // 添加商品
-                $supplierSuggestions.on('click', '.items', function () {
-                    var name = $(this).data('name'),
-                            id = $(this).data('id');
-                    $supplier.val(name);
-                    $("#supplierId").val(id);
-                    $supplierSuggestions.hide();
-                }).on('click', 'table', function () {
-                    return false;
-                })
+                });
             }
         }
     }

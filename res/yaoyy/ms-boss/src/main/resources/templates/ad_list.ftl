@@ -114,7 +114,7 @@
         </div>
         <div class="item">
             <div class="txt"><i>*</i>图片：</div>
-            <div class="cnt cnt-mul">
+            <div class="cnt">
                 <span class="thumb up-img x1" id="imgCrop"></span>
                 <input type="hidden" id="pictureUrl" name="pictureUrl" value="">
                 <span class="tips">图片尺寸：750 X 350</span>

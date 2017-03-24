@@ -69,7 +69,6 @@
     <#include "../common/footer.ftl"/>
 </div>
 
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
 !(function($, window) {

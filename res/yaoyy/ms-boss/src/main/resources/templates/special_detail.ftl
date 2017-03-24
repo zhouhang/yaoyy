@@ -29,7 +29,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>专场图片：</div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <div class="thumb up-img x3">
                             <#if special.pictuerUrl??>
                                 <img src="${special.pictuerUrl?default('')}" /><i class="del"></i>
@@ -52,18 +52,6 @@
                         </div>
                         <input type="text" name="search" id="searchGoods" class="ipt" placeholder="商品名称" autocomplete="off">
                         <input type="hidden" name="commodities" id="goodsName" value="${ids?default('')}">
-                        <div class="cnt-table table hide" id="goodsSuggestions">
-                            <table class="suggestions">
-                                <thead>
-                                    <tr>
-                                        <th>名称</th>
-                                        <th>规格</th>
-                                        <th>价格</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
                 <div class="item">
@@ -162,108 +150,84 @@
                 });
             },
             validator: function() {
+                var that = this;
+                that.enable = true; // 防止重复提交
+                var response = function(url, data) {
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        dataType: 'json',
+                        data: data || {},
+                        beforeSend: function() {
+                            that.enable = false;
+                        },
+                        success: function(data) {
+                            if (data.status == 200) {
+                                window.location.href = 'special/list';
+                            }
+                        },
+                        complete: function() {
+                            that.enable = true;
+                        }
+                    })
+                }
+
                 // 表单验证
                 $("#myform").validator({
                     fields: {
                         title: '标题: required',
                         pictuerUrl: '专场图片: required',
                         commodities: '商品: required'
+                    },
+                    valid: function(form) {
+                        that.enable && response(_global.v.saveUrl, $(form).serializeObject());
+                        return false;
                     }
                 });
             },
             // 查询商品
             searchGoods: function() {
-                var self = this;
-                vals = [${ids?default('')}],
-                        timer = 0,
-                        $goodsSuggestions = $('#goodsSuggestions');
 
-                var ajaxSearch = function(val) {
-                    timer && clearTimeout(timer);
-                    timer = setTimeout(function() {
-                        $.ajax({
-                            url: _global.v.searchComodityUrl,
-                            data: {name: val},
-                            type:"POST",
-                            success: function(response) {
-                                var html = [''];
-                                if (response && response.status == '200') {
-                                    $.each(response.data, function(i, item) {
-                                        var className = self.inArray(item.id, vals) ? 'checked' : 'items'
-                                        html.push('<tr class="' + className + '" data-pname="' + (item.name + item.spec) + '"data-id="' + item.id + '"><td>' + item.name + '</td><td>' + item.spec + '</td><td>' + item.price + '</td></tr>');
-                                    })
-                                } else {
-                                    html.push('<tr><td colspan="3">未查询到商品，请重新输入</td></tr>');
-                                }
-                                $goodsSuggestions.show().find('tbody').html(html.join(''));
-                            },
-                            error: function() {
-                                $goodsSuggestions.show().find('tbody').html('<tr><td colspan="3">网络错误</td></tr>');
+                var that = this,
+                    vals = [${ids?default('')}],
+                    $searchGoods = $('#searchGoods'),
+                    $chooseGoods = $('#chooseGoods'),
+                    $goodsName = $('#goodsName');
+
+                $searchGoods.autocomplete({
+                    serviceUrl: _global.v.searchComodityUrl,
+                    type: 'POST',
+                    paramName: 'name',
+                    deferRequestBy: 300,
+                    dataType: 'json',
+                    showNoSuggestionNotice: true,
+                    noSuggestionNotice: '未查询到商品，请重新输入',
+                    width: '550px',
+                    transformResult: function (res) {
+                        var data = [];
+                        res.data && $.each(res.data, function(key, item) {
+                            if (!that.inArray(item.id, vals)) {
+                                data.push({value: item.name + ' ' + item.spec + ' (￥' + item.price + ')', id: item.id, name: item.name + item.spec});
                             }
                         })
-                    }, 300);
-                }
-
-                $('#searchGoods').on('input', function() {
-                    var val = this.value;
-                    if (val) {
-                        ajaxSearch(val);
-                    } else {
-                        $goodsSuggestions.hide();
+                        return {
+                            suggestions: data
+                        }
+                    },
+                    onSelect: function (suggestion) {
+                        vals.push(suggestion.id);
+                        $chooseGoods.show().append('<span>' + suggestion.name + '<i data-id="' + suggestion.id + '"></i></span>');
+                        $goodsName.val(vals.join(','));
+                        $searchGoods.val('');
                     }
-                })
-
-                $('body').on('click', function() {
-                    $goodsSuggestions.hide();
-                })
-
-                var _enable = true;
-                $("#jsubmit").on('click',function(){
-                    if (_enable) {
-                        $.ajax({
-                            url: _global.v.saveUrl,
-                            type: "POST",
-                            data: $("#myform").serialize(),
-                            success: function(data) {
-                                if (data.status == "200") {
-                                    location.href="special/list"
-                                }
-                                _enable = true;
-                            }
-                        })
-                    }
-                    _enable = false;
-                    return false;
-                })
-
-                // 添加商品
-                $goodsSuggestions.on('click', '.items', function() {
-                    var pname = $(this).data('pname'),
-                            id = $(this).data('id');
-
-                    if (self.inArray(id, vals)) {
-                        $.notify({
-                            type: 'error',
-                            title: '商品添加失败',
-                            text: '此商品已在添加列表'
-                        });
-                    } else {
-                        vals.push(id);
-                        $('#chooseGoods').show().append('<span>' + pname + '<i data-id="' + id + '"></i></span>');
-                        $('#goodsName').val(vals.join(','));
-                        $('#searchGoods').val(''); // 清空输入框
-                        $goodsSuggestions.hide();
-                    }
-                }).on('click', 'table', function() {
-                    return false;
-                })
+                });
 
                 // 删除商品
-                $('#chooseGoods').on('click', 'i', function() {
+                $chooseGoods.on('click', 'i', function() {
                     var id = $(this).data('id');
                     $(this).parent().remove();
-                    self.inArray(id, vals, true); // 删除当前id
-                    $('#goodsName').val(vals.join(','));
+                    that.inArray(id, vals, true);
+                    $goodsName.val(vals.join(','));
                 })
             },
             /**
