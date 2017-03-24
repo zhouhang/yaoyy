@@ -23,3 +23,5 @@ left join category c on t.category = c.name
 group by t.name,t.mobile;
 -- 设置供应商默认值. 当前创建时间啥的
 -- update supplier SET create_time = now(), status = 0 where id >100;
+-- 查找供应商重复的数据
+-- select group_concat(id) as ids ,supplier.* from supplier group by phone having count(*)>1;
