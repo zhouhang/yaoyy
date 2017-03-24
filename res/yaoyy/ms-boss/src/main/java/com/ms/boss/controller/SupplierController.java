@@ -435,6 +435,16 @@ public class SupplierController {
     public Result verify(@RequestBody SupplierCertifyVo supplierCertifyVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         supplierCertifyVo.setMemberId(mem.getId());
+        SupplierVo supplierVo=supplierCertifyVo.getSupplier();
+        if(supplierVo.getId()==null){
+            if(supplierService.existSupplier(supplierVo.getPhone())){
+                Result result = Result.error().msg("存在该手机号对应的供货商");
+
+                return result;
+            }
+
+        }
+
         supplierService.certify(supplierCertifyVo);
         return Result.success("核实成功");
     }

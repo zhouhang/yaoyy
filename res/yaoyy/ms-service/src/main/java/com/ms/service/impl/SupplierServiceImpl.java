@@ -273,6 +273,17 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	}
 
 	@Override
+	public Boolean existSupplier(String phone) {
+		SupplierVo param = new SupplierVo();
+		param.setPhone(phone);
+		List<SupplierVo> list = supplierDao.findByParams(param);
+		if (list.size() == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public ICommonDao<Supplier> getDao() {
 		return supplierDao;
 	}

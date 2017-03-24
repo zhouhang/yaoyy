@@ -49,7 +49,7 @@
                             <div class="item">
                                 <div class="txt">职位：</div>
                                 <div class="cnt ">
-                                    <input type="text" attr="position" name="position${contactVo_index+1}" value="${contactVo.phone}"  class="ipt" placeholder="职位" autocomplete="off">
+                                    <input type="text" attr="position" name="position${contactVo_index+1}" value="${contactVo.position}"  class="ipt" placeholder="职位" autocomplete="off">
                                 </div>
                             </div>
                             <div class="op">
@@ -294,7 +294,6 @@
                     param.contacts=contacts;
                     param.annexVos=annexVos;
                     param.choiceVos=choiceVos;
-                    console.log(param);
                     $.ajax({
                         url: 'supplier/saveJudge',
                         data: JSON.stringify(param),
@@ -381,7 +380,7 @@
             <#list supplierChoices as choice>
             var div=$("#supplierChoice").find("[suveyId='${choice.surveyId}']");
             div.find("input:radio").eq(${choice.choose-1}).attr("checked",'checked');
-            div.find("textarea[name='surveyDesc']").val(${choice.surveyDesc});
+            div.find("textarea[name='surveyDesc']").val('${choice.surveyDesc}');
             </#list>
             </#if>
         }
