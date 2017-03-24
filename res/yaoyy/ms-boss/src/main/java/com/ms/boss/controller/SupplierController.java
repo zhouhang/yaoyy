@@ -159,15 +159,19 @@ public class SupplierController {
         //省份数据
         Integer parentid = 100000;
         List<Area> provinces = areaService.findByParent(parentid);
-        //城市数据
-        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
-        //地区数据
-        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+        if(areaVo!=null){
+            //城市数据
+            List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+            //地区数据
+            List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+            model.put("cities", cities);
+            model.put("areaVos", areaVos);
+        }
+
 
         model.put("areaVo", areaVo);
         model.put("provinces", provinces);
-        model.put("cities", cities);
-        model.put("areaVos", areaVos);
+
 
         //读取跟踪记录数据
         UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
