@@ -19,7 +19,7 @@
         <div class="box">
             <div class="tools">
                 <div class="filter">
-                    <form id="filterForm" method="get" action="/supplier/list">
+                    <form id="filterForm" name="form" method="get" action="/supplier/list">
                         <select class="ipt" name="status">
                             <option value="">信息核实</option>
                             <option value="0">未核实</option>
@@ -35,7 +35,7 @@
                         </select>-->
                         <input type="text" name="name" class="ipt" value="" placeholder="姓名/手机号">
                         <input type="text" name="enterCategoryStr" class="ipt" value="" placeholder="品种">
-                        <button type="submit" class="ubtn ubtn-blue" id="search_btn">搜索</button>
+                        <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
 
@@ -65,7 +65,7 @@
                         <#list supplierVoPageInfo.list as supplier>
                         <tr>
                             <td><input type="checkbox" class="cbx"></td>
-                            <td>${supplier.id!}</td>
+                            <td>${supplier.id?c}</td>
                             <td>${supplier.name!}</td>
                             <td>${supplier.phone!}</td>
                             <td>${supplier.enterCategoryStr!}</td>
@@ -74,8 +74,8 @@
                             <td>0</td>
                             <td>${supplier.sourceText!}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
-                            <td class="tc" data-id="${supplier.id}">
-                                <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                            <td class="tc" data-id="${supplier.id?c}">
+                                <a href="/supplier/detail/${supplier.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
                                 <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>
@@ -115,6 +115,17 @@
                     }, 'json');
                 });
                 return false;
+            })
+
+            $("#search_btn").click(function(){
+                var $name = $("input[name=name]");
+                var pattern = /^1[34578]\d{9}$/;
+                if(pattern.test($name.val())){
+                    $name.attr("name", "phone");
+                }else{
+                    $name.attr("name", "name");
+                }
+                $("form").submit();
             })
         }
     }
