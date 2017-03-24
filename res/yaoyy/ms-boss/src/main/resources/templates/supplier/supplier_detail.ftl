@@ -228,7 +228,8 @@
             </form>
         </div>
         </#if>
-        
+
+        <#if supplierVo.status!=4>
         <div class="box fa-form">
             <div class="hd">供应商签约</div>
             <form id="myform3">
@@ -255,6 +256,7 @@
                 </div>
             </form>
         </div>
+        </#if>
 	</div>
 <#include "../common/footer.ftl"/>
 </div>
