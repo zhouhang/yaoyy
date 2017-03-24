@@ -436,9 +436,10 @@ public class SupplierController {
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         supplierCertifyVo.setMemberId(mem.getId());
         SupplierVo supplierVo=supplierCertifyVo.getSupplier();
+        Result result =Result.success("核实成功");
         if(supplierVo.getId()==null){
             if(supplierService.existSupplier(supplierVo.getPhone())){
-                Result result = Result.error().msg("存在该手机号对应的供货商");
+                result = Result.error().msg("存在该手机号对应的供货商");
 
                 return result;
             }
@@ -446,7 +447,8 @@ public class SupplierController {
         }
 
         supplierService.certify(supplierCertifyVo);
-        return Result.success("核实成功");
+        result.setData(supplierCertifyVo.getSupplier());
+        return result;
     }
 
     @RequestMapping(value = "judge/{id}", method = RequestMethod.GET)

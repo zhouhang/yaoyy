@@ -350,7 +350,7 @@
                 success: function(res) {
                     // 显示查询结果
                     if (res.status === 200) {
-                        location.reload();
+                        location.href="/supplier/detail/"+res.data.id;
                     }else{
                         $.notify({
                             type: 'error',
