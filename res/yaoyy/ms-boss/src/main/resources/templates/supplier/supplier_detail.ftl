@@ -188,7 +188,7 @@
                 </div>
 				<div class="ft">
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
-                    <#if supplierVo.status==1>
+                    <#if supplierVo.status==0>
                         <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
                     </#if>
 
