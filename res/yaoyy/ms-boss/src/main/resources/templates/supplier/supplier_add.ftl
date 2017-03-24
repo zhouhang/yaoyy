@@ -331,9 +331,11 @@
             param.supplier=$("#myform").serializeObject();
             var bizCustomerType=param.supplier.bizCustomerType;
             if(bizCustomerType!=undefined){
-                param.supplier.bizCustomerType=bizCustomerType.join(",");
-            }
-            else{
+                if(bizCustomerType instanceof Array){
+                    param.supplier.bizCustomerType=bizCustomerType.join(",");
+                }
+
+            }else{
                 param.supplier.bizCustomerType="";
             }
 
