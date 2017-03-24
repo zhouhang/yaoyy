@@ -147,6 +147,12 @@ public class SupplierController {
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
+        if(userService.isBinding(id)){
+            supplierVo.setBinding("1");
+        }
+        else{
+            supplierVo.setBinding("0");
+        }
 
 
         List<SupplierCommodityVo> commodityVos=supplierCommodityService.findBySupplierId(id);
@@ -159,15 +165,19 @@ public class SupplierController {
         //省份数据
         Integer parentid = 100000;
         List<Area> provinces = areaService.findByParent(parentid);
-        //城市数据
-        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
-        //地区数据
-        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+        if(areaVo!=null){
+            //城市数据
+            List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+            //地区数据
+            List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+            model.put("cities", cities);
+            model.put("areaVos", areaVos);
+        }
+
 
         model.put("areaVo", areaVo);
         model.put("provinces", provinces);
-        model.put("cities", cities);
-        model.put("areaVos", areaVos);
+
 
         //读取跟踪记录数据
         UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
@@ -230,6 +240,7 @@ public class SupplierController {
         userVo.setType(UserTypeEnum.supplier.getType());
         userVo.setPhone(supplierVo.getPhone());
         userVo.setPassword(pwd);
+        userVo.setSupplierId(supplierVo.getId());
 
         UserDetailVo userDetailVo = new UserDetailVo();
         userDetailVo.setName(supplierVo.getName());
@@ -435,8 +446,20 @@ public class SupplierController {
     public Result verify(@RequestBody SupplierCertifyVo supplierCertifyVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         supplierCertifyVo.setMemberId(mem.getId());
+        SupplierVo supplierVo=supplierCertifyVo.getSupplier();
+        Result result =Result.success("核实成功");
+        if(supplierVo.getId()==null){
+            if(supplierService.existSupplier(supplierVo.getPhone())){
+                result = Result.error().msg("存在该手机号对应的供货商");
+
+                return result;
+            }
+
+        }
+
         supplierService.certify(supplierCertifyVo);
-        return Result.success("核实成功");
+        result.setData(supplierCertifyVo.getSupplier());
+        return result;
     }
 
     @RequestMapping(value = "judge/{id}", method = RequestMethod.GET)
@@ -468,7 +491,7 @@ public class SupplierController {
     public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
-        if(old.getStatus()== SupplierStatusEnum.VERIFY.getType()){
+        if(old.getStatus()!= SupplierStatusEnum.UNVERIFY.getType()){
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");

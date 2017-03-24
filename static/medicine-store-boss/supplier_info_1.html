@@ -76,13 +76,17 @@
                                     <td><div class="ipt-wrap"><input type="text" class="ipt jname" value="" autocomplete="off"></div></td>
                                     <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td>
                                     <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td>
-                                    <td><button class="ubtn ubtn-red">删除</button></td>
+                                    <td><button type="button" class="ubtn ubtn-red">删除</button></td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <a href="javascript:;" class="c-blue" id="addCommodity">+新增一行</a>                
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
-                        <div class="op">
-                            <a href="javascript:;" class="c-blue" id="addCommodity">+新增一行</a>
-                        </div>
                     </div>
                 </div>
 				<div class="item">
@@ -104,9 +108,15 @@
                 </div>
                 <div class="item">
                     <div class="txt">组织类型：</div>
-                    <div class="cnt cbxs">
-                        <label><input type="radio" name="companyType" class="cbx">个人主体</label>
-                        <label><input type="radio" name="companyType" class="cbx">公司或者合作社</label>
+                    <div class="cnt cbxs" id="changeCompanyType">
+                        <label><input type="radio" value="1" name="companyType" class="cbx">个人主体</label>
+                        <label><input type="radio" value="2" name="companyType" class="cbx">公司或者合作社</label>
+                    </div>
+                </div>
+                <div class="item hide" id="companyName">
+                    <div class="txt">公司名称：</div>
+                    <div class="cnt">
+                        <input type="text" name="companyName" class="ipt" placeholder="请输入公司名称" autocomplete="off">
                     </div>
                 </div>
 
@@ -215,6 +225,7 @@
         init: function() {
             navLight('8-1');
             this.commodity();
+            this.changeCompanyType();
             this.checkForm();
             this.searchBreeds();
             this.submitEvent();
@@ -228,7 +239,7 @@
             
             // 新增
             $('#addCommodity').on('click', function(){
-                var tr = '<tr> \n <td><div class="ipt-wrap"><input type="text" class="ipt jname" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><button class="ubtn ubtn-red">删除</button></td> \n </tr>';
+                var tr = '<tr> \n <td><div class="ipt-wrap"><input type="text" class="ipt jname" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><button type="button" class="ubtn ubtn-red">删除</button></td> \n </tr>';
                 $table.append(tr);
             })
 
@@ -265,6 +276,11 @@
                 .closest('td').next().find('.ipt').val(data[1]).end()
                 .closest('td').next().find('.ipt').val(data[2]).end()
                 $suggestions.hide();
+            })
+        },
+        changeCompanyType: function() {
+            $('#changeCompanyType').on('click', '.cbx', function() {
+                $('#companyName')[this.value == 2 ? 'show' : 'hide']();
             })
         },
         // ajax 查询关键词

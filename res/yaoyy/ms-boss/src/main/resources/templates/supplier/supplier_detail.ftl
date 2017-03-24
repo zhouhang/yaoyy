@@ -19,14 +19,14 @@
 
         <div class="fa-tab">
             <span class="on">基本信息</span>
-            <a href="supplier/judge/${(supplierVo.id)!}">评价信息</a>
+            <a href="supplier/judge/${(supplierVo.id?c)!}">评价信息</a>
             <!--<a href="">身份信息</a>-->
-            <a href="supplier/${(supplierVo.id)!}/commodity">商品调价</a>
+            <a href="supplier/${(supplierVo.id?c)!}/commodity">商品调价</a>
         </div>
 
 		<div class="box fa-form">
             <form id="myform">
-                <input type="hidden" name="id" value="${(supplierVo.id)!}">
+                <input type="hidden" name="id" value="${(supplierVo.id?c)!}">
                 <div class="hd">基本信息</div>
                 <div class="item">
                     <div class="txt">当前状态：</div>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="item">
                     <div class="txt">供应商编号：</div>
-                    <div class="val">${(supplierVo.id)!}</div>
+                    <div class="val">${(supplierVo.id?c)!}</div>
                 </div>
 				<div class="item">
 					<div class="txt"><i>*</i>姓名：</div>
@@ -144,9 +144,16 @@
                 </div>
                 <div class="item">
                     <div class="txt">组织类型：</div>
-                    <div class="cnt cbxs">
+                    <div class="cnt cbxs" id="changeCompanyType">
                         <label><input type="radio" name="org" class="cbx" value="1"<#if supplierVo.org??><#if supplierVo.org==1>checked</#if></#if>>个人主体</label>
                         <label><input type="radio" name="org" class="cbx" value="2" <#if supplierVo.org??><#if supplierVo.org==2>checked</#if></#if>>公司或者合作社</label>
+                    </div>
+                </div>
+
+                <div class="item  <#if !supplierVo.org??||supplierVo.org==1>hide</#if>" id="companyName">
+                    <div class="txt">公司名称：</div>
+                    <div class="cnt">
+                        <input type="text" name="company" value="${(supplierVo.company)!}"class="ipt" placeholder="请输入公司名称" autocomplete="off">
                     </div>
                 </div>
 
@@ -188,9 +195,7 @@
                 </div>
 				<div class="ft">
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
-                    <#if supplierVo.status==1>
-                        <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
-                    </#if>
+                    <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
 
 				</div>
             </form>
@@ -217,7 +222,7 @@
                 </div>
                 <div class="ft">
                     <input type="hidden" name="memberId" value="${(member_session_boss.id)!}">
-                    <input type="hidden" name="supplierId" value="${(supplierVo.id)!}">
+                    <input type="hidden" name="supplierId" value="${(supplierVo.id?c)!}">
                     <button type="submit" class="ubtn ubtn-blue submit">提交</button>
                 </div>
             </form>
@@ -229,7 +234,13 @@
             <form id="myform3">
                 <div class="item">
                     <div class="txt">登录帐号：</div>
-                    <div class="val">${(supplierVo.phone)!} <span class="c-red">已绑定</span></div>
+                    <div class="val">${(supplierVo.phone)!}
+                        <#if supplierVo.binding=='1'>
+                        <span class="c-red">已绑定</span>
+                        <#else>
+                            <span class="c-red">未绑定</span>
+                        </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">密码：</div>
@@ -239,7 +250,7 @@
                     </div>
                 </div>
                 <div class="ft">
-                    <button type="button" class="ubtn ubtn-blue submit">供应商签约</button>
+                    <button type="submit" class="ubtn ubtn-blue submit">供应商签约</button>
                     <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
                 </div>
             </form>
@@ -266,6 +277,7 @@
             navLight('8-1');
             this.commodity();
             this.checkForm();
+            this.changeCompanyType();
             this.searchBreeds();
             this.submitEvent();
         },
@@ -310,11 +322,15 @@
 
             // 关键字自动填充
             $body.on('click', '.suggestions .group', function() {
-                var data = $(this).data('val').split('@');
-                $suggestions.prev().val(data[0])
-                .closest('td').next().find('.ipt').val(data[1]).end()
-                .closest('td').next().find('.ipt').val(data[2]).end()
+                $suggestions.prev().val($(this).data('val'))
+                //.closest('td').next().find('.ipt').val(data[1]).end()
+                //.closest('td').next().find('.ipt').val(data[2]).end()
                 $suggestions.hide();
+            })
+        },
+        changeCompanyType: function() {
+            $('#changeCompanyType').on('click', '.cbx', function() {
+                $('#companyName')[this.value == 2 ? 'show' : 'hide']();
             })
         },
         // ajax 查询关键词
@@ -334,10 +350,9 @@
         ajaxSearch: function(keywords) {
             var that = this;
             $.ajax({
-                url: 'commodity/search',
+                url: '/category/search',
                 dataType: 'json',
                 data:{name:keywords},
-                type:"POST",
                 success: function(res) {
                     // 显示查询结果
                     if (res.status === 200) {
@@ -359,11 +374,9 @@
                 hasPage = pageSize < item.length;
 
             for (var i = page_index * pageSize; i < maxPage; i++) {
-                var val = item[i].name + '@' + item[i].spec + '@' + item[i].origin;
+                var val = item[i].name;
                 modal.push('<div class="group" data-val="', val, '">');
                 modal.push(     '<em>', item[i].name, '</em>');
-                modal.push(     '<em>', item[i].spec, '</em>');
-                modal.push(     '<em>', item[i].origin, '</em>');
                 modal.push('</div>');
             }
             hasPage && modal.push('<div class="jq-page"></div>');
@@ -405,6 +418,17 @@
         certifySupplier:function(status){
             var param={};
             param.supplier=$("#myform").serializeObject();
+            var bizCustomerType=param.supplier.bizCustomerType;
+            if(bizCustomerType!=undefined){
+                if(bizCustomerType instanceof Array){
+                    param.supplier.bizCustomerType=bizCustomerType.join(",");
+                }
+
+            }else{
+                param.supplier.bizCustomerType="";
+            }
+
+
 
             var commdityList=[];
             $("#commodity").find("tbody tr").each(function () {
@@ -440,7 +464,7 @@
         // 查询品种
         searchBreeds: function() {
             var that = this;
-                vals = [],
+                vals = [${supplierVo.enterCategory!}],
                 timer = 0,
                 $breeds = $('#breeds'),
                 $breedsId = $('#breedsId'),
@@ -537,6 +561,12 @@
                                     callback: function() {
                                         location.href = '/supplier/list';
                                     }
+                                });
+                            }
+                            else{
+                                $.notify({
+                                    type: 'error',
+                                    title: d.msg
                                 });
                             }
                         });

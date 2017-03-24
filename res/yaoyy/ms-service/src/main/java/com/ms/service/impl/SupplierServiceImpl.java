@@ -59,6 +59,9 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	private UserTrackRecordService userTrackRecordService;
 
 
+
+
+
 	@Override
 	public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize) {
 
@@ -195,10 +198,19 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	public void certify(SupplierCertifyVo supplierCertifyVo) {
 		SupplierVo old=supplierDao.findVoById(supplierCertifyVo.getSupplier().getId());
 		SupplierVo  supplier=supplierCertifyVo.getSupplier();
-		if(old!=null){
+
+		supplier.setEnterCategoryList(categoryService.findByIds(supplier.getEnterCategory()));
+		supplier.setEnterCategoryStr(supplier.getEnterCategoryText());
+
+
+		if(supplier.getId()!=null){
 			//如果已经审核过，不改变状态
 			if(!old.getStatus().equals(SupplierStatusEnum.UNVERIFY.getType())){
-				supplier.setStatus(old.getStatus());
+				//如果是通过状态就不需要更改状态
+				if(!supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
+					supplier.setStatus(old.getStatus());
+				}
+
 			}
 			save(supplier);
 			if(supplierCertifyVo.getSupplierCommodityVos()!=null) {
@@ -270,6 +282,17 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 
 
+	}
+
+	@Override
+	public Boolean existSupplier(String phone) {
+		SupplierVo param = new SupplierVo();
+		param.setPhone(phone);
+		List<SupplierVo> list = supplierDao.findByParams(param);
+		if (list.size() == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

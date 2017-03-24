@@ -154,7 +154,7 @@
                         data: 'phone='+$('#mobile').val(),
                         type:"POST",
                         success: function(data) {
-                            if (data.status === 'y') {
+                            if (data.status == '200') {
                                 $send.text(second + txt).prop('disabled', true);
                                 lock();
                                 popover(data.info);
@@ -179,6 +179,7 @@
                     self = this,
                     $suggestions = $('.suggest'),
                     $category = $('#category'),
+                    $categoryId = $('#enterCategory'),
                     colors = ['aqua', 'green', 'yellow', 'red', 'navy', 'teal', 'olive', 'orange', 'fuchsia', 'purple', 'maroon'],
                     choosed = {};
 
@@ -234,12 +235,13 @@
                     $.each(value, function(key, val) {
                         if (choosed[val]) {
                             valid.push(val);
-                            _choosed[val] = val;
+                            _choosed[val] = key;
                         }
                     })
 
                     choosed = _choosed;
                     $category.val(valid.length > 0 ? valid.join() + ',' : '');
+                    $('#enterCategory').val()
                 });
 
                 $suggestions.on('click', 'a', function() {

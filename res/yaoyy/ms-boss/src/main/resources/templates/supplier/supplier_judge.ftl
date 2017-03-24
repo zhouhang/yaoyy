@@ -18,15 +18,15 @@
 		</div>
 
         <div class="fa-tab">
-            <a href="supplier/detail/${(supplierVo.id)!}">基本信息</a>
+            <a href="supplier/detail/${(supplierVo.id?c)!}">基本信息</a>
             <span class="on">评价信息</span>
             <!--<a href="#">身份信息</a>-->
-            <a href="supplier/${(supplierVo.id)!}/commodity">商品调价</a>
+            <a href="supplier/${(supplierVo.id?c)!}/commodity">商品调价</a>
         </div>
 
         <form id="myform">
             <div class="box fa-form">
-                <input type="hidden" name="id" value="${(supplierVo.id)!}">
+                <input type="hidden" name="id" value="${(supplierVo.id?c)!}">
                 <div class="hd">联系人</div>
                 <div id="contactform">
                 <#if contactVos??>
@@ -49,7 +49,7 @@
                             <div class="item">
                                 <div class="txt">职位：</div>
                                 <div class="cnt ">
-                                    <input type="text" attr="position" name="position${contactVo_index+1}" value="${contactVo.phone}"  class="ipt" placeholder="职位" autocomplete="off">
+                                    <input type="text" attr="position" name="position${contactVo_index+1}" value="${contactVo.position}"  class="ipt" placeholder="职位" autocomplete="off">
                                 </div>
                             </div>
                             <div class="op">
@@ -61,6 +61,7 @@
                 <#else>
                   <#assign  num=3>
                 </#if>
+                    <#if num gt 0>
                  <#list 1..num as i>
                 　<div class="row">
                      <input type="hidden" name="contactVoId" value="">
@@ -87,6 +88,7 @@
                      </div>
                  </div>　　　　
                 　</#list>
+                    </#if>
             </div>
             </div>
 
@@ -250,11 +252,11 @@
                         if(id!=""){
                             contact.id=id;
                         }
-                        contact.supplierId=${(supplierVo.id)!};
+                        contact.supplierId=${(supplierVo.id?c)!};
                         contact.name=$(this).find("input[attr='name']").val();
                         contact.phone=$(this).find("input[attr='phone']").val();
                         contact.position=$(this).find("input[attr='position']").val();
-                        if($("#contact"+(index+1).toString()).attr("checked")){
+                        if($("#contact"+(index+1).toString()).is(':checked')){
                             contact.kp=1;
                         }
                         else{
@@ -269,7 +271,7 @@
                         var img=$(this).find("img");
                         if(img!=undefined){
                             var annexVo={};
-                            annexVo.supplierId=${(supplierVo.id)!};
+                            annexVo.supplierId=${(supplierVo.id?c)!};
                             annexVo.url=img.attr("src");
                             if(annexVo.url!=undefined){
                                 annexVos.push(annexVo);
@@ -279,7 +281,7 @@
                     })
                     $("#supplierChoice").find(".qus").each(function(){
                         var choiceVo={};
-                        choiceVo.supplierId=${(supplierVo.id)!};
+                        choiceVo.supplierId=${(supplierVo.id?c)!};
                         choiceVo.surveyId=$(this).attr("suveyId");
                         choiceVo.choose=$(this).find("input:radio:checked").val();
                         choiceVo.surveyDesc= $(this).find("textarea[name='surveyDesc']").val();
@@ -292,7 +294,6 @@
                     param.contacts=contacts;
                     param.annexVos=annexVos;
                     param.choiceVos=choiceVos;
-                    console.log(param);
                     $.ajax({
                         url: 'supplier/saveJudge',
                         data: JSON.stringify(param),
@@ -305,7 +306,7 @@
                                     type: 'success',
                                     title: '操作成功'
                                 });
-                                location.reload();
+                                //location.reload();
                             }
                             else{
                                 $.notify({
@@ -379,7 +380,7 @@
             <#list supplierChoices as choice>
             var div=$("#supplierChoice").find("[suveyId='${choice.surveyId}']");
             div.find("input:radio").eq(${choice.choose-1}).attr("checked",'checked');
-            div.find("textarea[name='surveyDesc']").val(${choice.surveyDesc});
+            div.find("textarea[name='surveyDesc']").val('${choice.surveyDesc}');
             </#list>
             </#if>
         }

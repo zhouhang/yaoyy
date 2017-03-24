@@ -283,6 +283,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			User user = new User();
 			user.setId(existUser.getId());
 			user.setType(UserTypeEnum.supplier.getType());
+			user.setSupplierId(userVo.getSupplierId());
 			update(user);
 		} else {
 			User user = new User();
@@ -295,6 +296,8 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			Password pass = EncryptUtil.PiecesEncode(userVo.getPassword());
 			user.setPassword(pass.getPassword());
 			user.setSalt(pass.getSalt());
+			user.setSupplierId(userVo.getSupplierId());
+
 			create(user);
 
 			userVo.setId(user.getId());
@@ -371,6 +374,17 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	@Override
 	public List<UserVo> findByParamsNoPage(UserVo userVo) {
 		return userDao.findByParams(userVo);
+	}
+
+	@Override
+	public boolean isBinding(Integer supplierId) {
+		UserVo param = new UserVo();
+		param.setSupplierId(supplierId);
+		List<UserVo> list = userDao.findByParams(param);
+		if (list.size() == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
