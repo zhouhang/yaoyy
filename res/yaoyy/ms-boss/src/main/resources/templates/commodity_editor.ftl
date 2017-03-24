@@ -459,7 +459,7 @@
                 var $supplier = $('#supplier');
                 $supplier.autocomplete({
                     serviceUrl: '/supplier/search',
-                    type: 'post',
+                    type: 'POST',
                     paramName: 'name',
                     deferRequestBy: 300,
                     dataType: 'json',
