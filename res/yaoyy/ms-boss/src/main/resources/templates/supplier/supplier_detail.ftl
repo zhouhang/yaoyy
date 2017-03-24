@@ -243,7 +243,7 @@
                     </div>
                 </div>
                 <div class="ft">
-                    <button type="button" class="ubtn ubtn-blue submit">供应商签约</button>
+                    <button type="submit" class="ubtn ubtn-blue submit">供应商签约</button>
                     <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
                 </div>
             </form>
@@ -541,6 +541,12 @@
                                     callback: function() {
                                         location.href = '/supplier/list';
                                     }
+                                });
+                            }
+                            else{
+                                $.notify({
+                                    type: 'error',
+                                    title: d.msg
                                 });
                             }
                         });
