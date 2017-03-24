@@ -6,3 +6,19 @@ INSERT INTO `survey` VALUES ('5', '资金实力（能否承受较长账期）', 
 
 ALTER TABLE `supplier_choice`
 CHANGE COLUMN `desc` `survey_desc`  varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `choose`;
+
+-- 把认证的供应商信息导入到供应商表中
+insert into supplier(phone,name,area,enter_category,company,enter_category_str)
+select u.phone as phone, ud.name as name,ud.area as area,ud.category_ids as enter_category,
+ud.company as company,(select group_concat(category.name) from category where  FIND_IN_SET(category.id,ud.category_ids)) as enter_category_str
+FROM user u
+LEFT JOIN user_detail ud on u.id = ud.user_id
+WHERE u.type = 2;
+-- select group_concat(c.name) as enter_category_str from category c where c.id in(691,65,669);
+-- 沪谯 供应商导入
+insert into supplier(name,phone,enter_category_str,enter_category)
+select t.name as name,t.mobile as phone,group_concat(t.category) as enter_category_str,group_concat(c.id) as enter_category from
+(select hs.name,hs.mobile, category from huqiao_supplier hs group by hs.name, hs.mobile,hs.category)t
+left join category c on t.category = c.name
+group by t.name,t.mobile;
+-- 设置默认值. 当前创建时间啥的
