@@ -52,7 +52,7 @@
         fn: {
             init: function() {
                 this.validator();
-                this.category();
+//                this.category();
             },
             validator: function() {
                 var self = this;

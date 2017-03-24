@@ -486,6 +486,7 @@ public class SupplierController {
         return "supplier/supplier_judge";
     }
 
+
     @RequestMapping(value = "/saveJudge", method = RequestMethod.POST)
     @ResponseBody
     public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
@@ -495,18 +496,13 @@ public class SupplierController {
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
-
         }
         else{
             Result result = Result.error().msg("必须核实才能登记");
 
             return result;
         }
-
-
     }
-
-
 
 
 }
