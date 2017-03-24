@@ -400,6 +400,7 @@ public class SupplierController {
         //判断该供应商有没有绑定用户
         List<UserVo> userVos = userService.findByParamsNoPage(uv);
         model.put("isbinding", userVos.size());
+        model.put("supplierId", id);
         if(userVos.size() == 0){
             return "supplier/supplier_commodity";
         }
