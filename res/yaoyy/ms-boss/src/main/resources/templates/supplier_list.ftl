@@ -75,7 +75,7 @@
                             <td>${supplier.sourceText!}</td>
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc" data-id="${supplier.id}">
-                                <a href="/supplier/detail/${supplier.id}" class="ubtn ubtn-blue jedit">编辑</a>
+                                <a href="/supplier/detail/${supplier.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
                                 <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
                             </td>
                         </tr>

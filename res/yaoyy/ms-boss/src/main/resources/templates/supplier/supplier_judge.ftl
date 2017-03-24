@@ -18,15 +18,15 @@
 		</div>
 
         <div class="fa-tab">
-            <a href="supplier/detail/${(supplierVo.id)!}">基本信息</a>
+            <a href="supplier/detail/${(supplierVo.id?c)!}">基本信息</a>
             <span class="on">评价信息</span>
             <!--<a href="#">身份信息</a>-->
-            <a href="supplier/${(supplierVo.id)!}/commodity">商品调价</a>
+            <a href="supplier/${(supplierVo.id?c)!}/commodity">商品调价</a>
         </div>
 
         <form id="myform">
             <div class="box fa-form">
-                <input type="hidden" name="id" value="${(supplierVo.id)!}">
+                <input type="hidden" name="id" value="${(supplierVo.id?c)!}">
                 <div class="hd">联系人</div>
                 <div id="contactform">
                 <#if contactVos??>
@@ -252,7 +252,7 @@
                         if(id!=""){
                             contact.id=id;
                         }
-                        contact.supplierId=${(supplierVo.id)!};
+                        contact.supplierId=${(supplierVo.id?c)!};
                         contact.name=$(this).find("input[attr='name']").val();
                         contact.phone=$(this).find("input[attr='phone']").val();
                         contact.position=$(this).find("input[attr='position']").val();
@@ -271,7 +271,7 @@
                         var img=$(this).find("img");
                         if(img!=undefined){
                             var annexVo={};
-                            annexVo.supplierId=${(supplierVo.id)!};
+                            annexVo.supplierId=${(supplierVo.id?c)!};
                             annexVo.url=img.attr("src");
                             if(annexVo.url!=undefined){
                                 annexVos.push(annexVo);
@@ -281,7 +281,7 @@
                     })
                     $("#supplierChoice").find(".qus").each(function(){
                         var choiceVo={};
-                        choiceVo.supplierId=${(supplierVo.id)!};
+                        choiceVo.supplierId=${(supplierVo.id?c)!};
                         choiceVo.surveyId=$(this).attr("suveyId");
                         choiceVo.choose=$(this).find("input:radio:checked").val();
                         choiceVo.surveyDesc= $(this).find("textarea[name='surveyDesc']").val();

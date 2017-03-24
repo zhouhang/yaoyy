@@ -19,9 +19,6 @@
 
         <div class="fa-tab">
             <span class="on">基本信息</span>
-            <a href="supplier/judge/${(supplierVo.id)!}">评价信息</a>
-            <!--<a href="">身份信息</a>-->
-            <a href="supplier/${(supplierVo.id)!}/commodity">商品调价</a>
         </div>
 
 		<div class="box fa-form">
@@ -115,9 +112,15 @@
                 </div>
                 <div class="item">
                     <div class="txt">组织类型：</div>
-                    <div class="cnt cbxs">
+                    <div class="cnt cbxs" id="changeCompanyType">
                         <label><input type="radio" name="org" class="cbx" value="1">个人主体</label>
                         <label><input type="radio" name="org" class="cbx" value="2">公司或者合作社</label>
+                    </div>
+                </div>
+                <div class="item hide" id="companyName">
+                    <div class="txt">公司名称：</div>
+                    <div class="cnt">
+                        <input type="text" name="company" class="ipt" placeholder="请输入公司名称" autocomplete="off">
                     </div>
                 </div>
 
@@ -185,6 +188,7 @@
             navLight('8-1');
             this.commodity();
             this.checkForm();
+            this.changeCompanyType();
             this.searchBreeds();
             this.submitEvent();
         },
@@ -229,11 +233,15 @@
 
             // 关键字自动填充
             $body.on('click', '.suggestions .group', function() {
-                var data = $(this).data('val').split('@');
-                $suggestions.prev().val(data[0])
-                .closest('td').next().find('.ipt').val(data[1]).end()
-                .closest('td').next().find('.ipt').val(data[2]).end()
+                $suggestions.prev().val($(this).data('val'))
+                //.closest('td').next().find('.ipt').val(data[1]).end()
+                //.closest('td').next().find('.ipt').val(data[2]).end()
                 $suggestions.hide();
+            })
+        },
+        changeCompanyType: function() {
+            $('#changeCompanyType').on('click', '.cbx', function() {
+                $('#companyName')[this.value == 2 ? 'show' : 'hide']();
             })
         },
         // ajax 查询关键词
@@ -253,10 +261,9 @@
         ajaxSearch: function(keywords) {
             var that = this;
             $.ajax({
-                url: 'commodity/search',
+                url: '/category/search',
                 dataType: 'json',
                 data:{name:keywords},
-                type:"POST",
                 success: function(res) {
                     // 显示查询结果
                     if (res.status === 200) {
@@ -278,11 +285,9 @@
                 hasPage = pageSize < item.length;
 
             for (var i = page_index * pageSize; i < maxPage; i++) {
-                var val = item[i].name + '@' + item[i].spec + '@' + item[i].origin;
+                var val = item[i].name ;
                 modal.push('<div class="group" data-val="', val, '">');
                 modal.push(     '<em>', item[i].name, '</em>');
-                modal.push(     '<em>', item[i].spec, '</em>');
-                modal.push(     '<em>', item[i].origin, '</em>');
                 modal.push('</div>');
             }
             hasPage && modal.push('<div class="jq-page"></div>');
@@ -324,6 +329,14 @@
         certifySupplier:function(status){
             var param={};
             param.supplier=$("#myform").serializeObject();
+            var bizCustomerType=param.supplier.bizCustomerType;
+            if(bizCustomerType!=undefined){
+                param.supplier.bizCustomerType=bizCustomerType.join(",");
+            }
+            else{
+                param.supplier.bizCustomerType="";
+            }
+
 
             var commdityList=[];
             $("#commodity").find("tbody tr").each(function () {
