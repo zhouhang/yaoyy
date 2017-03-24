@@ -7,16 +7,17 @@ import com.ms.dao.SupplierDao;
 import com.ms.dao.enums.*;
 import com.ms.dao.model.Supplier;
 import com.ms.dao.model.User;
+import com.ms.dao.model.UserDetail;
 import com.ms.dao.vo.SupplierCertifyVo;
 import com.ms.dao.vo.SupplierCommodityVo;
 import com.ms.dao.vo.SupplierVo;
 import com.ms.dao.vo.UserVo;
-import com.ms.service.CategoryService;
-import com.ms.service.SupplierCommodityService;
-import com.ms.service.SupplierService;
-import com.ms.service.UserService;
+import com.ms.service.*;
 import com.ms.service.dto.Password;
 import com.ms.service.utils.EncryptUtil;
+import com.ms.tools.httpclient.common.util.StringUtil;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,13 +128,48 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		param.setPhone(supplierVo.getPhone());
 		List<SupplierVo> list = supplierDao.findByParams(param);
 		if (list.size() == 0) {
+			supplierVo.setSource(SupplierSourceEnum.WECHART.getType());
+			supplierVo.setCreateTime(new Date());
+			supplierVo.setUpdateTime(new Date());
+			create(supplierVo);
 			//首先user里面插入一条数据，然后supplier插入数据
-			if(userService.findByPhone(supplierVo.getPhone())==null){
+			User user = userService.findByPhone(supplierVo.getPhone());
+			if(user==null){
+				user = new User();
+				user.setPhone(supplierVo.getPhone());
+				user.setType(UserTypeEnum.supplier.getType());
+				user.setSource(UserSourceEnum.register.getType());
+				user.setStatus(1);
+				user.setSupplierId(supplierVo.getId());
+				if(null!=wxMpUser){
+					user.setOpenid(wxMpUser.getOpenId());
+				}
+				userService.create(user);
+				UserDetail userDetail = new UserDetail();
+				userDetail.setUserId(user.getId());
+				userDetail.setType(0);
+				if(null!=wxMpUser){
+					userDetail.setNickname(wxMpUser.getNickname());
+					userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+				}
+				userDetail.setPhone(supplierVo.getPhone());
+				userDetail.setName(supplierVo.getName());
+				userDetail.setContract(0);
+				userDetailService.save(userDetail);
 
+			}else{
+				if(StringUtils.isBlank(user.getOpenid())&&null!=wxMpUser){
+					user.setOpenid(wxMpUser.getOpenId());
+				  	UserDetail userDetail = userDetailService.findByUserId(user.getId());
+					userDetail.setNickname(wxMpUser.getNickname());
+					userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+					userDetailService.save(userDetail);
+				}
+				user.setSupplierId(supplierVo.getId());
+				userService.update(user);
 			}
 			return true;
 		}
-
 		return false;
 	}
 

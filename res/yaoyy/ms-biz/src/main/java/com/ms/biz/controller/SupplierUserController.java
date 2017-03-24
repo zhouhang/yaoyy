@@ -240,7 +240,7 @@ public class SupplierUserController {
         else{
             WxMpUser wxMpUser = (WxMpUser)httpSession.getAttribute("wxMpUser");
             if (!supplierService.join(supplier,wxMpUser)){
-
+                result = result.error().msg("信息已登记！");
             }
         }
         return result;
