@@ -234,23 +234,31 @@ public class SupplierController {
 
             return result;
         }
+        //状态改为已签约
+        old.setStatus(SupplierStatusEnum.SIGN.getType());
+        supplierService.save(old);
+
+
+
+
+
 
         //supplier数据转存到user
         UserVo userVo = new UserVo();
         userVo.setType(UserTypeEnum.supplier.getType());
-        userVo.setPhone(supplierVo.getPhone());
+        userVo.setPhone(old.getPhone());
         userVo.setPassword(pwd);
-        userVo.setSupplierId(supplierVo.getId());
+        userVo.setSupplierId(old.getId());
 
         UserDetailVo userDetailVo = new UserDetailVo();
-        userDetailVo.setName(supplierVo.getName());
-        userDetailVo.setPhone(supplierVo.getPhone());
-        userDetailVo.setCategoryIds(supplierVo.getEnterCategory());
-        userDetailVo.setCompany(supplierVo.getCompany());
-        userDetailVo.setArea(supplierVo.getArea());
-        userDetailVo.setEmail(supplierVo.getEmail());
-        userDetailVo.setQq(supplierVo.getQq());
-        userDetailVo.setRemark(supplierVo.getMark());
+        userDetailVo.setName(old.getName());
+        userDetailVo.setPhone(old.getPhone());
+        userDetailVo.setCategoryIds(old.getEnterCategory());
+        userDetailVo.setCompany(old.getCompany());
+        userDetailVo.setArea(old.getArea());
+        userDetailVo.setEmail(old.getEmail());
+        userDetailVo.setQq(old.getQq());
+        userDetailVo.setRemark(old.getMark());
         userDetailVo.setContract(ContractEnum.IS_NOT_CONTRACT.getKey());
         userVo = userService.sign(userVo, userDetailVo);
 
@@ -259,7 +267,7 @@ public class SupplierController {
         //supplier的user_track_record添加user_id字段值
         UserTrackRecord userTrackRecord = new UserTrackRecord();
         userTrackRecord.setUserId(userVo.getId());
-        userTrackRecord.setSupplierId(supplierVo.getId());
+        userTrackRecord.setSupplierId(old.getId());
         userTrackRecordService.update(userTrackRecord);
 
         //删除supplier的值
@@ -280,14 +288,14 @@ public class SupplierController {
             templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM4_NAME.get(),
                     WxSupplierSignTemplateEnum.PARAM4_VALUE.get(), WxSupplierSignTemplateEnum.PARAM4_COLOR.get()));
             templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM5_NAME.get(),
-                    WxSupplierSignTemplateEnum.PARAM5_VALUE.get().replace("{1}", supplierVo.getPhone()).replace("{2}", pwd),
+                    WxSupplierSignTemplateEnum.PARAM5_VALUE.get().replace("{1}", old.getPhone()).replace("{2}", pwd),
                     WxSupplierSignTemplateEnum.PARAM5_COLOR.get()));
 
             WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
             applicationContext.publishEvent(wt);
         }
 
-        SmsTemplateEvent sms = new SmsTemplateEvent(supplierVo.getPhone(), pwd);
+        SmsTemplateEvent sms = new SmsTemplateEvent(old.getPhone(), pwd);
         applicationContext.publishEvent(sms);
 
         return Result.success("保存成功");
