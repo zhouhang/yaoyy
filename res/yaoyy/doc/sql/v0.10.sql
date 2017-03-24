@@ -21,4 +21,5 @@ select t.name as name,t.mobile as phone,group_concat(t.category) as enter_catego
 (select hs.name,hs.mobile, category from huqiao_supplier hs group by hs.name, hs.mobile,hs.category)t
 left join category c on t.category = c.name
 group by t.name,t.mobile;
--- 设置默认值. 当前创建时间啥的
+-- 设置供应商默认值. 当前创建时间啥的
+-- update supplier SET create_time = now(), status = 0 where id >100;
