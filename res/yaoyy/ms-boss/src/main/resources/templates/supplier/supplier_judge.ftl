@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="op">
-                                <label><input type="radio" name="contact" id="contact${contactVo_index+1}" class="cbx" <#if contactVo.kp==1>checked</#if>>keep person</label>
+                                <label><input type="radio" name="contact" id="contact${contactVo_index+1}" class="cbx" <#if contactVo.kp==1>checked</#if>>key person</label>
                             </div>
                         </div>
                     </#list>
@@ -83,7 +83,7 @@
                          </div>
                      </div>
                      <div class="op">
-                         <label><input type="radio" name="contact" id="contact${i+3-num}" value="1" class="cbx" <#if i==1&&num==3> checked</#if>>keep person</label>
+                         <label><input type="radio" name="contact" id="contact${i+3-num}" value="1" class="cbx" <#if i==1&&num==3> checked</#if>>key person</label>
                      </div>
                  </div>　　　　
                 　</#list>
