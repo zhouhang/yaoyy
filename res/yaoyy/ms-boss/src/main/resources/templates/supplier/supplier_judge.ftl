@@ -61,6 +61,7 @@
                 <#else>
                   <#assign  num=3>
                 </#if>
+                    <#if num gt 0>
                  <#list 1..num as i>
                 　<div class="row">
                      <input type="hidden" name="contactVoId" value="">
@@ -87,6 +88,7 @@
                      </div>
                  </div>　　　　
                 　</#list>
+                    </#if>
             </div>
             </div>
 

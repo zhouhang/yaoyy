@@ -467,7 +467,7 @@ public class SupplierController {
     public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
-        if(old.getStatus()== SupplierStatusEnum.VERIFY.getType()){
+        if(old.getStatus()!= SupplierStatusEnum.UNVERIFY.getType()){
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
