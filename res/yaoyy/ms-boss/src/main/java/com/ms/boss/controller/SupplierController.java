@@ -240,6 +240,7 @@ public class SupplierController {
         userVo.setType(UserTypeEnum.supplier.getType());
         userVo.setPhone(supplierVo.getPhone());
         userVo.setPassword(pwd);
+        userVo.setSupplierId(supplierVo.getId());
 
         UserDetailVo userDetailVo = new UserDetailVo();
         userDetailVo.setName(supplierVo.getName());
