@@ -374,6 +374,17 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 	}
 
 	@Override
+	public boolean isBinding(Integer supplierId) {
+		UserVo param = new UserVo();
+		param.setSupplierId(supplierId);
+		List<UserVo> list = userDao.findByParams(param);
+		if (list.size() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	@Transactional
 	public void signSave(UserVo userVo) {
 //		User user = new User();

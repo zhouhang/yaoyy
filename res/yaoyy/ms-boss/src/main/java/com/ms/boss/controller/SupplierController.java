@@ -147,6 +147,12 @@ public class SupplierController {
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
+        if(userService.isBinding(id)){
+            supplierVo.setBinding("1");
+        }
+        else{
+            supplierVo.setBinding("0");
+        }
 
 
         List<SupplierCommodityVo> commodityVos=supplierCommodityService.findBySupplierId(id);

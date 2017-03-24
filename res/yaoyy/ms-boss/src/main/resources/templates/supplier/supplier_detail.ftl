@@ -188,9 +188,7 @@
                 </div>
 				<div class="ft">
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
-                    <#if supplierVo.status==0>
-                        <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
-                    </#if>
+                    <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
 
 				</div>
             </form>
@@ -229,7 +227,13 @@
             <form id="myform3">
                 <div class="item">
                     <div class="txt">登录帐号：</div>
-                    <div class="val">${(supplierVo.phone)!} <span class="c-red">已绑定</span></div>
+                    <div class="val">${(supplierVo.phone)!}
+                        <#if supplierVo.binding=='1'>
+                        <span class="c-red">已绑定</span>
+                        <#else>
+                            <span class="c-red">未绑定</span>
+                        </#if>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">密码：</div>

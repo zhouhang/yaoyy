@@ -206,7 +206,11 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		if(supplier.getId()!=null){
 			//如果已经审核过，不改变状态
 			if(!old.getStatus().equals(SupplierStatusEnum.UNVERIFY.getType())){
-				supplier.setStatus(old.getStatus());
+				//如果是通过状态就不需要更改状态
+				if(!supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
+					supplier.setStatus(old.getStatus());
+				}
+
 			}
 			save(supplier);
 			if(supplierCertifyVo.getSupplierCommodityVos()!=null) {
