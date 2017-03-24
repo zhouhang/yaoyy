@@ -25,3 +25,7 @@ group by t.name,t.mobile;
 -- update supplier SET create_time = now(), status = 0 where id >100;
 -- 查找供应商重复的数据
 -- select group_concat(id) as ids ,supplier.* from supplier group by phone having count(*)>1;
+-- 供应商和用户绑定
+update user,supplier
+set user.supplier_id = supplier.id
+where user.phone=supplier.phone;

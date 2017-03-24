@@ -235,6 +235,9 @@
             <if test="enterCategoryStr != null">
                 and s.enter_category_str LIKE "%"#{enterCategoryStr}"%"
             </if>
+            <if test="status != null">
+                and s.status = #{status}
+            </if>
         </where>
         order by s.id desc
     </select>
