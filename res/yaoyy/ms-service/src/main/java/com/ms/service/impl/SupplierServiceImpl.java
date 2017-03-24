@@ -11,6 +11,7 @@ import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.dto.Password;
 import com.ms.service.utils.EncryptUtil;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
