@@ -29,3 +29,12 @@ group by t.mobile;
 update user,supplier
 set user.supplier_id = supplier.id
 where user.phone=supplier.phone;
+
+-- 资源菜单
+delete from role_resources where resources_id in(41,42,43,44);
+DELETE FROM `yaoyy`.`resources` WHERE `id`='41';
+DELETE FROM `yaoyy`.`resources` WHERE `id`='42';
+DELETE FROM `yaoyy`.`resources` WHERE `id`='43';
+DELETE FROM `yaoyy`.`resources` WHERE `id`='44';
+INSERT INTO `yaoyy`.`resources` (`name`, `type`, `pid`, `permission`, `create_date`) VALUES ('供应商列表', 'button', '40', 'supplier:list', '2017-03-13 13:27:58');
+
