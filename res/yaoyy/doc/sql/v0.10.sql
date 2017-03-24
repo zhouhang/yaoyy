@@ -18,9 +18,9 @@ WHERE u.type = 2;
 -- 沪谯 供应商导入
 insert into supplier(name,phone,enter_category_str,enter_category)
 select t.name as name,t.mobile as phone,group_concat(t.category) as enter_category_str,group_concat(c.id) as enter_category from
-(select hs.name,hs.mobile, category from huqiao_supplier hs group by hs.name, hs.mobile,hs.category)t
+(select hs.name,hs.mobile, hs.category from huqiao_supplier hs group by hs.mobile,hs.category)t
 left join category c on t.category = c.name
-group by t.name,t.mobile;
+group by t.mobile;
 -- 设置供应商默认值. 当前创建时间啥的
 -- update supplier SET create_time = now(), status = 0 where id >100;
 -- 查找供应商重复的数据
