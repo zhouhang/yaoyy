@@ -101,8 +101,6 @@ public class SupplierController {
 
         PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findVoByParams(supplierVo,pageNum,pageSize);
         model.put("supplierVoPageInfo",supplierVoPageInfo);
-
-
         return "supplier_list";
     }
 
