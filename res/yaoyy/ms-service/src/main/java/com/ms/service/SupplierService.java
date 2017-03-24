@@ -47,5 +47,9 @@ public interface SupplierService extends ICommonService<Supplier>{
      */
     void judge(SupplierJudgeVo supplierJudgeVo);
 
+    /**
+     * 查询是否有该手机号的供应商
+     */
+    Boolean existSupplier(String phone);
 
 }
