@@ -18,9 +18,9 @@
         var options = $.extend({}, defaults, parameter);
 
         // 初始化 地址选择Html 结构
-        $(this).append('<select class="slt" name="a-province"><option value="">-省-</option></select>'+
-        '<select class="slt" name="a-city"><option value="">-市-</option></select>'+
-        '<select class="slt" name="a-area"><option value="">-区/县-</option></select>')
+        $(this).append('<select class="slt" name="a-province"><option value="">-省-</option></select>\n'+
+        '<select class="slt" name="a-city"><option value="">-市-</option></select>\n'+
+        '<select class="slt" name="a-area"><option value="">-区/县-</option></select>\n')
 
      return this.each(function() {
         	var 

@@ -75,7 +75,7 @@
                     </tbody>
                     <tfoot>
                     <td colspan="6">
-                        <div class="total">合计：<em>${pickVo.total}元</em></div>
+                        <div class="tr">合计：<em class="c-red">${pickVo.total}元</em></div>
                     </td>
                     </tfoot>
                 </table>

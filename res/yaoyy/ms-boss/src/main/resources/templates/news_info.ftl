@@ -39,7 +39,7 @@
                     <div class="txt">
                         公告内容：
                     </div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <script id="content" name="content" type="text/plain"><#if announcementVo??>${announcementVo.content?default('')}</#if></script>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
             umeditor: function() {
                 //初始化详细信息
                 var um = UM.getEditor('content', {
-                    initialFrameWidth: isMobile ? '100%' : 700,
+                    initialFrameWidth: isMobile ? '100%' : 750,
                     initialFrameHeight: 320
                 })
             },

@@ -1,7 +1,5 @@
     <div class="header">
-        <div class="logo">
-            <a href="/">药优优</a>
-        </div>
+        <div class="logo">药优优</div>
         <div class="menu">
             <ul>
                 <li>

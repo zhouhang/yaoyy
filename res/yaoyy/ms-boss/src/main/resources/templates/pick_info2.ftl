@@ -93,38 +93,40 @@
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr table">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>商品名称</th>
-                            <th>产地</th>
-                            <th width="200">规格等级</th>
-                            <th>数量</th>
-                            <th>单位</th>
-                            <th>价格</th>
-                            <th>合计</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                       <#list pickVo.pickCommodityVoList as pickCommodityVo >
-                        <tr>
-                            <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
-                            <td>${pickCommodityVo.origin}</td>
-                            <td><p>${pickCommodityVo.spec}</p></td>
-                            <td>${pickCommodityVo.num}</td>
-                            <td>${pickCommodityVo.unit}</td>
-                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
-                            <td>${pickCommodityVo.total}元</td>
-                        </tr>
-                       </#list>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="7" class="total"><span>合计：</span><em>${pickVo.sum!}元</em></td>
-                        </tr>
-                        </tfoot>
-                    </table>
+                <div class="item">
+                    <div class="cnt table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>产地</th>
+                                <th width="200">规格等级</th>
+                                <th>数量</th>
+                                <th>单位</th>
+                                <th>价格</th>
+                                <th>合计</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                           <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                            <tr>
+                                <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
+                                <td>${pickCommodityVo.origin}</td>
+                                <td><p>${pickCommodityVo.spec}</p></td>
+                                <td>${pickCommodityVo.num}</td>
+                                <td>${pickCommodityVo.unit}</td>
+                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                <td>${pickCommodityVo.total}元</td>
+                            </tr>
+                           </#list>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="7" class="tr"><span>合计：</span><em class="c-red">${pickVo.sum!}元</em></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -333,16 +335,16 @@
     <div class="fa-form fa-form-layer">
         <div class="item">
             <div class="txt"><i>*</i>发货信息：</div>
-            <div class="cnt cnt-mul"><textarea name="note" id="content" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
+            <div class="cnt"><textarea name="note" id="content" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
         </div>
 
         <div class="item">
             <div class="txt"><i>*</i>发货日期：</div>
-            <div class="cnt"><div class="ipt-wrap"><input type="text" name="shipDate" class="ipt" value="" onclick="laydate()"></div></div>
+            <div class="cnt"><input type="text" name="shipDate" class="ipt" value="" onclick="laydate()"></div>
         </div>
         <div class="item">
             <div class="txt">发货单据：</div>
-            <div class="cnt cnt-mul">
+            <div class="cnt">
                 <span class="thumb up-img x1" id="imgCrop"></span>
                 <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
             </div>
@@ -404,10 +406,10 @@
                 });
             },
         bindEvent: function() {
-            var self = this;
-            $trace = $('#trace'),
-                    $pa = $trace.parent(),
-                    $temp = $('#temp');
+            var self = this,
+                $trace = $('#trace'),
+                $pa = $trace.parent(),
+                $temp = $('#temp');
 
             $('#submit2').on('click', function() {
                 layer.open({      
