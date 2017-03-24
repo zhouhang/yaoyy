@@ -133,11 +133,13 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		param.setPhone(supplierVo.getPhone());
 		List<SupplierVo> list = supplierDao.findByParams(param);
 		if (list.size() == 0) {
+			supplierVo.setSource(SupplierSourceEnum.WECHART.getType());
 			save(supplierVo);
 			return true;
 		}
 		return false;
 	}
+
 
 	@Override
 	@Transactional
@@ -152,46 +154,58 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 			supplierVo.setUpdateTime(new Date());
 			create(supplierVo);
 			//首先user里面插入一条数据，然后supplier插入数据
-			User user = userService.findByPhone(supplierVo.getPhone());
-			if(user==null){
-				user = new User();
-				user.setPhone(supplierVo.getPhone());
-				user.setType(UserTypeEnum.supplier.getType());
-				user.setSource(UserSourceEnum.register.getType());
-				user.setStatus(1);
-				user.setSupplierId(supplierVo.getId());
-				if(null!=wxMpUser){
-					user.setOpenid(wxMpUser.getOpenId());
-				}
-				userService.create(user);
-				UserDetail userDetail = new UserDetail();
-				userDetail.setUserId(user.getId());
-				userDetail.setType(0);
-				if(null!=wxMpUser){
-					userDetail.setNickname(wxMpUser.getNickname());
-					userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
-				}
-				userDetail.setPhone(supplierVo.getPhone());
-				userDetail.setName(supplierVo.getName());
-				userDetail.setContract(0);
-				userDetailService.save(userDetail);
-
-			}else{
-				if(StringUtils.isBlank(user.getOpenid())&&null!=wxMpUser){
-					user.setOpenid(wxMpUser.getOpenId());
-				  	UserDetail userDetail = userDetailService.findByUserId(user.getId());
-					userDetail.setNickname(wxMpUser.getNickname());
-					userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
-					userDetailService.save(userDetail);
-				}
-				user.setSupplierId(supplierVo.getId());
-				userService.update(user);
-			}
+			supplierForUser(supplierVo,wxMpUser);
 			return true;
 		}
-
-		return false;
+		SupplierVo existSupplier = list.get(0);
+		if(userService.isBinding(existSupplier.getId())){
+			return false;
+		}
+		supplierForUser(existSupplier,wxMpUser);
+		return true;
 	}
+
+
+	private User supplierForUser (SupplierVo supplierVo,WxMpUser wxMpUser){
+		User user = userService.findByPhone(supplierVo.getPhone());
+		if(user==null){
+			user = new User();
+			user.setPhone(supplierVo.getPhone());
+			user.setType(UserTypeEnum.supplier.getType());
+			user.setSource(UserSourceEnum.register.getType());
+			user.setStatus(1);
+			user.setSupplierId(supplierVo.getId());
+			if(null!=wxMpUser){
+				user.setOpenid(wxMpUser.getOpenId());
+			}
+			userService.create(user);
+			UserDetail userDetail = new UserDetail();
+			userDetail.setUserId(user.getId());
+			userDetail.setType(0);
+			if(null!=wxMpUser){
+				userDetail.setNickname(wxMpUser.getNickname());
+				userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+			}
+			userDetail.setPhone(supplierVo.getPhone());
+			userDetail.setName(supplierVo.getName());
+			userDetail.setContract(0);
+			userDetailService.save(userDetail);
+		}else{
+			if(StringUtils.isBlank(user.getOpenid())&&null!=wxMpUser){
+				user.setOpenid(wxMpUser.getOpenId());
+				UserDetail userDetail = userDetailService.findByUserId(user.getId());
+				userDetail.setNickname(wxMpUser.getNickname());
+				userDetail.setHeadImgUrl(wxMpUser.getHeadImgUrl());
+				userDetailService.save(userDetail);
+			}
+			user.setSupplierId(supplierVo.getId());
+			userService.update(user);
+		}
+		return user;
+	}
+
+
+
 
 	@Override
 	@Transactional
@@ -201,7 +215,6 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 		supplier.setEnterCategoryList(categoryService.findByIds(supplier.getEnterCategory()));
 		supplier.setEnterCategoryStr(supplier.getEnterCategoryText());
-
 
 		if(supplier.getId()!=null){
 			//如果已经审核过，不改变状态
@@ -245,7 +258,6 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 			}
 
 		}
-
 	}
 
 	@Override
@@ -279,9 +291,6 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 			userTrackRecordVo.setCreateTime(new Date());
 			userTrackRecordService.create(userTrackRecordVo);
 		}
-
-
-
 	}
 
 	@Override

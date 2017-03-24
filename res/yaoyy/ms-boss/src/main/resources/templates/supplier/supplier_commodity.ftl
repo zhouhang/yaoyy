@@ -18,8 +18,8 @@
 		</div>
 
         <div class="fa-tab">
-            <a href="supplier/detail/${(supplierVo.id?c)!}">基本信息</a>
-            <a href="supplier/judge/${(supplierVo.id?c)!}">评价信息</a>
+            <a href="supplier/detail/${(supplierId?c)!}">基本信息</a>
+            <a href="supplier/judge/${(supplierId?c)!}">评价信息</a>
             <!--<a href="#">身份信息</a>-->
             <span class="on">商品调价</span>
         </div>

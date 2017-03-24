@@ -476,7 +476,6 @@ public class SupplierController {
         List<SupplierAnnexVo> supplierAnnexVos=supplierAnnexService.findBySupplierId(id);
 
 
-
         model.put("supplierVo",supplierVo);
         model.put("questions",questions);
         model.put("supplierChoices",supplierChoices);
