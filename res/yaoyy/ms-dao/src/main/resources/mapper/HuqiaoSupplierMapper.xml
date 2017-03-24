@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.HuqiaoSupplierDao">
+    <resultMap id="HuqiaoSupplierResultMap" type="com.ms.dao.model.HuqiaoSupplier">
+            <id column="id"  property="id" />
+            <result column="name"  property="name" />
+            <result column="mobile"  property="mobile" />
+            <result column="batch_number"  property="batchNumber" />
+            <result column="category"  property="category" />
+            <result column="supplier_num"  property="supplierNum" />
+        
+    </resultMap>
+
+    <resultMap id="HuqiaoSupplierResultMapVo" type="com.ms.dao.vo.HuqiaoSupplierVo">
+            <id column="id"  property="id" />
+            <result column="name"  property="name" />
+            <result column="mobile"  property="mobile" />
+            <result column="batch_number"  property="batchNumber" />
+            <result column="category"  property="category" />
+            <result column="supplier_num"  property="supplierNum" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,mobile,batch_number,category,supplier_num
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="HuqiaoSupplierResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from huqiao_supplier
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="HuqiaoSupplierResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from huqiao_supplier
+    </select>
+
+    <select id="findByParams" resultMap="HuqiaoSupplierResultMapVo" parameterType="com.ms.dao.vo.HuqiaoSupplierVo">
+        select
+        <include refid="Base_Column_List" />
+        from huqiao_supplier
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from huqiao_supplier
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.HuqiaoSupplier">
+        insert into
+        huqiao_supplier (name,mobile,batch_number,category,supplier_num)
+        values
+        (#{name},#{mobile},#{batchNumber},#{category},#{supplierNum})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.HuqiaoSupplier">
+        update huqiao_supplier
+        <set>
+                                                        
+            <if test="name != null">
+                name = #{name},
+            </if>
+                                            
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+                                            
+            <if test="batchNumber != null">
+                batch_number = #{batchNumber},
+            </if>
+                                            
+            <if test="category != null">
+                category = #{category},
+            </if>
+                                            
+            <if test="supplierNum != null">
+                supplier_num = #{supplierNum},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

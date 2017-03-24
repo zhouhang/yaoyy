@@ -58,11 +58,14 @@ public class ExcelParse {
                             case 1:
                                 huqiaoSupplier.setName(getCellValue(c));
                                 break;
-                            case 4:
-                                huqiaoSupplier.setEnterCategoryStr(getCellValue(c));
-                                break;
-                            case 5:
+                            case 2:
                                 huqiaoSupplier.setMobile(getCellValue(c));
+                                break;
+                            case 3:
+                                huqiaoSupplier.setCategory(getCellValue(c));
+                                break;
+                            case 4:
+                                huqiaoSupplier.setBatchNumber(getCellValue(c));
                                 break;
                            default:
                                break;
