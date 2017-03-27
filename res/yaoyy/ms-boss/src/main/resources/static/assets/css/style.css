@@ -65,6 +65,9 @@ address,cite,dfn,em,i,strong{font-style:normal;}
 .status-4{color:#00c0ef;}
 .status-5{color:#00a65a;}
 .status-6{color:#00a65a;}
+.status-7{color:#999;}
+.status-8{color:#f90;}
+.status-9{color:#00c0ef;}
 
 /* layout */
 .fl{float:left;}
