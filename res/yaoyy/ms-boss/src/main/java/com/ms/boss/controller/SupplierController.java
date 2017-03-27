@@ -510,13 +510,13 @@ public class SupplierController {
     public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
-        if(old.getStatus()!= SupplierStatusEnum.UNVERIFY.getType()){
+        if(old.getStatus().equals(SupplierStatusEnum.VERIFY.getType()) ){
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
         }
         else{
-            Result result = Result.error().msg("必须核实才能登记");
+            Result result = Result.error().msg("必须核实才能评价");
             return result;
         }
     }
