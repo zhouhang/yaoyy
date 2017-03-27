@@ -149,6 +149,7 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 		param.setPhone(supplierVo.getPhone());
 		List<SupplierVo> list = supplierDao.findByParams(param);
 		if (list.size() == 0) {
+			supplierVo.setStatus(SupplierStatusEnum.UNVERIFY.getType());
 			supplierVo.setSource(SupplierSourceEnum.WECHART.getType());
 			supplierVo.setCreateTime(new Date());
 			supplierVo.setUpdateTime(new Date());

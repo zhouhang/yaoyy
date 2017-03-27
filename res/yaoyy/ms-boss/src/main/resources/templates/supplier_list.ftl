@@ -76,15 +76,15 @@
                             <td>${supplier.phone!}</td>
                             <td>${supplier.enterCategoryStr!}</td>
                             <td>
-                                <#if supplier.status==0>
+                                <#if supplier.status?? && supplier.status==0>
                                     <span class="status-1">未核实</span>
-                                <#elseif supplier.status==1>
+                                <#elseif supplier.status?? && supplier.status==1>
                                     <span class="status-2">已核实</span>
-                                <#elseif supplier.status==2>
+                                <#elseif supplier.status?? && supplier.status==2>
                                     <span class="status-7">核实不正确</span>
-                                <#elseif supplier.status==3>
+                                <#elseif supplier.status?? && supplier.status==3>
                                     <span class="status-8">实地考察认证</span>
-                                <#elseif supplier.status==4>
+                                <#elseif supplier.status?? && supplier.status==4>
                                     <span class="status-9">已签约</span>
                                 <#else>
                                 ${supplier.statusText!}
