@@ -55,7 +55,7 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 		Matcher matcher = pattern.matcher(uri);
 		if (matcher.find()) {
 			// 供应商用户登入
-			if (user == null || user.getType() == UserTypeEnum.purchase.getType()) {
+			if (user == null || user.getSupplierId() == null) {
 				saveRequest(request);
 				String source = request.getParameter("source");
 				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
