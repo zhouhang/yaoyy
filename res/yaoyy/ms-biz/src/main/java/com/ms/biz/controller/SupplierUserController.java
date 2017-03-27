@@ -74,7 +74,7 @@ public class SupplierUserController {
                 WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
 
                 User user = userService.findByOpenId(wxMpUser.getOpenId());
-                if (user != null && user.getType() == UserTypeEnum.supplier.getType()) {
+                if (user != null && user.getSupplierId() != null) {
                     // 登入
                     Subject subject = SecurityUtils.getSubject();
                     BizToken token = new BizToken(user.getPhone(), user.getPassword(), false, null, "");
@@ -156,7 +156,7 @@ public class SupplierUserController {
         // 发送短信前 得先确认手机号在数据库中存在且用户type 为供应商
 
         User user = userService.findByPhone(phone);
-        if (user == null || user.getType() != UserTypeEnum.supplier.getType()) {
+        if (user == null || user.getSupplierId() == null) {
             return Result.error().msg("用户不存在");
         }
         userService.sendResetPasswordSms(phone);
