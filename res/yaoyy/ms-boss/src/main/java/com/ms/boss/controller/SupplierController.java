@@ -209,11 +209,8 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
-        UserVo userVo = new UserVo();
-        userVo.setName(name);
-        return Result.success("供应商列表").data(userService.findByParamsNoPage(userVo));
-        //以前是商品表跟supplier表关联,现在是商品表跟user表关联,故修改如上 add by kevin 20170311
-        //return Result.success("供应商列表").data(supplierService.search(name));
+        List<UserVo> userVoList =  userService.findSupplierSignUser(name);
+        return Result.success("供应商列表").data(userVoList);
     }
 
     /**
@@ -235,11 +232,6 @@ public class SupplierController {
         //状态改为已签约
         old.setStatus(SupplierStatusEnum.SIGN.getType());
         supplierService.save(old);
-
-
-
-
-
 
         //supplier数据转存到user
         UserVo userVo = new UserVo();
