@@ -202,6 +202,11 @@ public class SupplierUserController {
         return "supplier/register_success";
     }
 
+    @RequestMapping(value = "joinSuccess", method = RequestMethod.GET)
+    public String joinSuccess() {
+        return "supplier/join_success";
+    }
+
     /**
      * 供应商注册
      * @return
@@ -233,7 +238,7 @@ public class SupplierUserController {
     @ResponseBody
     public Result saveJoin(SupplierVo supplier,String code) {
         String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue()+supplier.getPhone());
-        Result result = Result.success().data("/user/supplier/registerSuccess");
+        Result result = Result.success().data("/user/supplier/joinSuccess");
         if (!code.equalsIgnoreCase(rcode)) {
             result = result.error().msg("验证码错误");
         }
