@@ -28,13 +28,17 @@
                             <option value="3">已实地考察</option>
                             <option value="4">已签约</option>
                         </select>
-                        <!--<select class="ipt" name="binding">
-                            <option value="">绑定用户</option>
-                            <option value="">已绑定</option>
-                            <option value="">未绑定</option>
-                        </select>-->
+                        <select class="ipt" name="source">
+                            <option value="">信息来源</option>
+                            <option value="1">系统录入</option>
+                            <option value="2">沪谯导入</option>
+                            <option value="3">天济导入</option>
+                            <option value="4">微信登记</option>
+                        </select>
                         <input type="text" name="name" class="ipt" value="" placeholder="姓名/手机号">
                         <input type="text" name="enterCategoryStr" class="ipt" value="" placeholder="品种">
+                        <input type="hidden" class="ipt" name="pageNum" value="${supplierVoPageInfo.pageNum!}">
+                        <input type="hidden" class="ipt" name="pageSize" value="${supplierVoPageInfo.pageSize!}">
                         <button type="button" class="ubtn ubtn-blue" id="search_btn">搜索</button>
                     </form>
                 </div>
@@ -55,7 +59,7 @@
                             <th>经营品种</th>
                             <th>信息核实</th>
                             <th>绑定用户</th>
-                            <th>报价次数</th>
+                            <#--<th>报价次数</th>-->
                             <th>信息来源</th>
                             <th>创建时间</th>
                             <th width="180" class="tc">操作</th>
@@ -69,14 +73,30 @@
                             <td>${supplier.name!}</td>
                             <td>${supplier.phone!}</td>
                             <td>${supplier.enterCategoryStr!}</td>
-                            <td>${supplier.statusText!}</td>
+                            <td>
+                                <#if supplier.status==0>
+                                    <span class="status-1">未核实</span>
+                                <#elseif supplier.status==1>
+                                    <span class="status-2">已核实</span>
+                                <#elseif supplier.status==2>
+                                    <span class="status-7">核实不正确</span>
+                                <#elseif supplier.status==3>
+                                    <span class="status-8">实地考察认证</span>
+                                <#elseif supplier.status==4>
+                                    <span class="status-9">已签约</span>
+                                <#else>
+                                ${supplier.statusText!}
+                                </#if>
+                            </td>
                             <td>${supplier.binding!}</td>
-                            <td>0</td>
-                            <td>${supplier.sourceText!}</td>
+                            <#--<td>0</td>-->
+                            <td>
+                            ${supplier.sourceText!}
+                            </td>
                             <td>${(supplier.createTime?datetime)!}</td>
                             <td class="tc" data-id="${supplier.id?c}">
                                 <a href="/supplier/detail/${supplier.id?c}" class="ubtn ubtn-blue jedit">编辑</a>
-                                <a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>
+                                <#--<a href="javascript:;" class="ubtn ubtn-gray jdel">删除</a>-->
                             </td>
                         </tr>
                         </#list>
@@ -84,7 +104,7 @@
                 </table>
             </div>
             <#import "./module/pager.ftl" as pager />
-            <@pager.pager info=supplierVoPageInfo url="/supplier/list" params="" />
+            <@pager.pager info=supplierVoPageInfo url="/supplier/list" params="${supplierParams!}" />
         </div>
     </div>
 

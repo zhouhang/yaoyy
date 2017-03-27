@@ -29,7 +29,7 @@ redis:
     port: 6379
 
 alipay:
-    appId: appId
-    privateKey: privateKey
+    appId: wxa7f10cbf0dc060b9
+    privateKey: fe68a821107c34bf9863348831e26755
     publicKey: publicKey
     sellerId: sellerId

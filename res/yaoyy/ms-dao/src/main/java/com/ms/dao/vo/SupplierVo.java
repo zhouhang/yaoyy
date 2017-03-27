@@ -76,7 +76,7 @@ public class SupplierVo extends Supplier{
     //是否绑定用户
     private String sourceText;
 
-    public String getSourceText() {return SupplierSourceEnum.get(this.getStatus());}
+    public String getSourceText() {return SupplierSourceEnum.get(this.getSource());}
 
     public void setSourceText(String sourceText) {this.sourceText = sourceText;}
 

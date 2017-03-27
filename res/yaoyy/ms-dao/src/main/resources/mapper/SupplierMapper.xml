@@ -229,6 +229,9 @@
             <if test="phone != null">
                 and phone = #{phone}
             </if>
+            <if test="source != null">
+                and source = #{source}
+            </if>
             <if test="name != null">
                 and name LIKE "%"#{name}"%"
             </if>

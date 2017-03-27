@@ -16,6 +16,7 @@ import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.ms.tools.utils.Reflection;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +97,15 @@ public class SupplierController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "供应商列表")
-    public String supplierList(SupplierVo supplierVo, Integer pageNum,
-                               Integer pageSize, ModelMap model){
-
+    public String supplierList(SupplierVo supplierVo,
+                               Integer pageNum,
+                               Integer pageSize,
+                               ModelMap model){
         PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findVoByParams(supplierVo,pageNum,pageSize);
         model.put("supplierVoPageInfo",supplierVoPageInfo);
+        model.put("supplierParams", Reflection.serialize(supplierVo));
+        String  param =  Reflection.serialize(supplierVo);
+        System.out.println(param);
         return "supplier_list";
     }
 
@@ -109,12 +114,12 @@ public class SupplierController {
      * @param supplierId
      * @return
      */
-    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Result del(@PathVariable("id") Integer supplierId){
-        supplierService.deleteById(supplierId);
-        return Result.success("删除成功");
-    }
+//    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Result del(@PathVariable("id") Integer supplierId){
+//        supplierService.deleteById(supplierId);
+//        return Result.success("删除成功");
+//    }
 
     /**
      *
@@ -473,14 +478,11 @@ public class SupplierController {
 
         List<SupplierAnnexVo> supplierAnnexVos=supplierAnnexService.findBySupplierId(id);
 
-
-
         model.put("supplierVo",supplierVo);
         model.put("questions",questions);
         model.put("supplierChoices",supplierChoices);
         model.put("contactVos",contactVos);
         model.put("supplierAnnexVos",supplierAnnexVos);
-
         return "supplier/supplier_judge";
     }
 
@@ -493,15 +495,11 @@ public class SupplierController {
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
-
         }
         else{
             Result result = Result.error().msg("必须核实才能登记");
-
             return result;
         }
-
-
     }
 
 
