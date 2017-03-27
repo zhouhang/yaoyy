@@ -6,6 +6,7 @@
             <result column="user_id"  property="userId" />
             <result column="supplier_id"  property="supplierId" />
             <result column="member_id"  property="memberId" />
+            <result column="type"  property="type" />
             <result column="content"  property="content" />
             <result column="create_time"  property="createTime" />
         
@@ -16,6 +17,7 @@
             <result column="user_id"  property="userId" />
             <result column="supplier_id"  property="supplierId" />
             <result column="member_id"  property="memberId" />
+            <result column="type"  property="type" />
             <result column="member"  property="member" />
             <result column="content"  property="content" />
             <result column="create_time"  property="createTime" />
@@ -23,7 +25,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,supplier_id,member_id,content,create_time
+         id,user_id,supplier_id,member_id,type,content,create_time
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="UserTrackRecordResultMap">
@@ -51,17 +53,20 @@
     </select>
 
     <select id="findVoByParams" resultMap="UserTrackRecordResultMapVo" parameterType="com.ms.dao.vo.UserTrackRecordVo">
-        select u.id,u.user_id,u.supplier_id,u.member_id,u.content,u.create_time,m.name as member
+        select u.id,u.user_id,u.supplier_id,u.member_id,u.content,u.type,u.create_time,m.name as member
         from user_track_record u  left join member m on u.member_id = m.id
         <where>
             <if test="id != null">
                 u.id = #{id}
             </if>
             <if test="supplierId != null">
-                u.supplier_id = #{supplierId}
+               and u.supplier_id = #{supplierId}
             </if>
             <if test="userId != null">
-                u.user_id = #{userId}
+                and u.user_id = #{userId}
+            </if>
+            <if test="type != null">
+               and  u.type = #{type}
             </if>
         </where>
     </select>
@@ -71,11 +76,12 @@
         where id = #{id}
     </delete>
 
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.UserTrackRecord">
         insert into
-        user_track_record (user_id,supplier_id,member_id,content,create_time)
+        user_track_record (user_id,supplier_id,member_id,type,content,create_time)
         values
-        (#{userId},#{supplierId},#{memberId},#{content},#{createTime})
+        (#{userId},#{supplierId},#{memberId},#{type},#{content},#{createTime})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.UserTrackRecord">
@@ -92,6 +98,10 @@
 
             <if test="memberId != null">
                 member_id = #{memberId},
+            </if>
+
+            <if test="type != null">
+                type = #{type},
             </if>
                                             
             <if test="content != null">

@@ -11,4 +11,6 @@ public interface UserTrackRecordService extends ICommonService<UserTrackRecord>{
     public PageInfo<UserTrackRecordVo> findByParams(UserTrackRecordVo userTrackRecordVo, Integer pageNum, Integer pageSize);
 
     public List<UserTrackRecordVo> findByParamsNoPage(UserTrackRecordVo userTrackRecordVo);
+
+    public UserTrackRecordVo findByContent(UserTrackRecordVo userTrackRecordVo);
 }

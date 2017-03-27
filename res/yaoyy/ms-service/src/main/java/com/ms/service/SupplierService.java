@@ -52,4 +52,7 @@ public interface SupplierService extends ICommonService<Supplier>{
      */
     Boolean existSupplier(String phone);
 
+
+
+
 }

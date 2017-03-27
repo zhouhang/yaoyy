@@ -224,6 +224,7 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 				UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
 				userTrackRecordVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
 				userTrackRecordVo.setMemberId(supplierCertifyVo.getMemberId());
+				userTrackRecordVo.setType(UserTrackTypeEnum.CERTIFY.getType());
 				if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
 					userTrackRecordVo.setContent("信息审核正确");
 				}
@@ -243,6 +244,13 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 					supplierCommodityService.save(commodityVo);
 				}
 			}
+			UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+			userTrackRecordVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+			userTrackRecordVo.setMemberId(supplierCertifyVo.getMemberId());
+			userTrackRecordVo.setType(UserTrackTypeEnum.CERTIFY.getType());
+			userTrackRecordVo.setContent("信息审核正确");
+			userTrackRecordVo.setCreateTime(new Date());
+			userTrackRecordService.create(userTrackRecordVo);
 
 		}
 
@@ -276,6 +284,7 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 			userTrackRecordVo.setSupplierId(supplier.getId());
 			userTrackRecordVo.setMemberId(supplierJudgeVo.getMemberId());
 			userTrackRecordVo.setContent("实地考察认证");
+			userTrackRecordVo.setType(UserTrackTypeEnum.JUDGE.getType());
 			userTrackRecordVo.setCreateTime(new Date());
 			userTrackRecordService.create(userTrackRecordVo);
 		}

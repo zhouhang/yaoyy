@@ -29,3 +29,13 @@ group by t.name,t.mobile;
 update user,supplier
 set user.supplier_id = supplier.id
 where user.phone=supplier.phone;
+
+--导供应商excel增加字段
+ALTER TABLE `user_track_record`
+ADD COLUMN `type`  int(5) NOT NULL DEFAULT 0 COMMENT '跟踪类型：0普通记录，1：核实记录，2：认证记录，3：签约记录' AFTER `member_id`;
+
+update from user_track_record set type=1 where content in("信息审核正确","信息审核不正确");
+update from user_track_record set type=2 where content="实地考察认证";
+
+
+

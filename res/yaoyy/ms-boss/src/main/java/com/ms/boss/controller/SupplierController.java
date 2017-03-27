@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
 import com.ms.dao.enums.SupplierStatusEnum;
 import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.enums.UserTrackTypeEnum;
 import com.ms.dao.enums.UserTypeEnum;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
@@ -14,10 +15,12 @@ import com.ms.service.enums.RedisEnum;
 import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
+import com.ms.service.utils.ExcelParse;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
@@ -28,6 +31,8 @@ import org.springframework.web.bind.annotation.*;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -227,7 +232,7 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "签约供应商")
     public Result sign(SupplierVo supplierVo, String pwd){
-
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierVo.getId());
         if(old.getStatus()!=SupplierStatusEnum.INVEST.getType()){
             Result result = Result.error().msg("必须实地考察才能签约");
@@ -269,6 +274,20 @@ public class SupplierController {
         userTrackRecord.setUserId(userVo.getId());
         userTrackRecord.setSupplierId(old.getId());
         userTrackRecordService.update(userTrackRecord);
+
+        //写跟踪记录
+        UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+        userTrackRecordVo.setSupplierId(userVo.getSupplierId());
+        userTrackRecordVo.setMemberId(mem.getId());
+        userTrackRecordVo.setType(UserTrackTypeEnum.SIGN.getType());
+        userTrackRecordVo.setContent("供应商签约");
+
+
+        userTrackRecordVo.setCreateTime(new Date());
+        userTrackRecordService.create(userTrackRecordVo);
+
+
+
 
         //删除supplier的值
 //        supplierService.deleteById(supplierVo.getId());
@@ -511,6 +530,55 @@ public class SupplierController {
             return result;
         }
 
+
+    }
+
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse response, HttpServletRequest request){
+       List<SupplierVo> list=supplierService.search("");
+       list.forEach(supplierVo -> {
+           UserTrackRecordVo param=new UserTrackRecordVo();
+           if(supplierVo.getStatus()!=SupplierStatusEnum.UNVERIFY.getType()){
+               param.setSupplierId(supplierVo.getId());
+               UserTrackRecordVo record;
+
+               //核实人，时间
+               param.setType(UserTrackTypeEnum.CERTIFY.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setCertifyMemberName(record.getMember());
+                   supplierVo.setCertifyTime(record.getCreateTime());
+               }
+
+               param.setType(UserTrackTypeEnum.JUDGE.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setJudgeMemberName(record.getMember());
+                   supplierVo.setJudgeTime(record.getCreateTime());
+               }
+
+               param.setType(UserTrackTypeEnum.SIGN.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setSignMemberName(record.getMember());
+                   supplierVo.setSignTime(record.getCreateTime());
+               }
+
+
+
+
+
+
+           }
+
+
+
+
+       });
+
+
+       Workbook workbook=ExcelParse.exportSupplierInfo(list);
+       ExcelParse.returnExcel(response,request,workbook,"供应商信息");
 
     }
 

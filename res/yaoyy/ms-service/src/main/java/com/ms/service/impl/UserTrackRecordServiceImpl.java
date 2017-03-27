@@ -31,6 +31,15 @@ public class UserTrackRecordServiceImpl  extends AbsCommonService<UserTrackRecor
 		return userTrackRecordDao.findVoByParams(userTrackRecordVo);
 	}
 
+	@Override
+	public UserTrackRecordVo findByContent(UserTrackRecordVo userTrackRecordVo) {
+		List<UserTrackRecordVo>  list = userTrackRecordDao.findVoByParams(userTrackRecordVo);
+		if(list.size()!=0){
+			return  list.get(0);
+		}
+		return null;
+	}
+
 
 	@Override
 	public ICommonDao<UserTrackRecord> getDao() {

@@ -1,8 +1,13 @@
 package com.ms.service.utils;
 
 import com.ms.dao.model.HuqiaoSupplier;
+import com.ms.dao.vo.SupplierVo;
+import org.apache.poi.hssf.usermodel.DVConstraint;
+import org.apache.poi.hssf.usermodel.HSSFDataValidation;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +73,8 @@ public class ExcelParse {
                             case 4:
                                 huqiaoSupplier.setBatchNumber(getCellValue(c));
                                 break;
-                           default:
-                               break;
+                            default:
+                                break;
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -86,7 +92,6 @@ public class ExcelParse {
         inp.close();
         return list;
     }
-
 
 
     private static String getCellValue(Cell c) {
@@ -120,6 +125,7 @@ public class ExcelParse {
 
     /**
      * 返回excel
+     *
      * @param response
      * @param workbook
      * @param fileName
@@ -169,5 +175,100 @@ public class ExcelParse {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
+
+    /**
+     * 导出供应商信息excel
+     * @param list
+     * @return
+     */
+    public static Workbook  exportSupplierInfo( List<SupplierVo> list){
+        Workbook wb = new HSSFWorkbook();
+        Sheet s = wb.createSheet();
+        Row r = null;
+        Cell c = null;
+        String[] titles = null;
+        wb.setSheetName(0, "供应商信息");
+        // 数据有效性约束
+        CellRangeAddressList addressList = new CellRangeAddressList(
+                0, 65535, 5, 5);
+        DVConstraint dvConstraint = DVConstraint.createNumericConstraint(
+                DVConstraint.ValidationType.INTEGER,
+                DVConstraint.OperatorType.BETWEEN, "0", "100000");
+        DataValidation dataValidation = new HSSFDataValidation
+                (addressList, dvConstraint);
+        s.addValidationData(dataValidation);
+
+        // 设置询价单信息 cell title
+        titles = new String[]{"供应商编号", "供应商姓名", "手机号", "经营品种",
+                               "信息核实状态","信息来源", "信息核实人","信息核实时间",
+                               "实地考察人","实地考察认证时间","签约人","签约时间"};
+        for(int i=0;i<titles.length;i++){
+            s.setColumnWidth(i, 20 * 256);
+        }
+
+        r = s.createRow(0);
+        for (int cellnum = 0; cellnum < titles.length; cellnum++) {
+            c = r.createCell(cellnum);
+            c.setCellValue(titles[cellnum]);
+        }
+
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setLocked(true);
+
+        DataFormat format= wb.createDataFormat();
+        CellStyle numberStyle = wb.createCellStyle();
+        numberStyle.setDataFormat(format.getFormat("0.00"));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+
+        for (int rownum = (short) 1; rownum < list.size()+1; rownum++) {
+
+            r = s.createRow(rownum);
+            SupplierVo supplierVo = list.get(rownum-1);
+
+            c = r.createCell(0);
+            c.setCellValue(supplierVo.getId());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(1);
+            c.setCellValue(supplierVo.getName());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(2);
+            c.setCellValue(supplierVo.getPhone());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(3);
+            c.setCellValue(supplierVo.getEnterCategoryStr());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(4);
+            c.setCellValue(supplierVo.getStatusText());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(5);
+            c.setCellValue(supplierVo.getSourceText());
+            c.setCellStyle(cellStyle);
+
+            c = r.createCell(6);
+            c.setCellValue(supplierVo.getCertifyMemberName()==null?"":supplierVo.getCertifyMemberName());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(7);
+            c.setCellValue(supplierVo.getCertifyTime()==null?"":sdf.format(supplierVo.getCertifyTime()));
+            c.setCellStyle(cellStyle);
+            c = r.createCell(8);
+            c.setCellValue(supplierVo.getJudgeMemberName()==null?"":supplierVo.getJudgeMemberName());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(9);
+            c.setCellValue(supplierVo.getJudgeTime()==null?"":sdf.format(supplierVo.getJudgeTime()));
+            c.setCellStyle(cellStyle);
+            c = r.createCell(10);
+            c.setCellValue(supplierVo.getSignMemberName()==null?"":supplierVo.getSignMemberName());
+            c.setCellStyle(cellStyle);
+            c = r.createCell(11);
+            c.setCellValue(supplierVo.getSignTime()==null?"":sdf.format(supplierVo.getSignTime()));
+            c.setCellStyle(cellStyle);
+
+        }
+        return wb;
+    }
+
 }

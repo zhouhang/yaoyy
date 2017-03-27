@@ -41,6 +41,8 @@
 
                 <div class="action-add">
                     <a href="/supplier/create" class="ubtn ubtn-blue">新建供应商</a>
+                    <a href="/supplier//exportExcel" class="ubtn ubtn-blue">导出供应商</a>
+
                 </div>
             </div>
 
