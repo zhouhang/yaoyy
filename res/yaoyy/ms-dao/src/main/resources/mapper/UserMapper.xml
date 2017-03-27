@@ -90,6 +90,37 @@
         order by u.id desc
     </select>
 
+
+
+    <select id="findSupplierSignUser" resultMap="UserResultMapVo" parameterType="com.ms.dao.vo.UserVo">
+        select
+         ud.area as area,ud.name as name,
+        ud.category_ids as categoryIds,ud.company as company,u.phone as phone
+        from user u
+        LEFT JOIN user_detail ud on u.id = ud.user_id
+        LEFT JOIN area a on a.id = ud.area
+        <where>
+            <if test="id != null">
+                u.id = #{id}
+            </if>
+            <if test="phone != null">
+                and u.phone LIKE "%"#{phone}"%"
+            </if>
+            <if test="name != null">
+                and ud.name LIKE "%"#{name}"%"
+            </if>
+            <if test="status != null">
+                and u.status = #{status}
+            </if>
+            <if test="supplierId != null">
+                and u.supplier_id = #{supplierId}
+            </if>
+            and supplier_id is not NULL
+        </where>
+        order by u.id desc
+    </select>
+
+
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from user
         where id = #{id}

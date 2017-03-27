@@ -56,38 +56,41 @@
 
                 <div class="box fa-form">
                     <div class="hd">商品详情</div>
-                    <div class="attr table">
-                        <div class="op">修改</div>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>商品名称</th>
-                                <th>产地</th>
-                                <th width="200">规格等级</th>
-                                <th width="80">数量</th>
-                                <th>单位</th>
-                                <th>价格</th>
-                                <th>合计</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                           <#list pickVo.pickCommodityVoList as pickCommodityVo >
-                            <tr>
-                                <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
-                                <td>${pickCommodityVo.origin}</td>
-                                <td><p>${pickCommodityVo.spec}</p></td>
-                                <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
-                                <td>${pickCommodityVo.unit}</td>
-                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
-                                <td><span>${pickCommodityVo.total?c}</span>元</td>
-                            </tr>
-                            </#list>
-                            <tfoot>
-                            <tr>
-                                <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
-                            </tr>
-                            </tfoot>
-                        </table>
+                    <div class="item">
+                        <div class="cnt table tc">
+                            <div class="op">修改</div>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>商品名称</th>
+                                    <th>产地</th>
+                                    <th width="200">规格等级</th>
+                                    <th width="80">数量</th>
+                                    <th>单位</th>
+                                    <th>价格</th>
+                                    <th>合计</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                               <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                                <tr>
+                                    <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
+                                    <td>${pickCommodityVo.origin}</td>
+                                    <td><p>${pickCommodityVo.spec}</p></td>
+                                    <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></div></td>
+                                    <td>${pickCommodityVo.unit}</td>
+                                    <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                    <td><span>${pickCommodityVo.total?c}</span>元</td>
+                                </tr>
+                                </#list>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="7" class="tr"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -132,7 +135,7 @@
                         <div class="item">
                             <div class="txt">地区：</div>
                             <div class="cnt" id="pickArea">
-                                <input type="text" style="display: none"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
+                                <input type="hidden"  value="${userDetail.area?default('')}"  name="area" id="area" class="ipt" placeholder="" autocomplete="off">
                             </div>
                         </div>
                         <div class="item">
@@ -184,21 +187,21 @@
     </div>
     <div class="item">
         <div class="txt">运费：</div>
-        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="0"><span class="unit">元</span></div></div>
+        <div class="cnt"><input type="text" class="ipt price" name="shippingCosts" value="0"> <span class="unit">元</span></div>
     </div>
     <div class="item">
         <div class="txt">包装加工费：</div>
-        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="0"><span class="unit">元</span></div></div>
+        <div class="cnt"><input type="text" class="ipt price" name="bagging" value="0"> <span class="unit">元</span></div>
     </div>
     <!--
     <div class="item">
         <div class="txt">检测费：</div>
-        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="0"><span class="unit">元</span></div></div>
+        <div class="cnt"><input type="text" class="ipt price" name="checking" value="0"> <span class="unit">元</span></div>
     </div>
     -->
     <div class="item">
         <div class="txt">税款：</div>
-        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="0"><span class="unit">元</span></div></div>
+        <div class="cnt"><input type="text" class="ipt price" name="taxation" value="0"> <span class="unit">元</span></div>
     </div>
     <div class="item">
         <div class="txt">总计：</div>
@@ -206,7 +209,7 @@
     </div>
     <div class="item">
         <div class="txt">付款方式：</div>
-        <div class="cnt cbxs2">
+        <div class="cnt cbxs">
             <label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>
             <label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>
             <label><input type="radio" name="settleType" class="cbx" value="2">赊账</label>
@@ -215,11 +218,11 @@
     <div class="group">
         <div class="item">
             <div class="txt">保证金金额：</div>
-            <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit" name="deposit" id="deposit" value=""><span class="unit">元</span></div></div>
+            <div class="cnt"><input type="text" class="ipt ipt-short deposit" name="deposit" id="deposit" value=""> <span class="unit">元</span></div>
         </div>
         <div class="item">
             <div class="txt">账期：</div>
-            <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime"value="60"><span class="unit">天</span></div></div>
+            <div class="cnt"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime"value="60"> <span class="unit">天</span></div>
         </div>
     </div>
     <div class="button">
@@ -257,7 +260,7 @@
                 },
                 tab: function() {
                     var $items = $('.fa-tab-cont').find('.items'),
-                            $wrapper = $('.wrapper');
+                        $wrapper = $('.wrapper');
 
                     $('.fa-tab').on('click', 'span', function() {
                         var k = $(this).index();
@@ -270,12 +273,12 @@
                 // 修改商品数量
                 modify: function() {
                     var status = 'done',
-                            $ipts = $('.attr').find('.ipt');
+                        $ipts = $('.table').find('.ipt');
 
                     $('.op').on('click', function() {
                         if (status === 'done') { // 修改
                             status = 'modify';
-                            $(this).html('完成');
+                            $(this).html('保存');
                             $ipts.prop('disabled', false);
 
 
@@ -301,9 +304,7 @@
                                 type: "POST",
                                 contentType : 'application/json',
                                 success: function(data){
-                                    if (data.status == "200") {
-                                    }
-
+                                    if (data.status == "200") {}
                                 }
                             });
                         }
@@ -311,8 +312,8 @@
                 },
                 bindEvent: function() {
                     var self = this,
-                            $ipts = $('.attr').find('.ipt'),
-                            $body = $('body');
+                        $ipts = $('.table').find('.ipt'),
+                        $body = $('body');
 
                     this.unitPrice = [];
 

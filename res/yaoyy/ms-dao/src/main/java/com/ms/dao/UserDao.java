@@ -14,5 +14,8 @@ public interface UserDao extends ICommonDao<User>{
 
     public UserVo findByOpenId(String openId);
 
+    List<UserVo> findSupplierSignUser(UserVo userVo);
+
+
 
 }

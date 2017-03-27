@@ -56,7 +56,7 @@
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr table">
+                <div class="attr table tc">
                     <div class="op"></div>
                     <table>
                         <thead>
@@ -76,7 +76,7 @@
                                 <td><a href="#">${pickCommodityVo.name}</a></td>
                                 <td>${pickCommodityVo.origin}</td>
                                 <td><p>${pickCommodityVo.spec}</p></td>
-                                <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></td>
+                                <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></div></td>
                                 <td>${pickCommodityVo.unit}</td>
                                 <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
                                 <td><span>${pickCommodityVo.total}</span>元</td>
@@ -85,7 +85,7 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="7" class="total"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                            <td colspan="7" class="tr"><span>合计：</span><em class="c-red" id="sum1">${pickVo.sum!}</em></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -98,33 +98,48 @@
                 <div class="hd">报价清单</div>
                 <div class="item">
                     <div class="txt">商品总价：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt" id="sum2"  name="sum" value="${pickVo.sum!}" disabled><span class="unit">元</span></div></div>
+                    <div class="cnt">
+                        <input type="text" class="ipt" id="sum2"  name="sum" value="${pickVo.sum!}" disabled>
+                        <span class="unit">元</span>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">运费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="shippingCosts" value="${pickVo.shippingCosts!}"><span class="unit">元</span></div></div>
+                    <div class="cnt">
+                        <input type="text" class="ipt price" name="shippingCosts" value="${pickVo.shippingCosts!}">
+                        <span class="unit">元</span>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">包装加工费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="bagging" value="${pickVo.bagging!}"><span class="unit">元</span></div></div>
+                    <div class="cnt">
+                        <input type="text" class="ipt price" name="bagging" value="${pickVo.bagging!}">
+                        <span class="unit">元</span>
+                    </div>
                 </div>
-                    <#--
+                <!--
                 <div class="item">
                     <div class="txt">检测费：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="checking" value="${pickVo.checking!}"><span class="unit">元</span></div></div>
+                    <div class="cnt">
+                        <input type="text" class="ipt price" name="checking" value="${pickVo.checking!}">
+                        <span class="unit">元</span>
+                    </div>
                 </div>
                    -->
                 <div class="item">
                     <div class="txt">税款：</div>
-                    <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt price" name="taxation" value="${pickVo.taxation!}"><span class="unit">元</span></div></div>
+                    <div class="cnt">
+                        <input type="text" class="ipt price" name="taxation" value="${pickVo.taxation!}">
+                        <span class="unit">元</span>
+                    </div>
                 </div>
                 <div class="item">
                     <div class="txt">总计：</div>
-                    <div class="cnt"><em class="c-red" id="sum3"  name="amountsPayable">800</em></div>
+                    <div class="cnt"><em class="c-red" id="sum3"  name="amountsPayable">0</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">付款方式：</div>
-                    <div class="cnt cbxs2">
+                    <div class="cnt cbxs">
                         <label><input type="radio" name="settleType" class="cbx" value="0" <#if pickVo.settleType==0>checked</#if>>全款</label>
                         <label><input type="radio" name="settleType" class="cbx" value="1" <#if pickVo.settleType==1>checked</#if>>保证金</label>
                         <label><input type="radio" name="settleType" class="cbx" value="2" <#if pickVo.settleType==2>checked</#if>>赊账</label>
@@ -133,11 +148,17 @@
                 <div class="group">
                     <div class="item">
                         <div class="txt">保证金金额：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short deposit"name="deposit" id="deposit" value="${pickVo.deposit?c}"<span class="unit">元</span></div></div>
+                        <div class="cnt">
+                            <input type="text" class="ipt ipt-short deposit" name="deposit" id="deposit" value="${pickVo.deposit?c}" />
+                            <span class="unit">元</span>
+                        </div>
                     </div>
                     <div class="item">
                         <div class="txt">账期：</div>
-                        <div class="cnt"><div class="ipt-wrap"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime" value="${pickVo.billTime!}"><span class="unit">天</span></div></div>
+                        <div class="cnt">
+                            <input type="text" class="ipt ipt-short day" name="billTime" id="billTime" value="${pickVo.billTime!}">
+                            <span class="unit">天</span>
+                        </div>
                     </div>
                 </div>
                 <div class="ft">

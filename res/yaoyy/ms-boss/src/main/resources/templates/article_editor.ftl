@@ -29,7 +29,7 @@
                     <div class="txt">
                         <i>*</i>详细信息：
                     </div>
-                    <div class="cnt cnt-mul">
+                    <div class="cnt">
                         <script id="content" name="content" type="text/plain">
                         ${article.content}
                         </script>
@@ -63,7 +63,7 @@
         umeditor: function() {
             //实例化编辑器
             UM.getEditor('content', {
-                initialFrameWidth: isMobile ? '100%' : 700,
+                initialFrameWidth: isMobile ? '100%' : 750,
                 initialFrameHeight: 320
             })
         },

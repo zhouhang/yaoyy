@@ -97,7 +97,7 @@
                 <div id="supplierForm">
 				<div class="item">
 					<div class="txt"><i>*</i>员工规模</div>
-					<div class="cnt cbxs2">
+					<div class="cnt cbxs">
                         <label><input type="radio" name="scaleStaff" value="1" class="cbx" <#if supplierVo.scaleStaff??><#if supplierVo.scaleStaff==1>checked</#if></#if>>1-10人</label>
                         <label><input type="radio" name="scaleStaff" value="2" class="cbx" <#if supplierVo.scaleStaff??><#if supplierVo.scaleStaff==2>checked</#if></#if>>11-50人</label>
                         <label><input type="radio" name="scaleStaff" value="3" class="cbx" <#if supplierVo.scaleStaff??><#if supplierVo.scaleStaff==3>checked</#if></#if>>51-100人</label>
@@ -107,7 +107,7 @@
 				</div>
                 <div class="item">
                     <div class="txt"><i>*</i>仓库情况：</div>
-                    <div class="cnt cbxs2">
+                    <div class="cnt cbxs">
                         <label><input type="radio" name="scaleStore" class="cbx" value="1" <#if supplierVo.scaleStore??><#if supplierVo.scaleStore==1>checked</#if></#if>>正规仓库</label>
                         <label><input type="radio" name="scaleStore" class="cbx" value="2" <#if supplierVo.scaleStore??><#if supplierVo.scaleStore==2>checked</#if></#if>>自家仓库</label>
                         <label><input type="radio" name="scaleStore" class="cbx" value="3" <#if supplierVo.scaleStore??><#if supplierVo.scaleStore==3>checked</#if></#if>>租赁仓库</label>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>加工条件：</div>
-                    <div class="cnt cbxs2">
+                    <div class="cnt cbxs">
                         <label><input type="radio" name="scaleProcess" class="cbx" value="1" <#if supplierVo.scaleProcess??><#if supplierVo.scaleProcess==1>checked</#if></#if>>健全、丰富</label>
                         <label><input type="radio" name="scaleProcess" class="cbx" value="2" <#if supplierVo.scaleProcess??><#if supplierVo.scaleProcess==2>checked</#if></#if>>一般</label>
                         <label><input type="radio" name="scaleProcess" class="cbx" value="3" <#if supplierVo.scaleProcess??><#if supplierVo.scaleProcess==3>checked</#if></#if>>较差、没看到</label>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>加工能力匹配性：</div>
-                    <div class="cnt cbxs2">
+                    <div class="cnt cbxs">
                         <label><input type="radio" name="scaleProcessAble" class="cbx" value="1" <#if supplierVo.scaleProcessAble??><#if supplierVo.scaleProcessAble==1>checked</#if></#if>>是，跟业务匹配</label>
                         <label><input type="radio" name="scaleProcessAble" class="cbx" value="0" <#if supplierVo.scaleProcessAble??><#if supplierVo.scaleProcessAble==0>checked</#if></#if>>否，跟业务不匹配</label>
                     </div>
@@ -169,7 +169,7 @@
                         <em><i>*</i>${question_index+1}、${question.question}
                     </div>
                     <div class="item">
-                        <div class="cnt cbxs2">
+                        <div class="cnt cbxs">
                             <#list question.anwser?split(",") as answer>
                                 <label><input type="radio" name="answer_${question_index+1}" value="${answer_index+1}" class="cbx">${answer}</label>
                             </#list>

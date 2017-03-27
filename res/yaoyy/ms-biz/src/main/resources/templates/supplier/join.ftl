@@ -52,7 +52,7 @@
         fn: {
             init: function() {
                 this.validator();
-                this.category();
+                // this.category();
             },
             validator: function() {
                 var self = this;
@@ -183,23 +183,8 @@
                     colors = ['aqua', 'green', 'yellow', 'red', 'navy', 'teal', 'olive', 'orange', 'fuchsia', 'purple', 'maroon'],
                     choosed = {};
 
-                var getColor = function() {
-                    var idx = Math.floor(Math.random() * colors.length);
-                    return colors[idx];
-                }
-
-                var getInputCart = function() {
-                    var value = [];
-                    $.each(choosed, function(key, val) {
-                        value.push(val);
-                    })
-                    return value.length > 0 ? value.join() + ',' : '';
-                }
-
                 var search = function() {
                     var value = $.trim($category.val()).split(',');
-
-
                     $.ajax({
                         url: 'category/search',
                         type:"POST",

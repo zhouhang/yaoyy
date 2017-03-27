@@ -18,6 +18,7 @@ import com.ms.service.observer.WxTemplateEvent;
 import com.ms.service.utils.ExcelParse;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.ms.tools.utils.Reflection;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -101,13 +102,15 @@ public class SupplierController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "供应商列表")
-    public String supplierList(SupplierVo supplierVo, Integer pageNum,
-                               Integer pageSize, ModelMap model){
-
+    public String supplierList(SupplierVo supplierVo,
+                               Integer pageNum,
+                               Integer pageSize,
+                               ModelMap model){
         PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findVoByParams(supplierVo,pageNum,pageSize);
         model.put("supplierVoPageInfo",supplierVoPageInfo);
-
-
+        model.put("supplierParams", Reflection.serialize(supplierVo));
+        String  param =  Reflection.serialize(supplierVo);
+        System.out.println(param);
         return "supplier_list";
     }
 
@@ -116,12 +119,12 @@ public class SupplierController {
      * @param supplierId
      * @return
      */
-    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Result del(@PathVariable("id") Integer supplierId){
-        supplierService.deleteById(supplierId);
-        return Result.success("删除成功");
-    }
+//    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Result del(@PathVariable("id") Integer supplierId){
+//        supplierService.deleteById(supplierId);
+//        return Result.success("删除成功");
+//    }
 
     /**
      *
@@ -216,11 +219,8 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
-        UserVo userVo = new UserVo();
-        userVo.setName(name);
-        return Result.success("供应商列表").data(userService.findByParamsNoPage(userVo));
-        //以前是商品表跟supplier表关联,现在是商品表跟user表关联,故修改如上 add by kevin 20170311
-        //return Result.success("供应商列表").data(supplierService.search(name));
+        List<UserVo> userVoList =  userService.findSupplierSignUser(name);
+        return Result.success("供应商列表").data(userVoList);
     }
 
     /**
@@ -242,11 +242,6 @@ public class SupplierController {
         //状态改为已签约
         old.setStatus(SupplierStatusEnum.SIGN.getType());
         supplierService.save(old);
-
-
-
-
-
 
         //supplier数据转存到user
         UserVo userVo = new UserVo();
@@ -502,14 +497,11 @@ public class SupplierController {
 
         List<SupplierAnnexVo> supplierAnnexVos=supplierAnnexService.findBySupplierId(id);
 
-
-
         model.put("supplierVo",supplierVo);
         model.put("questions",questions);
         model.put("supplierChoices",supplierChoices);
         model.put("contactVos",contactVos);
         model.put("supplierAnnexVos",supplierAnnexVos);
-
         return "supplier/supplier_judge";
     }
 
@@ -522,15 +514,11 @@ public class SupplierController {
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
-
         }
         else{
             Result result = Result.error().msg("必须核实才能登记");
-
             return result;
         }
-
-
     }
 
     @RequestMapping(value = "/exportExcel")

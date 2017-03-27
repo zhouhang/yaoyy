@@ -48,7 +48,7 @@
                 </div>
                 <div class="item">
                     <div class="txt">经营商品：</div>
-                    <div class="cnt cnt-table table" id="commodity">
+                    <div class="cnt table tc" id="commodity">
                         <table>
                             <thead>
                                 <tr>
@@ -60,10 +60,12 @@
                             </thead>
                             <tbody>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4"><a href="javascript:;" class="c-blue" id="addCommodity">+新增一行</a></td>
+                                </tr>
+                            </tfoot>
                         </table>
-                        <div class="op">
-                            <a href="javascript:;" class="c-blue" id="addCommodity">+新增一行</a>
-                        </div>
                     </div>
                 </div>
                 <div class="item">
@@ -174,8 +176,6 @@
 <!-- 输入框联想 start -->
 <div class="suggestions" id="suggestions"></div><!-- 输入框联想 end -->
 
-<script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script src="assets/js/area.js"></script>
@@ -201,7 +201,7 @@
             
             // 新增
             $('#addCommodity').on('click', function(){
-                var tr = '  <tr> \n<input type="hidden" value="" attr="supplierCommodtiyId"> <td><div class="ipt-wrap"><input type="text" class="ipt jname" attr="name" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" attr="spec" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" attr="origin" value="" autocomplete="off"></div></td> \n <td><button class="ubtn ubtn-red">删除</button></td> \n </tr>';
+                var tr = '  <tr> \n<input type="hidden" value="" attr="supplierCommodtiyId"> <td><div class="ipt-wrap"><input type="text" class="ipt jname" attr="name" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" attr="spec" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" attr="origin" value="" autocomplete="off"></div></td> \n <td><button type="button" class="ubtn ubtn-red">删除</button></td> \n </tr>';
                 $table.append(tr);
             })
 
@@ -232,7 +232,7 @@
             })
 
             // 关键字自动填充
-            $body.on('click', '.suggestions .group', function() {
+            $body.on('click', '.suggestions .options', function() {
                 $suggestions.prev().val($(this).data('val'))
                 //.closest('td').next().find('.ipt').val(data[1]).end()
                 //.closest('td').next().find('.ipt').val(data[2]).end()
@@ -268,7 +268,7 @@
                     // 显示查询结果
                     if (res.status === 200) {
                         if (res.data.length === 0) {
-                            $('#suggestions').show().find('.bd').empty().html('暂无此商品:)');
+                            $('#suggestions').show().empty().html('<div class="options"><em>暂无此商品:)</em></div>');
                         } else {
                             that.toHtml(res.data, 0, 7);
                         }
@@ -286,7 +286,7 @@
 
             for (var i = page_index * pageSize; i < maxPage; i++) {
                 var val = item[i].name ;
-                modal.push('<div class="group" data-val="', val, '">');
+                modal.push('<div class="options" data-val="', val, '">');
                 modal.push(     '<em>', item[i].name, '</em>');
                 modal.push('</div>');
             }

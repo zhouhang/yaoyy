@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public enum SupplierSourceEnum {
     SYSTEM(1,"系统录入"),
-    HUQIAO(2,"沪樵导入"),
+    HUQIAO(2,"沪谯导入"),
     TIANJI(3,"天济导入"),
     WECHART(4,"微信登记");
 
