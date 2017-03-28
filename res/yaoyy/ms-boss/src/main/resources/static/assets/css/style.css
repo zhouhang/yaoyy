@@ -8,8 +8,9 @@ ul,ol{padding:0;list-style:none;}
 a{color:#333;text-decoration:none;}
 input,button,textarea,select{font-size:100%;border:none;outline:none;resize:none;}
 fieldset,img{vertical-align:top;border:none}
-table{width:100%;border-collapse:collapse;border-spacing:0}
+table{width:100%;border-collapse:collapse;border-spacing:0;text-align:left;}
 address,cite,dfn,em,i,strong{font-style:normal;}
+button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 ::-ms-clear,::-ms-reveal{display:none;}
 
 /* bg */
@@ -40,7 +41,7 @@ address,cite,dfn,em,i,strong{font-style:normal;}
 .bg-maroon:hover{background-color:#ca195a;}
 
 /* button */
-.ubtn{display:inline-block;min-width:50px;height:30px;line-height:28px;padding:0 8px;font-size:1.2rem;text-align:center;cursor:pointer;border:0;border-radius:2px;}
+.ubtn{display:inline-block;min-width:50px;height:32px;line-height:30px;padding:0 8px;font-size:1.2rem;text-align:center;cursor:pointer;border:0;border-radius:2px;}
 .ubtn:hover{opacity:.9;filter:alpha(opacity=90);}
 .ubtn-red{background-color:#d74141;color:#fff;}
 .ubtn-white{background-color:#fff;color:#ffa902;}
@@ -187,14 +188,11 @@ address,cite,dfn,em,i,strong{font-style:normal;}
 .fa-form .val em{color:#e33737;}
 .fa-form .cnt{position:relative;min-height:32px;line-height:32px;margin-bottom:10px;}
 .fa-form .cnt em{margin:0 4px;}
-.fa-form .cnt .slt{min-width:200px;}
-.fa-form .cnt .ipt{width:350px;vertical-align:top;}
-.fa-form .cnt .ipt-short{width:80px;}
-.fa-form .cnt .ipt-mul{height:80px;vertical-align:top;}
-.fa-form .cnt .unit{margin-left:-34px;padding:8px 9px;background:#ebebeb;color:#999;}
-.fa-form .ipt-wrap{position:relative;}
-.fa-form .ipt-wrap .ipt{width:100%;padding:0;border:0;text-align:center;}
-.fa-form .ipt-wrap .ipt:hover{background:#ededed;}
+.fa-form .slt{min-width:200px;}
+.fa-form .ipt{width:350px;vertical-align:top;}
+.fa-form .ipt-short{width:80px;}
+.fa-form .ipt-mul{height:80px;vertical-align:top;}
+.fa-form .unit{margin-left:-34px;padding:8px 9px;background:#ebebeb;color:#999;}
 .fa-form .msg-box{position:absolute;top:100%;left:5px;z-index:9999;display:block;line-height:18px;padding:2px 5px;background:#d74141;color:#fff;white-space:nowrap;}
 .fa-form .msg-box:after{content:"";position:absolute;top:-10px;left:10px;border:5px dashed transparent;border-bottom:5px solid #d74141;}
 .fa-form .msg-box .error{color:#fff;}
@@ -206,6 +204,9 @@ address,cite,dfn,em,i,strong{font-style:normal;}
 .fa-form .cbxs label{margin-right:15px;white-space:nowrap;}
 .fa-form .table{max-width:750px;line-height:1.5;}
 .fa-form .table .op{position:absolute;top:-30px;right:0;padding:3px 5px;color:#23c0fa;cursor:pointer;}
+.fa-form .ipt-wrap{position:relative;}
+.fa-form .ipt-wrap .ipt{width:100%;padding:0;border:0;text-align:center;}
+.fa-form .ipt-wrap .ipt:hover{background:#ededed;}
 .fa-form .note{padding-right:30px;text-align:right;color:#999;}
 .fa-form .choose span{position:relative;display:inline-block;line-height:1.5;margin:0 15px 15px 0;padding:5px 10px;border:1px solid #ccc;background:#fff;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}

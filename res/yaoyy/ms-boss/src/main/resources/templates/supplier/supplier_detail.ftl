@@ -68,14 +68,14 @@
                 </div>
                 <div class="item">
                     <div class="txt">经营商品：</div>
-                    <div class="cnt table tc" id="commodity">
-                        <table>
+                    <div class="cnt table" id="commodity">
+                        <table class="tc">
                             <thead>
                                 <tr>
                                     <th>品种</th>
                                     <th>规格等级</th>
                                     <th>产地</th>
-                                    <th>操作</th>
+                                    <th width="100">操作</th>
                                 </tr>
                             </thead>
                             <tbody>

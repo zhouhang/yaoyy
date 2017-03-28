@@ -96,6 +96,7 @@ layer.config({
     moveType: 1,
     success : function() {
         isMobile && $('body').addClass('no-scroll');
+        // $('.layui-layer-content').height('auto');
     },
     end: function() {
         isMobile && $('body').removeClass('no-scroll');
@@ -418,7 +419,7 @@ function _modifyPwd() {
         layer.open({
             skin: 'layer-form',
             type: 2,
-            area: ['470px', '250px'],
+            area: ['300px', '220px'],
             title: '修改密码',
             content: '/member/changePassword'
         })
