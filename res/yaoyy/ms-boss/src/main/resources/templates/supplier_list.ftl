@@ -45,7 +45,7 @@
 
                 <div class="action-add">
                     <a href="/supplier/create" class="ubtn ubtn-blue">新建供应商</a>
-                    <a href="/supplier//exportExcel" class="ubtn ubtn-blue">导出供应商</a>
+                    <a href="/supplier/exportExcel" class="ubtn ubtn-red">导出供应商</a>
 
                 </div>
             </div>
@@ -64,7 +64,7 @@
                             <#--<th>报价次数</th>-->
                             <th>信息来源</th>
                             <th>创建时间</th>
-                            <th width="180" class="tc">操作</th>
+                            <th width="60" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>

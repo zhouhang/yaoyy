@@ -32,7 +32,7 @@
                     </div>
                     <div class="item">
                         <div class="txt">状态：</div>
-                        <div class="val c-red">${pickVo.statusText}</div>
+                        <div class="val status-${pickVo.status+1}">${pickVo.statusText}</div>
                     </div>
                     <div class="item">
                         <div class="txt">客户姓名：</div>
@@ -95,11 +95,16 @@
                 </div>
 
                 <div class="box fa-form">
-                    <div class="hd">采购单追踪</div>
+                    <div class="hd">订单追踪</div>
                     <ol class="trace" id="trace">
                         <li class="fore">状态：<em class="status-${pickVo.status+1}">${pickVo.statusText}</em></li>
                     <#list pickTrackingVos as tracking>
-                        <li><span>${tracking.name?default('')}</span>&nbsp;&nbsp;<span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>&nbsp;&nbsp;<span>${tracking.recordTypeText}</span>&nbsp;&nbsp;<span>${tracking.extra?default('')}</span></li>
+                        <li>
+                            <span>${tracking.name?default('')}</span>
+                            <span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>
+                            <span>${tracking.recordTypeText}</span>
+                            <span>${tracking.extra?default('')}</span>
+                        </li>
                     </#list>
                     </ol>
                     <div class="ft <#if pickVo.status!=0>hide</#if>">

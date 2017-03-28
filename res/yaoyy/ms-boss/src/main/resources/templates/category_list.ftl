@@ -45,7 +45,7 @@
                         <th>排序</th>
                         <th>父类</th>
                         <th width="150">创建时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>

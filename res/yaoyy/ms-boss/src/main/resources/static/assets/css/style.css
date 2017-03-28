@@ -41,8 +41,8 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 .bg-maroon:hover{background-color:#ca195a;}
 
 /* button */
-.ubtn{display:inline-block;min-width:50px;line-height:30px;padding:0 8px;font-size:1.2rem;text-align:center;cursor:pointer;border:0;border-radius:2px;}
-.ubtn:hover{opacity:.9;filter:alpha(opacity=90);}
+.ubtn{display:inline-block;min-width:50px;line-height:30px;padding:0 8px;font-size:1.2rem;text-align:center;cursor:pointer;border:0;border-radius:2px;transition:all .2s;}
+.ubtn:hover{opacity:.9;filter:alpha(opacity=90);box-shadow:inset 0 0 100px rgba(0,0,0,0.2);}
 .ubtn-red{background-color:#d74141;color:#fff;}
 .ubtn-white{background-color:#fff;color:#ffa902;}
 .ubtn-blue{background-color:#23c0fa;color:#fff;}
@@ -60,15 +60,16 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 .link:hover{color:#155ee5;text-decoration:underline;}
 
 /* status color */
-.status-1{color:#dd4b39;}
-.status-2{color:#00a65a;}
-.status-3{color:#dd4b39;}
-.status-4{color:#00c0ef;}
-.status-5{color:#00a65a;}
-.status-6{color:#00a65a;}
-.status-7{color:#999;}
-.status-8{color:#f90;}
-.status-9{color:#00c0ef;}
+.status-1{color:#f40;}
+.status-2{color:#09c;}
+.status-3{color:#b71c1c;}
+.status-4{color:#1de9b6;}
+.status-5{color:#e57373;}
+.status-6{color:#098;}
+.status-7{color:#f90;}
+.status-8{color:#3d5afe;}
+.status-9{color:#a0f;}
+.status-10{color:#999;}
 
 /* layout */
 .fl{float:left;}
@@ -238,6 +239,7 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 /* supplier_info_2.html */
 .fa-form .caption{margin:30px 0 10px 75px;}
 .fa-form .caption em{margin-right:6px;font-size:1.4rem;font-weight:700;}
+.fa-form .caption i{margin-right:6px;color:#d74141;vertical-align:middle;font:700 14px tahoma;}
 .fa-form .row .item{display:inline-block;margin-bottom:10px;padding-left:70px;vertical-align:top;}
 .fa-form .row .item .txt{width:70px;}
 .fa-form .row .item .ipt{width:100px;}

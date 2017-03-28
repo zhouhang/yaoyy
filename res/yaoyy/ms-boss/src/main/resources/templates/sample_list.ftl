@@ -52,7 +52,7 @@
                             <th>意向商品</th>
                             <th>状态</th>
                             <th width="150">创建时间</th>
-                            <th width="180" class="tc">操作</th>
+                            <th width="120" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>

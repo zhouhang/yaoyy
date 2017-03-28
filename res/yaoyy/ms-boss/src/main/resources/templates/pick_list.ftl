@@ -55,7 +55,7 @@
                         <th>客户电话</th>
                         <th>状态</th>
                         <th width="150">下单时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="120" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -47,52 +47,136 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" class="cbx"></th>
+							<th width="50"><input type="checkbox" class="cbx"></th>
 							<th>订单编号</th>
 							<th>客户姓名</th>
 							<th>客户电话</th>
 							<th>状态</th>
 							<th>下单时间</th>
-							<th width="170" class="tc">操作</th>
+							<th width="120" class="tc">操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><input type="checkbox" class="cbx"></td>
-							<td>2016102511</td>
-							<td>王先生</td>
-							<td>18801285391</td>
-							<td><em>未受理</em></td>
-							<td>2016-05-18 15:22</td>
-							<td class="tc">
-								<a href="pick_info.html" class="ubtn ubtn-blue jedit">查看详情</a>
-								<a href="javascript:;" class="ubtn ubtn-gray jdel">废弃</a>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="cbx"></td>
-							<td>2016102511</td>
-							<td>王先生</td>
-							<td>18801285391</td>
-							<td><em>未受理</em></td>
-							<td>2016-05-18 15:22</td>
-							<td class="tc">
-								<a href="pick_info.html" class="ubtn ubtn-blue jedit">查看详情</a>
-								<a href="javascript:;" class="ubtn ubtn-gray jdel">废弃</a>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="cbx"></td>
-							<td>2016102511</td>
-							<td>王先生</td>
-							<td>18801285391</td>
-							<td><em>交易未完成</em></td>
-							<td>2016-05-18 15:22</td>
-							<td class="tc">
-								<a href="pick_info.html" class="ubtn ubtn-blue jedit">查看详情</a>
-								<a href="javascript:;" class="ubtn ubtn-gray jdel">废弃</a>
-							</td>
-						</tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=95" class="link">148998665483</a></td>
+	                        <td>王彬</td>
+	                        <td>18801285391</td>
+	                        <td><em class="status-1">未受理</em></td>
+	                        <td>2017-3-20 13:10:54</td>
+	                        <td class="tc" data-id="95">
+	                            <a href="pick_info.html?id=95" class="ubtn ubtn-blue jedit">查看</a>
+	                                <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=96" class="link">148999162705</a></td>
+	                        <td>123</td>
+	                        <td>17740679874</td>
+	                        <td><em class="status-2">已受理</em></td>
+	                        <td>2017-3-20 14:33:47</td>
+	                        <td class="tc" data-id="96">
+	                            <a href="pick_info.html?id=96" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=96" class="link">148999162705</a></td>
+	                        <td>123</td>
+	                        <td>17740679874</td>
+	                        <td><em class="status-3">交易未达成</em></td>
+	                        <td>2017-3-20 14:33:47</td>
+	                        <td class="tc" data-id="96">
+	                            <a href="pick_info.html?id=96" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=79" class="link">148636436861</a></td>
+	                        <td>彭芃</td>
+	                        <td>18664865125</td>
+	                        <td><em class="status-4">交易已完成</em></td>
+	                        <td>2017-2-6 14:59:28</td>
+	                        <td class="tc" data-id="79">
+	                            <a href="pick_info.html?id=79" class="ubtn ubtn-blue jedit">查看</a>
+	                                <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=67" class="link">148307125930052</a></td>
+	                        <td>王彬</td>
+	                        <td>18801285391</td>
+	                        <td><em class="status-5">审核不通过</em></td>
+	                        <td>2016-12-30 12:14:19</td>
+	                        <td class="tc" data-id="67">
+	                            <a href="pick_info.html?id=67" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=67" class="link">148307125930052</a></td>
+	                        <td>王彬</td>
+	                        <td>18801285391</td>
+	                        <td><em class="status-6">待支付</em></td>
+	                        <td>2016-12-30 12:14:19</td>
+	                        <td class="tc" data-id="67">
+	                            <a href="pick_info.html?id=67" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=73" class="link">148635154856</a></td>
+	                        <td>彭鹏程</td>
+	                        <td>17740679874</td>
+	                        <td><em class="status-7">待发货</em></td>
+	                        <td>2017-2-6 11:25:48</td>
+	                        <td class="tc" data-id="73">
+	                            <a href="pick_info.html?id=73" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=78" class="link">148635207010</a></td>
+	                        <td>彭鹏程</td>
+	                        <td>17740679874</td>
+	                        <td><em class="status-8">已发货</em></td>
+	                        <td>2017-2-6 11:34:30</td>
+	                        <td class="tc" data-id="78">
+	                            <a href="pick_info.html?id=78" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=97" class="link">148999336499</a></td>
+	                        <td>123</td>
+	                        <td>17740679874</td>
+	                        <td><em class="status-9">待用户确认</em></td>
+	                        <td>2017-3-20 15:02:44</td>
+	                        <td class="tc" data-id="97">
+	                            <a href="pick_info.html?id=97" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td><input class="cbx" type="checkbox"></td>
+	                        <td><a href="pick_info.html?id=82" class="link">148636846444</a></td>
+	                        <td>彭芃</td>
+	                        <td>18664865125</td>
+	                        <td><em class="status-10">已取消</em></td>
+	                        <td>2017-2-6 16:07:44</td>
+	                        <td class="tc" data-id="82">
+	                            <a href="pick_info.html?id=82" class="ubtn ubtn-blue jedit">查看</a>
+	                            <a href="javascript:;" class="ubtn ubtn-gray jputdown">废弃</a>
+	                        </td>
+	                    </tr>
 					</tbody>
 				</table>
 			</div>

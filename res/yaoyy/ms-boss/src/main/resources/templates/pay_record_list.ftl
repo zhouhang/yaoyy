@@ -40,7 +40,7 @@
                         <th>支付金额</th>
                         <th>支付渠道</th>
                         <th>状态</th>
-                        <th width="90" class="tc">操作</th>
+                        <th width="60" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
