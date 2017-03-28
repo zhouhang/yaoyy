@@ -67,12 +67,12 @@
                                    code:$("#SMSCode").val()},
                             type: "POST",
                             success: function (result) {
-                                if (result.status === 200) {
+                                if (result.status == 200) {
                                     window.location.href =  result.data;
                                 } else {
                                     layer.open({
                                         className: 'layer-custom2'
-                                        ,content: '<div class="hd">供应商信息已登记</div><div class="bd">result.msg</div>'
+                                        ,content: '<div class="hd">'+result.msg+'</div>'
                                         ,btn: ['确定']
                                     });
                                 }

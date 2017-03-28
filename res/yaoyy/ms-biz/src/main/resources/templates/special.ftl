@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>${special.title!}-药优优</title>
+<title>${special.title!}-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
 <body class="ui-body">
@@ -21,7 +21,7 @@
     <div class="ui-banner">
         <img src="${special.pictuerUrl!}" alt="${special.title!}">
     </div>
-    <div class="plist">
+    <div class="plist2">
         <ul>
             <#list commodities as commodity >
             <li>

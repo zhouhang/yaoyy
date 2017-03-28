@@ -197,7 +197,7 @@
                 </div>
 				<div class="ft">
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
-                    <#if supplierVo.status!=3&&supplierVo.status!=4>
+                    <#if supplierVo.status?? && supplierVo.status!=3&&supplierVo.status!=4>
                         <button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
                     </#if>
 
@@ -234,7 +234,7 @@
         </div>
         </#if>
 
-        <#if supplierVo.status!=4>
+        <#if supplierVo.status?? && supplierVo.status!=4>
         <div class="box fa-form">
             <div class="hd">供应商签约</div>
             <form id="myform3">
