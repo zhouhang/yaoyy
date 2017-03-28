@@ -34,7 +34,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>报价清单：</div>
-                    <div class="cnt table tc" id="quoteList"></div>
+                    <div class="cnt table" id="quoteList"></div>
                 </div>
                 <div class="item">
                     <div class="txt">报价单描述：</div>
@@ -181,7 +181,7 @@
                    var $quoteList = $('#quoteList');
                    var model = [];
                    $.each(${quotation.content}, function (index,contentItem) {
-                       model.push('<table id="table' , contentItem.categoryId , '">');
+                       model.push('<table class="tc" id="table' , contentItem.categoryId , '">');
                        model.push('<thead>');
                        model.push('<tr><th colspan="4" class="tl" cid="',contentItem.categoryId ,'">' , contentItem.categoryName , '</th></tr>');
                        model.push('<tr class="attrName"> ');
@@ -302,7 +302,7 @@
                     categoryOrigin = commodity.origin,
                     model          = [];
 
-                model.push('<table id="table' , categoryId , '">');
+                model.push('<table class="tc" id="table' , categoryId , '">');
                 model.push('<thead>');
                 model.push('<tr><th colspan="4" class="tl" cid="', categoryId ,'">' , categoryOrigin, '  ', categoryName , '</th></tr>');
                 model.push('<tr class="attrName"><th><div class="ipt-wrap"><input class="ipt" placeholder="自定义" value="规格" type="text"></div></th>' +

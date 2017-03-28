@@ -103,7 +103,7 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>绑定供应商：</div>
-                    <div class="cnt table">
+                    <div class="cnt">
                         <input type="text" name="supplier" id="supplier" class="ipt" placeholder="绑定供应商" autocomplete="off">
                         <input type="hidden" name="supplierId" id="supplierId">
                     </div>
@@ -113,8 +113,8 @@
             <div class="box fa-form">
                 <div class="hd">商品属性</div>
                 <div class="item">
-                    <div class="cnt table tc">
-                        <table>
+                    <div class="cnt table">
+                        <table class="tc">
                             <thead>
                                 <tr>
                                     <th width="180">属性名</th>
@@ -122,12 +122,12 @@
                                     <th width="80">操作</th>
                                 </tr>
                             </thead>
+                            <tbody id="attribute"></tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="3"><a href="javascript:;" class="c-blue" id="addAttribute">+增加新属性</a></td>
                                 </tr>
                             </tfoot>
-                            <tbody id="attribute"></tbody>
                         </table>
                     </div>
                 </div>

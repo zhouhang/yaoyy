@@ -39,7 +39,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>姓名</th>
                         <th>用户名</th>
                         <th>电话</th>

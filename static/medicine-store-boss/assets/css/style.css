@@ -9,6 +9,7 @@ a{color:#333;text-decoration:none;}
 input,button,textarea,select{font-size:100%;border:none;outline:none;resize:none;}
 fieldset,img{vertical-align:top;border:none}
 table{width:100%;border-collapse:collapse;border-spacing:0}
+th{text-align:left;}
 address,cite,dfn,em,i,strong{font-style:normal;}
 ::-ms-clear,::-ms-reveal{display:none;}
 
@@ -206,6 +207,7 @@ address,cite,dfn,em,i,strong{font-style:normal;}
 .fa-form .cbxs label{margin-right:15px;white-space:nowrap;}
 .fa-form .table{max-width:750px;line-height:1.5;}
 .fa-form .table .op{position:absolute;top:-30px;right:0;padding:3px 5px;color:#23c0fa;cursor:pointer;}
+.fa-form .table .ipt{width:auto;}
 .fa-form .note{padding-right:30px;text-align:right;color:#999;}
 .fa-form .choose span{position:relative;display:inline-block;line-height:1.5;margin:0 15px 15px 0;padding:5px 10px;border:1px solid #ccc;background:#fff;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}

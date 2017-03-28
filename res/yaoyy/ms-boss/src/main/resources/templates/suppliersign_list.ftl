@@ -30,7 +30,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="cbx"></th>
+                            <th width="50"><input type="checkbox" class="cbx"></th>
                             <th>供应商编号</th>
                             <th>姓名</th>
                             <th>手机号</th>

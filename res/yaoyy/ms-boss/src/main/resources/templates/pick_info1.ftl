@@ -57,14 +57,14 @@
                 <div class="box fa-form">
                     <div class="hd">商品详情</div>
                     <div class="item">
-                        <div class="cnt table tc">
+                        <div class="cnt table">
                             <div class="op">修改</div>
-                            <table>
+                            <table class="tc">
                                 <thead>
                                 <tr>
                                     <th>商品名称</th>
                                     <th>产地</th>
-                                    <th width="200">规格等级</th>
+                                    <th width="200" class="tl">规格等级</th>
                                     <th width="80">数量</th>
                                     <th>单位</th>
                                     <th>价格</th>
@@ -76,8 +76,8 @@
                                 <tr>
                                     <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
                                     <td>${pickCommodityVo.origin}</td>
-                                    <td><p>${pickCommodityVo.spec}</p></td>
-                                    <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></div></td>
+                                    <td class="tl"><p>${pickCommodityVo.spec}</p></td>
+                                    <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price?c}" value="${pickCommodityVo.num?c}"></div></td>
                                     <td>${pickCommodityVo.unit}</td>
                                     <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
                                     <td><span>${pickCommodityVo.total?c}</span>元</td>

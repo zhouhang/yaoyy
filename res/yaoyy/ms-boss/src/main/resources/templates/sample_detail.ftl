@@ -50,7 +50,7 @@
             <div class="item">
                 <div class="txt">历史寄样信息：</div>
                 <div class="cnt table">
-                    <table>
+                    <table class="tl">
                         <thead>
                         <tr>
                             <th>寄样单编号</th>

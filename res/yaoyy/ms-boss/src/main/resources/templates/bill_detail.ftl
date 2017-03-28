@@ -52,12 +52,12 @@
             <div class="hd">商品信息</div>
             <div class="item">
                 <div class="cnt table">
-                    <table>
+                    <table class="tc">
                         <thead>
                         <tr>
                             <th>商品名称</th>
                             <th>产地</th>
-                            <th width="200">规格等级</th>
+                            <th width="200" class="tl">规格等级</th>
                             <th width="80">数量</th>
                             <th>单位</th>
                             <th>价格</th>
@@ -69,8 +69,8 @@
                        <tr>
                            <td><a href="#">${pickCommodityVo.name}</a></td>
                            <td>${pickCommodityVo.origin}</td>
-                           <td><p>${pickCommodityVo.spec}</p></td>
-                           <td><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num}"></td>
+                           <td class="tl"><p>${pickCommodityVo.spec}</p></td>
+                           <td>${pickCommodityVo.num}</td>
                            <td>${pickCommodityVo.unit}</td>
                            <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
                            <td><span>${pickCommodityVo.total}</span>元</td>

@@ -29,7 +29,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="cbx"></th>
+                            <th width="50"><input type="checkbox" class="cbx"></th>
                             <th>编号</th>
                             <th>角色名称</th>
                             <th width="150">角色描述</th>

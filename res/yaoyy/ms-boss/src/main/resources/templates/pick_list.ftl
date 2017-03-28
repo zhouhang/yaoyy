@@ -49,7 +49,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>选货单编号</th>
                         <th>客户姓名</th>
                         <th>客户电话</th>
