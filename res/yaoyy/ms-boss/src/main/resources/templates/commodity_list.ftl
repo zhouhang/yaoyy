@@ -39,7 +39,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>商品名称</th>
                         <th>品种</th>
                         <th width="320">标题</th>

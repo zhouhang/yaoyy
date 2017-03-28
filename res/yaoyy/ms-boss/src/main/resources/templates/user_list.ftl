@@ -44,7 +44,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>手机</th>
                         <th>称呼</th>
                         <th>身份类型</th>

@@ -39,7 +39,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>类型</th>
                         <th>名称</th>
                         <th>链接</th>

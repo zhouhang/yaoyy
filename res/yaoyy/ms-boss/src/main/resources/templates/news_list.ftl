@@ -35,7 +35,7 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" class="cbx"></th>
+							<th width="50"><input type="checkbox" class="cbx"></th>
 							<th>标题</th>
 							<th>推送对象</th>
 							<th>创建时间</th>
