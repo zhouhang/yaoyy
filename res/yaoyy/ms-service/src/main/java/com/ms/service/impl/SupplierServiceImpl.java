@@ -220,8 +220,12 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 
 		if(supplier.getId()!=null){
 			//如果已经进入实地考察和签约，不改变状态
+			boolean isRecord=false;
+
 			Integer oldStatus=old.getStatus();
-			if(oldStatus.equals(SupplierStatusEnum.INVEST.getType())||oldStatus.equals(SupplierStatusEnum.SIGN.getType())){
+
+
+			if(oldStatus!=null&&(oldStatus.equals(SupplierStatusEnum.INVEST.getType())||oldStatus.equals(SupplierStatusEnum.SIGN.getType()))){
 				//如果是通过状态就不需要更改状态
 				if(!supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
 					supplier.setStatus(old.getStatus());
@@ -235,25 +239,35 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 					supplierCommodityService.save(commodityVo);
 				}
 			}
-			//只要没进入实地考察和签约，都记录跟踪状态
-			if(!oldStatus.equals(SupplierStatusEnum.INVEST.getType())&&!oldStatus.equals(SupplierStatusEnum.SIGN.getType())){
-				if(!oldStatus.equals(supplier.getStatus())){
-					UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
-					userTrackRecordVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
-					userTrackRecordVo.setMemberId(supplierCertifyVo.getMemberId());
-					userTrackRecordVo.setType(UserTrackTypeEnum.CERTIFY.getType());
-					if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
-						userTrackRecordVo.setContent("信息审核正确");
-					}
-					else if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
-						userTrackRecordVo.setContent("信息审核不正确");
-					}
-
-					userTrackRecordVo.setCreateTime(new Date());
-					userTrackRecordService.create(userTrackRecordVo);
+			if(oldStatus==null){
+				isRecord=true;
+			}
+			else{
+				//只要没进入实地考察和签约，都记录跟踪状态
+				if(!oldStatus.equals(SupplierStatusEnum.INVEST.getType())&&!oldStatus.equals(SupplierStatusEnum.SIGN.getType())){
+					if(!oldStatus.equals(supplier.getStatus())){
+                       isRecord=true;
+				}
+			}
+			if(isRecord){
+				UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+				userTrackRecordVo.setSupplierId(supplierCertifyVo.getSupplier().getId());
+				userTrackRecordVo.setMemberId(supplierCertifyVo.getMemberId());
+				userTrackRecordVo.setType(UserTrackTypeEnum.CERTIFY.getType());
+				if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY.getType())){
+					userTrackRecordVo.setContent("信息审核正确");
+				}
+				else if(supplier.getStatus().equals(SupplierStatusEnum.VERIFY_NOT_PASS.getType())){
+					userTrackRecordVo.setContent("信息审核不正确");
 				}
 
+				userTrackRecordVo.setCreateTime(new Date());
+				userTrackRecordService.create(userTrackRecordVo);
 			}
+			}
+
+
+
 		}
 		else{
 			save(supplier);

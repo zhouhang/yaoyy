@@ -510,7 +510,8 @@ public class SupplierController {
     public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
-        if(old.getStatus().equals(SupplierStatusEnum.VERIFY.getType()) ){
+        Integer oldStatus=old.getStatus();
+        if(oldStatus!=null&&old.getStatus().equals(SupplierStatusEnum.VERIFY.getType()) ){
             supplierJudgeVo.setMemberId(mem.getId());
             supplierService.judge(supplierJudgeVo);
             return Result.success("评价成功");
