@@ -94,7 +94,7 @@
 
     <select id="findSupplierSignUser" resultMap="UserResultMapVo" parameterType="com.ms.dao.vo.UserVo">
         select
-         ud.area as area,ud.name as name,
+        u.id as id, ud.area as area,ud.name as name,
         ud.category_ids as categoryIds,ud.company as company,u.phone as phone
         from user u
         LEFT JOIN user_detail ud on u.id = ud.user_id
