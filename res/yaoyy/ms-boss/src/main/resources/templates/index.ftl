@@ -59,6 +59,13 @@
                     </div>
                 </li>
                 </@shiro.hasPermission>
+                <@shiro.hasPermission name="cms:list">
+                <li>
+                    <div class="cnt bg-maroon">
+                        <a href="cms/list"><span><i class="fa fa-file-text"></i></span> CMS列表</a>
+                    </div>
+                </li>
+                </@shiro.hasPermission>
             </ul>
         </div>
 

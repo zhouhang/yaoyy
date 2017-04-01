@@ -13,7 +13,6 @@
             <result column="picture_url"  property="pictureUrl" />
             <result column="thumbnail_url"  property="thumbnailUrl" />
             <result column="create_time"  property="createTime" />
-        
     </resultMap>
 
     <resultMap id="HistoryCommodityResultMapVo" type="com.ms.dao.vo.HistoryCommodityVo">
