@@ -44,14 +44,14 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>手机</th>
                         <th>称呼</th>
                         <th>身份类型</th>
                         <th>姓名/单位</th>
                         <th>状态</th>
                         <th width="150">创建时间</th>
-                        <th width="180" class="tc">操作</th>
+                        <th width="120" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>

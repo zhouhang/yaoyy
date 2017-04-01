@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-  	
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>供应商列表-boss</title>
     <meta name="renderer" content="webkit" />
@@ -25,20 +24,27 @@
 			<div class="tools">
 				<div class="filter">
 					<form action="">
-						<input type="text" class="ipt" placeholder="姓名">
-						<input type="text" class="ipt" placeholder="手机号">
-						<input type="text" class="ipt" placeholder="品种">
 						<select class="slt">
-							<option value="">是否入驻</option>
-							<option value="">是</option>
-							<option value="">否</option>
+							<option value="">信心核实</option>
+							<option value="">未核实</option>
+							<option value="">已核实</option>
+							<option value="">实地考察认证</option>
+							<option value="">已签约</option>
+							<option value="">核实不正确</option>
 						</select>
+						<select class="slt">
+							<option value="">绑定用户</option>
+							<option value="">已绑定</option>
+							<option value="">未绑定</option>
+						</select>
+						<input type="text" class="ipt" placeholder="姓名/手机">
+						<input type="text" class="ipt" placeholder="品种">
 						<button class="ubtn ubtn-blue">搜索</button>
 					</form>
 				</div>
 				<div class="action-add">
-					<a href="supplier_edit.html" class="ubtn ubtn-blue">新建供应商</a>
-					<a href="javascript:;" class="ubtn ubtn-red">Excle导入</a>
+					<button type="button" class="ubtn ubtn-blue" id="addNew">新建供应商</button>
+					<button type="button" class="ubtn ubtn-red" id="importExcel">Excel导入</button>
 				</div>
 			</div>
 
@@ -46,109 +52,279 @@
 				<table>
 					<thead>
 						<tr>
-							<th><input type="checkbox" class="cbx"></th>
-							<th>姓名</th>
-							<th>手机号</th>
-							<th>公司</th>
+							<th>供应商编号</th>
+							<th>供应商姓名</th>
+							<th>手机</th>
 							<th>经营品种</th>
-							<th>是否入驻</th>
-							<th>地区</th>
+							<th>信息核实</th>
+							<th>绑定用户</th>
+							<th>报价次数</th>
+							<th>信息来源</th>
 							<th>创建时间</th>
-							<th width="170" class="tc">操作</th>
+							<th width="90" class="tc">操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="checkbox" class="cbx"></td>
-							<td>王先生</td>
+							<td>214</td>
+							<td><a href="#" class="link">王先生</a></td>
 							<td>18801285391</td>
-							<td>湖北天济</td>
-							<td>三棱</td>
-							<td>否</td>
-							<td>湖北武汉</td>
+							<td>三七，白芍</td>
+							<td><span class="status-1">未核实</span></td>
+							<td><span class="status-1">未绑定</span></td>
+							<td>0</td>
+							<td>系统录入</td>
 							<td>2016-05-18 15:22</td>
 							<td class="tc">
-								<a href="supplier_edit.html" class="ubtn ubtn-blue jedit">修改</a>
-								<a href="javascript:;" class="ubtn ubtn-gray jdel">废弃</a>
+								<a href="supplier_info_1.html" class="ubtn ubtn-blue">查看详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td>214</td>
+							<td><a href="#" class="link">王先生</a></td>
+							<td>18801285391</td>
+							<td>三七，白芍</td>
+							<td><span class="status-2">已核实</span></td>
+							<td><span class="status-1">未绑定</span></td>
+							<td>0</td>
+							<td>系统录入</td>
+							<td>2016-05-18 15:22</td>
+							<td class="tc">
+								<a href="supplier_info_1.html" class="ubtn ubtn-blue">查看详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td>214</td>
+							<td><a href="#" class="link">王先生</a></td>
+							<td>18801285391</td>
+							<td>三七，白芍</td>
+							<td><span class="status-7">核实不正确</span></td>
+							<td><span class="status-1">未绑定</span></td>
+							<td>0</td>
+							<td>系统录入</td>
+							<td>2016-05-18 15:22</td>
+							<td class="tc">
+								<a href="supplier_info_1.html" class="ubtn ubtn-blue">查看详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td>214</td>
+							<td><a href="#" class="link">王先生</a></td>
+							<td>18801285391</td>
+							<td>三七，白芍</td>
+							<td><span class="status-8">实地考察认证</span></td>
+							<td><span class="status-1">未绑定</span></td>
+							<td>0</td>
+							<td>系统录入</td>
+							<td>2016-05-18 15:22</td>
+							<td class="tc">
+								<a href="supplier_info_1.html" class="ubtn ubtn-blue">查看详情</a>
+							</td>
+						</tr>
+						<tr>
+							<td>214</td>
+							<td><a href="#" class="link">王先生</a></td>
+							<td>18801285391</td>
+							<td>三七，白芍</td>
+							<td><span class="status-9">已签约</span></td>
+							<td><span class="status-1">未绑定</span></td>
+							<td>0</td>
+							<td>系统录入</td>
+							<td>2016-05-18 15:22</td>
+							<td class="tc">
+								<a href="supplier_info_1.html" class="ubtn ubtn-blue">查看详情</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<div class="pagination">
-				<div class="pages">
-					<a href="#" class="text">上页</a>
-					<span class="curr">1</span>
-					<a href="#">2</a>
-					<a href="#">3</a>
-					<i>...</i>
-					<a href="#">8</a>
-					<a href="#">9</a>
-					<a href="#" class="text">下页</a>
-				</div>
-				<div class="info">
-					显示第 1 至 10 项结果，共 <em id="pageSize">72</em> 项
-				</div>
-			</div>
+			<div id="jpage"></div>
 		</div>
 	</div>
 </div>
 
+<script type="temp" id="importExcelTemp">
+<div class="fa-form fa-form-layer">
+	<form action="/order/importExcel" id="excelForm" method="post" enctype="multipart/form-data">
+		<div class="item">
+			<div class="txt">信息来源：</div>
+			<div class="cnt">
+				<select name="from" class="slt">
+					<option value="1">沪谯供应商</option>
+					<option value="2">天济供应商</option>
+				</select>
+			</div>
+		</div>
+		<div class="item">
+			<div class="txt">文件：</div>
+			<div class="cnt" id="upfile">
+				<input type="file" class="ipt upfile" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+			</div>
+		</div>
+	</form>
+</div>
+</script>
+
+
+
+<form id="myform" class="hide">
+	<div class="fa-form fa-form-layer">
+		<div class="item">
+			<div class="txt"><i>*</i>姓名：</div>
+			<div class="cnt">
+				<input type="text" name="name" class="ipt" placeholder="请输入姓名" autocomplete="off">
+			</div>
+		</div>
+		<div class="item">
+			<div class="txt"><i>*</i>手机号：</div>
+			<div class="cnt">
+				<input type="text" name="mobile" class="ipt" placeholder="请输入手机号" autocomplete="off">
+			</div>
+		</div>
+        <div class="item">
+            <div class="txt">公司名称：</div>
+            <div class="cnt">
+                <input type="text" name="company" class="ipt" placeholder="请输入公司名称" autocomplete="off">
+            </div>
+        </div>
+        <div class="item">
+            <div class="txt"><i>*</i>经营品种：</div>
+            <div class="cnt">
+                <input type="text" name="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
+            </div>
+        </div>
+		<div class="item">
+			<div class="txt">地区：</div>
+			<div class="cnt">
+                <select class="slt" name="province" id="province">
+                    <option value="">-省-</option>
+                </select>
+                <select class="slt" name="city" id="city">
+                    <option value="">-市-</option>
+                </select>
+                <select class="slt" name="area" id="area">
+                    <option value="">-区/县-</option>
+                </select>
+			</div>
+		</div>
+	</div>
+</form>
+
 <script src="assets/js/jquery191.js"></script>
 <script src="assets/js/common.js"></script>
 <script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/js/jquery.autocomplete.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
+!(function($, window) {
 	var _global = {
-		v: {
-			deleteUrl: ''
+		init: function() {
+			this.create();
+			this.batch();
 		},
-		fn: {
-			init: function() {
-                this.bindEvent();
-			},
-			bindEvent: function() {
-				var $table = $('.table'),
-					$cbx = $table.find('td input:checkbox'),
-					$checkAll = $table.find('th input:checkbox'),
-					count = $cbx.length;
+		create: function() {
+            var that = this,
+                $myform = $('#myform');
 
-				// 删除
-				$table.on('click', '.jdel', function() {
-					var url = _global.v.deleteUrl + $(this).attr('href');
-                    layer.confirm('确认删除此品种？', {icon: 3, title: '提示'}, function (index) {
-                        $.get(url, function (data) {
-                            if (data.status == "y") {
-                                window.location.reload();
-                            }
-                        }, "json");
-                        layer.close(index);
-                    });
-                    return false; // 阻止链接跳转
-				})
+            that.enable = true; // 防止重复提交
 
-				// 全选
-				$checkAll.on('click', function() {
-					var isChecked = this.checked;
-					$cbx.each(function() {
-						this.checked = isChecked;
-					})
-				})
-				// 单选
-				$cbx.on('click', function() {
-					var _count = 0;
-					$cbx.each(function() {
-						_count += this.checked ? 1 : 0;
-					})
-					$checkAll.prop('checked', _count === count);
-				})
-			}
-		}
+            var response = function(url, data) {
+                $.ajax({
+                    // type: 'POST',
+                    url: url,
+                    // dataType: 'json',
+                    data: data || {},
+                    beforeSend: function() {
+                        that.enable = false;
+                    },
+                    success: function(data) {
+                        data.status == 200 && window.location.reload();
+                    },
+                    complete: function() {
+                        that.enable = true;
+                    }
+                })
+            }
+
+            // 表单
+            $myform.validator({
+                fields: {
+	                name: '姓名: required',
+	                mobile: '手机号: required; mobile',
+                    breeds: '经营品种: required'
+                },
+                valid: function (form) {
+                    that.enable && response('', $(form).serializeObject());
+                    return false;
+                }
+            });
+
+			// 新建
+			$('#addNew').on('click', function() {
+				$myform[0].reset();
+				layer.open({
+					skin: 'layer-form',
+	                area: ['600px'],
+	                type: 1,
+	                content: $myform,
+	                btn: ['确定', '取消'],
+	                btn1: function() {
+	                	$myform.submit();
+	                },
+	                title: '新建供应商'
+	            });
+	            
+			})
+
+		},
+        batch: function() {
+            var flag = false,
+            	model = $('#importExcelTemp').html();
+
+            $('body').on('change', '.upfile', function() {
+				var filename = this.value;
+                if (/(\.|\/)(csv|xls|xlsx)$/i.test(filename)) {
+                    flag = true;
+                } else {
+                    flag = false;
+                    // $('#upfile').html('<input type="file" class="ipt" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />');
+                    $.notify({
+                        type: 'error', 
+                        title: '文件格式错误',
+                        text: '请上传excel表格, 后缀名为.csv, .xls, .xlsx的都可以',
+                        delay: 5e3
+                    })
+                }
+            })
+
+            // Excel导入
+            $("#importExcel").on('click', function(){
+                layer.open({
+					skin: 'layer-form',
+                    area: ['600px'],
+                    title: 'Excel导入供应商',
+                    content: model,
+                    btn: ['确定', '取消'],
+                    yes: function(index) {
+                        if (flag) {
+                            $('#excelForm').submit();
+                            layer.close(index);
+                        } else {
+                        	$.notify({
+		                        type: 'error', 
+		                        title: '请选择excel文件',
+		                        text: '请上传excel表格, 后缀名为.csv, .xls, .xlsx的都可以',
+		                        delay: 5e3
+		                    })
+                        }
+                    }
+                })
+            })
+        }
 	}
-
-	$(function() {
-		_global.fn.init();
-	})
+	_global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>

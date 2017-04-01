@@ -74,21 +74,17 @@
      *
      */
     $.fn.code = function (code, val, call) {
-        $that = $(this);
-        $that.html("");
-        $.post("/gen/code/"+code, function (result) {
-            if (result.status == 200) {
-                var html = "";
-                $.each(result.data, function (k, v) {
-                    html += '<option value="' + v.id + '">' + v.name + '</option>';
+        var $that = $(this);
+        $that.empty();
+        $.post('/gen/code/' + code, function (res) {
+            if (res.status == 200) {
+                var model = [];
+                $.each(res.data, function (key, item) {
+                    model.push('<option value="' + item.id + '">' + item.name + '</option>');
                 })
-                $that.html(html);
-                if (val) {
-                    $that.val(val);
-                }
-                if (call){
-                    call();
-                }
+                $that.html(model.join(''));
+                val && $that.val(val);
+                typeof call === 'function' && call();
             }
         })
     }
@@ -100,6 +96,7 @@ layer.config({
     moveType: 1,
     success : function() {
         isMobile && $('body').addClass('no-scroll');
+        // $('.layui-layer-content').height('auto');
     },
     end: function() {
         isMobile && $('body').removeClass('no-scroll');
@@ -422,7 +419,7 @@ function _modifyPwd() {
         layer.open({
             skin: 'layer-form',
             type: 2,
-            area: ['470px', '250px'],
+            area: ['300px', '220px'],
             title: '修改密码',
             content: '/member/changePassword'
         })

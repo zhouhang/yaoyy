@@ -20,6 +20,9 @@ public class UserTrackRecord  implements Serializable {
 	private String content;
 	
 	private Date createTime;
+
+	//跟踪类型：0普通记录，1：核实记录，2：认证记录，3：签约记录
+	private Integer type;
 	
 	public UserTrackRecord(){}
 	
@@ -62,5 +65,13 @@ public class UserTrackRecord  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 }

@@ -96,7 +96,7 @@
                 <div class="item">
                     <div class="txt"><i>*</i>采收年份：</div>
                     <div class="cnt">
-                        <input type="text" name="year" class="ipt" placeholder="采收年份" autocomplete="off">
+                        <input type="text" name="year" id="harYear" class="ipt" placeholder="采收时间(201703)" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
@@ -232,6 +232,14 @@
                 this.cropImg();
                 this.parameter();
                 this.supplier();
+
+
+                var $harYear = $('#harYear');
+                $harYear.on('keyup', function() {
+                    if (/^\d{6}$/.test(this.value)) {
+                        this.value = this.value.substr(0, 4) + '年' + this.value.substr(4, 2) + '月'
+                    }
+                })
 			},
 			// 查询品种
 			catname: function() {

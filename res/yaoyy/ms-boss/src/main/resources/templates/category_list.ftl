@@ -39,13 +39,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>品种</th>
                         <th>标题</th>
                         <th>排序</th>
                         <th>父类</th>
                         <th width="150">创建时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="180" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -115,7 +115,7 @@
         </div>
         <div class="item">
             <div class="txt"><i>*</i>图片：</div>
-            <div class="cnt cnt-mul">
+            <div class="cnt">
                 <span class="thumb up-img x4" id="imgCrop"></span>
                 <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
                 <span class="tips">图片尺寸：220 X 180</span>

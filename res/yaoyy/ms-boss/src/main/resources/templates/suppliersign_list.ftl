@@ -30,7 +30,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="cbx"></th>
+                            <th width="50"><input type="checkbox" class="cbx"></th>
                             <th>供应商编号</th>
                             <th>姓名</th>
                             <th>手机号</th>
@@ -38,7 +38,7 @@
                             <th>地区</th>
                             <th>是否签订合同</th>
                             <th>最后登录时间</th>
-                            <th width="90" class="tc">操作</th>
+                            <th width="60" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>

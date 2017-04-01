@@ -16,6 +16,21 @@
             <result column="create_time"  property="createTime" />
             <result column="update_time"  property="updateTime" />
             <result column="enter_category_str"  property="enterCategoryStr" />
+            <result column="status"  property="status" />
+            <result column="address"  property="address" />
+            <result column="org"  property="org" />
+            <result column="biz_year"  property="bizYear" />
+            <result column="biz_type"  property="bizType" />
+            <result column="biz_place"  property="bizPlace" />
+            <result column="biz_customer_type"  property="bizCustomerType" />
+            <result column="biz_partner"  property="bizPartner" />
+            <result column="scale_staff"  property="scaleStaff" />
+            <result column="scale_store"  property="scaleStore" />
+            <result column="scale_store_mark"  property="scaleStoreMark" />
+            <result column="scale_process"  property="scaleProcess" />
+            <result column="scale_process_able"  property="scaleProcessAble" />
+            <result column="scale_process_mark"  property="scaleProcessMark" />
+            <result column="source"  property="source" />
         
     </resultMap>
 
@@ -25,7 +40,9 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,company,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,enter_category_str
+        id,name,company,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,enter_category_str,
+        status,address,org,biz_year,biz_type,biz_place,biz_customer_type,biz_partner,scale_staff,scale_store,scale_store_mark,
+        scale_process,scale_process_able,scale_process_mark,source
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierResultMap">
@@ -66,61 +83,125 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Supplier">
         insert into
-        supplier (name,company,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,enter_category_str)
+        supplier (name,phone,phone2,email,telephone,area,enter_category,qq,mark,create_time,update_time,company,enter_category_str,status,address,org,biz_year,biz_type,biz_place,biz_customer_type,biz_partner,scale_staff,scale_store,scale_store_mark,scale_process,scale_process_able,scale_process_mark,source)
         values
-        (#{name},#{company},#{phone},#{phone2},#{email},#{telephone},#{area},#{enterCategory},#{qq},#{mark},#{createTime},#{updateTime},#{enterCategoryStr})
+        (#{name},#{phone},#{phone2},#{email},#{telephone},#{area},#{enterCategory},#{qq},#{mark},#{createTime},#{updateTime},#{company},#{enterCategoryStr},#{status},#{address},#{org},#{bizYear},#{bizType},#{bizPlace},#{bizCustomerType},#{bizPartner},#{scaleStaff},#{scaleStore},#{scaleStoreMark},#{scaleProcess},#{scaleProcessAble},#{scaleProcessMark},#{source})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Supplier">
         update supplier
         <set>
-                                                        
+
             <if test="name != null">
                 name = #{name},
+            </if>
+
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+
+            <if test="phone2 != null">
+                phone2 = #{phone2},
+            </if>
+
+            <if test="email != null">
+                email = #{email},
+            </if>
+
+            <if test="telephone != null">
+                telephone = #{telephone},
+            </if>
+
+            <if test="area != null">
+                area = #{area},
+            </if>
+
+            <if test="enterCategory != null">
+                enter_category = #{enterCategory},
+            </if>
+
+            <if test="qq != null">
+                qq = #{qq},
+            </if>
+
+            <if test="mark != null">
+                mark = #{mark},
+            </if>
+
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+
+            <if test="updateTime != null">
+                update_time = #{updateTime},
             </if>
 
             <if test="company != null">
                 company = #{company},
             </if>
-                                            
-            <if test="phone != null">
-                phone = #{phone},
+
+            <if test="enterCategoryStr != null">
+                enter_category_str = #{enterCategoryStr},
             </if>
-                                            
-            <if test="phone2 != null">
-                phone2 = #{phone2},
+
+            <if test="status != null">
+                status = #{status},
             </if>
-                                            
-            <if test="email != null">
-                email = #{email},
+
+            <if test="address != null">
+                address = #{address},
             </if>
-                                            
-            <if test="telephone != null">
-                telephone = #{telephone},
+
+            <if test="org != null">
+                org = #{org},
             </if>
-                                            
-            <if test="area != null">
-                area = #{area},
+
+            <if test="bizYear != null">
+                biz_year = #{bizYear},
             </if>
-                                            
-            <if test="enterCategory != null">
-                enter_category = #{enterCategory},
+
+            <if test="bizType != null">
+                biz_type = #{bizType},
             </if>
-                                            
-            <if test="qq != null">
-                qq = #{qq},
+
+            <if test="bizPlace != null">
+                biz_place = #{bizPlace},
             </if>
-                                            
-            <if test="mark != null">
-                mark = #{mark},
+
+            <if test="bizCustomerType != null">
+                biz_customer_type = #{bizCustomerType},
             </if>
-                                            
-            <if test="createTime != null">
-                create_time = #{createTime},
+
+            <if test="bizPartner != null">
+                biz_partner = #{bizPartner},
             </if>
-                                            
-            <if test="updateTime != null">
-                update_time = #{updateTime},
+
+            <if test="scaleStaff != null">
+                scale_staff = #{scaleStaff},
+            </if>
+
+            <if test="scaleStore != null">
+                scale_store = #{scaleStore},
+            </if>
+
+            <if test="scaleStoreMark != null">
+                scale_store_mark = #{scaleStoreMark},
+            </if>
+
+            <if test="scaleProcess != null">
+                scale_process = #{scaleProcess},
+            </if>
+
+            <if test="scaleProcessAble != null">
+                scale_process_able = #{scaleProcessAble},
+            </if>
+
+            <if test="scaleProcessMark != null">
+                scale_process_mark = #{scaleProcessMark},
+            </if>
+
+            <if test="source != null">
+                source = #{source},
             </if>
                             
         </set>
@@ -137,7 +218,9 @@
     <select id="findVoByParams" resultMap="SupplierResultMapVo" parameterType="com.ms.dao.vo.SupplierVo">
         select
         s.id,s.name,s.company,s.phone,s.phone2,s.email,s.telephone,s.area,s.enter_category,s.qq,s.mark,s.create_time,
-        s.update_time,s.enter_category_str,a.id as areaid,a.areaname,a.position
+        s.update_time,s.enter_category_str,s.status,s.address,s.org,s.biz_year,s.biz_type,s.biz_place,s.biz_customer_type,
+        s.biz_partner,s.scale_staff,s.scale_store,s.scale_store_mark,s.scale_process,s.scale_process_able,s.scale_process_mark,
+        s.source,a.id as areaid,a.areaname,a.position
         from supplier s left join area a on s.area = a.id
         <where>
             <if test="id != null">
@@ -146,8 +229,17 @@
             <if test="phone != null">
                 and phone = #{phone}
             </if>
+            <if test="source != null">
+                and source = #{source}
+            </if>
             <if test="name != null">
                 and name LIKE "%"#{name}"%"
+            </if>
+            <if test="enterCategoryStr != null">
+                and s.enter_category_str LIKE "%"#{enterCategoryStr}"%"
+            </if>
+            <if test="status != null">
+                and s.status = #{status}
             </if>
         </where>
         order by s.id desc

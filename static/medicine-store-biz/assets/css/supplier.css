@@ -1,6 +1,31 @@
 /* supplier */
 body{padding-bottom:70px;}
 .body-gray{background:#f0f0f0;}
+.bg-gray{background:#d2d6de;}
+.bg-aqua{background-color:#00c0ef;}
+.bg-green{background-color:#00a65a;}
+.bg-yellow{background-color:#f39c12;}
+.bg-red{background-color:#dd4b39;}
+.bg-navy{background-color:#001f3f;}
+.bg-teal{background-color:#39cccc;}
+.bg-olive{background-color:#3d9970;}
+.bg-lime{background-color:#01ff70;}
+.bg-orange{background-color:#ff851b;}
+.bg-fuchsia{background-color:#f012be;}
+.bg-purple{background-color:#605ca8;}
+.bg-maroon{background-color:#d81b60;}
+.bg-aqua:hover{background-color:#00a7d0;}
+.bg-green:hover{background-color:#008d4c;}
+.bg-yellow:hover{background-color:#db8b0b;}
+.bg-red:hover{background-color:#d33724;}
+.bg-navy:hover{background-color:#001a35;}
+.bg-teal:hover{background-color:#30bbbb;}
+.bg-olive:hover{background-color:#368763;}
+.bg-lime:hover{background-color:#00e765;}
+.bg-orange:hover{background-color:#ff7701;}
+.bg-fuchsia:hover{background-color:#db0ead;}
+.bg-purple:hover{background-color:#555299;}
+.bg-maroon:hover{background-color:#ca195a;}
 
 .ui-form2 .form{padding:0 12px;}
 .ui-form2 .item{position:relative;margin-bottom:20px;}
@@ -21,6 +46,12 @@ body{padding-bottom:70px;}
 .ui-form2 .ubtn-primary{background-color:#08f;}
 .ui-form2 .ico-arrow-r{right:15px;width:6px;height:10px;background:url(../images/ico-arrow-r.png) no-repeat;background-size:cover;}
 .ui-form2 .ipt,.ui-form2 .btn,.ui-form2 .ubtn{-webkit-border-radius:5px;border-radius:5px;}
+.ui-form2 .suggest{position:absolute;top:100%;left:0;right:0;padding:10px;background:#fff;border:1px solid #e7e7e7;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);display:none;}
+.ui-form2 .suggest a{display:inline-block;margin:0 10px 10px 0;padding:4px 10px;font-size:1.2rem;white-space:nowrap;overflow:hidden;-webkit-border-radius:2px;border-radius:2px;vertical-align:top;color:#fff;}
+.ui-form2 .suggest a:active{-webkit-box-shadow:inset 0 0 100px rgba(0,0,0,0.2);box-shadow:inset 0 0 100px rgba(0,0,0,0.2);}
+.ui-form2 .suggest a.disabled{background:#ccc;}
+.ui-form2 .suggest-close{position:absolute;top:0;right:0;width:19px;height:19px;background:url(../images/del.png) no-repeat;background-size:100% auto;}
+
 .news{background:#fff;}
 .news li{line-height:22px;padding:20px 12px;border-bottom:1px solid #e7e7e7;}
 .news li .title{text-align:center;font-size:1.6rem;}

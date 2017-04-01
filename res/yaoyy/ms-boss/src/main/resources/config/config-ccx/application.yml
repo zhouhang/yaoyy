@@ -17,7 +17,7 @@ biz:
     base:
          url: http://hztjn.free.natapp.cc
 upload:
-    path: E:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/ms-files/
+    path: D:/apache-tomcat-8.5.11/webapps/ms-files/
     url: http://127.0.0.1:8189/ms-files/
 
 #logging:

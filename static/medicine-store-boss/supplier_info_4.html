@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>供应商详情-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>供应商管理</li>
+                <li>供应商详情</li>
+    		</ul>
+		</div>
+
+        <div class="fa-tab">
+            <a href="supplier_info_1.html">基本信息</a>
+            <a href="supplier_info_2.html">评价信息</a>
+            <a href="supplier_info_3.html">身份信息</a>
+            <span class="on">商品调价</span>
+        </div>
+
+		<div class="box fa-form">
+            <div class="hd">商品调价</div>
+            <div class="plist">
+                <span class="c-red">该供应商未绑定用户</span>
+                <ul>
+                    <li>
+                        <div class="info">
+                            <strong>三棱</strong>
+                            <span>去毛统个、长2cm-6cm、直径2cm-4cm</span>
+                        </div>
+                        <div class="op">
+                            <input type="text" value="15" class="ipt unitprice"><em>元/公斤</em>
+                            <input type="text" value="15" class="ipt inventory"><em>库存</em>
+                            <a href="javascript:;" class="ubtn ubtn-blue jsave" data-id="1">保存</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="info">
+                            <strong>三棱</strong>
+                            <span>去毛统个、长2cm-6cm、直径2cm-4cm</span>
+                        </div>
+                        <div class="op">
+                            <input type="text" value="15" class="ipt unitprice"><em>元/公斤</em>
+                            <input type="text" value="15" class="ipt inventory"><em>库存</em>
+                            <a href="javascript:;" class="ubtn ubtn-blue jsave" data-id="1">保存</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="box fa-form">
+            <div class="hd">调价记录</div>
+            <ol class="trace" id="trace">
+                <li>
+                    <span>2017年3月1日 11：30</span>
+                    <span>用户修改了 商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留的毛须）价格  30元/公斤更改为50元/公斤 </span>
+                </li>
+                <li>
+                    <span>2017年3月1日 11：30</span>
+                    <span>用户修改了 商品（三棱，统个，浙江，长2cm-6cm直径2cm-4cm，火燎或撞去毛，有些许残留的毛须）价格  30元/公斤更改为50元/公斤 </span>
+                </li>
+            </ol>
+        </div>
+	</div>
+</div>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+!(function($, window) {
+    var _global = {
+        init: function() {
+            navLight('8-1');
+            this.bindEvent();
+        },
+        bindEvent: function() {
+            var that = this,    
+                $plist = $('.plist');
+
+            // 库存输入框
+            $plist.on('keyup', '.inventory', function() {
+                var val = this.value;
+                if (val) {
+                    val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : '';
+                    this.value = val;
+                }
+            })
+            // 单价输入框
+            $plist.on('keyup', '.unitprice', function() {
+                var val = this.value;
+                if (!/^\d+\.?\d*$/.test(val)) {
+                    val = Math.abs(parseFloat(val));
+                    this.value = isNaN(val) ? '' : val;
+                }
+            })
+
+            // 保存价格
+            $plist.on('click', '.jsave', function() {
+                var $pa = $(this).closest('li'),
+                    $number = $pa.find('.inventory'),
+                    $price = $pa.find('.unitprice');
+                    
+                $.ajax({
+                    url: '',
+                    data: {number: $number.val(), price: $price.val()},
+                    success: function() {
+                        $.notify({
+                            type: 'success', 
+                            title: '保存成功'
+                        })
+                    }
+                })
+            })
+            
+        }
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
+</body>
+</html>

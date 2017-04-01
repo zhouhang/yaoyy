@@ -2,33 +2,41 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
+import com.ms.dao.enums.SupplierStatusEnum;
 import com.ms.dao.enums.UserSourceEnum;
+import com.ms.dao.enums.UserTrackTypeEnum;
 import com.ms.dao.enums.UserTypeEnum;
-import com.ms.dao.model.Area;
-import com.ms.dao.model.UserTrackRecord;
+import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.ContractEnum;
+import com.ms.service.enums.MessageEnum;
+import com.ms.service.enums.RedisEnum;
 import com.ms.service.enums.WxSupplierSignTemplateEnum;
 import com.ms.service.observer.SmsTemplateEvent;
 import com.ms.service.observer.WxTemplateEvent;
+import com.ms.service.utils.ExcelParse;
 import com.ms.tools.annotation.SecurityToken;
 import com.ms.tools.entity.Result;
+import com.ms.tools.utils.Reflection;
 import com.sucai.compentent.logs.annotation.BizLog;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +69,28 @@ public class SupplierController {
     @Autowired
     private UserAnnexService userAnnexService;
 
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private SupplierCommodityService supplierCommodityService;
+
+    @Autowired
+    private SurveyService surveyService;
+
+    @Autowired
+    private SupplierChoiceService supplierChoiceService;
+
+    @Autowired
+    private SupplierContactService supplierContactService;
+
+    @Autowired
+    private SupplierAnnexService supplierAnnexService;
+
+    @Autowired
+    private HttpSession httpSession;
+
+
+
     /**
      * 供应商list
      * @param supplierVo
@@ -72,13 +102,15 @@ public class SupplierController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "供应商列表")
-    public String supplierList(SupplierVo supplierVo, Integer pageNum,
-                               Integer pageSize, ModelMap model){
-
+    public String supplierList(SupplierVo supplierVo,
+                               Integer pageNum,
+                               Integer pageSize,
+                               ModelMap model){
         PageInfo<SupplierVo> supplierVoPageInfo = supplierService.findVoByParams(supplierVo,pageNum,pageSize);
         model.put("supplierVoPageInfo",supplierVoPageInfo);
-
-
+        model.put("supplierParams", Reflection.serialize(supplierVo));
+        String  param =  Reflection.serialize(supplierVo);
+        System.out.println(param);
         return "supplier_list";
     }
 
@@ -87,12 +119,12 @@ public class SupplierController {
      * @param supplierId
      * @return
      */
-    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Result del(@PathVariable("id") Integer supplierId){
-        supplierService.deleteById(supplierId);
-        return Result.success("删除成功");
-    }
+//    @RequestMapping(value = "del/{id}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Result del(@PathVariable("id") Integer supplierId){
+//        supplierService.deleteById(supplierId);
+//        return Result.success("删除成功");
+//    }
 
     /**
      *
@@ -105,7 +137,7 @@ public class SupplierController {
         Integer parentid = 100000;
         List<Area> provinces = areaService.findByParent(parentid);
         model.put("provinces", provinces);
-        return  "supplier_detail";
+        return "supplier/supplier_add";
     }
 
 
@@ -123,9 +155,15 @@ public class SupplierController {
     public String supplierDetail(@PathVariable("id") Integer id,ModelMap model){
 
         SupplierVo supplierVo=supplierService.findVoById(id);
+        if(userService.isBinding(id)){
+            supplierVo.setBinding("1");
+        }
+        else{
+            supplierVo.setBinding("0");
+        }
 
 
-        List<CommodityVo> commodityVos=commodityService.findBySupplier(id);
+        List<SupplierCommodityVo> commodityVos=supplierCommodityService.findBySupplierId(id);
 
         model.put("supplierVo",supplierVo);
         model.put("commodityVos",commodityVos);
@@ -135,15 +173,19 @@ public class SupplierController {
         //省份数据
         Integer parentid = 100000;
         List<Area> provinces = areaService.findByParent(parentid);
-        //城市数据
-        List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
-        //地区数据
-        List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+        if(areaVo!=null){
+            //城市数据
+            List<Area> cities = areaService.findByParent(areaVo.getProvinceId());
+            //地区数据
+            List<Area> areaVos = areaService.findByParent(areaVo.getCityId());
+            model.put("cities", cities);
+            model.put("areaVos", areaVos);
+        }
+
 
         model.put("areaVo", areaVo);
         model.put("provinces", provinces);
-        model.put("cities", cities);
-        model.put("areaVos", areaVos);
+
 
         //读取跟踪记录数据
         UserTrackRecordVo userTrackRecordVo = new UserTrackRecordVo();
@@ -151,7 +193,7 @@ public class SupplierController {
         List<UserTrackRecordVo> userTrackRecordVos = userTrackRecordService.findByParamsNoPage(userTrackRecordVo);
         model.put("userTrackRecordVos", userTrackRecordVos);
 
-        return "supplier_detail";
+        return "supplier/supplier_detail";
     }
 
     /**
@@ -177,11 +219,8 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "根据姓名查询供应商")
     public Result search(String name){
-        UserVo userVo = new UserVo();
-        userVo.setName(name);
-        return Result.success("供应商列表").data(userService.findByParamsNoPage(userVo));
-        //以前是商品表跟supplier表关联,现在是商品表跟user表关联,故修改如上 add by kevin 20170311
-        //return Result.success("供应商列表").data(supplierService.search(name));
+        List<UserVo> userVoList =  userService.findSupplierSignUser(name);
+        return Result.success("供应商列表").data(userVoList);
     }
 
     /**
@@ -193,21 +232,33 @@ public class SupplierController {
     @ResponseBody
     @BizLog(type = LogTypeConstant.SUPPLIER, desc = "签约供应商")
     public Result sign(SupplierVo supplierVo, String pwd){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        SupplierVo old=supplierService.findVoById(supplierVo.getId());
+        if(old.getStatus()!=SupplierStatusEnum.INVEST.getType()){
+            Result result = Result.error().msg("必须实地考察才能签约");
+
+            return result;
+        }
+        //状态改为已签约
+        old.setStatus(SupplierStatusEnum.SIGN.getType());
+        supplierService.save(old);
+
         //supplier数据转存到user
         UserVo userVo = new UserVo();
         userVo.setType(UserTypeEnum.supplier.getType());
-        userVo.setPhone(supplierVo.getPhone());
+        userVo.setPhone(old.getPhone());
         userVo.setPassword(pwd);
+        userVo.setSupplierId(old.getId());
 
         UserDetailVo userDetailVo = new UserDetailVo();
-        userDetailVo.setName(supplierVo.getName());
-        userDetailVo.setPhone(supplierVo.getPhone());
-        userDetailVo.setCategoryIds(supplierVo.getEnterCategory());
-        userDetailVo.setCompany(supplierVo.getCompany());
-        userDetailVo.setArea(supplierVo.getArea());
-        userDetailVo.setEmail(supplierVo.getEmail());
-        userDetailVo.setQq(supplierVo.getQq());
-        userDetailVo.setRemark(supplierVo.getMark());
+        userDetailVo.setName(old.getName());
+        userDetailVo.setPhone(old.getPhone());
+        userDetailVo.setCategoryIds(old.getEnterCategory());
+        userDetailVo.setCompany(old.getCompany());
+        userDetailVo.setArea(old.getArea());
+        userDetailVo.setEmail(old.getEmail());
+        userDetailVo.setQq(old.getQq());
+        userDetailVo.setRemark(old.getMark());
         userDetailVo.setContract(ContractEnum.IS_NOT_CONTRACT.getKey());
         userVo = userService.sign(userVo, userDetailVo);
 
@@ -216,11 +267,25 @@ public class SupplierController {
         //supplier的user_track_record添加user_id字段值
         UserTrackRecord userTrackRecord = new UserTrackRecord();
         userTrackRecord.setUserId(userVo.getId());
-        userTrackRecord.setSupplierId(supplierVo.getId());
+        userTrackRecord.setSupplierId(old.getId());
         userTrackRecordService.update(userTrackRecord);
 
+        //写跟踪记录
+        UserTrackRecordVo userTrackRecordVo=new UserTrackRecordVo();
+        userTrackRecordVo.setSupplierId(userVo.getSupplierId());
+        userTrackRecordVo.setMemberId(mem.getId());
+        userTrackRecordVo.setType(UserTrackTypeEnum.SIGN.getType());
+        userTrackRecordVo.setContent("供应商签约");
+
+
+        userTrackRecordVo.setCreateTime(new Date());
+        userTrackRecordService.create(userTrackRecordVo);
+
+
+
+
         //删除supplier的值
-        supplierService.deleteById(supplierVo.getId());
+//        supplierService.deleteById(supplierVo.getId());
 
         //发短信（短信需要手机号，模板id及params）和微信（微信模板消息需要，模板id，openid及params map）
         if(userVo.getOpenid() != null) {
@@ -237,14 +302,14 @@ public class SupplierController {
             templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM4_NAME.get(),
                     WxSupplierSignTemplateEnum.PARAM4_VALUE.get(), WxSupplierSignTemplateEnum.PARAM4_COLOR.get()));
             templateMessage.getData().add(new WxMpTemplateData(WxSupplierSignTemplateEnum.PARAM5_NAME.get(),
-                    WxSupplierSignTemplateEnum.PARAM5_VALUE.get().replace("{1}", supplierVo.getPhone()).replace("{2}", pwd),
+                    WxSupplierSignTemplateEnum.PARAM5_VALUE.get().replace("{1}", old.getPhone()).replace("{2}", pwd),
                     WxSupplierSignTemplateEnum.PARAM5_COLOR.get()));
 
             WxTemplateEvent wt = new WxTemplateEvent(templateMessage);
             applicationContext.publishEvent(wt);
         }
 
-        SmsTemplateEvent sms = new SmsTemplateEvent(supplierVo.getPhone(), pwd);
+        SmsTemplateEvent sms = new SmsTemplateEvent(old.getPhone(), pwd);
         applicationContext.publishEvent(sms);
 
         return Result.success("保存成功");
@@ -355,6 +420,158 @@ public class SupplierController {
         userAnnexService.deleteFileById(annexId);
         return Result.success("删除成功");
     }
+
+    /**
+     * 供应商商品改价页面
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "{id}/commodity", method = RequestMethod.GET)
+    public String commodity(@PathVariable("id") Integer id, ModelMap model){
+        UserVo uv = new UserVo();
+        uv.setSupplierId(id);
+        //判断该供应商有没有绑定用户
+        List<UserVo> userVos = userService.findByParamsNoPage(uv);
+        model.put("isbinding", userVos.size());
+        model.put("supplierId", id);
+        if(userVos.size() == 0){
+            return "supplier/supplier_commodity";
+        }
+        uv = userVos.get(0);
+
+        //取出绑定用户的商品
+        List<CommodityVo> commodityVos=commodityService.findBySupplier(uv.getId());
+        model.put("commodityVos", commodityVos);
+
+        //获取跟踪记录
+        //"我的消息"
+        MessageVo messageVo = new MessageVo();
+        messageVo.setUserId(uv.getId());
+        List<Integer> types = new ArrayList<Integer>();
+        types.add(MessageEnum.SUPPLIER_SAMPLES.get());
+        types.add(MessageEnum.SUPPLIER_COMMODITY.get());
+        types.add(MessageEnum.SUPPLIER_ORDER.get());
+        messageVo.setTypes(types);
+        List<MessageVo> messageVos = messageService.findByParamsNoPage(messageVo);
+        model.put("messageVos", messageVos);
+
+        return "supplier/supplier_commodity";
+    }
+    /**
+     * 核实供应商(包括正确和不正确)
+     * @param supplierCertifyVo
+     * @return
+     */
+
+    @RequestMapping(value = "verify", method = RequestMethod.POST)
+    @ResponseBody
+    public Result verify(@RequestBody SupplierCertifyVo supplierCertifyVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        supplierCertifyVo.setMemberId(mem.getId());
+        SupplierVo supplierVo=supplierCertifyVo.getSupplier();
+        Result result =Result.success("核实成功");
+        if(supplierVo.getId()==null){
+            if(supplierService.existSupplier(supplierVo.getPhone())){
+                result = Result.error().msg("存在该手机号对应的供货商");
+
+                return result;
+            }
+
+        }
+
+        supplierService.certify(supplierCertifyVo);
+        result.setData(supplierCertifyVo.getSupplier());
+        return result;
+    }
+
+    @RequestMapping(value = "judge/{id}", method = RequestMethod.GET)
+    public String judge(@PathVariable("id") Integer id,ModelMap model){
+        SupplierVo supplierVo=supplierService.findVoById(id);
+
+        //所有问题
+        List<SurveyVo> questions=surveyService.allQuestions();
+
+        List<SupplierChoiceVo> supplierChoices=supplierChoiceService.findBySupplierId(id);
+
+        List<SupplierContactVo> contactVos=supplierContactService.findBySupplierId(id);
+
+        List<SupplierAnnexVo> supplierAnnexVos=supplierAnnexService.findBySupplierId(id);
+
+        model.put("supplierVo",supplierVo);
+        model.put("questions",questions);
+        model.put("supplierChoices",supplierChoices);
+        model.put("contactVos",contactVos);
+        model.put("supplierAnnexVos",supplierAnnexVos);
+        return "supplier/supplier_judge";
+    }
+
+    @RequestMapping(value = "/saveJudge", method = RequestMethod.POST)
+    @ResponseBody
+    public Result saveJudge(@RequestBody SupplierJudgeVo supplierJudgeVo){
+        Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        SupplierVo old=supplierService.findVoById(supplierJudgeVo.getSupplierVo().getId());
+        Integer oldStatus=old.getStatus();
+        if(oldStatus!=null&&old.getStatus().equals(SupplierStatusEnum.VERIFY.getType()) ){
+            supplierJudgeVo.setMemberId(mem.getId());
+            supplierService.judge(supplierJudgeVo);
+            return Result.success("评价成功");
+        }
+        else{
+            Result result = Result.error().msg("必须核实才能评价");
+            return result;
+        }
+    }
+
+    @RequestMapping(value = "/exportExcel")
+    public void exportExcel(HttpServletResponse response, HttpServletRequest request){
+       List<SupplierVo> list=supplierService.search("");
+       list.forEach(supplierVo -> {
+           UserTrackRecordVo param=new UserTrackRecordVo();
+           if(supplierVo.getStatus()!=SupplierStatusEnum.UNVERIFY.getType()){
+               param.setSupplierId(supplierVo.getId());
+               UserTrackRecordVo record;
+
+               //核实人，时间
+               param.setType(UserTrackTypeEnum.CERTIFY.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setCertifyMemberName(record.getMember());
+                   supplierVo.setCertifyTime(record.getCreateTime());
+               }
+
+               param.setType(UserTrackTypeEnum.JUDGE.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setJudgeMemberName(record.getMember());
+                   supplierVo.setJudgeTime(record.getCreateTime());
+               }
+
+               param.setType(UserTrackTypeEnum.SIGN.getType());
+               record=userTrackRecordService.findByContent(param);
+               if(record!=null){
+                   supplierVo.setSignMemberName(record.getMember());
+                   supplierVo.setSignTime(record.getCreateTime());
+               }
+
+
+
+
+
+
+           }
+
+
+
+
+       });
+
+
+       Workbook workbook=ExcelParse.exportSupplierInfo(list);
+       ExcelParse.returnExcel(response,request,workbook,"供应商信息");
+
+    }
+
+
 
 
 }

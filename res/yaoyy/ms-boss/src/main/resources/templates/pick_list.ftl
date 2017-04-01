@@ -49,13 +49,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>选货单编号</th>
                         <th>客户姓名</th>
                         <th>客户电话</th>
                         <th>状态</th>
                         <th width="150">下单时间</th>
-                        <th width="230" class="tc">操作</th>
+                        <th width="120" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>

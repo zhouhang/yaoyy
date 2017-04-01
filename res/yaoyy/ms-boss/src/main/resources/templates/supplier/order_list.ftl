@@ -40,7 +40,7 @@
                             <th>购买数量</th>
                             <th>总价</th>
                             <th>订单状态</th>
-                            <th width="90" class="tc">操作</th>
+                            <th width="60" class="tc">操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -69,7 +69,6 @@
     <#include "../common/footer.ftl"/>
 </div>
 
-<script src="assets/plugins/layer/layer.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
 !(function($, window) {

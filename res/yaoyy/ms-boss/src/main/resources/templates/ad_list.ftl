@@ -39,7 +39,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>类型</th>
                         <th>名称</th>
                         <th>链接</th>
@@ -114,7 +114,7 @@
         </div>
         <div class="item">
             <div class="txt"><i>*</i>图片：</div>
-            <div class="cnt cnt-mul">
+            <div class="cnt">
                 <span class="thumb up-img x1" id="imgCrop"></span>
                 <input type="hidden" id="pictureUrl" name="pictureUrl" value="">
                 <span class="tips">图片尺寸：750 X 350</span>

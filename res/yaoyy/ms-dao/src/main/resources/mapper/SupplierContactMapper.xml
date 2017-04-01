@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.SupplierContactDao">
+    <resultMap id="SupplierContactResultMap" type="com.ms.dao.model.SupplierContact">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="name"  property="name" />
+            <result column="phone"  property="phone" />
+            <result column="position"  property="position" />
+            <result column="kp"  property="kp" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="SupplierContactResultMapVo" type="com.ms.dao.vo.SupplierContactVo">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="name"  property="name" />
+            <result column="phone"  property="phone" />
+            <result column="position"  property="position" />
+            <result column="kp"  property="kp" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,supplier_id,name,phone,position,kp,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierContactResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_contact
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="SupplierContactResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_contact
+    </select>
+
+    <select id="findByParams" resultMap="SupplierContactResultMapVo" parameterType="com.ms.dao.vo.SupplierContactVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_contact
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from supplier_contact
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.SupplierContact">
+        insert into
+        supplier_contact (supplier_id,name,phone,position,kp,create_time)
+        values
+        (#{supplierId},#{name},#{phone},#{position},#{kp},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.SupplierContact">
+        update supplier_contact
+        <set>
+                                                        
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
+            </if>
+                                            
+            <if test="name != null">
+                name = #{name},
+            </if>
+                                            
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+                                            
+            <if test="position != null">
+                position = #{position},
+            </if>
+                                            
+            <if test="kp != null">
+                kp = #{kp},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

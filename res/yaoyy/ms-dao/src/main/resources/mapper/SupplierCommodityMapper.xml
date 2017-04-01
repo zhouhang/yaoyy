@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.SupplierCommodityDao">
+    <resultMap id="SupplierCommodityResultMap" type="com.ms.dao.model.SupplierCommodity">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="name"  property="name" />
+            <result column="spec"  property="spec" />
+            <result column="origin"  property="origin" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <resultMap id="SupplierCommodityResultMapVo" type="com.ms.dao.vo.SupplierCommodityVo">
+            <id column="id"  property="id" />
+            <result column="supplier_id"  property="supplierId" />
+            <result column="name"  property="name" />
+            <result column="spec"  property="spec" />
+            <result column="origin"  property="origin" />
+            <result column="create_time"  property="createTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,supplier_id,name,spec,origin,create_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SupplierCommodityResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_commodity
+        where id = #{id}
+    </select>
+
+    <select id="findAll"  resultMap="SupplierCommodityResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_commodity
+    </select>
+
+    <select id="findByParams" resultMap="SupplierCommodityResultMapVo" parameterType="com.ms.dao.vo.SupplierCommodityVo">
+        select
+        <include refid="Base_Column_List" />
+        from supplier_commodity
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="supplierId != null">
+                supplier_id = #{supplierId}
+            </if>
+
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from supplier_commodity
+        where id = #{id}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.SupplierCommodity">
+        insert into
+        supplier_commodity (supplier_id,name,spec,origin,create_time)
+        values
+        (#{supplierId},#{name},#{spec},#{origin},#{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.SupplierCommodity">
+        update supplier_commodity
+        <set>
+                                                        
+            <if test="supplierId != null">
+                supplier_id = #{supplierId},
+            </if>
+                                            
+            <if test="name != null">
+                name = #{name},
+            </if>
+                                            
+            <if test="spec != null">
+                spec = #{spec},
+            </if>
+                                            
+            <if test="origin != null">
+                origin = #{origin},
+            </if>
+                                            
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

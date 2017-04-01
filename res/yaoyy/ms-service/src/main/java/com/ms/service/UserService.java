@@ -57,4 +57,19 @@ public interface UserService extends ICommonService<User>{
     void signSave(UserVo userVo);
 
     List<UserVo> findByParamsNoPage(UserVo userVo);
+
+    /**
+     * 查询已签约供应商
+     * @param name
+     * @return
+     */
+    List<UserVo> findSupplierSignUser(String name);
+
+    /**
+     * 供应商是否绑定
+     * @param supplierId
+     * @return
+     */
+    boolean isBinding(Integer supplierId);
+
 }

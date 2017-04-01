@@ -39,13 +39,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>姓名</th>
                         <th>用户名</th>
                         <th>电话</th>
                         <th>角色</th>
                         <th width="150">创建时间</th>
-                        <th width="180" class="tc">操作</th>
+                        <th width="120" class="tc">操作</th>
                     </tr>
                     </thead>
                     <tbody>

@@ -39,7 +39,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" class="cbx"></th>
+                        <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>商品名称</th>
                         <th>品种</th>
                         <th width="320">标题</th>
@@ -185,23 +185,12 @@
                 $myform = $('#myform');
 
             var showBox = function(data) {
-                var html = [];
-                html.push('<input id="id" name="id" value="'+data.id+'" style="display:none"/>');
-                switch (typeof data.price) {
-                    case 'number':
-                        html.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <div class="ipt-wrap"> \n <input type="text" name="price" class="ipt" id="jprice" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> ');
-                        break;
-                    case 'object':
-                        html.push('<div class="txt"><i>*</i>公斤/价格：</div>');
-                        $.each(data.price, function(i, item) {
-                            var idx = i + 1;
-                            html.push('<div class="cnt"> \n <div class="ipt-wrap"><input type="text" name="minKg' , idx , '" class="ipt ipt-short" value="' , item[0] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>-</em> \n <div class="ipt-wrap"><input type="text" name="maxKg' , idx , '" class="ipt ipt-short" value="' , item[1] , '" data-rule="required; range(1~99999)" placeholder="1-99999" autocomplete="off"></div> \n <em>公斤</em> \n <div class="ipt-wrap ml"> \n <input type="text" name="price' , idx , '" class="ipt ipt-short" value="' , item[2] , '" placeholder="1-9999" data-rule="required; range(1~9999)" autocomplete="off"> \n <span class="unit">元</span> \n </div> \n </div>');
-                        });
-                        break;
-                }
+                var model = [];
+                
+                model.push('<input type="hidden" name="id" value="', data.id, '"/>');
+                model.push('<div class="txt"><i>*</i>价格：</div> \n <div class="cnt"> \n <input type="text" name="price" class="ipt" value=' + data.price + ' placeholder="价格" autocomplete="off"> \n <span class="unit">元</span> \n </div> ');
 
-                $myform.find('.item').html(html.join(''));
-
+                $myform.find('.item').html(model.join(''));
                 layer.closeAll();
                 layer.open({
                     skin: 'layer-form',

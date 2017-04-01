@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>供应商详情-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>供应商管理</li>
+                <li>供应商详情</li>
+    		</ul>
+		</div>
+
+        <div class="fa-tab">
+            <span class="on">基本信息</span>
+            <a href="supplier_info_2.html">评价信息</a>
+            <a href="supplier_info_3.html">身份信息</a>
+            <a href="supplier_info_4.html">商品调价</a>
+        </div>
+
+		<div class="box fa-form">
+            <form id="myform">
+                <div class="hd">基本信息</div>
+                <div class="item">
+                    <div class="txt">当前状态：</div>
+                    <div class="val"><span class="c-red">未核实</span></div>
+                </div>
+                <div class="item">
+                    <div class="txt">供应商编号：</div>
+                    <div class="val">236</div>
+                </div>
+				<div class="item">
+					<div class="txt"><i>*</i>姓名：</div>
+					<div class="cnt">
+						<input type="text" name="username" class="ipt" placeholder="请输入姓名" autocomplete="off">
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt"><i>*</i>手机号：</div>
+					<div class="cnt">
+						<input type="text" name="mobile" class="ipt" placeholder="请输入手机号" autocomplete="off">
+					</div>
+				</div>
+                <div class="item">
+                    <div class="txt"><i>*</i>主营品种：</div>
+                    <div class="cnt">
+                        <div class="choose" id="chooseBreeds"></div>
+                        <input type="text" name="breeds" id="breeds" class="ipt" placeholder="请输入入驻品种" autocomplete="off">
+                        <input type="hidden" value="" name="breedsId" id="breedsId">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">经营商品：</div>
+                    <div class="cnt cnt-table table" id="commodity">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>品种</th>
+                                    <th>规格等级</th>
+                                    <th>产地</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="ipt-wrap"><input type="text" class="ipt jname" value="" autocomplete="off"></div></td>
+                                    <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td>
+                                    <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td>
+                                    <td><button type="button" class="ubtn ubtn-red">删除</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <a href="javascript:;" class="c-blue" id="addCommodity">+新增一行</a>                
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+				<div class="item">
+					<div class="txt">地区：</div>
+					<div class="cnt">
+                        <select class="slt" name="province" id="province">
+                            <option value="">-省-</option>
+                        </select>
+                        <select class="slt" name="city" id="city">
+                            <option value="">-市-</option>
+                        </select>
+					</div>
+				</div>
+                <div class="item">
+                    <div class="txt">详细地址：</div>
+                    <div class="cnt">
+                        <input type="text" name="address" class="ipt" placeholder="请输入详细地址" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">组织类型：</div>
+                    <div class="cnt cbxs" id="changeCompanyType">
+                        <label><input type="radio" value="1" name="companyType" class="cbx">个人主体</label>
+                        <label><input type="radio" value="2" name="companyType" class="cbx">公司或者合作社</label>
+                    </div>
+                </div>
+                <div class="item hide" id="companyName">
+                    <div class="txt">公司名称：</div>
+                    <div class="cnt">
+                        <input type="text" name="companyName" class="ipt" placeholder="请输入公司名称" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="hd">业务概况</div>
+                <div class="item">
+                    <div class="txt">年业务量：</div>
+                    <div class="cnt">
+                        <input type="text" name="address" class="ipt" placeholder="请输入详细地址" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">业务类型：</div>
+                    <div class="cnt cbxs">
+                        <label><input type="radio" name="business" class="cbx">大货</label>
+                        <label><input type="radio" name="business" class="cbx">加工</label>
+                        <label><input type="radio" name="business" class="cbx">大货+加工</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">主要经营地：</div>
+                    <div class="cnt cbxs">
+                        <label><input type="radio" name="origin" class="cbx">产地</label>
+                        <label><input type="radio" name="origin" class="cbx">市场</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">主要客户群体：</div>
+                    <div class="cnt cbxs">
+                        <label><input type="checkbox" name="customers1" class="cbx">饮片长</label>
+                        <label><input type="checkbox" name="customers2" class="cbx">制药厂</label>
+                        <label><input type="checkbox" name="customers3" class="cbx">经营户</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">知名客户：</div>
+                    <div class="cnt">
+                        <input type="text" name="famous" class="ipt" placeholder="" autocomplete="off">
+                    </div>
+                </div>
+				<div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">信息核实正确并保存</button>
+					<button type="button" class="ubtn ubtn-red" id="jsubmit2">信息核实不正确</button>
+				</div>
+            </form>
+		</div>
+
+        <div class="box fa-form">
+            <div class="hd">跟踪记录</div>
+            <ol class="trace" id="trace">
+                <li>
+                    <span>李笑</span>
+                    <span>2017年3月1日 11：30</span>
+                    <span>到访该供应商加工厂地，达成初步合作意向。</span>
+                </li>
+            </ol>
+            <form action="" id="traceForm">
+                <div class="item">
+                    <div class="txt">跟踪记录：</div>
+                    <div class="cnt">
+                        <textarea name="consigneeNote" class="ipt ipt-mul" placeholder="跟踪记录"></textarea>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue submit">提交</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="box fa-form">
+            <div class="hd">供应商签约</div>
+            <form id="myform3">
+                <div class="item">
+                    <div class="txt">登录帐号：</div>
+                    <div class="val">18801285391 <span class="c-red">已绑定</span></div>
+                </div>
+                <div class="item">
+                    <div class="txt">密码：</div>
+                    <div class="cnt">
+                        <input type="text" name="pwd" class="ipt ipt-short" autocomplete="off">
+                        <a href="javascript:;" class="c-blue ml">生成随机密码</a>
+                    </div>
+                </div>
+                <div class="ft">
+                    <button type="button" class="ubtn ubtn-blue submit">供应商签约</button>
+                    <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
+                </div>
+            </form>
+        </div>
+	</div>
+</div>
+
+
+<!-- 输入框联想 start -->
+<div class="suggestions" id="suggestions"></div><!-- 输入框联想 end -->
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/jquery.autocomplete.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script src="assets/js/area.js"></script>
+<script src="assets/js/jquery.pagination.min.js"></script>
+
+<script>
+!(function($, window) {
+    var _global = {
+        init: function() {
+            navLight('8-1');
+            this.commodity();
+            this.changeCompanyType();
+            this.checkForm();
+            this.searchBreeds();
+            this.submitEvent();
+        },
+        // 经营商品
+        commodity: function() {
+            var that = this,
+                $body = $('body');
+                $table = $('#commodity').find('tbody'),
+                $suggestions = $('#suggestions');
+            
+            // 新增
+            $('#addCommodity').on('click', function(){
+                var tr = '<tr> \n <td><div class="ipt-wrap"><input type="text" class="ipt jname" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><div class="ipt-wrap"><input type="text" class="ipt" value="" autocomplete="off"></div></td> \n <td><button type="button" class="ubtn ubtn-red">删除</button></td> \n </tr>';
+                $table.append(tr);
+            })
+
+            // 删除
+            $table.on('click', '.ubtn-red', function() {
+                $(this).closest('tr').remove();
+            })
+
+            // 商品查询
+            $table.on({
+                'click': function(event) {
+                    event.stopPropagation();
+                },
+                'focus': function() {
+                    $(this).after($suggestions);
+                },
+                'input': function() {
+                    that.getKeywords(this.value);                           
+                }
+            }, '.jname');
+
+            // 关闭联想层
+            $body.on('click', function() {
+                $suggestions.hide();
+            })
+            $body.on('click', '.suggestions', function(event) {
+                event.stopPropagation();
+            })
+
+            // 关键字自动填充
+            $body.on('click', '.suggestions .group', function() {
+                var data = $(this).data('val').split('-');
+                $suggestions.prev().val(data[0])
+                .closest('td').next().find('.ipt').val(data[1]).end()
+                .closest('td').next().find('.ipt').val(data[2]).end()
+                $suggestions.hide();
+            })
+        },
+        changeCompanyType: function() {
+            $('#changeCompanyType').on('click', '.cbx', function() {
+                $('#companyName')[this.value == 2 ? 'show' : 'hide']();
+            })
+        },
+        // ajax 查询关键词
+        getKeywords: function(keywords) {
+            var that = this;
+            var keywords = $.trim(keywords);
+            if (keywords === '') {
+                $('#suggestions').hide();
+            } else {
+                // ajax 查询关键词
+                that.timer && clearTimeout(that.timer);
+                that.timer = setTimeout(function() {
+                    that.ajaxSearch();
+                }, 500);                
+            }               
+        },
+        ajaxSearch: function() {
+            var that = this;
+            $.ajax({
+                url: 'json/commodity.json',
+                dataType: 'json',
+                success: function(res) {
+                    // 显示查询结果 
+                    if (res.status === 'y') {
+                        if (res.data.length === 0) {
+                            $('#suggestions').show().find('.bd').empty().html('暂无此商品:)');
+                        } else {
+                            that.toHtml(res.data, 0, 7);
+                        }
+                    } else {
+                        $('#suggestions').hide();
+                    }
+                }
+            })
+        },
+        // 显示查询结果
+        toHtml: function(item, page_index, pageSize) {
+            var modal = [],
+                maxPage = Math.min((page_index + 1) * pageSize, item.length),
+                hasPage = pageSize < item.length;
+
+            for (var i = page_index * pageSize; i < maxPage; i++) {
+                var val = item[i].spec + '-' + item[i].norms + '-' + item[i].origin;
+                modal.push('<div class="group" data-val="', val, '">');
+                modal.push(     '<em>', item[i].spec, '</em>');
+                modal.push(     '<em>', item[i].norms, '</em>');
+                modal.push(     '<em>', item[i].origin, '</em>');
+                modal.push('</div>');
+            }
+            hasPage && modal.push('<div class="jq-page"></div>');
+            $('#suggestions').empty().show().html(modal.join(''));
+            hasPage && this.showPage(item, page_index, pageSize);
+        },
+        showPage: function(item, page_index, pageSize) {
+            var that = this;
+            $('.jq-page').pagination(item.length, {
+                items_per_page: pageSize, //pageSize 每页显示数量
+                current_page: page_index, //默认pageIndex,0(默认),false(不加载)
+                num_edge_entries: 2, //1(任何情况下都显示第一页和最后一页),0(不显示)
+                callback: function(page_index) {
+                    that.toHtml(item, page_index, pageSize);
+                }
+            })
+            $('.jq-page').prepend('<div class="p-size">总共' + item.length + '条记录</div>')
+        },
+        checkForm: function() {
+            // 表单验证
+            $("#myform").validator({
+                fields: {
+                    username: '姓名: required',
+                    mobile: '手机号: required; mobile',
+                    breedsId: '经营品种: required',
+                    email: '邮箱: email'
+                },
+                valid: function(form) {
+                    // 验证成功
+                    // 成功提示
+                    $.notify({
+                        type: 'success', 
+                        title: '操作成功'
+                    });
+                }
+            });
+        },
+        // 查询品种
+        searchBreeds: function() {
+            var that = this;
+                vals = [],
+                timer = 0,
+                $breeds = $('#breeds'),
+                $breedsId = $('#breedsId'),
+                $chooseBreeds = $('#chooseBreeds'),
+                $breedsSuggestions = $('#breedsSuggestions');
+
+            $breeds.autocomplete({
+                serviceUrl: 'json/breedlist.json',
+                paramName: 'name',
+                deferRequestBy: 100,
+                showNoSuggestionNotice: true,
+                noSuggestionNotice: '没有该品种',
+                transformResult: function (response) {
+                    response = JSON.parse(response);
+                    if (response.status == "y") {
+                        return {
+                            suggestions: $.map(response.data, function (dataItem) {
+                                return {value: dataItem.name, data: dataItem.id};
+                            })
+                        };
+                    } else {
+                        return {
+                            suggestions: []
+                        }
+                    }
+                },
+                onSelect: function (suggestion) {
+                    var id = suggestion.data,
+                        val = suggestion.value;
+                    if (that.inArray(id, vals)) {
+                        $.notify({
+                            type: 'error', 
+                            title: '商品添加失败',
+                            text: '此商品已在添加列表', 
+                            delay: 3e3
+                        });
+                    } else {
+                        vals.push(id);
+                        $chooseBreeds.show().append('<span>' + val + '<i data-id="' + id + '"></i></span>');
+                        $breedsId.val(vals.join(','));
+                        $breeds.val(''); // 清空输入框
+                        $breedsSuggestions.hide();
+                    }
+                }
+            });
+
+            // 删除品种
+            $chooseBreeds.on('click', 'i', function() {
+                var id = $(this).data('id');
+                $(this).parent().remove();
+                that.inArray(id, vals, true); // 删除当前id
+                $breedsId.val(vals.join(','));
+            })
+        },
+        submitEvent: function() {
+            var that = this,
+                $trace = $('#trace'),
+                $pa = $trace.parent();
+
+            // 提交记录
+            $pa.on('click', '.submit', function(){
+                var text = $('#traceForm').find('.ipt').val();
+                $.ajax({
+                    url: '',
+                    data: {msg: text},
+                    success: function(data) {
+                        data = {
+                            date: '2016年10月20日 15:20',
+                            operator: 'frank',
+                            msg: text
+                        }
+                        $('#traceForm').find('.ipt').val('');
+                        that.addNewRevord(data);
+                    }
+                })
+            })
+
+            var $myform = $('#myform3');
+            // 同意入驻
+            $myform.find('.submit').on('click', function() {
+                alert('供应商签约提交')
+            })
+            // 随机密码
+            $myform.find('.ml').on('click', function() {
+                $(this).prev().val((Math.random()).toString().substr(2, 6));
+            })
+        },
+        // 添加记录
+        addNewRevord: function(data) {
+            var html = [];
+            $.each(data, function(i, item) {
+                html.push('<span>' + item + '</span>');
+            })
+            html.length > 1 && $('#trace').append('<li>' + html.join('') + '</li>');
+        },
+        /**
+         * [inArray 查询数组元素]
+         * @param  {[string]} needle [查询值]
+         * @param  {[Array]} array  [查询数组]
+         * @param  {[bollen]} del    [选填，为true时删除该值]
+         * @return {[bollen]}        [true or false]
+         */
+        inArray: function(needle, array, del) {
+            if (typeof needle == 'string' || typeof needle == 'number') {
+                for (var i in array) {
+                    if (array[i] == needle) {
+                        del && array.splice(i, 1);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
+</body>
+</html>

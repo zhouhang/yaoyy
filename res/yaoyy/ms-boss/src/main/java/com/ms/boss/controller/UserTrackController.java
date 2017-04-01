@@ -2,6 +2,7 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.boss.config.LogTypeConstant;
+import com.ms.dao.enums.UserTrackTypeEnum;
 import com.ms.dao.model.UserTrackRecord;
 import com.ms.dao.vo.UserTrackRecordVo;
 import com.ms.dao.vo.UserVo;
@@ -40,6 +41,7 @@ public class UserTrackController extends BaseController{
     @ResponseBody
     public Result save(UserTrackRecordVo userTrackRecordVo) {
         userTrackRecordVo.setCreateTime(new Date());
+        userTrackRecordVo.setType(UserTrackTypeEnum.GENERAL.getType());
         userTrackRecordService.create(userTrackRecordVo);
         return Result.success("添加成功!");
     }

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>供应商详情-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>供应商管理</li>
+                <li>供应商详情</li>
+    		</ul>
+		</div>
+
+        <div class="fa-tab">
+            <a href="supplier_info_1.html">基本信息</a>
+            <span class="on">评价信息</span>
+            <a href="supplier_info_3.html">身份信息</a>
+            <a href="supplier_info_4.html">商品调价</a>
+        </div>
+
+        <form id="myform">            
+            <div class="box fa-form">
+                <div class="hd">联系人</div>
+                <div class="row">
+                    <div class="item">
+                        <div class="txt"><i>*</i>姓名：</div>
+                        <div class="cnt ">
+                            <input type="text" name="name1" class="ipt" placeholder="请输入姓名" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">手机号：</div>
+                        <div class="cnt ">
+                            <input type="text" name="mobile1" class="ipt" placeholder="请输入手机号" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">职位：</div>
+                        <div class="cnt ">
+                            <input type="text" name="position1" class="ipt" placeholder="职位" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="op">
+                        <label><input type="radio" name="contact" id="contact1" class="cbx" checked="">keep person</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <div class="txt">姓名：</div>
+                        <div class="cnt ">
+                            <input type="text" name="name2" class="ipt" placeholder="请输入姓名" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">手机号：</div>
+                        <div class="cnt ">
+                            <input type="text" name="mobile2" class="ipt" placeholder="请输入手机号" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">职位：</div>
+                        <div class="cnt ">
+                            <input type="text" name="position2" class="ipt" placeholder="职位" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="op">
+                        <label><input type="radio" name="contact" id="contact2" class="cbx">keep person</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="item">
+                        <div class="txt">姓名：</div>
+                        <div class="cnt ">
+                            <input type="text" name="name3" class="ipt" placeholder="请输入姓名" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">手机号：</div>
+                        <div class="cnt ">
+                            <input type="text" name="mobile3" class="ipt" placeholder="请输入手机号" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">职位：</div>
+                        <div class="cnt ">
+                            <input type="text" name="position3" class="ipt" placeholder="职位" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="op">
+                        <label><input type="radio" name="contact" id="contact3" class="cbx">keep person</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box fa-form">
+                <div class="hd">规模实力</div>
+				<div class="item">
+					<div class="txt"><i>*</i>员工规模</div>
+					<div class="cnt cbxs2">
+                        <label><input type="radio" name="employees" class="cbx">1-10人</label>
+                        <label><input type="radio" name="employees" class="cbx">11-50人</label>
+                        <label><input type="radio" name="employees" class="cbx">51-100人</label>
+                        <label><input type="radio" name="employees" class="cbx">100人以上</label>
+                        <label><input type="radio" name="employees" class="cbx">200人以上</label>
+					</div>
+				</div>
+                <div class="item">
+                    <div class="txt"><i>*</i>仓库情况：</div>
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="warehouse" class="cbx">正规仓库</label>
+                        <label><input type="radio" name="warehouse" class="cbx">自家仓库</label>
+                        <label><input type="radio" name="warehouse" class="cbx">租赁仓库</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">仓库情况备注：</div>
+                    <div class="cnt">
+                        <textarea name="warehouseNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>加工条件：</div>
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="conditions" class="cbx">健全、丰富</label>
+                        <label><input type="radio" name="conditions" class="cbx">一般</label>
+                        <label><input type="radio" name="conditions" class="cbx">较差、没看到</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>加工能力匹配性：</div>
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="process" class="cbx">是，跟业务匹配</label>
+                        <label><input type="radio" name="process" class="cbx">否，跟业务不匹配</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">加工条件备注：</div>
+                    <div class="cnt">
+                        <textarea name="processNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">供应商生产照片：</div>
+                    <div class="cnt">
+                        <div class="pics thumb">
+                            <div class="up-img" id="jpic"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box fa-form">
+                <div class="hd">供应保障能力</div>
+                <div class="caption">
+                    <em><i>*</i>1、资源控制能力</em>（产地有没有专门的人负责备货）
+                </div>
+                <div class="item">
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="supply" class="cbx">优</label>
+                        <label><input type="radio" name="supply" class="cbx">一般</label>
+                        <label><input type="radio" name="supply" class="cbx">差</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">描述：</div>
+                    <div class="cnt">
+                        <textarea name="supplyNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="caption">
+                    <em><i>*</i>2、行情把控能力</em>（对行情的预测是否敏感）
+                </div>
+                <div class="item">
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="market" class="cbx">优</label>
+                        <label><input type="radio" name="market" class="cbx">一般</label>
+                        <label><input type="radio" name="market" class="cbx">差</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">描述：</div>
+                    <div class="cnt">
+                        <textarea name="marketNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="caption">
+                    <em><i>*</i>3、品种熟悉程度</em>（对品种质量的理解，经营年限）
+                </div>
+                <div class="item">
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="familiar" class="cbx">优</label>
+                        <label><input type="radio" name="familiar" class="cbx">一般</label>
+                        <label><input type="radio" name="familiar" class="cbx">差</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">描述：</div>
+                    <div class="cnt">
+                        <textarea name="familiarNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="caption">
+                    <em><i>*</i>4、物流配送能力</em>（是否有自己的车，是否有长期合作的物流公司）
+                </div>
+                <div class="item">
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="freight" class="cbx">优</label>
+                        <label><input type="radio" name="freight" class="cbx">一般</label>
+                        <label><input type="radio" name="freight" class="cbx">差</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">描述：</div>
+                    <div class="cnt">
+                        <textarea name="freightNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="caption">
+                    <em><i>*</i>5、资金实力</em>（能否承受较长账期）
+                </div>
+                <div class="item">
+                    <div class="cnt cbxs2">
+                        <label><input type="radio" name="finance" class="cbx">优</label>
+                        <label><input type="radio" name="finance" class="cbx">一般</label>
+                        <label><input type="radio" name="finance" class="cbx">差</label>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">描述：</div>
+                    <div class="cnt">
+                        <textarea name="financeNote" class="ipt ipt-mul" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">保存并实地考察认证</button>
+                </div>
+            </div>
+        </form>
+	</div>
+</div>
+
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/js/common.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+<script src="assets/js/croppic.min.js"></script>
+<script>
+!(function($, window) {
+    var _global = {
+        init: function() {
+            navLight('8-1');
+            this.bindEvent();
+            this.goodsImg();
+        },
+        bindEvent: function() {
+            var that = this;
+
+            $("#myform").validator({
+                fields: {
+
+                    name1: 'required(#contact1:checked)',
+                    mobile1: 'required(#contact1:checked); mobile',
+                    position1: 'required(#contact1:checked)',
+
+                    name2: 'required(#contact2:checked)',
+                    mobile2: 'required(#contact2:checked); mobile',
+                    position2: 'required(#contact2:checked)',
+
+                    name3: 'required(#contact3:checked)',
+                    mobile3: 'required(#contact3:checked); mobile',
+                    position3: 'required(#contact3:checked)',
+
+                    employees: 'checked(1)',
+                    warehouse: 'checked(1)',
+                    conditions: 'checked(1)',
+                    process: 'checked(1)',
+
+                    supply: 'checked(1)',
+                    supplyNote: '资源控制能力描述: required',
+
+                    market: 'checked(1)',
+                    marketNote: '行情把控能力描述: required',
+
+                    familiar: 'checked(1)',
+                    familiarNote: '品种熟悉程度描述: required',
+
+                    freight: 'checked(1)',
+                    freightNote: '物流配送能力描述: required',
+
+                    finance: 'checked(1)',
+                    financeNote: '资金实力描述: required',
+                },
+                valid: function(form) {
+                    // 验证通过
+                    $.notify({
+                        type: 'success', 
+                        title: '操作成功'
+                    });
+                    return false;
+                }
+            });
+
+        },
+        // 商品图片
+        goodsImg: function() {
+            var self = this,
+                $el = $('#jpic');
+
+            $('body').append('<div id="upload" style="position:fixed;bottom:0;left:0;width:0;height:0;visibility:hidden;"></div>');
+
+            // 删除图片
+            $('.thumb').on('click', '.del', function() {
+                var $self = $(this);
+                layer.confirm('确认删除图片？', function(index){
+                    $el.css('display','inline-block');
+                    $self.parent().remove();
+                    layer.close(index);
+                });
+                return false;
+            })
+
+            // 上传图片
+            $el.on('click', function() {
+                if ($(this).siblings().length > 9) {
+                    $.notify({
+                        type: 'error',
+                        title: '最多只能上传10张图片'
+                    });
+                } else {
+                    $('#upload').find('.cropControlUpload').trigger('click');
+                }
+            })
+
+            var options = {
+                uploadUrl:'img_save_to_file.php',
+                onBeforeImgUpload: function() {
+                    $el.html('<span class="loader">图片上传中...</span>');
+                },
+                onAfterImgUpload: function(response){
+                    $el.empty('').before('<div class="up-img"><img src="' + response.url + '"/><i class="del"></i><input type="hidden" value="' + response.url + '" /></div>');
+                    $el.siblings().length > 9 && $el.attr('style','display:none!important'); // 上传超过10张后隐藏
+                },
+                onError:function(msg){
+                    $el.empty('');
+                    $.notify({
+                        type: 'error', 
+                        title: '上传图片失败', 
+                        text: msg,
+                        delay: 3e3
+                    });
+                }
+            }
+            new Croppic('upload', options);
+        }
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
+</body>
+</html>

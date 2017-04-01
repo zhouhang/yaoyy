@@ -58,6 +58,7 @@ public class MemberController extends BaseController{
      */
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     @BizLog(type = LogTypeConstant.MEMBER, desc = "用户列表")
+    @SecurityToken(generateToken = true)
     public String index(HttpServletRequest request,
                         HttpServletResponse response,
                         Integer pageNum,

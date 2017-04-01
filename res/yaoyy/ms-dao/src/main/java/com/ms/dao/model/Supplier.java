@@ -46,7 +46,51 @@ public class Supplier  implements Serializable {
 	private Date createTime;
 	
 	private Date updateTime;
-	
+
+	//记录5个状态  未核实 已核实 核实不正确   已实地考察  已签约(签约才添加商品)
+	private Integer status;
+
+	//详细地址
+	private String address;
+
+	//组织类型
+	private Integer org;
+
+	//年业务量
+	private String bizYear;
+
+	//业务类型
+	private Integer bizType;
+
+	//经营地
+	private Integer bizPlace;
+
+	//客户群体类型，因为多选，所以String，将群体类型id用逗号分隔
+	private String bizCustomerType;
+
+	//知名客户
+	private String bizPartner;
+
+	//员工规模
+	private Integer scaleStaff;
+
+	//仓库情况
+	private Integer scaleStore;
+
+	//仓库情况备注
+	private String scaleStoreMark;
+
+	//加工条件
+	private Integer scaleProcess;
+
+	//加工能力匹配性
+	private Integer scaleProcessAble;
+
+	//加工条件备注
+	private String scaleProcessMark;
+
+	private Integer source;
+
 	public Supplier(){}
 	
 	public Integer getId() {
@@ -152,5 +196,65 @@ public class Supplier  implements Serializable {
 	public String getEnterCategoryStr() {return enterCategoryStr;}
 
 	public void setEnterCategoryStr(String enterCategoryStr) {this.enterCategoryStr = enterCategoryStr;}
+
+	public Integer getSource() {return source;}
+
+	public void setSource(Integer source) {this.source = source;}
+
+	public Integer getStatus() {return status;}
+
+	public void setStatus(Integer status) {this.status = status;}
+
+	public String getAddress() {return address;}
+
+	public void setAddress(String address) {this.address = address;}
+
+	public Integer getOrg() {return org;}
+
+	public void setOrg(Integer org) {this.org = org;}
+
+	public String getBizYear() {return bizYear;}
+
+	public void setBizYear(String bizYear) {this.bizYear = bizYear;}
+
+	public Integer getBizType() {return bizType;}
+
+	public void setBizType(Integer bizType) {this.bizType = bizType;}
+
+	public Integer getBizPlace() {return bizPlace;}
+
+	public void setBizPlace(Integer bizPlace) {this.bizPlace = bizPlace;}
+
+	public String getBizCustomerType() {return bizCustomerType;}
+
+	public void setBizCustomerType(String bizCustomerType) {this.bizCustomerType = bizCustomerType;}
+
+	public String getBizPartner() {return bizPartner;}
+
+	public void setBizPartner(String bizPartner) {this.bizPartner = bizPartner;}
+
+	public Integer getScaleStaff() {return scaleStaff;}
+
+	public void setScaleStaff(Integer scaleStaff) {this.scaleStaff = scaleStaff;}
+
+	public Integer getScaleStore() {return scaleStore;}
+
+	public void setScaleStore(Integer scaleStore) {this.scaleStore = scaleStore;}
+
+	public String getScaleStoreMark() {return scaleStoreMark;}
+
+	public void setScaleStoreMark(String scaleStoreMark) {this.scaleStoreMark = scaleStoreMark;}
+
+	public Integer getScaleProcess() {return scaleProcess;}
+
+	public void setScaleProcess(Integer scaleProcess) {this.scaleProcess = scaleProcess;}
+
+	public Integer getScaleProcessAble() {return scaleProcessAble;}
+
+	public void setScaleProcessAble(Integer scaleProcessAble) {this.scaleProcessAble = scaleProcessAble;}
+
+	public String getScaleProcessMark() {return scaleProcessMark;}
+
+	public void setScaleProcessMark(String scaleProcessMark) {this.scaleProcessMark = scaleProcessMark;}
 	
 }

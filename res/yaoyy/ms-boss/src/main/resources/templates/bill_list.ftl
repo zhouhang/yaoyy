@@ -45,7 +45,7 @@
                             <th>操作人</th>
                             <th>状态</th>
                             <th>创建时间</th>
-                            <th width="90" class="tc">操作</th>
+                            <th width="60" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>

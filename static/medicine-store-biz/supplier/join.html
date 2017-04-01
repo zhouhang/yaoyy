@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>供应商入驻-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/supplier.css">
+</head>
+<body>
+    
+    <div class="ui-content">
+        <div class="ui-form2">
+            <div class="banner">
+                <div class="logo">药优优</div>
+                <div class="txt"></div>
+            </div>
+
+            <div class="form">
+                <form action="">
+                    <div class="item">
+                        <input type="text" class="ipt" name="name" id="name" placeholder="姓名" autocomplete="off">
+                        <span class="error"></span>
+                    </div>
+                    <div class="item item-btn">
+                        <input type="tel" class="ipt" name="mobile" id="mobile" placeholder="手机号" autocomplete="off">
+                        <span class="error"></span>
+                        <button type="button" class="btn" id="send">发送验证码</button>
+                    </div>
+                    <div class="item">
+                        <input type="text" class="ipt" name="SMSCode" id="SMSCode" placeholder="验证码" autocomplete="off">
+                        <span class="error"></span>
+                    </div>
+                    <div class="item">
+                        <input type="text" class="ipt" name="category" id="category" placeholder="经营品种（多个品种请用逗号隔开）" autocomplete="off">
+                        <input type="hidden" class="ipt" name="categoryID" id="categoryID">
+                        <span class="error"></span>
+                        <div class="suggest">
+                            <div class="suggest-panel"></div>
+                            <div class="suggest-close"></div>
+                        </div>
+                    </div>
+                    <div class="ft">
+                        <button type="submit" class="ubtn ubtn-primary" id="submit">注册成为药优优供应商</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/zepto.min.js"></script>
+    <script src="../assets/js/layer.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.validator();
+                this.category();
+            },
+            validator: function() {
+                var self = this;
+
+                $('#submit').on('click', function() {
+                    layer.open({
+                        className: 'layer-custom2'
+                        ,content: '<div class="hd">供应商信息已登记</div><div class="bd">您的信息已登记，无需重复登记。</div>'
+                        // ,content: '<div class="hd">供应商信息未登记</div><div class="bd">您的信息未登记，请继续登记您的信息。</div>'
+                        ,btn: ['确定']
+                    });
+                    return self.checkName() && self.checkMobile() && self.checkRegion();
+                })
+
+                self.SMSCodeEvent();
+            },
+            checkName: function() {
+                var $el = $('#name'),
+                    val = $el.val();
+                if (!val) {
+                    $el.next().html('请输入收货人！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkMobile: function() {
+                var $el = $('#mobile'),
+                    val = $el.val();
+
+                if (!val) {
+                    $el.next().html('请输入手机号码！').show();
+
+                } else if (!_YYY.verify.isMobile(val)) {
+                    $el.next().html('请输入有效的手机号！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            checkRegion: function() { 
+                var $el = $('#region'),
+                    val = $el.val();
+                if (!val) {
+                    $el.next().html('请选择地区！').show();
+
+                } else {
+                    $el.next().hide();
+                    return true;
+                }
+                return false;
+            },
+            SMSCodeEvent: function() {
+                var $send = $('#send'),
+                    self = this;
+                    second = 0, 
+                    wait = 0,
+                    txt = '秒后重试';
+
+                var lock = function() {
+                    wait && clearInterval(wait);
+                    wait = setInterval(function() {
+                        second--;
+                        $send.text(second + txt).prop('disabled', true);
+                        if (second === 0) {
+                            clearInterval(wait);
+                            $send.text("获取验证码").prop('disabled', false);
+                        }
+                    }, 1e3);
+                }
+                var sendMSM = function() {
+                    popover('验证码发送中，请稍后...!');
+                    $.ajax({
+                        url: '../json/getsmscode.php',
+                        dataType: 'json',
+                        data: 'phone=13026584785',
+                        success: function(data) {
+                            if (data.status === 'y') {
+                                $send.text(second + txt).prop('disabled', true);
+                                lock();
+                                popover(data.info);
+                            } else {
+                                popover(data.info);
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            popover('网络连接超时，请您稍后重试!');
+                        }
+                    })
+                }
+                $send.prop('disabled', false).on('click', function() {
+                    if(second === 0 && self.checkMobile()) {
+                        second = 60; // 60秒倒计时
+                        sendMSM();
+                    } 
+                })
+            },
+            category: function() {
+                var t,
+                    self = this,
+                    $suggestions = $('.suggest'),
+                    $category = $('#category'),
+                    $categoryID = $('#categoryID'),
+                    colors = ['aqua', 'green', 'yellow', 'red', 'navy', 'teal', 'olive', 'orange', 'fuchsia', 'purple', 'maroon'],
+                    choosed = {};
+
+                var search = function() {
+                    $.ajax({
+                        url: '../json/catName.json',
+                        cache: false,
+                        success: function(data) {
+                            var model = [],
+                                idx = 0;
+
+                            $.each(data.data, function(i, item) {
+                                var className = 'bg-' + colors[idx++] + (choosed[item.id] ? ' disabled' : '');
+                                model.push('<a href="javascript:;" class="', className, '" id="', item.id, '">', item.name, '</a>');
+                                if (idx >= colors.length) {
+                                    idx = 0;
+                                }
+                            })
+                            if (model.length === 0) {
+                                model.push('<span>暂无此商品</span>');
+                            }
+                            $suggestions.show().find('.suggest-panel').html(model.join(''));
+                        }
+                    })
+                }
+                var _s = function() {
+                    t && clearTimeout(t);
+                    t = setTimeout(function() {
+                        search();
+                    }, 300);
+                }
+
+                var value = '石楠叶,甜橘叶,莱菔叶,', 
+                    val = '石楠叶';
+
+                $category.on('input', _s).on('blur', function() {
+                    var value = $.trim(this.value),
+                        id = [],
+                        text = [];
+
+                    $.each(choosed, function(key, val) {
+                        if (value.indexOf(val) === -1) {
+                            delete choosed[key];
+                        } else {
+                            text.push(val);
+                            id.push(key);
+                        }
+                    })
+                    $category.val(text.length > 0 ? text.join() + ',' : '');
+                    $categoryID.val(id.join());
+                });
+
+                $suggestions.on('click', 'a', function() {
+                    if (choosed[this.id]) {
+                        delete choosed[this.id];
+                    } else {
+                        choosed[this.id] = $(this).html();
+                    }
+                    $(this).toggleClass('disabled');
+
+                    var valid = [],
+                        ids = [];
+                    $.each(choosed, function(key, val) {
+                        valid.push(val);
+                        ids.push(key);
+                    })
+                    $category.val(valid.length > 0 ? valid.join() + ',' : '');
+                    $categoryID.val(ids.join());
+                    $suggestions.hide();
+                })
+
+                // 关闭
+                $suggestions.on('click', '.suggest-close', function() {
+                    $suggestions.hide();
+                })
+
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>

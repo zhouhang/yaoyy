@@ -4,10 +4,10 @@
         window.location.href = '${url}?pageNum=${info.pageNum}&pageSize=' + pageSize + '${(params)!}';
     }
 </script>
-<div class="pagination">
+<div class="page">
     <#if info.total gt 0>
-    <div class="pages">
-        每页
+    <div class="num">
+        <i>每页</i>
         <select onchange="gotopage(this.value)" class="slt">
             <option value="10" <#if info.pageSize == 10>selected</#if>>10</option>
             <option value="25" <#if info.pageSize == 25>selected</#if>>25</option>
@@ -75,7 +75,7 @@
 
     </div>
     </#if>
-    <div class="info">
+    <div class="sum">
         显示第 ${info.startRow} 至 ${info.endRow} 项结果，共 <em>${info.total}</em> 项
     </div>
 </div>

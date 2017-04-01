@@ -29,12 +29,12 @@
                 <table>
                     <thead>
                         <tr>
-                            <th><input type="checkbox" class="cbx"></th>
+                            <th width="50"><input type="checkbox" class="cbx"></th>
                             <th>编号</th>
                             <th>角色名称</th>
                             <th width="150">角色描述</th>
                             <th width="150">创建时间</th>
-                            <th class="tc" width="180">操作</th>
+                            <th width="120" class="tc">操作</th>
                         </tr>
                     </thead>
                     <tbody>
