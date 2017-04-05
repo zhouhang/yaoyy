@@ -211,9 +211,33 @@ public class PickController extends BaseController {
         return Result.success().msg("保存成功");
     }
 
+
     /**
      * 生成订单
-     *
+     * @param pickVo
+     * @return
+     */
+    @RequestMapping(value = "addOrderAccount", method = RequestMethod.POST)
+    @ResponseBody
+    @SecurityToken(validateToken = true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "生成订单")
+    Result addOrderAccount(PickVo pickVo) {
+        Member mem = (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
+        pickVo.setMemberId(mem.getId());
+        //过滤不必要的参数
+        if (pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_ALL.getType())) {
+            pickVo.setBillTime(0);
+            pickVo.setDeposit(0F);
+        } else if (pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_BILL.getType())) {
+            pickVo.setDeposit(0F);
+        }
+        pickService.addOrderAccount(pickVo);
+        return Result.success().msg("生成订单成功");
+    }
+
+
+    /**
+     * 生成订单
      * @param pickVo
      * @return
      */

@@ -244,10 +244,55 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	}
 
+
+	//添加一个结算信息
+	@Transactional
+	@Override
+	public void addOrderAccount(PickVo pickVo){
+		PickVo oldPick=pickDao.findVoById(pickVo.getId());
+
+		PickTracking pickTracking=new PickTracking();
+		if(pickVo.getMemberId()!=null){
+			Member member=memberService.findById(pickVo.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+		}
+		pickTracking.setExtra("");
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
+		pickTracking.setPickId(pickVo.getId());
+		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_ADD_ACCOUNT.getValue());
+		pickTrackingDao.create(pickTracking);
+
+
+		//设置有效期
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, 3);
+		pickVo.setExpireDate(calendar.getTime());
+		pickDao.update(pickVo);
+
+		if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_BILL.getType())){
+			AccountBillVo accountBillVo=new AccountBillVo();
+			accountBillVo.setMemberId(pickVo.getMemberId());
+			accountBillVo.setOrderId(pickVo.getId());
+			accountBillVo.setUserId(oldPick.getUserId());
+			accountBillVo.setBillTime(pickVo.getBillTime());
+			accountBillVo.setAlreadyPayable(pickVo.getDeposit());
+			accountBillVo.setAmountsPayable(pickVo.getAmountsPayable());
+			accountBillService.saveAccountBill(accountBillVo);
+		}
+
+	}
+
+
+
+
+
 	@Override
 	@Transactional
 	public void createOrder(PickVo pickVo) {
-
 		PickVo oldPick=pickDao.findVoById(pickVo.getId());
 		if(!PickEnum.PICK_PAY.getValue().equals(oldPick.getStatus())){
 			//创建一条生成订单跟踪记录
@@ -263,8 +308,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
 				pickTracking.setOperator(pickVo.getUserId());
 			}
-
-
 			pickTracking.setExtra("");
 			pickTracking.setCreateTime(new Date());
 			pickTracking.setUpdateTime(new Date());
@@ -303,7 +346,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		}
 		//全款或保证金
-		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+		if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_ALL.getType())||pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_DEPOSIT.getType())){
 			pickVo.setStatus(PickEnum.PICK_PAY.getValue());
 		}
 		else{

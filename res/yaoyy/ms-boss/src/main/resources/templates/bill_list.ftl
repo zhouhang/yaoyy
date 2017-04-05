@@ -52,9 +52,9 @@
                         <#list pageInfo.list as billVo>
                         <tr>
                             <td><a href="/bill/detail/${billVo.id?c}" class="link">${billVo.code}</a></td>
-                            <td>${billVo.orderCode}</td>
-                            <td>${billVo.nickname}</td>
-                            <td>${billVo.name}</td>
+                            <td>${billVo.orderCode!}</td>
+                            <td>${billVo.name?default(billVo.nickname)!}</td>
+                            <td>${billVo.company?default(billVo.name)!}</td>
                             <td>${billVo.amountsPayable}元</td>
                             <td>${billVo.timeLeft}</td>
                             <td>${billVo.operateName}</td>
