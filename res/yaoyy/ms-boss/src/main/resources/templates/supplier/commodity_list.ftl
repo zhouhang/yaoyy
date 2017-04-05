@@ -39,7 +39,7 @@
                             <th>供应商手机号</th>
                             <th>价格</th>
                             <th>寄卖库存</th>
-                            <th width="90" class="tc">操作</th>
+                            <th width="60" class="tc">操作</th>
                         </tr>
                         </thead>
                         <tbody>

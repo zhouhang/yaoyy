@@ -120,7 +120,7 @@
                                 <tr>
                                     <th width="180">属性名</th>
                                     <th>属性值</th>
-                                    <th width="80">操作</th>
+                                    <th width="60">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="attribute"></tbody>

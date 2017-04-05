@@ -57,13 +57,12 @@
                             </div>
                         </div>
                     </#list>
-
                 <#else>
                   <#assign  num=3>
                 </#if>
                     <#if num gt 0>
                  <#list 1..num as i>
-                　<div class="row">
+                <div class="row">
                      <input type="hidden" name="contactVoId" value="">
                      <div class="item">
                          <div class="txt">姓名：</div>
@@ -86,10 +85,10 @@
                      <div class="op">
                          <label><input type="radio" name="contact" id="contact${i+3-num}" value="1" class="cbx" <#if i==1&&num==3> checked</#if>>key person</label>
                      </div>
-                 </div>　　　　
-                　</#list>
+                 </div>
+                </#list>
                     </#if>
-            </div>
+                </div>
             </div>
 
             <div class="box fa-form">
@@ -165,37 +164,34 @@
                 <div id="supplierChoice">
                 <#list questions as question>
                     <div suveyId="${question.id}" class="qus">
-                    <div class="caption">
-                        <em><i>*</i>${question_index+1}、${question.question}
-                    </div>
-                    <div class="item">
-                        <div class="cnt cbxs">
-                            <#list question.anwser?split(",") as answer>
-                                <label><input type="radio" name="answer_${question_index+1}" value="${answer_index+1}" class="cbx">${answer}</label>
-                            </#list>
+                        <div class="caption">
+                            <em><i>*</i>${question_index+1}、${question.question}</em>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="txt">描述：</div>
-                        <div class="cnt">
-                            <textarea name="surveyDesc" class="ipt ipt-mul" placeholder=""></textarea>
+                        <div class="item">
+                            <div class="cnt cbxs">
+                                <#list question.anwser?split(",") as answer>
+                                    <label><input type="radio" name="answer_${question_index+1}" value="${answer_index+1}" class="cbx">${answer}</label>
+                                </#list>
+                            </div>
                         </div>
-                    </div>
+                        <div class="item">
+                            <div class="txt">描述：</div>
+                            <div class="cnt">
+                                <textarea name="surveyDesc" class="ipt ipt-mul" placeholder=""></textarea>
+                            </div>
+                        </div>
                     </div>
                 </#list>
                 </div>
-
                 <div class="ft">
                     <button type="submit" class="ubtn ubtn-blue" id="jsubmit1">保存并实地考察认证</button>
                 </div>
             </div>
         </form>
 	</div>
-<#include "../common/footer.ftl"/>
+    <#include "../common/footer.ftl"/>
 </div>
 
-<script src="assets/js/jquery191.js"></script>
-<script src="assets/js/common.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script src="assets/js/croppic.min.js"></script>
 <script>
