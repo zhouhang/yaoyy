@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public enum IdentityTypeEnum {
 
+    t0(0, "无类型"),
     t1(1, "饮片厂"),
     t2(2, "药厂"),
     t3(3, "药材经营公司"),
