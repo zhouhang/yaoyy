@@ -516,10 +516,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTrackingService.save(pickTrackingVo);
 			}
 
-
-
-
-
 		}
 
 	}
@@ -557,16 +553,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void saveOrder(PickVo pickVo) {
-
-
 		// 保存订单
-
 		// 判断提交的订单是否属于当前用户
 		Pick originPick = findById(pickVo.getId());
 		if (!(originPick!= null && pickVo.getUserId().equals(originPick.getUserId()))){
 			throw new ControllerException("用户无权限访问此页面.");
 		}
-
 		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
 		if (pickVo.getAddrHistoryId() != null ){
 			// 历史地址ID = -1 表示用户修改时未修改地址信息

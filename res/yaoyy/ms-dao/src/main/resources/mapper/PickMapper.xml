@@ -19,6 +19,7 @@
         <result column="addr_history_id"  property="addrHistoryId" />
         <result column="remark"  property="remark" />
         <result column="amounts_payable"  property="amountsPayable" />
+        <result column="supplier_id"  property="supplierId" />
         <result column="member_id"  property="memberId" />
         <result column="sum"  property="sum" />
         <result column="delivery_date"  property="deliveryDate" />
@@ -47,7 +48,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,delivery_date,expire_date,update_time,create_time
+        id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,supplier_id,member_id,sum,delivery_date,expire_date,update_time,create_time
     </sql>
 
     <sql id="Base_Column_List_Alisa">

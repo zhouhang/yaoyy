@@ -132,7 +132,7 @@
                     <div class="cnt">
                         <select class="slt" name="source" id="source">
                             <option value="1" <#if supplierVo.source??><#if supplierVo.source==1>selected</#if></#if>>系统录入</option>
-                            <option value="2" <#if supplierVo.source??><#if supplierVo.source==2>selected</#if></#if>>沪樵导入</option>
+                            <option value="2" <#if supplierVo.source??><#if supplierVo.source==2>selected</#if></#if>>沪谯导入</option>
                             <option value="3" <#if supplierVo.source??><#if supplierVo.source==3>selected</#if></#if>>天济导入</option>
                             <option value="4" <#if supplierVo.source??><#if supplierVo.source==4>selected</#if></#if> >微信登记</option>
                         </select>
@@ -184,7 +184,7 @@
                 <div class="item">
                     <div class="txt">主要客户群体：</div>
                     <div class="cnt cbxs">
-                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("1")>checked</#if></#if>>饮片长</label>
+                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("1")>checked</#if></#if>>饮片厂</label>
                         <label><input type="checkbox" name="bizCustomerType" class="cbx" value="2" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("2")>checked</#if></#if>>制药厂</label>
                         <label><input type="checkbox" name="bizCustomerType" class="cbx" value="3" <#if supplierVo.bizCustomerType??><#if supplierVo.bizCustomerType?contains("3")>checked</#if></#if>>经营户</label>
                     </div>

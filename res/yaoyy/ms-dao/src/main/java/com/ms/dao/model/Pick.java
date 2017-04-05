@@ -54,7 +54,11 @@ public class Pick  implements Serializable {
 	
 	//实际应付
 	private Float amountsPayable;
-	
+
+	//供应商ID
+	private Integer supplierId;
+
+
 	//操作人id
 	private Integer memberId;
 	
@@ -256,5 +260,12 @@ public class Pick  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public Integer getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Integer supplierId) {
+		this.supplierId = supplierId;
+	}
 }

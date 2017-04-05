@@ -32,63 +32,65 @@
                 </div>
                 <div class="item">
                     <div class="txt">状态：</div>
-                    <div class="val c-red">${pickVo.statusText}</div>
+                    <div class="val status-${pickVo.status+1}">${pickVo.statusText}</div>
                 </div>
                 <div class="item">
-                    <div class="txt">客户姓名：</div>
-                    <div class="val">${pickVo.nickname}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">手机号：</div>
-                    <div class="val">${pickVo.phone}</div>
-                </div>
-                <!--
-                <div class="item">
-                    <div class="txt">地区：</div>
-                    <div class="val">安徽亳州</div>
-                </div>
-                -->
-                <div class="item">
-                    <div class="txt">申请时间：</div>
+                    <div class="txt">下单时间：</div>
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">采购单位：</div>
+                    <div class="val">${userDetail.company!}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">采购人：</div>
+                    <div class="val">${userDetail.name!}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">采购人手机号：</div>
+                    <div class="val">${userDetail.phone!}</div>
                 </div>
             </div>
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
-                <div class="attr table tc">
-                    <div class="op"></div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>商品名称</th>
-                            <th>产地</th>
-                            <th width="200">规格等级</th>
-                            <th width="80">数量</th>
-                            <th>单位</th>
-                            <th>价格</th>
-                            <th>合计</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                <div class="item">
+                    <div class="cnt table">
+                        <div class="op">修改</div>
+                        <table class="tc">
+                            <thead>
                             <tr>
-                                <td><a href="#">${pickCommodityVo.name}</a></td>
-                                <td>${pickCommodityVo.origin}</td>
-                                <td><p>${pickCommodityVo.spec}</p></td>
-                                <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}"  data-price="${pickCommodityVo.price}" value="${pickCommodityVo.num?c}"></div></td>
-                                <td>${pickCommodityVo.unit}</td>
-                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
-                                <td><span>${pickCommodityVo.total}</span>元</td>
+                                <th>商品名称</th>
+                                <th>产地</th>
+                                <th width="200" class="tl">规格等级</th>
+                                <th width="80">数量</th>
+                                <th>价格</th>
+                                <th>供应商</th>
+                                <th width="80">供应商手机</th>
+                                <th>合计</th>
                             </tr>
-                        </#list>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td colspan="7" class="tr"><span>合计：</span><em class="c-red" id="sum1">${pickVo.sum!}</em></td>
-                        </tr>
-                        </tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                            <tr>
+                                <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
+                                <td>${pickCommodityVo.origin}</td>
+                                <td class="tl"><p>${pickCommodityVo.spec}</p></td>
+                                <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price?c}" value="${pickCommodityVo.num?c}"></div></td>
+                                <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                <td>${supplierDetail.name!}</td>
+                                <td>${supplierDetail.phone!}</td>
+                                <td><span>${pickCommodityVo.total?c}</span>元</td>
+                            </tr>
+                            </#list>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="8" class="tr"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -173,9 +175,15 @@
                 <form id="userForm">
                     <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
                     <div class="item">
-                        <div class="txt">个人称呼：</div>
+                        <div class="txt">微信昵称：</div>
                         <div class="cnt">
                             <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">姓名：</div>
+                        <div class="cnt">
+                            <input type="text" name="name" value="${userDetail.name!}" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
@@ -206,9 +214,9 @@
                         </div>
                     </div>
                     <div class="item">
-                        <div class="txt">姓名/单位：</div>
+                        <div class="txt">单位：</div>
                         <div class="cnt">
-                            <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                            <input type="text"  value="${userDetail.company!}" name="company" class="ipt" placeholder="姓名/单位" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">

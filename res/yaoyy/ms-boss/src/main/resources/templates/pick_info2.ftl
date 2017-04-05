@@ -53,48 +53,7 @@
                     <div class="val">${(pickVo.createTime?datetime)!}</div>
                 </div>
             </div>
-            <div class="box fa-form fa-form-info">
-                <div class="hd">收货信息</div>
-               <#if shippingAddressHistory?exists>
-                <div class="item">
-                    <div class="txt">收货人：</div>
-                    <div class="val">${shippingAddressHistory.consignee!}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">收货人电话：</div>
-                    <div class="val">${shippingAddressHistory.tel!}</div>
-                </div>
-                <div class="item">
-                    <div class="txt">收货地址：</div>
-                    <div class="val">${shippingAddressHistory.detail!}</div>
-                </div>
-                   <#if orderInvoiceVo?exists>
-                       <div class="item">
-                           <div class="txt">发票：</div>
-                           <div class="val">${orderInvoiceVo.name!} ${orderInvoiceVo.content!}</div>
-                       </div>
-                   </#if>
-                   <div class="item">
-                       <div class="txt">备注：</div>
-                       <div class="val">${pickVo.remark!}</div>
-                   </div>
-               </#if>
 
-
-            </div>
-            <div class="box fa-form">
-                <div class="hd">订单追踪</div>
-                <ol class="trace" id="trace">
-                <#list pickTrackingVos as tracking>
-                    <li>
-                        <span>${tracking.name?default('')}</span>
-                        <span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>
-                        <span>${tracking.recordTypeText}</span>
-                        <span>${tracking.extra?default('')}</span>
-                    </li>
-                </#list>
-                </ol>
-            </div>
 
             <div class="box fa-form">
                 <div class="hd">商品详情</div>
@@ -107,33 +66,70 @@
                                 <th>产地</th>
                                 <th width="200" class="tl">规格等级</th>
                                 <th width="80">数量</th>
-                                <th>单位</th>
                                 <th>价格</th>
+                                <th>供应商</th>
+                                <th width="80">供应商手机</th>
                                 <th>合计</th>
                             </tr>
                             </thead>
                             <tbody>
-                           <#list pickVo.pickCommodityVoList as pickCommodityVo >
+                            <#list pickVo.pickCommodityVoList as pickCommodityVo >
                             <tr>
                                 <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
                                 <td>${pickCommodityVo.origin}</td>
                                 <td class="tl"><p>${pickCommodityVo.spec}</p></td>
                                 <td>${pickCommodityVo.num}</td>
-                                <td>${pickCommodityVo.unit}</td>
                                 <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                <td>${supplierDetail.name!}</td>
+                                <td>${supplierDetail.phone!}</td>
                                 <td>${pickCommodityVo.total}元</td>
                             </tr>
-                           </#list>
+                            </#list>
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="7" class="tr"><span>合计：</span><em class="c-red">${pickVo.sum!}元</em></td>
+                                <td colspan="8" class="tr"><span>合计：</span><em class="c-red">${pickVo.sum!}元</em></td>
                             </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
+
+
+            <div class="box fa-form fa-form-info">
+                <div class="hd">收货信息</div>
+               <#if shippingAddressHistory?exists>
+               <div class="item">
+                   <div class="txt">收货地址：</div>
+                   <div class="val">${shippingAddressHistory.detail!}</div>
+               </div>
+                <div class="item">
+                    <div class="txt">收货人：</div>
+                    <div class="val">${shippingAddressHistory.consignee!}</div>
+                </div>
+                <div class="item">
+                    <div class="txt">收货人电话：</div>
+                    <div class="val">${shippingAddressHistory.tel!}</div>
+                </div>
+                <div class="item">
+                   <div class="txt">约定发货时间：</div>
+                   <div class="val">${pickVo.deliveryDate!}</div>
+                </div>
+                <#if orderInvoiceVo?exists>
+                   <div class="item">
+                       <div class="txt">发票：</div>
+                       <div class="val">${orderInvoiceVo.name!} ${orderInvoiceVo.content!}</div>
+                   </div>
+                </#if>
+                <div class="item">
+                    <div class="txt">货物要求：</div>
+                    <div class="val">${pickVo.remark!}</div>
+                </div>
+               </#if>
+            </div>
+
+
 
             <div class="box fa-form fa-form-info">
                 <div class="hd">结算详情</div>
@@ -271,6 +267,22 @@
                 </div>
 
             </div>
+
+
+            <div class="box fa-form">
+                <div class="hd">订单追踪</div>
+                <ol class="trace" id="trace">
+                <#list pickTrackingVos as tracking>
+                    <li>
+                        <span>${tracking.name?default('')}</span>
+                        <span>${tracking.createTime?string("yyyy年MM月dd日 HH:mm")}</span>
+                        <span>${tracking.recordTypeText}</span>
+                        <span>${tracking.extra?default('')}</span>
+                    </li>
+                </#list>
+                </ol>
+            </div>
+
         </div>
         <div class="items">
             <div class="box fa-form">
@@ -278,9 +290,15 @@
                 <form id="userForm">
                     <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
                     <div class="item">
-                        <div class="txt">个人称呼：</div>
+                        <div class="txt">微信昵称：</div>
                         <div class="cnt">
                             <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">姓名：</div>
+                        <div class="cnt">
+                            <input type="text" name="name" value="${userDetail.name!}" class="ipt" placeholder="" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">
@@ -311,9 +329,9 @@
                         </div>
                     </div>
                     <div class="item">
-                        <div class="txt">姓名/单位：</div>
+                        <div class="txt">单位：</div>
                         <div class="cnt">
-                            <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                            <input type="text"  value="${userDetail.company!}" name="company" class="ipt" placeholder="单位" autocomplete="off">
                         </div>
                     </div>
                     <div class="item">

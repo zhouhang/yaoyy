@@ -49,6 +49,7 @@
         from user
     </select>
 
+
     <select id="findByParams" resultMap="UserResultMapVo" parameterType="com.ms.dao.vo.UserVo">
         select
         <include refid="Base_Column_List_Alisa" />,
