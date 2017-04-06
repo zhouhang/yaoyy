@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>采购下单-药优优</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+    <section class="ui-content">
+    	<div class="ui-form2">
+    		<form action="" class="form" id="myform">
+                <div class="item">
+                    <input type="text" class="ipt" name="supplier" id="supplier" placeholder="供应商" autocomplete="off">
+                    <input type="hidden" class="ipt" name="supplierID" id="supplierID" data-msg="供应商填写无效">
+                    <span class="error"></span>
+		            <div class="suggest" id="supplierSuggest">
+		                <div class="suggest-panel"></div>
+		                <div class="suggest-close"></div>
+		            </div>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="breed" id="breed" placeholder="品种" autocomplete="off">
+                    <input type="hidden" class="ipt" name="breedID" id="breedID" data-msg="品种填写无效">
+                    <span class="error"></span>
+                    <div class="suggest" id="breedSuggest">
+                        <div class="suggest-panel"></div>
+                        <div class="suggest-close"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="level" id="level" placeholder="规格等级" autocomplete="off" data-msg="请输入规格等级">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="origin" id="origin" placeholder="产地" autocomplete="off" data-msg="请输入产地">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <input type="text" class="ipt" name="price" id="price" placeholder="单价" autocomplete="off" data-msg="请输入单价">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <input type="tel" class="ipt" name="amount" id="amount" placeholder="数量" autocomplete="off" data-msg="请输入数量">
+                    <span class="error"></span>
+                    <span class="unit">公斤</span>
+                </div>
+                <div class="ft">
+                    <button type="submit" class="ubtn ubtn-primary" id="submit">下单</button>
+                </div>
+            </form>
+    	</div>
+    </section><!-- /ui-content -->
+
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.autocomplete();
+                this.checkForm();
+            },
+            autocomplete: function() {
+            	var t,
+                    that = this,
+                    colors = ['aqua', 'green', 'yellow', 'red', 'navy', 'teal', 'olive', 'orange', 'fuchsia', 'purple', 'maroon'],
+                    $body = $('body'),
+                    $supplierSuggest = $('#supplierSuggest'),
+                    $breedSuggest = $('#breedSuggest');
+
+                var search = function(url, call) {
+                	$('.suggest').hide();
+                    $.ajax({
+                        url: url,
+                        cache: false,
+                        success: function(res) {
+                        	call(res);
+                        }
+                    })
+                }
+
+                var search1 = function(val) {
+                    t && clearTimeout(t);
+                    t = setTimeout(function() {
+                        search('json/supplier.json', function(res) {
+                			var model = [],
+                                idx = 0;
+                            $.each(res.data, function(i, item) {
+                            	model.push('<li class="items" data-name="' + item.name + '"data-id="' + item.id + '"><span>' + item.name + '</span><span>' + item.mobile + '</span><span>' + item.region + '</span></li>');
+                            })
+                            if (model.length === 0) {
+                                model.push('<span>暂无此供应商</span>');
+                            } else {
+                            	model.push('</ul>');
+                            	model.unshift('<ul>');
+                            }
+                            $supplierSuggest.show().find('.suggest-panel').html(model.join(''));
+                		})
+                    }, 300);
+                }
+
+                var search2 = function(val) {
+                    t && clearTimeout(t);
+                    t = setTimeout(function() {
+                        search('json/catName.json', function(res) {
+                			var model = [],
+                                idx = 0;
+                            $.each(res.data, function(i, item) {
+                            	var className = 'bg-' + colors[idx++];
+                                model.push('<a href="javascript:;" class="', className, '" id="', item.id, '">', item.name, '</a>');
+                            })
+                            if (model.length === 0) {
+                                model.push('<span>暂无此品种</span>');
+                            } else {
+                            	model.push('</div>');
+                            	model.unshift('<div class="inner">');
+                            }
+                            $breedSuggest.show().find('.suggest-panel').html(model.join(''));
+                		})
+                    }, 300);
+                }
+
+                $('#supplier').on('input', function() {
+                	this.value ? search1() : $supplierSuggest.hide();
+                })
+
+                // 选择供应商
+                $supplierSuggest.on('click', 'li', function() {
+                    var name = $(this).data('name'),
+                        id = $(this).data('id');
+                	$('#supplier').val(name);
+                	$('#supplierID').val(id);
+                    $supplierSuggest.hide();
+                })
+
+                $('#breed').on('input', function() {
+                	this.value ? search2() : $breedSuggest.hide();
+                })
+
+                // 选择品种
+                $breedSuggest.on('click', 'a', function() {
+                	$('#breed').val($(this).html());
+                	$('#breedID').val(this.id);
+                    $breedSuggest.hide();
+                })
+
+                // 关闭
+                $body.on('click', '.suggest-close', function() {
+                    $(this).parent().hide();
+                })
+            },
+            checkForm: function() {
+            	var $ipt = $('#myform').find('.ipt');
+
+            	var msg = function(el, msg) {
+            		$(el).parent().find('.error').html(msg)[msg ? 'show' : 'hide']();
+            	}
+
+            	$ipt.on('focus', function() {
+            		msg(this);
+            		// $(this).siblings('.error').hide();
+            	})
+
+            	// 数量
+            	$('#amount').on('keyup', function() {
+            		var val = this.value;
+                    if (val) {
+                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : '';
+                        this.value = val;
+                    }
+            	})
+
+                // 单价
+                $('#price').on('keyup', function() {
+                    var val = this.value;
+                    if (!/^\d+\.?\d*$/.test(val)) {
+                        val = Math.abs(parseFloat(val));
+                        this.value = isNaN(val) ? '' : val;
+                    }
+                })
+
+
+            	$('#submit').on('click', function() {
+            		var pass = true;
+            		$ipt.each(function() {
+            			console.log(this.value)
+            			if (this.value) {
+							msg(this);
+            			} else {
+            				msg(this, $(this).data('msg') || '此处不能为空');
+							pass = false;
+            			}
+            		})
+            		if (pass) {
+            			window.location.href = 'purchase_express.html';
+            		}
+            		return pass;
+            	})
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>
