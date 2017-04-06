@@ -150,7 +150,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 
 	@Override
 	@Transactional
-	public void register(String phone, String code, String password) {
+	public void register(String phone, String code, String password, String name) {
 
 		String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue()+phone);
 
@@ -182,6 +182,17 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			user.setPassword(pass.getPassword());
 			user.setSalt(pass.getSalt());
 			create(user);
+
+			//新需求中注册新增"姓名"字段，add by kevin 20170405
+			UserDetail userDetail = new UserDetail();
+			userDetail.setUserId(user.getId());
+			userDetail.setType(IdentityTypeEnum.t0.getId());
+			userDetail.setName(name);
+			userDetail.setPhone(phone);
+			userDetail.setContract(0);//因为是采购商注册，默认未签合同，所以填0
+			userDetail.setCreateTime(new Date());
+			userDetail.setUpdateTime(new Date());
+			userDetailService.create(userDetail);
 		}
 	}
 

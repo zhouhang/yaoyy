@@ -58,7 +58,7 @@
                         <div class="choose" id="chooseBreeds">
                         <#if supplierVo?exists && supplierVo.enterCategoryList??>
                             <#list supplierVo.enterCategoryList as category>
-                                <span>${category.name}<i data-id="${category.id}"></i></span>
+                                <span>${category.name}<i data-id="${category.id?c}"></i></span>
                             </#list>
                         </#if>
                         </div>
@@ -82,7 +82,7 @@
                                 <#if commodityVos??>
                                 <#list commodityVos as commodity>
                                 <tr>
-                                    <input type="hidden" value="${commodity.id!}" attr="supplierCommodtiyId">
+                                    <input type="hidden" value="${(commodity.id?c)!}" attr="supplierCommodtiyId">
                                     <td><div class="ipt-wrap"><input type="text" class="ipt jname" attr="name" value="${commodity.name!}" autocomplete="off"></div></td>
                                     <td><div class="ipt-wrap"><input type="text" class="ipt" attr="spec" value="${commodity.spec!}" autocomplete="off"></div></td>
                                     <td><div class="ipt-wrap"><input type="text" class="ipt" attr="origin" value="${commodity.origin!}" autocomplete="off"></div></td>
