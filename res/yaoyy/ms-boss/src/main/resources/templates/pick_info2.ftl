@@ -258,7 +258,10 @@
                     <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
                     </#if>
                     <#if pickVo.status==7>
-                        <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
+                        <a href="javascript:;" class="ubtn ubtn-blue" id="complete_btn">检验合格订单完成</a>
+                    </#if>
+                    <#if pickVo.status==7>
+                        <a href="javascript:;" class="ubtn ubtn-red" id="return_btn">退货</a>
                     </#if>
 
                 </div>
@@ -445,7 +448,8 @@
             userUpdateUrl:'sample/userComplete/',
             configPayUrl:'payRecord/config/',
             deliveryUrl:'pick/delivery/',
-            addOrderAccount:"pick/addOrderAccount/"
+            addOrderAccount:"pick/addOrderAccount/",
+            orderCompleteUrl:"pick/orderComplete/"
         },
         fn: {
             init: function() {
@@ -679,6 +683,46 @@
                     title: '物流清单'
                 });
             })
+
+            //订单完成
+            $("#complete_btn").on('click',function(){
+                var self=$(this);
+                layer.confirm('确认检验合格，完成订单？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: _global.v.orderCompleteUrl,
+                        data: {"orderId":${pickVo.id},"action":"complete"},
+                        type: "POST",
+                        success: function(data) {
+                            if (data.status == "200") {
+                                window.location.reload();
+                            }
+                        }
+                    })
+                });
+            })
+            //退货
+            $("#return_btn").on('click',function(){
+                var self=$(this);
+                layer.confirm('确认退货？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(index){
+                    layer.close(index);
+                    $.ajax({
+                        url: _global.v.orderCompleteUrl,
+                        data: {"orderId":${pickVo.id},"action":"return"},
+                        type: "POST",
+                        success: function(data) {
+                            if (data.status == "200") {
+                                window.location.reload();
+                            }
+                        }
+                    })
+                });
+            })
+
 
 
             $('#configPay').on('click', function() {

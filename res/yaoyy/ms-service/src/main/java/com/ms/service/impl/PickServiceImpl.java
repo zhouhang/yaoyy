@@ -285,8 +285,58 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	}
 
+	@Override
+	@Transactional
+	public Boolean complete(Integer orderId, String action) {
+		PickVo oldPick=pickDao.findVoById(orderId);
+		if("complete".equals(action)){
+			Pick pick = new Pick();
+			pick.setId(orderId);
+			pick.setStatus(PickEnum.PICK_FINISH.getValue());
+			pick.setCompleteTime(new Date());
+			update(pick);
+			PickTracking pickTracking=new PickTracking();
+			Member member=memberService.findById(oldPick.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(orderId);
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_COMPLETE.getValue());
+			pickTrackingDao.create(pickTracking);
+			//供应商消息记录
+			String content = "您的订单："+oldPick.getCode()+" 商品检验合格，订单已完成！";
+			MsgProducerEvent mp =new MsgProducerEvent(oldPick.getSupplierId(),orderId, MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+			applicationContext.publishEvent(mp);
+			return true;
+		}else{
+			Pick pick = new Pick();
+			pick.setId(orderId);
+			pick.setStatus(PickEnum.PICK_RETURN.getValue());
+			pick.setCompleteTime(new Date());
+			update(pick);
+			PickTracking pickTracking=new PickTracking();
+			Member member=memberService.findById(oldPick.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(orderId);
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RETURN.getValue());
+			pickTrackingDao.create(pickTracking);
+			//供应商消息记录
+			String content = "您的订单："+oldPick.getCode()+" 检验不合格，需要退货！";
+			MsgProducerEvent mp =new MsgProducerEvent(oldPick.getSupplierId(),orderId, MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+			applicationContext.publishEvent(mp);
+			return false;
+		}
 
 
+	}
 
 
 	@Override

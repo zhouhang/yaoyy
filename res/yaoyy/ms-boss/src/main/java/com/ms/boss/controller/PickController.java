@@ -212,6 +212,24 @@ public class PickController extends BaseController {
     }
 
 
+
+    @RequestMapping(value = "orderComplete", method = RequestMethod.POST)
+    @ResponseBody
+    @SecurityToken(validateToken = true)
+    @BizLog(type = LogTypeConstant.ORDER, desc = "订单完成")
+    public Result orderComplete(Integer orderId,String action){
+        Boolean result = pickService.complete(orderId,action);
+        String msg = "";
+        if(result){
+            msg = "订单已完成!";
+        }else{
+            msg = "订单退货成功!";
+        }
+        return Result.success().msg(msg);
+    }
+
+
+
     /**
      * 生成订单
      * @param pickVo
