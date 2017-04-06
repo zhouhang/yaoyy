@@ -46,7 +46,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private CommodityService commodityService;
 
-	private CodeDao codeDao;
 
 	@Autowired
 	private  ApplicationContext applicationContext;
