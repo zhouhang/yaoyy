@@ -78,7 +78,7 @@
                                 <td><a href="/commodity/detail/${pickCommodityVo.id}">${pickCommodityVo.name}</a></td>
                                 <td>${pickCommodityVo.origin}</td>
                                 <td class="tl"><p>${pickCommodityVo.spec}</p></td>
-                                <td>${pickCommodityVo.num}</td>
+                                <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price?c}" value="${pickCommodityVo.num?c}"></div></td>
                                 <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
                                 <td>${supplierDetail.name!}</td>
                                 <td>${supplierDetail.phone!}</td>
@@ -128,9 +128,6 @@
                 </div>
                </#if>
             </div>
-
-
-
             <div class="box fa-form fa-form-info">
                 <div class="hd">结算详情</div>
                 <div class="item">
@@ -153,16 +150,6 @@
                         </#if>
                     </div>
                 </div>
-                <#--
-                <div class="item">
-                    <div class="txt">检测费：</div>
-                    <div class="val"><em>${pickVo.checking!}元</em>
-                    <#if pickVo.checking?exists&&pickVo.checking==0>
-                        （免检测费）
-                    </#if>
-                    </div>
-                </div>
-                -->
                 <div class="item">
                     <div class="txt">税费：</div>
                     <div class="val"><em>${pickVo.taxation!}元</em></div>
@@ -171,6 +158,7 @@
                     <div class="txt">总计：</div>
                     <div class="val"><em>${pickVo.amountsPayable!}元</em></div>
                 </div>
+
                 <div class="hr"></div>
                 <div class="item f16">
                     <div class="txt">结算类型：</div>
@@ -203,7 +191,7 @@
                     </div>
                     <div class="item">
                         <div class="txt">支付时间：</div>
-                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")}</div>
+                        <div class="val">${payRecord.paymentTime?string("yyyy年MM月dd日 HH:mm")!}</div>
                     </div>
                 <#if payRecord.payType!=0>
 
@@ -245,28 +233,39 @@
                     <div class="val">${logisticalVo.shipDate?string("yyyy年MM月dd日")}</div>
                 </div>
                     <#if logisticalVo.content??>
-                    <div class="item">
-                        <div class="txt">发货信息：</div>
-                        <div class="val">${logisticalVo.content!}</div>
-                    </div>
+                        <div class="item">
+                            <div class="txt">发货信息：</div>
+                            <div class="val">${logisticalVo.content!}</div>
+                        </div>
                     </#if>
                     <#if logisticalVo.pictureUrl??>
-                    <div class="item">
-                        <div class="txt">发货单据：</div>
-                        <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl!}" alt=""></div>
-                    </div>
+                        <div class="item">
+                            <div class="txt">发货单据：</div>
+                            <div class="val thumb"><img width="160" height="80" src="${logisticalVo.pictureUrl!}" alt=""></div>
+                        </div>
                     </#if>
                 </#if>
 
                 <div class="ft">
+
+                    <#if pickVo.status==6&&!pickVo.amountsPayable?exists>
+                        <button id="submit4" type="button" class="ubtn ubtn-blue submit4">添加账单信息</button>
+                    </#if>
                     <#if pickVo.status==5&&!payRecord?exists>
                         <a href="pick/detail/${pickVo.id}?edit=update" class="ubtn ubtn-blue">修改订单</a>
                     </#if>
                     <#if pickVo.status==6>
                     <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
                     </#if>
+                    <#if pickVo.status==7>
+                        <a href="javascript:;" class="ubtn ubtn-blue" id="submit2">确认发货</a>
+                    </#if>
+
                 </div>
+
             </div>
+
+
             <div class="box fa-form">
                 <div class="hd">订单追踪</div>
                 <ol class="trace" id="trace">
@@ -350,6 +349,62 @@
 <#include "./common/footer.ftl"/>
 </div>
 
+<script type="temp" id="temp_account">
+<div class="fa-form fa-form-info fa-form-layer">
+ <form id="orderForm">
+<input type="hidden"  class="ipt" value="${pickVo.id}" name="id">
+    <div class="item">
+        <div class="txt">商品总价：</div>
+        <div class="cnt"><input type="text" class="ipt" id="sum2" name="sum" value="0" disabled></div>
+    </div>
+    <div class="item">
+        <div class="txt">运费：</div>
+        <div class="cnt"><input type="text" class="ipt price" name="shippingCosts" value="0"> <span class="unit">元</span></div>
+    </div>
+    <div class="item">
+        <div class="txt">包装加工费：</div>
+        <div class="cnt"><input type="text" class="ipt price" name="bagging" value="0"> <span class="unit">元</span></div>
+    </div>
+    <!--
+    <div class="item">
+        <div class="txt">检测费：</div>
+        <div class="cnt"><input type="text" class="ipt price" name="checking" value="0"> <span class="unit">元</span></div>
+    </div>
+    -->
+    <div class="item">
+        <div class="txt">税款：</div>
+        <div class="cnt"><input type="text" class="ipt price" name="taxation" value="0"> <span class="unit">元</span></div>
+    </div>
+    <div class="item">
+        <div class="txt">总计：</div>
+        <div class="cnt"><em class="c-red" id="sum3" name="amountsPayable">800</em></div>
+    </div>
+    <div class="item">
+        <div class="txt">付款方式：</div>
+        <div class="cnt cbxs">
+            <#--<label><input type="radio" name="settleType" class="cbx" value="0" checked>全款</label>-->
+            <#--<label><input type="radio" name="settleType" class="cbx" value="1">保证金</label>-->
+            <label><input type="radio" name="settleType" class="cbx" value="2" checked>赊账</label>
+        </div>
+    </div>
+    <div class="group">
+        <div class="item">
+            <div class="txt">保证金金额：</div>
+            <div class="cnt"><input type="text" class="ipt ipt-short deposit" name="deposit" id="deposit" value=""> <span class="unit">元</span></div>
+        </div>
+        <div class="item">
+            <div class="txt">账期：</div>
+            <div class="cnt"><input type="text" class="ipt ipt-short day" name="billTime" id="billTime"value="60"> <span class="unit">天</span></div>
+        </div>
+    </div>
+    <div class="button">
+        <button type="button" class="ubtn ubtn-blue">确认</button>
+        <button type="button" class="ubtn ubtn-gray">关闭</button>
+    </div>
+     </form>
+</div>
+</script>
+
 <script src="assets/js/area.js"></script>
 <form id="temp" class="hide">
     <input type="hidden"  class="ipt" value="${pickVo.id}" name="orderId">
@@ -362,7 +417,6 @@
             <div class="txt">发货信息：</div>
             <div class="cnt"><textarea name="note" id="content" class="ipt ipt-mul" cols="30" rows="10"></textarea></div>
         </div>
-
         <div class="item">
             <div class="txt">发货单据：</div>
             <div class="cnt">
@@ -382,11 +436,16 @@
 <script src="assets/plugins/laydate/laydate.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 <script>
+    !(function() {
+        var formatPrice = function(val) {
+            return val.toFixed(2);
+        }
     var _global = {
         v: {
             userUpdateUrl:'sample/userComplete/',
             configPayUrl:'payRecord/config/',
-            deliveryUrl:'pick/delivery/'
+            deliveryUrl:'pick/delivery/',
+            addOrderAccount:"pick/addOrderAccount/"
         },
         fn: {
             init: function() {
@@ -426,21 +485,201 @@
                     });
                 });
             },
+
+            //添加报价信息
+            submit4: function(model) {
+                var self = this;
+                layer.open({
+                    id: 'calc',
+                    skin: 'layer-form',
+                    area: ['600px'],
+                    type: 1,
+                    content: model,
+                    title: '报价清单'
+                });
+
+                $('#calc').height('auto');
+                this.total();
+            },
+            total: function() {
+                var sum = 0;
+                $.each(this.unitPrice, function(i, item) {
+                    sum += parseFloat(item.sum);
+                })
+                this.sum = sum;
+                sum = formatPrice(sum);
+                $('#sum1').html(sum);
+                $('#sum2').val(sum);
+                this.total2();
+            },
+            // 统计各种费用后的价格
+            total2: function() {
+                var sum = this.sum;
+                $('#calc').find('.price').each(function() {
+                    sum += parseFloat(this.value==""?0:this.value);
+                })
+                $('#sum3').html(formatPrice(sum));
+                $('#deposit').val(sum*0.2);
+            },
         bindEvent: function() {
             var self = this,
                 $trace = $('#trace'),
                 $pa = $trace.parent(),
                 $temp = $('#temp');
+            $body = $('body');
+            $ipts = $('.table').find('.ipt'),
+
+            this.unitPrice = [];
+
+            $ipts.each(function(i) {
+                var $sum = $(this).closest('tr').find('span'),
+                        myprice = $(this).data('price');
+
+                // 保存初始值
+                self.unitPrice.push({
+                    sum: this.value * myprice
+                })
+
+                // 小计
+                $sum.html(formatPrice(this.value * myprice));
+
+                // 修改数量
+                $(this).on('blur', function() {
+                    var amount = this.value,
+                            sum = 0;
+                    if (amount) {
+                        amount = (!isNaN(amount = parseInt(amount, 10)) && amount) > 0 ? amount : 1;
+                    } else {
+                        amount = 1;
+                    }
+                    sum = formatPrice(amount * myprice);
+                    $sum.html(sum);
+                    this.value = amount;
+                    self.unitPrice[i].sum = sum;
+                    self.total();
+                })
+            })
+
+            $body.on('focus', '.ipt', function() {
+                $(this).select();
+            })
+
+            // 各种费用
+            $body.on('keyup', '.price', function() {
+                var val = this.value;
+                if (!/^\d+\.?\d*$/.test(val)) {
+                    val = Math.abs(parseFloat(val));
+                    this.value = isNaN(val) ? '' : val;
+                }
+            })
+                    .on('blur', '.price', function() {
+                        if (!this.value) {
+                            this.value = 0;
+                        }
+                        self.total2();
+                    })
+
+            // 保证金
+            $body.on('keyup', '.deposit', function() {
+                var val = this.value;
+                if (!/^\d+\.?\d*$/.test(val)) {
+                    val = Math.abs(parseFloat(val));
+                    this.value = isNaN(val) ? '' : val;
+                }
+            })
+
+            // 账期
+            $body.on('keyup', '.day', function() {
+                var val = this.value;
+                if (val) {
+                    val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : 1;
+                    this.value = Math.max(val, 1);
+                }
+            })
+
+            // 付款方式
+            $body.on('click', '.cbx', function() {
+                if (this.value == 0) {
+                    $('#calc').find('.group').hide();
+                } else if (this.value == 1) {
+                    $('#calc').find('.group').show().find('.item').show();
+                } else {
+                    $('#calc').find('.group').show().find('.item').hide().eq(1).show();
+                }
+            })
+
+            // 确定
+            $body.on('click', '#calc .ubtn-blue', function() {
+                var sum=$("#sum2").val();
+                var amountsPayable=$("#sum3").text();
+                var billTime=$("#billTime").val();
+                var deposit=$("#deposit").val();
+                var settleType=$(".cbx[name='settleType']:checked").val();
+                if(parseInt(billTime)<7){
+                    $.notify({
+                        type: 'error',
+                        title: '账期不得少于七天'
+                    });
+                    return;
+                }
+                if(settleType=='1'&&parseFloat(deposit)<=0){
+                    $.notify({
+                        type: 'error',
+                        title: '保证金不能为0'
+                    });
+                    return;
+                }
+                $.ajax({
+                    url: _global.v.addOrderAccount,
+                    data: $("#orderForm").serialize()+"&sum="+sum+"&amountsPayable="+amountsPayable,
+                    type: "POST",
+                    success: function(data) {
+                        window.location.reload();
+                    }
+                })
+            })
+
+            // 关闭弹层
+            $body.on('click', '#calc .ubtn-gray', function() {
+                layer.closeAll();
+            })
+
+            $("#saveUser").on('click', function() {
+                var url = _global.v.userUpdateUrl;
+                $.ajax({
+                    url: url,
+                    data: $("#userForm").serialize()+"&remark="+$("#userRemark").val(),
+                    type: "POST",
+                    success: function(data){
+                        if (data.status == "200") {
+                            $.notify({
+                                type: 'success',
+                                title: '保存成功'
+                            });
+                        }
+
+                    }
+                });
+            });
+
+
+
+            $('#submit4').on('click', function() {
+                self.submit4($('#temp_account').html());
+                return false;
+            })
+
 
             $('#submit2').on('click', function() {
-                layer.open({      
-                    skin: 'layer-form',        
+                layer.open({
+                    skin: 'layer-form',
                     area: ['600px'],
                     type: 1,
                     content: $temp,
                     title: '物流清单'
                 });
             })
+
 
             $('#configPay').on('click', function() {
                 var self=$(this);
@@ -459,6 +698,7 @@
                         }
                     })
                 });
+
             })
 
             // 关闭弹层
@@ -528,6 +768,7 @@
     $(function() {
         _global.fn.init();
     })
+    })();
 </script>
 </body>
 </html>
