@@ -115,4 +115,7 @@ public interface PickService extends ICommonService<Pick>{
 
 
     public void addOrderAccount(PickVo pickVo);
+
+
+    public Boolean complete(Integer orderId,String action);
 }

@@ -74,6 +74,8 @@ public class Pick  implements Serializable {
 	private Date updateTime;
 	
 	private Date createTime;
+
+	private Date completeTime;
 	
 	public Pick(){}
 	
@@ -267,5 +269,13 @@ public class Pick  implements Serializable {
 
 	public void setSupplierId(Integer supplierId) {
 		this.supplierId = supplierId;
+	}
+
+	public Date getCompleteTime() {
+		return completeTime;
+	}
+
+	public void setCompleteTime(Date completeTime) {
+		this.completeTime = completeTime;
 	}
 }

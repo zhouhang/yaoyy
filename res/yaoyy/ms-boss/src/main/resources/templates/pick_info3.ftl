@@ -101,7 +101,7 @@
                 <div class="item">
                     <div class="txt">商品总价：</div>
                     <div class="cnt">
-                        <input type="text" class="ipt" id="sum2"  name="sum" value="${pickVo.sum!}" disabled>
+                        <input type="text" class="ipt" id="sum2"  name="sum" value="${(pickVo.sum?c)!}" disabled>
                         <span class="unit">元</span>
                     </div>
                 </div>

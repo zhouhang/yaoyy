@@ -117,7 +117,7 @@
                         </div>
                         <div class="item">
                             <div class="txt">约定发货时间：</div>
-                            <div class="val">${pickVo.deliveryDate!}</div>
+                            <div class="val">${(pickVo.deliveryDate?string("yyyy年MM月dd日 HH:mm"))!}</div>
                         </div>
 
                         <div class="item">
