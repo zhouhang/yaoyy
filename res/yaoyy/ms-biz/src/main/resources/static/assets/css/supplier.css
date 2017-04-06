@@ -99,3 +99,25 @@ body{padding-bottom:70px;}
 .layer-custom2 .hd{margin-bottom:15px;font-size:1.6rem;color:#333;}
 .layer-custom2 .bd{line-height:22px;font-size:1.2rem;color:#aaa;text-align:left;}
 .layer-custom2 .layui-m-close{display:none;}
+
+
+/* floors */
+.detail{padding:0 13px;background:#fff;}
+.detail .item{position:relative;line-height:26px;padding:13px 0;border-top:1px solid #e7e7e7;}
+.detail em{color:#c3272b;}
+.detail span{color:#999;}
+.detail label{display:block;font-weight:700;}
+.detail  .t3{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.detail .mr{padding-right:10px;}
+.detail .button{padding:13px 0 7px;overflow:hidden;}
+.detail .ubtn{height:50px;line-height:50px;font-size:1.6rem;background-color:#08f;-webkit-border-radius:5px;border-radius:5px;}
+.detail .arrow{position:absolute;top:0;right:13px;left:13px;bottom:0;background:url(../images/ico-arrow-r.png) no-repeat 100% 50%;background-size:9px auto;}
+.detail .info p{position:relative;padding-left:90px;font-size:1.2rem;}
+.detail .info span{position:absolute;top:0;left:0;width:80px;text-align:right;}
+.detail .op{right:0;}
+.detail .date{left:80px;right:0;}
+.detail .date .ipt{width:100%;height:26px;border:0;background:none;}
+.detail .summary{line-height:56px;}
+.detail .summary em{color:#c3272b;}
+.detail .summary .li{text-align:right;border-top:1px solid #e7e7e7;}
+.detail .ft{margin-top:10px;}
