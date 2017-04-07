@@ -127,6 +127,20 @@ public class SupplierController {
         return Result.success().data(pageInfo);
     }
 
+    /**
+     * 供应商订单详情
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "orderDetail/{id}", method = RequestMethod.GET)
+    public String orderDetail(@PathVariable("id") Integer id, ModelMap model) {
+
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        PickVo pickVo = pickService.findVoById(id);
+        model.put("pickVo", pickVo);
+        return "supplier/order_detail";
+    }
+
 
     /**
      * 寄卖商品列表和 寄卖商品跟踪消息
