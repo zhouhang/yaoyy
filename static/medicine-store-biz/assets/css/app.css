@@ -502,6 +502,8 @@ em,i{font-style:normal;}
 .umenu{background:#fff;overflow:hidden;}
 .umenu li{float:left;width:33%;height:70px;border-left:1px solid #e7e7e7;border-bottom:1px solid #e7e7e7;overflow:hidden;}
 .umenu li:nth-child(3n-2){width:34%;border-left:none;}
+.umenu .i{display:inline-block;width:25px;height:25px;background:no-repeat;background-size:25px auto;}
+.umenu .i-7{background-image:url(../images/ico-u-7.png);}
 .umenu a{position:relative;display:block;padding:12px 0;text-align:center;}
 .umenu a span{display:block;margin-top:3px;font-size:1.2rem;}
 .umenu a b{position:absolute;top:10px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.5rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
