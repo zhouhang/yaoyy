@@ -224,9 +224,11 @@ em,i{font-style:normal;}
 .order .ipt{height:40px;padding:3px 7px;border:1px solid #e7e7e7;}
 .order .item{position:relative;margin-bottom:10px;padding:16px 13px;background:#fff;}
 .order .item .arrow{position:absolute;top:0;right:13px;left:13px;bottom:0;background:url(../images/ico-arrow-r.png) no-repeat 100% 50%;background-size:9px auto;}
+.order .ft{margin:20px 13px;}
+.order .ubtn{height:50px;line-height:50px;font-size:1.6rem;background-color:#08f;-webkit-border-radius:5px;border-radius:5px;}
 .order .label{display:block;margin-bottom:10px;color:#999;font-size:1.2rem;}
 .order .note{padding:20px 13px;}
-.order .note .mul{display:block;width:100%;height:75px;margin-top:5px;}
+.order .note .mul{display:block;width:100%;height:75px;margin-top:5px;padding:7px;}
 .order .t1{display:block;font-weight:400;}
 .order .t2{display:block;padding:6px 28px 0 0;color:#999;font-size:1.2rem;}
 .order .t3{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
