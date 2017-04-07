@@ -219,7 +219,7 @@ public class PickController extends BaseController {
     @BizLog(type = LogTypeConstant.ORDER, desc = "订单完成")
     public Result orderComplete(Integer orderId,String action){
         Boolean result = pickService.complete(orderId,action);
-        String msg = "";
+        String msg;
         if(result){
             msg = "订单已完成!";
         }else{

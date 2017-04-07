@@ -473,12 +473,9 @@ public class SupplierController {
         if(supplierVo.getId()==null){
             if(supplierService.existSupplier(supplierVo.getPhone())){
                 result = Result.error().msg("存在该手机号对应的供货商");
-
                 return result;
             }
-
         }
-
         supplierService.certify(supplierCertifyVo);
         result.setData(supplierCertifyVo.getSupplier());
         return result;

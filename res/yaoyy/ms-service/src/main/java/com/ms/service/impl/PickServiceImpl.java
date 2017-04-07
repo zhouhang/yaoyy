@@ -471,10 +471,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickTracking.setCreateTime(new Date());
 		pickTracking.setUpdateTime(new Date());
 		pickTracking.setPickId(pickVo.getId());
-		if(status==PickEnum.PICK_CANCLE.getValue()){
+		if(status.equals(PickEnum.PICK_CANCLE.getValue())){
 			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_CANCEL.getValue());
 			pickTrackingDao.create(pickTracking);
-		}else if(status==PickEnum.PICK_FINISH.getValue()){
+		}else if(status.equals(PickEnum.PICK_FINISH.getValue())){
 			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RECEIPT.getValue());
 			pickTrackingDao.create(pickTracking);
 		}
@@ -493,7 +493,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Transactional
 	public void delivery(LogisticalVo logisticalVo,Member mem) {
 		logisticalService.save(logisticalVo);
-
 		Date now=new Date();
 		Pick pick =new Pick();
 		pick.setId(logisticalVo.getOrderId());
@@ -501,7 +500,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setDeliveryDate(logisticalVo.getShipDate());
 		pick.setUpdateTime(now);
 		pickDao.update(pick);
-
 		PickTrackingVo pickTrackingVo=new PickTrackingVo();
 		pickTrackingVo.setPickId(logisticalVo.getOrderId());
 		pickTrackingVo.setOperator(mem.getId());
@@ -513,14 +511,43 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		}
 		pickTrackingVo.setCreateTime(now);
 		pickTrackingVo.setUpdateTime(now);
-
 		pickTrackingDao.create(pickTrackingVo);
-
 		//通知用户待收货
 		pick = findById(pick.getId());
 		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_DELIVERY, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
 	}
+
+	@Override
+	@Transactional
+	public void supplierDelivery(LogisticalVo logisticalVo,UserDetail supplier){
+		logisticalService.save(logisticalVo);
+		Pick pick =new Pick();
+		pick.setId(logisticalVo.getOrderId());
+		pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
+		pick.setUpdateTime(new Date());
+		pick.setDeliveryDate(logisticalVo.getShipDate());
+		update(pick);
+
+
+		PickTrackingVo pickTrackingVo=new PickTrackingVo();
+		pickTrackingVo.setPickId(logisticalVo.getOrderId());
+		pickTrackingVo.setOperator(supplier.getUserId());
+		pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+		pickTrackingVo.setName(supplier.getName());
+		pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue());
+		if(pickTrackingVo.getExtra()==null){
+			pickTrackingVo.setExtra("");
+		}
+		pickTrackingVo.setCreateTime(new Date());
+		pickTrackingVo.setUpdateTime(new Date());
+		pickTrackingDao.create(pickTrackingVo);
+
+	}
+
+
+
+
 
 	@Override
 	@Transactional

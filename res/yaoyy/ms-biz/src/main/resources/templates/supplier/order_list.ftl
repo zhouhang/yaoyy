@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <#include "../common/meta.ftl"/>
-        <title>订单列表-药优优</title>
+    <title>供应商订单列表-药优优</title>
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
 <body class="body-gray">
@@ -69,7 +69,7 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
-                    html.push('<a href="supplier/detail/'+item.id+'">');
+                    html.push('<a href="supplier/orderDetail/'+item.id+'">');
                     html.push('<div class="hd">');
                     html.push('<div class="row">');
                     var jimai = "";

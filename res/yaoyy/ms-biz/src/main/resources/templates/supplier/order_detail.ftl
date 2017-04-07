@@ -1,100 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>订单详情-药优优</title>
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="../assets/css/app.css">
-    <link rel="stylesheet" href="../assets/css/supplier.css">
-</head>
+    <title>供应商订单详情-药优优</title>
+    <#include "../common/meta.ftl"/>
+    <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
+
+  </head>
 <body>
-<footer class="footer">
-    <nav class="nav">
-        <ul>
-            <li>
-                <a href="index.html">
-                    <i class="home"></i>
-                    <span>首页</span>
-                </a>
-            </li>
-            <li>
-                <a href="price.html">
-                    <i class="cart"></i>
-                    <span>商品调价</span>
-                </a>
-            </li>
-            <li>
-                <a href="order.html">
-                    <i class="menu"></i>
-                    <span>订单记录</span>
-                </a>
-            </li>
-            <li>
-                <a href="news.html">
-                    <i class="msg"></i>
-                    <span>消息</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</footer>
+<#include "../common/footer.ftl"/>
 
 <div class="ui-content">
     <div class="detail">
         <div class="item">
-            <p><span>状态：</span><em>待支付</em></p>
-            <p><span>订单号：</span>148724516951</p>
-            <p><span>下单时间：</span>2017-03-27 11:29:09</p>
+            <input  id="orderId" type="hidden" value="${pickVo.id!}" />
+            <p><span>状态：</span><em>${pickVo.statusText!}</em></p>
+            <p><span>订单号：</span>${pickVo.code!}</p>
+            <p><span>下单时间：</span>${pickVo.createTime?date}</p>
         </div>
 
         <div class="item">
             <label>采购单</label>
-            <div class="t3 fr">1000公斤 <em>15</em>元/公斤</div>
-            <div class="t3 mr">三棱  浙江  统个三棱  浙江  统个三棱  浙江  统个</div>
+            <#list pickVo.pickCommodityVoList as pickCommodityVo >
+            <div class="t3 fr">${pickCommodityVo.num?c}${pickCommodityVo.unit} <em>${pickCommodityVo.price}</em>元/${pickCommodityVo.unit}</div>
+            <div class="t3 mr">${pickCommodityVo.name}  ${pickCommodityVo.origin}  ${pickCommodityVo.spec}</div>
+            </#list>
         </div>
+
         <div class="item">
             <label>货物要求</label>
-            <div>干度90%，含量74%</div>
+            <div>${pickVo.remark!}</div>
         </div>
+
         <div class="item info">
-            <label>收货信息</label>
-            <p><span>采购单位：</span>安徽省沪谯饮片厂</p>
-            <p><span>采购人：</span>王彬</p>
-            <p><span>采购人手机：</span>17099928881</p>
-            <p><span>收货地址：</span>武汉</p>
-            <p><span>收货人：</span>张三</p>
-            <p><span>收货人手机：</span>17099928881</p>
+            <label>送货信息</label>
+            <p><span>采购单位：</span>${userDetail.company!}</p>
+            <p><span>采购人：</span>${userDetail.name!}</p>
+            <p><span>采购人手机：</span>${userDetail.phone!}</p>
+            <#if shippingAddressHistory?exists>
+                <p><span>收货地址：</span>${shippingAddressHistory.detail!}</p>
+                <p><span>收货人：</span>${shippingAddressHistory.consignee!}</p>
+                <p><span>收货人手机：</span>${shippingAddressHistory.tel!}</p>
+            </#if>
+
         </div>
         <div class="item">
             <span>送货时间：</span>
-            <a href="javascript:;" class="op mid c-blue">修改送货时间</a>
+            <#if pickVo.status==6>
+                <a href="javascript:;" class="op mid c-blue">修改送货时间</a>
+            </#if>
             <div class="date mid">
-                <input type="text" class="ipt" id="date" readonly="" value="2017-03-22" />
+                <input type="text" class="ipt" id="date" readonly="" value="${(pickVo.deliveryDate?string("yyyy-MM-dd HH:mm"))!}" />
             </div>
         </div>
         <div class="summary">
             <div class="li">
-                商品总价：<em id="_min">¥90.00</em>元
+                商品总价：<em >¥${pickVo.sum!}</em>元
+            </div>
+            <#if pickVo.shippingCosts?exists>
+            <div class="li">
+                运费：<em>¥${pickVo.shippingCosts!}</em>元
+            </div>
+            </#if>
+            <#if pickVo.bagging?exists>
+            <div class="li">
+                包装加工费：<em>¥${pickVo.bagging!}</em>元
+            </div>
+            </#if>
+            <#if pickVo.taxation?exists>
+            <div class="li">
+                税费：<em>¥${pickVo.taxation!}</em>元
+            </div>
+            </#if>
+            <#if pickVo.amountsPayable?exists>
+            <div class="li">
+                总计：<em>¥${pickVo.amountsPayable!}</em>元
+            </div>
+            </#if>
+            <#if pickVo.settleType?exists&&pickVo.settleType==2>
+            <div class="li">
+                帐期：<em>${pickVo.billTime!}</em>天
+            </div>
+            </#if>
             </div>
         </div>
-        <div class="ft">
-            <button type="button" id="submit" class="ubtn ubtn-primary">确认发货</button>
-        </div>
+        <#if pickVo.status==6>
+            <div class="ft">
+                <button type="button" id="submit" class="ubtn ubtn-primary">确认发货</button>
+            </div>
+        </#if>
     </div>
 </div>
 
-<link rel="stylesheet" href="../assets/mobiscroll/css/mobiscroll.css" />
-<script src="../assets/js/zepto.min.js"></script>
-<script src="../assets/js/app.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.zepto.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.core.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.scroller.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.datetime.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.i18n.zh.js"></script>
+<link rel="stylesheet" href="${urls.getForLookupPath('/assets/mobiscroll/css/mobiscroll.css')}" />
+<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.zepto.js')}"></script>
+<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.core.js')}"></script>
+<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.scroller.js')}"></script>
+<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.datetime.js')}"></script>
+<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.i18n.zh.js')}"></script>
 <script>
 !(function() {
     var _global = {
@@ -128,13 +130,47 @@
                     //点击确定按钮，触发事件
                     onSelect: function(val) {
                         that.date = val;
+                        $.ajax({
+                            type: 'POST',
+                            url: '/supplier/update/DeliverTime',
+                            dataType: 'json',
+                            data: {orderId:$("#orderId").val(), date:val},
+                            success: function(result){
+                                if(result.status=='200'){
+                                    popover(result.msg);
+                                }
+                            },
+                            error: function(xhr, type){
+                                popover('网络连接超时，请您稍后重试!');
+                            }
+                        });
                     }
                 });
             },
             submit: function() {
                 var that = this;
                 $('#submit').on('click', function() {
-                    // alert(that.date)
+                    var date = $("#date").val();
+                    if(date==null||date==""){
+                        popover('请先填写送货时间!');
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/supplier/delivery',
+                        dataType: 'json',
+                        data: {orderId:$("#orderId").val(), date:date},
+                        success: function(result){
+                            if(result.status=='200'){
+                                popover(result.msg);
+                                location.reload();
+                            }
+                        },
+                        error: function(xhr, type){
+                            popover('网络连接超时，请您稍后重试!');
+                        }
+                    });
                 })
             }
         }
