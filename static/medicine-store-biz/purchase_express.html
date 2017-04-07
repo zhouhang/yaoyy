@@ -72,12 +72,16 @@
                 this.pickDate();
             },
             pickDate: function() {
-                var date = new Date();
+                var that = this,
+                    time = new Date(),
+                    year = time.getFullYear(),
+                    month = time.getMonth(),
+                    date = time.getDate();
 
                 $('#date').scroller({
                     preset: 'datetime',
-                    minDate: new Date,
-                    // invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+                    minDate: time,
+                    maxDate: new Date(year, month + 3, date),
                     theme: 'android-ics light',
                     mode: 'scroller',
                     lang: 'zh',
@@ -87,16 +91,12 @@
                     minWidth: 60,
                     height: 36,
                     showLabel: false,
-                    useShortLabels: true
+                    useShortLabels: true,
+                    //点击确定按钮，触发事件
+                    onSelect: function(val) {
+                        that.date = val;
+                    }
                 });
-
-                // mobiscroll.calendar('#demo', {
-                //     theme: 'ios',
-                //     lang: 'zh',
-                //     display: 'bottom',
-                //     controls: ['calendar', 'time'],
-                //     showScrollArrows: true
-                // });
             }
         }
     }
