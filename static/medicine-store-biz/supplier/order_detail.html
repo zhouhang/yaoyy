@@ -87,14 +87,9 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="../assets/mobiscroll/css/mobiscroll.css" />
 <script src="../assets/js/zepto.min.js"></script>
 <script src="../assets/js/app.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.zepto.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.core.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.scroller.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.datetime.js"></script>
-<script src="../assets/mobiscroll/js/mobiscroll.i18n.zh.js"></script>
+<script src="../assets/js/mobiscroll.min.js"></script>
 <script>
 !(function() {
     var _global = {
@@ -115,16 +110,8 @@
                     preset: 'datetime',
                     minDate: time,
                     maxDate: new Date(year, month + 3, date),
-                    theme: 'android-ics light',
-                    mode: 'scroller',
-                    lang: 'zh',
                     display: 'bottom',
-                    animate: '',
-                    rows: 5,
-                    minWidth: 60,
-                    height: 36,
-                    showLabel: false,
-                    useShortLabels: true,
+                    animate: 'slideup',
                     //点击确定按钮，触发事件
                     onSelect: function(val) {
                         that.date = val;
