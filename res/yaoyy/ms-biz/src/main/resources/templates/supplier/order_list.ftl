@@ -69,6 +69,7 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
+                    html.push('<a href="supplier/detail/'+item.id+'">');
                     html.push('<div class="hd">');
                     html.push('<div class="row">');
                     var jimai = "";
@@ -118,6 +119,7 @@
                         html.push('</div>');
                     }
 
+                    html.push('</a>');
                     html.push('</li>');
                 })
                 return html.join('');

@@ -35,7 +35,6 @@ public class PickVo extends Pick{
     // 发票信息
     private OrderInvoice invoice;
 
-    private Integer supplierId;
 
     // 订单客户名
     private String userName;
@@ -73,13 +72,7 @@ public class PickVo extends Pick{
         this.userBusinessTypeName = userBusinessTypeName;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
 
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
 
     public float getTotal() {
         return total;

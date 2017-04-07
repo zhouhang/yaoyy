@@ -77,7 +77,6 @@
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
-        LEFT JOIN commodity c ON hc.commodity_id = c.id
         LEFT JOIN user_detail ud on p.user_id = ud.user_id
         <where>
             <if test="code != null">
@@ -96,7 +95,7 @@
                 and  p.user_id= #{userId}
             </if>
             <if test="supplierId!= null">
-                AND c.supplier_id = #{supplierId}
+                AND p.supplier_id = #{supplierId}
             </if>
         </where>
         order by create_time desc ,status ASC

@@ -18,6 +18,7 @@ import com.ms.tools.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -90,9 +91,15 @@ public class SupplierController {
         PageInfo<MessageVo> messageVos = messageService.findByParams(messageVo, 0, 3);
         model.put("messageVos", messageVos.getList());
         model.put("mynews", messageService.findByParamsNoPage(messageVo).size());
-
         return "supplier/index";
     }
+
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public String orderDetail(@PathVariable("id") Integer id){
+            pickService.findVoById(id);
+        return "supplier/order_detail";
+    }
+
 
     /**
      * 订单列表页面
@@ -112,7 +119,6 @@ public class SupplierController {
     @RequestMapping(value = "order", method = RequestMethod.POST)
     @ResponseBody
     public Result orderData(Integer pageNum, Integer pageSize) {
-
         // 账期付款 账期信息获取: TODO:
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo vo = new PickVo();
