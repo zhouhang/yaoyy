@@ -117,7 +117,7 @@ body{padding-bottom:70px;}
 .detail .op{right:0;}
 .detail .date{left:80px;right:0;}
 .detail .date .ipt{width:100%;height:26px;border:0;background:none;}
-.detail .summary{line-height:56px;}
+.detail .summary{padding:15px 0;line-height:22px;border-top:1px solid #e7e7e7;}
 .detail .summary em{color:#c3272b;}
-.detail .summary .li{text-align:right;border-top:1px solid #e7e7e7;}
-.detail .ft{margin-top:10px;}
+.detail .summary .li{text-align:right;}
+.detail .ft{margin-top:20px;}
