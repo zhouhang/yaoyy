@@ -2,16 +2,9 @@ package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.enums.AnnouncementUserTypeEnum;
-import com.ms.dao.model.Message;
-import com.ms.dao.model.User;
-import com.ms.dao.vo.AnnouncementVo;
-import com.ms.dao.vo.CommodityVo;
-import com.ms.dao.vo.MessageVo;
-import com.ms.dao.vo.PickVo;
-import com.ms.service.AnnouncementService;
-import com.ms.service.CommodityService;
-import com.ms.service.MessageService;
-import com.ms.service.PickService;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.*;
+import com.ms.service.*;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.entity.Result;
@@ -25,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +27,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/supplier")
-public class SupplierController {
+public class SupplierController extends BaseController{
 
     @Autowired
     private CommodityService commodityService;
@@ -49,6 +43,13 @@ public class SupplierController {
 
     @Autowired
     private HttpSession httpSession;
+
+    @Autowired
+    private ShippingAddressHistoryService shippingAddressHistoryService;
+
+    @Autowired
+    private UserDetailService userDetailService;
+
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap model) {
@@ -91,9 +92,9 @@ public class SupplierController {
         PageInfo<MessageVo> messageVos = messageService.findByParams(messageVo, 0, 3);
         model.put("messageVos", messageVos.getList());
         model.put("mynews", messageService.findByParamsNoPage(messageVo).size());
-
         return "supplier/index";
     }
+
 
     /**
      * 订单列表页面
@@ -113,7 +114,6 @@ public class SupplierController {
     @RequestMapping(value = "order", method = RequestMethod.POST)
     @ResponseBody
     public Result orderData(Integer pageNum, Integer pageSize) {
-
         // 账期付款 账期信息获取: TODO:
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo vo = new PickVo();
@@ -122,6 +122,7 @@ public class SupplierController {
         return Result.success().data(pageInfo);
     }
 
+
     /**
      * 供应商订单详情
      * @param id
@@ -129,11 +130,57 @@ public class SupplierController {
      */
     @RequestMapping(value = "orderDetail/{id}", method = RequestMethod.GET)
     public String orderDetail(@PathVariable("id") Integer id, ModelMap model) {
-
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo pickVo = pickService.findVoById(id);
         model.put("pickVo", pickVo);
+        //收货地址
+        ShippingAddressHistory shippingAddressHistory = null;
+        if (pickVo.getAddrHistoryId() != null) {
+            shippingAddressHistory = shippingAddressHistoryService.findById(pickVo.getAddrHistoryId());
+        }
+        model.put("shippingAddressHistory", shippingAddressHistory);
+
+        //获取下单用户信息
+        UserDetail userDetail = userDetailService.findByUserId(pickVo.getUserId());
+        if (userDetail == null) {
+            userDetail = new UserDetail();
+        }
+        model.put("userDetail", userDetail);
         return "supplier/order_detail";
+    }
+
+    /**
+     * 修改发货时间
+     * @param orderId
+     * @param date
+     * @return
+     */
+    @RequestMapping(value = "update/DeliverTime", method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateDeliverTime(Integer orderId,Date date){
+        Pick pick = new Pick();
+        pick.setId(orderId);
+        pick.setDeliveryDate(date);
+        pickService.update(pick);
+        return Result.success().msg("修改送货时间成功!");
+    }
+
+    /**
+     * 修改订单状态为已发货
+     * @return
+     */
+    @RequestMapping(value = "delivery", method = RequestMethod.POST)
+    @ResponseBody
+    public Result supplierDelivery(Integer orderId,Date date){
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        UserDetail supplier = userDetailService.findByUserId(user.getId());
+        Pick pick = pickService.findVoById(orderId);
+        LogisticalVo logisticalVo = new LogisticalVo();
+        logisticalVo.setOrderId(pick.getId());
+        logisticalVo.setShipDate(date);
+        pickService.supplierDelivery(logisticalVo,supplier);
+        return Result.success().msg("订单已发货!");
+
     }
 
 

@@ -197,7 +197,7 @@
 
                 <div class="item">
                     <div class="txt">已付款：</div>
-                    <div class="val"><em>${payRecord.actualPayment}</em></div>
+                    <div class="val"><em>${payRecord.actualPayment!}</em></div>
                 </div>
                 <div class="item">
                     <div class="txt">欠款：</div>

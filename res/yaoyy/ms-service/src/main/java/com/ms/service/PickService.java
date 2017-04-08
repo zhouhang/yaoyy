@@ -1,8 +1,14 @@
 package com.ms.service;
 
 import com.github.pagehelper.PageInfo;
-import com.ms.dao.model.*;
-import com.ms.dao.vo.*;
+import com.ms.dao.model.CommodityBatch;
+import com.ms.dao.model.Member;
+import com.ms.dao.model.Pick;
+import com.ms.dao.model.PickCommodity;
+import com.ms.dao.vo.LogisticalVo;
+import com.ms.dao.vo.PaymentVo;
+import com.ms.dao.vo.PickVo;
+import com.ms.dao.vo.SupplierOrderVo;
 
 import java.util.List;
 
@@ -128,5 +134,7 @@ public interface PickService extends ICommonService<Pick>{
      * @return
      */
     Pick purchaserOrderSaveTwo(PickVo pick);
+
+    void supplierDelivery(LogisticalVo logisticalVo,UserDetail supplier);
 
 }
