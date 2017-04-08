@@ -7,14 +7,18 @@ import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.dto.Password;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.MessageTemplateEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.service.sms.SmsUtil;
+import com.ms.service.utils.EncryptUtil;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.ValidationException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -97,6 +101,9 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private HistoryCommodityService historyCommodityService;
+
+	@Autowired
+	private SmsUtil smsUtil;
 
 
 
@@ -889,25 +896,32 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public Pick purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId,User user) {
+		UserDetail userDetail = userDetailService.findByUserId(user.getId());
 		//1. 查询供应商信息
 		//2. 供应商信息到和用户信息绑定
 		Supplier supplier = supplierService.findById(commodity.getSupplierId());
 		User sUser = userService.findByPhone(supplier.getPhone());
+		String password = null;
 		if(sUser==null){
+			password = SeqNoUtil.getRandomNum(6);
 			sUser = new User();
 			sUser.setPhone(supplier.getPhone());
 			sUser.setType(UserTypeEnum.supplier.getType());
 			sUser.setSource(UserSourceEnum.auto.getType());
 			sUser.setStatus(1);
 			sUser.setSupplierId(supplier.getId());
+			Password pass = EncryptUtil.PiecesEncode(password);
+			sUser.setPassword(pass.getPassword());
+			sUser.setSalt(pass.getSalt());
+
 			userService.create(sUser);
-			UserDetail userDetail = new UserDetail();
-			userDetail.setUserId(sUser.getId());
-			userDetail.setType(0);
-			userDetail.setPhone(supplier.getPhone());
-			userDetail.setName(supplier.getName());
-			userDetail.setContract(0);
-			userDetailService.save(userDetail);
+			UserDetail sUserDetail = new UserDetail();
+			sUserDetail.setUserId(sUser.getId());
+			sUserDetail.setType(0);
+			sUserDetail.setPhone(supplier.getPhone());
+			sUserDetail.setName(supplier.getName());
+			sUserDetail.setContract(0);
+			userDetailService.save(sUserDetail);
 		}
 		//3. 查询商品品种信息
 		//4. 给商品历史记录赋值保存
@@ -926,7 +940,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		//5. 创建订单实体记录 保存
 		Pick pick = new Pick();
 		pick.setUserId(user.getId());
-		pick.setNickname("-采购员-");
+		pick.setNickname(userDetail.getName());
 		pick.setPhone(user.getPhone());
 		pick.setCode(SeqNoUtil.getOrderCode());
 		pick.setAbandon(0);
@@ -942,6 +956,11 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		commodity.setCreateTime(new Date());
 		commodity.setTotal((commodity.getPrice()*commodity.getNum()));
 		pickCommodityService.create(commodity);
+		StringBuilder content = new StringBuilder();
+		content.append(userDetail.getName()).append("与您采购了一批").append(historyCommodity.getName())
+				.append("(").append(historyCommodity.getOrigin()).append(" ")
+				.append(historyCommodity.getSpec()).append(")");
+		smsUtil.sendPurchaserOrder(sUser.getPhone(),content.toString(),password,pick.getId());
 		return pick;
 	}
 
