@@ -913,6 +913,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			Password pass = EncryptUtil.PiecesEncode(password);
 			sUser.setPassword(pass.getPassword());
 			sUser.setSalt(pass.getSalt());
+			sUser.setCreateTime(new Date());
+			sUser.setUpdateTime(new Date());
 
 			userService.create(sUser);
 			UserDetail sUserDetail = new UserDetail();
@@ -928,7 +930,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		HistoryCommodity historyCommodity = new HistoryCommodity();
 		Category category = categoryService.findById(categoryId);
 		historyCommodity.setName(category.getName());
-		historyCommodity.setTitle(category.getName());
+		historyCommodity.setTitle(commodity.getOrigin()+" "+category.getName()+" "+commodity.getSpec());
 		historyCommodity.setCommodityId(0);
 		historyCommodity.setOrigin(commodity.getOrigin());
 		historyCommodity.setSpec(commodity.getSpec());
@@ -969,13 +971,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	public Pick purchaserOrderSaveTwo(PickVo vo) {
 		vo.setInvoice(null);
 		vo.setStatus(PickEnum.PICK_DELIVERY.getValue());
-		vo.setShippingCosts(0F);
-		vo.setBagging(0F);
-		vo.setChecking(0F);
-		vo.setTaxation(0F);
-		vo.setSettleType(SettleTypeEnum.SETTLE_BILL.getType());
-		vo.setBillTime(30);
-		vo.setAmountsPayable(0F);
 		saveOrder(vo);
 		return vo;
 	}

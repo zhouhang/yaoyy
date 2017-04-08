@@ -81,17 +81,15 @@
                 帐期：<em>${pickVo.billTime!}</em>天
             </div>
             </#if>
-            </div>
         </div>
+    </div>
         <#if pickVo.status==6>
             <div class="ft">
                 <button type="button" id="submit" class="ubtn ubtn-primary">确认发货</button>
             </div>
         </#if>
-    </div>
 </div>
 
-<link rel="stylesheet" href="${urls.getForLookupPath('/assets/mobiscroll/css/mobiscroll.css')}" />
 <script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.zepto.js')}"></script>
 <script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.core.js')}"></script>
 <script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.scroller.js')}"></script>
