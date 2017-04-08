@@ -542,6 +542,8 @@ public class PickController extends BaseController{
     @RequestMapping(value = "purchaser/two", method = RequestMethod.POST)
     @ResponseBody
     public Result purchaserOrderSaveTwo(PickVo vo) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        vo.setUserId(user.getId());
         pickService.purchaserOrderSaveTwo(vo);
         return  Result.success();
     }

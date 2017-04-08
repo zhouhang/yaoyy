@@ -9,6 +9,7 @@
 
     <div class="order">
         <form action="" id="myform">
+            <input type="hidden" name="id" id="id" value="${vo.id!}">
             <div class="item">
                 <label class="label">商品信息</label>
                 <#list vo.pickCommodityVoList as commodity >
@@ -48,28 +49,23 @@
         </form>
     </div>
 </section><!-- /ui-content -->
-<link rel="stylesheet" href="assets/mobiscroll/css/mobiscroll.css" />
 <#include "./common/footer.ftl"/>
-<script src="assets/mobiscroll/js/mobiscroll.zepto.js"></script>
-<script src="assets/mobiscroll/js/mobiscroll.core.js"></script>
-<script src="assets/mobiscroll/js/mobiscroll.scroller.js"></script>
-<script src="assets/mobiscroll/js/mobiscroll.datetime.js"></script>
-<script src="assets/mobiscroll/js/mobiscroll.i18n.zh.js"></script>
+<script src="assets/js/mobiscroll.min.js"></script>
 <script>
 
     var _global = {
         fn: {
             init: function() {
                 <#if address?exists>
-                    if (sessionStorage.getItem("pickAddrId${id}") == undefined) {
+                    if (sessionStorage.getItem("pickAddrId${vo.id}") == undefined) {
                         var addr = {};
                         addr.id = ${address.id};
                         addr.titleN = "ss";
-                        sessionStorage.setItem("pickAddrId${id}", JSON.stringify(addr));
+                        sessionStorage.setItem("pickAddrId${vo.id!}", JSON.stringify(addr));
                     };
                 </#if>
                 // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
-                var address = sessionStorage.getItem("pickAddrId${id}");
+                var address = sessionStorage.getItem("pickAddrId${vo.id!}");
                 if (address) {
                     address = JSON.parse(address);
                     // 初始化 地址内容
@@ -88,7 +84,7 @@
                     var date = $("#myform").serializeArray();
                     $.post("/pick/purchaser/two",date,function(result){
                         if (result.status == 200) {
-                            window.location.href="/pick/list;
+                            window.location.href="/pick/list";
                         }
                     })
                 })
@@ -104,16 +100,8 @@
                     preset: 'datetime',
                     minDate: time,
                     maxDate: new Date(year, month + 3, date),
-                    theme: 'android-ics light',
-                    mode: 'scroller',
-                    lang: 'zh',
                     display: 'bottom',
-                    animate: '',
-                    rows: 5,
-                    minWidth: 60,
-                    height: 36,
-                    showLabel: false,
-                    useShortLabels: true,
+                    animate: 'slideup',
                     //点击确定按钮，触发事件
                     onSelect: function(val) {
                         that.date = val;
