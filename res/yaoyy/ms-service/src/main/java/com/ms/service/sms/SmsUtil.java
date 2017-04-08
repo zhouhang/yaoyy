@@ -235,7 +235,7 @@ public class SmsUtil {
         param.put("apikey", systemProperties.getApikey());
         param.put("mobile", mobile);
         //
-        if (Strings.isNullOrEmpty(pwd)) {
+        if (!Strings.isNullOrEmpty(pwd)) {
             // 【药优优】采购员张三与您采购了一批三七（文山 统个 ）。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/xx。登录账号为：18801285391 密码：365414 。提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。
             // {0}采购员{1}。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/{2}。登录账号为：{3} 密码：{4} 。提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。
             param.put("text", TextTemplateEnum.SMS_BOSS_SUPPLIER_SIGN.getText("【药优优】", content,String.valueOf(orderId),mobile, pwd));
