@@ -499,6 +499,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "purchaser/one", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String purchaserOrderOne() {
         return  "purchaser_one";
     }
@@ -513,6 +514,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "purchaser/one", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken = true)
     public Result purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         Pick pick = pickService.purchaserOrderSaveOne(commodity, categoryId,user);
@@ -524,6 +526,7 @@ public class PickController extends BaseController{
      * @return
      */
     @RequestMapping(value = "purchaser/two", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
     public String purchaserOrderTwo(Integer pickId, ModelMap model) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         PickVo vo = pickService.findVoById(pickId);
@@ -541,6 +544,7 @@ public class PickController extends BaseController{
      */
     @RequestMapping(value = "purchaser/two", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken = true)
     public Result purchaserOrderSaveTwo(PickVo vo) {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         vo.setUserId(user.getId());
