@@ -54,13 +54,21 @@
                     <span>收货地址</span>
                 </a>
             </li>
-            <li>
             <#if billExist?exists>
+            <li>
+
                 <a href="/bill">
                     <i class="fa fa-bill"></i>
                     <span>我的账单</span>
                 </a>
+
+            </li>
             </#if>
+            <li>
+                <a href="/pick/purchaser/one">
+                    <i class="i i-7"></i>
+                    <span>采购下单</span>
+                </a>
             </li>
 
         </ul>
