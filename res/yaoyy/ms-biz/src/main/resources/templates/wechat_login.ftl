@@ -28,6 +28,10 @@
             <input type="hidden" name="nickname" value="${nickname!}">
             <input type="hidden" name="headImgUrl" value="${headImgUrl!}">
             <div class="item">
+                <input type="text" class="ipt" name="name" id="name" placeholder="姓名" autocomplete="off">
+                <span class="error"></span>
+            </div>
+            <div class="item">
                 <input type="tel" class="ipt" name="phone" id="mobile" placeholder="手机号" autocomplete="off">
                 <span class="error"></span>
                 <i class="mid"></i>

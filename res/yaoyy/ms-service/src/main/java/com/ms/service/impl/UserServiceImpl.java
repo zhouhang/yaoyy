@@ -198,7 +198,7 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 
 	@Override
 	@Transactional
-	public User registerWechat(String phone, String openId, String nickname, String headImgUrl) {
+	public User registerWechat(String phone, String openId, String nickname, String headImgUrl, String name) {
 		User user = findByPhone(phone);
 		if(user!=null){
 			user.setType(UserEnum.enable.getType());
@@ -224,8 +224,10 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 			userDetail.setPhone(phone);
 			userDetail.setNickname(nickname);
 			userDetail.setHeadImgUrl(headImgUrl);
+			userDetail.setName(name);
 		}else {
 			userDetail.setHeadImgUrl(headImgUrl);
+			userDetail.setName(name);
 		}
 		userDetailService.save(userDetail);
 		return user;
