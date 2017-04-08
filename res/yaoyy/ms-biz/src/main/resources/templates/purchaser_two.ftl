@@ -103,7 +103,7 @@
                     $.post("/pick/purchaser/two",date,function(result){
                         if (result.status == 200) {
                             _global.fn.cleanSessionStorage();
-                            window.location.href="/pick/list";
+                            window.location.href="/pick/detail/${vo.id!}";
                         }
                     })
                 })
