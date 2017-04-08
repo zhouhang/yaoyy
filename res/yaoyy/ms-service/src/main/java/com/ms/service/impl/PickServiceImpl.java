@@ -896,7 +896,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public Pick purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId,User user) {
-		UserDetail userDetail = userDetailService.findByUserId(user.getId());
+
 		//1. 查询供应商信息
 		//2. 供应商信息到和用户信息绑定
 		Supplier supplier = supplierService.findById(commodity.getSupplierId());
@@ -925,6 +925,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			sUserDetail.setContract(0);
 			userDetailService.save(sUserDetail);
 		}
+		UserDetail userDetail = userDetailService.findByUserId(user.getId());
 		//3. 查询商品品种信息
 		//4. 给商品历史记录赋值保存
 		HistoryCommodity historyCommodity = new HistoryCommodity();
@@ -942,7 +943,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		//5. 创建订单实体记录 保存
 		Pick pick = new Pick();
 		pick.setUserId(user.getId());
-		pick.setNickname(userDetail.getName());
+		pick.setNickname(userDetail.getName()==null?"":userDetail.getName());
 		pick.setPhone(user.getPhone());
 		pick.setCode(SeqNoUtil.getOrderCode());
 		pick.setAbandon(0);
