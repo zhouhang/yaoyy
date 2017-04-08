@@ -246,12 +246,13 @@ public class WechatController extends BaseController {
                             String code,
                             String openId,
                             String nickname,
-                            String headImgUrl) throws Exception {
+                            String headImgUrl,
+                            String name) throws Exception {
         String rcode = redisManager.get(RedisEnum.KEY_MOBILE_CAPTCHA_REGISTER.getValue() + phone);
         if (!code.equalsIgnoreCase(rcode)) {
             return Result.error().msg("验证码错误!");
         }
-        User user = userService.registerWechat(phone, openId, nickname, headImgUrl);
+        User user = userService.registerWechat(phone, openId, nickname, headImgUrl,name);
         autoLogin(user);
 
         return Result.success("绑定成功").data(callUrl);
