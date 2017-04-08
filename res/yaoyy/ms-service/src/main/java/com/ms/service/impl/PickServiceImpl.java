@@ -83,6 +83,21 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private MessageDao messageDao;
 
+	@Autowired
+	private SupplierService supplierService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserDetailService userDetailService;
+
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private HistoryCommodityService historyCommodityService;
+
 
 
 
@@ -844,5 +859,78 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	}
 
 
+	@Override
+	@Transactional
+	public Pick purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId,User user) {
+		//1. 查询供应商信息
+		//2. 供应商信息到和用户信息绑定
+		Supplier supplier = supplierService.findById(commodity.getSupplierId());
+		User sUser = userService.findByPhone(supplier.getPhone());
+		if(sUser==null){
+			sUser = new User();
+			sUser.setPhone(supplier.getPhone());
+			sUser.setType(UserTypeEnum.supplier.getType());
+			sUser.setSource(UserSourceEnum.auto.getType());
+			sUser.setStatus(1);
+			sUser.setSupplierId(supplier.getId());
+			userService.create(sUser);
+			UserDetail userDetail = new UserDetail();
+			userDetail.setUserId(sUser.getId());
+			userDetail.setType(0);
+			userDetail.setPhone(supplier.getPhone());
+			userDetail.setName(supplier.getName());
+			userDetail.setContract(0);
+			userDetailService.save(userDetail);
+		}
+		//3. 查询商品品种信息
+		//4. 给商品历史记录赋值保存
+		HistoryCommodity historyCommodity = new HistoryCommodity();
+		Category category = categoryService.findById(categoryId);
+		historyCommodity.setName(category.getName());
+		historyCommodity.setTitle(category.getName());
+		historyCommodity.setCommodityId(0);
+		historyCommodity.setOrigin(commodity.getOrigin());
+		historyCommodity.setSpec(commodity.getSpec());
+		historyCommodity.setPrice(commodity.getPrice());
+		historyCommodity.setUnit("公斤");
+		historyCommodity.setCategoryId(categoryId);
+		historyCommodity.setCreateTime(new Date());
+		historyCommodityService.create(historyCommodity);
+		//5. 创建订单实体记录 保存
+		Pick pick = new Pick();
+		pick.setUserId(user.getId());
+		pick.setNickname("-采购员-");
+		pick.setPhone(user.getPhone());
+		pick.setCode(SeqNoUtil.getOrderCode());
+		pick.setAbandon(0);
+		pick.setStatus(PickEnum.PICK_NOTHANDLE.getValue());
+		pick.setSupplierId(sUser.getId());
+		pick.setCreateTime(new Date());
+		pick.setSum((commodity.getPrice()*commodity.getNum()));
+		create(pick);
+		//6. 创建订单商品记录与商品记录Id关联保存
+		commodity.setUnit("公斤");
+		commodity.setCommodityId(historyCommodity.getId());
+		commodity.setPickId(pick.getId());
+		commodity.setCreateTime(new Date());
+		commodity.setTotal((commodity.getPrice()*commodity.getNum()));
+		pickCommodityService.create(commodity);
+		return pick;
+	}
 
+	@Override
+	@Transactional
+	public Pick purchaserOrderSaveTwo(PickVo vo) {
+		vo.setInvoice(null);
+		vo.setStatus(PickEnum.PICK_DELIVERY.getValue());
+		vo.setShippingCosts(0F);
+		vo.setBagging(0F);
+		vo.setChecking(0F);
+		vo.setTaxation(0F);
+		vo.setSettleType(SettleTypeEnum.SETTLE_BILL.getType());
+		vo.setBillTime(30);
+		vo.setAmountsPayable(0F);
+		saveOrder(vo);
+		return vo;
+	}
 }

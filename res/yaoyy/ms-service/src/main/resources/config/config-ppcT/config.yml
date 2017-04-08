@@ -15,17 +15,17 @@ sms:
 
 spring:
     dataSource:
-        url: jdbc:mysql://192.168.1.55:3306/yaoyy?characterEncoding=utf-8
-        username: yaoyy
-        password: 123456
+        url: jdbc:mysql://127.0.0.1:3307/yaoyy?characterEncoding=utf-8
+        username: root
+        password: root
         driverClassName: com.mysql.jdbc.Driver
 
 elasticsearch:
-         host: 192.168.1.55
+         host: 127.0.0.1
          port: 9300
 
 redis:
-    url: 192.168.1.55
+    url: 127.0.0.1
     port: 6379
 
 alipay:

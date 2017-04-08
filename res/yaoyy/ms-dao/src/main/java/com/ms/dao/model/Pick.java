@@ -22,7 +22,7 @@ public class Pick  implements Serializable {
 	//0:正常，1废弃
 	private Integer abandon;
 	
-	//送货单状态
+	//选货单状态
 	private Integer status;
 	
 	//运费

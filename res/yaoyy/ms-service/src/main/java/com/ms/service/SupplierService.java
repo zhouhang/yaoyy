@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface SupplierService extends ICommonService<Supplier>{
 
-    public PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
+    PageInfo<SupplierVo> findByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
 
-    public SupplierVo findVoById(Integer id);
+    SupplierVo findVoById(Integer id);
 
-    public void save(SupplierVo supplierVo);
+    void save(SupplierVo supplierVo);
 
     List<SupplierVo> search(String name);
 
-    public PageInfo<SupplierVo> findVoByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
+    PageInfo<SupplierVo> findVoByParams(SupplierVo supplierVo,Integer pageNum,Integer pageSize);
 
     /**
      * 前台供应商入驻

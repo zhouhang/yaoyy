@@ -45,7 +45,7 @@
         fn: {
             init: function() {
                 // 初始化选择之前选择的地址
-                var addr = sessionStorage.getItem("pickAddrId${orderId}");
+                var addr = sessionStorage.getItem("pickAddrId${orderId!}");
                 if (addr) {
                     addr = JSON.parse(addr);
                     if(addr.id != -1){
@@ -66,8 +66,12 @@
                     addr.id =  $this.attr("rid");
                     addr.title= $this.find("strong").html();
                     addr.detail = $this.find("span").html();
-                    sessionStorage.setItem("pickAddrId${orderId}",JSON.stringify(addr));
-                    window.location.href = "/pick/detail/${orderId}";
+                    sessionStorage.setItem("pickAddrId${orderId!}",JSON.stringify(addr));
+                    <#if callback?exists>
+                        window.location.href = "${callback!}";
+                    <#else>
+                    window.location.href = "/pick/detail/${orderId!}";
+                    </#if>
                 });
 
                 //删除
@@ -83,11 +87,11 @@
                                 type: 'POST',
                                 success: function(result) {
                                     // 删除时要删除对应 session 缓存值
-                                    var addr = sessionStorage.getItem("pickAddrId${orderId}");
+                                    var addr = sessionStorage.getItem("pickAddrId${orderId!}");
                                     if (addr) {
                                         addr = JSON.parse(addr);
                                         if(addr.id == $this.attr("rid")){
-                                            sessionStorage.removeItem("pickAddrId${orderId}");
+                                            sessionStorage.removeItem("pickAddrId${orderId!}");
                                         }
                                     }
                                     $this.closest('.item').remove();
