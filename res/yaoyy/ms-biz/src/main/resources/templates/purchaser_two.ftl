@@ -64,26 +64,45 @@
                         sessionStorage.setItem("pickAddrId${vo.id!}", JSON.stringify(addr));
                     };
                 </#if>
-                // 修改后的地址Id 未修改不做任何处理 地址未修改的话id -1 // 后台不做任何处理
                 var address = sessionStorage.getItem("pickAddrId${vo.id!}");
                 if (address) {
                     address = JSON.parse(address);
                     // 初始化 地址内容
                     if (address.title) {
-                        $("#regionID").id(address.id);
+                        $("#regionID").val(address.id);
                         $("#address_title").html(address.title);
                         $("#address_detail").html(address.detail);
                     }
                 }
 
+                var remark = sessionStorage.getItem("pickRemark${vo.id!}");
+                if (remark) {
+                    $("#remark").val(remark);
+                }
+                var date = sessionStorage.getItem("pickDate${vo.id!}");
+                if (date) {
+                    $("#date").val(date);
+                }
+                $(window).bind('beforeunload',function(){
+                    sessionStorage.setItem("pickDate${vo.id!}",$("#date").val());
+                    sessionStorage.setItem("pickRemark${vo.id!}", $("#remark").val());
+                });
+
+
                 this.pickDate();
                 this.submit();
+            },
+            cleanSessionStorage: function () {
+                sessionStorage.removeItem("pickDate${vo.id!}");
+                sessionStorage.removeItem("pickRemark${vo.id!}");
+                sessionStorage.removeItem("pickAddrId${vo.id!}");
             },
             submit: function () {
                 $("#submit").click(function () {
                     var date = $("#myform").serializeArray();
                     $.post("/pick/purchaser/two",date,function(result){
                         if (result.status == 200) {
+                            _global.fn.cleanSessionStorage();
                             window.location.href="/pick/list";
                         }
                     })
