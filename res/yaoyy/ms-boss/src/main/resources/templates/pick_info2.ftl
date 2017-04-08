@@ -248,7 +248,7 @@
 
                 <div class="ft">
 
-                    <#if pickVo.status==6&&!pickVo.amountsPayable?exists>
+                    <#if !pickVo.amountsPayable?exists>
                         <button id="submit4" type="button" class="ubtn ubtn-blue submit4">添加账单信息</button>
                     </#if>
                     <#if pickVo.status==5&&!payRecord?exists>

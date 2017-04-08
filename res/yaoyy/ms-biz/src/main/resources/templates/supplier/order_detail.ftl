@@ -90,11 +90,8 @@
         </#if>
 </div>
 
-<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.zepto.js')}"></script>
-<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.core.js')}"></script>
-<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.scroller.js')}"></script>
-<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.datetime.js')}"></script>
-<script src="${urls.getForLookupPath('/assets/mobiscroll/js/mobiscroll.i18n.zh.js')}"></script>
+<script src="/assets/js/mobiscroll.min.js"></script>
+
 <script>
 !(function() {
     var _global = {
