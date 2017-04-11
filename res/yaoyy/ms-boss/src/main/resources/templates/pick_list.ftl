@@ -63,7 +63,7 @@
                     <tr>
                         <td><input type="checkbox" class="cbx"></td>
                         <td><a href="pick/detail/${pick.id}" class="link">${pick.code}</a></td>
-                        <td>${pick.nickname}</td>
+                        <td>${pick.userName!}</td>
                         <td>${pick.phone}</td>
                         <td><em class="status-${pick.status+1}">${pick.statusText}</em></td>
                         <td>${(pick.createTime?datetime)!}</td>
