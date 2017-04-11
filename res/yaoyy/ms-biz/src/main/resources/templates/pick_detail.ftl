@@ -396,7 +396,6 @@
                     data: { orderId:${pickVo.id}},
                     type: "POST",
                     success: function(result) {
-                        console.log(result);
                         var obj = result.data;
                         WeixinJSBridge.invoke('getBrandWCPayRequest',{
                             "appId" : obj.appId,                  //公众号名称，由商户传入

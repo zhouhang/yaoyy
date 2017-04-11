@@ -12,8 +12,8 @@
         </div>
         <div class="abs-r mid search">
             <form>
-                <input type="text" name="keyword" value="" class="ipt" />
-                <button type="button" id="search" class="fa fa-search mid submit"></button>
+                <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+                <button type="submit" id="search" class="fa fa-search mid submit"></button>
             </form>
         </div>
     </header><!-- /ui-header -->
@@ -30,9 +30,8 @@
                 </#list>
                 </#if>
             </dl>
-            <input type="hidden" name="categoryId" value="${categoryId!}"/>
-            <ul id="categoryList">
-            </ul>
+            <ul id="plist"></ul>
+            <input type="hidden" id="categoryId" value="${categoryId!}"/>
         </div>
     </section><!-- /ui-content -->
 
@@ -46,60 +45,76 @@
                 this.loadPlist();
             },
             bindEvent: function() {
-                var self = this;
+                var that = this,    
+                    $plist = $('#plist'),
+                    $keyword = $('#keyword'),
+                    $cid = $('#categoryId');
 
-                $side = $('.side').on('click', 'a', function() {
-                    var categoryId = $(this).attr("data-id");
-                    var parameter = {categoryId: categoryId};
+                $('.side').on('click', 'a', function() {
+                    var cid = $(this).data('id');
+
                     $(this).parent().addClass('curr').siblings().removeClass('curr');
-                    $("#categoryList").empty();
-                    $("input[name=keyword]").val("");
-                    $("input[name=categoryId]").val(categoryId);
-                    self.getData(parameter);
+                    $keyword.val('');
+                    $cid.val(cid);
+                    $plist.empty();
+                    that.pageNum = 1;
+                    that.me.unlock();
+                    that.me.noData(false);
+                    that.getData({categoryId: cid});
                     return false;
                 })
 
+                // 搜索
+                $('#search').on('click', function(){
+                    $cid.val('');
+                    $plist.empty();
+                    that.pageNum = 1;
+                    that.me.unlock();
+                    that.me.noData(false);
+                    that.getData({keyword: $keyword.val()});
+                    return false;
+                });
             },
             loadPlist: function() {
-                var self = this;
-                self.pageNum = 1; // 当前页
+                var that = this;
+                that.pageNum = 1; // 当前页
 
-                $('.ui-content').dropload({
-                    scrollArea : window,
-                    threshold : 50,
-                    loadDownFn : function(me){
-                        self.getData({pageNum:self.pageNum, categoryId: $("input[name=categoryId]").val(), keyword:$("input[name=keyword]").val()}, me);
+                that.me = $('.ui-content').dropload({
+                    scrollArea: window,
+                    threshold: 50,
+                    loadDownFn: function(){
+                        that.getData({
+                            pageNum: that.pageNum, 
+                            categoryId: $('#categoryId').val(), 
+                            keyword: $('#keyword').val()
+                        });
                     }
                 });
-                //self.getData({pageNum:self.pageNum, categoryId: $("input[name=categoryId]").val(), keyword:$("input[name=keyword]").val()});
             },
-            getData: function(parameter, me) {
-                var self = this;
+            getData: function(parameter) {
+                var that = this;
                 $.ajax({
                     type: 'POST',
                     url: 'commodity/list',
                     dataType: 'json',
                     data: parameter,
-                    success: function(data){
-                        var list=data.data.list;
-                        if (!list) {
-                            return false;
+                    success: function(res){
+                        if (res.data.isLastPage) {
+                            that.me.lock();
+                            that.me.noData();
+                            if (res.data.list.length === 0) {
+                                // 没有商品
+                                me.$domDown.hide();
+                            }
                         }
-                        self.toHtml(list);
-                        if(data.data.isLastPage){
-                            me && me.lock();
-                            me && me.noData();
-                            me && me.resetload();
-                            return;
-                        }
-                        setTimeout(function(){
-                            self.pageNum ++;
-                            me && me.resetload();
-                        }, 1e3);
+                        that.toHtml(res.data.list);
+                        that.pageNum ++;
                     },
                     error: function(xhr, type){
                         popover('网络连接超时，请您稍后重试!');
-                        me && me.resetload();
+                    },
+                    complete: function() {
+                        that.me.resetload();
                     }
                 });
             },
@@ -107,21 +122,21 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
-                    html.push( '<a href="/commodity/detail/' + data[i].id + '">\n');
+                    html.push( '<a href="/commodity/detail/' + item.id + '">\n');
                     html.push(     '<div class="cnt">\n');
-                    html.push(         '<div class="title">', data[i].name, '</div>\n');
-                    html.push(         '<div class="summary">', data[i].title, '</div>\n');
+                    html.push(         '<div class="title">', item.name, '</div>\n');
+                    html.push(         '<div class="summary">', item.title, '</div>\n');
                     html.push(         '<div class="price">\n');
                     html.push(              '<i>&yen;</i>\n');
-                    html.push(              '<em>', data[i].price, '</em>\n');
-                    html.push(              '<b>', data[i].unitName, '</b>\n');
+                    html.push(              '<em>', item.price, '</em>\n');
+                    html.push(              '<b>', item.unitName, '</b>\n');
                     html.push(          '</div>\n');
                     html.push(     '</div>');
-                    html.push(     '<div class="pic"><img src="', data[i].thumbnailUrl, '" width="110" height="90" alt="', data[i].title, '"></div>\n');
+                    html.push(     '<div class="pic"><img src="', item.thumbnailUrl, '" width="110" height="90" alt="', item.title, '"></div>\n');
                     html.push( '</a>\n');
                     html.push('</li>');
                 })
-                $('#categoryList').append(html.join(''));
+                $('#plist').append(html.join(''));
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
@@ -133,20 +148,6 @@
 
     $(function(){
         _global.fn.init();
-
-        $("#search").click(function(){
-            var keyword = $("input[name=keyword]").val();
-            $("#categoryList").empty();
-            $("input[name=categoryId]").attr("value","");
-            _global.fn.getData({keyword: keyword});
-            return false;
-        });
-
-        $("form").submit(function(e){
-            $('#search').trigger("click");
-            return false;
-        });
-
     });
 
 </script>

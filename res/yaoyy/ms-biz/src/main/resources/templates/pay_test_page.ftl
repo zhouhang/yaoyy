@@ -49,7 +49,6 @@
                         "paySign" : obj.paySign           //微信签名
                     },function(res){
 //                        alert("errorcode:"+res.err_code+"desc:"+res.err_desc+"msg:"+res.err_msg);
-                        console.log(res)
                     });
                 }
             })

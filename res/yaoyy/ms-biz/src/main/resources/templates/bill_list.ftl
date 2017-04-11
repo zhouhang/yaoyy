@@ -26,12 +26,11 @@
     var _global = {
         fn: {
             init: function() {
-                 this.page();
                  this.loadPlist();
             },
             loadPlist: function() {
-                var self = this,
-                        pageNum = 1; // 当前页
+                var that = this,
+                    pageNum = 1; // 当前页
 
                 $('.ui-content').dropload({
                     scrollArea : window,
@@ -42,41 +41,30 @@
                             url: '/bill',
                             data: {pageSize:5, pageNum:pageNum},
                             dataType: 'json',
-                            success: function(result){
-                                result = result.data;
-                                if (pageNum > 2) {
-                                    result.isLastPage = true;
-                                }
-                                if (result.list.length !== 0) {
-                                    self.toHtml(result.list, pageNum);
-                                    if (result.isLastPage) {
-                                        me.lock();
-                                        me.noData();
-                                        setTimeout(function() {
-                                            me.$domDown.addClass('dropload-down-hide');
-                                        }, 2e3);
-                                    }
-                                    self.pagenav(pageNum, 10);
-                                } else{
-                                    if (result.isLastPage) {
-                                        self.empty(true);
+                            success: function(res) {
+                                if (res.data.isLastPage) {
+                                    me.lock();
+                                    me.noData();
+                                    if (res.data.list.length === 0) {
+                                        that.empty(true);
                                         me.$domDown.hide();
                                     }
                                 }
+                                that.toHtml(res.data.list);
                                 pageNum ++;
-                                me.resetload();
                             },
                             error: function(xhr, type){
                                 popover('网络连接超时，请您稍后重试!');
+                            },
+                            complete: function() {
                                 me.resetload();
                             }
                         });
                     }
                 });
             },
-            toHtml: function(data, pageNum) {
+            toHtml: function(data) {
                 var html = [];
-                html.push('<div id="page' + pageNum + '">');
                 $.each(data, function(i, item) {
                     html.push('<div class="item">');
                     html.push('<p><span>订单号：</span><em class="blue">'+item.orderCode+'</em></p>');
@@ -93,30 +81,12 @@
                     html.push('<a href="/bill/detail/'+item.id+'" class="mid"><i class="fa fa-front"></i></a>');
                     html.push('</div>');
                 })
-                html.push('</div>');
                 $('.bill').append(html.join(''));
-                this.offset[pageNum] = $('#page' + pageNum).offset().top;
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 订单列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 }
-            },
-            pagenav: function(pageNum, pages) {
-                $('#pagenav').show().html('<em>' + pageNum + '</em>/' + pages);
-            },
-            page: function() {
-                var self = this;
-                self.offset = {};
-                $(window).on('scroll', function() {
-                    var st = document.body.scrollTop || document.documentElement.scrollTop,
-                            winHeight = $(window).height() / 1.5;
-                    $.each(self.offset, function(key, val) {
-                        if (st + winHeight >= val) {
-                            $('#pagenav').find('em').html(key);
-                        }
-                    })
-                })
             }
         }
     }

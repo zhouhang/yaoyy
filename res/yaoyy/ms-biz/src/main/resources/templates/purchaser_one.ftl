@@ -39,7 +39,7 @@
                 <span class="error"></span>
             </div>
             <div class="item">
-                <input type="tel" class="ipt" name="num" id="amount" placeholder="数量" autocomplete="off" data-msg="请输入数量">
+                <input type="text" class="ipt" name="num" id="amount" placeholder="数量" autocomplete="off" data-msg="请输入数量">
                 <span class="error"></span>
                 <span class="unit">公斤</span>
             </div>
@@ -163,9 +163,9 @@
                 // 数量
                 $('#amount').on('keyup', function() {
                     var val = this.value;
-                    if (val) {
-                        val = (!isNaN(val = parseInt(val, 10)) && val) > 0 ? val : '';
-                        this.value = val;
+                    if (!/^\d+\.?\d*$/.test(val)) {
+                        val = Math.abs(parseFloat(val));
+                        this.value = isNaN(val) ? '' : val;
                     }
                 })
 
@@ -182,7 +182,6 @@
                 $('#submit').on('click', function() {
                     var pass = true;
                     $ipt.each(function() {
-                        console.log(this.value)
                         if (this.value) {
                             msg(this);
                         } else {

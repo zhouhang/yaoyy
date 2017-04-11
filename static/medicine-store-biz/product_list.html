@@ -18,8 +18,8 @@
         </div>
         <div class="abs-r mid search">
             <form id="searchForm">
-                <input type="text" value="" class="ipt" />
-                <button submit="submit" class="fa fa-search mid submit"></button>
+                <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+                <button type="submit" id="search" class="fa fa-search mid submit"></button>
             </form>
         </div>
     </header><!-- /ui-header -->
@@ -81,103 +81,13 @@
                 <dd><a href="#">矿石动物</a></dd>
                 <dd><a href="#">其他</a></dd>
             </dl>
-            <ul id="categroyList">
-                <li>
-                    <a href="product_detail.html">
-                        <div class="cnt">
-                            <div class="title">三七</div>
-                            <div class="summary">
-                                云南文山三七120/80/60头  上等货洗净   无硫  长期供应
-                            </div>
-                            <div class="price">
-                                <i>&yen;</i>
-                                <em>380</em>
-                                <b>元/公斤</b>
-                            </div>
-                        </div>
-                        <div class="pic">
-                            <img src="uploads/p5.jpg" width="110" height="90" alt="">
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="product_detail.html">
-                        <div class="cnt">
-                            <div class="title">天麻</div>
-                            <div class="summary">
-                                安徽天麻  无硫  统货  2015版药典标准 长期供应
-                            </div>
-                            <div class="price">
-                                <i>&yen;</i>
-                                <em>120</em>
-                                <b>元/公斤</b>
-                            </div>
-                        </div>
-                        <div class="pic">
-                            <img src="uploads/p6.jpg" width="110" height="90" alt="">
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="product_detail.html">
-                        <div class="cnt">
-                            <div class="title">当归</div>
-                            <div class="summary">
-                                甘肃当归  选货  10/12号筛  包加工
-                            </div>
-                            <div class="price">
-                                <i>&yen;</i>
-                                <em>140</em>
-                                <b>元/公斤</b>
-                            </div>
-                        </div>
-                        <div class="pic">
-                            <img src="uploads/p7.jpg" width="110" height="90" alt="">
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="product_detail.html">
-                        <div class="cnt">
-                            <div class="title">黄连</div>
-                            <div class="summary">
-                                甘肃定西黄连  10号筛  B级杂质少  干度 好  长期供应
-                            </div>
-                            <div class="price">
-                                <i>&yen;</i>
-                                <em>80</em>
-                                <b>元/公斤</b>
-                            </div>
-                        </div>
-                        <div class="pic">
-                            <img src="uploads/p8.jpg" width="110" height="90" alt="">
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="product_detail.html">
-                        <div class="cnt">
-                            <div class="title">白芍</div>
-                            <div class="summary">
-                                安徽亳州白芍  选货  过10-12号筛 
-                            </div>
-                            <div class="price">
-                                <i>&yen;</i>
-                                <em>120</em>
-                                <b>元/公斤</b>
-                            </div>
-                        </div>
-                        <div class="pic">
-                            <img src="uploads/p9.jpg" width="110" height="90" alt="">
-                        </div>
-                    </a>
-                </li>
-            </ul>
+            <ul id="plist"></ul>
+            <input type="hidden" id="categoryId" value=""/>
         </div>
     </section><!-- /ui-content -->
 
     <script src="assets/js/zepto.min.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="assets/js/dropload.js"></script>
     <script>
 
     var _global = {
@@ -187,54 +97,77 @@
                 this.loadPlist();
             },
             bindEvent: function() {
-                var self = this;
+                var that = this,    
+                    $plist = $('#plist'),
+                    $keyword = $('#keyword'),
+                    $cid = $('#categoryId');
 
-                $side = $('.side').on('click', 'a', function() {
-                    var parameter = {};
-                    self.getData(parameter);
+                $('.side').on('click', 'a', function() {
+                    var cid = $(this).data('id') || 9;
+
+                    $(this).parent().addClass('curr').siblings().removeClass('curr');
+                    $keyword.val('');
+                    $cid.val(cid);
+                    $plist.empty();
+                    that.pageNum = 1;
+                    that.me.unlock();
+                    that.me.noData(false);
+                    console.log(that.me.isData)
+                    that.getData({categoryId: cid});
                     return false;
                 })
 
+                // 搜索
+                $('#search').on('click', function(){
+                    $cid.val('');
+                    $plist.empty();
+                    that.pageNum = 1;
+                    that.me.unlock();
+                    that.me.noData(false);
+                    that.getData({keyword: $keyword.val()});
+                    return false;
+                });
             },
             loadPlist: function() {
-                var self = this;
+                var that = this;
+                that.pageNum = 1; // 当前页
 
-                self.pageNum = 1;
-
-                $('.ui-content').dropload({
-                    scrollArea : window,
-                    threshold : 50,
-                    loadDownFn : function(me){
-                        self.getData({pageNum:self.pageNum, name: 'b'}, me);                        
+                that.me = $('.ui-content').dropload({
+                    scrollArea: window,
+                    threshold: 50,
+                    loadDownFn: function(){
+                        that.getData({
+                            pageNum: that.pageNum, 
+                            categoryId: $('#categoryId').val(), 
+                            keyword: $('#keyword').val()
+                        });
                     }
                 });
             },
-            getData: function(parameter, me) {
-                var self = this;
+            getData: function(parameter) {
+                var that = this;
                 $.ajax({
                     type: 'GET',
                     url: 'json/plist.json',
                     dataType: 'json',
                     data: parameter,
-                    success: function(data){
-                        if (!data.list) {
-                            return false;
+                    success: function(res){
+                        if (that.pageNum == 2) {
+                            res.isLastPage = true;
                         }
-                        self.toHtml(data.list);
-                        if(data.status === 'nomore'){
-                            me && me.lock();
-                            me && me.noData();
-                            me && me.resetload();
-                            return;
+                        if (res.isLastPage) {
+                            that.me.lock();
+                            that.me.noData();
                         }
-                        setTimeout(function(){
-                            self.pageNum ++;
-                            me && me.resetload();
-                        }, 1e3);
+                        that.toHtml(res.list);
+                        that.pageNum ++;
                     },
                     error: function(xhr, type){
                         popover('网络连接超时，请您稍后重试!');
-                        me && me.resetload();
+                    },
+                    complete: function() {
+                        that.me.resetload();
+                        // console.log(that.me)
                     }
                 });
             },
@@ -242,21 +175,21 @@
                 var html = [];
                 $.each(data, function(i, item) {
                     html.push('<li>\n');
-                    html.push( '<a href="' + data[i].href + '">\n');
+                    html.push( '<a href="' + item.href + '">\n');
                     html.push(     '<div class="cnt">\n');
-                    html.push(         '<div class="title">', data[i].title, '</div>\n');
-                    html.push(         '<div class="summary">', data[i].summary, '</div>\n');
+                    html.push(         '<div class="title">', item.title, '</div>\n');
+                    html.push(         '<div class="summary">', item.summary, '</div>\n');
                     html.push(         '<div class="price">\n');
                     html.push(              '<i>&yen;</i>\n');
-                    html.push(              '<em>', data[i].price, '</em>\n');
-                    html.push(              '<b>', data[i].unit, '</b>\n');
+                    html.push(              '<em>', item.price, '</em>\n');
+                    html.push(              '<b>', item.unit, '</b>\n');
                     html.push(          '</div>\n');
                     html.push(     '</div>');
-                    html.push(     '<div class="pic"><img src="', data[i].pic, '" width="110" height="90" alt="', data[i].title, '"></div>\n');
+                    html.push(     '<div class="pic"><img src="', item.pic, '" width="110" height="90" alt="', item.title, '"></div>\n');
                     html.push( '</a>\n');
                     html.push('</li>');
                 })
-                $('#categroyList').append(html.join(''));
+                $('#plist').append(html.join(''));
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
