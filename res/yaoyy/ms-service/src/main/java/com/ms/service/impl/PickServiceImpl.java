@@ -761,7 +761,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		PickCommodityVo pickCommodity = new PickCommodityVo();
 		// 先查询商品库存 检查商品库存信息 在下单
 		CommodityVo commodity = commodityService.findById(commodityId);
-		pickCommodity.setNum(0);
+		pickCommodity.setNum(0F);
 		list.forEach(batch -> {
 			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
 			pickCommodity.setNum(pickCommodity.getNum() + batch.getNum());

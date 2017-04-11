@@ -16,3 +16,8 @@ CHANGE COLUMN `thumbnail_url` `thumbnail_url` VARCHAR(255) CHARACTER SET 'utf8' 
 
 ALTER TABLE `user_detail`
   MODIFY COLUMN `contract`  int(8) NULL DEFAULT 0 AFTER `company`;
+
+-- 2017-04-11
+  ALTER TABLE `yaoyy`.`pick_commodity`
+CHANGE COLUMN `num` `num` DECIMAL(20,2) NULL DEFAULT NULL ;
+

@@ -16,7 +16,7 @@ public class PickCommodity  implements Serializable {
 	
 	private Integer commodityId;
 	//数量
-	private Integer num;
+	private Float num;
 	//单位
 	private String unit;
 	//总量
@@ -60,11 +60,11 @@ public class PickCommodity  implements Serializable {
 		this.commodityId = commodityId;
 	}
 	
-	public Integer getNum() {
+	public Float getNum() {
 		return num;
 	}
 
-	public void setNum(Integer num) {
+	public void setNum(Float num) {
 		this.num = num;
 	}
 	
