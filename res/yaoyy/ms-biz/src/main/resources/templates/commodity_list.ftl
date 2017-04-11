@@ -81,11 +81,12 @@
                     dataType: 'json',
                     data: parameter,
                     success: function(data){
-                        if (!data.data) {
+                        var list=data.data.list;
+                        if (!list) {
                             return false;
                         }
-                        self.toHtml(data.data);
-                        if(data.data.length == 0){
+                        self.toHtml(list);
+                        if(data.data.isLastPage){
                             me && me.lock();
                             me && me.noData();
                             me && me.resetload();

@@ -180,7 +180,7 @@ public class CommodityController extends BaseController{
         commodityVo.setStatus(1);//查询已上架的商品
         PageInfo<CommodityVo> commodityVos = commodityService.findByParams(commodityVo, pageNum, 5);
 
-        return Result.success().data(commodityVos.getList());
+        return Result.success().data(commodityVos);
     }
 
 }
