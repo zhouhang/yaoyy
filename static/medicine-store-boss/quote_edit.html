@@ -32,9 +32,7 @@
 				<div class="item">
 					<div class="txt">品种：</div>
 					<div class="cnt">
-                        <div class="ipt-wrap">
-                            <input type="text" name="breed" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
-                        </div>
+                        <input type="text" name="breed" id="breed" class="ipt" placeholder="请输入品种" autocomplete="off">
                         <button type="button" class="ubtn ubtn-blue">添加到报价清单</button>
 					</div>
 				</div>
@@ -134,7 +132,7 @@
                 });
 
                 // 添加到报价单
-                $breed.parent().next().on('click', function() {
+                $breed.next().on('click', function() {
                     if (breedId === 0) {
                         return;
                     }

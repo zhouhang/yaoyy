@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>药商头条详情-boss</title>
+    <meta name="renderer" content="webkit" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  	<link rel="stylesheet" href="assets/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="content">
+		<div class="breadcrumb">
+			<ul>
+                <li>资讯管理</li>
+                <li>药商头条</li>
+    		</ul>
+		</div>
+
+		<div class="box fa-form">
+            <form id="myform">
+				<div class="item">
+					<div class="txt"><i>*</i>标题：</div>
+					<div class="cnt">
+						<input type="text" name="title" class="ipt" placeholder="请输入标题" autocomplete="off">
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt"><i>*</i>标签：</div>
+					<div class="cnt">
+                        <div class="his" id="his">
+                            <a href="javascript:;">行情</a>
+                            <a href="javascript:;">产地</a>
+                        </div>
+                        <input type="text" name="tag" id="tag" class="ipt" placeholder="请输入标签" autocomplete="off">
+                        <span class="tips">多个标签用“,”隔开</span>
+					</div>
+				</div>
+				<div class="item">
+					<div class="txt"><i>*</i>基础阅读量：</div>
+					<div class="cnt">
+                        <input type="text" name="readnum" id="readnum" class="ipt" placeholder="请输入基础阅读量" autocomplete="off">
+					</div>
+				</div>
+                <div class="item">
+                    <div class="txt">公告内容：</div>
+                    <div class="cnt cnt-mul">
+                        <img width="700" height="400" src="uploads/editor.jpg" alt="">
+                    </div>
+                </div>
+				<div class="item">
+					<div class="txt">状态：</div>
+                    <div class="cnt">
+                        <select name="" id="" class="slt">
+                            <option value="">草稿</option>
+                            <option value="">发布</option>
+                        </select>           
+                    </div>
+				</div>
+
+				<div class="ft">
+                    <button type="submit" class="ubtn ubtn-blue" id="jsubmit">保存</button>
+				</div>
+            </form>
+		</div>
+	</div>
+</div>
+
+<!-- 下面三个js文件已经在meta.ftl文件中引入了 -->
+<script src="assets/js/jquery191.js"></script>
+<script src="assets/plugins/layer/layer.js"></script>
+<script src="assets/js/common.js"></script>
+<!-- 上面面三个js文件已经在meta.ftl文件中引入了 -->
+
+<script src="assets/js/jquery.autocomplete.js"></script>
+<script src="assets/plugins/validator/jquery.validator.min.js"></script>
+
+<script>
+!(function($, window) {
+    var _global = {
+        deleteUrl: '/announcement/delete/',
+        init: function() {
+            navLight('11-3');
+            this.bindEvent();
+            this.myform();
+        },
+        bindEvent: function() {
+            var that = this,
+                $tag = $('#tag'),
+                $table = $('.table');
+
+            // 标签
+            $('#his').on('click', 'a', function() {
+                var val = $tag.val(),
+                    text = $(this).html();
+
+                if (val.indexOf(text) > -1) {
+                    $.notify({
+                        title: '标签已经填入，请勿重复添加',
+                        delay: 3e3
+                    })
+                } else {
+                    $tag.val(val === '' ? text : val + ', ' + text);
+                }
+            })
+        },
+        myform: function() {
+            // 表单验证
+            $("#myform").validator({
+                fields: {
+                    title: '标题: required',
+                    tag: '标签: required',
+                    readnum: '基础阅读量: required'
+                }
+            });
+        }
+    }
+    _global.init();
+})(window.Zepto||window.jQuery, window);
+</script>
+</body>
+</html>

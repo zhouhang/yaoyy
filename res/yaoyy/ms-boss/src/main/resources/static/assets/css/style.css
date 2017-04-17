@@ -211,6 +211,8 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 .fa-form .note{padding-right:30px;text-align:right;color:#999;}
 .fa-form .choose span{position:relative;display:inline-block;line-height:1.5;margin:0 15px 15px 0;padding:5px 10px;border:1px solid #ccc;background:#fff;}
 .fa-form .choose span i{position:absolute;top:-9px;right:-9px;width:18px;height:18px;background-image:url(../images/close.png);cursor:pointer;}
+.fa-form .his a{display:inline-block;line-height:1;margin:0 5px 5px 0;padding:5px 10px;border:1px solid #ccc;background:#fff;cursor:pointer;}
+.fa-form .his a:hover{color:#fff;background:#c3272b;border-color:#c3272b;}
 .fa-form-info .item{margin-bottom:0;}
 
 /*pick_info1*/
