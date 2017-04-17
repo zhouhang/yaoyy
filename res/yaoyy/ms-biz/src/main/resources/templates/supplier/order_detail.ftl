@@ -33,7 +33,9 @@
 
         <div class="item info">
             <label>送货信息</label>
-            <p><span>采购单位：</span>${userDetail.company!}</p>
+            <#if userDetail.company??>
+                <p><span>采购单位：</span>${userDetail.company!}</p>
+            </#if>
             <p><span>采购人：</span>${userDetail.name!}</p>
             <p><span>采购人手机：</span>${userDetail.phone!}</p>
             <#if shippingAddressHistory?exists>
