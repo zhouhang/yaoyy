@@ -96,6 +96,13 @@
                     </div>
                 </div>
                 <div class="item">
+                    <div class="txt">库存数量：</div>
+                    <div class="cnt">
+                        <input type="text" name="unwarehouse" value="0" class="ipt" placeholder="库存数量" autocomplete="off">
+                        <span class="unit">公斤</span>
+                    </div>
+                </div>
+                <div class="item">
                     <div class="txt">商品标语：</div>
                     <div class="cnt">
                         <input type="text" name="slogan" class="ipt" placeholder="商品标语" autocomplete="off">

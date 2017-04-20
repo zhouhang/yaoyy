@@ -50,7 +50,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private CommodityService commodityService;
 
-
 	@Autowired
 	private  ApplicationContext applicationContext;
 
@@ -126,7 +125,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			}
 			p.setTotal(total);
 			// 查询账期剩余时间
-			if (SettleTypeEnum.SETTLE_BILL.getType() == p.getSettleType()) {
+			if (SettleTypeEnum.SETTLE_BILL.getType().equals(p.getSettleType())) {
 				AccountBillVo billVo = accountBillService.findVoByOrderId(p.getId());
 				if (billVo!= null) {
 					p.setBillTimeLeft(billVo.getTimeLeft());

@@ -114,7 +114,7 @@
             </div>
         </div>
         <div class="item">
-            <div class="txt"><i>*</i>图片：</div>
+            <div class="txt">图片：</div>
             <div class="cnt">
                 <span class="thumb up-img x4" id="imgCrop"></span>
                 <input type="hidden" value="" name="pictureUrl" id="pictureUrl">
@@ -181,8 +181,8 @@
                 fields: {
                     name: '品种: required',
                     title: '标题: required',
-                    sort: '排序: required; integer',
-                    pictureUrl: '图片: required'
+                    sort: '排序: required; integer'
+//                    pictureUrl: '图片: required'
                 },
                 valid: function (form) {
                     that.enable && response(url, $(form).serializeObject());

@@ -29,26 +29,26 @@
                 <div class="item">
                     <div class="txt"><i>*</i>商品名称：</div>
                     <div class="cnt">
-                        <input type="text" name="name" id="name" class="ipt" placeholder="商品名称" value="${commodity.name}" autocomplete="off">
+                        <input type="text" name="name" id="name" class="ipt" placeholder="商品名称" value="${commodity.name!}" autocomplete="off">
                         <input type="text" name="id" value="${commodity.id}" style="display: none">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>规格等级：</div>
                     <div class="cnt">
-                        <input type="text" name="spec" id="spec" class="ipt" value="${commodity.spec}" placeholder="规格等级" autocomplete="off">
+                        <input type="text" name="spec" id="spec" class="ipt" value="${commodity.spec!}" placeholder="规格等级" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>产地：</div>
                     <div class="cnt">
-                        <input type="text" name="origin" id="origin" class="ipt" value="${commodity.origin}" placeholder="产地" autocomplete="off">
+                        <input type="text" name="origin" id="origin" class="ipt" value="${commodity.origin!}" placeholder="产地" autocomplete="off">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>标题：</div>
                     <div class="cnt">
-                        <input type="text" name="title" id="title" class="ipt" value="${commodity.title}" placeholder="标题" autocomplete="off">
+                        <input type="text" name="title" id="title" class="ipt" value="${commodity.title!}" placeholder="标题" autocomplete="off">
                     </div>
                 </div>
                 <div class="item" id="junitPrice">
@@ -94,6 +94,13 @@
                     <div class="txt">起购数量：</div>
                     <div class="cnt">
                         <input type="text" name="minimumQuantity" class="ipt" value="${commodity.minimumQuantity!}" placeholder="起购数量" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt">库存数量：</div>
+                    <div class="cnt">
+                        <input type="text" name="unwarehouse" value="${commodity.unwarehouse!}" class="ipt" placeholder="库存数量" autocomplete="off">
+                        <span class="unit">公斤</span>
                     </div>
                 </div>
                 <div class="item">

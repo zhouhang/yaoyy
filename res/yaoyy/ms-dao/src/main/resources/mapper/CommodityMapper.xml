@@ -107,7 +107,7 @@
                 and cm.name like  "%"#{keyword}"%"
             </if>
         </where>
-        ORDER BY cm.category_id,sort DESC
+        ORDER BY status desc,cm.category_id,sort DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

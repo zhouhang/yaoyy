@@ -51,8 +51,10 @@
                     <tr>
                         <th width="50"><input type="checkbox" class="cbx"></th>
                         <th>选货单编号</th>
-                        <th>客户姓名</th>
-                        <th>客户电话</th>
+                        <th>采购人姓名</th>
+                        <th>采购人电话</th>
+                        <th>供货商姓名</th>
+                        <th>供货商电话</th>
                         <th>状态</th>
                         <th width="150">下单时间</th>
                         <th width="120" class="tc">操作</th>
@@ -64,7 +66,9 @@
                         <td><input type="checkbox" class="cbx"></td>
                         <td><a href="pick/detail/${pick.id}" class="link">${pick.code}</a></td>
                         <td>${pick.userName!}</td>
-                        <td>${pick.phone}</td>
+                        <td>${pick.phone!}</td>
+                        <td>${pick.supplierName!}</td>
+                        <td>${pick.supplierPhone!}</td>
                         <td><em class="status-${pick.status+1}">${pick.statusText}</em></td>
                         <td>${(pick.createTime?datetime)!}</td>
                         <td class="tc" data-id="${pick.id}">

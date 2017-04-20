@@ -45,6 +45,7 @@
                         <th width="320">标题</th>
                         <th>规格等级</th>
                         <th>价格</th>
+                        <th>供应商</th>
                         <th>排序</th>
                         <th>更新时间</th>
                         <th width="230" class="tc">操作</th>
@@ -57,8 +58,9 @@
                         <td>${commodity.name}</td>
                         <td>${commodity.categoryName!}</td>
                         <td>${commodity.title!}</td>
-                        <td>${commodity.spec}</td>
-                        <td>${commodity.price}/${commodity.unitName}</td>
+                        <td>${commodity.spec!}</td>
+                        <td>${commodity.price!}/${commodity.unitName!}</td>
+                        <td>${commodity.supplierName!}</td>
                         <td>${commodity.sort}</td>
                         <td><#if commodity.updateTime??> ${commodity.updateTime?datetime} <#else>${commodity.createTime?datetime} </#if></td>
                         <td class="tc" data-id="${commodity.id}">
