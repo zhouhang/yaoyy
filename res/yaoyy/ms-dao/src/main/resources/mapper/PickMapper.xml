@@ -54,7 +54,7 @@
 
     <sql id="Base_Column_List_Alisa">
         p.id as id,p.user_id as user_id,p.nickname as nickname,p.phone as phone,p.code as code,p.abandon as abandon,p.status as status,p.shipping_costs as shipping_costs,
-        p.bagging as bagging,p.checking as checking,p.taxation as taxation,p.settle_type as settle_type,p.deposit as deposit,p.bill_time as bill_time, p.addr_history_id as addr_history_id,
+        p.bagging as bagging,p.checking as checking,p.taxation as taxation,p.settle_type as settle_type,p.deposit as deposit,p.bill_time as bill_time, p.addr_history_id as addr_history_id,p.supplier_id as supplierId,
         p.remark as remark,p.amounts_payable as amounts_payable,p.member_id as member_id,p.sum as sum,p.delivery_date as delivery_date,p.expire_date as expire_date,p.update_time as update_time, p.create_time as create_time,complete_time as completeTime
     </sql>
 
@@ -73,11 +73,12 @@
 
     <select id="findByParams" resultMap="PickResultMapVo" parameterType="com.ms.dao.vo.PickVo">
         select DISTINCT
-        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType
+        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType,sp.name as supplierName,sp.phone as supplierPhone
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
         LEFT JOIN user_detail ud on p.user_id = ud.user_id
+        LEFT JOIN user_detail sp on p.supplier_id = sp.user_id
         <where>
             <if test="code != null">
                 p.code = #{code}

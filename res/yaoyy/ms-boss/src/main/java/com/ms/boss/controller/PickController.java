@@ -79,7 +79,7 @@ public class PickController extends BaseController {
         //寻找是否有待支付并且有提交转账记录的订单
 
         pickVoPageInfo.getList().forEach(p -> {
-            if (p.getStatus() == PickEnum.PICK_PAY.getValue()) {
+            if (PickEnum.PICK_PAY.getValue().equals(p.getStatus())) {
                 PayRecordVo param = new PayRecordVo();
                 param.setCodeType(0);
                 param.setOrderId(p.getId());
