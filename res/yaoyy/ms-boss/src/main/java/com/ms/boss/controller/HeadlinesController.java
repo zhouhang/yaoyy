@@ -2,6 +2,7 @@ package com.ms.boss.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Article;
+import com.ms.dao.vo.ArticleTagVo;
 import com.ms.dao.vo.ArticleVo;
 import com.ms.service.ArticleService;
 import com.ms.tools.annotation.SecurityToken;
@@ -14,17 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Author: koabs
- * 10/31/16.
- * 内容管理系统
+ * 4/20/17.
+ * 药商头条管理
  */
 @Controller
-@RequestMapping("/cms/")
-public class CMSController extends BaseController{
-
+@RequestMapping("/headlines/")
+public class HeadlinesController {
     @Autowired
     private ArticleService articleService;
 
@@ -37,10 +37,10 @@ public class CMSController extends BaseController{
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(ArticleVo articleVo, Integer pageNum, Integer pageSize, ModelMap model) {
-        articleVo.setType(1);
-        PageInfo<ArticleVo> pageInfo = articleService.findByParams(articleVo, pageNum, pageSize);
+        articleVo.setType(2);
+        PageInfo<ArticleVo> pageInfo = articleService.headlinesList(articleVo, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
-        return "article_list";
+        return "headlines_list";
     }
 
     /**
@@ -49,21 +49,13 @@ public class CMSController extends BaseController{
      */
     @RequestMapping(value="create",method= RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    public String createArticle(){
-        return "article_add";
+    public String createArticle(ModelMap model){
+        // 获取所有的标签列表
+        List<ArticleTagVo> list = articleService.tags();
+        model.put("tags",list);
+        return "headlines_edit";
     }
 
-    /**
-     * 删除文章
-     * @param id
-     * @return
-     */
-    @RequestMapping(value="delete/{id}",method = RequestMethod.GET)
-    @ResponseBody
-    public Result delete(@PathVariable("id") Integer id){
-        articleService.deleteById(id);
-        return Result.success().msg("删除成功");
-    }
 
     /**
      * 保存文章
@@ -73,33 +65,19 @@ public class CMSController extends BaseController{
     @RequestMapping(value="save",method = RequestMethod.POST)
     @ResponseBody
     @SecurityToken(validateToken=true)
-    public Result save(Article article){
-        articleService.createCMS(article);
-        return Result.success().msg("修改成功");
-    }
-
-    @RequestMapping(value="enable/{id}",method = RequestMethod.POST)
-    @ResponseBody
-    public Result enable(@PathVariable("id") Integer id){
-        articleService.changeStatus(id, 1);
-        return Result.success().msg("修改成功");
-    }
-
-    @RequestMapping(value="disable/{id}",method = RequestMethod.POST)
-    @ResponseBody
-    public Result disable(@PathVariable("id") Integer id){
-        articleService.changeStatus(id, 0);
+    public Result save(ArticleVo article){
+        articleService.createTouTiao(article);
         return Result.success().msg("修改成功");
     }
 
     @RequestMapping(value="editor/{id}",method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
     public String edit(@PathVariable("id") Integer id,ModelMap model){
-        Article article = articleService.findById(id);
+        ArticleVo article = articleService.findVoById(id);
         model.put("article", article);
-        return "article_editor";
+        // 获取所有的标签列表
+        List<ArticleTagVo> list = articleService.tags();
+        model.put("tags",list);
+        return "headlines_edit";
     }
-
-
-
 }

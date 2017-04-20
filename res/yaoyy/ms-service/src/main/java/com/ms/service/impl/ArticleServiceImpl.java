@@ -2,11 +2,19 @@ package com.ms.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
+import com.ms.dao.ArticleTagBindDao;
+import com.ms.dao.ArticleTagDao;
 import com.ms.dao.ICommonDao;
 import com.ms.dao.ArticleDao;
 import com.ms.dao.model.Article;
+import com.ms.dao.model.ArticleTag;
+import com.ms.dao.model.ArticleTagBind;
+import com.ms.dao.vo.ArticleTagVo;
 import com.ms.dao.vo.ArticleVo;
 import com.ms.service.ArticleService;
+import com.ms.tools.ClazzUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +28,12 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 
 	@Autowired
 	private ArticleDao articleDao;
+
+	@Autowired
+	private ArticleTagDao articleTagDao;
+
+	@Autowired
+	private ArticleTagBindDao bindDao;
 
 	@Override
 	public PageInfo<ArticleVo> findByParams(ArticleVo articleVo,Integer pageNum,Integer pageSize) {
@@ -44,7 +58,7 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 
 	@Override
 	@Transactional
-	public void save(Article article) {
+	public Article save(Article article) {
 		if (article.getStatus() == null) {
 			article.setStatus(1);
 		}
@@ -55,6 +69,7 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 			article.setCreateTime(new Date());
 			create(article);
 		}
+		return article;
 	}
 
 	@Override
@@ -62,4 +77,69 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 		return articleDao;
 	}
 
+	@Override
+	@Transactional
+	public Article createTouTiao(ArticleVo article) {
+		// type=2 表示头条文章
+		article.setType(2);
+		Article sv = save(article);
+
+		if (!Strings.isNullOrEmpty(article.getTagStr())) {
+			//delete binding relationship
+			bindDao.deleteByArticleId(sv.getId());
+
+			String[] names = article.getTagStr().split(",|，");
+			for (String name : names) {
+				name = name.trim();
+				// check tag if not exist create
+				ArticleTag tag = articleTagDao.findByName(name);
+				if (tag == null) {
+					tag = new ArticleTag();
+					tag.setName(name);
+					tag.setStatus(1);
+					tag.setSort(0);
+					tag.setCreateTime(new Date());
+					articleTagDao.create(tag);
+				}
+				ArticleTagBind bind = new ArticleTagBind();
+				bind.setArticleId(sv.getId());
+				bind.setTagId(tag.getId());
+				bindDao.create(bind);
+			}
+		}
+		return sv;
+	}
+
+	@Override
+	@Transactional
+	public Article createCMS(Article article) {
+		// type=1 表示CRM文章
+		article.setType(1);
+		return save(article);
+	}
+
+	@Override
+	public List<ArticleTagVo> tags() {
+		ArticleTagVo tagVo = new ArticleTagVo();
+		tagVo.setStatus(1);
+		return articleTagDao.findByParams(tagVo);
+	}
+
+	@Override
+	public PageInfo<ArticleVo> headlinesList(ArticleVo articleVo, Integer pageNum, Integer pageSize) {
+		PageInfo<ArticleVo>  pageInfo = findByParams(articleVo, pageNum, pageSize);
+		pageInfo.getList().forEach(article ->{
+			article.setTagStr(bindDao.findTagsByArticleId(article.getId()));
+		});
+		return pageInfo;
+	}
+
+	@Override
+	public ArticleVo findVoById(Integer id) {
+		Article article = findById(id);
+		ArticleVo vo = new ArticleVo();
+		ClazzUtil.copy(article,vo);
+		vo.setTagStr(bindDao.findTagsByArticleId(article.getId()));
+		return vo;
+	}
 }

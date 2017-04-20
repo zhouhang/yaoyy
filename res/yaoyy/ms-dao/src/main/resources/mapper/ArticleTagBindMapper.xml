@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ms.dao.ArticleTagBindDao">
+    <resultMap id="ArticleTagBindResultMap" type="com.ms.dao.model.ArticleTagBind">
+            <id column="id"  property="id" />
+            <result column="article_id"  property="articleId" />
+            <result column="tag_id"  property="tagId" />
+        
+    </resultMap>
+
+    <resultMap id="ArticleTagBindResultMapVo" type="com.ms.dao.vo.ArticleTagBindVo">
+            <id column="id"  property="id" />
+            <result column="article_id"  property="articleId" />
+            <result column="tag_id"  property="tagId" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,article_id,tag_id
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="ArticleTagBindResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from article_tag_bind
+        where id = #{id}
+    </select>
+
+
+
+    <select id="findTagsByArticleId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select
+        group_concat(ata.name) as name
+        from article_tag_bind atb
+        LEFT JOIN article_tag ata on ata.id = atb.tag_id
+        where atb.article_id = #{articleId}
+    </select>
+
+    <select id="findAll"  resultMap="ArticleTagBindResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from article_tag_bind
+    </select>
+
+    <select id="findByParams" resultMap="ArticleTagBindResultMapVo" parameterType="com.ms.dao.vo.ArticleTagBindVo">
+        select
+        <include refid="Base_Column_List" />
+        from article_tag_bind
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from article_tag_bind
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteByArticleId" parameterType="java.lang.Integer">
+        delete from article_tag_bind
+        where article_id = #{articleId}
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.ArticleTagBind">
+        insert into
+        article_tag_bind (article_id,tag_id)
+        values
+        (#{articleId},#{tagId})
+    </insert>
+
+    <update id="update" parameterType="com.ms.dao.model.ArticleTagBind">
+        update article_tag_bind
+        <set>
+                                                        
+            <if test="articleId != null">
+                article_id = #{articleId},
+            </if>
+                                            
+            <if test="tagId != null">
+                tag_id = #{tagId},
+            </if>
+                            
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

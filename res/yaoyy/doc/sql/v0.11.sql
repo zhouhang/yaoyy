@@ -21,3 +21,38 @@ ALTER TABLE `user_detail`
   ALTER TABLE `yaoyy`.`pick_commodity`
 CHANGE COLUMN `num` `num` DECIMAL(20,2) NULL DEFAULT NULL ;
 
+
+
+-- 2017-04-20
+CREATE TABLE `yaoyy`.`article_tag` (
+  `id` INT NOT NULL,
+  `sort` INT NULL DEFAULT 0,
+  `name` VARCHAR(45) NOT NULL,
+  `create_time` DATETIME NULL,
+  `status` INT NOT NULL COMMENT '0 禁用 1启用',
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE `yaoyy`.`article_tag_bind` (
+  `id` INT NOT NULL,
+  `article_id` INT NOT NULL,
+  `tag_id` INT NOT NULL,
+  UNIQUE INDEX `index2` (`tag_id` ASC, `article_id` ASC),
+  PRIMARY KEY (`id`));
+
+ALTER TABLE `yaoyy`.`article`
+CHANGE COLUMN `status` `status` INT(5) NOT NULL DEFAULT '1' COMMENT '状态 1启用(发布)，0禁用(草稿)' ,
+ADD COLUMN `descript` VARCHAR(64) NULL AFTER `update_time`,
+ADD COLUMN `hits` INT NULL DEFAULT 0 COMMENT '点击率' AFTER `descript`,
+ADD COLUMN `type` INT NULL DEFAULT 1 COMMENT '文章类别  1:平台CMS文章 2：药商头条' AFTER `hits`;
+
+ALTER TABLE `yaoyy`.`article`
+CHANGE COLUMN `descript` `descript` VARCHAR(64) CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL ;
+ALTER TABLE `yaoyy`.`article_tag_bind`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+ALTER TABLE `yaoyy`.`article_tag`
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ;
+
+
+
+
