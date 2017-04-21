@@ -13,43 +13,43 @@
 <body class="ui-body body-gray">
     <header class="ui-header">
         <div class="logo">药优优药材商城</div>
-        <div class="abs-r mid">
-            <a href="search.html"><i class="fa fa-search"></i></a>
+        <!-- <div class="abs-l mid">
+            <a href="javascript:history.back();" class="ico ico-back"></a>
+        </div> -->
+        <div class="mid search">
+            <form id="searchForm">
+                <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+                <button type="submit" id="search" class="ico ico-search mid submit"></button>
+            </form>
         </div>
     </header><!-- /ui-header -->
 
     <footer class="ui-footer">
-        <nav class="ui-nav">
+        <nav class="nav">
             <ul>
                 <li>
                     <a href="index.html">
-                        <i class="fa fa-home"></i>
+                        <i class="home"></i>
                         <span>首页</span>
                     </a>
                 </li>
                 <li>
                     <a href="product_list.html">
-                        <i class="fa fa-list"></i>
-                        <span>品种列表</span>
+                        <i class="menu"></i>
+                        <span>品种</span>
                     </a>
                 </li>
                 <li>
                     <a href="pick.html">
-                        <i class="fa fa-cart"></i>
+                        <i class="cart"></i>
                         <span>采购单</span>
                         <b id="cartNum">99</b>
                     </a>
                 </li>
                 <li>
-                    <a href="quote.html">
-                        <i class="fa fa-flag"></i>
-                        <span>道地行情</span>
-                    </a>
-                </li>
-                <li>
                     <a href="center.html">
-                        <i class="fa fa-user"></i>
-                        <span>个人中心</span>
+                        <i class="user"></i>
+                        <span>我的</span>
                     </a>
                 </li>
             </ul>
@@ -57,26 +57,160 @@
     </footer>
 
     <section class="ui-content">
-
         <div class="ui-slide" id="slide1">
             <ul>
-                <li><a href="#"><img src="uploads/p1.jpg" alt=""></a></li>
-                <li><a href="#"><img src="uploads/p1.jpg" alt=""></a></li>
-                <li><a href="#"><img src="uploads/p1.jpg" alt=""></a></li>
-                <li><a href="#"><img src="uploads/p1.jpg" alt=""></a></li>
+                <li><a href="#"><img src="uploads/p0.jpg" alt=""></a></li>
+                <li><a href="#"><img src="uploads/p0.jpg" alt=""></a></li>
             </ul>
         </div>
 
         <div class="ui-floor">
-            <a href="subject.html"><img src="uploads/p2.jpg" alt=""></a>
-        </div>
-        <div class="ui-floor">
-            <a href="subject.html"><img src="uploads/p3.jpg" alt=""></a>
-        </div>
-        <div class="ui-floor">
-            <a href="subject.html"><img src="uploads/p4.jpg" alt=""></a>
+            <ul class="menu">
+                <li>
+                    <a href="#"><i class="ico ico-list"></i>品种清单</a>
+                </li>
+                <li>
+                    <a href="#"><i class="ico ico-shopcart"></i>品采购单</a>
+                </li>
+                <li>
+                    <a href="#"><i class="ico ico-toutiao"></i>品药商头条</a>
+                </li>
+            </ul>
         </div>
 
+        <div class="ui-floor">
+            <div class="hd">
+                <h2 class="ico-notice">药商头条</h2>
+                <div class="marquee">
+                    <ul>
+                        <li>
+                            <a href="#"><em>行情</em>白芍市场需求量到底有多大1？白芍市场需求量到底有多大1？白芍市场需求量到底有多大1？</a>
+                        </li>
+                        <li>
+                            <a href="#"><em>焦点</em>白芍市场需求量到底有多大2？</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bd">
+                <a href="#" class="pro">
+                    <img src="uploads/ddhq.jpg" alt="地道行情">
+                    <div class="txt">
+                        <em>道地行情</em>
+                        <span>每周更新 替你上行</span>
+                    </div>
+                </a>
+                <a href="#" class="pro">
+                    <img src="uploads/bszc.jpg" alt="白芍专场">
+                    <div class="txt">
+                        <em>白芍专场</em>
+                        <span>优选好药 底价直采</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="ui-floor">
+            <h2 class="ico-arrow-down">特价好货</h2>
+            <ul class="list">
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p5.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p6.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p7.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p8.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p9.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p5.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p6.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p7.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="pic">
+                        <img src="uploads/p7.jpg" alt="安徽 天麻【统货】">
+                    </a>
+                    <a href="#">
+                        <em>安徽 天麻【统货】</em>
+                        <span>100</span>
+                        <b>元/公斤</b>
+                    </a>
+                </li>
+                <li class="hide">
+                    <a href="#" class="pic more"><b>更多特价药材</b></a>
+                </li>
+            </ul>
+            <div class="more">
+                <a href="#" class="ubtn ubtn-white">更多特价药材<i class="ico ico-more"></i></a>
+            </div>
+        </div>
     </section><!-- /ui-content -->
 
     <script src="assets/js/zepto.min.js"></script>
@@ -88,6 +222,7 @@
             init: function() {
                 this.slide();
                 this.sideQrcode();
+                this.marquee();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -120,6 +255,34 @@
                 if (!isMobile) {
                     $('body').append('<div class="sideQrcode"><span>微信“扫一扫”立即关注</span><img src="assets/images/qrcode.png" width="150" height="150"><span>微信号：yaoyy</span></div>');
                 }
+            },
+            // 公告
+            marquee: function() {
+                var $marquee = $('.marquee'),
+                    $ul = $marquee.find('ul'),
+                    length = $ul.find('li').length,
+                    ypos = $ul.find('li').height(),
+                    idx = 0,
+                    speed = 300,
+                    delay = 3500;
+
+                if (length == 1) {
+                    return this;
+                }
+                $ul.append($ul.html());
+
+                setInterval(function() {
+                    idx ++;
+                    $ul.animate({
+                        top: -idx * ypos
+                    }, speed, function() {
+                        if (idx === length) {
+                            idx = 0;
+                            $ul.css({top: 0})
+                        }
+                    });
+                }, delay);
+                
             }
         }
     }
