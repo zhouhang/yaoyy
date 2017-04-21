@@ -20,11 +20,11 @@
 
     <section class="ui-content">
         <div class="ui-form">
-            <form action="">
-                <div class="hd">
-                    您正在申请商品<strong>“白芍  产地：安徽   规格：过6-8号筛”</strong> 的寄样服务，在填写下面信息后我们会马上与您取得联系， 感谢您的支持！
-                    <em>（若您需要多件商品的寄样服务，在客服与您取得联系后在电话里沟通即可，不需要重复申请！）</em>                
-                </div>
+            <div class="hd">
+                您正在申请商品<strong>“白芍  产地：安徽   规格：过6-8号筛”</strong> 的寄样服务，在填写下面信息后我们会马上与您取得联系， 感谢您的支持！
+                <em>（若您需要多件商品的寄样服务，在客服与您取得联系后在电话里沟通即可，不需要重复申请！）</em>                
+            </div>
+            <form action="" id="step1">
                 <div class="item">
                     <input type="text" class="ipt" name="name" id="name" placeholder="姓名" autocomplete="off">
                     <span class="error"></span>
@@ -32,22 +32,50 @@
                 <div class="item">
                     <input type="tel" class="ipt" name="mobile" id="mobile" placeholder="手机号" autocomplete="off">
                     <span class="error"></span>
+                    <i class="mid"></i>
+                    <button type="button" class="send" id="send">发送验证码</button>
                 </div>
                 <div class="item">
-                    <input type="text" class="ipt" name="region" id="region" placeholder="-省-市-区/县-" readonly="" autocomplete="off">
+                    <input type="text" class="ipt" name="SMSCode" id="SMSCode" placeholder="验证码" autocomplete="off">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <button type="submit" class="ubtn ubtn-primary" id="submit1">确认</button>
+                </div>
+            </form>
+            <form action="" class="hide" id="step2">
+                <div class="item">
+                    <input type="text" class="ipt" name="region" id="region" placeholder="-省-市-区/县-" value="1" readonly="" autocomplete="off">
                     <span class="error"></span>
                     <em class="fa fa-front mid"></em>
                 </div>
-                <div class="item">
-                    <button type="submit" class="ubtn ubtn-primary" id="submit">提交</button>
+                <div class="item cbx-group">
+                    <select class="ipt" name="identity" id="identity">
+                        <option value="">-身份类型-</option>
+                        <option value="1">饮片厂</option>
+                        <option value="2">药厂</option>
+                        <option value="3">药材经营公司</option>
+                        <option value="4">个体经营户</option>
+                        <option value="5">其他</option>
+                    </select>
+                    <span class="error"></span>
                 </div>
-                <div class="hd">
-                    <p><em>注：单价20元以下的样品免费，单价20元以上的样品要收取您50%的费用。寄出根茎、种子、矿石类等样品量100g 全草、花类等蓬松、质轻的样品量50g，如果您需要超过寄样标准的数量，可以联系客服为您更改样品量，多出的部分需要自己承担运费。</em></p>
-                    <p><em>邮递发圆通快递，邮费按照圆通全国收费标准代收。</em></p>
+                <div class="item hide">
+                    <input type="text" class="ipt" name="company" id="company" placeholder="公司名称" autocomplete="off">
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <button type="submit" class="ubtn ubtn-primary" id="submit2">提交</button>
                 </div>
             </form>
+
+            <div class="hd">
+                <p><em>注：单价20元以下的样品免费，单价20元以上的样品要收取您50%的费用。寄出根茎、种子、矿石类等样品量100g 全草、花类等蓬松、质轻的样品量50g，如果您需要超过寄样标准的数量，可以联系客服为您更改样品量，多出的部分需要自己承担运费。</em></p>
+                <p><em>邮递发圆通快递，邮费按照圆通全国收费标准代收。</em></p>
+            </div>
         </div>
     </section><!-- /ui-content -->
+
 
     <div class="pick-region">
         <div class="ui-header">
@@ -104,171 +132,289 @@
     <script src="assets/js/layer.js"></script>
     <script>
 
+!(function($, window) {
     var _global = {
-        fn: {
-            init: function() {
-                this.validator();
-                this.loadInfo();
-                this.region();
-            },
-            loadInfo:function(){
-                var userinfo = getAppyInfo();
-                if(userinfo){
-                   $("#name").val(userinfo.nickname || '');
-                   $("#mobile").val(userinfo.phone || '');
-                   $("#region").val(userinfo.region || '');
-                }
-            },
-            validator: function() {
-                var self = this;
-                $('#submit').on('click', function() {
-                    if (self.checkName() && self.checkMobile() && self.checkRegion()) {
-                        var userinfo = {
-                            nickname: $("#name").val(),
-                            phone: $("#mobile").val(),
-                            region: $("#region").val()
-                        }
-                        saveAppyinfo(userinfo);
-                        layer.open({
-                            className: 'layer-custom',
-                            content: '<div class="box"><div class="hd">您的寄样申请已提交成功！</div><div class="bd">我们会在60分钟之内与您取得联系。 注册可以跟踪您的所有寄养申请。</div></div>'
-                            ,btn: ['去注册', '返回']
-                            ,yes: function(index){
-                                location.href = 'register.html';
-                            },no: function(index) {
-                              // window.history.back(); // 返回按钮事件
-                            },shadeClose: false
-                        });
-                    } else {
-
-                    }
-                    return false;
-                })
-
-                $('.ui-form').on('focus blur', '.ipt', function() {
-                    $(this).next().hide();
-                })
-            },
-            checkName: function() {
-                var $el = $('#name'),
-                    val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入您的姓名！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
-                }
-                return false;
-            },
-            checkMobile: function() {
-                var $el = $('#mobile'),
-                    val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入手机号码！').show();
-
-                } else if (!_YYY.verify.isMobile(val)) {
-                    $el.next().html('请输入有效的手机号！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
-                }
-                return false;
-            },
-            checkRegion: function() {
-                var $el = $('#region'),
-                    val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入您的所在区域（例如：安徽亳州）！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
-                }
-                return false;
-            },
-            region: function() {
-
-                var self = this,
-                    $tab = $('.tab'),
-                    $tabcont = $('.tabcont'),
-                    $item = $tabcont.find('ul'),
-                    $cont = $('.cont'),
-                    choose = [];
-
-                var tab = function(idx) {
-                    var distance = idx * $tabcont.width();
-                    $item.css('position','absolute').eq(idx).css('position','relative');
-                    $cont.css({
-                        '-webkit-transition':'all .3s ease',
-                        'transition':'all .3s ease',
-                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
-                        'transform':'translate3d(-' + distance + 'px,0,0)'
-                    });
-                }
-
-                // 选择地区
-                $('#region').on('click', function() {
-                    $('.pick-region').show();
-                    $('.ui-form').hide();
-                })
-
-                // 返回
-                $('#back').on('click', function() {
-                    $('.pick-region').hide();
-                    $('.ui-form').show();
-                })
-
-                // tab
-                $tab.on('click', 'span', function() {
-                    var idx = $(this).index();
-
-                    $(this).html('请选择');
-                    $tab.find('span').each(function(i) {
-                        i > idx && $(this).empty();
-                    })
-                    tab(idx);
-                })
-
-                // 城市级联
-                $tabcont.on('click', 'li', function() {
-                    var idx = $(this).parent().index(),
-                        name = this.innerHTML,
-                        cid = $(this).data('id');
-                    $.ajax({
-                        url: '',
-                        data: {cid: cid},
-                        success: function(result) {
-                            result = {
-                                data: [
-                                    {id: '1', text: '武汉'},
-                                    {id: '2', text: '杭州'}
-                                ]
-                            }
-                            $tab.find('span').eq(idx).html(name).next().html('请选择');
-                            self.toHtml(result.data, $item.eq(++idx));
-                            tab(idx);
-                        }
-                    })
-                })
-            },
-            toHtml: function(data, $wrap) {
-                var model = [];
-                $.each(data, function(i, item) {
-                    model.push('<li data-id="' , item.id ,'">', item.text, '</li>');
-                })
-                $wrap.html(model.join(''));
+        init: function() {
+            this.validator();
+            this.loadInfo();
+            this.SMSCodeEvent();
+            this.region();
+        },
+        loadInfo:function(){
+            var userinfo = getAppyInfo();
+            if(userinfo){
+               $("#name").val(userinfo.nickname || '');
+               $("#mobile").val(userinfo.phone || '');
+               // $("#region").val(userinfo.region || '');
             }
+        },
+        validator: function() {
+            var self = this,
+                type = 0;
+
+            // 姓名、手机号
+            $('#submit1').on('click', function() {
+                if (self.checkName() && self.checkMobile() && self.checkSMSCode()) {
+                    var userinfo = {
+                        nickname: $("#name").val(),
+                        phone: $("#mobile").val()
+                        // region: $("#region").val()
+                    }
+                    saveAppyinfo(userinfo);
+                    $('#step1').hide();
+                    $('#step2').show();
+                } else {
+
+                }
+                return false;
+            })
+
+            // 收货地址、身份类型、公司名称
+            $('#submit2').on('click', function() {
+                if (self.checkRegion() && self.checkIdentity() && (type == 0 || type == 1 && self.checkCompany())) {
+                    var userinfo = {
+                        nickname: $("#name").val(),
+                        phone: $("#mobile").val()
+                        // region: $("#region").val()
+                    }
+                    saveAppyinfo(userinfo);
+                    layer.open({
+                        className: 'layer-custom',
+                        content: '<div class="box"><div class="hd">您的寄样申请已提交成功！</div><div class="bd">我们会在60分钟之内与您取得联系。 注册可以跟踪您的所有寄养申请。</div></div>'
+                        ,btn: ['去注册', '返回']
+                        ,yes: function(index){
+                            location.href = 'register.html';
+                        },no: function(index) {
+                          // window.history.back(); // 返回按钮事件
+                        },shadeClose: false
+                    });
+                } else {
+
+                }
+                return false;
+            })
+
+            // 饮片厂，药厂或者是药材经营公司弹出公司名称输入框
+            $('#identity').on('change', function() {
+                switch (this.value) {
+                    case '1':
+                    case '2':
+                    case '3':
+                        $('#company').parent().show();
+                        type = 1;
+                        break;
+                    default: 
+                        type = 0;
+                        $('#company').parent().hide();
+                }
+            })
+
+            // 隐藏错误提示
+            $('.ui-form').on('focus blur', '.ipt', function() {
+                $(this).next().hide();
+            })
+        },
+        checkName: function() {
+            var $el = $('#name'),
+                val = $el.val();
+
+            if (!val) {
+                $el.next().html('请输入您的姓名！').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        checkMobile: function() {
+            var $el = $('#mobile'),
+                val = $el.val();
+
+            if (!val) {
+                $el.next().html('请输入手机号码！').show();
+
+            } else if (!_YYY.verify.isMobile(val)) {
+                $el.next().html('请输入有效的手机号！').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        checkSMSCode: function() { 
+            var $el = $('#SMSCode'),
+                val = $el.val();
+            if (!val) {
+                $el.next().html('请输入短信验证码！').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        SMSCodeEvent: function() {
+            var $send = $('#send'),
+                $mobile = $('#mobile'),
+                self = this;
+                second = 0, 
+                wait = 0,
+                txt = '秒后重试';
+
+            var lock = function() {
+                wait && clearInterval(wait);
+                wait = setInterval(function() {
+                    second--;
+                    $send.text(second + txt).prop('disabled', true);
+                    if (second === 0) {
+                        clearInterval(wait);
+                        $send.text("获取验证码").prop('disabled', false);
+                    }
+                }, 1e3);
+            }
+            var sendMSM = function() {
+                popover('验证码发送中，请稍后...!');
+                $.ajax({
+                    url: 'json/getsmscode.php',
+                    dataType: 'json',
+                    data: 'phone=' + $mobile.val(),
+                    success: function(data) {
+                        if (data.status === 'y') {
+                            $send.text(second + txt).prop('disabled', true);
+                            lock();
+                            popover(data.info);
+                        } else {
+                            popover(data.info);
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        popover('网络连接超时，请您稍后重试!');
+                    }
+                })
+            }
+            $send.prop('disabled', false).on('click', function() {
+                if(second === 0 && self.checkMobile()) {
+                    second = 60; // 60秒倒计时
+                    sendMSM();
+                } 
+            })
+        },
+        checkRegion: function() {
+            var $el = $('#region'),
+                val = $el.val();
+
+            if (!val) {
+                $el.next().html('请输入您的所在区域（例如：安徽亳州）！').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        checkIdentity: function() {
+            var $el = $('#identity'),
+                val = $el.val();
+
+            if (!val) {
+                $el.next().html('请选择身份类型').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        checkCompany: function() {
+            var $el = $('#company'),
+                val = $el.val();
+
+            if (!val) {
+                $el.next().html('请输入公司名称').show();
+
+            } else {
+                $el.next().hide();
+                return true;
+            }
+            return false;
+        },
+        region: function() {
+
+            var self = this,
+                $tab = $('.tab'),
+                $tabcont = $('.tabcont'),
+                $item = $tabcont.find('ul'),
+                $cont = $('.cont'),
+                choose = [];
+
+            var tab = function(idx) {
+                var distance = idx * $tabcont.width();
+                $item.css('position','absolute').eq(idx).css('position','relative');
+                $cont.css({
+                    '-webkit-transition':'all .3s ease',
+                    'transition':'all .3s ease',
+                    '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+                    'transform':'translate3d(-' + distance + 'px,0,0)'
+                });
+            }
+
+            // 选择地区
+            $('#region').on('click', function() {
+                $('.pick-region').show();
+                $('.ui-form').hide();
+            })
+
+            // 返回
+            $('#back').on('click', function() {
+                $('.pick-region').hide();
+                $('.ui-form').show();
+            })
+
+            // tab
+            $tab.on('click', 'span', function() {
+                var idx = $(this).index();
+
+                $(this).html('请选择');
+                $tab.find('span').each(function(i) {
+                    i > idx && $(this).empty();
+                })
+                tab(idx);
+            })
+
+            // 城市级联
+            $tabcont.on('click', 'li', function() {
+                var idx = $(this).parent().index(),
+                    name = this.innerHTML,
+                    cid = $(this).data('id');
+                $.ajax({
+                    url: '',
+                    data: {cid: cid},
+                    success: function(result) {
+                        result = {
+                            data: [
+                                {id: '1', text: '武汉'},
+                                {id: '2', text: '杭州'}
+                            ]
+                        }
+                        $tab.find('span').eq(idx).html(name).next().html('请选择');
+                        self.toHtml(result.data, $item.eq(++idx));
+                        tab(idx);
+                    }
+                })
+            })
+        },
+        toHtml: function(data, $wrap) {
+            var model = [];
+            $.each(data, function(i, item) {
+                model.push('<li data-id="' , item.id ,'">', item.text, '</li>');
+            })
+            $wrap.html(model.join(''));
         }
     }
-
-    $(function(){
-        _global.fn.init();
-    });
+    _global.init();
+})(window.Zepto||window.jQuery, window);
 </script>
 </body>
 </html>
