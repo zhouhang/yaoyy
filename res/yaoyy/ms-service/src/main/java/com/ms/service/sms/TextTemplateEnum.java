@@ -13,8 +13,9 @@ public enum TextTemplateEnum {
     SMS_SAMPLE_CONFIRM("{1} [{2}]您好，您提交的寄样申请已审核通过，我们会马上为您寄送样品。"), // 客服确认寄样申请有效通知客户
     SMS_BOSS_SAMPLE_SEND("{1} [{2}]用户提交了{3}寄样申请,请速联系."),
     SMS_BIZ_BANK_INFO("{1}您的订货订单{2}需要支付{3}，汇款账户：{4}，账号：{5}，开户行：{6} 请在汇款留言栏填写如下内容：{7}"),
-    SMS_BOSS_SUPPLIER_SIGN("【药优优】恭喜您，已成为药优优签约供应商。您可以在药优优公众号左侧供应商管理菜单看到您的订单情况，以及对您的商品进行调价。第一次使用请用您的账号：{1}和密码：{2} 进行登录。");
-
+    SMS_BOSS_SUPPLIER_SIGN("【药优优】恭喜您，已成为药优优签约供应商。您可以在药优优公众号左侧供应商管理菜单看到您的订单情况，以及对您的商品进行调价。第一次使用请用您的账号：{1}和密码：{2} 进行登录。"),
+    SMS_BIZ_PURCHASER_SUPPLIER("{1}采购员{2}。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/{3}，提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。"),
+    SMS_BIZ_PURCHASER_SUPPLIER_NOT("{1}采购员{2}。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/{3}。登录账号为：{4} 密码：{5} 。提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。");
     private String value;
 
     TextTemplateEnum(String value){

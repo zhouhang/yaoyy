@@ -54,7 +54,7 @@
                     <#if tracking.recordType!=3>
                     <li>
                         <time>${(tracking.createTime?datetime)!}</time>
-                        <span> &nbsp; &nbsp; &nbsp;${tracking.bizRecordTypeText}
+                        <span> &nbsp; &nbsp; &nbsp;${tracking.bizRecordTypeText!}
                             <#if tracking.recordType==6>
                             ${tracking.memberTel!}
                              </#if>
@@ -70,7 +70,7 @@
             <div class="hd">商品详情：</div>
             <ul class="list">
                 <#list pickVo.pickCommodityVoList as pickCommodityVo>
-                <li><a href="commodity/detail/${pickCommodityVo.realCommodityId}"><em>${pickCommodityVo.name}</em><span>${pickCommodityVo.origin}  ${pickCommodityVo.spec}  ${pickCommodityVo.price}元/${pickCommodityVo.unit}</span></a><sub><em>${pickCommodityVo.num}</em> ${pickCommodityVo.unit} <b>&yen; <em>${pickCommodityVo.total}</em></b> 元</sub></li>
+                <li><a href="commodity/detail/${pickCommodityVo.realCommodityId!}"><em>${pickCommodityVo.name}</em><span>${pickCommodityVo.origin}  ${pickCommodityVo.spec}  ${pickCommodityVo.price}元/${pickCommodityVo.unit}</span></a><sub><em>${pickCommodityVo.num}</em> ${pickCommodityVo.unit} <b>&yen; <em>${pickCommodityVo.total}</em></b> 元</sub></li>
                 </#list>
             </ul>
         <#if pickVo.sum?exists && pickVo.sum != 0>
@@ -396,7 +396,6 @@
                     data: { orderId:${pickVo.id}},
                     type: "POST",
                     success: function(result) {
-                        console.log(result);
                         var obj = result.data;
                         WeixinJSBridge.invoke('getBrandWCPayRequest',{
                             "appId" : obj.appId,                  //公众号名称，由商户传入

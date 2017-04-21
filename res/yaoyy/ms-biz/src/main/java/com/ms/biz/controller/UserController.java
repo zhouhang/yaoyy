@@ -104,14 +104,15 @@ public class UserController extends BaseController{
      * @param phone
      * @param code
      * @param password
+     * @param name
      * @return
      */
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(String phone, String code, String password, ModelMap model) {
+    public String register(String phone, String code, String password, String name, ModelMap model) {
         try {
-            userService.register(phone, code, password);
+            userService.register(phone, code, password, name);
             Subject subject = SecurityUtils.getSubject();
-            BizToken token = new BizToken(phone, password, false, null, "");
+            BizToken token = new BizToken(phone, password, false, null, null);
             userService.login(subject, token);
         } catch (Exception e) {
             model.put("error",e.getMessage());

@@ -37,6 +37,7 @@ public class CMSController extends BaseController{
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(ArticleVo articleVo, Integer pageNum, Integer pageSize, ModelMap model) {
+        articleVo.setType(1);
         PageInfo<ArticleVo> pageInfo = articleService.findByParams(articleVo, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         return "article_list";
@@ -73,7 +74,7 @@ public class CMSController extends BaseController{
     @ResponseBody
     @SecurityToken(validateToken=true)
     public Result save(Article article){
-        articleService.save(article);
+        articleService.createCMS(article);
         return Result.success().msg("修改成功");
     }
 

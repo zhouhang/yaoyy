@@ -26,7 +26,7 @@
             </form>
             <div class="suggest">
                 <div class="suggest-panel"></div>
-                <div class="suggest-close">关闭</div>
+                <div class="suggest-close"></div>
             </div>
         </div>
 
@@ -131,15 +131,18 @@
             autocomplete: function() {
                 var t,
                     self = this,
+                    colors = ['aqua', 'green', 'yellow', 'red', 'navy', 'teal', 'olive', 'orange', 'fuchsia', 'purple', 'maroon'],
                     $suggestions = $('.suggest');
                 var search = function() {
                     $.ajax({
                         url: 'json/catName.json',
                         cache: false,
                         success: function(data) {
-                            var model = [];
+                            var model = [],
+                                idx = 0;
                             $.each(data.data, function(i, item) {
-                                model.push('<a href="', item.href, '">', item.name, '</a>');
+                                var className = 'bg-' + colors[idx++];
+                                model.push('<a href="', item.href, '" class="', className, '" >', item.name, '</a>');
                             })
                             if (model.length === 0) {
                                 model.push('<span>暂无此商品</span>');

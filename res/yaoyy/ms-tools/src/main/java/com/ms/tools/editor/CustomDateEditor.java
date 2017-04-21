@@ -18,11 +18,17 @@ public class CustomDateEditor extends PropertyEditorSupport {
 
 	public void setAsText(String text) throws IllegalArgumentException {
 		Date value = null;
+		int length = text.length();
+		System.out.println(length);
 		if (null != text && !text.equals("")) {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if (text.length()<12) {
 				text += " 00:00:00";
 			}
+			if(text.length()==16){
+				text += ":00";
+			}
+
 			try {
 				value = df.parse(text);
 			} catch (Exception e) {

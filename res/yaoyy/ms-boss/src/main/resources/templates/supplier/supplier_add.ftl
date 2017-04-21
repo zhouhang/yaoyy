@@ -100,7 +100,7 @@
                     <div class="cnt">
                         <select class="slt" name="source" id="source">
                             <option value="1" >系统录入</option>
-                            <option value="2" >沪樵导入</option>
+                            <option value="2" >沪谯导入</option>
                             <option value="3" >天济导入</option>
                             <option value="4" >微信登记</option>
                         </select>
@@ -151,7 +151,7 @@
                 <div class="item">
                     <div class="txt">主要客户群体：</div>
                     <div class="cnt cbxs">
-                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" >饮片长</label>
+                        <label><input type="checkbox" name="bizCustomerType" class="cbx" value="1" >饮片厂</label>
                         <label><input type="checkbox" name="bizCustomerType" class="cbx" value="2" >制药厂</label>
                         <label><input type="checkbox" name="bizCustomerType" class="cbx" value="3" >经营户</label>
                     </div>

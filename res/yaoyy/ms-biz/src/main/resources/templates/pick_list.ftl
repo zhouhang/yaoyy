@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>选货单列表-药优优</title>
-    <#include "./common/meta.ftl"/>
+<title>选货单列表-药优优</title>
+<#include "./common/meta.ftl"/>
 </head>
 <body class="ui-body-nofoot body-gray">
 <header class="ui-header">
@@ -14,7 +14,6 @@
 
 <section class="ui-content">
     <div class="pick-list"></div>
-    <div id="pagenav"></div>
 </section><!-- /ui-content -->
 
 <#include "./common/footer.ftl"/>
@@ -27,11 +26,10 @@
         },
         fn: {
             init: function() {
-                this.page();
                 this.loadPlist();
             },
             loadPlist: function() {
-                var self = this,
+                var that = this,
                     pageNum = 1; // 当前页
 
                 $('.ui-content').dropload({
@@ -43,37 +41,30 @@
                             url: _global.v.dataUrl,
                             data: {pageNum:pageNum, pageSize: 5},
                             dataType: 'json',
-                            success: function(result){
-                                if (result.data.list.length !== 0) {
-                                    self.toHtml(result.data.list, pageNum);
-                                    if (result.data.isLastPage) {
-                                        me.lock();
-                                        me.noData();
-                                        setTimeout(function() {
-                                            me.$domDown.addClass('dropload-down-hide');
-                                        }, 2e3);
-                                    }
-                                    self.pagenav(result.data.pageNum, result.data.pages);
-                                } else{
-                                    if (result.data.isLastPage) {
-                                        self.empty(true);
+                            success: function(res){
+                                if (res.data.isLastPage) {
+                                    me.lock();
+                                    me.noData();
+                                    if (res.data.list.length === 0) {
+                                        that.empty(true);
                                         me.$domDown.hide();
                                     }
                                 }
+                                that.toHtml(res.data.list);
                                 pageNum ++;
-                                me.resetload();
                             },
                             error: function(xhr, type){
                                 popover('网络连接超时，请您稍后重试!');
+                            },
+                            complete: function() {
                                 me.resetload();
                             }
                         });
                     }
                 });
             },
-            toHtml: function(data, pageNum) {
+            toHtml: function(data) {
                 var html = [];
-                html.push('<div id="page' + pageNum + '">');
                 $.each(data, function(i, item) {
                     html.push('<div class="item">\n <dl> \n <a href="/pick/detail/', item.id, '">');
                     html.push(     '<dt>\n');
@@ -95,30 +86,12 @@
 
                     html.push('</a>\n </div>');
                 })
-                html.push('</div>');
                 $('.pick-list').append(html.join(''));
-                this.offset[pageNum] = $('#page' + pageNum).offset().top;
             },
             empty: function(isEmpty) {
                 if (isEmpty) {
                     $('.ui-content').prepend('<div class="ui-notice ui-notice-extra"> \n 选货单列表还没有商品！ \n <a class="ubtn ubtn-primary" href="/">返回首页</a> \n </div>');
                 }
-            },
-            pagenav: function(pageNum, pages) {
-                $('#pagenav').show().html('<em>' + pageNum + '</em>/' + pages);
-            },
-            page: function() {
-                var self = this;
-                self.offset = {};
-                $(window).on('scroll', function() {
-                    var st = document.body.scrollTop || document.documentElement.scrollTop,
-                        winHeight = $(window).height() / 1.5;
-                    $.each(self.offset, function(key, val) {
-                        if (st + winHeight >= val) {
-                            $('#pagenav').find('em').html(key);
-                        }
-                    })
-                })
             }
         }
     }

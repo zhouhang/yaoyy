@@ -30,6 +30,8 @@ public class HistoryCommodity  implements Serializable {
 	private String thumbnailUrl;
 	
 	private Date createTime;
+
+	private Integer categoryId;
 	
 	public HistoryCommodity(){}
 	
@@ -120,5 +122,12 @@ public class HistoryCommodity  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
 }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>订单详情-药优优</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/supplier.css">
+</head>
+<body>
+<footer class="footer">
+    <nav class="nav">
+        <ul>
+            <li>
+                <a href="index.html">
+                    <i class="home"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="price.html">
+                    <i class="cart"></i>
+                    <span>商品调价</span>
+                </a>
+            </li>
+            <li>
+                <a href="order.html">
+                    <i class="menu"></i>
+                    <span>订单记录</span>
+                </a>
+            </li>
+            <li>
+                <a href="news.html">
+                    <i class="msg"></i>
+                    <span>消息</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</footer>
+
+<div class="ui-content">
+    <div class="detail">
+        <div class="item">
+            <p><span>状态：</span><em>待支付</em></p>
+            <p><span>订单号：</span>148724516951</p>
+            <p><span>下单时间：</span>2017-03-27 11:29:09</p>
+        </div>
+
+        <div class="item">
+            <label>采购单</label>
+            <div class="t3 fr">1000公斤 <em>15</em>元/公斤</div>
+            <div class="t3 mr">三棱  浙江  统个三棱  浙江  统个三棱  浙江  统个</div>
+        </div>
+        <div class="item">
+            <label>货物要求</label>
+            <div>干度90%，含量74%</div>
+        </div>
+        <div class="item info">
+            <label>收货信息</label>
+            <p><span>采购单位：</span>安徽省沪谯饮片厂</p>
+            <p><span>采购人：</span>王彬</p>
+            <p><span>采购人手机：</span>17099928881</p>
+            <p><span>收货地址：</span>武汉</p>
+            <p><span>收货人：</span>张三</p>
+            <p><span>收货人手机：</span>17099928881</p>
+        </div>
+        <div class="item">
+            <span>送货时间：</span>
+            <a href="javascript:;" class="op mid c-blue">修改送货时间</a>
+            <div class="date mid">
+                <input type="text" class="ipt" id="date" readonly="" value="2017-03-22" />
+            </div>
+        </div>
+        <div class="summary">
+            <div class="li">
+                商品总价：<em id="_min">¥90.00</em>元
+            </div>
+            <div class="li">
+                商品总价：<em id="_min">¥90.00</em>元
+            </div>
+            <div class="li">
+                商品总价：<em id="_min">¥90.00</em>元
+            </div>
+        </div>
+        <div class="ft">
+            <button type="button" id="submit" class="ubtn ubtn-primary">确认发货</button>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/zepto.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/mobiscroll.min.js"></script>
+<script>
+!(function() {
+    var _global = {
+        fn: {
+            init: function() {
+                navLight(2);
+                this.pickDate();
+                this.submit();
+            },
+            pickDate: function() {
+                var that = this,
+                    time = new Date(),
+                    year = time.getFullYear(),
+                    month = time.getMonth(),
+                    date = time.getDate();
+
+                $('#date').scroller({
+                    preset: 'datetime',
+                    minDate: time,
+                    maxDate: new Date(year, month + 3, date),
+                    display: 'bottom',
+                    animate: 'slideup',
+                    //点击确定按钮，触发事件
+                    onSelect: function(val) {
+                        that.date = val;
+                    }
+                });
+            },
+            submit: function() {
+                var that = this;
+                $('#submit').on('click', function() {
+                    // alert(that.date)
+                })
+            }
+        }
+    }
+
+     _global.fn.init();
+
+})(window.Zepto||window.jQuery);
+
+
+</script>
+</body>
+</html>

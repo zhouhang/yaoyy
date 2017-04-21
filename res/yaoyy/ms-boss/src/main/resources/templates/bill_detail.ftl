@@ -28,15 +28,15 @@
             </div>
             <div class="item">
                 <div class="txt">客户姓名：</div>
-                <div class="val">${billVo.nickname!}</div>
+                <div class="val">${userDetail.name?default(userDetail.nickname)!}</div>
             </div>
             <div class="item">
                 <div class="txt">客户电话：</div>
-                <div class="val">${billVo.nickname!}</div>
+                <div class="val">${userDetail.phone!}</div>
             </div>
             <div class="item">
                 <div class="txt">单位：</div>
-                <div class="val">${billVo.name!}</div>
+                <div class="val">${userDetail.company?default(userDetail.name)!}</div>
             </div>
             <div class="item">
                 <div class="txt">地区：</div>

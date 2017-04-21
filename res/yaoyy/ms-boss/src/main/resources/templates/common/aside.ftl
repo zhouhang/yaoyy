@@ -191,6 +191,7 @@
                 <a href="/quotation/list" id="navItem11-1"><i class="fa fa-circle-o"></i>报价单列表</a>
                </@shiro.hasPermission>
                 <a href="/announcement/list" id="navItem11-2"><i class="fa fa-circle-o"></i>网站公告</a>
+                <a href="/headlines/list" id="navItem11-2"><i class="fa fa-circle-o"></i>药商头条列表</a>
             </dd>
         </dl>
        </@shiro.hasPermission>

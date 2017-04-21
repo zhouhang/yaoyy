@@ -25,7 +25,10 @@ public enum PickTrackingTypeEnum {
     PICK_SELFPAY_DEPOSTI(16,"支付保证金"),
     PICK_SELFPAY_ALL(17,"支付全款"),
     PICK_PAY_BILL(18,"支付账单"),
-    PICK_CONFIG_PAY_BILL(19,"确认支付账单");
+    PICK_CONFIG_PAY_BILL(19,"确认支付账单"),
+    PICK_ADD_ACCOUNT(20,"添加了结算信息"),
+    PICK_COMPLETE(21,"确认货物合格，订单状态变为已完成"),
+    PICK_RETURN(22,"货物不合格订单状态变为退货");
 
 
 

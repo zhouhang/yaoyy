@@ -18,7 +18,7 @@ public class Article  implements Serializable {
 	//链接
 	private String url;
 	
-	//状态 1上架，0下架
+	//状态 1启用(发布)，0禁用(草稿)
 	private Integer status;
 	
 	//创建者
@@ -29,6 +29,14 @@ public class Article  implements Serializable {
 	private Integer updateMem;
 	
 	private Date updateTime;
+	
+	private String descript;
+	
+	//点击率
+	private Integer hits;
+	
+	//文章类别  1:平台CMS文章 2：药商头条
+	private Integer type;
 	
 	public Article(){}
 	
@@ -102,6 +110,30 @@ public class Article  implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	
+	public String getDescript() {
+		return descript;
+	}
+
+	public void setDescript(String descript) {
+		this.descript = descript;
+	}
+	
+	public Integer getHits() {
+		return hits;
+	}
+
+	public void setHits(Integer hits) {
+		this.hits = hits;
+	}
+	
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 }

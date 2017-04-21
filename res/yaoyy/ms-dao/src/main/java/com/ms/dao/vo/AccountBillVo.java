@@ -15,6 +15,9 @@ public class AccountBillVo extends AccountBill{
 
     private String name;
 
+    private String company;
+    private String phone;
+
     private String operateName;//操作人
 
     private String timeLeft;//账期剩余时间
@@ -126,5 +129,21 @@ public class AccountBillVo extends AccountBill{
 
     public void setUnpaid(float unpaid) {
         this.unpaid = unpaid;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

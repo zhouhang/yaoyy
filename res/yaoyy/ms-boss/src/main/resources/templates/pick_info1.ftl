@@ -35,12 +35,20 @@
                         <div class="val status-${pickVo.status+1}">${pickVo.statusText}</div>
                     </div>
                     <div class="item">
-                        <div class="txt">客户姓名：</div>
-                        <div class="val">${pickVo.nickname}</div>
+                        <div class="txt">下单时间：</div>
+                        <div class="val">${(pickVo.createTime?datetime)!}</div>
                     </div>
                     <div class="item">
-                        <div class="txt">手机号：</div>
-                        <div class="val">${pickVo.phone}</div>
+                        <div class="txt">采购单位：</div>
+                        <div class="val">${userDetail.company!}</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">采购人：</div>
+                        <div class="val">${userDetail.name!}</div>
+                    </div>
+                    <div class="item">
+                        <div class="txt">采购人手机号：</div>
+                        <div class="val">${userDetail.phone!}</div>
                     </div>
                     <!--
                     <div class="item">
@@ -48,10 +56,6 @@
                         <div class="val">安徽亳州</div>
                     </div>
                     -->
-                    <div class="item">
-                        <div class="txt">申请时间：</div>
-                        <div class="val">${(pickVo.createTime?datetime)!}</div>
-                    </div>
                 </div>
 
                 <div class="box fa-form">
@@ -66,8 +70,9 @@
                                     <th>产地</th>
                                     <th width="200" class="tl">规格等级</th>
                                     <th width="80">数量</th>
-                                    <th>单位</th>
                                     <th>价格</th>
+                                    <th>供应商</th>
+                                    <th width="80">供应商手机</th>
                                     <th>合计</th>
                                 </tr>
                                 </thead>
@@ -78,21 +83,50 @@
                                     <td>${pickCommodityVo.origin}</td>
                                     <td class="tl"><p>${pickCommodityVo.spec}</p></td>
                                     <td><div class="ipt-wrap"><input type="text" class="ipt number" pc="${pickCommodityVo.id}" disabled  data-price="${pickCommodityVo.price?c}" value="${pickCommodityVo.num?c}"></div></td>
-                                    <td>${pickCommodityVo.unit}</td>
                                     <td>${pickCommodityVo.price}元/${pickCommodityVo.unit}</td>
+                                    <td>${supplierDetail.name!}</td>
+                                    <td>${supplierDetail.phone!}</td>
                                     <td><span>${pickCommodityVo.total?c}</span>元</td>
                                 </tr>
                                 </#list>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="7" class="tr"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
+                                    <td colspan="8" class="tr"><span>合计：</span><em id="sum1">${pickVo.sum!}</em></td>
                                 </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
+
+                <#if shippingAddressHistory??>
+                    <div class="box fa-form fa-form-info">
+                        <div class="hd">收货信息</div>
+                        <div class="item">
+                            <div class="txt">收货地址：</div>
+                            <div class="val">${shippingAddressHistory.detail!}</div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">收货人：</div>
+                            <div class="val">${shippingAddressHistory.consignee!}</div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">收货人手机号：</div>
+                            <div class="val">${shippingAddressHistory.tel!}</div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">约定发货时间：</div>
+                            <div class="val">${(pickVo.deliveryDate?string("yyyy年MM月dd日 HH:mm"))!}</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="txt">货物要求：</div>
+                            <div class="val">${pickVo.remark!}</div>
+                        </div>
+                    </div>
+                </#if>
+
 
                 <div class="box fa-form">
                     <div class="hd">订单追踪</div>
@@ -126,9 +160,15 @@
                     <form id="userForm">
                         <input type="hidden"  class="ipt" value="${userDetail.id!}" name="id">
                         <div class="item">
-                            <div class="txt">个人称呼：</div>
+                            <div class="txt">微信昵称：</div>
                             <div class="cnt">
                                 <input type="text" name="nickname" value="${userDetail.nickname!}" class="ipt" placeholder="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="txt">姓名：</div>
+                            <div class="cnt">
+                                <input type="text" name="name" value="${userDetail.name!}" class="ipt" placeholder="" autocomplete="off">
                             </div>
                         </div>
                         <div class="item">
@@ -159,9 +199,9 @@
                             </div>
                         </div>
                         <div class="item">
-                            <div class="txt">姓名/单位：</div>
+                            <div class="txt">单位：</div>
                             <div class="cnt">
-                                <input type="text"  value="${userDetail.name!}" name="name" class="ipt" placeholder="姓名/单位" autocomplete="off">
+                                <input type="text"  value="${userDetail.company!}" name="company" class="ipt" placeholder="单位" autocomplete="off">
                             </div>
                         </div>
                         <div class="item">

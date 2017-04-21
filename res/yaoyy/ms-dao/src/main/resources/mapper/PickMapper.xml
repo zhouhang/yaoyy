@@ -19,12 +19,14 @@
         <result column="addr_history_id"  property="addrHistoryId" />
         <result column="remark"  property="remark" />
         <result column="amounts_payable"  property="amountsPayable" />
+        <result column="supplier_id"  property="supplierId" />
         <result column="member_id"  property="memberId" />
         <result column="sum"  property="sum" />
         <result column="delivery_date"  property="deliveryDate" />
         <result column="expire_date"  property="expireDate" />
         <result column="update_time"  property="updateTime" />
         <result column="create_time"  property="createTime" />
+        <result column="complete_time"  property="completeTime" />
 
     </resultMap>
 
@@ -47,13 +49,13 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,delivery_date,expire_date,update_time,create_time
+        id,user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,supplier_id,member_id,sum,delivery_date,expire_date,update_time,create_time,complete_time
     </sql>
 
     <sql id="Base_Column_List_Alisa">
         p.id as id,p.user_id as user_id,p.nickname as nickname,p.phone as phone,p.code as code,p.abandon as abandon,p.status as status,p.shipping_costs as shipping_costs,
-        p.bagging as bagging,p.checking as checking,p.taxation as taxation,p.settle_type as settle_type,p.deposit as deposit,p.bill_time as bill_time, p.addr_history_id as addr_history_id,
-        p.remark as remark,p.amounts_payable as amounts_payable,p.member_id as member_id,p.sum as sum,p.delivery_date as delivery_date,p.expire_date as expire_date,p.update_time as update_time, p.create_time as create_time
+        p.bagging as bagging,p.checking as checking,p.taxation as taxation,p.settle_type as settle_type,p.deposit as deposit,p.bill_time as bill_time, p.addr_history_id as addr_history_id,p.supplier_id as supplierId,
+        p.remark as remark,p.amounts_payable as amounts_payable,p.member_id as member_id,p.sum as sum,p.delivery_date as delivery_date,p.expire_date as expire_date,p.update_time as update_time, p.create_time as create_time,complete_time as completeTime
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="PickResultMap">
@@ -71,12 +73,12 @@
 
     <select id="findByParams" resultMap="PickResultMapVo" parameterType="com.ms.dao.vo.PickVo">
         select DISTINCT
-        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType
+        <include refid="Base_Column_List_Alisa" />,ud.name as userName, ud.type as userBusinessType,sp.name as supplierName,sp.phone as supplierPhone
         from pick p
         LEFT JOIN pick_commodity pc ON p.id = pc.pick_id
         LEFT JOIN history_commodity hc on pc.commodity_id=hc.id
-        LEFT JOIN commodity c ON hc.commodity_id = c.id
         LEFT JOIN user_detail ud on p.user_id = ud.user_id
+        LEFT JOIN user_detail sp on p.supplier_id = sp.user_id
         <where>
             <if test="code != null">
                 p.code = #{code}
@@ -94,7 +96,7 @@
                 and  p.user_id= #{userId}
             </if>
             <if test="supplierId!= null">
-                AND c.supplier_id = #{supplierId}
+                AND p.supplier_id = #{supplierId}
             </if>
         </where>
         order by create_time desc ,status ASC
@@ -107,9 +109,9 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Pick">
         insert into
-        pick (user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,member_id,sum,delivery_date,expire_date,update_time,create_time)
+        pick (user_id,nickname,phone,code,abandon,status,shipping_costs,bagging,checking,taxation,settle_type,deposit,bill_time,addr_history_id,remark,amounts_payable,supplier_id,member_id,sum,delivery_date,expire_date,update_time,create_time)
         values
-        (#{userId},#{nickname},#{phone},#{code},#{abandon},#{status},#{shippingCosts},#{bagging},#{checking},#{taxation},#{settleType},#{deposit},#{billTime},#{addrHistoryId},#{remark},#{amountsPayable},#{memberId},#{sum},#{deliveryDate},#{expireDate},#{updateTime},#{createTime})
+        (#{userId},#{nickname},#{phone},#{code},#{abandon},#{status},#{shippingCosts},#{bagging},#{checking},#{taxation},#{settleType},#{deposit},#{billTime},#{addrHistoryId},#{remark},#{amountsPayable},#{supplierId},#{memberId},#{sum},#{deliveryDate},#{expireDate},#{updateTime},#{createTime})
     </insert>
 
 
@@ -203,6 +205,10 @@
 
             <if test="createTime != null">
                 create_time = #{createTime},
+            </if>
+
+            <if test="completeTime != null">
+                complete_time = #{completeTime},
             </if>
 
         </set>

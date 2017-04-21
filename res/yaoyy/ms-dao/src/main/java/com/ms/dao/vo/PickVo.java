@@ -14,8 +14,6 @@ import java.util.List;
 
 public class PickVo extends Pick{
 
-
-
     private String statusText;
 
     private String bizStatusText;
@@ -35,8 +33,6 @@ public class PickVo extends Pick{
     // 发票信息
     private OrderInvoice invoice;
 
-    private Integer supplierId;
-
     // 订单客户名
     private String userName;
 
@@ -47,6 +43,12 @@ public class PickVo extends Pick{
 
     // 账期剩余时间
     private String billTimeLeft;
+
+    //供应商姓名
+    private String supplierName;
+
+    //供应商电话
+    private String supplierPhone;
 
     public String getUserName() {
         return userName;
@@ -73,13 +75,7 @@ public class PickVo extends Pick{
         this.userBusinessTypeName = userBusinessTypeName;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
 
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
 
     public float getTotal() {
         return total;
@@ -135,6 +131,22 @@ public class PickVo extends Pick{
 
     public void setBillTimeLeft(String billTimeLeft) {
         this.billTimeLeft = billTimeLeft;
+    }
+
+    public String getSupplierPhone() {
+        return supplierPhone;
+    }
+
+    public void setSupplierPhone(String supplierPhone) {
+        this.supplierPhone = supplierPhone;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
     /**

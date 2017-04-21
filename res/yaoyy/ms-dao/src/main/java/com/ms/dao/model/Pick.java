@@ -22,7 +22,7 @@ public class Pick  implements Serializable {
 	//0:正常，1废弃
 	private Integer abandon;
 	
-	//送货单状态
+	//选货单状态
 	private Integer status;
 	
 	//运费
@@ -54,7 +54,11 @@ public class Pick  implements Serializable {
 	
 	//实际应付
 	private Float amountsPayable;
-	
+
+	//供应商ID
+	private Integer supplierId;
+
+
 	//操作人id
 	private Integer memberId;
 	
@@ -70,6 +74,8 @@ public class Pick  implements Serializable {
 	private Date updateTime;
 	
 	private Date createTime;
+
+	private Date completeTime;
 	
 	public Pick(){}
 	
@@ -256,5 +262,20 @@ public class Pick  implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+	public Integer getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Integer supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public Date getCompleteTime() {
+		return completeTime;
+	}
+
+	public void setCompleteTime(Date completeTime) {
+		this.completeTime = completeTime;
+	}
 }

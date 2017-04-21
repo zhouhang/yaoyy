@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>收货信息-药优优</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="body-gray">
+    <section class="ui-content">
+
+    	<div class="order">
+    		<form action="" id="myform">
+                <div class="item">
+                    <label class="label">商品信息</label>
+                    <span class="t3 fr">1000公斤 <em class="c-red">15</em>元/公斤</span>
+                    <span class="t3 mr">三棱  浙江  统个三棱  浙江  统个三棱  浙江  统个</span>
+                </div>
+                <div class="item note">
+                    <label class="label">货物要求</label>
+                    <textarea name="" id="" class="ipt mul" cols="30" rows="10"></textarea>
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <span class="t1" style="visibility:hidden;">送货时间</span>
+                    <em class="arrow"></em>
+                    <input type="text" id="date" style="position:absolute;top:0;left:0;width:100%;height:100%;padding:16px 13px;border:0;background:none;" value="送货时间" />
+                    <span class="error"></span>
+                </div>
+                <div class="item">
+                    <span class="t1">收货地址</span>
+                    <input type="hidden" name="regionID" id="regionID" value="">
+                    <span class="error"></span>
+                    <a href="consignee.html?value=1" class="arrow"></a>
+                </div>
+                <div class="item">
+                    <strong class="t1">王彬  18801285391</strong>
+                    <span class="t2">湖北省武汉市洪山区城区珞瑜路光谷银座15楼</span>
+                    <input type="hidden" name="regionID" id="regionID" value="">
+                    <span class="error"></span>
+                    <a href="consignee.html?value=1" class="arrow"></a>
+                </div>
+                <div class="ft">
+                    <button type="submit" class="ubtn ubtn-primary" id="submit">提交</button>
+                </div>
+            </form>
+    	</div>
+    </section><!-- /ui-content -->
+
+    <script src="assets/js/zepto.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/mobiscroll.min.js"></script>
+
+    <script>
+
+    var _global = {
+        fn: {
+            init: function() {
+                this.pickDate();
+            },
+            pickDate: function() {
+                var that = this,
+                    time = new Date(),
+                    year = time.getFullYear(),
+                    month = time.getMonth(),
+                    date = time.getDate();
+
+                $('#date').scroller({
+                    preset: 'datetime',
+                    minDate: time,
+                    maxDate: new Date(year, month + 3, date),
+                    display: 'bottom',
+                    animate: 'slideup',
+                    //点击确定按钮，触发事件
+                    onSelect: function(val) {
+                        that.date = val;
+                    }
+                });
+            }
+        }
+    }
+
+    $(function(){
+        _global.fn.init();
+
+    });
+
+</script>
+</body>
+</html>

@@ -22,6 +22,9 @@
             <result column="order_id"  property="orderId" />
             <result column="order_code"  property="orderCode" />
             <result column="nickname"  property="nickname" />
+            <result column="phone"  property="phone" />
+            <result column="name"  property="name" />
+            <result column="company"  property="company" />
             <result column="user_type"  property="userType" />
             <result column="name"  property="name" />
             <result column="member_name"  property="operateName" />
@@ -43,7 +46,7 @@
     <sql id="Left_Join_List">
         ab.id as id,ab.code as code,ab.order_id as order_id,ab.user_id as user_id ,ab.bill_time as bill_time,ab.amounts_payable as amounts_payable,ab.already_payable as already_payable ,
         ab.status as status ,ab.repay_time as repay_time,ab.member_id as member_id,ab.create_date as create_date,p.code as orderCode,
-        ud.nickname as nickname,ud.name as name,ud.type as user_type,m.name as member_name, ab.update_date as update_date
+        ud.nickname as nickname,ud.name as name,ud.company as company,ud.type as user_type,m.name as member_name, ab.update_date as update_date
     </sql>
 
 
@@ -74,8 +77,11 @@
             <if test="id != null">
                 ab.id = #{id}
             </if>
-            <if test="nickname != null">
-                and ud.nickname like CONCAT('%','${nickname}','%' )
+            <if test="name != null">
+                and ud.name like CONCAT('%','${name}','%' )
+            </if>
+            <if test="company != null">
+                and ud.company like CONCAT('%','${company}','%' )
             </if>
             <if test="orderCode != null">
                 and p.code like CONCAT('%','${orderCode}','%' )

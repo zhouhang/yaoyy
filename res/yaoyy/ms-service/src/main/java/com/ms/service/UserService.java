@@ -30,11 +30,11 @@ public interface UserService extends ICommonService<User>{
 
     User loginSms(String phone, String code);
 
-    void register(String phone, String code, String password);
+    void register(String phone, String code, String password, String name);
 
     UserVo sign(UserVo userVo, UserDetailVo userDetailVo);
 
-    User registerWechat(String phone,String openId,String nickname,String headImgUrl);
+    User registerWechat(String phone,String openId,String nickname,String headImgUrl,String name);
 
     void sendRegistSms(String phone);
 

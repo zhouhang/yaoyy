@@ -103,7 +103,8 @@ public class SupplierServiceImpl  extends AbsCommonService<Supplier> implements 
 	public List<SupplierVo> search(String name) {
 		SupplierVo vo = new SupplierVo();
 		vo.setName(name);
-		return supplierDao.findByParams(vo);
+		List<SupplierVo> list = supplierDao.findByParams(vo);
+		return list;
 	}
 
 	@Override

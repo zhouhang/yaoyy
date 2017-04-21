@@ -89,6 +89,9 @@ public class PickController extends BaseController{
     @Autowired
     private SmsUtil smsUtil;
 
+    @Autowired
+    private SupplierService supplierService;
+
     /**
      * 选货单列表
      * @return
@@ -469,5 +472,88 @@ public class PickController extends BaseController{
         }
         return Result.success("发送成功");
     }
+
+
+    // 采购员下单 ------
+    /**
+     * 1. 供应商模糊搜索接口
+     * 2. 下单接口 当选择的供应商在user 表里面不存在时
+     *   把供应商添加到user表,并发送短信告知用户名密码 密码随机6位数. 然后把userId 回写到订单表里面的供应商Id 然后发送下单通知短信(商品不存在时其它地方显示问题)
+     * 3. 填写备注和约定送货时间,收货地址管理.
+     *
+     */
+
+    /**
+     * 采购员模糊搜索
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "purchaser/searchSup", method = RequestMethod.POST)
+    @ResponseBody
+    public Result searchSupplier(String name) {
+        return  Result.success().data(supplierService.search(name));
+    }
+
+    /**
+     * 采购员下单页面
+     * @return
+     */
+    @RequestMapping(value = "purchaser/one", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
+    public String purchaserOrderOne() {
+        return  "purchaser_one";
+    }
+
+    /**
+     * 采购员下单
+     * @return
+     * 1. 下单后订单状态为待受理
+     * 2. 选择的供应商 在User表中不存在则给供应商在User表中新建账号
+     * 3. 下单时把供应商在User表中的Id和订单关联起来
+     * 4. 商品历史表添加品种ID字段
+     */
+    @RequestMapping(value = "purchaser/one", method = RequestMethod.POST)
+    @ResponseBody
+    @SecurityToken(validateToken = true)
+    public Result purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        Pick pick = pickService.purchaserOrderSaveOne(commodity, categoryId,user);
+        return  Result.success("下单成功").data(pick.getId());
+    }
+
+    /**
+     * 采购员填写订单详情
+     * @return
+     */
+    @RequestMapping(value = "purchaser/two", method = RequestMethod.GET)
+    @SecurityToken(generateToken = true)
+    public String purchaserOrderTwo(Integer pickId, ModelMap model) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        PickVo vo = pickService.findVoById(pickId);
+        // 获取默认地址信息
+        ShippingAddressVo address = shippingAddressService.getDefault(user.getId());
+        model.put("address", address);
+        model.put("vo",vo);
+        return  "purchaser_two";
+    }
+
+    /**
+     * 采购员保存订单详情 订单详情填写完成后代发货状态
+     * @param vo
+     * @return
+     */
+    @RequestMapping(value = "purchaser/two", method = RequestMethod.POST)
+    @ResponseBody
+    @SecurityToken(validateToken = true)
+    public Result purchaserOrderSaveTwo(PickVo vo) {
+        User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
+        vo.setUserId(user.getId());
+        pickService.purchaserOrderSaveTwo(vo);
+        return  Result.success();
+    }
+
+
+
+
 
 }

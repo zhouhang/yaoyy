@@ -4,18 +4,30 @@ import com.ms.dao.model.Article;
 
 public class ArticleVo extends Article{
 
-    /**
-     * 访问文章的url
-     */
-    private String url;
 
-    @Override
-    public String getUrl() {
-        return url;
+    /**
+     * 标签Name字符串
+     */
+    private String tagStr;
+
+    /**
+     *标签Id字符串
+     */
+    private String tagIds;
+
+    public String getTagIds() {
+        return tagIds;
     }
 
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
+    public String getTagStr() {
+        return tagStr;
+    }
+
+    public void setTagStr(String tagStr) {
+        this.tagStr = tagStr;
     }
 }

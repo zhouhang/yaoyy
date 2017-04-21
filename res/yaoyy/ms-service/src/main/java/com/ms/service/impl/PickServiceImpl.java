@@ -7,14 +7,18 @@ import com.ms.dao.enums.*;
 import com.ms.dao.model.*;
 import com.ms.dao.vo.*;
 import com.ms.service.*;
+import com.ms.service.dto.Password;
 import com.ms.service.enums.MessageEnum;
 import com.ms.service.enums.MessageTemplateEnum;
 import com.ms.service.observer.MsgConsumeEvent;
 import com.ms.service.observer.MsgProducerEvent;
+import com.ms.service.sms.SmsUtil;
+import com.ms.service.utils.EncryptUtil;
 import com.ms.tools.exception.ControllerException;
 import com.ms.tools.exception.ValidationException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -45,8 +49,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Autowired
 	private CommodityService commodityService;
-
-	private CodeDao codeDao;
 
 	@Autowired
 	private  ApplicationContext applicationContext;
@@ -84,6 +86,24 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private MessageDao messageDao;
 
+	@Autowired
+	private SupplierService supplierService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserDetailService userDetailService;
+
+	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
+	private HistoryCommodityService historyCommodityService;
+
+	@Autowired
+	private SmsUtil smsUtil;
+
 
 
 
@@ -105,7 +125,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			}
 			p.setTotal(total);
 			// 查询账期剩余时间
-			if (SettleTypeEnum.SETTLE_BILL.getType() == p.getSettleType()) {
+			if (SettleTypeEnum.SETTLE_BILL.getType().equals(p.getSettleType())) {
 				AccountBillVo billVo = accountBillService.findVoByOrderId(p.getId());
 				if (billVo!= null) {
 					p.setBillTimeLeft(billVo.getTimeLeft());
@@ -245,10 +265,105 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	}
 
+
+	//添加一个结算信息
+	@Transactional
+	@Override
+	public void addOrderAccount(PickVo pickVo){
+		PickVo oldPick=pickDao.findVoById(pickVo.getId());
+
+		PickTracking pickTracking=new PickTracking();
+		if(pickVo.getMemberId()!=null){
+			Member member=memberService.findById(pickVo.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+		}
+		pickTracking.setExtra("");
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
+		pickTracking.setPickId(pickVo.getId());
+		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_ADD_ACCOUNT.getValue());
+		pickTrackingDao.create(pickTracking);
+
+
+		//设置有效期
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DATE, 3);
+		pickVo.setExpireDate(calendar.getTime());
+		pickDao.update(pickVo);
+
+		if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_BILL.getType())){
+			AccountBillVo accountBillVo=new AccountBillVo();
+			accountBillVo.setMemberId(pickVo.getMemberId());
+			accountBillVo.setOrderId(pickVo.getId());
+			accountBillVo.setUserId(oldPick.getUserId());
+			accountBillVo.setBillTime(pickVo.getBillTime());
+			accountBillVo.setAlreadyPayable(pickVo.getDeposit());
+			accountBillVo.setAmountsPayable(pickVo.getAmountsPayable());
+			accountBillService.saveAccountBill(accountBillVo);
+		}
+
+	}
+
+	@Override
+	@Transactional
+	public Boolean complete(Integer orderId, String action) {
+		PickVo oldPick=pickDao.findVoById(orderId);
+		if("complete".equals(action)){
+			Pick pick = new Pick();
+			pick.setId(orderId);
+			pick.setStatus(PickEnum.PICK_FINISH.getValue());
+			pick.setCompleteTime(new Date());
+			update(pick);
+			PickTracking pickTracking=new PickTracking();
+			Member member=memberService.findById(oldPick.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(orderId);
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_COMPLETE.getValue());
+			pickTrackingDao.create(pickTracking);
+			//供应商消息记录
+			String content = "您的订单："+oldPick.getCode()+" 商品检验合格，订单已完成！";
+			MsgProducerEvent mp =new MsgProducerEvent(oldPick.getSupplierId(),orderId, MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+			applicationContext.publishEvent(mp);
+			return true;
+		}else{
+			Pick pick = new Pick();
+			pick.setId(orderId);
+			pick.setStatus(PickEnum.PICK_RETURN.getValue());
+			pick.setCompleteTime(new Date());
+			update(pick);
+			PickTracking pickTracking=new PickTracking();
+			Member member=memberService.findById(oldPick.getMemberId());
+			pickTracking.setName(member.getName());
+			pickTracking.setOpType(TrackingTypeEnum.TYPE_ADMIN.getValue());
+			pickTracking.setOperator(member.getId());
+			pickTracking.setExtra("");
+			pickTracking.setCreateTime(new Date());
+			pickTracking.setUpdateTime(new Date());
+			pickTracking.setPickId(orderId);
+			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RETURN.getValue());
+			pickTrackingDao.create(pickTracking);
+			//供应商消息记录
+			String content = "您的订单："+oldPick.getCode()+" 检验不合格，需要退货！";
+			MsgProducerEvent mp =new MsgProducerEvent(oldPick.getSupplierId(),orderId, MessageEnum.SUPPLIER_ORDER_CONSIGNMENT, content, MsgIsMemberEnum.IS_NOT_MEMBER.getKey());
+			applicationContext.publishEvent(mp);
+			return false;
+		}
+
+
+	}
+
+
 	@Override
 	@Transactional
 	public void createOrder(PickVo pickVo) {
-
 		PickVo oldPick=pickDao.findVoById(pickVo.getId());
 		if(!PickEnum.PICK_PAY.getValue().equals(oldPick.getStatus())){
 			//创建一条生成订单跟踪记录
@@ -264,8 +379,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
 				pickTracking.setOperator(pickVo.getUserId());
 			}
-
-
 			pickTracking.setExtra("");
 			pickTracking.setCreateTime(new Date());
 			pickTracking.setUpdateTime(new Date());
@@ -304,7 +417,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 		}
 		//全款或保证金
-		if(pickVo.getSettleType()==SettleTypeEnum.SETTLE_ALL.getType()||pickVo.getSettleType()==SettleTypeEnum.SETTLE_DEPOSIT.getType()){
+		if(pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_ALL.getType())||pickVo.getSettleType().equals(SettleTypeEnum.SETTLE_DEPOSIT.getType())){
 			pickVo.setStatus(PickEnum.PICK_PAY.getValue());
 		}
 		else{
@@ -380,10 +493,10 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickTracking.setCreateTime(new Date());
 		pickTracking.setUpdateTime(new Date());
 		pickTracking.setPickId(pickVo.getId());
-		if(status==PickEnum.PICK_CANCLE.getValue()){
+		if(status.equals(PickEnum.PICK_CANCLE.getValue())){
 			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_CANCEL.getValue());
 			pickTrackingDao.create(pickTracking);
-		}else if(status==PickEnum.PICK_FINISH.getValue()){
+		}else if(status.equals(PickEnum.PICK_FINISH.getValue())){
 			pickTracking.setRecordType(PickTrackingTypeEnum.PICK_RECEIPT.getValue());
 			pickTrackingDao.create(pickTracking);
 		}
@@ -402,7 +515,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Transactional
 	public void delivery(LogisticalVo logisticalVo,Member mem) {
 		logisticalService.save(logisticalVo);
-
 		Date now=new Date();
 		Pick pick =new Pick();
 		pick.setId(logisticalVo.getOrderId());
@@ -410,7 +522,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pick.setDeliveryDate(logisticalVo.getShipDate());
 		pick.setUpdateTime(now);
 		pickDao.update(pick);
-
 		PickTrackingVo pickTrackingVo=new PickTrackingVo();
 		pickTrackingVo.setPickId(logisticalVo.getOrderId());
 		pickTrackingVo.setOperator(mem.getId());
@@ -422,14 +533,43 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		}
 		pickTrackingVo.setCreateTime(now);
 		pickTrackingVo.setUpdateTime(now);
-
 		pickTrackingDao.create(pickTrackingVo);
-
 		//通知用户待收货
 		pick = findById(pick.getId());
 		MsgProducerEvent mp =new MsgProducerEvent(pick.getUserId(),pick.getId(), MessageEnum.PICK_DELIVERY, null, MsgIsMemberEnum.IS_MEMBER.getKey());
 		applicationContext.publishEvent(mp);
 	}
+
+	@Override
+	@Transactional
+	public void supplierDelivery(LogisticalVo logisticalVo,UserDetail supplier){
+		logisticalService.save(logisticalVo);
+		Pick pick =new Pick();
+		pick.setId(logisticalVo.getOrderId());
+		pick.setStatus(PickEnum.PICK_DELIVERIED.getValue());
+		pick.setUpdateTime(new Date());
+		pick.setDeliveryDate(logisticalVo.getShipDate());
+		update(pick);
+
+
+		PickTrackingVo pickTrackingVo=new PickTrackingVo();
+		pickTrackingVo.setPickId(logisticalVo.getOrderId());
+		pickTrackingVo.setOperator(supplier.getUserId());
+		pickTrackingVo.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
+		pickTrackingVo.setName(supplier.getName());
+		pickTrackingVo.setRecordType(PickTrackingTypeEnum.PICK_ORDER_DELIVERIED.getValue());
+		if(pickTrackingVo.getExtra()==null){
+			pickTrackingVo.setExtra("");
+		}
+		pickTrackingVo.setCreateTime(new Date());
+		pickTrackingVo.setUpdateTime(new Date());
+		pickTrackingDao.create(pickTrackingVo);
+
+	}
+
+
+
+
 
 	@Override
 	@Transactional
@@ -517,10 +657,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 				pickTrackingService.save(pickTrackingVo);
 			}
 
-
-
-
-
 		}
 
 	}
@@ -558,16 +694,12 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Override
 	@Transactional
 	public void saveOrder(PickVo pickVo) {
-
-
 		// 保存订单
-
 		// 判断提交的订单是否属于当前用户
 		Pick originPick = findById(pickVo.getId());
 		if (!(originPick!= null && pickVo.getUserId().equals(originPick.getUserId()))){
 			throw new ControllerException("用户无权限访问此页面.");
 		}
-
 		// 收货地址保存到历史收货地址表中并把ID 回填到订单表
 		if (pickVo.getAddrHistoryId() != null ){
 			// 历史地址ID = -1 表示用户修改时未修改地址信息
@@ -629,7 +761,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		PickCommodityVo pickCommodity = new PickCommodityVo();
 		// 先查询商品库存 检查商品库存信息 在下单
 		CommodityVo commodity = commodityService.findById(commodityId);
-		pickCommodity.setNum(0);
+		pickCommodity.setNum(0F);
 		list.forEach(batch -> {
 			pick.setSum(pick.getSum() + (batch.getNum() * commodity.getPrice()));
 			pickCommodity.setNum(pickCommodity.getNum() + batch.getNum());
@@ -761,5 +893,86 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	}
 
 
+	@Override
+	@Transactional
+	public Pick purchaserOrderSaveOne(PickCommodityVo commodity, Integer categoryId,User user) {
 
+		//1. 查询供应商信息
+		//2. 供应商信息到和用户信息绑定
+		Supplier supplier = supplierService.findById(commodity.getSupplierId());
+		User sUser = userService.findByPhone(supplier.getPhone());
+		String password = null;
+		if(sUser==null){
+			password = SeqNoUtil.getRandomNum(6);
+			sUser = new User();
+			sUser.setPhone(supplier.getPhone());
+			sUser.setType(UserTypeEnum.supplier.getType());
+			sUser.setSource(UserSourceEnum.auto.getType());
+			sUser.setStatus(1);
+			sUser.setSupplierId(supplier.getId());
+			Password pass = EncryptUtil.PiecesEncode(password);
+			sUser.setPassword(pass.getPassword());
+			sUser.setSalt(pass.getSalt());
+			sUser.setCreateTime(new Date());
+			sUser.setUpdateTime(new Date());
+
+			userService.create(sUser);
+			UserDetail sUserDetail = new UserDetail();
+			sUserDetail.setUserId(sUser.getId());
+			sUserDetail.setType(0);
+			sUserDetail.setPhone(supplier.getPhone());
+			sUserDetail.setName(supplier.getName());
+			sUserDetail.setContract(0);
+			userDetailService.save(sUserDetail);
+		}
+		UserDetail userDetail = userDetailService.findByUserId(user.getId());
+		//3. 查询商品品种信息
+		//4. 给商品历史记录赋值保存
+		HistoryCommodity historyCommodity = new HistoryCommodity();
+		Category category = categoryService.findById(categoryId);
+		historyCommodity.setName(category.getName());
+		historyCommodity.setTitle(commodity.getOrigin()+" "+category.getName()+" "+commodity.getSpec());
+		historyCommodity.setCommodityId(0);
+		historyCommodity.setOrigin(commodity.getOrigin());
+		historyCommodity.setSpec(commodity.getSpec());
+		historyCommodity.setPrice(commodity.getPrice());
+		historyCommodity.setUnit("公斤");
+		historyCommodity.setCategoryId(categoryId);
+		historyCommodity.setCreateTime(new Date());
+		historyCommodityService.create(historyCommodity);
+		//5. 创建订单实体记录 保存
+		Pick pick = new Pick();
+		pick.setUserId(user.getId());
+		pick.setNickname(userDetail.getName()==null?"":userDetail.getName());
+		pick.setPhone(user.getPhone());
+		pick.setCode(SeqNoUtil.getOrderCode());
+		pick.setAbandon(0);
+		pick.setStatus(PickEnum.PICK_NOTHANDLE.getValue());
+		pick.setSupplierId(sUser.getId());
+		pick.setCreateTime(new Date());
+		pick.setSum((commodity.getPrice()*commodity.getNum()));
+		create(pick);
+		//6. 创建订单商品记录与商品记录Id关联保存
+		commodity.setUnit("公斤");
+		commodity.setCommodityId(historyCommodity.getId());
+		commodity.setPickId(pick.getId());
+		commodity.setCreateTime(new Date());
+		commodity.setTotal((commodity.getPrice()*commodity.getNum()));
+		pickCommodityService.create(commodity);
+		StringBuilder content = new StringBuilder();
+		content.append(userDetail.getName()).append("与您采购了一批").append(historyCommodity.getName())
+				.append("(").append(historyCommodity.getOrigin()).append(" ")
+				.append(historyCommodity.getSpec()).append(")");
+		smsUtil.sendPurchaserOrder(sUser.getPhone(),content.toString(),password,pick.getId());
+		return pick;
+	}
+
+	@Override
+	@Transactional
+	public Pick purchaserOrderSaveTwo(PickVo vo) {
+		vo.setInvoice(null);
+		vo.setStatus(PickEnum.PICK_DELIVERY.getValue());
+		saveOrder(vo);
+		return vo;
+	}
 }

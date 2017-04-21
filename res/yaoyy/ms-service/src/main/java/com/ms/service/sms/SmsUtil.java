@@ -1,5 +1,6 @@
 package com.ms.service.sms;
 
+import com.google.common.base.Strings;
 import com.ms.dao.enums.SettleTypeEnum;
 import com.ms.dao.model.Pick;
 import com.ms.dao.model.Setting;
@@ -9,6 +10,7 @@ import com.ms.service.properties.SystemProperties;
 import com.ms.service.redis.RedisManager;
 import com.ms.tools.httpclient.HttpClientUtil;
 import com.ms.tools.httpclient.common.HttpConfig;
+import com.ms.tools.httpclient.exception.HttpProcessException;
 import com.ms.tools.utils.SeqNoUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -219,6 +221,35 @@ public class SmsUtil {
         param.put("mobile", mobile);
         param.put("text", TextTemplateEnum.SMS_BOSS_SUPPLIER_SIGN.getText("【药优优】", mobile, pwd));
         HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+    }
+
+    /**
+     * 采购员下单时通知供应商的短信
+     * @param mobile
+     * @param content
+     * @param pwd
+     * @throws Exception
+     */
+    public void sendPurchaserOrder(String mobile,String content,String pwd,Integer orderId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("apikey", systemProperties.getApikey());
+        param.put("mobile", mobile);
+        //
+        if (!Strings.isNullOrEmpty(pwd)) {
+            // 【药优优】采购员张三与您采购了一批三七（文山 统个 ）。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/xx。登录账号为：18801285391 密码：365414 。提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。
+            // {0}采购员{1}。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/{2}。登录账号为：{3} 密码：{4} 。提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。
+            param.put("text", TextTemplateEnum.SMS_BIZ_PURCHASER_SUPPLIER_NOT.getText("【药优优】", content,String.valueOf(orderId),mobile, pwd));
+
+        } else {
+            // {0}采购员{1}。你可以点击链接在药优优平台查看订单详情，http://www.yaobest.com/supplier/orderDetail/{2}，提前获取沪谯/天济的采购计划，请微信关注公众号《药优优》。
+            param.put("text", TextTemplateEnum.SMS_BIZ_PURCHASER_SUPPLIER.getText("【药优优】",content,String.valueOf(orderId)));
+
+        }
+        try {
+            HttpClientUtil.post(HttpConfig.custom().url(smsUrl).map(param));
+        } catch (HttpProcessException e) {
+            e.printStackTrace();
+        }
     }
 
 

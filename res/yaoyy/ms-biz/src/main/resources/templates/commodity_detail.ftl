@@ -41,7 +41,7 @@
     <section class="ui-content">
         <div class="ui-slide ui-slide-b" id="slide1">
             <ul>
-                <li><a href="javascript:;"><img src="${commodityVo.pictureUrl}" alt=""></a></li>
+                <li><a href="javascript:;"><img src="${commodityVo.pictureUrl!}" alt=""></a></li>
             </ul>
         </div>
 
@@ -71,7 +71,6 @@
                     <i class="fa fa-tel"></i>
                 </div>
             </div>
-
             <div class="attention">
             <#if commodityVo.watch>
                 <a href="javascript:;" class="faved"><i class="fa fa-heart"></i>已关注</a>
