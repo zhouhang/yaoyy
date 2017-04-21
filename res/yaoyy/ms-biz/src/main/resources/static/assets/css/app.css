@@ -186,8 +186,8 @@ em,i{font-style:normal;}
 .ui-footer .nav .current .menu{background-image:url(../images/ico-menu-b.png);}
 .ui-footer .nav .current .user{background-image:url(../images/ico-user-b.png);}
 .ui-footer .extra li{width:20%;}
-.ui-footer .extra li.wide{width:30%;}
-.ui-footer .extra a.sample{line-height:39px;font-size:1.4rem;background:#f1ecdf;color:#ff7701;border-top-color:#f1ecdf;}
+.ui-footer .extra li.wide{width:40%;}
+.ui-footer .extra a.out{line-height:39px;font-size:1.4rem;background:#ddd;color:#999;border-top-color:#ddd;}
 .ui-footer .extra a.cart{line-height:39px;font-size:1.4rem;background:#ff7701;color:#fff;border-top-color:#ff7701;}
 /*
 .ui-footer .ui-nav ul{overflow:hidden;}
