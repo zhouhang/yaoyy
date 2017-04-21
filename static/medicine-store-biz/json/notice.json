@@ -1,0 +1,30 @@
+{
+    "status" : "success",
+    "list" : [
+        {
+            "href" : "notice_info.html",
+            "title" : "白芍的市场需求量到底有多大？",
+            "cat" : ["白芍"],
+            "readnum" : "90",
+            "time": "2017-04-20 14:22:11",
+            "tag": ["行情"],
+            "pic" : "uploads/p13.jpg"
+        },{
+            "href" : "notice_info.html",
+            "title" : "受自然灾害影响，那些品种要涨价？",
+            "cat" : ["三七", "白术", "黄芩", "板蓝根"],
+            "readnum" : "90",
+            "time": "2017-04-21 11:22:11",
+            "tag": ["产地"],
+            "pic" : "uploads/p13.jpg"
+        },{
+            "href" : "notice_info.html",
+            "title" : "受自然灾害影响，那些品种要涨价？",
+            "cat" : ["三七", "白术", "黄芩", "板蓝根"],
+            "readnum" : "90",
+            "time": "2017-04-19 14:22:11",
+            "tag": ["热点"],
+            "pic" : "uploads/p13.jpg"
+        }
+    ]
+}
