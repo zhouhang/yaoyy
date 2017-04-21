@@ -13,26 +13,30 @@
     </header><!-- /ui-header -->
 
     <footer class="ui-footer">
-        <nav class="ui-nav extra">
+        <nav class="nav extra">
             <ul>
                 <li>
+                    <a  href="/">
+                        <i class="home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/category/list">
-                        <i class="fa fa-list"></i>
-                        <span>品种列表</span>
+                        <i class="menu"></i>
+                        <span>品种</span>
                     </a>
                 </li>
                 <li>
                     <a href="/pickCommodity/list">
-                        <i class="fa fa-cart"></i>
+                        <i class="cart"></i>
                         <span>采购单</span>
                         <b id="cartNum"></b>
                     </a>
                 </li>
                 <li class="wide">
-                    <a class="sample" href="apply/sample/${commodityVo.id}">申请寄样</a>
-                </li>
-                <li class="wide">
                     <a class="cart" href="javascript:;" id="addCommodity">加入采购单</a>
+                    <!-- <a class="out" href="javascript:;">已售罄</a> -->
                 </li>
             </ul>
         </nav>
