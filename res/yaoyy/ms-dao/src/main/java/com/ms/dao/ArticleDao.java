@@ -8,6 +8,7 @@ import java.util.List;
 @AutoMapper
 public interface ArticleDao extends ICommonDao<Article>{
 
-    public List<ArticleVo> findByParams(ArticleVo articleVo);
+    List<ArticleVo> findByParams(ArticleVo articleVo);
 
+    List<ArticleVo> headlinesListByTagId(Integer tagId);
 }

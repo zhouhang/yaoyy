@@ -23,6 +23,11 @@
         id,title,content,url,status,create_mem,create_time,update_mem,update_time,descript,hits,type
     </sql>
 
+    <sql id="Base_Column_List_Alisa">
+        a.id as id,a.title as title,a.content as content,a.url as url,a.status as status,a.create_mem as create_mem,a.create_time as create_time,
+        a.update_mem as update_mem,a.update_time as update_time,a.descript as descript,a.hits as hits,a.type as type
+    </sql>
+
     <select id="findById" parameterType="java.lang.Integer" resultMap="ArticleResultMap">
         select
         <include refid="Base_Column_List" />
@@ -52,6 +57,25 @@
             </if>
         </where>
     </select>
+
+    <select id="headlinesListByTagId" resultMap="ArticleResultMapVo" parameterType="com.ms.dao.vo.ArticleVo">
+        select
+        <include refid="Base_Column_List" />
+        from article
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="title != null">
+                and title LIKE "%"#{title}"%"
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from article

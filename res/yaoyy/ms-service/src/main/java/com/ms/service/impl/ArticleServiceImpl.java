@@ -143,4 +143,9 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 		vo.setTagStr(bindDao.findTagsByArticleId(article.getId()));
 		return vo;
 	}
+
+	@Override
+	public PageInfo<ArticleVo> headlinesListByTagId(Integer tagId, Integer pageNum, Integer pageSize) {
+		return null;
+	}
 }
