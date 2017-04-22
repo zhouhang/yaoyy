@@ -4,7 +4,7 @@
     <title>收货地址-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body-nofoot body-gray">
+<body class="body2 body-bg">
 <header class="ui-header">
     <div class="title">收货地址</div>
     <div class="abs-l mid">
@@ -48,7 +48,7 @@
             },
             bindEvent: function() {
                 var self = this,
-                        $wrap = $('#attention_commodity');
+                    $wrap = $('#attention_commodity');
 
                 //删除
                 $wrap.on('click', '.add-del', function() {
@@ -70,7 +70,6 @@
                                     }
                                 }
                             })
-
                         }
                     });
                     return false;

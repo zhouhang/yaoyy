@@ -4,11 +4,11 @@
     <title>我的关注-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
 <header class="ui-header">
     <div class="title">我的关注</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 <section class="ui-content">

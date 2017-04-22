@@ -4,11 +4,11 @@
     <title>药优优系统微信绑定成功</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body-nofoot body-gray">
+<body class="body2 body-bg">
     <header class="ui-header">
         <div class="title">药优优系统微信绑定成功</div>
         <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
+            <a href="javascript:history.back();" class="ico ico-back"></a>
         </div>
     </header><!-- /ui-header -->
 

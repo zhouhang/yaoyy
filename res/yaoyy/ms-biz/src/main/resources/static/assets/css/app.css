@@ -98,17 +98,19 @@ em,i{font-style:normal;}
 
 /* button */
 .button{margin:30px 12px;text-align:center;}
-.ubtn{display:block;width:100%;line-height:44px;-webkit-border-radius:5px;border-radius:5px;border:none;font-size:1.8rem;text-align:center;}
+.ubtn{position:relative;display:block;width:100%;line-height:44px;border:none;font-size:1.8rem;text-align:center;-webkit-border-radius:5px;border-radius:5px;}
+.ubtn:before{content:'';position:absolute;top:0;left:0;width:200%;height:200%;-webkit-border-radius:5px;border-radius:5px;-webkit-transform-origin:0 0;transform-origin:0 0;-webkit-transform:scale(0.5,0.5);transform:scale(0.5,0.5);}
 .ubtn:active{-webkit-box-shadow:inset 0 0 100px rgba(0,0,0,0.2);box-shadow:inset 0 0 100px rgba(0,0,0,0.2);}
 .ubtn-primary{background:#ff7701;color:#fff;}
 .ubtn-orange{background:#fca41c;color:#fff!important;}
 .ubtn-red{background:#fa6d75;color:#fff!important;}
 .ubtn-gray{background:#c4c4c4;color:#fff!important;}
-.ubtn-white{background:#fff;color:#ff7701!important;border:1px solid #ff7701;}
-.ubtn-ghost{background:#fff;color:#0093ff!important;border:1px solid #0093ff;}
+.ubtn-white{background:#fff;color:#ff7701!important;border:0 solid #ff7701;}
+.ubtn-white:before{border:1px solid #ff7701;}
+.ubtn-ghost{background:#fff;color:#0093ff!important;border:0 solid #0093ff;}
+.ubtn-ghost:before{border:1px solid #0093ff;}
 
 /* public */
-.body-gray{background:#f0f0f0;}
 .cf:after{clear:both;display:table;content:"";}
 .fl{float:left;}
 .fr{float:right;}
@@ -124,7 +126,7 @@ em,i{font-style:normal;}
 .fa-switch:before{content:'';display:block;width:25px;height:25px;margin:1px;background:#fff;-webkit-border-radius:14px;border-radius:14px;-webkit-transition:all .3s;transition:all .3s;}
 .fa-switch:checked{background:#ff7701;}
 .fa-switch:checked:before{-webkit-transform:translate3d(33px,0,0);transform:translate3d(33px,0,0);}
-.ui-tag{padding:0 2px;font-size:1.1rem;color:#c3272b;border:1px solid #c3272b;white-space:nowrap;-webkit-border-radius:3px;border-radius:3px;}
+.ui-tag{display:inline-block;padding:2px 2px 0;font-size:1rem;color:#c3272b;border:1px solid #c3272b;white-space:nowrap;-webkit-border-radius:3px;border-radius:3px;}
 .nomore{height:50px;line-height:50px;text-align:center;font-size:12px;color:#999;}
 .tc{text-align:center;}
 
@@ -141,14 +143,18 @@ em,i{font-style:normal;}
 .c-blue{color:#5c92d0;}
 
 /* body */
+.body-gray{background:#f0f0f0;}
 .ui-body{padding:44px 0 65px;}
 .ui-body-nofoot{padding-top:44px;}
+.body-bg{background:#f0f0f0;}
+.body1{padding:44px 0 65px;}
+.body2{padding-top:44px;}
 
 /* header */
-.ui-header{position:fixed;top:0;left:0;z-index:8;width:100%;height:44px;background:#fff;border-bottom:1px solid #e7e7e7;}
+.ui-header{position:fixed;top:0;left:0;z-index:8;width:100%;height:44px;padding:0 12px;background:#fff;border-bottom:1px solid #e7e7e7;}
 .ui-header .abs-l{left:10px;}
 .ui-header .abs-r{right:25px;}
-.ui-header .logo{width:33.333%;height:100%;text-indent:-99em;margin-left:-6px;background:url(../images/logo.png) no-repeat 50% 50%;background-size:auto 24px;overflow:hidden;}
+.ui-header .logo{width:74px;height:100%;text-indent:-99em;background:url(../images/logo.png) no-repeat 0 50%;background-size:auto 20px;overflow:hidden;}
 .ui-header .title{line-height:44px;font-size:1.8rem;text-align:center;overflow:hidden;visibility:hidden;}
 .ui-header-hide{-webkit-animation:slideOutUp .3s linear both;animation:slideOutUp .3s linear both;}
 @-webkit-keyframes slideOutUp{
@@ -159,6 +165,7 @@ em,i{font-style:normal;}
 	from{transform:translate3d(0, 0, 0);}
 	to{transform:translate3d(0, -44px, 0);}
 }
+
 /* search */
 .ui-search{position:relative;z-index:2;padding:20px 12px;}
 .ui-search .ipt{width:100%;height:44px;padding-left:40px;color:#333;font-size:1.6rem;background:#fff;border:1px solid #e7e7e7;-webkit-border-radius:22px;border-radius:22px;}
@@ -189,20 +196,7 @@ em,i{font-style:normal;}
 .ui-footer .extra li.wide{width:40%;}
 .ui-footer .extra a.out{line-height:39px;font-size:1.4rem;background:#ddd;color:#999;border-top-color:#ddd;}
 .ui-footer .extra a.cart{line-height:39px;font-size:1.4rem;background:#ff7701;color:#fff;border-top-color:#ff7701;}
-/*
-.ui-footer .ui-nav ul{overflow:hidden;}
-.ui-footer .ui-nav li{position:relative;float:left;width:25%;text-align:center;}
-.ui-footer .ui-nav a{display:block;height:50px;padding-top:8px;vertical-align:top;color:#666;font-size:1.2rem;border-top:1px solid #e7e7e7;}
-.ui-footer .ui-nav a.current{color:#ff7701;}
-.ui-footer .ui-nav span{display:block;margin-top:2px;font-size:1rem;}
-.ui-footer .ui-nav i{position:relative;}
-.ui-footer .ui-nav b{position:absolute;top:2px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.2rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
-.ui-footer .ui-nav .dot{min-width:10px;height:10px;margin-left:.7em;}
-.ui-footer .ui-nav .two li{width:50%;}
-.ui-footer .extra li{width:20%;}
-.ui-footer .extra li.wide{width:30%;}
-.ui-footer .extra a.sample{line-height:34px;font-size:1.4rem;background:#f1ecdf;color:#ff7701;border-top-color:#f1ecdf;}
-.ui-footer .extra a.cart{line-height:34px;font-size:1.4rem;background:#ff7701;color:#fff;border-top-color:#ff7701;}*/
+.ui-footer .nav .dot{min-width:10px;height:10px;margin-left:.7em;}
 
 /* content */
 .ui-content{max-width:640px;margin:0 auto;}
@@ -385,10 +379,11 @@ em,i{font-style:normal;}
 .plist li a{position:relative;display:block;padding:20px 12px;font-size:1.2rem;background:#fff;}
 .plist .cnt{padding-right:134px;}
 .plist .cnt .title{height:26px;font-size:1.8rem;overflow:hidden;}
+.plist .cnt .title span{margin-left:4px;vertical-align:2px;}
 .plist .cnt .summary{height:38px;line-height:18px;color:#666;word-wrap:break-word;word-break:break-all;overflow:hidden;}
 .plist .cnt .price{padding-top:4px;color:#666;}
-.plist .cnt .price em{font-size:2rem;color:#ff7701;}
-.plist .cnt .price i{color:#ff7701;}
+.plist .cnt .price em{font-size:1.4rem;color:#ff7701;}
+.plist .cnt .price i{display:none;}
 .plist .cnt .price b{font-weight:400;}
 .plist .pic{position:absolute;top:20px;right:12px;width:110px;height:90px;overflow:hidden;}
 .plist ul{padding-left:90px;overflow:hidden;}

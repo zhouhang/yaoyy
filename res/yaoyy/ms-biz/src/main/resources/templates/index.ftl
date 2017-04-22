@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>药优优-优选好药 底价直采</title>
+<title>优选好药 底价直采-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
+
 <header class="ui-header">
-    <div class="logo">药优优药材商城</div>
-    <!-- <div class="abs-l mid">
-        <a href="javascript:history.back();" class="ico ico-back"></a>
-    </div> -->
-    <div class="mid search">
+    <h1 class="logo">药优优药材商城</h1>
+
+    <div class="search mid">
         <form id="searchForm">
             <input type="text" name="keyword" id="keyword" value="" class="ipt" />
             <button type="submit" id="search" class="ico ico-search mid submit"></button>
         </form>
     </div>
 </header><!-- /ui-header -->
-<#include "./common/navigation.ftl">
-<section class="ui-content">
 
+<section class="ui-content">
     <div class="ui-slide" id="slide1">
         <ul>
             <#list banners as banner>
@@ -98,6 +96,9 @@
     </div>
 
 </section><!-- /ui-content -->
+
+<#include "./common/navigation.ftl">
+
 <#include "./common/footer.ftl"/>
 <script>
 

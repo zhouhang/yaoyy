@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>用户中心-药优优</title>
+<title>用户中心-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
+
 <header class="ui-header">
-    <div class="title">个人中心</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
-<#include "./common/navigation.ftl">
-<div class="ui-content">
+
+<section class="ui-content">
+
     <div class="uinfo">
         <div class="inner mid">
             <img class="avatar" src="assets/images/avatar.png" alt="">
             <span class="myname">${nickname?default("未登入")}</span>
         </div>
     </div>
+
     <div class="umenu">
         <ul>
             <li>
@@ -44,7 +46,7 @@
                     <i class="fa fa-heart"></i>
                     <span>商品关注</span>
                     <#if followCount?exists && followCount != 0>
-                        <b>${followCount}</b>
+                    <b>${followCount}</b>
                     </#if>
                 </a>
             </li>
@@ -56,12 +58,10 @@
             </li>
             <#if billExist?exists>
             <li>
-
                 <a href="/bill">
                     <i class="fa fa-bill"></i>
                     <span>我的账单</span>
                 </a>
-
             </li>
             </#if>
             <li>
@@ -70,10 +70,13 @@
                     <span>采购下单</span>
                 </a>
             </li>
-
         </ul>
     </div>
-</div>
+</section>
+
+<#include "./common/navigation.ftl">
+
 <#include "./common/footer.ftl"/>
+
 </body>
 </html>
