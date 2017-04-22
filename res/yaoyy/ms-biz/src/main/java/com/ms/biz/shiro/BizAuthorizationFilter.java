@@ -57,16 +57,16 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 			// 供应商用户登入
 			if (user == null || user.getSupplierId() == null) {
 				saveRequest(request);
-				String source = request.getParameter("source");
-				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
-					String relUrl = HttpUtil.getRelUrl(httpRequest);
-					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login";
-					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-//					httpResponse.sendRedirect(OAUTH_URL);
-					WebUtils.issueRedirect(request, response, OAUTH_URL);
-				} else {
+//				String source = request.getParameter("source");
+//				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
+//					String relUrl = HttpUtil.getRelUrl(httpRequest);
+//					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login";
+//					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+////					httpResponse.sendRedirect(OAUTH_URL);
+//					WebUtils.issueRedirect(request, response, OAUTH_URL);
+//				} else {
 					WebUtils.issueRedirect(request, response, "/user/supplier/login");
-				}
+//				}
 				return false;
 			}
 
@@ -74,16 +74,16 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 			// 先判断是否需要重新登录
 			if (subject.getPrincipal() == null) {
 				saveRequest(request);
-				String source = request.getParameter("source");
-				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
-					String relUrl = HttpUtil.getRelUrl(httpRequest);
-					String wechatLoginUrl = systemProperties.getBaseUrl() + "/wechat/login?call=" + relUrl;
-					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-//				httpResponse.sendRedirect(OAUTH_URL);
-					WebUtils.issueRedirect(request, response, OAUTH_URL);
-				} else {
+//				String source = request.getParameter("source");
+//				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
+//					String relUrl = HttpUtil.getRelUrl(httpRequest);
+//					String wechatLoginUrl = systemProperties.getBaseUrl() + "/wechat/login?call=" + relUrl;
+//					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+////				httpResponse.sendRedirect(OAUTH_URL);
+//					WebUtils.issueRedirect(request, response, OAUTH_URL);
+//				} else {
 					WebUtils.issueRedirect(request, response, getLoginUrl());
-				}
+//				}
 				return false;
 			}
 		}
