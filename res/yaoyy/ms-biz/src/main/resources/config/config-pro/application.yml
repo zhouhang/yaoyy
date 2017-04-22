@@ -19,11 +19,11 @@ spring:
 
 doc:
    base:
-       url: http://www.yaobest.com
+       url: http://mall.yaobest.com
 
 upload:
     path: /opt/resources/yaobest/
-    url: http://static.yaobest.com/
+    url: http://mall.static.yaobest.com/
 
 #logging:
 #    level:

@@ -215,20 +215,20 @@ public class SupplierUserController {
     public String join(String code,
                        HttpServletRequest request,
                        HttpServletResponse response) {
-        try {
-            String ua = request.getHeader("user-agent").toLowerCase();
-            if(ua.indexOf("micromessenger") > 0&& StringUtils.isBlank(code)){
-                String wechatSupplierJoinUrl = systemProperties.getBaseUrl() + "/user/supplier/join";
-                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatSupplierJoinUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-                WebUtils.issueRedirect(request, response, OAUTH_URL);
-            }else {
-                WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
-                WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
-                httpSession.setAttribute("wxMpUser",wxMpUser);
-            }
-        }catch (Exception e){
-            logger.error("供应商注册",e);
-        }
+//        try {
+//            String ua = request.getHeader("user-agent").toLowerCase();
+//            if(ua.indexOf("micromessenger") > 0&& StringUtils.isBlank(code)){
+//                String wechatSupplierJoinUrl = systemProperties.getBaseUrl() + "/user/supplier/join";
+//                String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatSupplierJoinUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+//                WebUtils.issueRedirect(request, response, OAUTH_URL);
+//            }else {
+//                WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxService.oauth2getAccessToken(code);
+//                WxMpUser wxMpUser = wxService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+//                httpSession.setAttribute("wxMpUser",wxMpUser);
+//            }
+//        }catch (Exception e){
+//            logger.error("供应商注册",e);
+//        }
         return "supplier/join";
     }
 
