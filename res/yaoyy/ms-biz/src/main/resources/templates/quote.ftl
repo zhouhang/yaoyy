@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>报价单-药优优</title>
+<title>报价单-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
+
 <header class="ui-header">
-    <div class="title">${(quotationVo.title)!}</div>
+    <h1 class="title">${(quotationVo.title)!}</h1>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
-<#include "./common/navigation.ftl">
 
 <section class="ui-content">
 <#if quotationVo?exists>
     <div class="qoute">
-        <!--
-	    <div class="title">${(quotationVo.title)!}</div>
-           -->
         <div class="item">
             <div class="text"> ${(quotationVo.description)!}</div>
         </div>
@@ -65,7 +62,6 @@
 <#else>
     <div class="ui-notice ui-notice-extra">
         暂时没有报价单
-        <br>
         <a class="ubtn ubtn-primary" href="/">返回首页</a>
     </div>
 </#if>
@@ -97,8 +93,6 @@
             <div class="words">暂时没有评论</div>
         </#if>
 
-
-
         <div class="ui-form ipt-wrap" id="commentWrap">
             <form action="" id="feedForm">
                 <input type="hidden"  class="ipt" value="${(quotationVo.id)!}" name="qid">
@@ -109,13 +103,12 @@
         </div>
     </div>
 </#if>
-
 </section><!-- /ui-content -->
 
-<#include "./common/footer.ftl"/>
-<script src="${urls.getForLookupPath('/assets/js/dragloader.min.js')}"></script>
-<script>
+<#include "./common/navigation.ftl">
 
+<#include "./common/footer.ftl"/>
+<script>
     var _global = {
         fn: {
             init: function() {
@@ -129,10 +122,10 @@
             },
             comment: function() {
                 var $comment = $('#commentWrap'),
-                        $uname = $comment.find('.ipt'),
-                        $words = $comment.find('.mul'),
-                        $submit = $('#submit'),
-                        flag = false;
+                    $uname = $comment.find('.ipt'),
+                    $words = $comment.find('.mul'),
+                    $submit = $('#submit'),
+                    flag = false;
 
                 $('#write').on('click', function() {
                     $comment.addClass('slideInUp');

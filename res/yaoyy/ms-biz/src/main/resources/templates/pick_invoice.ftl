@@ -4,7 +4,7 @@
     <title>订单发票-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body-nofoot">
+<body class="body2">
 <header class="ui-header">
     <div class="title">发票</div>
     <div class="abs-l mid">

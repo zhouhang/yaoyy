@@ -14,48 +14,42 @@
     <header class="ui-header">
         <div class="title">品种列表</div>
         <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
+            <a href="javascript:history.back();" class="ico ico-back"></a>
         </div>
         <div class="abs-r mid search">
             <form id="searchForm">
                 <input type="text" name="keyword" id="keyword" value="" class="ipt" />
-                <button type="submit" id="search" class="fa fa-search mid submit"></button>
+                <button type="submit" id="search" class="ico ico-search mid submit"></button>
             </form>
         </div>
     </header><!-- /ui-header -->
 
 
     <footer class="ui-footer">
-        <nav class="ui-nav">
+        <nav class="nav">
             <ul>
                 <li>
                     <a href="index.html">
-                        <i class="fa fa-home"></i>
+                        <i class="home"></i>
                         <span>首页</span>
                     </a>
                 </li>
                 <li>
                     <a href="product_list.html">
-                        <i class="fa fa-list"></i>
+                        <i class="menu"></i>
                         <span>品种列表</span>
                     </a>
                 </li>
                 <li>
                     <a href="pick.html">
-                        <i class="fa fa-cart"></i>
+                        <i class="cart"></i>
                         <span>采购单</span>
                         <b id="cartNum">99</b>
                     </a>
                 </li>
                 <li>
-                    <a href="quote.html">
-                        <i class="fa fa-flag"></i>
-                        <span>道地行情</span>
-                    </a>
-                </li>
-                <li>
                     <a href="center.html">
-                        <i class="fa fa-user"></i>
+                        <i class="user"></i>
                         <span>个人中心</span>
                     </a>
                 </li>
@@ -177,7 +171,7 @@
                     html.push('<li>\n');
                     html.push( '<a href="' + item.href + '">\n');
                     html.push(     '<div class="cnt">\n');
-                    html.push(         '<div class="title">', item.title, '</div>\n');
+                    html.push(         '<div class="title">', item.title, '<span class="ui-tag">特价</span></div>\n');
                     html.push(         '<div class="summary">', item.summary, '</div>\n');
                     html.push(         '<div class="price">\n');
                     html.push(              '<i>&yen;</i>\n');

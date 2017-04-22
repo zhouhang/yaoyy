@@ -6,7 +6,7 @@
     <title>供应商登录-药优优</title>
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
-<body class="body-gray">
+<body class="body-bg">
 <#include "./common/navigation.ftl"/>
 <div class="ui-content">
        <div class="umenu2">

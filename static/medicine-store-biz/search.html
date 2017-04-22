@@ -14,14 +14,14 @@
     <header class="ui-header">
         <div class="title">搜索</div>
         <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
+            <a href="javascript:history.back();" class="ico ico-back"></a>
         </div>
     </header><!-- /ui-header -->
 
     <div class="ui-content">
         <div class="ui-search">
             <form action="">
-                <button type="submit" id="submit" class="fa fa-search submit mid"></button>
+                <button type="submit" id="submit" class="ico ico-search submit mid"></button>
                 <input type="text" name="keyword" id="keyword" class="ipt" placeholder="请输入原药材品种名称" autocomplete="off">
             </form>
             <div class="suggest">
@@ -61,9 +61,9 @@
                         if (!h[i]) {
                             continue;
                         }
-                        html.push('<li><i class="fa fa-clock"></i>');
+                        html.push('<li><i class="ico ico-clock"></i>');
                         html.push('<span>' + h[i] + '</span>');
-                        html.push('<em class="fa fa-del mid"></em>');
+                        html.push('<em class="ico ico-del mid"></em>');
                         html.push("</li>");
                         if (i > 3) {
                             break;

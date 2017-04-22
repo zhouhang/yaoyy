@@ -4,11 +4,11 @@
     <title>短信验证码登录-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body ui-body-nofoot">
+<body class="body1 body2">
 <header class="ui-header">
     <div class="title">短信验证码登录</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 

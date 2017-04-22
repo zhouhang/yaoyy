@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>品种列表</title>
+<title>品种列表-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body">
+<body class="body1">
+
 <header class="ui-header">
-    <div class="title">品种列表</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
-    <div class="abs-r mid">
-        <a href="category/search"><i class="fa fa-search"></i></a>
+
+    <div class="search mid">
+        <form id="searchForm">
+            <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+            <button type="submit" id="search" class="ico ico-search mid submit"></button>
+        </form>
     </div>
 </header><!-- /ui-header -->
 
-<#include "./common/navigation.ftl">
 
 <section class="ui-content">
     <div class="plist" id="categroyList"></div>
 </section><!-- /ui-content -->
+
+<#include "./common/navigation.ftl">
+
 <#include "./common/footer.ftl"/>
+
 <script>
 
     var _global = {
@@ -42,7 +49,7 @@
                         $.ajax({
                             type: 'POST',
                             url: _global.v.dataUrl, 
-                            data: {pageNum:pageNum, name:'${name?default('')}'},
+                            data: {pageNum:pageNum, name: '${name?default('')}'},
                             dataType: 'json',
                             success: function(res){
                                 if (res.data.isLastPage) {

@@ -4,18 +4,14 @@
 <title>${special.title!}-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body">
+<body class="body1">
+
 <header class="ui-header">
-    <div class="title">${special.title!}</div>
+    <h1 class="title">${special.title!}</h1>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
-    </div>
-    <div class="abs-r mid">
-        <a href="category/search"><i class="fa fa-search"></i></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
-
-<#include "./common/navigation.ftl">
 
 <section class="ui-content">
     <div class="ui-banner">
@@ -49,6 +45,7 @@
 
 </section><!-- /ui-content -->
 
+<#include "./common/navigation.ftl">
 
 <#include "./common/footer.ftl"/>
 <script>

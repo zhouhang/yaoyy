@@ -4,7 +4,7 @@
     <title>支付结果-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body-nofoot">
+<body class="body2">
 <header class="ui-header">
     <div class="title">支付成功</div>
     <div class="abs-l mid">
