@@ -23,7 +23,7 @@ doc:
 
 upload:
     path: /opt/resources/yaobest/
-    url: http://mall.static.yaobest.com/
+    url: http://static.mall.yaobest.com/
 
 #logging:
 #    level:
