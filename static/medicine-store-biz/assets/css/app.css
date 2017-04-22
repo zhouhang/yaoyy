@@ -168,24 +168,8 @@ em,i{font-style:normal;}
 
 /* footer */
 .ui-footer{position:fixed;bottom:0;left:0;z-index:8;width:100%;height:55px;background:#fff;}
-.ui-footer .nav ul{overflow:hidden;}
-.ui-footer .nav li{position:relative;float:left;width:25%;text-align:center;}
-.ui-footer .nav a{display:block;height:50px;padding-top:8px;vertical-align:top;color:#808080;font-size:1.2rem;border-top:1px solid #e7e7e7;}
-.ui-footer .nav span{display:block;margin-top:6px;font-size:1rem;vertical-align:top;}
-.ui-footer .nav i{position:relative;display:block;height:24px;background:no-repeat 50% 50%;background-size:auto 100%;}
-.ui-footer .nav b{position:absolute;top:2px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.2rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
-.ui-footer .nav .home{background-image:url(../images/ico-home.png);}
-.ui-footer .nav .cart{background-image:url(../images/ico-cart.png);}
-.ui-footer .nav .menu{background-image:url(../images/ico-menu.png);}
-.ui-footer .nav .user{background-image:url(../images/ico-user.png);}
-.ui-footer .nav .current{color:#ff7701;}
-.ui-footer .nav .current .home{background-image:url(../images/ico-home-b.png);}
-.ui-footer .nav .current .cart{background-image:url(../images/ico-cart-b.png);}
-.ui-footer .nav .current .menu{background-image:url(../images/ico-menu-b.png);}
-.ui-footer .nav .current .user{background-image:url(../images/ico-user-b.png);}
-/*
 .ui-footer .ui-nav ul{overflow:hidden;}
-.ui-footer .ui-nav li{position:relative;float:left;width:25%;text-align:center;}
+.ui-footer .ui-nav li{position:relative;float:left;width:20%;text-align:center;}
 .ui-footer .ui-nav a{display:block;height:50px;padding-top:8px;vertical-align:top;color:#666;font-size:1.2rem;border-top:1px solid #e7e7e7;}
 .ui-footer .ui-nav a.current{color:#b9a060;}
 .ui-footer .ui-nav span{display:block;margin-top:2px;font-size:1rem;}
@@ -196,7 +180,7 @@ em,i{font-style:normal;}
 .ui-footer .extra li{width:20%;}
 .ui-footer .extra li.wide{width:30%;}
 .ui-footer .extra a.sample{line-height:34px;font-size:1.4rem;background:#f1ecdf;color:#b9a060;border-top-color:#f1ecdf;}
-.ui-footer .extra a.cart{line-height:34px;font-size:1.4rem;background:#b9a060;color:#fff;border-top-color:#b9a060;}*/
+.ui-footer .extra a.cart{line-height:34px;font-size:1.4rem;background:#b9a060;color:#fff;border-top-color:#b9a060;}
 
 /* content */
 .ui-content{max-width:640px;margin:0 auto;}
