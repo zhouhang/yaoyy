@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ms.dao.model.Article;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.User;
+import com.ms.dao.vo.CartVo;
 import com.ms.dao.vo.CategoryVo;
 import com.ms.dao.vo.CommodityVo;
 import com.ms.service.*;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: koabs
@@ -109,24 +110,6 @@ public class CommodityController extends BaseController{
     }
 
 
-    /**
-     * 批量获取商品详情（购物车显示用）
-     * @param list
-     * @return
-     */
-    @RequestMapping(value="/getDetail",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Result getDetail(@RequestBody List<Integer> list){
-        StringBuilder ids = new StringBuilder();
-        if (list != null && list.size() >0){
-            list.forEach(sc ->{
-                ids.append(sc).append(",");
-            });
-        }
-        List<CommodityVo> commodities = commodityService.findByIds(ids.substring(0,ids.length()-1));
-
-        return Result.success().data(commodities);
-    }
 
     /**
      * 商品的价格历史记录

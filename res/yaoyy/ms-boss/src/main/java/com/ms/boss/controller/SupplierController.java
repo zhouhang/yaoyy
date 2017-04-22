@@ -550,15 +550,7 @@ public class SupplierController {
                    supplierVo.setSignTime(record.getCreateTime());
                }
 
-
-
-
-
-
            }
-
-
-
 
        });
 

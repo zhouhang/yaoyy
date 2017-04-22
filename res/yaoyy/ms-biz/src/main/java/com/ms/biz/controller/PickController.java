@@ -537,6 +537,8 @@ public class PickController extends BaseController{
         return  "purchaser_two";
     }
 
+
+
     /**
      * 采购员保存订单详情 订单详情填写完成后代发货状态
      * @param vo
@@ -551,8 +553,6 @@ public class PickController extends BaseController{
         pickService.purchaserOrderSaveTwo(vo);
         return  Result.success();
     }
-
-
 
 
 
