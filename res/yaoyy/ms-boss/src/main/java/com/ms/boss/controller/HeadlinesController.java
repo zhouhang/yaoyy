@@ -37,7 +37,7 @@ public class HeadlinesController {
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(ArticleVo articleVo, Integer pageNum, Integer pageSize, ModelMap model) {
-        articleVo.setType(2);
+
         PageInfo<ArticleVo> pageInfo = articleService.headlinesList(articleVo, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         return "headlines_list";

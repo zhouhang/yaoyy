@@ -80,6 +80,9 @@ public class Commodity  implements Serializable {
 
 	// 供应商家里库存
 	private Float unwarehouse;
+
+	//0 非特价 1特价商品
+	private Integer specialOffers;
 	
 	public Commodity(){}
 
@@ -291,5 +294,13 @@ public class Commodity  implements Serializable {
 
 	public void setUnwarehouse(Float unwarehouse) {
 		this.unwarehouse = unwarehouse;
+	}
+
+	public Integer getSpecialOffers() {
+		return specialOffers;
+	}
+
+	public void setSpecialOffers(Integer specialOffers) {
+		this.specialOffers = specialOffers;
 	}
 }

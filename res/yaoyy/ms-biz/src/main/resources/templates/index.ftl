@@ -7,8 +7,14 @@
 <body class="ui-body body-gray">
 <header class="ui-header">
     <div class="logo">药优优药材商城</div>
-    <div class="abs-r mid">
-        <a href="category/search"><i class="fa fa-search"></i></a>
+    <!-- <div class="abs-l mid">
+        <a href="javascript:history.back();" class="ico ico-back"></a>
+    </div> -->
+    <div class="mid search">
+        <form id="searchForm">
+            <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+            <button type="submit" id="search" class="ico ico-search mid submit"></button>
+        </form>
     </div>
 </header><!-- /ui-header -->
 <#include "./common/navigation.ftl">
@@ -22,12 +28,74 @@
         </ul>
     </div>
 
-    <#list specials as special>
-        <div class="ui-floor">
-            <a href="${special.href!}"><img src="${special.pictureUrl!}" alt="${special.name!}"></a>
-        </div>
-    </#list>
+    <div class="ui-floor">
+        <ul class="menu">
+            <li>
+                <a href="/commodity/list"><i class="ico ico-list"></i>品种清单</a>
+            </li>
+            <li>
+                <a href="/pickCommodity/list"><i class="ico ico-shopcart"></i>品采购单</a>
+            </li>
+            <li>
+                <a href="#"><i class="ico ico-toutiao"></i>品药商头条</a>
+            </li>
+        </ul>
+    </div>
 
+    <div class="ui-floor">
+        <div class="hd">
+            <h2 class="ico-notice">药商头条</h2>
+            <div class="marquee">
+                <ul>
+                    <#list headlines as headline>
+                        <li>
+                            <a href="${headline.id}"><em>${headline.tagStr!}</em>${headline.title!}</a>
+                        </li>
+                    </#list>
+                </ul>
+            </div>
+        </div>
+        <div class="bd">
+            <a href="#" class="pro">
+                <img src="assets/images/ddhq.jpg" alt="地道行情">
+                <div class="txt">
+                    <em>道地行情</em>
+                    <span>每周更新 替你上行</span>
+                </div>
+            </a>
+            <a href="${special.href!}" class="pro">
+                <img src="${special.pictureUrl!}" alt="${special.name!}">
+                <div class="txt">
+                    <em>${special.name!}</em>
+                    <span>优选好药 底价直采</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="ui-floor">
+        <h2 class="ico-arrow-down">特价好货</h2>
+        <ul class="list">
+            <#list commoditys as commodity>
+            <li>
+                <a href="/commodity/detail/${commodity.id!}" class="pic">
+                    <img src="${commodity.thumbnailUrl}" alt="${commodity.title}">
+                </a>
+                <a href="/commodity/detail/${commodity.id!}">
+                    <em>${commodity.title}</em>
+                    <span>${commodity.price?string("0.00")}</span>
+                    <b>元/${commodity.unitName}</b>
+                </a>
+            </li>
+            </#list>
+            <li class="hide">
+                <a href="#" class="pic more"><b>更多特价药材</b></a>
+            </li>
+        </ul>
+        <div class="more">
+            <a href="/commodity/list" class="ubtn ubtn-white">更多特价药材<i class="ico ico-more"></i></a>
+        </div>
+    </div>
 
 </section><!-- /ui-content -->
 <#include "./common/footer.ftl"/>
@@ -38,6 +106,7 @@
             init: function() {
                 this.slide();
                 this.sideQrcode();
+                this.marquee();
             },
             slide: function() {
                 var $slide = $('#slide1'),
@@ -70,7 +139,35 @@
                 if (!isMobile) {
                     $('body').append('<div class="sideQrcode"><span>微信“扫一扫”立即关注</span><img src="/assets/images/qrcode.png" width="150" height="150"><span>微信号：药优优</span></div>');
                 }
+            },
+            // 公告
+            marquee: function() {
+            var $marquee = $('.marquee'),
+                    $ul = $marquee.find('ul'),
+                    length = $ul.find('li').length,
+                    ypos = $ul.find('li').height(),
+                    idx = 0,
+                    speed = 300,
+                    delay = 3500;
+
+            if (length == 1) {
+                return this;
             }
+            $ul.append($ul.html());
+
+            setInterval(function() {
+                idx ++;
+                $ul.animate({
+                    top: -idx * ypos
+                }, speed, function() {
+                    if (idx === length) {
+                        idx = 0;
+                        $ul.css({top: 0})
+                    }
+                });
+            }, delay);
+
+        }
         }
     }
 

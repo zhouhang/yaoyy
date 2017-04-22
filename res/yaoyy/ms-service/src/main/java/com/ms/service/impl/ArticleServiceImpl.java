@@ -127,6 +127,7 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 
 	@Override
 	public PageInfo<ArticleVo> headlinesList(ArticleVo articleVo, Integer pageNum, Integer pageSize) {
+		articleVo.setType(2);
 		PageInfo<ArticleVo>  pageInfo = findByParams(articleVo, pageNum, pageSize);
 		pageInfo.getList().forEach(article ->{
 			article.setTagStr(bindDao.findTagsByArticleId(article.getId()));

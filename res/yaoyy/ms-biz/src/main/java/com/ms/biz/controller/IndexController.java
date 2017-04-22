@@ -1,12 +1,7 @@
 package com.ms.biz.controller;
 
-import com.ms.dao.model.Area;
-import com.ms.dao.model.Article;
-import com.ms.dao.model.Commodity;
-import com.ms.dao.model.User;
-import com.ms.dao.vo.AdVo;
-import com.ms.dao.vo.SendSampleVo;
-import com.ms.dao.vo.UserVo;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
@@ -75,8 +70,18 @@ public class IndexController extends BaseController{
         // 专场广告
         List<AdVo> banners = adService.findByType(1);
         List<AdVo> specials = adService.findByType(2);
+
+        // 特价商品12
+        CommodityVo commodityVo = new CommodityVo();
+        commodityVo.setSpecialOffers(1);
+        commodityVo.setStatus(1);
+        List<CommodityVo> commoditys = commodityService.findByParams(commodityVo,1,12).getList();
+        // 头条 5
+        List<ArticleVo> articles =  articleService.headlinesList(new ArticleVo(),1,5).getList();
+        model.put("commoditys", commoditys);
+        model.put("headlines",articles);
         model.put("banners", banners);
-        model.put("specials",specials);
+        model.put("special",specials.get(0));
         try {
             String url = HttpUtil.getFullUrl(request);
             WxJsapiSignature signature = wxService.createJsapiSignature(url);
