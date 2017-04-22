@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>药优优</title>
+<title>药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
+
 <header class="ui-header">
     <div class="logo">药优优药材商城</div>
 </header><!-- /ui-header -->
 
-<#include "./common/navigation.ftl">
 
 <section class="ui-content">
-    <ul>
-        <li>
-            <a id="payBtn" class="current" href="javascript:;"       >
-                <i class="fa fa-home"></i>
-                <span>支付按钮</span>
-            </a>
-        </li>
-    </ul>
-
-
+    <div class="umenu">
+        <ul>
+            <li>
+                <a id="payBtn" class="current" href="javascript:;">
+                    <span>支付按钮</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </section><!-- /ui-content -->
 
+<#include "./common/navigation.ftl">
+
 <#include "./common/footer.ftl"/>
+
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
 <script>
-
     $(function(){
-
         $("#payBtn").click(function(){
-
             $.ajax({
                 url: "/wechat/pay",
                 data: {},
@@ -54,15 +54,7 @@
             })
 
         })
-
-
-
-
     })
-
-
-
-
 </script>
 </body>
 </html>

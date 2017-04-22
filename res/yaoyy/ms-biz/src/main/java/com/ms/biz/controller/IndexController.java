@@ -1,12 +1,7 @@
 package com.ms.biz.controller;
 
-import com.ms.dao.model.Area;
-import com.ms.dao.model.Article;
-import com.ms.dao.model.Commodity;
-import com.ms.dao.model.User;
-import com.ms.dao.vo.AdVo;
-import com.ms.dao.vo.SendSampleVo;
-import com.ms.dao.vo.UserVo;
+import com.ms.dao.model.*;
+import com.ms.dao.vo.*;
 import com.ms.service.*;
 import com.ms.service.enums.RedisEnum;
 import com.ms.tools.annotation.SecurityToken;
@@ -34,7 +29,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping
-public class IndexController extends BaseController{
+public class IndexController extends BaseController {
 
     private static final Logger logger = Logger.getLogger(WechatController.class);
 
@@ -66,22 +61,36 @@ public class IndexController extends BaseController{
 
     /**
      * 首页广告
+     *
      * @param model
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model,HttpServletRequest request) {
+    public String index(ModelMap model, HttpServletRequest request) {
         // 首页banner 广告
         // 专场广告
         List<AdVo> banners = adService.findByType(1);
         List<AdVo> specials = adService.findByType(2);
+
+        // 特价商品12
+        CommodityVo commodityVo = new CommodityVo();
+        commodityVo.setSpecialOffers(1);
+        commodityVo.setStatus(1);
+        List<CommodityVo> commoditys = commodityService.findByParams(commodityVo, 1, 12).getList();
+        // 头条 5
+        List<ArticleVo> articles = articleService.headlinesList(new ArticleVo(), 1, 5).getList();
+        articles.forEach(article -> {
+            article.setTagStr(article.getTagStr().split(",|，")[0]);
+        });
+        model.put("commoditys", commoditys);
+        model.put("headlines", articles);
         model.put("banners", banners);
-        model.put("specials",specials);
+        model.put("special", specials.get(0));
         try {
             String url = HttpUtil.getFullUrl(request);
             WxJsapiSignature signature = wxService.createJsapiSignature(url);
-            model.put("signature",signature);
-        }catch (Exception e){
+            model.put("signature", signature);
+        } catch (Exception e) {
             logger.error(e);
         }
 
@@ -90,20 +99,21 @@ public class IndexController extends BaseController{
 
     /**
      * 寄样页面
+     *
      * @param commdityId
      * @param model
      * @return
      */
     @RequestMapping(value = "apply/sample/{id}", method = RequestMethod.GET)
     @SecurityToken(generateToken = true)
-    public String apply(@PathVariable("id")Integer commdityId,ModelMap model) {
+    public String apply(@PathVariable("id") Integer commdityId, ModelMap model) {
 
-        Commodity commodity=commodityService.findById(commdityId);
-        if (commodity==null){
+        Commodity commodity = commodityService.findById(commdityId);
+        if (commodity == null) {
             throw new NotFoundException("找不到该商品");
         }
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        if(user!=null){
+        if (user != null) {
             model.put("phone", user.getPhone());
         }
         model.put("commodity", commodity);
@@ -112,23 +122,24 @@ public class IndexController extends BaseController{
 
     /**
      * 申请寄样post请求
+     *
      * @param sendSampleVo
      * @return
      */
     @RequestMapping(value = "apply/sample", method = RequestMethod.POST)
     @ResponseBody
-    @SecurityToken(validateToken=true)
+    @SecurityToken(validateToken = true)
     public Result applySample(SendSampleVo sendSampleVo) {
 
-        if(sendSampleVo.getIntention()==null){
+        if (sendSampleVo.getIntention() == null) {
             return Result.error();
         }
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
-        if(user!=null){
+        if (user != null) {
             sendSampleVo.setUserId(user.getId());
         }
         sendSampleService.save(sendSampleVo);
-        UserVo userInfo=userService.findByPhone(sendSampleVo.getPhone());
+        UserVo userInfo = userService.findByPhone(sendSampleVo.getPhone());
 
         return Result.success().data(userInfo.getId());
     }
@@ -136,7 +147,7 @@ public class IndexController extends BaseController{
     @RequestMapping(value = "/article/{id}", method = RequestMethod.GET)
     public String article(@PathVariable("id") Integer id, ModelMap modelMap) {
         Article article = articleService.findById(id);
-        if(article.getContent()!=null){
+        if (article.getContent() != null) {
             article.setContent(article.getContent());
         }
         modelMap.put("article", article);
@@ -144,19 +155,19 @@ public class IndexController extends BaseController{
     }
 
 
-
     @RequestMapping(value = "/html/{name}", method = RequestMethod.GET)
     public String html(@PathVariable("name") String name,
                        HttpServletRequest request,
-                       ModelMap model) throws Exception{
+                       ModelMap model) throws Exception {
         String url = HttpUtil.getFullUrl(request);
         WxJsapiSignature signature = wxService.createJsapiSignature(url);
-        model.put("signature",signature);
-        return "html/"+name;
+        model.put("signature", signature);
+        return "html/" + name;
     }
 
     /**
      * 省市区接口
+     *
      * @param parentId
      */
     @RequestMapping(value = "/area")
@@ -165,17 +176,44 @@ public class IndexController extends BaseController{
         List<Area> list = areaService.findByParent(parentId);
         return Result.success().data(list);
     }
+
     /**
      * 支付成功页面
+     *
      * @return
      */
     @RequestMapping(value = "paySuccess", method = RequestMethod.GET)
-    public String paySuccess(Integer orderId,Integer billId, ModelMap model){
-        model.put("orderId",orderId);
-        model.put("billId",billId);
+    public String paySuccess(Integer orderId, Integer billId, ModelMap model) {
+        model.put("orderId", orderId);
+        model.put("billId", billId);
         return "pay_success";
     }
 
 
+    // 头条列表页面
+    @RequestMapping(value = "/headline", method = RequestMethod.GET)
+    public String headline(ModelMap model) {
+        // 获取所有的标签列表
+        List<ArticleTagVo> list = articleService.tags();
+        model.put("tags",list);
+        return "headline";
+    }
+
+    // 头条数据请求
+    @RequestMapping(value = "/headline", method = RequestMethod.POST)
+    @ResponseBody
+    public Result headlineData(Integer tagId,Integer pageSize, Integer pageNum) {
+        return Result.success();
+    }
+
+    // 头条详情页面
+    @RequestMapping(value = "/headline/{id}", method = RequestMethod.GET)
+    public String headlineDetail(@PathVariable("id") Integer id, ModelMap model) {
+        ArticleVo articleVo = articleService.findVoById(id);
+        model.put("article", articleVo);
+        return "headline";
+    }
 
 }
+
+

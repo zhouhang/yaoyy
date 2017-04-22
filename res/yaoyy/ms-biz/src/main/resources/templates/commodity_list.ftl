@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <#include "./common/meta.ftl"/>
-    <title>品种列表-药优优</title>
+<head>
+<title>品种列表-药优优</title>
+<#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body body-gray">
-    <header class="ui-header">
-        <div class="title">品种列表</div>
-        <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
-        </div>
-        <div class="abs-r mid search">
-            <form>
-                <input type="text" name="keyword" id="keyword" value="" class="ipt" />
-                <button type="submit" id="search" class="fa fa-search mid submit"></button>
-            </form>
-        </div>
-    </header><!-- /ui-header -->
+<body class="body1 body-bg">
 
-    <#include "./common/navigation.ftl">
+<header class="ui-header">
+    <div class="abs-l mid">
+        <a href="javascript:history.back();" class="ico ico-back"></a>
+    </div>
 
-    <section class="ui-content">
-        <div class="plist">
-            <dl class="side">
-                <dd>品种列表</dd>
-                <#if categoryVos??>
-                <#list categoryVos as categoryVo>
-                <dd <#if categoryId?? && categoryId == categoryVo.id>class="curr"</#if>><a href="javascript;" data-id="${categoryVo.id}">${categoryVo.name!}</a></dd>
-                </#list>
-                </#if>
-            </dl>
-            <ul id="plist"></ul>
-            <input type="hidden" id="categoryId" value="${categoryId!}"/>
-        </div>
-    </section><!-- /ui-content -->
+    <div class="search mid">
+        <form id="searchForm">
+            <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+            <button type="submit" id="search" class="ico ico-search mid submit"></button>
+        </form>
+    </div>
+</header><!-- /ui-header -->
 
-    <#include "./common/footer.ftl"/>
-    <script>
+<section class="ui-content">
+    <div class="plist">
+        <ul id="plist"></ul>
+        <dl class="side">
+            <dd>品种列表</dd>
+            <#if categoryVos??>
+            <#list categoryVos as categoryVo>
+            <dd <#if categoryId?? && categoryId == categoryVo.id>class="curr"</#if>><a href="javascript;" data-id="${categoryVo.id}">${categoryVo.name!}</a></dd>
+            </#list>
+            </#if>
+        </dl>
+    </div>
+</section><!-- /ui-content -->
+<input type="hidden" id="categoryId" value="${categoryId!}"/>
 
+<#include "./common/navigation.ftl">
+
+<#include "./common/footer.ftl"/>
+
+<script>
     var _global = {
         fn: {
             init: function() {

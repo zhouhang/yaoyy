@@ -71,15 +71,15 @@ body{padding-bottom:70px;}
 .footer .nav span{display:block;margin-top:6px;font-size:1rem;vertical-align:top;}
 .footer .nav i{position:relative;display:block;height:24px;background:no-repeat 50% 50%;background-size:auto 100%;}
 .footer .nav b{position:absolute;top:2px;left:50%;min-width:16px;line-height:16px;padding:0 4px;margin-left:.2rem;background:#d74141;color:#fff;font-weight:400;-webkit-border-radius:8px;border-radius:8px;z-index:8;}
-.footer .nav .home{background-image:url(../images/ico-home.png);}
-.footer .nav .cart{background-image:url(../images/ico-cart.png);}
-.footer .nav .menu{background-image:url(../images/ico-menu.png);}
-.footer .nav .msg{background-image:url(../images/ico-msg.png);}
+.footer .nav .home{background-image:url(../images/supplier/ico-home.png);}
+.footer .nav .cart{background-image:url(../images/supplier/ico-cart.png);}
+.footer .nav .menu{background-image:url(../images/supplier/ico-menu.png);}
+.footer .nav .msg{background-image:url(../images/supplier/ico-msg.png);}
 .footer .nav .current{color:#08f;}
-.footer .nav .current .home{background-image:url(../images/ico-home-b.png);}
-.footer .nav .current .cart{background-image:url(../images/ico-cart-b.png);}
-.footer .nav .current .menu{background-image:url(../images/ico-menu-b.png);}
-.footer .nav .current .msg{background-image:url(../images/ico-msg-b.png);}
+.footer .nav .current .home{background-image:url(../images/supplier/ico-home-b.png);}
+.footer .nav .current .cart{background-image:url(../images/supplier/ico-cart-b.png);}
+.footer .nav .current .menu{background-image:url(../images/supplier/ico-menu-b.png);}
+.footer .nav .current .msg{background-image:url(../images/supplier/ico-msg-b.png);}
 
 .qrcode{padding:100px 40px 0;text-align:center;}
 .qrcode span{display:block;margin-top:40px;line-height:22px;}

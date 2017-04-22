@@ -5,7 +5,7 @@
     <title>我的消息-药优优</title>
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
-<body class="body-gray">
+<body class="body-bg">
     <#include "./common/navigation.ftl"/>
 
     <div class="ui-content">
@@ -21,7 +21,6 @@
     </div>
 
 	<#include "../common/footer.ftl"/>
-	<script src="${urls.getForLookupPath('/assets/js/dragloader.min.js')}"></script>
     <script>
 
     var _global = {

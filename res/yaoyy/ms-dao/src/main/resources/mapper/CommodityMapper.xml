@@ -2,32 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ms.dao.CommodityDao">
     <resultMap id="CommodityResultMap" type="com.ms.dao.model.Commodity">
-            <id column="id"  property="id" />
-            <result column="title"  property="title" />
-            <result column="name"  property="name" />
-            <result column="har_year"  property="harYear" />
-            <result column="origin"  property="origin" />
-            <result column="spec"  property="spec" />
-            <result column="process"  property="process" />
-            <result column="exterior"  property="exterior" />
-            <result column="executive_standard"  property="executiveStandard" />
-            <result column="category_id"  property="categoryId" />
-            <result column="picture_url"  property="pictureUrl" />
-            <result column="detail"  property="detail" />
-            <result column="status"  property="status" />
-            <result column="attribute"  property="attribute" />
-            <result column="price"  property="price" />
-            <result column="unit"  property="unit" />
-            <result column="sort"  property="sort" />
-            <result column="create_time"  property="createTime" />
-            <result column="update_time"  property="updateTime" />
-            <result column="minimum_quantity"  property="minimumQuantity" />
-            <result column="slogan"  property="slogan" />
-            <result column="thumbnail_url"  property="thumbnailUrl" />
-            <result column="supplier_id"  property="supplierId" />
-            <result column="price_update_time"  property="priceUpdateTime" />
-            <result column="warehouse"  property="warehouse" />
-            <result column="unwarehouse"  property="unwarehouse" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="name" property="name"/>
+        <result column="har_year" property="harYear"/>
+        <result column="origin" property="origin"/>
+        <result column="spec" property="spec"/>
+        <result column="process" property="process"/>
+        <result column="exterior" property="exterior"/>
+        <result column="executive_standard" property="executiveStandard"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="picture_url" property="pictureUrl"/>
+        <result column="detail" property="detail"/>
+        <result column="status" property="status"/>
+        <result column="attribute" property="attribute"/>
+        <result column="price" property="price"/>
+        <result column="unit" property="unit"/>
+        <result column="sort" property="sort"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="minimum_quantity" property="minimumQuantity"/>
+        <result column="slogan" property="slogan"/>
+        <result column="thumbnail_url" property="thumbnailUrl"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="price_update_time" property="priceUpdateTime"/>
+        <result column="warehouse" property="warehouse"/>
+        <result column="unwarehouse" property="unwarehouse"/>
+        <result column="special_offers" property="specialOffers"/>
     </resultMap>
 
     <resultMap id="CommodityResultMapVo" type="com.ms.dao.vo.CommodityVo" extends="CommodityResultMap">
@@ -40,7 +41,7 @@
     <sql id="Base_Column_List">
         id,title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,
         status,attribute,price,unit,sort,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,
-        price_update_time,warehouse,unwarehouse
+        price_update_time,warehouse,unwarehouse,special_offers
     </sql>
 
     <sql id="Base_Column_List_Alisa">
@@ -49,7 +50,7 @@
         cm.detail as detail,cm.status as status,cm.attribute as attribute,cm.price as price,
         cm.unit as unit,cm.sort as sort, cm.create_time as create_time,cm.update_time as update_time,
         cm.minimum_quantity as minimum_quantity,cm.slogan as slogan, cm.thumbnail_url as thumbnail_url,
-        cm.supplier_id as supplier_id,cm.price_update_time as price_update_time,cm.warehouse as warehouse,cm.unwarehouse as unwarehouse
+        cm.supplier_id as supplier_id,cm.price_update_time as price_update_time,cm.warehouse as warehouse,cm.unwarehouse as unwarehouse, cm.special_offers as special_offers
     </sql>
 
     <select id="findById" parameterType="java.lang.Integer" resultMap="CommodityResultMap">
@@ -106,6 +107,9 @@
             <if test="keyword != null">
                 and cm.name like  "%"#{keyword}"%"
             </if>
+            <if test="specialOffers != null">
+                and cm.special_offers = #{specialOffers}
+            </if>
         </where>
         ORDER BY status desc,cm.category_id,sort DESC
     </select>
@@ -117,10 +121,12 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.ms.dao.model.Commodity">
         insert into
-        commodity (title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,status,attribute,price,unit,sort,create_time,update_time,minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time,warehouse,unwarehouse)
+        commodity (title,name,har_year,origin,spec,process,exterior,executive_standard,category_id,picture_url,detail,status,attribute,price,unit,sort,create_time,update_time,
+        minimum_quantity,slogan,thumbnail_url,supplier_id,price_update_time,warehouse,unwarehouse,special_offers)
         values
         (#{title},#{name},#{harYear},#{origin},#{spec},#{process},#{exterior},#{executiveStandard},#{categoryId},#{pictureUrl},
-        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId},#{priceUpdateTime},#{warehouse},#{unwarehouse})
+        #{detail},#{status},#{attribute},#{price},#{unit},#{sort},#{createTime},#{updateTime},#{minimumQuantity},#{slogan},#{thumbnailUrl},#{supplierId},#{priceUpdateTime},
+        #{warehouse},#{unwarehouse}, #{specialOffers})
     </insert>
 
     <update id="update" parameterType="com.ms.dao.model.Commodity">
@@ -227,6 +233,9 @@
             </if>
             <if test="unwarehouse != null">
                 unwarehouse = #{unwarehouse},
+            </if>
+            <if test="specialOffers != null">
+                special_offers = #{specialOffers},
             </if>
         </set>
         where id = #{id}

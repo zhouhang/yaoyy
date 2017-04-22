@@ -4,7 +4,7 @@
     <title>银行转账-药优优</title>
     <#include "./common/meta.ftl"/>
 </head>
-<body class="ui-body-nofoot">
+<body class="body2">
 <header class="ui-header">
     <div class="title">银行转账</div>
     <div class="abs-l mid">

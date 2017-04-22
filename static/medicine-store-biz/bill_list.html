@@ -14,7 +14,7 @@
     <header class="ui-header">
         <div class="title">账单列表</div>
         <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
+            <a href="javascript:history.back();" class="ico ico-back"></a>
         </div>
     </header><!-- /ui-header -->
 
@@ -39,7 +39,7 @@
 
                 <strong>状态：<em class="red">未结清</em></strong>
 
-                <a href="bill_detail.html" class="mid"><i class="fa fa-front"></i></a>
+                <a href="bill_detail.html" class="mid"><i class="ico ico-front"></i></a>
             </div>
 
             <div class="item">
@@ -53,7 +53,7 @@
 
                 <strong>状态：<em class="blue">已结清</em></strong>
 
-                <a href="bill_detail.html" class="mid"><i class="fa fa-front"></i></a>
+                <a href="bill_detail.html" class="mid"><i class="ico ico-front"></i></a>
             </div> -->
         </div>
                      
@@ -128,7 +128,7 @@
                     } else {
                         html.push('<strong>状态：<em class="blue">已结清</em></strong>');
                     }
-                    html.push('<a href="/bill/detail/'+item.id+'" class="mid"><i class="fa fa-front"></i></a>');
+                    html.push('<a href="/bill/detail/'+item.id+'" class="mid"><i class="ico ico-front"></i></a>');
                     html.push('</div>');
                 })
                 $('.bill').append(html.join(''));

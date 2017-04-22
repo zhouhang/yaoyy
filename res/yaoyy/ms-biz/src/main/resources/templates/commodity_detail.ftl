@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <#include "./common/meta.ftl"/>
-    <title>商品详情-药优优</title>
+<head>
+<#include "./common/meta.ftl"/>
+<title>商品详情-药优优</title>
 </head>
-<body class="ui-body body-gray">
+<body class="body1 body-bg">
     <header class="ui-header">
-        <div class="title">产品详情-${commodityVo.name}-${commodityVo.origin}</div>
+        <h1 class="title">产品详情-${commodityVo.name}-${commodityVo.origin}</h1>
         <div class="abs-l mid">
-            <a href="javascript:history.back();" class="fa fa-back"></a>
+            <a href="javascript:history.back();" class="ico ico-back"></a>
         </div>
     </header><!-- /ui-header -->
 
@@ -117,7 +117,6 @@
 
     <#include "./common/footer.ftl"/>
     <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>
-    <script src="${urls.getForLookupPath('/assets/js/dragloader.min.js')}"></script>
     <script>
 
     var _global = {

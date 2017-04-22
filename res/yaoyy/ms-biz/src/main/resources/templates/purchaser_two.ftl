@@ -4,7 +4,7 @@
 <title>收货信息-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
-<body class="body-gray">
+<body class="body-bg">
 <section class="ui-content">
 
     <div class="order">
