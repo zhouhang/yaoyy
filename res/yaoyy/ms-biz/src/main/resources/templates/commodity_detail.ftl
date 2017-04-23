@@ -35,8 +35,12 @@
                     </a>
                 </li>
                 <li class="wide">
-                    <a class="cart" href="javascript:;" id="addCommodity">加入采购单</a>
-                    <!-- <a class="out" href="javascript:;">已售罄</a> -->
+                    <#if !commodityVo.unwarehouse??||commodityVo.unwarehouse==0>
+                         <a class="out" href="javascript:;">已售罄</a>
+                        <#else>
+                        <a class="cart" href="javascript:;" id="addCommodity">加入采购单</a>
+                    </#if>
+
                 </li>
             </ul>
         </nav>
@@ -48,7 +52,6 @@
                 <li><a href="javascript:;"><img src="${commodityVo.pictureUrl!}" alt=""></a></li>
             </ul>
         </div>
-
         <div class="pinfo">
             <h1 class="title">
                 ${commodityVo.title}
@@ -86,9 +89,7 @@
                 <a href="/commodity/price/${commodityVo.id}">查看历史价格</a>
                 <span>价格更新时间：${commodityVo.priceUpdateTime?date}</span>
             </div>
-
         </div>
-
         <div class="pdetail">
             <div class="tab">
                 <ul>
@@ -245,11 +246,14 @@
             initAttr: function () {
                 var html = ['<table><tbody>'];
                 //品种，切制规格和产地
-                html.push('<tr><td class="tit">商品名称</td><td>${commodityVo.name}</td></tr>');
-                html.push('<tr><td class="tit">品名</td><td>${commodityVo.categoryName}</td></tr>');
-                html.push('<tr><td class="tit">切制规格</td><td>${commodityVo.spec}</td></tr>');
-                html.push('<tr><td class="tit">产地</td><td>${commodityVo.origin}</td></tr>');
-                html.push('<tr><td class="tit">采收时间</td><td>${commodityVo.harYear}</td></tr>');
+                html.push('<tr><td class="tit">商品名称</td><td>${commodityVo.name!}</td></tr>');
+                html.push('<tr><td class="tit">品名</td><td>${commodityVo.categoryName!}</td></tr>');
+                html.push('<tr><td class="tit">切制规格</td><td>${commodityVo.spec!}</td></tr>');
+                html.push('<tr><td class="tit">产地</td><td>${commodityVo.origin!}</td></tr>');
+                html.push('<tr><td class="tit">采收时间</td><td>${commodityVo.harYear!}</td></tr>');
+                <#if commodityVo.unwarehouse??>
+                html.push('<tr><td class="tit">库存</td><td>${commodityVo.unwarehouse!}公斤</td></tr>');
+                </#if>
                 <#if commodityVo.process??>
                     html.push('<tr><td class="tit">加工方式</td><td>${commodityVo.process!}</td></tr>');
                 </#if>

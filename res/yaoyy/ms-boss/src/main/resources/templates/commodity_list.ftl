@@ -55,7 +55,7 @@
                     <#list pageInfo.list as commodity>
                     <tr <#if commodity.status==0>class="gray"</#if>>
                         <td><input type="checkbox" class="cbx" value="${commodity.id}"></td>
-                        <td>${commodity.name}</td>
+                        <td>${commodity.name!} <#if commodity.specialOffers??&&commodity.specialOffers==1><span class="c-red">【特价】</span></#if></td>
                         <td>${commodity.categoryName!}</td>
                         <td>${commodity.title!}</td>
                         <td>${commodity.spec!}</td>
