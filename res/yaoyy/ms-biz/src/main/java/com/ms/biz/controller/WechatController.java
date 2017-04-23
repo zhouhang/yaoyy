@@ -320,8 +320,6 @@ public class WechatController extends BaseController {
                 orderRequest.setTotalFee((int) (pick.getDeposit() * 100));
                 payment.setMoney(pick.getDeposit());
             }
-
-
         } else if (billId != null) {
             AccountBillVo accountBillVo = accountBillService.findVoById(billId);
             orderRequest.setBody("药优优账单支付");
@@ -349,8 +347,6 @@ public class WechatController extends BaseController {
         payment.setStatus(0);
         payment.setCreateTime(new Date());
         paymentService.create(payment);
-
-
         return Result.success().data(result);
     }
 
@@ -382,8 +378,6 @@ public class WechatController extends BaseController {
                     }
                 }
             }
-
-
             String Result = "<xml>" +
                     "<return_code><![CDATA[SUCCESS]]></return_code>" +
                     "<return_msg><![CDATA[OK]]></return_msg>" +

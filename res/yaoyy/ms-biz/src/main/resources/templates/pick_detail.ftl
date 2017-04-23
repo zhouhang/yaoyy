@@ -79,12 +79,11 @@
             </div>
         </#if>
         </div>
-    <#if pickVo.amountsPayable?exists && pickVo.amountsPayable != 0>
+
         <div class="item">
             <div class="more">
             <#if address?exists>
             <div id="address_title" class="title">${address.consignee}  ${address.tel} <#if address.isDefault?exists && address.isDefault><em>默认</em></#if></div>
-
             <div id="address_detail" class="address"><#if pickVo.addrHistoryId?exists>${address.area}${address.detail} <#else > ${address.fullAdd}${address.detail}</#if></div>
             <#else >
             <div id="address_title" class="title">请先添加收货地址</div>
@@ -109,6 +108,8 @@
                 <a href="/pick/note/${pickVo.id}"><i class="fa fa-front mid"></i></a>
         </#if>
             </div>
+
+    <#if pickVo.amountsPayable?exists>
         <#if logistical?exists>
             <ul class="freight hr">
                 <li><strong>物流详情：</strong></li>
