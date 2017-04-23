@@ -122,7 +122,7 @@
                         html.push('<button type="button" class="fa fa-plus op"></button>');
                         html.push('</div>');
 
-                        html.push('<div class="del" cid="' , attr.id , '" key="', attr.id, '">');
+                        html.push('<div class="del" cid="' , attr.id , '" key="', attr.supplierId, '">');
                         html.push('<button type="button" class="fa fa-remove"></button>');
                         html.push('</div>');
 
@@ -173,9 +173,10 @@
                     })
                     $.post("/pickCommodity/save",{commoditys:JSON.stringify(list)},function(result){
                         if (result.status == 200) {
-                            location.href = "/pickCommodity/apply?md5="+result.data;
+                            location.href = "/pickCommodity/apply";
                         }
                     })
+                    // pickVo.pickCommodityVoList = list;
                 })
             },
             bindEvent: function() {

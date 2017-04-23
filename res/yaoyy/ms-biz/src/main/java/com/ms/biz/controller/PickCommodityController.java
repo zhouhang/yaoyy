@@ -173,6 +173,6 @@ public class PickCommodityController extends BaseController{
         List<PickCommodityVo> list = gson.fromJson(commoditiesV,type);
         vo.setPickCommodityVoList(list);
         pickService.save(vo,user);
-        return Result.success();
+        return Result.success().data(vo.getId());
     }
 }
