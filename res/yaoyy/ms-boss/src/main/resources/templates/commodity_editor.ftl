@@ -67,6 +67,15 @@
                     </div>
                 </div>
                 <div class="item">
+                    <div class="txt"><i>*</i>特价商品：</div>
+                    <div class="cnt">
+                        <select id="specialOffers" name="specialOffers" class="slt">
+                            <option value="0">非特价</option>
+                            <option value="1">特价</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
                     <div class="txt"><i>*</i>采收时间：</div>
                     <div class="cnt">
                         <input type="text" name="harYear" id="harYear" class="ipt" value="${commodity.harYear}" placeholder="采收时间(201703)" autocomplete="off">
@@ -295,6 +304,9 @@
                 that.enable = true; // 防止重复提交
                 // 单位
                 $('#unit').code('UNIT', ${commodity.unit});
+
+                // 特价
+                $('#specialOffers').val(${commodity.specialOffers!});
 
                 // 上/下架
                 $('#status').val(${commodity.status});
