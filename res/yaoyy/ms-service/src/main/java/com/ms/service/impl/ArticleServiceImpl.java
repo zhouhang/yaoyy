@@ -143,4 +143,31 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 		vo.setTagStr(bindDao.findTagsByArticleId(article.getId()));
 		return vo;
 	}
+
+	@Override
+	public PageInfo<ArticleVo> headlinesListByTagId(Integer tagId, Integer pageNum, Integer pageSize) {
+		if (pageNum == null || pageSize == null){
+			pageNum = 1;
+			pageSize = 10;
+		}
+		PageInfo<ArticleVo> page;
+		if (tagId != null) {
+			PageHelper.startPage(pageNum, pageSize);
+			List<ArticleVo> list = articleDao.headlinesListByTagId(tagId);
+			page = new PageInfo(list);
+			page.getList().forEach(article -> {
+				article.setTagStr(bindDao.findTagsByArticleId(article.getId()));
+			});
+		} else {
+			ArticleVo vo = new ArticleVo();
+			vo.setStatus(1);
+			page = headlinesList(vo,pageNum,pageSize);
+		}
+		return page;
+	}
+
+	@Override
+	public ArticleTag findTagByName(String name) {
+		return articleTagDao.findByName(name);
+	}
 }

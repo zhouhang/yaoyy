@@ -32,10 +32,8 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 	@Autowired
 	private PickDao pickDao;
 
-
 	@Autowired
 	private PickCommodityService pickCommodityService;
-
 
 	@Autowired
 	private UserDao userDao;
@@ -655,9 +653,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 				pickTrackingService.save(pickTrackingVo);
 			}
-
 		}
-
 	}
 
 	@Override
@@ -914,7 +910,6 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 			sUser.setSalt(pass.getSalt());
 			sUser.setCreateTime(new Date());
 			sUser.setUpdateTime(new Date());
-
 			userService.create(sUser);
 			UserDetail sUserDetail = new UserDetail();
 			sUserDetail.setUserId(sUser.getId());
@@ -965,6 +960,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		smsUtil.sendPurchaserOrder(sUser.getPhone(),content.toString(),password,pick.getId());
 		return pick;
 	}
+
 
 	@Override
 	@Transactional

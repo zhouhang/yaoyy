@@ -415,8 +415,6 @@ public class UserServiceImpl  extends AbsCommonService<User> implements UserServ
 //		user.setId(userVo.getId());
 //		user.setPhone(userVo.getPhone());
 //		update(user);
-
-
 		UserDetail userDetail = new UserDetail();
 		userDetail.setUserId(userVo.getId());
 		userDetail.setType(IdentityTypeEnum.t4.getId());

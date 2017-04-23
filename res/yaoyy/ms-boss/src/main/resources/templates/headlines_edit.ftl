@@ -54,6 +54,16 @@
                     </div>
                 </div>
                 <div class="item">
+                    <div class="txt"><i>*</i>图片：</div>
+                    <div class="cnt">
+                        <div class="cnt">
+                            <span class="thumb up-img x4" id="jpic1"><img src="${article.url!}"><i class="del"></i></span>
+                            <input type="hidden" value="${article.url!}" name="thumbnailUrl" id="thumbnailUrl">
+                            <span class="tips">图片尺寸：220 X 180</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
                     <div class="txt">
                         <i>*</i>公告内容：
                     </div>

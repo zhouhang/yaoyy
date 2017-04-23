@@ -13,7 +13,7 @@
 
     <div class="search mid">
         <form id="searchForm">
-            <input type="text" name="keyword" id="keyword" value="" class="ipt" />
+            <input type="text" name="keyword" id="keyword" value="${keyword!}" class="ipt" />
             <button type="submit" id="search" class="ico ico-search mid submit"></button>
         </form>
     </div>
@@ -125,7 +125,11 @@
                     html.push('<li>\n');
                     html.push( '<a href="/commodity/detail/' + item.id + '">\n');
                     html.push(     '<div class="cnt">\n');
-                    html.push(         '<div class="title">', item.name, '</div>\n');
+                    html.push(         '<div class="title">', item.name);
+                    if (item.specialOffers===1) {
+                        html.push('<span class="ui-tag">特价</span>');
+                    }
+                    html.push('</div>\n');
                     html.push(         '<div class="summary">', item.title, '</div>\n');
                     html.push(         '<div class="price">\n');
                     html.push(              '<i>&yen;</i>\n');

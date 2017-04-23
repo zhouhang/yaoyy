@@ -12,13 +12,13 @@ spring:
 #  typeAliasesPackage: com.ms.dao.model
 doc:
     base:
-        url: http://boss.yaobest.com
+        url: http://boss.mall.yaobest.com
 biz:
     base:
-         url: http://www.yaobest.com
+         url: http://mall.yaobest.com
 upload:
     path: /opt/resources/yaobest/
-    url: http://static.yaobest.com/
+    url: http://static.mall.yaobest.com/
 
 #logging:
 #    level:

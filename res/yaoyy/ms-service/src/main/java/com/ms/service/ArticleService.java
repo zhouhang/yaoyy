@@ -40,4 +40,8 @@ public interface ArticleService extends ICommonService<Article>{
 
     PageInfo<ArticleVo> headlinesList(ArticleVo articleVo,Integer pageNum,Integer pageSize);
 
+    PageInfo<ArticleVo> headlinesListByTagId(Integer tagId,Integer pageNum,Integer pageSize);
+
+    ArticleTag findTagByName(String name);
+
 }

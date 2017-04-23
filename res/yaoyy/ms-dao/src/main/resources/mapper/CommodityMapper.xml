@@ -244,9 +244,10 @@
     <select id="findByIds" parameterType="java.lang.Integer" resultMap="CommodityResultMapVo">
         select
         <include refid="Base_Column_List_Alisa" />,
-        cd.name as unitName
+        cd.name as unitName,ud.name as supplierName,ud.company as supplierCompany
         from commodity cm
         LEFT JOIN code cd on cm.unit = cd.id
+        LEFT JOIN user_detail as ud on cm.supplier_id = ud.user_id
         where cm.id in
         <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
             #{item}

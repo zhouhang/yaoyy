@@ -35,7 +35,7 @@
                 <a href="/pickCommodity/list"><i class="ico ico-shopcart"></i>品采购单</a>
             </li>
             <li>
-                <a href="#"><i class="ico ico-toutiao"></i>品药商头条</a>
+                <a href="/headline"><i class="ico ico-toutiao"></i>品药商头条</a>
             </li>
         </ul>
     </div>
@@ -47,14 +47,14 @@
                 <ul>
                     <#list headlines as headline>
                         <li>
-                            <a href="${headline.id}"><em>${headline.tagStr!}</em>${headline.title!}</a>
+                            <a href="/headline/${headline.id}"><em>${(headline.tagStr?split(","))[0]}</em>${headline.title!}</a>
                         </li>
                     </#list>
                 </ul>
             </div>
         </div>
         <div class="bd">
-            <a href="#" class="pro">
+            <a href="/quotation/index" class="pro">
                 <img src="assets/images/ddhq.jpg" alt="地道行情">
                 <div class="txt">
                     <em>道地行情</em>
