@@ -882,9 +882,8 @@ em,i{font-style:normal;}
 .copyright{padding:100px 0 20px;text-align:center;font-size:1rem;color:#999;}
 
 
-/* ui-tab */
-.ui-tab{font-size:1.6rem;color:#ffdbb8;background:#ff7800;text-align:center;overflow:hidden;}
-.ui-tab a{position:relative;display:inline-block;width:32%;height:52px;padding-top:10px;color:#ffdbb8;}
-.ui-tab a.curr{color:#fff;}
-.ui-tab a.curr:after{position:absolute;bottom:10px;left:50%;content:"";display:block;width:15px;height:3px;margin-left:-7px;background:#fff;}
+/* scroll-menu */
+.scroll-menu{padding:0 12px;font-size:1.6rem;color:#ffdbb8;white-space:nowrap;background:#ff7800;overflow:hidden;overflow-x:auto;}
+.scroll-menu a{position:relative;display:inline-block;line-height:50px;padding:0 10px;color:#ffdbb8;}
+.scroll-menu a.curr{color:#fff;}
 .ui-cnt{border-top:1px solid #e7e7e7;}

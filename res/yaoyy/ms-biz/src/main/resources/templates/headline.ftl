@@ -7,7 +7,7 @@
 <body class="ui-body-nofoot">
 <div class="ui-content">
 
-    <div class="ui-tab">
+    <div class="scroll-menu">
         <#list tags as tag>
         <a href="/headline?tagId=${tag.id!}" <#if (tag.id==tagId?default(-1))>class="curr"</#if>>${tag.name!}</a>
         </#list>
