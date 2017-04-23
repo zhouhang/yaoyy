@@ -378,7 +378,8 @@ function searchForm() {
     if ($myform.length === 1) {
         $myform.on('click', '.submit', function() {
             var keywords = $(this).prev().val();
-            alert(keywords)
+            location.href="/commodity/list?keyword=" + keywords;
+            return false;
         })
     }
 }

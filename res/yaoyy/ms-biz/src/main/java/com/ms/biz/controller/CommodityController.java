@@ -136,13 +136,14 @@ public class CommodityController extends BaseController{
      * @return
      */
     @RequestMapping(value="/list",method=RequestMethod.GET)
-    public String list(Integer categoryId, ModelMap model){
+    public String list(Integer categoryId, ModelMap model,String keyword){
         CategoryVo categoryVo = new CategoryVo();
         categoryVo.setLevel(2);//查询二级分类
         categoryVo.setStatus(1);//查询上架的品种
         List<CategoryVo> categoryVos = categoryService.findHasCommodity(categoryVo);
         model.put("categoryVos",categoryVos);
         model.put("categoryId", categoryId);
+        model.put("keyword", keyword);
 
         return "commodity_list";
     }
