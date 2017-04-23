@@ -41,6 +41,9 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 
 	private Pattern pattern = Pattern.compile("supplier",Pattern.CASE_INSENSITIVE);
 
+
+	private String authorizationUrl = "http://m.yaobest.com/getCode";
+
 	@Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException {
@@ -61,15 +64,14 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
 					String relUrl = HttpUtil.getRelUrl(httpRequest);
 					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login";
-					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-//					httpResponse.sendRedirect(OAUTH_URL);
+//					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+					String OAUTH_URL = authorizationUrl+"?redirect_url="+wechatLoginUrl;
 					WebUtils.issueRedirect(request, response, OAUTH_URL);
 				} else {
 					WebUtils.issueRedirect(request, response, "/user/supplier/login");
 				}
 				return false;
 			}
-
 		} else {
 			// 先判断是否需要重新登录
 			if (subject.getPrincipal() == null) {
@@ -78,8 +80,8 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
 					String relUrl = HttpUtil.getRelUrl(httpRequest);
 					String wechatLoginUrl = systemProperties.getBaseUrl() + "/wechat/login?call=" + relUrl;
-					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
-//				httpResponse.sendRedirect(OAUTH_URL);
+//					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
+					String OAUTH_URL = authorizationUrl+"?redirect_url="+wechatLoginUrl;
 					WebUtils.issueRedirect(request, response, OAUTH_URL);
 				} else {
 					WebUtils.issueRedirect(request, response, getLoginUrl());

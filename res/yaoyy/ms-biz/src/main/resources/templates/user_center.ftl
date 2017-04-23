@@ -29,12 +29,12 @@
                     <span>订单列表</span>
                 </a>
             </li>
-            <li>
-                <a href="/sample/list">
-                    <i class="fa fa-order"></i>
-                    <span>寄样单列表</span>
-                </a>
-            </li>
+            <#--<li>-->
+                <#--<a href="/sample/list">-->
+                    <#--<i class="fa fa-order"></i>-->
+                    <#--<span>寄样单列表</span>-->
+                <#--</a>-->
+            <#--</li>-->
             <li>
                 <a href="/center/updatePassword">
                     <i class="fa fa-lock"></i>

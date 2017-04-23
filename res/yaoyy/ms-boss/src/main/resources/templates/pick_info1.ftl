@@ -126,8 +126,6 @@
                         </div>
                     </div>
                 </#if>
-
-
                 <div class="box fa-form">
                     <div class="hd">订单追踪</div>
                     <ol class="trace" id="trace">
