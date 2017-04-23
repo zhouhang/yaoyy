@@ -55,6 +55,7 @@
                 AND status = #{status}
             </if>
         </where>
+        ORDER BY sort ASC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">

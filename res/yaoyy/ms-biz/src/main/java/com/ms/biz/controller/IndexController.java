@@ -11,6 +11,7 @@ import com.ms.tools.utils.HttpUtil;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.apache.log4j.Logger;
+import org.elasticsearch.common.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -192,18 +193,24 @@ public class IndexController extends BaseController {
 
     // 头条列表页面
     @RequestMapping(value = "/headline", method = RequestMethod.GET)
-    public String headline(ModelMap model) {
+    public String headline(ModelMap model,Integer tagId, String tagStr) {
+        // 根据标签名获取标签Id
+        if (!Strings.isNullOrEmpty(tagStr)) {
+            ArticleTag tag = articleService.findTagByName(tagStr);
+            tagId = tag.getId();
+        }
         // 获取所有的标签列表
         List<ArticleTagVo> list = articleService.tags();
         model.put("tags",list);
+        model.put("tagId",tagId);
         return "headline";
     }
 
     // 头条数据请求
     @RequestMapping(value = "/headline", method = RequestMethod.POST)
     @ResponseBody
-    public Result headlineData(Integer tagId,Integer pageSize, Integer pageNum) {
-        return Result.success();
+    public Result headlineData(Integer tagId,Integer pageNum, Integer pageSize) {
+        return Result.success().data(articleService.headlinesListByTagId(tagId,pageNum, pageSize));
     }
 
     // 头条详情页面
@@ -211,7 +218,7 @@ public class IndexController extends BaseController {
     public String headlineDetail(@PathVariable("id") Integer id, ModelMap model) {
         ArticleVo articleVo = articleService.findVoById(id);
         model.put("article", articleVo);
-        return "headline";
+        return "headline_detail";
     }
 
 }

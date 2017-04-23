@@ -55,22 +55,23 @@
             <if test="type != null">
                 and type = #{type}
             </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
         </where>
     </select>
 
     <select id="headlinesListByTagId" resultMap="ArticleResultMapVo" parameterType="com.ms.dao.vo.ArticleVo">
         select
-        <include refid="Base_Column_List" />
-        from article
+        <include refid="Base_Column_List_Alisa" />
+        from article_tag_bind atb
+        left join article a  on a.id = atb.article_id
         <where>
-            <if test="id != null">
-                id = #{id}
+            <if test="tagId != null">
+                atb.tag_id = #{tagId}
             </if>
-            <if test="title != null">
-                and title LIKE "%"#{title}"%"
-            </if>
-            <if test="type != null">
-                and type = #{type}
+            <if test="true">
+                and a.type = 2 and a.status=1
             </if>
         </where>
     </select>
