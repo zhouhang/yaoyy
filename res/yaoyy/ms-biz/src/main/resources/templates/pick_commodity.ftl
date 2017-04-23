@@ -19,98 +19,6 @@
      </div> -->
     <div class="pick-form">
         <form action="" id="pick_commodity">
-            <!--
-            <div class="group">
-                <div class="company">
-                    <label><input type="checkbox" class="cbx" name="1">供应商：王彬</label>
-                </div>
-                <div class="floor">
-                    <div class="mid op">
-                        <input type="checkbox" name="1" class="cbx" />
-                    </div>
-
-                    <div class="hd">
-                        <em>茯苓</em>
-                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
-                    </div>
-                    <div class="price">
-                        <i>&yen;</i> <b>200</b> 元
-                    </div>
-
-                    <div class="ui-quantity cale">
-                        <button type="button" class="fa fa-reduce op"></button>
-                        <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
-                        <button type="button" class="fa fa-plus op"></button>
-                    </div>
-                    <div class="cale">公斤</div>
-
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
-                    </div>
-                </div>
-                <div class="floor">
-                    <div class="mid op">
-                        <input type="checkbox" name="', item.id, '" class="cbx" />
-                    </div>
-
-                    <div class="hd">
-                        <em>茯苓</em>
-                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
-                    </div>
-                    <div class="price">
-                        <i>&yen;</i> <b>200</b> 元
-                    </div>
-
-                    <div class="ui-quantity cale">
-                        <button type="button" class="fa fa-reduce op"></button>
-                        <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
-                        <button type="button" class="fa fa-plus op"></button>
-                    </div>
-                    <div class="cale">公斤</div>
-
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="group">
-                <div class="company">
-                    <label><input type="checkbox" class="cbx">供应商：王彬</label>
-                </div>
-                <div class="floor">
-                    <div class="mid op">
-                        <input type="checkbox" name="', item.id, '" class="cbx" />
-                    </div>
-
-                    <div class="hd">
-                        <em>茯苓</em>
-                        <span>云南  2级货  过4号筛  直径0.8cm以内  20元</span>
-                    </div>
-                    <div class="price">
-                        <i>&yen;</i> <b>200</b> 元
-                    </div>
-
-                    <div class="ui-quantity cale">
-                        <button type="button" class="fa fa-reduce op"></button>
-                        <input type="tel" class="ipt" value="1" autocomplete="off" cid="1021">
-                        <button type="button" class="fa fa-plus op"></button>
-                    </div>
-                    <div class="cale">公斤</div>
-
-                    <div class="del">
-                        <button type="button" class="fa fa-remove" cid="1021"></button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="ft">
-                <input type="text" class="text" id="username" placeholder="姓名">
-                <input type="tel" class="text" id="mobile" placeholder="手机号">
-                <button type="button" class="ubtn ubtn-primary" id="submit">提交</button>
-            </div>
-            -->
 
         </form>
     </div>
@@ -176,7 +84,7 @@
                 }
             },
             tohtml:function (data, arr) {
-                console.log(data)
+//                console.log(data)
                 var self = this,
                         html = [],
                         $wrap = $("#pick_commodity");
@@ -255,13 +163,19 @@
                     }
                     var list = [];
                     isSubmit = true;        // 阻止重复提交
-                    $("#pick_commodity").find('.floor .ipt').each(function(){
+                    $("#pick_commodity").find('.floor .cbx:checked').each(function(){
+
+                        var $ipt = $("input[cid='"+$(this).data('id')+"']");
                         list.push({
-                            commodityId: $(this).attr('cid'),
-                            num: this.value
+                            commodityId: $ipt.attr('cid'),
+                            num: $ipt.val()
                         });
                     })
-                    pickVo.pickCommodityVoList = list;
+                    $.post("/pickCommodity/save",{commoditys:JSON.stringify(list)},function(result){
+                        if (result.status == 200) {
+                            location.href = "/pickCommodity/apply?md5="+result.data;
+                        }
+                    })
                 })
             },
             bindEvent: function() {

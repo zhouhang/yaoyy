@@ -16,7 +16,7 @@ public interface PickService extends ICommonService<Pick>{
      * 保存用户提交的订单申请
      * @param pickVo
      */
-    void save(PickVo pickVo);
+    void save(PickVo pickVo,User user);
 
     /**
      * 为用户生成订单(客服确认订单)或是修改订单

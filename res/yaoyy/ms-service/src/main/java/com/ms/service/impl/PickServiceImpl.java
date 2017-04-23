@@ -155,69 +155,16 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 
 	@Override
 	@Transactional
-	public void save(PickVo pickVo) {
-		UserVo userVo=userDao.findByPhone(pickVo.getPhone());
+	public void save(PickVo pickVo,User user) {
 
-		Integer nowLogin=pickVo.getUserId();//现在登录的userid
-		//如果用户注册
-		Date now=new Date();
-
-		int useId;
-		if (userVo==null){
-			User user=new User();
-			user.setPhone(pickVo.getPhone());
-			user.setType(UserTypeEnum.purchase.getType());
-			user.setSource(UserSourceEnum.auto.getType());
-			user.setStatus(UserEnum.enable.getType());
-			user.setSalt("");
-			user.setPassword("");
-			//user.setOpenid("");
-			user.setUpdateTime(now);
-			user.setCreateTime(now);
-			userDao.create(user);
-
-			useId=user.getId();
-		}
-		else{
-			useId=userVo.getId();
-		}
-		UserDetail userDetail=userDetailDao.findByUserId(useId);
-		if (userDetail==null){
-			userDetail=new UserDetail();
-			userDetail.setPhone(pickVo.getPhone());
-			userDetail.setNickname(pickVo.getNickname());
-			userDetail.setArea(0);
-			userDetail.setUserId(useId);
-			userDetail.setName("");
-			userDetail.setRemark("");
-			userDetail.setType(0);
-			userDetail.setUpdateTime(now);
-			userDetail.setCreateTime(now);
-			userDetailDao.create(userDetail);
-		}
-		else{
-			userDetail.setPhone(pickVo.getPhone());
-			userDetail.setNickname(pickVo.getNickname());
-			userDetail.setUpdateTime(now);
-			userDetailDao.update(userDetail);
-		}
-
-
-
-
+		UserDetail detail = userDetailService.findByUserId(user.getId());
 		Pick pick=new Pick();
-		if(nowLogin==null){
-			pick.setUserId(useId);
-		}
-		else{
-			pick.setUserId(nowLogin);
-		}
-		pick.setNickname(pickVo.getNickname());
-		pick.setPhone(pickVo.getPhone());
+		pick.setUserId(user.getId());
+		pick.setNickname(detail.getNickname());
+		pick.setPhone(user.getPhone());
 		pick.setStatus(PickEnum.PICK_NOTHANDLE.getValue());
-		pick.setUpdateTime(now);
-		pick.setCreateTime(now);
-		pick.setCode("");
+		pick.setUpdateTime(new Date());
+		pick.setCreateTime(new Date());
 		pick.setAbandon(0);
 
 		/**
@@ -231,23 +178,23 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		});
 		pickCommodityService.saveList(pickVo.getPickCommodityVoList());
 
-
-
 		PickTracking pickTracking=new PickTracking();
 		pickTracking.setName(pickVo.getNickname());
 		pickTracking.setOpType(TrackingTypeEnum.TYPE_USER.getValue());
-		if(nowLogin==null){
-			pickTracking.setOperator(useId);
-		}
-		else{
-			pickTracking.setOperator(nowLogin);
-		}
+		pickTracking.setOperator(user.getId());
 		pickTracking.setExtra("");
-		pickTracking.setCreateTime(now);
-		pickTracking.setUpdateTime(now);
+		pickTracking.setCreateTime(new Date());
+		pickTracking.setUpdateTime(new Date());
 		pickTracking.setPickId(pick.getId());
 		pickTracking.setRecordType(PickTrackingTypeEnum.PICK_APPLY.getValue());
 		pickTrackingDao.create(pickTracking);
+
+		pickVo.setId(pick.getId());
+		if (pickVo.getInvoice()!= null){
+			pickVo.getInvoice().setType(1);
+		}
+		pickVo.setUserId(user.getId());
+		saveOrder(pickVo);
 
 		/**
 		 * 存消息

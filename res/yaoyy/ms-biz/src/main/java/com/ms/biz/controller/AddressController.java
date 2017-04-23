@@ -52,11 +52,11 @@ public class AddressController {
      * @return
      */
     @RequestMapping("/select")
-    public String select(Integer orderId,String callback, ModelMap model){
+    public String select(Integer orderId,String md5,String callback, ModelMap model){
         //获取登陆用户userId
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         model.put("addressList",addressService.findByUserId(user.getId()));
-        model.put("orderId",orderId);
+        model.put("orderId",orderId==null?md5:orderId);
         model.put("callback",callback);
         return "address_select";
     }
