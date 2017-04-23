@@ -173,7 +173,7 @@
                     })
                     $.post("/pickCommodity/save",{commoditys:JSON.stringify(list)},function(result){
                         if (result.status == 200) {
-                            location.href = "/pickCommodity/apply";
+                            location.href = "/pickCommodity/apply?md5="+result.data;
                         }
                     })
                     // pickVo.pickCommodityVoList = list;
