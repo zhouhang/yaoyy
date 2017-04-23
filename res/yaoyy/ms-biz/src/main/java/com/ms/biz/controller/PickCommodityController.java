@@ -164,6 +164,7 @@ public class PickCommodityController extends BaseController{
     // 保存订单
     @RequestMapping(value="apply",method= RequestMethod.POST)
     @SecurityToken(generateToken = true)
+    @ResponseBody
     public Result applySave(PickVo vo,String md5) throws Exception {
         User user = (User) httpSession.getAttribute(RedisEnum.USER_SESSION_BIZ.getValue());
         String commoditiesV = (String) httpSession.getAttribute(md5);

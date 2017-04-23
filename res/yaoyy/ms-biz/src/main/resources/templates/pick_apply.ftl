@@ -102,7 +102,7 @@
                         if (result.status == 200) {
                             _global.fn.cleanSessionStorage();
                             <#list commodities as commodity>
-                            deleteCommodity(commodity.id!)
+                            deleteCommodity(${commodity.id!})
                             </#list>
                             window.location.href="/pick/detail/"+result.data;
                         }
