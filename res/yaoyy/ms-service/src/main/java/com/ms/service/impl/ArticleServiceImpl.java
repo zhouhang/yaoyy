@@ -14,6 +14,7 @@ import com.ms.dao.vo.ArticleTagVo;
 import com.ms.dao.vo.ArticleVo;
 import com.ms.service.ArticleService;
 import com.ms.tools.ClazzUtil;
+import com.ms.tools.upload.PathConvert;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,14 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 
 	@Autowired
 	private ArticleTagBindDao bindDao;
+
+	@Autowired
+	private PathConvert pathConvert;
+
+	/**
+	 * 头条图片保存路径
+	 */
+	private String folderName = "headline/";
 
 	@Override
 	public PageInfo<ArticleVo> findByParams(ArticleVo articleVo,Integer pageNum,Integer pageSize) {
@@ -82,6 +91,7 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 	public Article createTouTiao(ArticleVo article) {
 		// type=2 表示头条文章
 		article.setType(2);
+		article.setUrl(pathConvert.saveFileFromTemp(article.getUrl(),folderName));
 		Article sv = save(article);
 
 		if (!Strings.isNullOrEmpty(article.getTagStr())) {
@@ -131,6 +141,8 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 		PageInfo<ArticleVo>  pageInfo = findByParams(articleVo, pageNum, pageSize);
 		pageInfo.getList().forEach(article ->{
 			article.setTagStr(bindDao.findTagsByArticleId(article.getId()));
+			//c.setThumbnailUrl(pathConvert.getUrl(c.getThumbnailUrl()));
+			article.setUrl(pathConvert.getUrl(article.getUrl()));
 		});
 		return pageInfo;
 	}
@@ -157,6 +169,7 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 			page = new PageInfo(list);
 			page.getList().forEach(article -> {
 				article.setTagStr(bindDao.findTagsByArticleId(article.getId()));
+				article.setUrl(pathConvert.getUrl(article.getUrl()));
 			});
 		} else {
 			ArticleVo vo = new ArticleVo();

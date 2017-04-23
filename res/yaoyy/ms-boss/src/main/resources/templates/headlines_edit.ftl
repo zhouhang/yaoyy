@@ -55,12 +55,14 @@
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>图片：</div>
-                    <div class="cnt">
-                        <div class="cnt">
-                            <span class="thumb up-img x4" id="jpic1"><img src="${article.url!}"><i class="del"></i></span>
-                            <input type="hidden" value="${article.url!}" name="thumbnailUrl" id="thumbnailUrl">
-                            <span class="tips">图片尺寸：220 X 180</span>
+                    <div class="cnt cnt-mul">
+                        <div class="thumb up-img x4">
+                            <#if article.url?exists>
+                                <img src="${article.url!}"><i class="del"></i>
+                            </#if>
+                            <!--  -->
                         </div>
+                        <input type="hidden" value="${article.url!}" name="url" id="imgUrl">
                     </div>
                 </div>
                 <div class="item">
@@ -99,6 +101,10 @@
 <script type="text/javascript" charset="utf-8" src="/assets/plugins/umeditor/umeditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/assets/plugins/umeditor/umeditor.min.js"></script>
 <script type="text/javascript" src="/assets/plugins/umeditor/lang/zh-cn/zh-cn.js"></script>
+
+<script src="assets/js/croppic.min.js"></script>
+<script src="assets/js/jquery.autocomplete.js"></script>
+
 <script>
 !(function($, window) {
     var _global = {
@@ -108,6 +114,66 @@
             this.validator();
             this.bindEvent();
             $("#status").val("${(article.status)!}")
+
+            this.cropImg();
+        },
+        cropImg: function() {
+            var self = this;
+
+            // 删除图片
+            $('.up-img').on('click', '.del', function() {
+                var $self = $(this);
+                layer.confirm('确认删除图片？', function(index){
+                    $self.parent().empty().next(':hidden').val('');
+                    layer.close(index);
+                });
+                return false;
+            })
+
+
+            // 缩略图
+            $('.up-img').on('click', function() {
+                if (isMobile) {
+                    layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                    return;
+                }
+                layer.open({
+                    skin: 'layui-layer-molv',
+                    area: ['500px'],
+                    closeBtn: 1,
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="img-upload-main"><div class="clip clip-x4" id="imgCrop"></div></div>',
+                    title: '上传头条缩略图片',
+                    cancel: function() {
+                        self.cropModal.destroy();
+                    }
+                });
+                self.croppic($(this));
+            })
+        },
+        croppic: function($el) {
+            var self = this;
+            self.cropModal = new Croppic('imgCrop', {
+                hideButton: true,
+                uploadUrl:'/gen/upload',
+                cropUrl:'/gen/clipping',
+                onBeforeImgUpload: function() {
+                    $('#imgCrop').find('.upimg-msg').remove();
+                },
+                onBeforeImgCrop: function() {
+                    $('#imgCrop').append('<span class="upimg-msg">图片剪裁中...</span>');
+                },
+                onAfterImgCrop:function(response){
+                    if (response.status && response.status === 'success') {
+                        $el.html('<img src="' + response.url + '" /><i class="del" title="删除"></i>').next(':hidden').val(response.url).trigger('validate');
+                        layer.closeAll();
+                    }
+                },
+                onError:function(msg){
+                    $('#imgCrop').append('<span class="upimg-msg">' + msg + '</span>');
+                }
+            });
         },
         bindEvent: function () {
             var that = this,
