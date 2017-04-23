@@ -122,6 +122,7 @@ public class ShiroConfiguration {
                 "/bill/**=bizAuthorization;" +
                 "/supplier/**=bizAuthorization;" +
                 "/message/**=bizAuthorization;" +
+                "/pickCommodity/apply=bizAuthorization;" +
                 "/**=anon;");
         return shiroFilterFactoryBean;
     }
