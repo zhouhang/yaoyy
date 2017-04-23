@@ -22,10 +22,16 @@
 
 		<div class="box fa-form">
             <form id="myform">
+                <div class="item">
+                    <div class="txt"><i>*</i>标题：</div>
+                    <div class="cnt">
+                        <input type="text" name="title" class="ipt" placeholder="请输入标题" autocomplete="off">
+                    </div>
+                </div>
 				<div class="item">
-					<div class="txt"><i>*</i>标题：</div>
+					<div class="txt"><i>*</i>副标题：</div>
 					<div class="cnt">
-						<input type="text" name="title" class="ipt" placeholder="请输入标题" autocomplete="off">
+						<input type="text" name="subtitle" class="ipt" placeholder="请输入副标题" autocomplete="off">
 					</div>
 				</div>
 				<div class="item">
@@ -39,14 +45,23 @@
                         <span class="tips">多个标签用“,”隔开</span>
 					</div>
 				</div>
-				<div class="item">
-					<div class="txt"><i>*</i>基础阅读量：</div>
-					<div class="cnt">
-                        <input type="text" name="readnum" id="readnum" class="ipt" placeholder="请输入基础阅读量" autocomplete="off">
-					</div>
-				</div>
                 <div class="item">
-                    <div class="txt">公告内容：</div>
+                    <div class="txt"><i>*</i>基础阅读量：</div>
+                    <div class="cnt">
+                        <input type="text" name="readnum" id="readnum" class="ipt" placeholder="请输入基础阅读量" autocomplete="off">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>图片：</div>
+                    <div class="cnt cnt-mul">
+                        <div class="thumb up-img x4">
+                            <!-- <img src="images/blank.gif"><i class="del"></i> -->
+                        </div>
+                        <input type="hidden" value="" name="imgUrl" id="imgUrl">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="txt"><i>*</i>公告内容：</div>
                     <div class="cnt cnt-mul">
                         <img width="700" height="400" src="uploads/editor.jpg" alt="">
                     </div>
@@ -75,6 +90,7 @@
 <script src="assets/js/common.js"></script>
 <!-- 上面面三个js文件已经在meta.ftl文件中引入了 -->
 
+<script src="assets/js/croppic.min.js"></script>
 <script src="assets/js/jquery.autocomplete.js"></script>
 <script src="assets/plugins/validator/jquery.validator.min.js"></script>
 
@@ -84,8 +100,67 @@
         deleteUrl: '/announcement/delete/',
         init: function() {
             navLight('11-3');
+            this.cropImg();
             this.bindEvent();
             this.myform();
+        },
+        cropImg: function() {
+            var self = this;
+
+            // 删除图片
+            $('.up-img').on('click', '.del', function() {
+                var $self = $(this);
+                layer.confirm('确认删除图片？', function(index){
+                    $self.parent().empty().next(':hidden').val('');
+                    layer.close(index);
+                });
+                return false;
+            })
+
+
+            // 缩略图
+            $('.up-img').on('click', function() {
+                if (isMobile) {
+                    layer.msg('请在电脑上操作', {success: function() {$('body').removeClass('no-scroll');}});
+                    return;
+                }
+                layer.open({
+                    skin: 'layui-layer-molv',
+                    area: ['500px'],
+                    closeBtn: 1,
+                    type: 1,
+                    moveType: 1,
+                    content: '<div class="img-upload-main"><div class="clip clip-x4" id="imgCrop"></div></div>',
+                    title: '上传商品缩略图片',
+                    cancel: function() {
+                        self.cropModal.destroy();
+                    }
+                });
+                self.croppic($(this));
+            })
+        },
+        croppic: function($el) {
+            var self = this;
+            self.cropModal = new Croppic('imgCrop', {
+                hideButton: true,
+                uploadUrl:'img_save_to_file.php',
+                cropUrl:'img_crop_to_file.php',
+                onBeforeImgUpload: function() {
+                    $('#imgCrop').find('.upimg-msg').remove();
+                },
+                onBeforeImgCrop: function() {
+                    $('#imgCrop').append('<span class="upimg-msg">图片剪裁中...</span>');
+                },
+                onAfterImgCrop:function(response){ 
+                    if (response.status && response.status === 'success') {
+                        $el.html('<img src="' + response.url + '" /><i class="del" title="删除"></i>').next(':hidden').val(response.url).trigger('validate');
+                        layer.closeAll();
+                    }
+                },
+                onError:function(msg){
+                    $('#imgCrop').append('<span class="upimg-msg">' + msg + '</span>');
+                }
+            });
         },
         bindEvent: function() {
             var that = this,
@@ -112,8 +187,10 @@
             $("#myform").validator({
                 fields: {
                     title: '标题: required',
+                    subtitle: '副标题: required',
                     tag: '标签: required',
-                    readnum: '基础阅读量: required'
+                    readnum: '基础阅读量: required',
+                    imgUrl: '图片: required'
                 }
             });
         }
