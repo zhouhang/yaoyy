@@ -192,6 +192,7 @@ public class PickServiceImpl  extends AbsCommonService<Pick> implements PickServ
 		pickVo.setId(pick.getId());
 		if (pickVo.getInvoice()!= null){
 			pickVo.getInvoice().setType(1);
+			pickVo.getInvoice().setContent(pickVo.getInvoice().getName());
 		}
 		pickVo.setUserId(user.getId());
 		saveOrder(pickVo);

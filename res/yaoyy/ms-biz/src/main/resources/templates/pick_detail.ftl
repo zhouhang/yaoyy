@@ -97,7 +97,7 @@
 
         <div class="item">
             <div class="more">
-                <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content}<#else >不开发票</#if></span></div>
+                <div class="txt"><strong>发票：</strong><span id="invoice"><#if orderInvoiceVo?exists>${orderInvoiceVo.content!}<#else >不开发票</#if></span></div>
         <#if pickVo.status == 5||pickVo.status== 8>
                 <a href="/pick/invoice/${pickVo.id}"><i class="fa fa-front mid"></i></a>
         </#if>
