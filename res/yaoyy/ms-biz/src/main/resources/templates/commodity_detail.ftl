@@ -283,22 +283,22 @@
                     width = 20,
                     st = document.body.scrollTop || document.documentElement.scrollTop,
                     flyer = $('<div class="cartAnim"><i class="fa fa-cart"></i></div>');
-                flyer.fly({
-                    start: {
-                        left: offset1.left + width/2,
-                        top: offset1.top - st
-                    },
-                    end: {
-                        left: offset2.left,
-                        top: offset2.top - st,
-                        width: 20,
-                        height: 20
-                    },
-                    onEnd: function(){
-                        pickCommodity(id, num);
-                        this.destroy();
-                    }
-                });
+                    flyer.fly({
+                        start: {
+                            left: offset1.left + width/2,
+                            top: offset1.top - st
+                        },
+                        end: {
+                            left: offset2.left,
+                            top: offset2.top - st,
+                            width: 20,
+                            height: 20
+                        },
+                        onEnd: function(){
+                            pickCommodity(id, num);
+                            this.destroy();
+                        }
+                    });
             },
             // 关注商品价格
             attention: function() {
