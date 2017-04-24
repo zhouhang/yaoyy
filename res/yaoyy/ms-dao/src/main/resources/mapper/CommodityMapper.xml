@@ -111,7 +111,7 @@
                 and cm.special_offers = #{specialOffers}
             </if>
         </where>
-        ORDER BY status desc,cm.category_id,sort DESC
+        ORDER BY status desc,cm.update_time desc,sort DESC
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
