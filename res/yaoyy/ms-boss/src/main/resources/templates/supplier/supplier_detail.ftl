@@ -248,6 +248,7 @@
                         </#if>
                     </div>
                 </div>
+            <#if supplierVo.binding!='1'>
                 <div class="item">
                     <div class="txt">密码：</div>
                     <div class="cnt">
@@ -259,6 +260,7 @@
                     <button type="submit" class="ubtn ubtn-blue submit">生成供应商账号</button>
                     <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
                 </div>
+            </#if>
             </form>
         </div>
         </#if>
