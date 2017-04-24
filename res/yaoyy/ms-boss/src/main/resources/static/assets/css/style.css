@@ -297,10 +297,11 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 .img-upload-main .side .btn-file{position:relative;line-height:32px;margin-top:10px;color:#fff;background:#009f95;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;overflow:hidden;}
 .img-upload-main .side .btn-file input{position:absolute;width:10000px;height:1000px;right:-20px;top:-20px;font-size:100rem;opacity:0;filter:alpha(opacity=0);z-index:1;cursor:pointer;}
 .upimg-msg{position:absolute;bottom:0;left:0;right:0;line-height:18px;padding:5px;background-color:#000;color:#fff;font-size:1.2rem;text-align:center;z-index:2;}
-.x1{width:214px;} /* 750 * 350 */
+.x1{width:250px;} /* 750 * 300 */
 .x2{width:268px;} /* 750 * 280 */
 .x3{width:188px;}  /* 750 * 400 */
 .x4{width:122px;}  /* 220 * 180 */
+.x5{width:142px;}  /* 340 * 240 */
 .clip-x3{width:750px;height:400px;line-height:460px;}
 .clip-x4{width:220px;height:180px;line-height:230px;}
 
