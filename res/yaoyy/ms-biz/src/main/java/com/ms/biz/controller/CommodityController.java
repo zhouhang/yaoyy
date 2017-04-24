@@ -141,6 +141,9 @@ public class CommodityController extends BaseController{
         categoryVo.setLevel(2);//查询二级分类
         categoryVo.setStatus(1);//查询上架的品种
         List<CategoryVo> categoryVos = categoryService.findHasCommodity(categoryVo);
+        if (categoryId==null) {
+            categoryId =0;
+        }
         model.put("categoryVos",categoryVos);
         model.put("categoryId", categoryId);
         model.put("keyword", keyword);
@@ -158,10 +161,20 @@ public class CommodityController extends BaseController{
     @RequestMapping(value="/list",method=RequestMethod.POST)
     @ResponseBody
     public Result list(Integer categoryId, String keyword, Integer pageNum){
+
+
+
+
         CommodityVo commodityVo = new CommodityVo();
         commodityVo.setCategoryId(categoryId);
         commodityVo.setKeyword(keyword);
         commodityVo.setStatus(1);//查询已上架的商品
+
+        // 如果categoryId 为0返回特价商品
+        if (categoryId!=null && 0==categoryId) {
+            commodityVo.setSpecialOffers(1);
+            commodityVo.setCategoryId(null);
+        }
         PageInfo<CommodityVo> commodityVos = commodityService.findByParams(commodityVo, pageNum, 5);
 
         return Result.success().data(commodityVos);

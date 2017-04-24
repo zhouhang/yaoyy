@@ -24,6 +24,7 @@
         <ul id="plist"></ul>
         <dl class="side">
             <dd>品种列表</dd>
+            <dd <#if categoryId?? && categoryId == 0>class="curr"</#if>><a href="javascript;" data-id="0">特价商品</a></dd>
             <#if categoryVos??>
             <#list categoryVos as categoryVo>
             <dd <#if categoryId?? && categoryId == categoryVo.id>class="curr"</#if>><a href="javascript;" data-id="${categoryVo.id}">${categoryVo.name!}</a></dd>
