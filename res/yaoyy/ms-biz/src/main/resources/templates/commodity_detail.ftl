@@ -95,7 +95,7 @@
                 <ul>
                     <li class="current">产品详情</li>
                     <li>规格详情</li>
-                    <li>质量保证</li>
+                    <li>联系供应商</li>
                 </ul>
             </div>
             <div class="tabcont">
@@ -105,7 +105,9 @@
                     </div>
                     <div class="item" id="attributeItem"></div>
                     <div class="item">
-                        ${article!}
+                        <p>供应商姓名：${commodityVo.supplierName!} </p>
+                        <p>供应商电话：${commodityVo.supplierTel!} </p>
+                        <p>联系时说是在药优优看到的哦!</p>
                     </div>
                 </div>
             </div>

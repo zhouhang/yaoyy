@@ -130,8 +130,8 @@
                     html.push(         '<div class="summary">', item.title, '</div>\n');
                     html.push(         '<div class="price">\n');
                     html.push(              '<i>&yen;</i>\n');
-                    html.push(              '<em>', item.price, '</em>\n');
-                    html.push(              '<b>', item.unitName, '</b>\n');
+                    html.push(              '<em>', item.price,'</em>\n');
+                    html.push(              '<b>元/', item.unitName, '</b>\n');
                     html.push(          '</div>\n');
                     html.push(     '</div>');
                     html.push(     '<div class="pic"><img src="', item.thumbnailUrl, '" width="110" height="90" alt="', item.title, '"></div>\n');

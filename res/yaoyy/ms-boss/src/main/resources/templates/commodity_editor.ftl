@@ -23,14 +23,14 @@
                     <div class="txt"><i>*</i>品种：</div>
                     <div class="cnt">
                         <input type="text" name="categoryName" id="jcatname" value="${commodity.categoryName}" class="ipt" placeholder="品种" autocomplete="off">
-                        <input type="hidden" name="categoryId" value="${commodity.categoryId}">
+                        <input type="hidden" name="categoryId" value="${commodity.categoryId?c}">
                     </div>
                 </div>
                 <div class="item">
                     <div class="txt"><i>*</i>商品名称：</div>
                     <div class="cnt">
                         <input type="text" name="name" id="name" class="ipt" placeholder="商品名称" value="${commodity.name!}" autocomplete="off">
-                        <input type="text" name="id" value="${commodity.id}" style="display: none">
+                        <input type="text" name="id" value="${commodity.id?c}" style="display: none">
                     </div>
                 </div>
                 <div class="item">
@@ -108,7 +108,7 @@
                 <div class="item">
                     <div class="txt">库存数量：</div>
                     <div class="cnt">
-                        <input type="text" name="unwarehouse" value="${commodity.unwarehouse!}" class="ipt" placeholder="库存数量" autocomplete="off">
+                        <input type="text" name="unwarehouse" value="<#if commodity.unwarehouse??>${commodity.unwarehouse?c}</#if>" class="ipt" placeholder="库存数量" autocomplete="off">
                         <span class="unit">公斤</span>
                     </div>
                 </div>

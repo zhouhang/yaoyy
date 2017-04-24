@@ -321,8 +321,13 @@
 
             // 切换上传图片的尺寸
             $('#typeId').on('change', function() {
-                var tips = this.value == 1 ? '图片尺寸：750 X 350' : '图片尺寸：750 X 400';
-                $('#imgCrop').attr('class', 'thumb up-img x' + this.value).nextAll('.tips').html(tips);
+                var val = this.value,
+                    tips = '图片尺寸：750 X 300';
+                if (val != 1) {
+                    tips = '图片尺寸：340 X 240';
+                    val = 5;
+                }
+                $('#imgCrop').attr('class', 'thumb up-img x' + val).nextAll('.tips').html(tips);
             })
         }
     }

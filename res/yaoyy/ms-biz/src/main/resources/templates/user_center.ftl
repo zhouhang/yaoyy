@@ -22,7 +22,7 @@
     </div>
 
     <div class="umenu">
-        <ul>
+        <ul id="menu">
             <li>
                 <a href="/pick/list">
                     <i class="fa fa-cart"></i>
@@ -77,6 +77,33 @@
 <#include "./common/navigation.ftl">
 
 <#include "./common/footer.ftl"/>
+
+<script>
+    var _global = {
+        fn: {
+            init: function() {
+                this.menu();
+            },
+            menu: function() {
+                var $menu = $('#menu'),
+                    count = $menu.find('li').length % 3,
+                    model = [];
+
+                if (count != 0) {
+                    count = 3 - count;
+                }
+                while (count-- > 0) {
+                    model.push('<li></li>');
+                }
+                $menu.append(model.join(''));
+            }
+        }
+    }
+    $(function(){
+        _global.fn.init();
+
+    });
+</script>
 
 </body>
 </html>

@@ -45,7 +45,7 @@
             <#else >
                请先添加收货地址
             </#if>
-                <a href="/address/select?md5=${md5!}&callback=/pickCommodity/apply?md5=${md5!}" class="ar"><i class="ico ico-front mid"></i></a>
+                <a href="/address/select?md5=${md5!}&callback=/pickCommodity/apply?md5=${md5!}" class="ar"></a>
         </div>
         <div class="button">
             <button id="submit" type="button" class="ubtn ubtn-primary">提交</button>
