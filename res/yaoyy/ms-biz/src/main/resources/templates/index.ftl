@@ -55,14 +55,18 @@
         </div>
         <div class="bd">
             <a href="/quotation/index" class="pro">
-                <img src="assets/images/ddhq.jpg" alt="地道行情">
+                <div class="pic">
+                    <img src="assets/images/ddhq.jpg" alt="地道行情">
+                </div>
                 <div class="txt">
                     <em>道地行情</em>
                     <span>每周更新 替你上行</span>
                 </div>
             </a>
             <a href="${special.href!}" class="pro">
-                <img src="${special.pictureUrl!}" alt="${special.name!}">
+                <div class="pic">
+                    <img src="${special.pictureUrl!}" alt="${special.name!}">
+                </div>
                 <div class="txt">
                     <em>${special.name!}</em>
                     <span>优选好药 底价直采</span>

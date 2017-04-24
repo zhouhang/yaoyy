@@ -44,10 +44,7 @@ public class PickCommodityController extends BaseController{
     @Autowired
     private HttpSession httpSession;
     @Autowired
-    private UserService userService;
-    @Autowired
     private CommodityService commodityService;
-
     @Autowired
     private ShippingAddressService shippingAddressService;
 
@@ -64,7 +61,6 @@ public class PickCommodityController extends BaseController{
         }
         return "pick_commodity";
     }
-
 
     /**
      * 提交选货单

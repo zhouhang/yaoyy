@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>报价单-药优优</title>
+<title>${(quotationVo.title)!}</title>
 <#include "./common/meta.ftl"/>
 </head>
 <body class="body1 body-bg">
@@ -16,6 +16,7 @@
 <section class="ui-content">
 <#if quotationVo?exists>
     <div class="qoute">
+        <h1 class="title">${(quotationVo.title)!}</h1>
         <div class="item">
             <div class="text"> ${(quotationVo.description)!}</div>
         </div>

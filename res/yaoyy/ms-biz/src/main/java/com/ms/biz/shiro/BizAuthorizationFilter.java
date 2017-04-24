@@ -63,7 +63,7 @@ public class BizAuthorizationFilter extends AuthorizationFilter {
 				String source = request.getParameter("source");
 				if ("WECHAT".equals(source) || ua.indexOf("micromessenger") > 0) {
 					String relUrl = HttpUtil.getRelUrl(httpRequest);
-					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login";
+					String wechatLoginUrl = systemProperties.getBaseUrl() + "/user/supplier/login?call="+relUrl;
 //					String OAUTH_URL = wxService.oauth2buildAuthorizationUrl(wechatLoginUrl, WxConsts.OAUTH2_SCOPE_USER_INFO, "weixin_state");
 					String OAUTH_URL = authorizationUrl+"?redirect_url="+wechatLoginUrl;
 					WebUtils.issueRedirect(request, response, OAUTH_URL);

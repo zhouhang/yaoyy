@@ -566,7 +566,8 @@
                                     type: 'success',
                                     title: '操作成功',
                                     callback: function() {
-                                        location.href = '/supplier/list';
+                                        //location.href = '/supplier/list';
+                                        location.reload();
                                     }
                                 });
                             }
