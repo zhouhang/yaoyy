@@ -59,41 +59,35 @@
             </div>
         </div>
         <div class="umenu">
-            <ul>
+            <ul id="menu">
                 <li>
                     <a href="pick_list.html">
-                        <i class="ico ico-cart"></i>
+                        <i class="fa fa-cart"></i>
                         <span>订单列表</span>
                     </a>
                 </li>
                 <li>
-                    <a href="sample_list.html">
-                        <i class="ico ico-order"></i>
-                        <span>我的寄样单</span>
-                    </a>
-                </li>
-                <li>
                     <a href="find_password.html">
-                        <i class="ico ico-lock"></i>
+                        <i class="fa fa-lock"></i>
                         <span>修改密码</span>
                     </a>
                 </li>
                 <li>
                     <a href="attention.html">
-                        <i class="ico ico-heart"></i>
+                        <i class="fa fa-heart"></i>
                         <span>商品关注</span>
                         <b>9</b>
                     </a>
                 </li>
                 <li>
                     <a href="consignee.html">
-                        <i class="ico ico-region"></i>
+                        <i class="fa fa-region"></i>
                         <span>收货地址</span>
                     </a>
                 </li>
                 <li>
                     <a href="bill.html">
-                        <i class="ico ico-bill"></i>
+                        <i class="fa fa-bill"></i>
                         <span>我的账单</span>
                     </a>
                 </li>
@@ -103,8 +97,6 @@
                         <span>下单</span>
                     </a>
                 </li>
-                <li></li>
-                <li></li>
             </ul>
         </div>
     </div>
@@ -116,42 +108,20 @@
     var _global = {
         fn: {
             init: function() {
-                this.validator();
+                this.menu();
             },
-            validator: function() {
-                var self = this;
-                $('#submit').on('click', function() {
-                    return self.checkMobile() && self.checkPassword();
-                })
-            },
-            checkMobile: function() {
-                var $el = $('#mobile'),
-                    val = $el.val();
+            menu: function() {
+                var $menu = $('#menu'),
+                    count = $menu.find('li').length % 3,
+                    model = [];
 
-                if (!val) {
-                    $el.next().html('请输入手机号码！').show();
-
-                } else if (!_YYY.verify.isMobile(val)) {
-                    $el.next().html('请输入有效的手机号！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
+                if (count != 0) {
+                    count = 3 - count;
                 }
-                return false;
-            },
-            checkPassword: function() {
-                var $el = $('#password'),
-                    val = $el.val();
-
-                if (!val) {
-                    $el.next().html('请输入密码！').show();
-
-                } else {
-                    $el.next().hide();
-                    return true;
+                while (count-- > 0) {
+                    model.push('<li></li>');
                 }
-                return false;
+                $menu.append(model.join(''));
             }
         }
     }
