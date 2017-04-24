@@ -315,13 +315,15 @@ em,i{font-style:normal;}
 .ui-floor .bd{margin:25px -7px 0;overflow:hidden;}
 .ui-floor .bd .pro{position:relative;float:left;width:50%;padding:0 5px;}
 .ui-floor .bd .pro .txt{position:absolute;bottom:0;left:5px;right:5px;height:40px;line-height:1;padding:0 15px;color:#fff;background-color:rgba(0,0,0,0.6);}
+.ui-floor .bd .pro .pic{position:relative;padding-top:70.588%;}
+.ui-floor .bd .pro .pic img{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ui-floor .bd .pro em{display:block;padding:5px 0 1px;font-weight:700;}
 .ui-floor .bd .pro span{font-size:1rem;}
 .ui-floor .list{margin:0 -12px -0;overflow:hidden;}
 .ui-floor .list li{float:left;width:33.333%;line-height:1;padding:0 5px 30px;font-size:1.2rem;}
 .ui-floor .list .pic{display:block;position:relative;overflow:hidden;}
 .ui-floor .list .pic:before{content:'';display:block;padding-top:78.696%;}
-.ui-floor .list img{position:absolute;top:0;left:0;width:100%;}
+.ui-floor .list img{position:absolute;top:0;left:0;width:100%;height:100%;}
 .ui-floor .list li em{display:block;margin:10px 0;padding-left:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ui-floor .list li span{color:#ff7800;padding-left:7px;}
 .ui-floor .list li b{color:#999;font-weight:400;}
