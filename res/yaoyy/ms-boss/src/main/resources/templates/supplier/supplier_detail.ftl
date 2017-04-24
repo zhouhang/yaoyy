@@ -234,9 +234,9 @@
         </div>
         </#if>
 
-        <#if supplierVo.status?? && supplierVo.status!=4>
+        <#if supplierVo.status?? && [1,3,4]?seqContains(supplierVo.status)>
         <div class="box fa-form">
-            <div class="hd">供应商签约</div>
+            <div class="hd">生成供应商账号</div>
             <form id="myform3">
                 <div class="item">
                     <div class="txt">登录帐号：</div>
@@ -256,7 +256,7 @@
                     </div>
                 </div>
                 <div class="ft">
-                    <button type="submit" class="ubtn ubtn-blue submit">供应商签约</button>
+                    <button type="submit" class="ubtn ubtn-blue submit">生成供应商账号</button>
                     <span class="tips">注：点击同意入驻后帐号和密码将以短信形式发送到供应商手机</span>
                 </div>
             </form>

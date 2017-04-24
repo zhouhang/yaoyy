@@ -234,14 +234,14 @@ public class SupplierController {
     public Result sign(SupplierVo supplierVo, String pwd){
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         SupplierVo old=supplierService.findVoById(supplierVo.getId());
-        if(old.getStatus()!=SupplierStatusEnum.INVEST.getType()){
-            Result result = Result.error().msg("必须实地考察才能签约");
+        if(old.getStatus()==SupplierStatusEnum.UNVERIFY.getType() || old.getStatus()==SupplierStatusEnum.VERIFY_NOT_PASS.getType()){
+            Result result = Result.error().msg("必须已核实通过才能生成供应商账号密码");
 
             return result;
         }
-        //状态改为已签约
-        old.setStatus(SupplierStatusEnum.SIGN.getType());
-        supplierService.save(old);
+//        //状态改为已签约
+//        old.setStatus(SupplierStatusEnum.SIGN.getType());
+//        supplierService.save(old);
 
         //supplier数据转存到user
         UserVo userVo = new UserVo();
