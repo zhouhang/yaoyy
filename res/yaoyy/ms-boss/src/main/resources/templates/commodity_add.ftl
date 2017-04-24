@@ -66,6 +66,15 @@
                     </div>
                 </div>
                 <div class="item">
+                    <div class="txt"><i>*</i>特价商品：</div>
+                    <div class="cnt">
+                        <select id="specialOffers" name="specialOffers" class="slt">
+                            <option value="0">非特价</option>
+                            <option value="1">特价</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
                     <div class="txt"><i>*</i>采收时间：</div>
                     <div class="cnt">
                         <input type="text" name="harYear" id="harYear" class="ipt" placeholder="采收时间(201703)" autocomplete="off">

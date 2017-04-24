@@ -117,7 +117,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             CommodityVo com = findById(commodity.getId());
             message.setUserId(com.getSupplierId());
             //改库存数据
-            if( commodity.getUnwarehouse() != null && !com.getUnwarehouse().equals(commodity.getUnwarehouse())){
+            if(  null != commodity.getUnwarehouse() && !com.getUnwarehouse().equals(commodity.getUnwarehouse())){
                 message.setContent(MessageTemplateEnum.SUPPLIER_COMMODITY_STOCK_TEMPLATE.get().replace("{name}","管理员 " + mem.getName())
                         .replace("{commodity}", com.getName()).replace("{spec}",com.getSpec()).replace("{pre_stock}",com.getUnwarehouse().toString())
                         .replace("{stock}",commodity.getUnwarehouse().toString()));
