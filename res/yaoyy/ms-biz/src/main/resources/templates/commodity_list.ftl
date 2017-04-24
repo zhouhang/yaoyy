@@ -104,10 +104,6 @@
                         if (res.data.isLastPage) {
                             that.me.lock();
                             that.me.noData();
-                            if (res.data.list.length === 0) {
-                                // 没有商品
-                                me.$domDown.hide();
-                            }
                         }
                         that.toHtml(res.data.list);
                         that.pageNum ++;

@@ -1,6 +1,7 @@
 package com.ms.biz.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.ms.dao.model.Article;
 import com.ms.dao.model.Commodity;
 import com.ms.dao.model.User;
@@ -175,6 +176,12 @@ public class CommodityController extends BaseController{
             commodityVo.setSpecialOffers(1);
             commodityVo.setCategoryId(null);
         }
+
+        if (!Strings.isNullOrEmpty(keyword)) {
+            commodityVo.setSpecialOffers(null);
+            commodityVo.setCategoryId(null);
+        }
+
         PageInfo<CommodityVo> commodityVos = commodityService.findByParams(commodityVo, pageNum, 5);
 
         return Result.success().data(commodityVos);
