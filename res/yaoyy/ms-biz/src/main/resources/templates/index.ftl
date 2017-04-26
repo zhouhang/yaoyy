@@ -26,7 +26,7 @@
         </ul>
     </div>
 
-    <div class="ui-floor">
+    <div class="idx-floor">
         <ul class="menu">
             <li>
                 <a href="/commodity/list"><i class="ico ico-list"></i>品种清单</a>
@@ -35,12 +35,12 @@
                 <a href="/pickCommodity/list"><i class="ico ico-shopcart"></i>品采购单</a>
             </li>
             <li>
-                <a href="/headline"><i class="ico ico-toutiao"></i>品药商头条</a>
+                <a href="/headline"><i class="ico ico-toutiao"></i>药商头条</a>
             </li>
         </ul>
     </div>
 
-    <div class="ui-floor">
+    <div class="idx-floor">
         <div class="hd">
             <h2 class="ico-notice">药商头条</h2>
             <div class="marquee">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="ui-floor">
+    <div class="idx-floor">
         <h2 class="ico-arrow-down">特价好货</h2>
         <ul class="list">
             <#list commoditys as commodity>

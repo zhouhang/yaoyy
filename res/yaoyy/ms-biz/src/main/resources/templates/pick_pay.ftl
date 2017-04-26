@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">银行转账</div>
     <div class="abs-l mid">
-        <a href="/pick/detail/${orderId}" class="fa fa-back"></a>
+        <a href="/pick/detail/${orderId}" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 

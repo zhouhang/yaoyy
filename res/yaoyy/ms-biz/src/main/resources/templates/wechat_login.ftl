@@ -12,7 +12,7 @@
     </div>
 </header><!-- /ui-header -->
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-notice">
         通过绑定手机号可以查询您的寄样跟踪信息和采购单等业务！
     </div>
@@ -52,7 +52,7 @@
         </div>
 
     </div>
-</div>
+</section>
 
 <#include "./common/footer.ftl"/>
 <script>

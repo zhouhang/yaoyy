@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">发票</div>
     <div class="abs-l mid">
-        <a href="/pick/detail/${id}" class="fa fa-back"></a>
+        <a href="/pick/detail/${id}" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 

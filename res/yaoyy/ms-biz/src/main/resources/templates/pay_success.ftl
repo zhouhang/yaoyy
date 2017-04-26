@@ -9,9 +9,9 @@
     <div class="title">支付成功</div>
     <div class="abs-l mid">
        <#if orderId?exists>
-        <a href="/pick/detail/${orderId}" class="fa fa-back"></a>
+        <a href="/pick/detail/${orderId}" class="ico ico-back"></a>
        <#elseif billId?exists>
-           <a href="/bill/detail/${billId}" class="fa fa-back"></a>
+           <a href="/bill/detail/${billId}" class="ico ico-back"></a>
        </#if>
 
     </div>

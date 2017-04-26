@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>${article.title!}-药优优</title>
+<#include "./common/meta.ftl"/>
+<title>${article.title!}-药优优</title>
 </head>
-<body class="ui-body-nofoot">
-<div class="ui-content">
+<body class="body2">
+<section class="ui-content">
     <div class="news2">
         <h1>${article.title!}</h1>
         <div class="time tc">
@@ -20,10 +20,10 @@
         </div>
     </div>
 
-</div>
-<div class="copyright">
+</section>
+<footer class="ui-copyright">
     <p>亳州市东方康元中药材信息咨询有限公司</p>
     <p>版权所有 2016-2017</p>
-</div>
+</footer>
 </body>
 </html>

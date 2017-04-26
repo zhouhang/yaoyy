@@ -12,7 +12,7 @@
     </div>
 </header><!-- /ui-header -->
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-form">
         <div class="logo">药优优</div>
         <form action="/user/login" method="post">
@@ -35,7 +35,7 @@
             <a href="/user/register">快速注册</a>
         </div>
     </div>
-</div>
+</section>
 
 <#include "./common/footer.ftl"/>
 <script>

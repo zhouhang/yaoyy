@@ -9,7 +9,7 @@
 <body class="body-bg">
 <#include "./common/navigation.ftl"/>
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="plist2">
         <ul>
             <#list list as commodity>
@@ -37,7 +37,7 @@
         <ul id="trace">
         </ul>
     </div>
-</div>
+</section>
 
 <#include "../common/footer.ftl"/>
 <script>

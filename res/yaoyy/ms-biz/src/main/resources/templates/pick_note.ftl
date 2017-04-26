@@ -8,11 +8,11 @@
 <header class="ui-header">
     <div class="title">订单备注</div>
     <div class="abs-l mid">
-        <a href="/pick/detail/${id}" class="fa fa-back"></a>
+        <a href="/pick/detail/${id}" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-form">
         <form action="">
             <div class="item">
@@ -22,7 +22,7 @@
             <button type="submit" class="ubtn ubtn-primary" id="submit">保存</button>
         </form>
     </div>
-</div>
+</section>
 
 <#include "./common/footer.ftl"/>
 <script>

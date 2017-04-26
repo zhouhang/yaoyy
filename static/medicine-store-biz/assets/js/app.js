@@ -60,6 +60,8 @@ function getQueryStringArgs() {
  * @param {Boolen}  微信 Webview 中调用微信的图片浏览器
  */
 function gallery(weChatImagePreview) {
+	var $body = $('body');
+
 	function initGallery() {
 		var html = [];
 		html.push('<div class="gallery-box">');
@@ -70,12 +72,12 @@ function gallery(weChatImagePreview) {
 		html.push('		<i class="fa fa-back"></i>');
 		html.push('	</div>');
 		html.push('</div>');
-		$('body').append(html.join(''));
+		$body.append(html.join(''));
 		bindEvent();
 	}
 	function bindEvent() {
-		$('body').on('touchstart', '.gallery-close, .gallery-back, .gallery-ubtn', closeGallery);
-		$('body').on('click', '.thumb img', function() {
+		$body.on('touchstart', '.gallery-close, .gallery-back, .gallery-ubtn', closeGallery);
+		$body.on('click', '.thumb img', function() {
             var index = $(this).index();
             var imgUrls = [];
             $(this).parent().find('img').each(function() {
@@ -107,7 +109,7 @@ function gallery(weChatImagePreview) {
 	function closeGallery(e) {
 		$('.gallery').remove();
         $('.gallery-box').hide();
-        $('body').removeClass('gallery-body');
+        $body.removeClass('gallery-body');
         e.preventDefault();
 	}
 	function showBigPic(imgUrls, index) {
@@ -117,7 +119,7 @@ function gallery(weChatImagePreview) {
         });
         _result += '</ul></div>';
         $('.gallery-box').show().prepend(_result);
-        $('body').addClass('gallery-body');
+        $body.addClass('gallery-body');
 
         // swipeSlide
         $('.gallery').swipeSlide({
@@ -214,7 +216,161 @@ var _YYY = {
         isEmpty: function(e) {
             return !e.length;
         }
-    }
+    },
+
+    share: {
+        init: function(select) {
+            this.insertHtml();
+            this.bindEvent(select);
+        },
+        insertHtml: function() {
+            var model = [];
+            model.push('<div class="dialog-mask" id="jwxShare">');
+            if (_YYY.is_weixn) {
+                model.push('    <h2 class="hd">点击这里</h2>');
+                model.push('    <p>然后点击 <em>【发送给朋友】</em> 或 <em>【分享到朋友圈】</em></p>');
+                model.push('    <div class="guide"></div>');
+            } else {
+                model.push('    <p>找到浏览器的<em>分享按钮</em><br>然后点击 <em>【发送给朋友】</em> 或 <em>【分享到朋友圈】</em></p>');
+            }
+            model.push('</div>');
+            $('body').append(model.join(''));
+        },
+        bindEvent: function(select) {
+            $model = $('#jwxShare');
+            select && $(select).on('click', function() {
+                $model.show();
+            })
+            $model.on('click', function() {
+                $model.hide();
+            })
+        }
+    },
+
+    regionArea: {
+    	init: function(select) {
+    		if (select) {
+    			this.$body = $('body');
+    			this.insertHtml();
+	    		this.bindEvent(select);
+    		}
+    	},
+    	insertHtml: function() {
+    		var model = [];
+    		model.push('<div class="ui-pick" id="jPick">');
+    		model.push('<div class="ui-header">');
+    		model.push('<div class="abs-l mid ico ico-back"></div>');
+    		model.push('<div class="picked"><span></span><span></span><span></span></div>');
+    		model.push('</div>');
+    		model.push('<div class="options">');
+    		model.push('<div class="cont">');
+    		model.push('<ul></ul><ul></ul><ul></ul>');
+    		model.push('</div>');
+    		model.push('</div>');
+    		model.push('</div>');
+    		this.$body.append(model.join(''));
+    	},
+    	bindEvent: function(select) {
+    		var that = this,
+    			$pick = $('#jPick'),
+                $tab = $pick.find('.picked'),
+                $tabcont = $pick.find('.options'),
+                $item = $pick.find('ul'),
+                $cont = $pick.find('.cont'),
+                $ipt = $(select),
+                URL = '../json/area.php',
+                tabtext = ['省', '市', '区/县'],
+                region = ['', '', ''],
+                cache = {};
+
+	        var tab = function(idx) {
+	            var distance = idx * $tabcont.width();
+	            $item.css('position','absolute').eq(idx).css('position','relative');
+	            $cont.css({
+	                '-webkit-transition':'all .3s ease',
+	                'transition':'all .3s ease',
+	                '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
+	                'transform':'translate3d(-' + distance + 'px,0,0)'
+	            });
+
+	        	$tab.find('span').each(function(i) {
+	        		if (i > idx) {
+	        			$(this).empty();
+	        		} else {
+						$(this).html(region[i] || tabtext[i]);
+	        		}
+	        	})
+	        }
+
+	        var getData = function(idx, pid) {
+	        	if (cache[pid]) {
+                    toHtml(cache[pid], idx);
+	        		tab(idx);
+	        	} else {
+	        		$.ajax({
+	                    url: URL,
+	                    data: pid ? {parentId: pid} : {},
+	                    dataType: 'json',
+	                    success: function(res) {
+	                        cache[pid] = res.data;
+		                    toHtml(res.data, idx);
+		                    tab(idx);
+	                    }
+	                })
+	        	}
+	        }
+
+	        var toHtml = function(data, idx) {
+	            var model = [];
+	            $.each(data, function(i, item) {
+	                model.push('<li data-id="', item.id ,'">', item.areaname, '</li>');
+	            })
+	            $item.eq(idx).html(model.join(''));
+	        }
+
+	        // 选择地区
+	        $ipt.on('click', function() {
+	        	that.$body.addClass('no-scroll');
+	        	region = ['', '', ''];
+	            getData(0);
+	            $pick.show();
+	        })
+
+	        // 返回
+	        $pick.on('click', '.ico-back', function() {
+	            $pick.hide();
+	        })
+
+	        // tab
+	        $tab.on('click', 'span', function() {
+	            tab($(this).index());
+	        })
+
+	        // 城市级联
+	        $tabcont.on('click', 'li', function() {
+	            var idx = $(this).parent().index(),
+                    text = this.innerHTML,
+                    pid = $(this).data('id');
+
+                $.each(region, function(i) {
+                	if (i > idx) {
+                		region[i] = '';
+                	} else if (i == idx) {
+                		region[idx] = text;
+                	}
+                })
+
+	            if(idx == 2) {
+	                $pick.hide();
+	                $ipt.val(region.join('-')).prev().val(pid);
+	                that.$body.removeClass('no-scroll');
+	            } else {
+	            	getData(idx + 1, pid);
+	            }
+	        })
+    	}
+        
+    } 
 }
 
 // 显示商品数量

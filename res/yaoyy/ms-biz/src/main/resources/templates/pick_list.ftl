@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">选货单列表</div>
     <div class="abs-l mid">
-        <a href="/center/index" class="fa fa-back"></a>
+        <a href="/center/index" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 

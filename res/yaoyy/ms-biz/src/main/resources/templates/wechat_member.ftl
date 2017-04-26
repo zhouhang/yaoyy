@@ -12,7 +12,7 @@
     </div>
 </header><!-- /ui-header -->
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-notice">
         绑定微信后可以通过微信实时接收系统消息！绑定失败请咨询qq:327075297
     </div>
@@ -38,7 +38,7 @@
             </div>
         </form>
     </div>
-</div>
+</section>
 <#include "./common/footer.ftl"/>
 <script>
 

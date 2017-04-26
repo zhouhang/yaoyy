@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>搜索-药优优</title>
-    <#include "./common/meta.ftl"/>
+<title>搜索-药优优</title>
+<#include "./common/meta.ftl"/>
 </head>
 <body class="body2 body-bg">
 <header class="ui-header">
@@ -11,7 +11,7 @@
         <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header>
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-search">
         <div class="form">
             <form action="category/list">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="search-his" id="searchHistory"></div>
-</div>
+</section>
 
 <#include "./common/footer.ftl"/>
 <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>

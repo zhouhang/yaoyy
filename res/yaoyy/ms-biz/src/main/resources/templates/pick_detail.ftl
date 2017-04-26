@@ -8,7 +8,7 @@
 <header class="ui-header">
     <div class="title">订单详情</div>
     <div class="abs-l mid">
-        <a href="/pick/list" class="fa fa-back"></a>
+        <a href="/pick/list" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 
@@ -54,7 +54,7 @@
                     <#if tracking.recordType!=3>
                     <li>
                         <time>${(tracking.createTime?datetime)!}</time>
-                        <span> &nbsp; &nbsp; &nbsp;${tracking.bizRecordTypeText!}
+                        <span>${tracking.bizRecordTypeText!}
                             <#if tracking.recordType==6>
                             ${tracking.memberTel!}
                              </#if>
@@ -253,7 +253,7 @@
                         if (invoice.type == 2) {
                             content = invoice.name + " " + invoice.content;
                         } else {
-                            content = "个人 " + invoice.content;
+                            content = "个人 " + invoice.content || '明细';
                         }
                     }
                     $("#invoice").html(content);

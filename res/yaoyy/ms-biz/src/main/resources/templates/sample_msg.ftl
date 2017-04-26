@@ -5,7 +5,7 @@
     <title>留言-药优优</title>
 </head>
 <body>
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-form">
         <form action="">
             <div class="item">
@@ -18,7 +18,7 @@
     <div class="ui-extra">
         <a href="contactus.html">联系我们</a>
     </div>
-</div>
+</section>
 
 <#include  "./common/footer.ftl"/>
 <script>

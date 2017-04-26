@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <#include "./common/meta.ftl"/>
-    <title>药商头条-药优优</title>
+<title>药商头条-药优优</title>
 </head>
-<body class="ui-body-nofoot">
-<div class="ui-content">
-
+<body class="body2">
+<section class="ui-content">
     <div class="scroll-menu">
         <#list tags as tag>
         <a href="/headline?tagId=${tag.id!}" <#if (tag.id==tagId?default(-1))>class="curr"</#if>>${tag.name!}</a>
@@ -16,14 +15,14 @@
     <div class="news2">
         <ul id="plist"></ul>
     </div>
-</div>
-<div class="copyright">
+</section>
+
+<footer class="ui-copyright">
     <p>亳州市东方康元中药材信息咨询有限公司</p>
     <p>版权所有 2016-2017</p>
-</div>
+</footer>
 
 <#include "./common/footer.ftl"/>
-<script src="/assets/js/dragloader.min.js"></script>
 <script>
 
     var _global = {

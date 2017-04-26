@@ -7,7 +7,7 @@
 </head>
 <body>
     <#include "./common/navigation.ftl"/>
-    <div class="ui-content">
+    <section class="ui-content">
         <div class="news">
             <ul>
                 <li style="border:0;">
@@ -19,7 +19,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </section>
 
     <#include "../common/footer.ftl"/>
 

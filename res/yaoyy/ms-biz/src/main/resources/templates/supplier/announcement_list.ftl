@@ -7,12 +7,12 @@
 </head>
 <body class="body-bg">
     <#include "./common/navigation.ftl"/>
-    <div class="ui-content">
+    <section class="ui-content">
         <div class="news">
             <ul>
             </ul>
         </div>
-    </div>
+    </section>
 
     <#include "../common/footer.ftl"/>
     <script>

@@ -53,9 +53,9 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 
 /* link */
 .c-red{color:#d74141;}
+.c-red:hover{color:#c13a3a;}
 .c-blue{color:#1869ff;}
 .c-blue:hover{color:#155ee5;}
-.c-red:hover{color:#c13a3a;}
 .link{color:#1869ff;}
 .link:hover{color:#155ee5;text-decoration:underline;}
 
@@ -88,7 +88,6 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 .wrapper:after{content:'';display:block;height:0;clear:both;visibility:hidden;}
 .content{padding:65px 15px 65px 245px;}
 .box{margin-top:15px;padding:15px;background:#fff;}
-
 
 /* header */
 .header{position:absolute;top:0;left:0;width:100%;z-index:2;line-height:50px;background:#dd4b39;text-align:center;box-shadow:0 0 10px 3px rgba(0,0,0,.1);}

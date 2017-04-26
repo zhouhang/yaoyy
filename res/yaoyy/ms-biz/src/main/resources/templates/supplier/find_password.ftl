@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
 <body>
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-form2">
         <div class="logo">药优优</div>
 
@@ -32,7 +32,7 @@
             </form>
         </div>
     </div>
-</div>
+</section>
 <#include "../common/footer.ftl"/>
 <script>
 

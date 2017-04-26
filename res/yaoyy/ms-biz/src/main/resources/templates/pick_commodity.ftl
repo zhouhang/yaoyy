@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>选货单-药优优</title>
+<#include "./common/meta.ftl"/>
+<title>选货单-药优优</title>
 </head>
-<body class="ui-body-nofoot body-gray">
+<body class="body2 body-bg">
 <header class="ui-header">
     <div class="title">订单</div>
     <div class="abs-l mid">
-        <a href="javascript:history.back();" class="fa fa-back"></a>
+        <a href="javascript:history.back();" class="ico ico-back"></a>
     </div>
 </header><!-- /ui-header -->
 
 <section class="ui-content">
-    <!--  <div class="ui-notice ui-notice-extra">
-         订单还没有商品，<br>去商品详情页面可以添加商品到订单！
-         <a class="ubtn ubtn-primary" href='/'>返回首页</a>
-     </div> -->
     <div class="pick-form">
-        <form action="" id="pick_commodity">
-
-        </form>
+        <form action="" id="pick_commodity"></form>
     </div>
 </section><!-- /ui-content -->
 
-<div class="ui-loading"></div>
 <#include "./common/footer.ftl"/>
 <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>
 <script>
@@ -48,7 +41,6 @@
                         commodityIds.push(item.commodityId);
                     })
                     if(commodityIds.length != 0){
-                        $('.ui-loading').show();
                         $.ajax({
                             url: _global.v.commoditySearchUrl,
                             type: 'POST',
@@ -64,9 +56,7 @@
                                     self.empty(true);
                                 }
                             },
-                            complete: function() {
-                                $('.ui-loading').hide();
-                            }
+                            complete: function() {}
                         })
                     } else {
                         self.empty(true);
@@ -84,7 +74,6 @@
                 }
             },
             tohtml:function (data, arr) {
-//                console.log(data)
                 var self = this,
                         html = [],
                         $wrap = $("#pick_commodity");

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="${urls.getForLookupPath('/assets/css/supplier.css')}">
 </head>
 <body>
-<div class="ui-content">
+<section class="ui-content">
     <div class="qrcode">
         <img src="../assets/images/qrcode.png" alt="">
         <span>想及时看到入驻状态，请关注药优优公众号。</span>
     </div>
-</div>
+</section>
 </body>
 </html>

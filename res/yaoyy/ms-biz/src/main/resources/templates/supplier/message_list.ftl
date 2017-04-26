@@ -8,7 +8,7 @@
 <body class="body-bg">
     <#include "./common/navigation.ftl"/>
 
-    <div class="ui-content">
+    <section class="ui-content">
 
         <div class="floor">
             <div class="bd">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-    </div>
+    </section>
 
 	<#include "../common/footer.ftl"/>
     <script>

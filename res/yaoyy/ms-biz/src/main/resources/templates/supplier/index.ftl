@@ -8,64 +8,64 @@
 </head>
 <body class="body-bg">
 <#include "./common/navigation.ftl"/>
-<div class="ui-content">
-       <div class="umenu2">
-            <ul>
-                <li>
-                    <a href="/supplier/adjust">
-                        <em>${(commodities?c)!}</em>
-                        <span>上架商品</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/supplier/order">
-                        <em>${(picks?c)!}</em>
-                        <span>订单记录</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/message/list">
-                        <em>${(mynews?c)!}</em>
-                        <span>我的消息</span>
-                    </a>
-                </li>
+<section class="ui-content">
+   <div class="umenu2">
+        <ul>
+            <li>
+                <a href="/supplier/adjust">
+                    <em>${(commodities?c)!}</em>
+                    <span>上架商品</span>
+                </a>
+            </li>
+            <li>
+                <a href="/supplier/order">
+                    <em>${(picks?c)!}</em>
+                    <span>订单记录</span>
+                </a>
+            </li>
+            <li>
+                <a href="/message/list">
+                    <em>${(mynews?c)!}</em>
+                    <span>我的消息</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="floor">
+        <div class="hd ico-notice">网站公告</div>
+        <div class="bd">
+            <ul class="list">
+                <#list announcementVos as announcementVo>
+                <li><time>${announcementVo.createTime?datetime}</time><a href="/announcement/detail/${announcementVo.id}">${announcementVo.title}</a></li>
+                </#list>
             </ul>
         </div>
-
-        <div class="floor">
-            <div class="hd ico-notice">网站公告</div>
-            <div class="bd">
-                <ul class="list">
-                    <#list announcementVos as announcementVo>
-                    <li><time>${announcementVo.createTime?datetime}</time><a href="/announcement/detail/${announcementVo.id}">${announcementVo.title}</a></li>
-                    </#list>
-                </ul>
-            </div>
-            <div class="more">
-                <a href="/announcement/list" class="ico-arrow-r">查看更多</a>
-            </div>
+        <div class="more">
+            <a href="/announcement/list" class="ico-arrow-r">查看更多</a>
         </div>
+    </div>
 
-        <div class="floor">
-            <div class="hd ico-news">我的消息</div>
-            <div class="bd">
-                <ul id="news">
-                    <#if messageVos??>
-                    <#list messageVos as messageVo>
-                    <li>
-                        <span>${messageVo.content!}</span>
-                        <em class="e${messageVo.type!}">${messageVo.typeName!}</em>
-                        <time data-time="${messageVo.createTime?datetime}"></time>
-                    </li>
-                    </#list>
-                    </#if>
-                </ul>
-            </div>
-            <div class="more">
-                <a href="/message/list" class="ico-arrow-r">查看更多</a>
-            </div>
+    <div class="floor">
+        <div class="hd ico-news">我的消息</div>
+        <div class="bd">
+            <ul id="news">
+                <#if messageVos??>
+                <#list messageVos as messageVo>
+                <li>
+                    <span>${messageVo.content!}</span>
+                    <em class="e${messageVo.type!}">${messageVo.typeName!}</em>
+                    <time data-time="${messageVo.createTime?datetime}"></time>
+                </li>
+                </#list>
+                </#if>
+            </ul>
         </div>
-</div>
+        <div class="more">
+            <a href="/message/list" class="ico-arrow-r">查看更多</a>
+        </div>
+    </div>
+</section>
 <#include "../common/footer.ftl"/>
 <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>
 <script>

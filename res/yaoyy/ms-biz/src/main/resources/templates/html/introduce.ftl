@@ -7,8 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <base href="${baseUrl}"/>
-
-      <title>药优优</title>
+    <title>药优优</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="assets/css/h5.css">
 </head>

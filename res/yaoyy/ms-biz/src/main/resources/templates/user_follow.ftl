@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>我的关注-药优优</title>
+<title>我的关注-药优优</title>
 <#include "./common/meta.ftl"/>
 </head>
 <body class="body1 body-bg">
@@ -49,8 +49,6 @@
     </div>
 </section><!-- /ui-content -->
 
-<div class="ui-loading"></div>
-
 <#include "./common/footer.ftl"/>
 <script src="${urls.getForLookupPath('/assets/js/layer.js')}"></script>
 <script>
@@ -59,7 +57,6 @@
         fn: {
             init: function() {
                 this.bindEvent();
-
             },
             bindEvent: function() {
                 var self = this,

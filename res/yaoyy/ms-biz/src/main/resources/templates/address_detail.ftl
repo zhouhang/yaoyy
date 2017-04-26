@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>新增收货地址-药优优</title>
-   <#include "./common/meta.ftl"/>
+<title>新增收货地址-药优优</title>
+<#include "./common/meta.ftl"/>
 </head>
 <body class="body2">
 <header class="ui-header">
@@ -12,7 +12,7 @@
     </div>
 </header><!-- /ui-header -->
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="ui-form">
         <form action="" id="addressForm">
             <input type="hidden" class="ipt" name="id" value="${vo.id?c}">
@@ -25,7 +25,7 @@
                 <span class="error"></span>
             </div>
             <div class="item">
-                <input type="hidden" class="ipt" name="areaId" id="areaId" value="${(vo.areaId?c)!}">
+                <input type="hidden"name="areaId" id="areaId" value="${(vo.areaId?c)!}">
                 <input type="text" class="ipt" name="region" id="region" value="${vo.fullAdd!}" placeholder="-省-市-区/县-" readonly="" autocomplete="off">
                 <span class="error"></span>
                 <em class="fa fa-front mid"></em>
@@ -36,7 +36,7 @@
             </div>
             <div class="item">
                 <label class="cbx">
-                    <input type="checkbox" id="isDefault" class="fa-cbx" <#if vo.isDefault==true>checked</#if> >
+                    <input type="checkbox" id="isDefault" class="fa-cbx" <#if vo.isDefault==true>checked="checked"</#if>>
                     设为默认收货地址（每次购买时会默认使用该地址）
                 </label>
             </div>
@@ -45,32 +45,7 @@
             </div>
         </form>
     </div>
-
-    <div class="pick-region">
-        <div class="ui-header">
-            <div class="title">地址选择</div>
-            <div class="abs-l mid">
-                <a href="javascript:;" class="fa fa-back" id="back"></a>
-            </div>
-            <div class="tab">
-                <span>请选择</span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <div class="tabcont">
-            <div class="cont">
-                <ul>
-                </ul>
-                <ul>
-                </ul>
-                <ul>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 
 <#include "./common/footer.ftl"/>
 <script>
@@ -79,7 +54,7 @@
         fn: {
             init: function() {
                 this.submit();
-                this.region();
+                _YYY.regionArea.init('#region');
             },
             submit: function() {
                 var self = this;
@@ -90,7 +65,6 @@
                     }
                     var pass = self.validator();
                     if (pass) {
-                        //console.log('验证成功')
                         $.ajax({
                             url: '/address/save',
                             type: 'POST',
@@ -99,8 +73,6 @@
                                 location.href = document.referrer;
                             }
                         })
-                    } else {
-                       //console.log('验证失败')
                     }
                     return false;
                 })
@@ -160,98 +132,6 @@
                     return true;
                 }
                 return false;
-            },
-            region: function() {
-
-                var self = this,
-                        $tab = $('.tab'),
-                        $tabcont = $('.tabcont'),
-                        $item = $tabcont.find('ul'),
-                        $cont = $('.cont'),
-                        choose = [];
-
-                var tab = function(idx) {
-                    var distance = idx * $tabcont.width();
-                    $item.css('position','absolute').eq(idx).css('position','relative');
-                    $cont.css({
-                        '-webkit-transition':'all .3s ease',
-                        'transition':'all .3s ease',
-                        '-webkit-transform':'translate3d(-' + distance + 'px,0,0)',
-                        'transform':'translate3d(-' + distance + 'px,0,0)'
-                    });
-                }
-
-                // 选择地区
-                $('#region').on('click', function() {
-                    var name = this.innerHTML;
-                    var tip=$tab.find('span').eq(0).html();
-                    if($("#region").val()==""||tip=="请选择"){
-                        $.ajax({
-                            url: '/area',
-                            success: function(result) {
-                                $tab.find('span').eq(0).html(name).next().html('请选择');
-                                self.toHtml(result.data, $item.eq(0));
-                            }
-                        })
-                    }
-
-                    $('.pick-region').show();
-                    $('.ui-form').hide();
-                })
-
-                // 返回
-                $('#back').on('click', function() {
-                    $('.pick-region').hide();
-                    $('.ui-form').show();
-                })
-
-                // tab
-                $tab.on('click', 'span', function() {
-                    var idx = $(this).index();
-
-                    $(this).html('请选择');
-                    $tab.find('span').each(function(i) {
-                        i > idx && $(this).empty();
-                    })
-                    tab(idx);
-                })
-
-                // 城市级联
-                $tabcont.on('click', 'li', function() {
-                    var idx = $(this).parent().index(),
-                            name = this.innerHTML,
-                            cid = $(this).data('id');
-                    if(idx==2){
-                        $('.pick-region').hide();
-                        $('.ui-form').show();
-                        var cities=$(this).data('name');
-                        var areas=[];
-                        $.each(cities.split(","),function(index,value){
-                                    if(index!=0){
-                                        areas.push(value);
-                                    }
-                                }
-                        );
-                        $("#region").val(areas.join(""));
-                        $("#areaId").val(cid);
-                    }
-                    $.ajax({
-                        url: '/area',
-                        data: {parentId: cid},
-                        success: function(result) {
-                            $tab.find('span').eq(idx).html(name).next().html('请选择');
-                            self.toHtml(result.data, $item.eq(++idx));
-                            tab(idx);
-                        }
-                    })
-                })
-            },
-            toHtml: function(data, $wrap) {
-                var model = [];
-                $.each(data, function(i, item) {
-                    model.push('<li data-id="', item.id ,'" data-name="',item.position,'">', item.areaname, '</li>');
-                })
-                $wrap.html(model.join(''));
             }
         }
     }

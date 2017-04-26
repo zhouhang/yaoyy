@@ -9,7 +9,7 @@
 <body>
 <#include "../common/footer.ftl"/>
 
-<div class="ui-content">
+<section class="ui-content">
     <div class="detail">
         <div class="item">
             <input  id="orderId" type="hidden" value="${pickVo.id!}" />
@@ -90,7 +90,7 @@
                 <button type="button" id="submit" class="ubtn ubtn-primary">确认发货</button>
             </div>
         </#if>
-</div>
+</section>
 
 <script src="/assets/js/mobiscroll.min.js"></script>
 

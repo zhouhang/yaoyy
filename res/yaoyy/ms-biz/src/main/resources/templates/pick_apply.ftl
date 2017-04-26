@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <#include "./common/meta.ftl"/>
-    <title>选货单选项-药优优</title>
+<#include "./common/meta.ftl"/>
+<title>选货单选项-药优优</title>
 </head>
-<body class="ui-body-nofoot body-gray">
+<body class="body2 body-bg">
 <header class="ui-header">
     <div class="title">采购单选项</div>
     <div class="abs-l mid">

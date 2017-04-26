@@ -230,6 +230,8 @@
                     $.ajax({
                         url: '',
                         data: {cid: cid},
+                        type: 'GET',
+                        cache: true,
                         success: function(result) {
                             result = {
                                 data: [
