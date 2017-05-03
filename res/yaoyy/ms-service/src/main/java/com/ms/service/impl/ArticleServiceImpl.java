@@ -152,6 +152,9 @@ public class ArticleServiceImpl  extends AbsCommonService<Article> implements Ar
 		Article article = findById(id);
 		ArticleVo vo = new ArticleVo();
 		ClazzUtil.copy(article,vo);
+		if (!Strings.isNullOrEmpty(vo.getUrl())) {
+			vo.setUrl(pathConvert.getUrl(vo.getUrl()));
+		}
 		vo.setTagStr(bindDao.findTagsByArticleId(article.getId()));
 		return vo;
 	}
