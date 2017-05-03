@@ -57,12 +57,12 @@
                     <div class="txt"><i>*</i>图片：</div>
                     <div class="cnt cnt-mul">
                         <div class="thumb up-img x4">
-                            <#if article.url?exists>
+                            <#if article?exists>
                                 <img src="${article.url!}"><i class="del"></i>
                             </#if>
                             <!--  -->
                         </div>
-                        <input type="hidden" value="${article.url!}" name="url" id="imgUrl">
+                        <input type="hidden" value="${(article.url)!}" name="url" id="imgUrl">
                     </div>
                 </div>
                 <div class="item">
