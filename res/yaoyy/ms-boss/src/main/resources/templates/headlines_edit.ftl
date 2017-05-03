@@ -221,7 +221,7 @@
                         if (data.status == 200) {
                             $.notify({
                                 type: 'success',
-                                title: '修改成功',
+                                title:  <#if article?exists>'修改成功'<#else >'新增成功'</#if>,
                                 callback: function() {
                                     window.location.href = '/headlines/list';
                                 }
