@@ -57,90 +57,97 @@ function getQueryStringArgs() {
 
 /** 
  * @description 看大图 
- * @param {Boolen}  微信 Webview 中调用微信的图片浏览器
  */
-function gallery(weChatImagePreview) {
-	var $body = $('body');
+!(function($, win) {
+    var defaults = {
+        selector: '.thumb',
+        weChatImagePreview: true
+    };
+    var $body = $('body');
 
-	function initGallery() {
-		var html = [];
-		html.push('<div class="gallery-box">');
-		html.push('	<div class="gallery-num">');
-		html.push('		<span class="num"></span>/<span class="sum"></span>');
-		html.push('	</div>');
-		html.push('	<div class="gallery-back">');
-		html.push('		<i class="fa fa-back"></i>');
-		html.push('	</div>');
-		html.push('</div>');
-		$body.append(html.join(''));
-		bindEvent();
+	function Lightbox(options) {
+		this.options = $.extend({}, defaults, options);
+        this.currentImageIndex = 0;
+        this.init();
 	}
-	function bindEvent() {
-		$body.on('touchstart', '.gallery-close, .gallery-back, .gallery-ubtn', closeGallery);
-		$body.on('click', '.thumb img', function() {
-            var index = $(this).index();
-            var imgUrls = [];
-            $(this).parent().find('img').each(function() {
-                imgUrls.push($(this).data('src'));
+	Lightbox.prototype = {
+        init: function() {
+        	this.createDom();
+        	this.bindEvent();
+        },
+        createDom: function() {
+        	var model = [];
+        	model.push('<div class="lightbox">');
+        	model.push('<div class="hd">');
+        	model.push('<i class="back"></i>');
+        	model.push('<span class="num"></span>');
+        	model.push('</div>');
+        	model.push('<div class="bd">');
+        	model.push('<ul></ul>');
+        	model.push('</div>');
+        	model.push('</div>');
+        	$body.append(model.join(''));
+        	this.$el = $('.lightbox');
+        	this.$ul = this.$el.find('ul');
+        	this.$num = this.$el.find('.num');
+        },
+        bindEvent: function() {
+        	var that = this;
+        	$body.on('click', that.options.selector + ' img', function() {
+        		var src = this.src,
+	            	index = 0,
+	            	imgs = [];
+	            $(this).closest(that.options.selector).find('img').each(function(i) {
+	                imgs.push($(this).data('src') || this.src);
+	                if (this.src === src) {
+	                	index = i;
+	                }
+	            });
+	            if (that.options.weChatImagePreview && win.WeixinJSBridge) {
+	                win.WeixinJSBridge.invoke('imagePreview', {
+	                    current: imgs[index],
+	                    urls: imgs
+	                });
+	            } else {
+	                that.play(imgs, index);
+	            }
+				return false;
+			});
+
+			that.$el.on('click', '.back', function() {
+				that.$el.hide();
+				$body.removeClass('no-scroll');
+			})
+        },
+        play: function(album, index) {
+        	var that = this,
+        		model = [];
+        	$.each(album, function(key, item) {
+        		model.push('<li><img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' + item + '"></li>')
+        	})
+        	that.$ul.html(model.join(''));
+			that.$el.show();
+			$body.addClass('no-scroll');
+
+    		that.$ul.parent().swipeSlide({
+                index: index,
+                continuousScroll: true,
+                autoSwipe: false,
+                lazyLoad: true,
+                firstCallback: function(i,sum){
+                    that.$num.html(i+1 + ' / ' + sum);
+                },
+                callback: function(i,sum){
+                    that.$num.html(i+1 + ' / ' + sum);
+                }
             });
-            if (weChatImagePreview && window.WeixinJSBridge) {
-                window.WeixinJSBridge.invoke('imagePreview', {
-                    current: imgUrls[index],
-                    urls: imgUrls
-                });
-            } else {
-                showBigPic(imgUrls, index);
-            }
-			return false;
-		});
+        }
+    }
 
-        var sX = 0;    // 手指初始x坐标
-        var sY = 0;    // 手指初始y坐标
-        var disX = 0;  // 滑动差值
-        var disY = 0;  // 滑动差值
-
-        $('.gallery-box').on('touchstart', function(e){
-            e.preventDefault();
-        })
-        $('.gallery-box').on('touchstart', 'img', function(e){
-            e.preventDefault();
-        })
-	}    
-	function closeGallery(e) {
-		$('.gallery').remove();
-        $('.gallery-box').hide();
-        $body.removeClass('gallery-body');
-        e.preventDefault();
-	}
-	function showBigPic(imgUrls, index) {
-        var _result = '<div class="gallery"><ul>';
-        $.each(imgUrls, function(i, src) {
-            _result += '<li><img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' + src + '"></li>';
-        });
-        _result += '</ul></div>';
-        $('.gallery-box').show().prepend(_result);
-        $body.addClass('gallery-body');
-
-        // swipeSlide
-        $('.gallery').swipeSlide({
-            index : index,
-            continuousScroll : true,
-            autoSwipe : false,
-            lazyLoad : true,
-            firstCallback : function(i,sum){
-                $('.gallery-box .num').text(i+1);
-                $('.gallery-box .sum').text(sum);
-            },
-            callback : function(i,sum){
-                $('.gallery-box .num').text(i+1);
-                $('.gallery-box .sum').text(sum);
-            }
-        });
-	}
-
-	initGallery();
-} 
-
+    win.lightbox = function(options) {
+    	new Lightbox(options || {});
+    }
+})(window.Zepto||window.jQuery, window);
 
 var _YYY = {
     CARTNAME: 'cartList', // 采购单存储key
