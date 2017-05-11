@@ -52,6 +52,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <!-- 取出后台存入model里面的数据 -->
                     <#list pageInfo.list as commodity>
                     <tr <#if commodity.status==0>class="gray"</#if>>
                         <td><input type="checkbox" class="cbx" value="${commodity.id}"></td>

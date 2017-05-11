@@ -45,6 +45,7 @@ public class CommodityController extends BaseController{
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(CommodityVo commodity, Integer pageNum, Integer pageSize, ModelMap model) {
+        // 商品信息放入model 在前台可以取出存入的信息
         PageInfo<CommodityVo> pageInfo = commodityService.findByParams(commodity, pageNum, pageSize);
         model.put("pageInfo", pageInfo);
         // 参数
@@ -85,8 +86,10 @@ public class CommodityController extends BaseController{
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
+    @SecurityToken(validateToken = true)
     @BizLog(type = LogTypeConstant.COMMODITY, desc = "保存商品信息")
     public Result save(@RequestBody CommodityVo commodity) {
+        // Spring 自动绑定把前台的JSON 数据绑定到 @RequestBody CommodityVo commodity
         Member mem= (Member) httpSession.getAttribute(RedisEnum.MEMBER_SESSION_BOSS.getValue());
         commodityService.save(commodity,mem.getId());
         return Result.success("保存成功!");
