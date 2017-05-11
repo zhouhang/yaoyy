@@ -75,19 +75,19 @@
                 <!-- <span>量大价优</span> -->
 
                 <div class="ui-quantity" id="quantity">
-                    <button type="button" class="ico ico-reduce op"></button>
+                    <button type="button" class="fa fa-reduce op"></button>
                     <input type="tel" class="ipt" id="num" value="1" data-min="20" autocomplete="off">
-                    <button type="button" class="ico ico-plus op"></button>
+                    <button type="button" class="fa fa-plus op"></button>
                     <b>公斤</b>
                 </div>
 
                 <div class="tel">
-                    <i class="ico ico-tel"></i>
+                    <i class="fa fa-tel"></i>
                 </div>
             </div>
 
             <div class="attention">
-                <a href="javascript:;"><i class="ico ico-heart"></i>关注该商品报价</a>
+                <a href="javascript:;"><i class="fa fa-heart"></i>关注该商品报价</a>
             </div>
             <div class="his">
                 <a href="price_his.html">查看历史价格</a>
@@ -193,7 +193,7 @@
     </section><!-- /ui-content -->
 
     <section class="fixedbar">
-        <a href="mqqwpa://im/chat?chat_type=wpa&uin=1340296820" class="ico ico-qq qq"></a>  
+        <a href="mqqwpa://im/chat?chat_type=wpa&uin=1340296820" class="fa fa-qq qq"></a>  
     </section>
 
 
@@ -329,7 +329,7 @@
                     offset2 = $('#cartNum').offset(),
                     width = 20,
                     st = document.body.scrollTop || document.documentElement.scrollTop,
-                    flyer = $('<div class="cartAnim"><i class="ico ico-cart"></i></div>');
+                    flyer = $('<div class="cartAnim"><i class="fa fa-cart"></i></div>');
                 flyer.fly({
                     start: {
                         left: offset1.left + width/2,
@@ -355,11 +355,11 @@
                     var faved = true;
                     if (this.className) {
                         this.className = '';
-                        this.innerHTML = '<i class="ico ico-heart"></i>关注该商品报价';
+                        this.innerHTML = '<i class="fa fa-heart"></i>关注该商品报价';
                         faved = false;
                     } else {
                         this.className = 'faved';
-                        this.innerHTML = '<i class="ico ico-heart"></i>已关注';
+                        this.innerHTML = '<i class="fa fa-heart"></i>已关注';
                         faved = true;
                     }
                     clearTimeout(timer);
