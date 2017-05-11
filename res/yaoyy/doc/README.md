@@ -7,3 +7,7 @@
 2. ms-boss/src/main/resources/config/application.yml
 3. ms-service/main/resources/config/
   wechat,短信,数据库,elasticsearch,redis,alipay的配置
+  
+log项目地址 启动前需下载下来把log 包安装到本地
+https://github.com/zhouhang/compentent.git
+  
