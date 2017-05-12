@@ -65,6 +65,7 @@ public class CommodityServiceImpl extends AbsCommonService<Commodity> implements
             pageNum = 1;
             pageSize = 10;
         }
+        // 分页插件 调用这句话表紧接着的查询要分页
         PageHelper.startPage(pageNum, pageSize);
         List<CommodityVo> list = commodityDao.findByParams(commodityVo);
         list.forEach(c->{

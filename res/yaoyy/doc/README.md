@@ -14,13 +14,27 @@
 1. 产出产品原型(以商品模块为例)
 2. 前端和设计根据产品原型来设计页面.
 3. 根据需求设计数据表结构,根据表结构写Mybatis的Mapper和Dao接口 实体类和Vo.
-com.ms.dao.CommodityDao
-com.ms.dao.model.Commodity
-com.ms.dao.vo.CommodityVo
-mapper/CommodityMapper.xml
+com.ms.dao.CommodityDao 接口方法
+com.ms.dao.model.Commodity 实体类
+com.ms.dao.vo.CommodityVo 额外属性
+mapper/CommodityMapper.xml sql
 同时还有对应的Service接口和实现类(这个不一定需要)
 com.ms.service.CommodityService
 com.ms.service.impl.CommodityServiceImpl
+如果通过AJAX来请求数据代码示例如下:
+
+`    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "detete/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    @BizLog(type = LogTypeConstant.COMMODITY, desc = "删除商品")
+    public Result delete(@PathVariable("id") Integer id) {
+        commodityService.deleteById(id);
+        return Result.success("删除成功!");
+    }`
 4. 等待前端完成页面的同时 后端根据业务逻辑写Controller和Server层的业务代码
 例如商品模块的功能是,列表展示和增删改查类似下面Controller的代码 没有具体实现只是根据需求列出需要的接口.
 
@@ -133,20 +147,43 @@ com.ms.service.impl.CommodityServiceImpl
 2. spring mvc
 3. shiro
 4. 模板引擎 freeMarker
+`        <#import "./module/pager.ftl" as pager />
+        <@pager.pager info=pageInfo url="commodity/list" params="" />`
 5. mybatis
 
 ##项目相关注意点
 1. 短信相关服务SmsUtil.(发送短信都是用这个工具类)
 2. Dao层新建接口 例如PayRecordDao 需要添加 @AutoMapper 才能被加载
-3. shiro 权限相关
+3. shiro 权限相关(框架自带自动获取)
     BossAuthorizationFilter -> isAccessAllowed 所有shiro 拦截的url都会调用这个方法.需要改变拦截逻辑时可以重写这个方法
     BossRealm -> doGetAuthenticationInfo 这个是用来获取验证的权限信息
     RetryLimitHashedCredentialsMatcher -> match 这个是shiro用来对比前台传进来的用户认证信息和后台数据库取出来的认证信息
     认证一致则表示登入成功
 4. log 模块
-   log项目地址 启动前需下载下来把log 包安装到本地
+   log项目地址 启动前需下载下来把log maven install 安装到本地
    https://github.com/zhouhang/compentent.git
    com.ms.boss.config.GetUser -> getLogUser 用来获取当前用户登入信息
+   config/config-test/logback-spring.xml
+      ` <logger name="com.sucai.compentent.logs.internal.LogHandle"  additivity="false">
+           <level value="info" />
+           <appender-ref ref="log" />
+       </logger>
+           <!-- ch.qos.logback.core.rolling.RollingFileAppender 文件日志输出 -->
+           <appender name="log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+               <File>${catalina.home}/logs/yaoyy_boss_handle.log</File>
+               <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                   <FileNamePattern>${catalina.home}/logs/yaoyy_boss_handle-%d{yyyy-MM-dd}.%i.log
+                   </FileNamePattern>
+                   <TimeBasedFileNamingAndTriggeringPolicy
+                           class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                       <MaxFileSize>5MB</MaxFileSize>
+                   </TimeBasedFileNamingAndTriggeringPolicy>
+               </rollingPolicy>
+               <encoder>
+                   <charset>UTF-8</charset>
+                   <pattern>%d %p (%file:%line\)- %m%n</pattern>
+               </encoder>
+           </appender>`
    只有在controller 层加了 @BizLog(type = LogTypeConstant.COMMODITY, desc = "删除商品") 这个注解才会记录日志
 5. 微信移动端相关的代码 控制层一般以Wechat,H5 开头例如WechatController 等
 6. 防止重复提交  @SecurityToken(generateToken = true) 如下进入详情页时    @SecurityToken(generateToken = true)
@@ -223,7 +260,6 @@ pathConvert.getUrl(c.getThumbnailUrl()) 把商品的绝对路径转换成相对�
         return uploadService.uploadImage(img);
     }`
     
-10. excel 解析和导入com.ms.service.utils.ExcelParse 里面有excel 相关的导入和解析代码
+10. excel 解析和导入com.ms.service.utils.ExcelParse 里面有excel 相关的导入和解析代码.
 
-11. 商品JS代码模块规范
-
+11. 上工好药项目启动后通过在浏览器里面直接访问pieces-boss后台的demo/create/index/all 链接来重建商品索引(es搜索相关)

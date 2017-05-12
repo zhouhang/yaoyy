@@ -47,6 +47,7 @@ public class CommodityController extends BaseController{
     public String list(CommodityVo commodity, Integer pageNum, Integer pageSize, ModelMap model) {
         // 商品信息放入model 在前台可以取出存入的信息
         PageInfo<CommodityVo> pageInfo = commodityService.findByParams(commodity, pageNum, pageSize);
+        // 把查询出来的结果放到model 里面前台就可以获取到
         model.put("pageInfo", pageInfo);
         // 参数
         return "commodity_list";
